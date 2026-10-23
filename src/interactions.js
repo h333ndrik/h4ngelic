@@ -4,11 +4,11 @@ import './interactions.css';
  * Small, disposable enhancements for the current page contents. The link hit
  * areas never move: only their .category-magnet label/arrow wrapper translates.
  */
-export function initInteractions(root = document) {
+export function initInteractions(root = document, { revealSections = true } = {}) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const sections = [...root.querySelectorAll('.content-section')];
-  const links = [...root.querySelectorAll('.category-link')];
+  const links = [...root.querySelectorAll('.category-link, .contact-link[href], .hero-nav a, .page-nav a, .text-link')];
   const removers = [];
   let observer = null;
   let resizeObserver = null;
@@ -76,7 +76,7 @@ export function initInteractions(root = document) {
     if (!frame) frame = requestAnimationFrame(applyMagnet);
   }
 
-  if (!reduced.matches && 'IntersectionObserver' in window) {
+  if (revealSections && !reduced.matches && 'IntersectionObserver' in window) {
     observer = new IntersectionObserver((entries) => {
       for (const entry of entries) if (entry.isIntersecting) reveal(entry.target);
     }, { rootMargin: '0px 0px -24px 0px', threshold: 0 });
@@ -86,8 +86,16 @@ export function initInteractions(root = document) {
     }
   }
 
-  const states = links.map((link) => ({ link, wrapper: link.querySelector('.category-magnet'), scroller: link.closest('.category-strip'), bounds: null }))
-    .filter((state) => state.wrapper);
+  const states = links.map((link) => {
+    let wrapper = link.querySelector('.category-magnet');
+    if (!wrapper) {
+      wrapper = document.createElement('span');
+      wrapper.className = 'category-magnet';
+      while (link.firstChild) wrapper.append(link.firstChild);
+      link.append(wrapper);
+    }
+    return { link, wrapper, scroller: link.closest('.category-strip, .contact-links'), bounds: null };
+  });
   for (const state of states) {
     listen(state.link, 'pointerenter', (event) => move(event, state), { passive: true });
     listen(state.link, 'pointermove', (event) => move(event, state), { passive: true });

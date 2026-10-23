@@ -1,10 +1,12 @@
 import './style.css';
+import './homepage.css';
 import { siteContent } from './data/siteContent.js';
 import { renderRoutePage } from './pages.js';
 import { resolveRoute } from './routes.js';
 import { getPageMetadata, applyMetadata } from './seo.js';
 import { initInteractions } from './interactions.js';
 import { initGallery } from './gallery.js';
+import { initScrollChoreography } from './scroll-choreography.js';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -12,6 +14,7 @@ const standalone = document.documentElement.dataset.preview === 'standalone';
 let heroLoaded = false;
 let stopInteractions = () => {};
 let stopGallery = () => {};
+let stopMotion = () => {};
 let heroObserver = null;
 
 function ensureHero() {
@@ -69,6 +72,7 @@ function scrollToTarget(url, { reset = false } = {}) {
 function render({ reset = false } = {}) {
   stopInteractions();
   stopGallery();
+  stopMotion();
   heroObserver?.disconnect();
   const url = currentURL();
   const route = resolveRoute(url);
@@ -80,8 +84,9 @@ function render({ reset = false } = {}) {
   if (route.kind === 'home') prepareHero();
   const metadataOptions = typeof __H4_SEO_CONFIG__ === 'undefined' ? {} : __H4_SEO_CONFIG__;
   applyMetadata(getPageMetadata(route, metadataOptions));
-  stopInteractions = initInteractions(content);
+  stopInteractions = initInteractions(document, { revealSections: false });
   stopGallery = initGallery(content);
+  stopMotion = initScrollChoreography(content);
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {

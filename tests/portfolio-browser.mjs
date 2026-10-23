@@ -77,7 +77,7 @@ try {
   await page.screenshot({ path: new URL('homepage-full.png', artifacts).pathname, fullPage: true });
 
   const disabledContacts = page.locator('#contact .contact-link.is-unconfigured');
-  assert.equal(await disabledContacts.count(), 4, 'Unconfigured contact destinations must remain honest placeholders.');
+  assert.equal(await disabledContacts.count(), 3, 'Unconfigured contact destinations must remain honest placeholders.');
   assert.equal(await disabledContacts.locator('a[href]').count(), 0);
   for (const contact of await disabledContacts.all()) {
     assert.notEqual(await contact.evaluate((element) => element.tagName === 'A' && Boolean(element.getAttribute('href'))), true, 'No unconfigured contact may navigate to a fake destination.');

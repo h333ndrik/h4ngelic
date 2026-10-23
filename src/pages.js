@@ -26,38 +26,38 @@ function footer() {
   return `<footer class="page-footer"><span>${escape(siteContent.name)}</span><span>${escape(siteContent.location)}</span></footer>`;
 }
 
-function contactLink(label, destination, { primary = false } = {}) {
-  const classes = `contact-link${primary ? ' contact-link-primary' : ''}`;
+function contactLink(label, destination) {
+  const classes = 'contact-link';
+  const contents = `<span class="kinetic-item"><span class="category-magnet"><span>${escape(label)}</span>${arrow}</span></span>`;
   if (!destination) {
-    return `<span class="${classes} is-unconfigured" aria-disabled="true" aria-label="${escape(label)} — link coming soon" title="link coming soon">${escape(label)} ${arrow}</span>`;
+    return `<span class="${classes} is-unconfigured" aria-disabled="true" aria-label="${escape(label)} — link coming soon" title="link coming soon">${contents}</span>`;
   }
   const external = destination.startsWith('https:');
-  return `<a class="${classes}" href="${escape(destination)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escape(label)} ${arrow}</a>`;
+  return `<a class="${classes}" href="${escape(destination)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${contents}</a>`;
 }
 
 export function renderHomepageSections() {
   const contact = siteContent.contact;
   const email = emailURL(contact.email);
-  return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title">
-    <h2 class="section-label" id="selected-work-title">${escape(siteContent.home.selectedWorkLabel)}</h2>
+  return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
+    <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
     <div class="category-strip" role="navigation" aria-label="Selected work categories" tabindex="0">
-      ${siteContent.categories.map((category) => `<a class="category-link" href="${categoryURL(category.id)}"><span class="category-magnet"><span>${escape(category.label)}</span>${arrow}</span></a>`).join('')}
+      ${siteContent.categories.map((category) => `<a class="category-link" href="${categoryURL(category.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(category.label)}</span>${arrow}</span></span></a>`).join('')}
     </div>
-  </section>
-  <section class="content-section about-preview" aria-labelledby="about-preview-title">
-    <h2 class="section-label" id="about-preview-title">${escape(siteContent.home.aboutLabel)}</h2>
-    <p class="about-preview-copy">${escape(siteContent.home.aboutPreview)}</p>
-    <a class="text-link" href="/about">about ${arrow}</a>
-  </section>
-  <section class="content-section contact-section" id="contact" aria-labelledby="contact-title" tabindex="-1">
-    <h2 class="section-label" id="contact-title">contact</h2>
-    ${contactLink('get in touch', contentURL(contact.getInTouchURL) || email, { primary: true })}
+  </div></section>
+  <section class="content-section about-preview" aria-labelledby="about-preview-title" data-motion="about"><div class="section-pin">
+    <h2 class="kinetic-heading" id="about-preview-title"><span class="kinetic-heading-text">${escape(siteContent.home.aboutLabel)}</span></h2>
+    <p class="about-preview-copy kinetic-item" data-motion-item="copy">${escape(siteContent.home.aboutPreview)}</p>
+    <a class="text-link kinetic-item" data-motion-item="link" href="/about">${escape(siteContent.home.moreAboutLabel)} ${arrow}</a>
+  </div></section>
+  <section class="content-section contact-section" id="contact" aria-labelledby="contact-title" tabindex="-1" data-motion="contact"><div class="section-pin">
+    <h2 class="kinetic-heading" id="contact-title"><span class="kinetic-heading-text">${escape(siteContent.home.contactLabel)}</span></h2>
     <div class="contact-links">
       ${contactLink('instagram', contentURL(contact.instagramURL, { relative: false }))}
       ${contactLink('email', email)}
-      ${contactLink('book a tattoo', contentURL(contact.bookingURL))}
+      ${contactLink('book a tat', contentURL(contact.bookingURL))}
     </div>
-  </section>
+  </div></section>
   ${footer()}`;
 }
 

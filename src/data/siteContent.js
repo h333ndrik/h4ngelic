@@ -16,9 +16,11 @@ export const siteContent = {
   ],
 
   home: {
-    selectedWorkLabel: 'selected work',
-    aboutLabel: 'about',
+    selectedWorkLabel: '01 / selected works',
+    aboutLabel: '02 / about',
+    contactLabel: '03 / contact',
     aboutPreview: 'tattooing, jewellery, painting and everything in between.',
+    moreAboutLabel: 'more about',
   },
 
   about: {
@@ -35,7 +37,6 @@ export const siteContent = {
   },
 
   contact: {
-    getInTouchURL: '',
     instagramURL: '',
     email: '',
     bookingURL: '',
