@@ -8,6 +8,7 @@ import { sampleBase } from './motion.js';
 import { bindControls } from './controls.js';
 import { attachArtwork, revealWeight } from './reveal.js';
 import { chooseRenderQuality, AdaptiveResolution } from './render-quality.js';
+import { attachWordmarkXRay } from './wordmark-xray.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
@@ -115,6 +116,9 @@ async function initialize() {
       console.warn('Tattoo artwork could not be loaded; reveal remains unavailable.', error);
     }
   }
+  // Install after the artwork hook so both treatments share one mesh program.
+  // Uniform updates leave the hero's existing visibility/RAF lifecycle intact.
+  const wordmarkXRay = attachWordmarkXRay(chrome, { renderer });
 
   const bounds = { x: 1, y: 1 };
   const halfExtents = new THREE.Vector3();
@@ -286,7 +290,7 @@ async function initialize() {
 
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount }),
+      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay.amount.value, pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount }),
       hitPoint: () => {
         // Search real geometry instead of guessing a point inside a glyph hole.
         const vertices = geometry.getAttribute('position');
@@ -320,9 +324,10 @@ async function initialize() {
     document.removeEventListener('visibilitychange', syncRendering);
     cancelAnimationFrame(animationFrame);
     geometry.dispose();
-    chrome.dispose();
     environmentMap.dispose();
+    wordmarkXRay.dispose();
     artwork?.dispose();
+    chrome.dispose();
     renderer.dispose();
   };
 }

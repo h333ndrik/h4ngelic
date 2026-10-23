@@ -40,7 +40,7 @@ test('prerendered footer preserves identity and an accessible discreet mode cont
   assert.match(html, /berlin, de/);
   assert.match(html, /data-visit-message>nice to meet you\./);
   assert.match(html, /data-visit-number>visit 001/);
-  assert.match(html, /data-xray-toggle aria-label="toggle x-ray mode \(4\)" aria-pressed="false"/);
+  assert.match(html, /data-xray-toggle aria-label="toggle the other side \(4\)" aria-pressed="false"/);
   assert.match(html, /PRESS 4 TO SEE THE OTHER SIDE\./);
   assert.match(html, /data-mode-status role="status" aria-live="polite"/);
   assert.doesNotMatch(html, /instagram|book a tat|mailto:/, 'The homepage contact links are not duplicated in the footer.');

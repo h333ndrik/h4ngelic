@@ -4,16 +4,9 @@ import { xraySettings, chooseXRayQuality, isXRayShortcut, solarizedChannels } fr
 const controllers = new WeakMap();
 const svgNamespace = 'http://www.w3.org/2000/svg';
 
-// A single static exposure texture: coarse chemical blooms, broken scratches,
-// dust and fine grain. It contains no source artwork and makes no requests.
-const distressTexture = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100">
-  <defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".71 .49" numOctaves="3" seed="19" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".62"/></feComponentTransfer></filter>
-  <filter id="bloom"><feTurbulence type="fractalNoise" baseFrequency=".008 .013" numOctaves="2" seed="7" result="field"/><feDisplacementMap in="SourceGraphic" in2="field" scale="64" xChannelSelector="R" yChannelSelector="B"/><feGaussianBlur stdDeviation="12"/></filter></defs>
-  <g filter="url(#bloom)"><path d="M-40 10 180-30 148 164 58 321 117 471-27 619Z" fill="#c9f144" opacity=".66"/><path d="m930 310-116 49-41 108 46 143-76 118 155 35Z" fill="#efa7c9" opacity=".58"/><path d="m388 837 102-63 92 46 87 201-32 119-140-9-70-173Z" fill="#8f51c4" opacity=".54"/></g>
-  <rect width="900" height="1100" filter="url(#grain)" opacity=".54"/>
-  <g fill="none" stroke="#f4e4dd" stroke-linecap="round" opacity=".48"><path d="m94 0-6 128 4 51-9 114m-1 12-4 88" stroke-width=".8"/><path d="m741 1094 3-96-6-80 2-47m2-18-1-88" stroke-width="1.1"/><path d="m548 82 3 98-5 99 4 26" stroke-width=".55"/><path d="m167 806 38-14 13-15m-34 49 54-30" stroke-width=".7"/></g>
-  <g fill="#eaded8" opacity=".7"><path d="m256 149 4-2 1 7-3 3-3-2Z"/><path d="m641 617 5-2 2 4-6 2Z"/><path d="m454 996 3 1-2 8-3-2Z"/><path d="m72 760 5 2-2 4-5-1Z"/><path d="m809 76 3-2 4 4-3 3Z"/></g>
-</svg>`;
+// Static grain is rasterized at build preparation; no SVG noise is recomputed
+// while the canvas animates. It is requested only on first mode activation.
+
 
 function filterMarkup(id, separated) {
   return `<filter id="${id}" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
@@ -64,7 +57,6 @@ export function initXRay({ root = document } = {}) {
   const overlay = doc.createElement('div');
   overlay.className = 'xray-distress';
   overlay.setAttribute('aria-hidden', 'true');
-  overlay.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(distressTexture)}")`;
   doc.body.append(defs, overlay);
 
   const listen = (target, name, callback, options) => {
@@ -110,7 +102,7 @@ export function initXRay({ root = document } = {}) {
   }
 
   function announce() {
-    for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = mode === 'xray' ? 'x-ray mode on. press 4 or activate the footer control to return.' : 'x-ray mode off.';
+    for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = mode === 'xray' ? 'the other side is on. press 4 or activate the footer control to return.' : 'the other side is off.';
   }
 
   function finish(target) {
@@ -124,6 +116,7 @@ export function initXRay({ root = document } = {}) {
     view.cancelAnimationFrame(frame);
     frame = 0;
     mode = next;
+    if (mode === 'xray' && !overlay.style.backgroundImage) overlay.style.backgroundImage = 'url("/assets/xray-distress.webp")';
     const target = mode === 'xray' ? 1 : 0;
     html.dataset.mode = mode;
     refresh();

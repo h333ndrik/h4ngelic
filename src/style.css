@@ -26,7 +26,7 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 .stage.is-ready #logo-canvas { opacity: 1; }
 .fallback { position: absolute; inset: 0; background: url('/assets/wordmark-fallback.svg') center / 67% auto no-repeat; color: transparent; font-size: 0; pointer-events: none; }
 .stage.is-ready .fallback { visibility: hidden; }
-.stage.is-fallback canvas { display: none; }
+.stage.is-fallback #logo-canvas { display: none; }
 .hero-bottom { position: absolute; inset: auto 35px 40px; display: flex; align-items: end; gap: 20px; z-index: 1; pointer-events: none; }
 .identity { margin: 0; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .06em; line-height: 1.5; }
 .controls { position: absolute; top: 93px; right: 25px; display: flex; gap: 12px; align-items: center; pointer-events: auto; }
