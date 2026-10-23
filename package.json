@@ -19,6 +19,7 @@
     "test:micro": "node tests/microinteractions-browser.mjs",
     "test:gallery": "node tests/gallery-browser.mjs",
     "test:seo": "node tests/seo-browser.mjs",
+    "test:motion": "node tests/scroll-browser.mjs",
     "measure:performance": "node scripts/measure-performance.mjs"
   },
   "dependencies": {

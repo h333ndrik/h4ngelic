@@ -10,6 +10,7 @@ Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Kompo
 | Automatisch erzeugte Bildvarianten | `public/images/optimized/` |
 | Automatisch ermittelte Bildgrößen | `src/data/imageManifest.json` — nicht manuell bearbeiten |
 | Seitentitel, Beschreibungen, Domain und Indexierung | `src/data/seoContent.js` |
+| Scroll-Distanzen, Staffelung und Überschwinger | `src/data/motionSettings.js` — Anleitung in [MOTION.md](MOTION.md) |
 
 ## Ein Tattoo, Schmuckstück oder Gemälde hinzufügen
 
@@ -76,14 +77,13 @@ Unter `contact` in derselben Datei:
 
 ```js
 contact: {
-  getInTouchURL: '', // optionales eigenes Ziel für „get in touch“
   instagramURL: '', // deine vollständige https://-Profiladresse
   email: '',        // deine E-Mail-Adresse, ohne mailto:
   bookingURL: '',   // dein tatsächlicher Buchungslink
 },
 ```
 
-Lasse fehlende Werte leer. Es werden keine Adressen erfunden: nicht konfigurierte Einträge bleiben lesbar und als noch nicht verfügbar gekennzeichnet. Sobald du eine gültige Adresse einträgst, wird der Eintrag automatisch zu einem Link. „get in touch“ nutzt die E-Mail-Adresse, wenn kein eigenes Ziel gesetzt ist. Externe Ziele beginnen mit `https://`; interne Ziele beginnen mit `/`. Änderungen werden beim lokalen Entwickeln direkt übernommen und benötigen für eine veröffentlichte Website einen neuen Build.
+Lasse fehlende Werte leer. Es werden keine Adressen erfunden: nicht konfigurierte Einträge bleiben lesbar und als noch nicht verfügbar gekennzeichnet. Sobald du eine gültige Adresse einträgst, wird der Eintrag automatisch zu einem Link. Die drei großen Kontaktziele heißen „instagram“, „email“ und „book a tat“. Externe Ziele beginnen mit `https://`; interne Ziele beginnen mit `/`. Änderungen werden beim lokalen Entwickeln direkt übernommen und benötigen für eine veröffentlichte Website einen neuen Build.
 
 ## Kategorien und Seiten
 

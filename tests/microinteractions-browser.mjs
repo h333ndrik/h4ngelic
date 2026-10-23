@@ -71,20 +71,21 @@ try {
   if (await page.locator('#pause-control').getAttribute('aria-pressed') === 'false') await page.locator('#pause-control').click();
 
   const firstSection = page.locator('#selected-work');
-  assert.ok(Number(await firstSection.evaluate((element) => getComputedStyle(element).opacity)) < .05, 'Below-hero content should begin its subtle reveal outside the viewport.');
+  assert.ok(Number(await firstSection.locator('.kinetic-item').first().evaluate((element) => getComputedStyle(element).opacity)) < .05, 'The fly-in begins outside the viewport until scroll progress advances it.');
   const layoutTop = await firstSection.evaluate((element) => element.offsetTop);
   const keyboardReveal = await page.evaluate(() => {
     const section = document.querySelector('.about-preview');
     const scrollBefore = scrollY;
     section.querySelector('a').focus({ preventScroll: true });
-    return { opacity: Number(getComputedStyle(section).opacity), scrollBefore, scrollAfter: scrollY };
+    return { opacity: Number(getComputedStyle(section.querySelector('[data-motion-item="copy"]')).opacity), scrollBefore, scrollAfter: scrollY };
   });
   assert.equal(keyboardReveal.opacity, 1, 'Keyboard focus must immediately make faded content visible.');
   assert.equal(keyboardReveal.scrollBefore, keyboardReveal.scrollAfter);
   await page.evaluate(() => document.activeElement?.blur());
 
   await firstSection.scrollIntoViewIfNeeded();
-  await page.waitForFunction(() => Number(getComputedStyle(document.getElementById('selected-work')).opacity) > .99);
+  await firstSection.evaluate((section) => scrollTo({ top: section.getBoundingClientRect().top + scrollY + parseFloat(getComputedStyle(section).getPropertyValue('--motion-run')), behavior: 'instant' }));
+  await page.waitForFunction(() => document.getElementById('selected-work').dataset.motionState === 'settled');
   assert.equal(await firstSection.evaluate((element) => element.offsetTop), layoutTop, 'The reveal must preserve the reserved layout.');
   await assertHorizontal(page, 1440);
   await page.mouse.move(1, 1);
@@ -95,7 +96,7 @@ try {
   const before = await link.boundingBox();
   await page.mouse.move(before.x + before.width * .8, before.y + before.height * .65);
   await page.waitForFunction(() => {
-    const transform = getComputedStyle(document.querySelector('.category-magnet')).transform;
+    const transform = getComputedStyle(document.querySelector('#selected-work .category-magnet')).transform;
     const matrix = new DOMMatrixReadOnly(transform === 'none' ? undefined : transform);
     return Math.hypot(matrix.m41, matrix.m42) > .15;
   });
@@ -115,7 +116,7 @@ try {
   await page.mouse.up();
   await page.mouse.move(1, 1);
   await page.waitForFunction(() => {
-    const matrix = new DOMMatrixReadOnly(getComputedStyle(document.querySelector('.category-magnet')).transform);
+    const matrix = new DOMMatrixReadOnly(getComputedStyle(document.querySelector('#selected-work .category-magnet')).transform);
     return Math.hypot(matrix.m41, matrix.m42) < .05;
   });
   await link.focus();
@@ -127,9 +128,11 @@ try {
   assert.ok(Math.hypot(...Object.values(await translation(magnet))) < .05);
   const reducedCursor = await nativeCursor(page, magnet);
   assert.equal(reducedCursor.width, defaultCursor.width, 'Reduced motion must disable cursor scaling.');
+  await page.evaluate(() => document.activeElement?.blur());
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-  assert.equal(Number(await firstSection.evaluate((element) => getComputedStyle(element).opacity)), 1, 'Revealed content must not disappear when scrolled away.');
+  await page.waitForFunction(() => document.getElementById('selected-work').dataset.motionState === 'before');
+  assert.ok(Number(await firstSection.locator('.kinetic-item').first().evaluate((element) => getComputedStyle(element).opacity)) < .05, 'The master brief requires the timeline to reverse when scrolling back to the hero.');
   if (await page.locator('#pause-control').getAttribute('aria-pressed') === 'true') await page.locator('#pause-control').click();
   let state = await snapshot(page);
   await page.waitForFunction((frame) => window.__H4_TEST__.snapshot().frameCount > frame, state.frameCount, { timeout: 10000 });
@@ -167,7 +170,7 @@ try {
   await page.waitForFunction((frame) => window.__H4_TEST__.snapshot().frameCount > frame, hidden.frameCount, { timeout: 10000 });
   assert.deepEqual(errors, []);
   await desktop.close();
-  console.log('PASS microinteractions desktop: restrained magnet/stable hit areas, once-reveals, keyboard/reduced motion, exact native cursor feedback, offscreen and controlled hidden-state WebGL pause.');
+  console.log('PASS microinteractions desktop: restrained magnet/stable hit areas, reversible choreography, keyboard/reduced motion, exact native cursor feedback, offscreen and controlled hidden-state WebGL pause.');
 
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
   const mobilePage = await mobile.newPage();
@@ -180,7 +183,7 @@ try {
     await mobilePage.locator('#selected-work').scrollIntoViewIfNeeded();
     await mobilePage.waitForFunction(() => Number(getComputedStyle(document.getElementById('selected-work')).opacity) > .99);
     await assertHorizontal(mobilePage, width);
-    const mobileMagnet = mobilePage.locator('.category-magnet').first();
+    const mobileMagnet = mobilePage.locator('#selected-work .category-magnet').first();
     assert.ok(Math.hypot(...Object.values(await translation(mobileMagnet))) < .05, 'Touch devices must not receive magnetic movement.');
     assert.doesNotMatch(await mobileMagnet.evaluate((element) => getComputedStyle(element).cursor), /h4ngelic-cursor/);
     const footer = await mobilePage.evaluate(() => ({

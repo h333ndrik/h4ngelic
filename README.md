@@ -25,6 +25,7 @@ npm run test:portfolio   # Page links, filters, history, horizontal mobile layou
 npm run test:micro       # Magnets, reveals, cursor, rendering pause, 320/390px
 npm run test:gallery     # Viewer transitions, keyboard/touch, image races/errors
 npm run test:seo         # Prerendered HTML, metadata, strict HTTP status, robots
+npm run test:motion      # Pinning, reverse/stop poses, native wheel/touch, resize
 npm run images:optimize  # Generate responsive WebP files and image dimensions
 npm run build
 npm run preview -- --port 4173
@@ -46,9 +47,11 @@ The Three.js module is imported only when the homepage hero enters the viewport.
 
 ## Restrained UI interactions
 
-The three category labels move at most 3 px under a mouse, inside stationary link hit areas. IntersectionObserver reveals below-hero sections once with opacity and a 10 px rise; keyboard focus reveals content immediately. The artwork viewer uses a native modal dialog, short opacity/scale transitions, asynchronous image decoding, arrow-key navigation, Escape, focus restoration and an image-error state. It is initialized only when artwork exists.
+The homepage has three matching large headings: “01 / selected works”, “02 / about” and “03 / contact”. Work and Contact use native sticky stages: labels travel 1.5 viewport widths into three equal columns with scroll-based staggering, slight rotation and a controlled 14 px overshoot. About has a shorter, unpinned sequence. The hero visually recedes through a wrapper transform; its Three.js physics and movement remain intact. Every pose follows actual scroll progress and reverses when scrolling upward. There is no wheel/touch interception or idle scroll-animation loop. Parameters are in `src/data/motionSettings.js`; see [MOTION.md](docs/MOTION.md).
 
-Reduced motion disables the magnetic movement and section reveals and makes viewer transitions immediate. Touch interaction does not activate magnets or the custom cursor. Pointer updates are coalesced to animation frames; section reveals do not install scroll handlers. The bottom-left tagline comes unchanged from the existing hero-tagline feature: “art on skin & beyond”.
+Category, configured Contact and important navigation labels move at most 3 px under a mouse, inside stationary link hit areas. Arrows move slightly up/right. The artwork viewer uses a native modal dialog, short opacity/scale transitions, asynchronous image decoding, arrow-key navigation, Escape, focus restoration and an image-error state. It is initialized only when artwork exists.
+
+Reduced motion disables dramatic choreography and nonessential pinning and makes viewer transitions immediate. Keyboard/anchor focus immediately reveals its section without changing pin geometry. Touch interaction does not activate magnets or the custom cursor. Pointer updates are coalesced to animation frames; scroll work uses cached geometry and one scheduled frame per update. The bottom-left tagline comes unchanged from the existing hero-tagline feature: “art on skin & beyond”.
 
 Local portfolio and portrait images are automatically converted into responsive WebP variants by `predev` and `prebuild`; original files are preserved. The gallery uses `srcset`, lazy loading, asynchronous decoding and reserved image dimensions. See [content editing](docs/CONTENT.md) for the workflow.
 

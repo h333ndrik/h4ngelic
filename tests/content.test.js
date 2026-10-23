@@ -18,10 +18,10 @@ test('homepage categories retain their exact horizontal-strip order and canonica
 
 test('unconfigured contact destinations never become dead or invented links', () => {
   const markup = renderHomepageSections().split('id="contact"')[1];
-  for (const label of ['get in touch', 'instagram', 'email', 'book a tattoo']) {
+  for (const label of ['instagram', 'email', 'book a tat']) {
     assert.ok(markup.includes(`aria-label="${label} — link coming soon"`));
   }
-  assert.equal((markup.match(/aria-disabled="true"/g) || []).length, 4);
+  assert.equal((markup.match(/aria-disabled="true"/g) || []).length, 3);
   assert.doesNotMatch(markup, /href="(?:#|mailto:|https?:\/\/|)"/);
 });
 
@@ -33,7 +33,7 @@ test('contact configuration creates appropriate safe real destinations', () => {
     assert.match(markup, /href="https:\/\/instagram.com\/configured-profile" target="_blank" rel="noopener noreferrer"/);
     assert.match(markup, /href="mailto:artist@example.test"/);
     assert.match(markup, /href="\/booking"/);
-    assert.equal((markup.match(/href="mailto:artist@example.test"/g) || []).length, 2, 'get in touch defaults to the configured email');
+    assert.equal((markup.match(/href="mailto:artist@example.test"/g) || []).length, 1);
   } finally {
     Object.assign(siteContent.contact, initial);
   }

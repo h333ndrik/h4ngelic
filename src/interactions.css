@@ -9,13 +9,9 @@
   transition: transform 180ms ease-out;
 }
 
-.category-link[data-magnet-active] .category-magnet {
+[data-magnet-active] .category-magnet {
   transition-duration: 90ms;
 }
-
-/* The label and arrow move as one restrained gesture, without stacking the
-   previous standalone arrow nudge on top of the magnetic movement. */
-.category-link:hover .category-magnet .arrow { transform: none; }
 
 .content-section.reveal-pending {
   opacity: 0;

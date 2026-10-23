@@ -1,0 +1,110 @@
+/* All content remains visible before enhancement, on other routes and when the
+   preference changes. This wrapper owns scroll transforms; magnetic movement
+   remains on its nested .category-magnet and never moves the link hit area. */
+[data-scroll-choreography] [data-motion] .kinetic-item {
+  transform: translate3d(var(--kinetic-x, 0px), 0, 0) rotate(var(--kinetic-rotate, 0deg));
+  opacity: var(--kinetic-opacity, 1);
+  transform-origin: 50% 50%;
+  transition: none;
+}
+
+[data-scroll-choreography] .category-link > .kinetic-item,
+[data-scroll-choreography] .contact-link > .kinetic-item {
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+[data-scroll-choreography] .kinetic-heading {
+  overflow: clip;
+}
+
+[data-scroll-choreography] .kinetic-heading-text {
+  display: block;
+  transform: translate3d(0, var(--heading-y, 0%), 0);
+  opacity: var(--heading-opacity, 1);
+  transition: none;
+}
+
+[data-scroll-choreography] [data-motion-pin] {
+  display: block;
+  padding: 0;
+  min-height: calc(var(--motion-pin-height) + var(--motion-run));
+  scroll-margin-top: 0;
+}
+
+[data-scroll-choreography] [data-motion-pin] > .section-pin {
+  position: sticky;
+  top: 0;
+  min-height: var(--motion-pin-height);
+  padding: clamp(64px, 9vw, 150px) 35px;
+  display: grid;
+  align-content: center;
+  /* clip does not create the scrolling ancestor that overflow:hidden does. */
+  overflow: clip;
+}
+
+/* A flying label may cross the entire three-column row. The pin clips it at
+   the viewport edge without allowing transforms to create page overflow. */
+[data-scroll-choreography] [data-motion-pin] .category-strip,
+[data-scroll-choreography] [data-motion-pin] .contact-links {
+  min-width: 0;
+  width: 100%;
+  overflow: visible;
+}
+
+[data-scroll-choreography] [data-motion='about'] > .section-pin {
+  overflow: clip;
+  overflow-clip-margin: 8px;
+}
+
+#stage[data-scroll-hero] {
+  opacity: var(--hero-scroll-opacity, 1);
+  transform: scale(var(--hero-scroll-scale, 1));
+  transform-origin: 50% 50%;
+}
+
+@media (max-width: 700px) {
+  [data-scroll-choreography] [data-motion-pin] > .section-pin {
+    padding: 65px 22px;
+  }
+
+  /* Horizontal access returns as soon as the sequence rests, and immediately
+     for keyboard/anchor focus. No three-row replacement is introduced. */
+  [data-scroll-choreography] [data-motion-state='settled'] .category-strip,
+  [data-scroll-choreography] [data-motion-state='focus'] .category-strip,
+  [data-scroll-choreography] [data-motion-state='settled'] .contact-links,
+  [data-scroll-choreography] [data-motion-state='focus'] .contact-links {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+}
+
+/* Short landscape viewports keep the whole pinned composition readable. */
+@media (max-height: 600px) {
+  [data-scroll-choreography] [data-motion-pin] > .section-pin {
+    padding-block: clamp(24px, 5vh, 48px);
+  }
+  [data-scroll-choreography] [data-motion-pin] .category-link,
+  [data-scroll-choreography] [data-motion-pin] .contact-link {
+    padding-block: clamp(24px, 5vh, 48px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* CSS also responds before the JS preference-change callback can run. */
+  [data-scroll-choreography] [data-motion-pin] {
+    min-height: 0;
+    padding: 0;
+  }
+  [data-scroll-choreography] [data-motion-pin] > .section-pin {
+    position: static;
+    min-height: 0;
+  }
+  [data-scroll-choreography] [data-motion] .kinetic-item,
+  [data-scroll-choreography] .kinetic-heading-text,
+  #stage[data-scroll-hero] {
+    opacity: 1;
+    transform: none;
+  }
+}
