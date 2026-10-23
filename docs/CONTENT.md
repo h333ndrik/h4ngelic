@@ -9,6 +9,7 @@ Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Kompo
 | Eigene Bilddateien | `public/images/` |
 | Automatisch erzeugte Bildvarianten | `public/images/optimized/` |
 | Automatisch ermittelte Bildgrößen | `src/data/imageManifest.json` — nicht manuell bearbeiten |
+| Seitentitel, Beschreibungen, Domain und Indexierung | `src/data/seoContent.js` |
 
 ## Ein Tattoo, Schmuckstück oder Gemälde hinzufügen
 
@@ -86,8 +87,12 @@ Lasse fehlende Werte leer. Es werden keine Adressen erfunden: nicht konfiguriert
 
 ## Kategorien und Seiten
 
-Die drei Kategorien stehen zentral in `siteContent.categories` und liefern Bezeichnungen, Startseitenlinks und Work-Filter. Die Startseite zeigt sie immer in einer horizontalen Zeile; auf sehr schmalen Bildschirmen bleibt die Zeile horizontal scrollbar und per Tastatur erreichbar.
+Die drei Kategorien stehen zentral in `siteContent.categories` und liefern Bezeichnungen, Startseitenlinks und Work-Filter. Die Startseite zeigt sie in einer horizontalen Zeile; auf sehr schmalen Bildschirmen bleibt die Zeile horizontal scrollbar und per Tastatur erreichbar.
 
-Die Produktionsseiten verwenden echte URLs: `/`, `/work`, `/work?category=tattoos` und `/about`. Der Kontaktlink führt nach `/#contact`. Der Webserver muss unbekannte Seitenpfade auf `index.html` auflösen; Vites Entwicklungs- und Vorschau-Server unterstützen das bereits. Für einen späteren Hoster ist diese HTML-Fallback-Regel nötig. Asset-Dateien sollen regulär ausgeliefert werden. Es wurde kein Hoster konfiguriert und nichts deployt.
+Die Produktionsseiten verwenden echte URLs: `/`, `/work`, `/work/tattoos`, `/work/jewellery`, `/work/paintings` und `/about`. Der Kontaktlink führt nach `/#contact`. Alte Kategorie-Querylinks werden weiterhin aufgelöst. Ein veröffentlichtes Projekt mit `id: 'dein-projektname'` und `category: 'tattoos'` erhält automatisch `/work/tattoos/dein-projektname`. Verwende eindeutige IDs aus Kleinbuchstaben, Zahlen und Bindestrichen; ändere sie nach Veröffentlichung nur mit einer passenden Weiterleitung.
+
+`npm run build` schreibt eigene HTML-Dateien für diese Seiten. Der Hoster muss die jeweiligen Verzeichnis-Indexdateien und für unbekannte Ziele eine echte 404 ausliefern. Eine pauschale Weiterleitung aller unbekannten Pfade zur Homepage ist nicht mehr vorgesehen. Details stehen in [SEO.md](SEO.md). Es wurden keine Hosting- oder DNS-Einstellungen verändert und nichts deployt.
+
+In `src/data/seoContent.js` kannst du Seitentitel und Beschreibungen bearbeiten. Optionale projektbezogene Werte stehen am Projekt unter `seo: { title, description, image }`; `image` kann ein echtes Bildobjekt mit `src`, `alt`, `width` und `height` sein. Für ein indexierbares Projekt sind ein echter Titel, eine Beschreibung und ein Bild mit Alt-Text nötig. Entwürfe erzeugen keine Detailseiten. Leere Archive werden nicht in die Sitemap aufgenommen. Die bestätigte Domain ist `https://h4ngelic.com`; Vorschau-Builds bleiben standardmäßig `noindex`.
 
 Mit `npm run preview:export` erzeugst du `artifacts/h4ngelic-preview.html`. Diese eigenständige Datei enthält die vorhandenen Standardassets sowie lokal konfigurierte Portfolio-/Portraitbilder und verwendet ausschließlich für die Offline-Vorschau Hash-Adressen wie `#/work?category=tattoos`. Die echte Website behält ihre normalen URLs. Extern verlinkte Bilder werden nicht heruntergeladen und benötigen Internetzugriff. Prüfe Ergänzungen auch über `npm run preview`.

@@ -2,6 +2,7 @@ import { siteContent } from './data/siteContent.js';
 import { artworks } from './data/artworks.js';
 import { contentURL, emailURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
+import { categoryURL, projectURL } from './routes.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
 const categoryById = (id) => siteContent.categories.find((category) => category.id === id);
@@ -40,7 +41,7 @@ export function renderHomepageSections() {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title">
     <h2 class="section-label" id="selected-work-title">${escape(siteContent.home.selectedWorkLabel)}</h2>
     <div class="category-strip" role="navigation" aria-label="Selected work categories" tabindex="0">
-      ${siteContent.categories.map((category) => `<a class="category-link" href="/work?category=${encodeURIComponent(category.id)}"><span class="category-magnet"><span>${escape(category.label)}</span>${arrow}</span></a>`).join('')}
+      ${siteContent.categories.map((category) => `<a class="category-link" href="${categoryURL(category.id)}"><span class="category-magnet"><span>${escape(category.label)}</span>${arrow}</span></a>`).join('')}
     </div>
   </section>
   <section class="content-section about-preview" aria-labelledby="about-preview-title">
@@ -60,14 +61,14 @@ export function renderHomepageSections() {
   ${footer()}`;
 }
 
-function imageMarkup(image) {
+function imageMarkup(image, { critical = false } = {}) {
   const source = contentURL(image?.src);
   if (!source) return '';
   const asset = getImageAsset(image, { sizes: '(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)' });
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
   return `<figure class="project-image">
     <button class="artwork-open" type="button" data-artwork-open aria-label="open ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
-      <img src="${escape(asset.src || source)}" data-full-src="${escape(asset.fullSrc || source)}" alt="${escape(image.alt || '')}" loading="lazy" decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
+      <img src="${escape(asset.src || source)}" data-full-src="${escape(asset.fullSrc || source)}" alt="${escape(image.alt || '')}" loading="${critical ? 'eager' : 'lazy'}"${critical ? ' fetchpriority="high"' : ''} decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
     </button>
     ${image.caption ? `<figcaption>${escape(image.caption)}</figcaption>` : ''}
   </figure>`;
@@ -83,10 +84,11 @@ export function renderProject(project) {
   return `<article class="project"${project.id ? ` id="project-${escape(project.id)}"` : ''}>
     <div class="project-images">${images}</div>
     <div class="project-meta">
-      ${project.title ? `<h2>${escape(project.title)}</h2>` : ''}
+      ${project.title ? `<h2>${projectURL(project) ? `<a href="${projectURL(project)}">${escape(project.title)} ${arrow}</a>` : escape(project.title)}</h2>` : ''}
       <p class="project-index">${escape(label)}${project.year ? ` <span aria-hidden="true">/</span> ${escape(project.year)}` : ''}</p>
       ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}
       ${details ? `<dl class="project-details">${details}</dl>` : ''}
+      ${!project.title && projectURL(project) ? `<a class="text-link" href="${projectURL(project)}">view work ${arrow}</a>` : ''}
     </div>
   </article>`;
 }
@@ -101,7 +103,7 @@ export function renderWorkPage(category = 'all') {
     <p class="page-kicker">portfolio archive</p>
     <h1 class="page-heading">work</h1>
     <nav class="work-filters" aria-label="Filter artwork by category">
-      ${filters.map((filter) => `<a class="filter-link${selected === filter.id ? ' is-active' : ''}" href="${filter.id === 'all' ? '/work' : `/work?category=${encodeURIComponent(filter.id)}`}"${selected === filter.id ? ' aria-current="page"' : ''}>${escape(filter.label)}</a>`).join('')}
+      ${filters.map((filter) => `<a class="filter-link${selected === filter.id ? ' is-active' : ''}" href="${filter.id === 'all' ? '/work' : categoryURL(filter.id)}"${selected === filter.id ? ' aria-current="page"' : ''}>${escape(filter.label)}</a>`).join('')}
     </nav>
     <section class="portfolio-archive" aria-label="${selected === 'all' ? 'All artwork' : escape(categoryById(selected).label)}">
       ${projects.length ? `<div class="project-grid">${projects.join('')}</div>` : '<p class="archive-empty">archive in progress.</p>'}
@@ -144,4 +146,32 @@ export function renderNotFoundPage() {
     <a class="text-link" href="/">back home ${arrow}</a>
   </div>
   ${footer()}`;
+}
+
+export function renderArtworkPage(project) {
+  if (!project || !projectURL(project)) return renderNotFoundPage();
+  const category = categoryById(project.category);
+  const details = Object.entries(project.details || {}).filter(([, value]) => value !== '' && value != null);
+  return `${header('work')}
+    <div class="page-shell artwork-page">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">home</a><span aria-hidden="true">/</span><a href="${categoryURL(category.id)}">${escape(category.label)}</a></nav>
+      <article class="project artwork-detail">
+        <h1 class="page-heading">${escape(project.title || category.label)}</h1>
+        <div class="project-images">${project.images.map((image, index) => imageMarkup(image, { critical: index === 0 })).join('')}</div>
+        <div class="project-meta">
+          <p class="project-index">${escape(category.label)}${project.year ? ` / ${escape(project.year)}` : ''}</p>
+          ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}
+          ${details.length ? `<dl class="project-details">${details.map(([key, value]) => `<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>` : ''}
+          <a class="text-link" href="${categoryURL(category.id)}">back to ${escape(category.label)} ${arrow}</a>
+        </div>
+      </article>
+    </div>${footer()}`;
+}
+
+export function renderRoutePage(route) {
+  if (route.kind === 'home') return renderHomepageSections();
+  if (route.kind === 'work') return renderWorkPage(route.category);
+  if (route.kind === 'about') return renderAboutPage();
+  if (route.kind === 'artwork') return renderArtworkPage(route.project);
+  return renderNotFoundPage();
 }

@@ -5,6 +5,7 @@
  */
 export const siteContent = {
   name: 'h4ngelic',
+  artistAlias: 'h333ndrik',
   copyrightYear: 2026,
   location: 'berlin, de',
 
@@ -23,7 +24,10 @@ export const siteContent = {
   about: {
     intro: 'tattooing, jewellery, painting and everything in between.',
     location: 'independent artist based in berlin.',
-    paragraphs: [],
+    paragraphs: [
+      'h4ngelic is the creative identity of h333ndrik, an independent artist based in berlin.',
+      'working across experimental, figurative blackwork tattooing, jewellery, painting and experimental visual art.',
+    ],
     // Optional: { src: '/images/portrait.webp', alt: 'Your portrait description' }
     portrait: null,
     // Optional: [{ title: 'Reference title', url: 'https://example.com' }]

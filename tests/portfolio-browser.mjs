@@ -36,7 +36,7 @@ async function checkHorizontalCategories(page, width) {
   const rectangles = [];
   for (let index = 0; index < categories.length; index++) {
     const link = links.nth(index);
-    assert.equal(await link.getAttribute('href'), `/work?category=${categories[index]}`);
+    assert.equal(await link.getAttribute('href'), `/work/${categories[index]}`);
     rectangles.push(await link.boundingBox());
   }
   assert.ok(rectangles.every(Boolean));
@@ -86,8 +86,8 @@ try {
   // Click every homepage category, including direct query reloads and back.
   for (const category of categories) {
     await readyHome(page);
-    await page.locator(`#selected-work a[href="/work?category=${category}"]`).click();
-    await page.waitForURL((url) => url.pathname === '/work' && url.searchParams.get('category') === category);
+    await page.locator(`#selected-work a[href="/work/${category}"]`).click();
+    await page.waitForURL((url) => url.pathname === `/work/${category}`);
     await assertFilter(page, category);
     await page.reload({ waitUntil: 'networkidle' });
     await assertFilter(page, category);
@@ -98,16 +98,16 @@ try {
     // restored from history must render again rather than keep a disposed GPU.
     if (await page.evaluate(() => Boolean(window.__H4_TEST__))) {
       const before = await page.evaluate(() => window.__H4_TEST__.snapshot().frameCount);
-      await page.waitForTimeout(350);
+      await page.waitForFunction((frame) => window.__H4_TEST__.snapshot().frameCount > frame, before, { timeout: 10000 });
       assert.ok(await page.evaluate(() => window.__H4_TEST__.snapshot().frameCount) > before, 'Back navigation must restore a live homepage hero.');
     }
   }
 
   await page.goto(route('/work?category=tattoos'), { waitUntil: 'networkidle' });
   for (const category of ['jewellery', 'paintings', 'all']) {
-    const href = category === 'all' ? '/work' : `/work?category=${category}`;
+    const href = category === 'all' ? '/work' : `/work/${category}`;
     await page.locator(`.work-filters a[href="${href}"]`).click();
-    await page.waitForURL((url) => url.pathname === '/work' && (url.searchParams.get('category') || 'all') === category);
+    await page.waitForURL((url) => url.pathname === (category === 'all' ? '/work' : `/work/${category}`));
     await assertFilter(page, category === 'all' ? null : category);
   }
   await page.screenshot({ path: new URL('work.png', artifacts).pathname, fullPage: true });
@@ -155,8 +155,8 @@ try {
   await mobilePage.screenshot({ path: new URL('mobile-homepage-full.png', artifacts).pathname, fullPage: true });
   await mobilePage.setViewportSize({ width: 320, height: 740 });
   await checkHorizontalCategories(mobilePage, 320);
-  await mobilePage.locator('#selected-work a[href="/work?category=paintings"]').click();
-  await mobilePage.waitForURL((url) => url.pathname === '/work');
+  await mobilePage.locator('#selected-work a[href="/work/paintings"]').click();
+  await mobilePage.waitForURL((url) => url.pathname === '/work/paintings');
   await assertFilter(mobilePage, 'paintings');
   assert.ok(await mobilePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
   await mobilePage.locator('.page-nav a[href="/#contact"]').click();
