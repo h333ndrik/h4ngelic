@@ -10,7 +10,7 @@ Stand: 23. Oktober 2026. Das bestehende Projekt wurde in den fünf gewünschten 
 | B — Homepage | Drei gleich gestaltete große Überschriften; horizontale Work-/Kontaktstreifen, native Sticky-Sequenzen, gestaffelte Fly-ins, umkehrbare About-Bewegung und Hero-Rezession. | [PR #6](https://github.com/h333ndrik/h4ngelic/pull/6) |
 | C — Interaktionen | Progressive Seitenwechsel, Verlauf/Fokus/Scrollposition, Bildmasken und Galerie, organische Tinten-Spuren, versteckter Footer-Hinweis und abgesicherte Besuchsanzeige. | [PR #7](https://github.com/h333ndrik/h4ngelic/pull/7) |
 | D — the other side | Taste `4`/Numpad und zugänglicher Footer-Schalter, falsche Farben/Solarisation, Kanalverschiebung, analoge Textur, lesbare UI und vollständige Rückkehr. | [PR #8](https://github.com/h333ndrik/h4ngelic/pull/8) |
-| E — Integration | Gemeinsame Browserprüfungen, echte Messungen, Material-Shader statt Canvas-Filter, vorgerenderte Textur, korrigierter WebGL-Fallback, aktueller Offline-Snapshot und Dokumentation. | [Feature-Vergleich](https://github.com/h333ndrik/h4ngelic/compare/feat/xray-other-side...feat/final-integration) |
+| E — Integration | Gemeinsame Browserprüfungen, echte Messungen, Material-Shader statt Canvas-Filter, vorgerenderte Textur, korrigierter WebGL-Fallback, aktueller Offline-Snapshot und Dokumentation. | [PR #9](https://github.com/h333ndrik/h4ngelic/pull/9) |
 
 Die PRs bauen aufeinander und auf den bestehenden Website-PRs auf. Es wurde nichts in `main` zusammengeführt oder produktiv veröffentlicht. Cloudflare-, GoDaddy- und DNS-Einstellungen wurden nicht verändert.
 
