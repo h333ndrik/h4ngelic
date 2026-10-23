@@ -1,0 +1,21 @@
+.image-reveal-pending .artwork-open, .image-reveal-pending.about-portrait { position: relative; overflow: hidden; }
+.image-reveal-pending .artwork-open::after, .image-reveal-pending.about-portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #303033;
+  transform: scaleY(1);
+  transform-origin: top;
+  transition: transform 520ms cubic-bezier(.2,.65,.3,1);
+  pointer-events: none;
+}
+.project-image.image-reveal-pending .artwork-open img, .about-portrait.image-reveal-pending img { transform: translateY(18px) scale(1.025); opacity: 0; transition: transform 520ms cubic-bezier(.2,.65,.3,1), opacity 320ms ease-out; }
+.image-reveal-pending.is-image-revealed .artwork-open::after, .image-reveal-pending.is-image-revealed.about-portrait::after { transform: scaleY(0); }
+.project-image.image-reveal-pending.is-image-revealed .artwork-open img, .about-portrait.image-reveal-pending.is-image-revealed img { transform: none; opacity: 1; }
+.project-image.image-reveal-pending .artwork-open.is-image-loading img { opacity: 0; }
+[data-mode='xray'] .image-reveal-pending .artwork-open::after, [data-mode='xray'] .image-reveal-pending.about-portrait::after { background: var(--xray-background, #25142f); }
+.project-image.image-reveal-instant .artwork-open img, .about-portrait.image-reveal-instant img, .image-reveal-instant .artwork-open::after, .image-reveal-instant.about-portrait::after { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .project-image.image-reveal-pending .artwork-open img, .about-portrait.image-reveal-pending img { opacity: 1; transform: none; transition: none; }
+  .image-reveal-pending .artwork-open::after, .image-reveal-pending.about-portrait::after { transform: scaleY(0); transition: none; }
+}

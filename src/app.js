@@ -7,6 +7,9 @@ import { getPageMetadata, applyMetadata } from './seo.js';
 import { initInteractions } from './interactions.js';
 import { initGallery } from './gallery.js';
 import { initScrollChoreography } from './scroll-choreography.js';
+import { initNavigation } from './navigation.js';
+import { initEasterEggs } from './easter-eggs.js';
+import { initImageReveals } from './image-reveals.js';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -15,6 +18,7 @@ let heroLoaded = false;
 let stopInteractions = () => {};
 let stopGallery = () => {};
 let stopMotion = () => {};
+let stopImageReveals = () => {};
 let heroObserver = null;
 
 function ensureHero() {
@@ -54,9 +58,12 @@ function currentURL() {
     : new URL(location.href);
 }
 
-function scrollToTarget(url, { reset = false } = {}) {
+function scrollToTarget(url, { reset = false, restoreScroll } = {}) {
   requestAnimationFrame(() => {
-    if (url.hash) {
+    if (restoreScroll) {
+      scrollTo({ left: restoreScroll[0], top: restoreScroll[1], behavior: 'instant' });
+      if (reset) content.focus({ preventScroll: true });
+    } else if (url.hash) {
       let id;
       try { id = decodeURIComponent(url.hash.slice(1)); } catch { return; }
       const target = document.getElementById(id);
@@ -69,10 +76,11 @@ function scrollToTarget(url, { reset = false } = {}) {
   });
 }
 
-function render({ reset = false } = {}) {
+function render({ reset = false, restoreScroll } = {}) {
   stopInteractions();
   stopGallery();
   stopMotion();
+  stopImageReveals();
   heroObserver?.disconnect();
   const url = currentURL();
   const route = resolveRoute(url);
@@ -87,21 +95,26 @@ function render({ reset = false } = {}) {
   stopInteractions = initInteractions(document, { revealSections: false });
   stopGallery = initGallery(content);
   stopMotion = initScrollChoreography(content);
+  stopImageReveals = initImageReveals(content);
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {
       link.setAttribute('href', `#${link.getAttribute('href')}`);
     }
   }
-  scrollToTarget(url, { reset });
+  scrollToTarget(url, { reset, restoreScroll });
 }
 
 render();
+initEasterEggs(document);
 if (standalone) {
-  addEventListener('hashchange', () => render({ reset: true }));
+  addEventListener('hashchange', () => {
+    render({ reset: true });
+    document.dispatchEvent(new CustomEvent('h4:pagechange'));
+  });
   document.querySelector('.skip-link').addEventListener('click', (event) => {
     event.preventDefault();
     content.focus();
     content.scrollIntoView({ behavior: 'instant' });
   });
-}
+} else initNavigation({ render });

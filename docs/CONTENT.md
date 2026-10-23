@@ -11,6 +11,7 @@ Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Kompo
 | Automatisch ermittelte Bildgrößen | `src/data/imageManifest.json` — nicht manuell bearbeiten |
 | Seitentitel, Beschreibungen, Domain und Indexierung | `src/data/seoContent.js` |
 | Scroll-Distanzen, Staffelung und Überschwinger | `src/data/motionSettings.js` — Anleitung in [MOTION.md](MOTION.md) |
+| Tintenabdrücke, Footer-Hinweis und optionale Besuchszählung | `src/data/easterSettings.js` — Anleitung in [EASTER-EGGS.md](EASTER-EGGS.md) |
 
 ## Ein Tattoo, Schmuckstück oder Gemälde hinzufügen
 

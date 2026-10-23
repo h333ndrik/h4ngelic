@@ -18,6 +18,7 @@ async function fixture(page) {
   await page.evaluate(async () => {
     const { renderProject } = await import('/src/pages.js');
     const { initGallery } = await import('/src/gallery.js');
+    const { initImageReveals } = await import('/src/image-reveals.js');
     const archive = document.querySelector('.portfolio-archive');
     archive.innerHTML = renderProject({
       id: 'gallery-test-fixture', category: 'tattoos', title: 'test fixture',
@@ -26,7 +27,9 @@ async function fixture(page) {
         { src: '/assets/tattoo-texture.webp?detail=1', alt: 'provided artwork detail', caption: 'second view', width: 1024, height: 1448 },
       ],
     });
-    window.__galleryCleanup = initGallery(archive);
+    const stopGallery = initGallery(archive);
+    const stopReveals = initImageReveals(archive);
+    window.__galleryCleanup = () => { stopReveals(); stopGallery(); };
   });
 }
 
@@ -59,6 +62,12 @@ try {
     assert.ok(Math.abs(reserved.height - loaded.height) < 1, 'Loading artwork must preserve the reserved image height.');
 
     await opener.focus();
+    assert.equal(Number(await opener.locator('img').evaluate((image) => getComputedStyle(image).opacity)), 1, 'Keyboard focus must make artwork fully visible.');
+    const coverScale = await opener.evaluate((button) => {
+      const value = getComputedStyle(button, '::after').transform;
+      return value === 'none' ? 0 : new DOMMatrixReadOnly(value).m22;
+    });
+    assert.ok(Math.abs(coverScale) < .001, 'Keyboard focus must remove the image mask.');
     await page.keyboard.press('Enter');
     await displayed(page, 1);
     const dialog = page.locator('.artwork-dialog');

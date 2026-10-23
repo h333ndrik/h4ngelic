@@ -3,6 +3,7 @@ import { artworks } from './data/artworks.js';
 import { contentURL, emailURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
 import { categoryURL, projectURL } from './routes.js';
+import { renderFooter } from './footer.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
 const categoryById = (id) => siteContent.categories.find((category) => category.id === id);
@@ -23,7 +24,7 @@ function header(page) {
 }
 
 function footer() {
-  return `<footer class="page-footer"><span>${escape(siteContent.name)}</span><span>${escape(siteContent.location)}</span></footer>`;
+  return renderFooter();
 }
 
 function contactLink(label, destination) {
@@ -58,7 +59,7 @@ export function renderHomepageSections() {
       ${contactLink('book a tat', contentURL(contact.bookingURL))}
     </div>
   </div></section>
-  ${footer()}`;
+  ${renderFooter({ home: true })}`;
 }
 
 function imageMarkup(image, { critical = false } = {}) {

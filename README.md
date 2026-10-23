@@ -26,6 +26,8 @@ npm run test:micro       # Magnets, reveals, cursor, rendering pause, 320/390px
 npm run test:gallery     # Viewer transitions, keyboard/touch, image races/errors
 npm run test:seo         # Prerendered HTML, metadata, strict HTTP status, robots
 npm run test:motion      # Pinning, reverse/stop poses, native wheel/touch, resize
+npm run test:navigation  # Lazy-import races, one scene, scroll history, fallback
+npm run test:easter      # Ink, hidden hint and consent/storage safeguards
 npm run images:optimize  # Generate responsive WebP files and image dimensions
 npm run build
 npm run preview -- --port 4173
@@ -41,6 +43,8 @@ The site remains a small vanilla-JavaScript/Vite application. Normal anchors nav
 
 The production build prerenders genuine HTML for every published route, plus `404.html`, `sitemap.xml` and `robots.txt`. Work and About remain readable without JavaScript. `npm run preview` serves these documents with actual 404 responses and legacy redirects. A production host must serve the generated directory indexes and its 404 document rather than rewrite all missing paths to the homepage. See [SEO and hosting](docs/SEO.md) and [architecture decisions](docs/ARCHITECTURE.md).
 
+JavaScript progressively enhances those anchors with short native View Transitions, retained document state, keyboard focus transfer and back/forward scroll restoration. Unsupported or reduced-motion browsers update immediately; a rendering failure falls back to ordinary document navigation. Direct URLs, refreshes and no-JavaScript navigation retain the prerendered documents. A delayed homepage module also waits for the visible hero before creating WebGL, so leaving during its download cannot initialize a scene on Work.
+
 Metadata is edited in `src/data/seoContent.js`; the confirmed canonical origin is `https://h4ngelic.com`. Builds default to **preview** (`noindex`). A future production build explicitly uses `H4_DEPLOYMENT=production npm run build`; this does not deploy anything. Empty archives and incomplete projects remain excluded from indexing and the sitemap. No training-crawler policy is added or changed.
 
 The Three.js module is imported only when the homepage hero enters the viewport. Work and About never download or initialize the scene. Rendering stops while the hero is offscreen or the document is hidden and resumes without advancing the animation by the hidden interval. Its controls remain anchored inside the hero instead of floating above the new sections. No CMS, backend, database or authentication dependency is needed. The gallery renderer supports multi-image projects, descriptions, years, additional metadata and drafts through the content files; no stock images or fictitious projects are included.
@@ -54,6 +58,14 @@ Category, configured Contact and important navigation labels move at most 3 px u
 Reduced motion disables dramatic choreography and nonessential pinning and makes viewer transitions immediate. Keyboard/anchor focus immediately reveals its section without changing pin geometry. Touch interaction does not activate magnets or the custom cursor. Pointer updates are coalesced to animation frames; scroll work uses cached geometry and one scheduled frame per update. The bottom-left tagline comes unchanged from the existing hero-tagline feature: “art on skin & beyond”.
 
 Local portfolio and portrait images are automatically converted into responsive WebP variants by `predev` and `prebuild`; original files are preserved. The gallery uses `srcset`, lazy loading, asynchronous decoding and reserved image dimensions. See [content editing](docs/CONTENT.md) for the workflow.
+
+Real below-fold images receive an IntersectionObserver mask/rise reveal; keyboard focus unmasks them immediately. The first critical detail image stays unmasked for loading performance. No image effect or viewer is created for the empty archive.
+
+## Small footer interactions
+
+Blank clicks/taps leave short-lived organic off-white ink traces; links, controls, dialogs, canvas and scrolling gestures are excluded. Marks are capped and removed automatically. The footer's hidden hint can be discovered with hover, keyboard focus or its accessible touch target. The X-Ray activation behind that control is added in the following phase.
+
+Persistent returning-visitor memory is disabled by default. The footer uses the nonpersistent “nice to meet you.” fallback without touching browser storage. Enabling persistence requires both an explicit configuration flag and a valid consent callback. [EASTER-EGGS.md](docs/EASTER-EGGS.md) documents settings, exact visit messages and lifecycle/privacy behavior.
 
 The earlier microinteraction baseline and its reproducible Lighthouse settings are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md). They refer to commit `0a65d3b`, before the master-brief expansion. New performance claims require fresh measurements of the integrated build.
 
