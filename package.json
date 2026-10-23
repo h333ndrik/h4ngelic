@@ -20,6 +20,8 @@
     "test:gallery": "node tests/gallery-browser.mjs",
     "test:seo": "node tests/seo-browser.mjs",
     "test:motion": "node tests/scroll-browser.mjs",
+    "test:navigation": "node tests/navigation-browser.mjs",
+    "test:easter": "node tests/easter-browser.mjs",
     "measure:performance": "node scripts/measure-performance.mjs"
   },
   "dependencies": {

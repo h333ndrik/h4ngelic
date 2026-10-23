@@ -11,6 +11,9 @@ Die bestehende Website bleibt Vite + JavaScript + CSS + Three.js. Ein kleiner Bu
 | `src/pages.js` | Gemeinsame semantische HTML-Renderer für Build und Browser |
 | `src/seo.js` | Reine Metadaten-/JSON-LD-Erzeugung und Aktualisierung nach Navigation |
 | `src/app.js` | Seiteneinstieg, Interaktionen und bedarfsgeladener Hero |
+| `src/navigation.js` | Normale Links progressiv ergänzen, kurze View Transitions, Verlauf/Scrollposition/Fokus |
+| `src/image-reveals.js` | Sichtbarkeitsgesteuerte Masken für vorhandene, nicht kritische Bilder |
+| `src/footer.js`, `src/easter-eggs.js` | Semantischer Footer, kurzlebige Tinte und standardmäßig nicht persistente Besuchsanzeige |
 | `scripts/prerender.mjs` | Vollständige statische Dokumente, 404, Sitemap, Robots und Routenmanifest |
 | `scripts/serve-preview.mjs` | Lokale Prüfung echter Statuscodes, Canonical-Redirects und komprimierter Dateien |
 | `vite.config.js` | Gemeinsame öffentliche SEO-Buildkonfiguration und Entwicklungs-Redirects/404 |
@@ -28,6 +31,8 @@ Vite erzeugt zunächst den bestehenden Einstieg und die unveränderten Code-/Ass
 `index.html` enthält bewusst `seo`, `hero` und `content`-Kommentarpaare. Der Build ersetzt genau diese Blöcke und schlägt fehl, wenn sie fehlen oder doppelt vorkommen. `#page-content[data-prerendered]` kennzeichnet die bereits gerenderte Route, damit der Browser sie beim ersten Laden erhält.
 
 Die Startseite enthält den tatsächlichen Hero. Auf Work, About, Projektseiten und 404 liegt sein ursprüngliches Markup ausschließlich in einem **inerten `<template id="hero-template">`**. Es erzeugt dort weder einen aktiven zusätzlichen H1 noch Canvas-/Hero-Anfragen. Bei späterer Navigation zur Startseite kann der Browser dieses Template einmal klonen. Der bestehende Three.js-Einstieg bleibt ein dynamischer Import, der erst beim sichtbaren Homepage-Hero ausgelöst wird.
+
+Normale Anker bleiben die Navigationsgrundlage. Die Browser-Erweiterung erhält das Dokument und die bereits erzeugte 3D-Szene, aktualisiert Inhalt/Metadaten und stellt Fokus und Verlaufpositionen wieder her. Unbekannte Routen werden regulär angefordert und behalten ihre tatsächlichen HTTP-Statuscodes. Ein verspätet fertig geladenes 3D-Modul wartet zusätzlich auf den sichtbaren Hero, bevor es einen Kontext anlegt. Seitenmodule räumen ihre eigenen Observer und Listener vor dem Austausch auf; delegierte Footer-/Navigationslistener werden nur einmal pro Dokument angelegt. Es gibt keine persistenten Navigations- oder Besucherkennungen.
 
 ## Build und Vorschau
 

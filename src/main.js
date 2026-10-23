@@ -338,11 +338,29 @@ canvas.addEventListener('webglcontextlost', (event) => {
 addEventListener('pagehide', (event) => {
   if (event.persisted) return;
   running = false;
+  startupObserver.disconnect();
+  document.removeEventListener('visibilitychange', startVisibleHero);
   controls.destroy();
   disposeScene();
 });
 
-initialize().catch((error) => {
-  console.warn('3D wordmark unavailable:', error);
-  fallback('3D graphics are unavailable. Showing the static wordmark.');
+// A homepage module download can finish after an internal navigation. Wait for
+// the actual visible hero before creating a WebGL context or fetching its art.
+let startupVisible = false;
+let startupStarted = false;
+const startupObserver = new IntersectionObserver(([entry]) => {
+  startupVisible = entry.isIntersecting;
+  startVisibleHero();
 });
+function startVisibleHero() {
+  if (startupStarted || !running || !startupVisible || document.hidden || stage.closest('.hero')?.hidden) return;
+  startupStarted = true;
+  startupObserver.disconnect();
+  document.removeEventListener('visibilitychange', startVisibleHero);
+  initialize().catch((error) => {
+    console.warn('3D wordmark unavailable:', error);
+    fallback('3D graphics are unavailable. Showing the static wordmark.');
+  });
+}
+document.addEventListener('visibilitychange', startVisibleHero);
+startupObserver.observe(stage);
