@@ -102,6 +102,12 @@ canvas { width: 100%; height: 100%; display: block; position: absolute; inset: 0
 .about-portrait { margin: 0; }
 .about-references { margin-top: 100px; padding-top: 35px; border-top: 1px solid #ffffff30; }
 .about-references ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 20px 40px; }
+.breadcrumbs { display: flex; gap: 15px; align-items: center; margin-bottom: 35px; font-size: 13px; color: #b3b3af; }
+.breadcrumbs a { display: inline-flex; align-items: center; min-height: 44px; }
+.artwork-detail { max-width: 1200px; margin-inline: auto; }
+.artwork-detail .project-images { gap: 24px; }
+.artwork-detail .project-meta { max-width: 65ch; }
+.project-meta h2 a { display: inline-block; padding-block: 6px; }
 
 @media (max-width: 600px) {
   .masthead { inset: 23px 22px auto; }

@@ -1,10 +1,12 @@
 import './style.css';
 import { siteContent } from './data/siteContent.js';
-import { renderHomepageSections, renderWorkPage, renderAboutPage, renderNotFoundPage } from './pages.js';
+import { renderRoutePage } from './pages.js';
+import { resolveRoute } from './routes.js';
+import { getPageMetadata, applyMetadata } from './seo.js';
 import { initInteractions } from './interactions.js';
 import { initGallery } from './gallery.js';
 
-const hero = document.querySelector('.hero');
+let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
 const standalone = document.documentElement.dataset.preview === 'standalone';
 let heroLoaded = false;
@@ -12,7 +14,22 @@ let stopInteractions = () => {};
 let stopGallery = () => {};
 let heroObserver = null;
 
+function ensureHero() {
+  if (!hero) {
+    const template = document.getElementById('hero-template');
+    if (!template) return;
+    template.before(template.content.cloneNode(true));
+    template.remove();
+    hero = document.querySelector('.hero');
+  }
+  document.getElementById('page-title').textContent = `${siteContent.name} © ${siteContent.copyrightYear}`;
+  document.querySelector('.edition').textContent = siteContent.location;
+}
+
 function prepareHero() {
+  ensureHero();
+  if (!hero) return;
+  hero.hidden = false;
   if (heroLoaded) return;
   heroObserver?.disconnect();
   heroObserver = new IntersectionObserver(([entry]) => {
@@ -25,9 +42,6 @@ function prepareHero() {
   });
   heroObserver.observe(hero);
 }
-
-document.getElementById('page-title').textContent = `${siteContent.name} © ${siteContent.copyrightYear}`;
-document.querySelector('.edition').textContent = siteContent.location;
 
 function currentURL() {
   // The downloadable preview uses hash routes so its pages work without a server.
@@ -57,23 +71,15 @@ function render({ reset = false } = {}) {
   stopGallery();
   heroObserver?.disconnect();
   const url = currentURL();
-  const path = url.pathname.replace(/\/+$/, '') || '/';
-  hero.hidden = path !== '/';
-  document.documentElement.dataset.page = path === '/' ? 'home' : path.slice(1);
-  if (path === '/') {
-    content.innerHTML = renderHomepageSections();
-    document.title = siteContent.name;
-    prepareHero();
-  } else if (path === '/work') {
-    content.innerHTML = renderWorkPage(url.searchParams.get('category'));
-    document.title = `work — ${siteContent.name}`;
-  } else if (path === '/about') {
-    content.innerHTML = renderAboutPage();
-    document.title = `about — ${siteContent.name}`;
-  } else {
-    content.innerHTML = renderNotFoundPage();
-    document.title = `page not found — ${siteContent.name}`;
-  }
+  const route = resolveRoute(url);
+  if (!standalone && route.redirectPath) history.replaceState(history.state, '', route.redirectPath);
+  if (hero) hero.hidden = route.kind !== 'home';
+  document.documentElement.dataset.page = route.kind;
+  if (content.dataset.prerendered !== route.canonicalPath) content.innerHTML = renderRoutePage(route);
+  delete content.dataset.prerendered;
+  if (route.kind === 'home') prepareHero();
+  const metadataOptions = typeof __H4_SEO_CONFIG__ === 'undefined' ? {} : __H4_SEO_CONFIG__;
+  applyMetadata(getPageMetadata(route, metadataOptions));
   stopInteractions = initInteractions(content);
   stopGallery = initGallery(content);
 

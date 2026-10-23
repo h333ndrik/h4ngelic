@@ -5,11 +5,11 @@ import { artworks } from '../src/data/artworks.js';
 import { contentURL, emailURL, escapeHTML } from '../src/content-utils.js';
 import { normalizeCategory, renderHomepageSections, renderWorkPage, renderProject, renderAboutPage } from '../src/pages.js';
 
-test('homepage categories retain their exact horizontal-strip order and query links', () => {
+test('homepage categories retain their exact horizontal-strip order and canonical category links', () => {
   const markup = renderHomepageSections();
   const selected = markup.split('</section>')[0];
   assert.deepEqual([...selected.matchAll(/class="category-link" href="([^"]+)"/g)].map((match) => match[1]), [
-    '/work?category=tattoos', '/work?category=jewellery', '/work?category=paintings',
+    '/work/tattoos', '/work/jewellery', '/work/paintings',
   ]);
   assert.doesNotMatch(selected, /<img|<figure|placeholder/i);
   assert.match(markup, /id="contact"/);
@@ -42,7 +42,7 @@ test('contact configuration creates appropriate safe real destinations', () => {
 test('category query selects one archive filter and unknown filters safely select all', () => {
   for (const category of siteContent.categories) {
     const markup = renderWorkPage(category.id);
-    assert.ok(markup.includes(`href="/work?category=${category.id}" aria-current="page">${category.label}</a>`));
+    assert.ok(markup.includes(`href="/work/${category.id}" aria-current="page">${category.label}</a>`));
     assert.match(markup, /archive in progress\./);
   }
   assert.equal(normalizeCategory('unexpected'), 'all');

@@ -18,12 +18,13 @@ npm run dev -- --port 5173
 Use the existing checkout; cloud tasks are isolated and do not need a separate Git worktree. No credentials, remote APIs or environment variables are required to run the site. All fonts, artwork and rendering assets are hosted locally.
 
 ```sh
-npm test                 # 28 content, physics, motion, quality and image tests
+npm test                 # Content, routing, physics, quality and image tests
 npm run test:browser     # Run with the dev server active; Chromium required
 npm run test:artwork     # Compare the actual reveal on/off at the same 3D pose
 npm run test:portfolio   # Page links, filters, history, horizontal mobile layout
 npm run test:micro       # Magnets, reveals, cursor, rendering pause, 320/390px
 npm run test:gallery     # Viewer transitions, keyboard/touch, image races/errors
+npm run test:seo         # Prerendered HTML, metadata, strict HTTP status, robots
 npm run images:optimize  # Generate responsive WebP files and image dimensions
 npm run build
 npm run preview -- --port 4173
@@ -35,7 +36,11 @@ Browser tests default to `/usr/bin/chromium`; override `CHROMIUM_PATH` for anoth
 
 ## Pages and hosting
 
-The site remains a small vanilla-JavaScript/Vite application. Normal anchors navigate to `/work`, `/work?category=tattoos`, `/work?category=jewellery`, `/work?category=paintings`, `/about` and `/#contact`. Refreshing a content route requires the host to serve `index.html` for page paths, while serving existing assets normally. Vite dev/preview provide this HTML fallback. The downloadable offline preview uses hash routes only inside that file; the production website keeps clean URLs.
+The site remains a small vanilla-JavaScript/Vite application. Normal anchors navigate to `/work`, `/work/tattoos`, `/work/jewellery`, `/work/paintings`, `/about` and `/#contact`. Existing `/work?category=…` bookmarks redirect to their canonical category path. Published artworks get `/work/{category}/{id}` URLs. The downloadable offline preview uses hash routes only inside that file; the production website keeps clean URLs.
+
+The production build prerenders genuine HTML for every published route, plus `404.html`, `sitemap.xml` and `robots.txt`. Work and About remain readable without JavaScript. `npm run preview` serves these documents with actual 404 responses and legacy redirects. A production host must serve the generated directory indexes and its 404 document rather than rewrite all missing paths to the homepage. See [SEO and hosting](docs/SEO.md) and [architecture decisions](docs/ARCHITECTURE.md).
+
+Metadata is edited in `src/data/seoContent.js`; the confirmed canonical origin is `https://h4ngelic.com`. Builds default to **preview** (`noindex`). A future production build explicitly uses `H4_DEPLOYMENT=production npm run build`; this does not deploy anything. Empty archives and incomplete projects remain excluded from indexing and the sitemap. No training-crawler policy is added or changed.
 
 The Three.js module is imported only when the homepage hero enters the viewport. Work and About never download or initialize the scene. Rendering stops while the hero is offscreen or the document is hidden and resumes without advancing the animation by the hidden interval. Its controls remain anchored inside the hero instead of floating above the new sections. No CMS, backend, database or authentication dependency is needed. The gallery renderer supports multi-image projects, descriptions, years, additional metadata and drafts through the content files; no stock images or fictitious projects are included.
 
@@ -47,7 +52,7 @@ Reduced motion disables the magnetic movement and section reveals and makes view
 
 Local portfolio and portrait images are automatically converted into responsive WebP variants by `predev` and `prebuild`; original files are preserved. The gallery uses `srcset`, lazy loading, asynchronous decoding and reserved image dimensions. See [content editing](docs/CONTENT.md) for the workflow.
 
-Actual mobile Lighthouse lab results and reproducible settings are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md): homepage **50 → 71**, Work **88 → 100**, with total transfer reduced by **66.7%** and **96.5%** respectively. The homepage uses three runs per build; Work uses one. These software-WebGL measurements are not real-phone frame rates or field Core Web Vitals.
+The earlier microinteraction baseline and its reproducible Lighthouse settings are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md). They refer to commit `0a65d3b`, before the master-brief expansion. New performance claims require fresh measurements of the integrated build.
 
 ## Wordmark and interaction
 
