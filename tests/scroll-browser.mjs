@@ -244,4 +244,3 @@ try {
 } finally {
   await browser.close();
 }
-
