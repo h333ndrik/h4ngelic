@@ -4,6 +4,7 @@ import { extname, sep } from 'node:path';
 import { build } from 'vite';
 import { artworks } from '../src/data/artworks.js';
 import { siteContent } from '../src/data/siteContent.js';
+import imageManifest from '../src/data/imageManifest.json' with { type: 'json' };
 
 const root = new URL('../', import.meta.url);
 // The website keeps Three.js in a homepage-only chunk. Only the downloadable
@@ -23,13 +24,19 @@ let html = (await readFile(new URL('index.html', previewBuild), 'utf8'))
 const dataURL = async (file, type) => `data:${type};base64,${(await readFile(new URL(file, root))).toString('base64')}`;
 const assets = new Map([
   ['/fonts/wordmark.typeface.json', await dataURL('public/fonts/wordmark.typeface.json', 'application/json')],
-  ['/fonts/LiberationSans-Bold.ttf', await dataURL('public/fonts/LiberationSans-Bold.ttf', 'font/ttf')],
   ['/assets/tattoo-texture.webp', await dataURL('public/assets/tattoo-texture.webp', 'image/webp')],
+  ['/assets/tattoo-texture-640.webp', await dataURL('public/assets/tattoo-texture-640.webp', 'image/webp')],
   ['/assets/h4ngelic-cursor.svg', await dataURL('public/assets/h4ngelic-cursor.svg', 'image/svg+xml')],
+  ['/assets/h4ngelic-cursor-hover.svg', await dataURL('public/assets/h4ngelic-cursor-hover.svg', 'image/svg+xml')],
+  ['/assets/h4ngelic-cursor-pressed.svg', await dataURL('public/assets/h4ngelic-cursor-pressed.svg', 'image/svg+xml')],
+  ['/assets/wordmark-fallback.svg', await dataURL('public/assets/wordmark-fallback.svg', 'image/svg+xml')],
 ]);
 const portfolioImages = artworks.filter((project) => project.published !== false)
-  .flatMap((project) => project.images || []).map((image) => image.src);
+  .flatMap((project) => project.images || []).flatMap((image) => [image.src, image.fullSrc]);
 if (siteContent.about.portrait?.src) portfolioImages.push(siteContent.about.portrait.src);
+for (const asset of Object.values(imageManifest)) {
+  for (const variant of asset.variants || []) portfolioImages.push(variant.src);
+}
 const publicDirectory = await realpath(new URL('public/', root));
 const imageTypes = { '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.avif': 'image/avif', '.gif': 'image/gif' };
 for (const imagePath of new Set(portfolioImages)) {
@@ -42,7 +49,7 @@ for (const imagePath of new Set(portfolioImages)) {
   assets.set(imagePath, `data:${type};base64,${(await readFile(localFile)).toString('base64')}`);
 }
 const embed = (text) => {
-  for (const [path, inline] of assets) text = text.replaceAll(path, inline);
+  for (const [path, inline] of [...assets].sort(([a], [b]) => b.length - a.length)) text = text.replaceAll(path, inline);
   return text;
 };
 const scriptPath = html.match(/<script\b[^>]*src="([^"]+)"[^>]*><\/script>/)?.[1];

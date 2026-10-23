@@ -7,6 +7,7 @@ import { LogoPhysics } from './physics.js';
 import { sampleBase } from './motion.js';
 import { bindControls } from './controls.js';
 import { attachArtwork, revealWeight } from './reveal.js';
+import { chooseRenderQuality, AdaptiveResolution } from './render-quality.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
@@ -31,6 +32,18 @@ let lastHit = -Infinity;
 let artwork = null;
 let disposeScene = () => {};
 let stageIsVisible = false;
+let sceneReady = false;
+let animationFrame = 0;
+let pendingPointer = null;
+let syncRendering = () => {};
+const quality = chooseRenderQuality({
+  pixelRatio: devicePixelRatio,
+  coarsePointer: matchMedia('(pointer: coarse)').matches,
+  memory: navigator.deviceMemory,
+  cores: navigator.hardwareConcurrency,
+  saveData: navigator.connection?.saveData,
+});
+const resolution = new AdaptiveResolution(quality.pixelRatio);
 
 const controls = bindControls({
   initiallyPaused: paused,
@@ -49,9 +62,9 @@ function fallback(message) {
 }
 
 async function initialize() {
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, stencil: true, powerPreference: 'low-power' });
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: quality.antialias, alpha: false, stencil: false, powerPreference: 'low-power' });
   renderer.setClearColor('#303033');
-  renderer.setPixelRatio(Math.min(devicePixelRatio, matchMedia('(pointer: coarse)').matches ? 1.5 : 2));
+  renderer.setPixelRatio(quality.pixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
 
@@ -72,15 +85,15 @@ async function initialize() {
   lowerPanel.lookAt(0, 0, 0);
   environment.add(lowerPanel);
   const pmrem = new THREE.PMREMGenerator(renderer);
-  const environmentMap = pmrem.fromScene(environment, .035);
+  const environmentMap = pmrem.fromScene(environment, .035, .1, 100, { size: quality.environmentSize });
   scene.environment = environmentMap.texture;
   environment.dispose();
   pmrem.dispose();
 
   const font = await new FontLoader().loadAsync('/fonts/wordmark.typeface.json');
   const geometry = new TextGeometry('h4ngelic', {
-    font, size: 2, depth: .455, curveSegments: 10, steps: 1,
-    bevelEnabled: true, bevelThickness: .055, bevelSize: .035, bevelSegments: 4,
+    font, size: 2, depth: .455, curveSegments: quality.curveSegments, steps: 1,
+    bevelEnabled: true, bevelThickness: .055, bevelSize: .035, bevelSegments: quality.bevelSegments,
   });
   geometry.center();
   geometry.computeBoundingBox();
@@ -93,7 +106,7 @@ async function initialize() {
   scene.add(logo);
 
   // Only an explicitly supplied original artwork is loaded. No substitute art.
-  const artworkUrl = import.meta.env.VITE_TATTOO_ARTWORK_URL || '/assets/tattoo-texture.webp';
+  const artworkUrl = import.meta.env.VITE_TATTOO_ARTWORK_URL || (quality.name === 'desktop' ? '/assets/tattoo-texture.webp' : '/assets/tattoo-texture-640.webp');
   if (artworkUrl) {
     try {
       artwork = await attachArtwork(chrome, { url: artworkUrl, width: size.x, height: size.y });
@@ -131,6 +144,7 @@ async function initialize() {
   // The new homepage has sections below the hero; suspend GPU work offscreen.
   const visibilityObserver = new IntersectionObserver(([entry]) => {
     stageIsVisible = entry.isIntersecting;
+    syncRendering();
   });
   visibilityObserver.observe(stage);
   resize();
@@ -145,12 +159,17 @@ async function initialize() {
 
   function pointerMove(event) {
     if (dragPointer !== null && event.pointerId !== dragPointer) return;
+    if (document.hidden || !stageIsVisible) return;
+    pendingPointer = { clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId, pointerType: event.pointerType };
+  }
+
+  function processPointer(event, timestamp) {
     const hit = locate(event);
-    const now = performance.now() / 1000;
+    const now = timestamp / 1000;
     const dt = now - previousPointerTime;
     if (physics.dragging) {
       physics.dragTo(planePoint, basePosition, Math.max(dt, .001), now);
-    } else if (previousPoint && dt > .001 && dt < .15) {
+    } else if (previousPoint && dt > .001 && dt < .5) {
       pointerVelocity.copy(planePoint).sub(previousPoint).divideScalar(dt);
       if (hit && event.pointerType !== 'touch' && now - lastHit > .07 && !reducedMotion.matches) {
         physics.hit(pointerVelocity, lever.copy(hit.point).sub(logo.position), now);
@@ -160,12 +179,15 @@ async function initialize() {
     previousPoint ??= new THREE.Vector3();
     previousPoint.copy(planePoint);
     previousPointerTime = now;
-    activePointer = Boolean(hit);
-    canvas.classList.toggle('is-hovering', activePointer);
+    if (activePointer !== Boolean(hit)) {
+      activePointer = Boolean(hit);
+      canvas.classList.toggle('is-hovering', activePointer);
+    }
   }
 
   function pointerDown(event) {
     if (!event.isPrimary || event.button !== 0) return;
+    pendingPointer = null;
     const hit = locate(event);
     if (!hit) return;
     dragPointer = event.pointerId;
@@ -179,9 +201,14 @@ async function initialize() {
 
   function pointerUp(event) {
     if (event.pointerId !== dragPointer) return;
-    physics.endDrag(performance.now() / 1000);
+    const now = performance.now();
+    // Preserve the last coalesced drag sample even when release precedes the
+    // next frame. A cancelled touch scroll must not apply that queued movement.
+    if (event.type === 'pointerup' && pendingPointer && !document.hidden && stageIsVisible) processPointer(pendingPointer, now);
+    physics.endDrag(now / 1000);
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
     dragPointer = null;
+    pendingPointer = null;
     previousPoint = null;
     canvas.classList.remove('is-dragging');
     if (reducedMotion.matches) {
@@ -190,7 +217,14 @@ async function initialize() {
     }
   }
 
-  function pointerLeave() { if (!physics.dragging) previousPoint = null; }
+  function pointerLeave() {
+    if (!physics.dragging) {
+      previousPoint = null;
+      pendingPointer = null;
+      activePointer = false;
+      canvas.classList.remove('is-hovering');
+    }
+  }
   canvas.addEventListener('pointermove', pointerMove);
   canvas.addEventListener('pointerdown', pointerDown);
   canvas.addEventListener('pointerup', pointerUp);
@@ -199,11 +233,15 @@ async function initialize() {
   canvas.addEventListener('pointerleave', pointerLeave);
 
   function animate(timestamp) {
-    if (!running) return;
-    requestAnimationFrame(animate);
+    animationFrame = 0;
+    if (!running || !sceneReady || document.hidden || !stageIsVisible) return;
+    animationFrame = requestAnimationFrame(animate);
     const dt = Math.min((timestamp - previousFrame) / 1000, .25);
     previousFrame = timestamp;
-    if (document.hidden || !stageIsVisible) return;
+    if (pendingPointer) {
+      processPointer(pendingPointer, timestamp);
+      pendingPointer = null;
+    }
     if (!paused) animationTime += dt * speed;
     sampleBase(animationTime, 1, basePosition, baseQuaternion);
     // Reduced motion retains direct dragging, without free drift or auto tumble.
@@ -218,12 +256,37 @@ async function initialize() {
     bounds.y = Math.max(.15, worldSize.y / 2 / perspectiveMargin - halfExtents.y - .2);
     if (artwork) artwork.opacity.value = revealEnabled ? revealWeight(logo.quaternion, Number(import.meta.env.VITE_REVEAL_ANGLE || 150)) : 0;
     renderer.render(scene, camera);
+    if (frameCount === 0) {
+      stage.classList.add('is-ready');
+      status.textContent = '3D wordmark ready. Use the animation controls below; pointer dragging is optional.';
+    }
+    const nextRatio = resolution.sample(dt, timestamp);
+    if (nextRatio !== null) {
+      renderer.setPixelRatio(nextRatio);
+      resize();
+    }
     frameCount++;
   }
 
+  syncRendering = () => {
+    if (!running || !sceneReady || document.hidden || !stageIsVisible) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      pendingPointer = null;
+      previousPoint = null;
+      resolution.reset();
+      return;
+    }
+    if (!animationFrame) {
+      previousFrame = performance.now();
+      animationFrame = requestAnimationFrame(animate);
+    }
+  };
+  document.addEventListener('visibilitychange', syncRendering);
+
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, frameCount }),
+      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount }),
       hitPoint: () => {
         // Search real geometry instead of guessing a point inside a glyph hole.
         const vertices = geometry.getAttribute('position');
@@ -244,14 +307,18 @@ async function initialize() {
     };
   }
 
-  stage.classList.add('is-ready');
-  status.textContent = '3D wordmark ready. Use the animation controls below; pointer dragging is optional.';
+  // Let browsers with parallel shader compilation prepare the chrome program
+  // before its first visible frame instead of blocking that first interaction.
+  await renderer.compileAsync(scene, camera);
+  sceneReady = true;
   previousFrame = performance.now();
-  requestAnimationFrame(animate);
+  syncRendering();
 
   disposeScene = () => {
     observer.disconnect();
     visibilityObserver.disconnect();
+    document.removeEventListener('visibilitychange', syncRendering);
+    cancelAnimationFrame(animationFrame);
     geometry.dispose();
     chrome.dispose();
     environmentMap.dispose();

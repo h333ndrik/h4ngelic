@@ -132,9 +132,37 @@ try {
   const settled = await snapshot(page);
   assert.ok(magnitude(settled.offset) < 0.04, `Physics must return to its base path; offset=${magnitude(settled.offset)}.`);
   assert.ok(rotationAngle(settled.orientation) < 0.06, 'Additional rotation must settle back to the underlying rotation.');
+
+  // The renderer coalesces pointer movement into RAF. While a real mouse grab
+  // holds native pointer capture, dispatch the last movement and release in one
+  // browser task so RAF cannot consume that movement before the release handler.
+  await page.locator('#pause-control').click();
+  await page.evaluate(() => {
+    document.getElementById('logo-canvas').addEventListener('pointerdown', (event) => {
+      window.__H4_RELEASE_TEST_POINTER__ = event.pointerId;
+    }, { once: true });
+  });
+  const quickPoint = await grab(page);
+  const quickRelease = await page.evaluate(({ x, y }) => {
+    const canvas = document.getElementById('logo-canvas');
+    const pointerId = window.__H4_RELEASE_TEST_POINTER__;
+    delete window.__H4_RELEASE_TEST_POINTER__;
+    const before = window.__H4_TEST__.snapshot();
+    const captured = canvas.hasPointerCapture(pointerId);
+    const coordinates = { pointerId, pointerType: 'mouse', isPrimary: true, bubbles: true, clientX: x + 80, clientY: y - 30 };
+    canvas.dispatchEvent(new PointerEvent('pointermove', { ...coordinates, buttons: 1, button: -1 }));
+    canvas.dispatchEvent(new PointerEvent('pointerup', { ...coordinates, buttons: 0, button: 0 }));
+    return { captured, before, after: window.__H4_TEST__.snapshot() };
+  }, quickPoint);
+  await page.mouse.up();
+  assert.equal(quickRelease.captured, true, 'The quick-release fixture must use an actual captured mouse grab.');
+  assert.equal(quickRelease.after.frameCount, quickRelease.before.frameCount, 'The final pointer movement and release must occur before another RAF.');
+  assert.equal(quickRelease.after.isDragging, false);
+  assert.ok(magnitude(quickRelease.after.velocity) > magnitude(quickRelease.before.velocity) + 0.1, 'A final queued pointer movement must contribute release momentum instead of being discarded.');
+  await page.waitForFunction(() => Math.hypot(...window.__H4_TEST__.snapshot().offset) > 0.01, null, { timeout: 3000 });
   assert.deepEqual(desktopErrors, [], 'Desktop must not throw JavaScript errors.');
   await desktop.close();
-  console.log('PASS desktop: render, original cursor, controls, cursor push, drag, release momentum, independent motion, smooth return.');
+  console.log('PASS desktop: render, original cursor, controls, cursor push, drag, release momentum including a queued final movement, independent motion, smooth return.');
 
   const mobile = await browser.newContext({
     viewport: { width: 390, height: 844 },
