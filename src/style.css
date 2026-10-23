@@ -45,7 +45,7 @@ nav span { opacity: .75; }
   .hero-bottom { inset: auto 22px 28px; }
   .controls { top: 72px; right: 22px; gap: 7px; }
   .controls button { padding: 10px 14px; min-height: 44px; border-width: 1px; }
-  nav { right: 22px; bottom: 30px; gap: 12px; font-size: 11px; }
+  nav { right: 22px; bottom: 30px; gap: 12px; font-size: 14px; }
   .identity { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
