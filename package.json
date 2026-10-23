@@ -10,7 +10,8 @@
     "preview:export": "npm run build && node scripts/export-preview.mjs",
     "test": "node --test tests/*.test.js",
     "test:browser": "node tests/browser.mjs",
-    "test:artwork": "node tests/artwork-browser.mjs"
+    "test:artwork": "node tests/artwork-browser.mjs",
+    "test:portfolio": "node tests/portfolio-browser.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

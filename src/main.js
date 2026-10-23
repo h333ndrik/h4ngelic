@@ -30,6 +30,7 @@ let previousPointerTime = 0;
 let lastHit = -Infinity;
 let artwork = null;
 let disposeScene = () => {};
+let stageIsVisible = false;
 
 const controls = bindControls({
   initiallyPaused: paused,
@@ -115,6 +116,7 @@ async function initialize() {
 
   function resize() {
     const { width, height } = stage.getBoundingClientRect();
+    if (width <= 0 || height <= 0) return;
     camera.aspect = width / Math.max(height, 1);
     const tangent = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
     camera.position.z = Math.max(size.x * 1.48 / (2 * tangent * camera.aspect), size.x * 1.12 / (2 * tangent));
@@ -126,6 +128,11 @@ async function initialize() {
   }
   const observer = new ResizeObserver(resize);
   observer.observe(stage);
+  // The new homepage has sections below the hero; suspend GPU work offscreen.
+  const visibilityObserver = new IntersectionObserver(([entry]) => {
+    stageIsVisible = entry.isIntersecting;
+  });
+  visibilityObserver.observe(stage);
   resize();
 
   function locate(event) {
@@ -196,7 +203,7 @@ async function initialize() {
     requestAnimationFrame(animate);
     const dt = Math.min((timestamp - previousFrame) / 1000, .25);
     previousFrame = timestamp;
-    if (document.hidden) return;
+    if (document.hidden || !stageIsVisible) return;
     if (!paused) animationTime += dt * speed;
     sampleBase(animationTime, 1, basePosition, baseQuaternion);
     // Reduced motion retains direct dragging, without free drift or auto tumble.
@@ -244,6 +251,7 @@ async function initialize() {
 
   disposeScene = () => {
     observer.disconnect();
+    visibilityObserver.disconnect();
     geometry.dispose();
     chrome.dispose();
     environmentMap.dispose();
@@ -260,7 +268,12 @@ canvas.addEventListener('webglcontextlost', (event) => {
   event.preventDefault();
   fallback('3D graphics are unavailable. Showing the static wordmark. Reload to retry.');
 });
-addEventListener('pagehide', () => { running = false; controls.destroy(); disposeScene(); }, { once: true });
+addEventListener('pagehide', (event) => {
+  if (event.persisted) return;
+  running = false;
+  controls.destroy();
+  disposeScene();
+});
 
 initialize().catch((error) => {
   console.warn('3D wordmark unavailable:', error);

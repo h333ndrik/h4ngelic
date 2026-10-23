@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#303033" />
-    <meta name="description" content="h4ngelic — an interactive chrome wordmark. Grab, push and spin." />
+    <meta name="description" content="h4ngelic — independent tattooing, jewellery and painting. berlin, de." />
     <title>h4ngelic</title>
     <link rel="icon" href="/assets/h4ngelic-cursor.svg" type="image/svg+xml" />
   </head>
   <body>
+    <a class="skip-link" href="#page-content">skip to content</a>
     <main>
       <section class="hero" aria-labelledby="page-title">
         <header class="masthead">
@@ -22,20 +23,21 @@
         <div class="hero-bottom">
           <p class="identity">independent<br />tattoo &amp; art</p>
           <p id="interaction-hint" class="sr-only">Move to push. Grab to spin.</p>
-          <div class="controls" data-controls role="group" aria-label="Wordmark animation">
-            <button id="reveal-control" type="button" aria-pressed="true">Reveal on</button>
-            <button id="speed-control" type="button" aria-pressed="false">Slow</button>
-            <button id="pause-control" type="button" aria-pressed="false">Pause</button>
-          </div>
         </div>
-        <nav aria-label="Portfolio">
-          <span aria-label="Work — coming soon" title="Work — coming soon">work <i class="arrow" aria-hidden="true"></i></span>
-          <span aria-label="About — coming soon" title="About — coming soon">about <i class="arrow" aria-hidden="true"></i></span>
-          <span aria-label="Contact — coming soon" title="Contact — coming soon">contact <i class="arrow" aria-hidden="true"></i></span>
+        <div class="controls" data-controls role="group" aria-label="Wordmark animation">
+          <button id="reveal-control" type="button" aria-pressed="true">Reveal on</button>
+          <button id="speed-control" type="button" aria-pressed="false">Slow</button>
+          <button id="pause-control" type="button" aria-pressed="false">Pause</button>
+        </div>
+        <nav class="hero-nav" aria-label="Portfolio">
+          <a href="/work">work <i class="arrow" aria-hidden="true"></i></a>
+          <a href="/about">about <i class="arrow" aria-hidden="true"></i></a>
+          <a href="/#contact">contact <i class="arrow" aria-hidden="true"></i></a>
         </nav>
         <p id="scene-status" class="sr-only" role="status" aria-live="polite">Loading the 3D wordmark.</p>
       </section>
+      <div id="page-content" tabindex="-1"></div>
     </main>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/app.js"></script>
   </body>
 </html>

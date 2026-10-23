@@ -1,0 +1,39 @@
+/**
+ * Edit this file for website copy, categories and contact destinations.
+ * Leave a contact value empty until you are ready to publish that link.
+ * Use https:// URLs for external links; email is a plain address, not mailto:.
+ */
+export const siteContent = {
+  name: 'h4ngelic',
+  copyrightYear: 2026,
+  location: 'berlin, de',
+
+  categories: [
+    { id: 'tattoos', label: 'tattoos' },
+    { id: 'jewellery', label: 'jewellery' },
+    { id: 'paintings', label: 'paintings' },
+  ],
+
+  home: {
+    selectedWorkLabel: 'selected work',
+    aboutLabel: 'about',
+    aboutPreview: 'tattooing, jewellery, painting and everything in between.',
+  },
+
+  about: {
+    intro: 'tattooing, jewellery, painting and everything in between.',
+    location: 'independent artist based in berlin.',
+    paragraphs: [],
+    // Optional: { src: '/images/portrait.webp', alt: 'Your portrait description' }
+    portrait: null,
+    // Optional: [{ title: 'Reference title', url: 'https://example.com' }]
+    references: [],
+  },
+
+  contact: {
+    getInTouchURL: '',
+    instagramURL: '',
+    email: '',
+    bookingURL: '',
+  },
+};

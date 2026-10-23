@@ -1,6 +1,10 @@
 # h4ngelic
 
-Interactive chrome wordmark and artist frontpage. The repository initially contained only this README and a `.gitignore`; the supplied screenshot and 3.85-second recording informed this implementation. The earlier ChatGPT mockup and its source geometry were not available, so an exact match to that earlier version cannot be verified. Work, about and contact remain placeholders at the user's request.
+Artist website with an interactive chrome wordmark, a horizontal typographic category strip, a filterable Work archive, an About page and a homepage contact section. The original hero's geometry, material, physics and cursor are retained. The repository originally contained only a README and `.gitignore`; the supplied screenshot and recording informed the hero implementation. The earlier ChatGPT mockup and original geometry were unavailable, so an exact match to that older version cannot be verified.
+
+**Inhalte bearbeiten:** [Anleitung für Projekte, Bilder, About und Kontakt](docs/CONTENT.md). Editable data lives in `src/data/artworks.js` and `src/data/siteContent.js`. The archive starts empty and contact destinations stay unset until real projects and addresses are supplied.
+
+**Review-Vorschau:** [Interaktive Offline-Vorschau als ZIP](docs/previews/portfolio-preview.zip) herunterladen, entpacken und `h4ngelic-preview.html` im Browser öffnen. Standbilder: [Homepage](docs/previews/homepage.png), [mobil](docs/previews/mobile.png), [Work](docs/previews/work.png), [About](docs/previews/about.png). Diese Dateien sind ein Review-Snapshot des Feature-Branches; eine neue Vorschau lässt sich mit `npm run preview:export` erzeugen.
 
 ## Development
 
@@ -14,15 +18,22 @@ npm run dev -- --port 5173
 Use the existing checkout; cloud tasks are isolated and do not need a separate Git worktree. No credentials, remote APIs or environment variables are required to run the site. All fonts, artwork and rendering assets are hosted locally.
 
 ```sh
-npm test                 # 15 deterministic physics, motion and reveal tests
+npm test                 # Content rendering, physics, motion and reveal tests
 npm run test:browser     # Run with the dev server active; Chromium required
 npm run test:artwork     # Compare the actual reveal on/off at the same 3D pose
+npm run test:portfolio   # Page links, filters, history, horizontal mobile layout
 npm run build
 npm run preview -- --port 4173
 npm run preview:export   # Download/open artifacts/h4ngelic-preview.html offline
 ```
 
 Browser tests default to `/usr/bin/chromium`; override `CHROMIUM_PATH` for another installation. Outside this cloud machine, install Chromium or use Playwright's documented browser installation. `H4_BASE_URL` can change the dev-server test target. Screenshots are saved in ignored `artifacts/`. The production bundle does not expose the `?test=1` development inspection hook.
+
+## Pages and hosting
+
+The site remains a small vanilla-JavaScript/Vite application. Normal anchors navigate to `/work`, `/work?category=tattoos`, `/work?category=jewellery`, `/work?category=paintings`, `/about` and `/#contact`. Refreshing a content route requires the host to serve `index.html` for page paths, while serving existing assets normally. Vite dev/preview provide this HTML fallback. The downloadable offline preview uses hash routes only inside that file; the production website keeps clean URLs.
+
+The Three.js module is loaded only on the homepage, and the hero suspends GPU rendering while scrolled offscreen. Its controls remain anchored inside the hero instead of floating above the new sections. No CMS, backend, database or authentication dependency is needed. The gallery renderer supports multi-image projects, descriptions, years, additional metadata and drafts through the content files; no stock images or fictitious projects are included.
 
 ## Wordmark and interaction
 
@@ -45,4 +56,4 @@ Optional configuration before Vite startup/build:
 - `VITE_REVEAL_ANGLE`: target yaw in degrees (default `150`).
 - `VITE_TATTOO_ARTWORK_URL`: replacement artwork texture URL (default bundled WebP). The offline export embeds the default assets only.
 
-The exact earlier mockup, existing portfolio implementation and link destinations are still unavailable. This feature branch is for review; it does not deploy or merge anything.
+Real contact destinations and portfolio project entries still need to be added to the content files. The artwork supplied for the chrome reflection is not automatically assigned portfolio metadata. This feature branch is for review; it does not deploy or merge anything.
