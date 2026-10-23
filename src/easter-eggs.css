@@ -57,6 +57,7 @@
   width: var(--ink-size);
   height: var(--ink-size);
   color: var(--ink-color-1);
+  fill: currentColor;
   opacity: 0;
   transform: translate(-50%, -50%) rotate(var(--ink-angle));
   pointer-events: none;

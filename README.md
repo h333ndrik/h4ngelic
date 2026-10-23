@@ -28,6 +28,7 @@ npm run test:seo         # Prerendered HTML, metadata, strict HTTP status, robot
 npm run test:motion      # Pinning, reverse/stop poses, native wheel/touch, resize
 npm run test:navigation  # Lazy-import races, one scene, scroll history, fallback
 npm run test:easter      # Ink, hidden hint and consent/storage safeguards
+npm run test:xray        # Actual media pixels/restoration, lite/reduced variants
 npm run images:optimize  # Generate responsive WebP files and image dimensions
 npm run build
 npm run preview -- --port 4173
@@ -63,9 +64,15 @@ Real below-fold images receive an IntersectionObserver mask/rise reveal; keyboar
 
 ## Small footer interactions
 
-Blank clicks/taps leave short-lived organic off-white ink traces; links, controls, dialogs, canvas and scrolling gestures are excluded. Marks are capped and removed automatically. The footer's hidden hint can be discovered with hover, keyboard focus or its accessible touch target. The X-Ray activation behind that control is added in the following phase.
+Blank clicks/taps leave short-lived organic off-white ink traces; links, controls, dialogs, canvas and scrolling gestures are excluded. Marks are capped and removed automatically. The footer's hidden hint can be discovered with hover, keyboard focus or its accessible touch target, which also toggles X-Ray.
 
 Persistent returning-visitor memory is disabled by default. The footer uses the nonpersistent “nice to meet you.” fallback without touching browser storage. Enabling persistence requires both an explicit configuration flag and a valid consent callback. [EASTER-EGGS.md](docs/EASTER-EGGS.md) documents settings, exact visit messages and lifecycle/privacy behavior.
+
+## The other side
+
+Press `4` / Numpad `4` or use the discreet footer control to toggle X-Ray. It solarizes semantic media with non-monotonic channel curves, adds restrained channel separation and a static grain/scratch/chemical-stain layer, and uses protected readable UI colors. It preserves the document and current navigation state, existing canvas physics, original artwork files and custom cursor. Typing, repeated keys and modified shortcuts are ignored. Normal mode restores the original image treatment without accumulating filter nodes.
+
+The bounded 650 ms transition has no steady-state animation loop. Touch/constrained devices use a cheaper image filter and hero treatment; reduced motion switches immediately. Colors, channel curves, grain and transition parameters live in `src/data/xraySettings.js`; [XRAY.md](docs/XRAY.md) explains editing and the missing second reference. No reference image is published as a fabricated artwork entry.
 
 The earlier microinteraction baseline and its reproducible Lighthouse settings are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md). They refer to commit `0a65d3b`, before the master-brief expansion. New performance claims require fresh measurements of the integrated build.
 

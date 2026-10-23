@@ -73,11 +73,14 @@ async function checkInk(page, { touch }) {
     regularShapes: mark.querySelectorAll('circle, ellipse').length,
     pointerEvents: getComputedStyle(mark.closest('.ink-layer')).pointerEvents,
     opacity: Number(getComputedStyle(mark).opacity),
+    color: getComputedStyle(mark).color,
+    fill: getComputedStyle(mark.querySelector('path')).fill,
   }));
   assert.equal(initial.tag, 'svg');
   assert.ok(initial.paths >= 3, 'Ink should have broken pigment fragments, not a generic dot.');
   assert.equal(initial.regularShapes, 0);
   assert.equal(initial.pointerEvents, 'none');
+  assert.equal(initial.fill, initial.color, 'Pigment paths must use their configured off-white ink color.');
   assert.ok(initial.opacity > .1, 'A completed blank click/tap must create a visible imprint.');
   for (let index = 0; index < 14; index++) {
     if (touch) await page.touchscreen.tap(point.x, point.y);

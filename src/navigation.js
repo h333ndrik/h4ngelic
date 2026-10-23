@@ -18,11 +18,12 @@ export function initNavigation({ render }) {
   function update(options) {
     const currentRevision = ++revision;
     transition?.skipTransition();
-    const commit = () => {
+    const commit = async () => {
       if (currentRevision !== revision) return;
       try {
-        render(options);
-        document.dispatchEvent(new CustomEvent('h4:pagechange'));
+        // Include scroll restoration and focus in the new view snapshot.
+        await render(options);
+        if (currentRevision === revision) document.dispatchEvent(new CustomEvent('h4:pagechange'));
       } catch {
         // A normal document navigation remains the fallback for every browser,
         // including reduced motion and browsers without View Transitions.
