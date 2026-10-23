@@ -1,11 +1,11 @@
-/* The original 32 × 48 SVG uses a 615 × 1006 viewBox. Its top tip
-   lands at approximately (11, 1.3), including preserveAspectRatio padding.
+/* The original symbol is displayed 15% smaller at 27.2 × 40.8 px.
+   Its top tip lands near (9.4, 1.1), including aspect-ratio padding.
    A native cursor keeps WebGL picking aligned with the actual pointer. */
 @media (hover: hover) and (pointer: fine) {
   :root,
   body,
   body * {
-    cursor: url('/assets/h4ngelic-cursor.svg') 11 2, auto;
+    cursor: url('/assets/h4ngelic-cursor.svg') 9 2, auto;
   }
 
   a,
@@ -14,7 +14,7 @@
   input,
   select,
   textarea {
-    cursor: url('/assets/h4ngelic-cursor.svg') 11 2, pointer;
+    cursor: url('/assets/h4ngelic-cursor.svg') 9 2, pointer;
   }
 
   [data-controls] button:not(:disabled):hover {

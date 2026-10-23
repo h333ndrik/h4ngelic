@@ -30,7 +30,7 @@ The real Three.js text mesh uses shallow extrusion **0.455**, bevel thickness 0.
 
 The base layer follows a seamless 15-second horizontal figure eight with one Y turn and two X turns. The independent interaction layer adds displacement and quaternion rotation. Cursor hits derive their impulse from pointer velocity and their torque from the hit location. Dragging uses a damped spring with pointer capture; release preserves momentum. After four seconds of inactivity the extra transform returns over about two seconds. Bounds adapt to the displayed mesh's oriented extent.
 
-On touch devices horizontal dragging moves the wordmark; vertical gestures retain normal page scrolling and cancel the grab. Touch-only devices retain the system pointer. The exact supplied SVG cursor is at `public/assets/h4ngelic-cursor.svg`, with native CSS hotspot `(11, 2)`; there is no lagging DOM cursor.
+On touch devices horizontal dragging moves the wordmark; vertical gestures retain normal page scrolling and cancel the grab. Touch-only devices retain the system pointer. The supplied SVG symbol is at `public/assets/h4ngelic-cursor.svg`, displayed 15% smaller at 27.2×40.8 px with native CSS hotspot `(9, 2)`; its original paths and proportions are preserved. There is no lagging DOM cursor.
 
 Reduced-motion preferences start the base animation paused, disable hover impulses and free drift, and still permit direct grabbing. Visitors can explicitly start animation with Play. If WebGL creation fails or its context is lost, a static wordmark replaces the canvas. Render resolution is capped at 2× on desktop and 1.5× on touch devices.
 
