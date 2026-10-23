@@ -1,6 +1,7 @@
 import { siteContent } from './data/siteContent.js';
 import { artworks } from './data/artworks.js';
 import { contentURL, emailURL, escapeHTML as escape } from './content-utils.js';
+import { getImageAsset } from './image-assets.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
 const categoryById = (id) => siteContent.categories.find((category) => category.id === id);
@@ -39,7 +40,7 @@ export function renderHomepageSections() {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title">
     <h2 class="section-label" id="selected-work-title">${escape(siteContent.home.selectedWorkLabel)}</h2>
     <div class="category-strip" role="navigation" aria-label="Selected work categories" tabindex="0">
-      ${siteContent.categories.map((category) => `<a class="category-link" href="/work?category=${encodeURIComponent(category.id)}"><span>${escape(category.label)}</span>${arrow}</a>`).join('')}
+      ${siteContent.categories.map((category) => `<a class="category-link" href="/work?category=${encodeURIComponent(category.id)}"><span class="category-magnet"><span>${escape(category.label)}</span>${arrow}</span></a>`).join('')}
     </div>
   </section>
   <section class="content-section about-preview" aria-labelledby="about-preview-title">
@@ -62,10 +63,12 @@ export function renderHomepageSections() {
 function imageMarkup(image) {
   const source = contentURL(image?.src);
   if (!source) return '';
-  const width = Number.isInteger(image.width) && image.width > 0 ? ` width="${image.width}"` : '';
-  const height = Number.isInteger(image.height) && image.height > 0 ? ` height="${image.height}"` : '';
+  const asset = getImageAsset(image, { sizes: '(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)' });
+  const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
   return `<figure class="project-image">
-    <img src="${escape(source)}" alt="${escape(image.alt || '')}" loading="lazy" decoding="async"${width}${height} />
+    <button class="artwork-open" type="button" data-artwork-open aria-label="open ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
+      <img src="${escape(asset.src || source)}" data-full-src="${escape(asset.fullSrc || source)}" alt="${escape(image.alt || '')}" loading="lazy" decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
+    </button>
     ${image.caption ? `<figcaption>${escape(image.caption)}</figcaption>` : ''}
   </figure>`;
 }
@@ -110,6 +113,8 @@ export function renderWorkPage(category = 'all') {
 export function renderAboutPage() {
   const about = siteContent.about;
   const portraitURL = contentURL(about.portrait?.src);
+  const portrait = portraitURL ? getImageAsset(about.portrait, { sizes: '(max-width: 600px) calc(100vw - 44px), 40vw' }) : null;
+  const portraitResponsive = portrait?.srcset ? ` srcset="${escape(portrait.srcset)}" sizes="${escape(portrait.sizes)}"` : '';
   const references = (about.references || []).map((reference) => {
     const url = contentURL(reference.url);
     return url ? `<li><a class="text-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(reference.title)} ${arrow}</a></li>` : '';
@@ -124,7 +129,7 @@ export function renderAboutPage() {
         ${(about.paragraphs || []).map((paragraph) => `<p class="about-paragraph">${escape(paragraph)}</p>`).join('')}
         <a class="text-link" href="/#contact">get in touch ${arrow}</a>
       </div>
-      ${portraitURL ? `<figure class="about-portrait"><img src="${escape(portraitURL)}" alt="${escape(about.portrait.alt || '')}" decoding="async" /></figure>` : ''}
+      ${portrait ? `<figure class="about-portrait" style="--artwork-ratio: ${portrait.width} / ${portrait.height}"><img src="${escape(portrait.src || portraitURL)}" alt="${escape(about.portrait.alt || '')}" loading="lazy" decoding="async" width="${portrait.width}" height="${portrait.height}"${portraitResponsive} /></figure>` : ''}
     </div>
     ${references ? `<section class="about-references" aria-labelledby="references-title"><h2 class="section-label" id="references-title">references</h2><ul>${references}</ul></section>` : ''}
   </div>

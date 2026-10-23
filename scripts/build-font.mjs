@@ -23,3 +23,7 @@ await writeFile(new URL('../public/fonts/wordmark.typeface.json', import.meta.ur
   boundingBox: { yMin: coordinate(font.tables.head.yMin), yMax: coordinate(font.tables.head.yMax) },
   underlineThickness: 50,
 }));
+const fallbackPath = font.getPath('h4ngelic', 0, 0, 100);
+const box = fallbackPath.getBoundingBox();
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x1} ${box.y1} ${box.x2 - box.x1} ${box.y2 - box.y1}" role="img" aria-label="h4ngelic"><path fill="#dededc" d="${fallbackPath.toPathData(2)}"/></svg>\n`;
+await writeFile(new URL('../public/assets/wordmark-fallback.svg', import.meta.url), svg);

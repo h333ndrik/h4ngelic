@@ -7,10 +7,12 @@ Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Kompo
 | Projekte und Bilder | `src/data/artworks.js` |
 | Kategorien, About-Texte, Kontaktlinks | `src/data/siteContent.js` |
 | Eigene Bilddateien | `public/images/` |
+| Automatisch erzeugte Bildvarianten | `public/images/optimized/` |
+| Automatisch ermittelte Bildgrößen | `src/data/imageManifest.json` — nicht manuell bearbeiten |
 
 ## Ein Tattoo, Schmuckstück oder Gemälde hinzufügen
 
-1. Lege deine Bilddateien unter `public/images/` ab. Den Ordner kannst du beim ersten Projekt anlegen. Verwende kurze Dateinamen ohne Leerzeichen, zum Beispiel `projektname-01.webp`. WebP, JPEG und PNG sind möglich. Exportiere für das Web passende Größen und komprimierte Dateien; große Druckdateien sind unnötig.
+1. Lege deine Bilddateien unter `public/images/` ab. Den Ordner kannst du beim ersten Projekt anlegen. Verwende kurze Dateinamen ohne Leerzeichen, zum Beispiel `projektname-01.webp`. WebP, AVIF, JPEG und PNG sind möglich. Verwende statische Bilder und bewahre deine Druckoriginale separat auf.
 2. Öffne `src/data/artworks.js`. Ersetze die leere Liste `[]` durch deine Einträge. Das folgende Beispiel zeigt die Struktur; es wird erst mit deinen tatsächlichen Bildern und Angaben zum Projekt.
 
 ```js
@@ -42,11 +44,19 @@ export const artworks = [
 ];
 ```
 
-3. Wähle `tattoos`, `jewellery` oder `paintings` als Kategorie. Für Schmuck oder Malerei wird nur dieser Wert geändert; der Aufbau bleibt gleich. Jedes Projekt benötigt eine eigene `id` und mindestens ein vorhandenes Bild. Titel, Jahr, Beschreibung, Bildunterschrift und `details` sind optional. `width` und `height` sollten, falls gesetzt, den tatsächlichen Bildmaßen entsprechen.
-4. Füge weitere Projekte mit Komma getrennt in dieselbe Liste ein. Die Reihenfolge der Einträge ist die Reihenfolge im Archiv. Mit `published: false` bleibt ein Entwurf verborgen. Mehrere Bilder erscheinen gemeinsam innerhalb des Projekts, mit der ersten Aufnahme als großem Hauptbild.
-5. Starte `npm run dev` und prüfe `/work` sowie den jeweiligen Filter. Mit `npm run build` prüfst du den Produktionsbuild. `npm test` prüft Datenanzeige und bestehende Animation; `npm run test:portfolio` prüft die Navigation im Browser bei laufendem Entwicklungsserver.
+3. Wähle `tattoos`, `jewellery` oder `paintings` als Kategorie. Für Schmuck oder Malerei wird nur dieser Wert geändert; der Aufbau bleibt gleich. Jedes Projekt benötigt eine eigene `id` und mindestens ein vorhandenes Bild. Titel, Jahr, Beschreibung, Bildunterschrift und `details` sind optional. Die Bildmaße werden automatisch ermittelt; wenn du `width` und `height` selbst angibst, müssen sie den angezeigten, gegebenenfalls nach EXIF gedrehten Maßen entsprechen.
+4. Füge weitere Projekte mit Komma getrennt in dieselbe Liste ein. Die Reihenfolge der Einträge ist die Reihenfolge im Archiv. Mit `published: false` bleibt ein Entwurf verborgen. Mehrere Bilder erscheinen gemeinsam innerhalb des Projekts, mit der ersten Aufnahme als großem Hauptbild. Ein Klick auf ein Bild öffnet den Viewer; Pfeiltasten wechseln zwischen den Bildern desselben Projekts, Escape schließt ihn.
+5. Starte `npm run dev` und prüfe `/work` sowie den jeweiligen Filter. Der Start erzeugt automatisch passende WebP-Dateien. Wenn der Entwicklungsserver bereits läuft und du Bilder oder Einträge ergänzt, führe `npm run images:optimize` erneut aus oder starte den Server neu. `npm run build` erzeugt die Varianten ebenfalls automatisch und prüft den Produktionsbuild. `npm test` prüft unter anderem Datenanzeige, Bildverarbeitung und Animation; `npm run test:portfolio` und `npm run test:gallery` prüfen Navigation und Viewer bei laufendem Entwicklungsserver.
 
 Solange keine veröffentlichten Einträge mit Bildern vorhanden sind, zeigt das Archiv ausschließlich „archive in progress.“. Das bereits gelieferte Poster bleibt im 3D-Reveal und wird nicht automatisch zum Portfolioeintrag. Du kannst es später bewusst als Projekt mit deinen Angaben aufnehmen.
+
+## Bildgrößen und Ladeverhalten
+
+`npm run images:optimize` liest die tatsächlich verwendeten lokalen Projekt- und Portraitbilder. Es erzeugt WebP-Varianten mit maximal 320, 640, 960, 1440 und 1920 px Breite; kleine Originale werden nicht vergrößert. Die Originaldateien werden nicht überschrieben. Inhaltsabhängige Dateinamen vermeiden veraltete Browser-Caches. Veröffentliche die erzeugten Dateien zusammen mit `src/data/imageManifest.json`; die Manifest-Datei wird vollständig vom Skript verwaltet.
+
+Der Browser wählt per `srcset` eine passende Größe. Nicht kritische Bilder laden verzögert; reservierte Bildmaße verhindern springende Layouts. Im Viewer wird standardmäßig die größte erzeugte Variante geladen. Optional kannst du am Bild `fullSrc: '/images/deine-groessere-webdatei.webp'` angeben: Lokale Dateien werden ebenfalls optimiert und im Viewer als größte WebP-Variante verwendet. Externe `fullSrc`-Adressen bleiben direkt verlinkt und sollten bereits passend komprimiert sein.
+
+Externe Bild-URLs werden nicht heruntergeladen oder optimiert. Gib für sie `width` und `height` an. Ohne bekannte Maße wird ein fester 4:5-Rahmen reserviert. Bevorzuge für zuverlässig schnelle Seiten lokale Dateien. Bei einem leeren Archiv werden keine Beispielbilder erzeugt; die Bildpipeline wird in automatisierten Tests mit einer temporären Datei geprüft.
 
 ## About, Portrait und Referenzen
 
@@ -57,7 +67,7 @@ In `src/data/siteContent.js` stehen unter `about`:
 - `portrait`: zunächst `null`; später zum Beispiel `{ src: '/images/portrait.webp', alt: 'Deine Bildbeschreibung' }`.
 - `references`: zunächst `[]`; später eine Liste aus `{ title: 'Dein Referenztitel', url: 'https://…' }`.
 
-Unter `home.aboutPreview` bearbeitest du den kurzen About-Auszug auf der Startseite. Leere optionale Inhalte erzeugen keine Rahmen oder Bildplatzhalter.
+Unter `home.aboutPreview` bearbeitest du den kurzen About-Auszug auf der Startseite. Leere optionale Inhalte erzeugen keine Rahmen oder Bildplatzhalter. Lokale Portraitbilder nutzen dieselbe automatische WebP-Verarbeitung und Größenreservierung wie Projekte.
 
 ## Kontakt konfigurieren
 

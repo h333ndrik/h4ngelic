@@ -1,11 +1,30 @@
 import './style.css';
 import { siteContent } from './data/siteContent.js';
 import { renderHomepageSections, renderWorkPage, renderAboutPage, renderNotFoundPage } from './pages.js';
+import { initInteractions } from './interactions.js';
+import { initGallery } from './gallery.js';
 
 const hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
 const standalone = document.documentElement.dataset.preview === 'standalone';
 let heroLoaded = false;
+let stopInteractions = () => {};
+let stopGallery = () => {};
+let heroObserver = null;
+
+function prepareHero() {
+  if (heroLoaded) return;
+  heroObserver?.disconnect();
+  heroObserver = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting || heroLoaded || hero.hidden) return;
+    heroLoaded = true;
+    heroObserver.disconnect();
+    import('./main.js').catch((error) => {
+      console.error('Unable to load the interactive wordmark.', error);
+    });
+  });
+  heroObserver.observe(hero);
+}
 
 document.getElementById('page-title').textContent = `${siteContent.name} © ${siteContent.copyrightYear}`;
 document.querySelector('.edition').textContent = siteContent.location;
@@ -34,6 +53,9 @@ function scrollToTarget(url, { reset = false } = {}) {
 }
 
 function render({ reset = false } = {}) {
+  stopInteractions();
+  stopGallery();
+  heroObserver?.disconnect();
   const url = currentURL();
   const path = url.pathname.replace(/\/+$/, '') || '/';
   hero.hidden = path !== '/';
@@ -41,12 +63,7 @@ function render({ reset = false } = {}) {
   if (path === '/') {
     content.innerHTML = renderHomepageSections();
     document.title = siteContent.name;
-    if (!heroLoaded) {
-      heroLoaded = true;
-      import('./main.js').catch((error) => {
-        console.error('Unable to load the interactive wordmark.', error);
-      });
-    }
+    prepareHero();
   } else if (path === '/work') {
     content.innerHTML = renderWorkPage(url.searchParams.get('category'));
     document.title = `work — ${siteContent.name}`;
@@ -57,6 +74,8 @@ function render({ reset = false } = {}) {
     content.innerHTML = renderNotFoundPage();
     document.title = `page not found — ${siteContent.name}`;
   }
+  stopInteractions = initInteractions(content);
+  stopGallery = initGallery(content);
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {

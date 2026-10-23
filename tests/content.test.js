@@ -83,6 +83,21 @@ test('editable project copy is escaped and invalid image URLs cannot render', ()
   assert.match(markup, /one &amp; two/);
 });
 
+test('artwork opening controls preserve image dimensions and lazy loading', () => {
+  const markup = renderProject({ category: 'tattoos', images: [
+    { src: '/images/viewer-fixture.webp', alt: 'a described artwork', width: 1000, height: 1200 },
+  ] });
+  assert.match(markup, /class="artwork-open" type="button" data-artwork-open/);
+  assert.match(markup, /aria-label="open a described artwork"/);
+  assert.match(markup, /--artwork-ratio: 1000 \/ 1200/);
+  assert.match(markup, /width="1000" height="1200"/);
+  assert.match(markup, /data-full-src="\/images\/viewer-fixture.webp"/);
+  assert.match(markup, /loading="lazy" decoding="async"/);
+  const unknownSize = renderProject({ category: 'paintings', images: [{ src: '/images/size-fixture.avif', alt: 'test image' }] });
+  assert.match(unknownSize, /--artwork-ratio: [\d.]+ \/ [\d.]+/);
+  assert.match(unknownSize, /width="[\d.]+" height="[\d.]+"/);
+});
+
 test('about optional content renders only when configured', () => {
   const about = renderAboutPage();
   assert.match(about, /tattooing, jewellery, painting and everything in between\./);

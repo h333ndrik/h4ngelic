@@ -22,6 +22,22 @@
   }
 }
 
+/* Native cursor variants keep tracking tied to the real pointer. Only their
+   viewport size changes; the supplied symbol paths and silhouette are exact. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover,
+  :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover *,
+  canvas.is-hovering {
+    cursor: url('/assets/h4ngelic-cursor-hover.svg') 10 2, pointer;
+  }
+
+  :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active,
+  :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active *,
+  canvas.is-dragging {
+    cursor: url('/assets/h4ngelic-cursor-pressed.svg') 9 2, pointer;
+  }
+}
+
 [data-controls] button:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
