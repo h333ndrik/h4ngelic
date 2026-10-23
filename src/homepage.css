@@ -56,6 +56,7 @@
 .contact-link:not(.is-unconfigured):hover { text-decoration: none; background: #ffffff04; }
 .contact-link:focus-visible { outline-offset: -4px; }
 .hero-nav a { display: inline-flex; align-items: center; gap: 7px; }
+.controls button { text-transform: lowercase; }
 :is(.hero-nav, .page-nav) .category-magnet { gap: 7px; }
 .text-link .category-magnet { gap: 12px; }
 :is(.category-link, .contact-link, .hero-nav a, .page-nav a, .text-link) .arrow {

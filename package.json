@@ -22,6 +22,7 @@
     "test:motion": "node tests/scroll-browser.mjs",
     "test:navigation": "node tests/navigation-browser.mjs",
     "test:easter": "node tests/easter-browser.mjs",
+    "test:xray": "node tests/xray-browser.mjs",
     "measure:performance": "node scripts/measure-performance.mjs"
   },
   "dependencies": {

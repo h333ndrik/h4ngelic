@@ -10,6 +10,7 @@ import { initScrollChoreography } from './scroll-choreography.js';
 import { initNavigation } from './navigation.js';
 import { initEasterEggs } from './easter-eggs.js';
 import { initImageReveals } from './image-reveals.js';
+import { initXRay } from './xray.js';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -59,21 +60,22 @@ function currentURL() {
 }
 
 function scrollToTarget(url, { reset = false, restoreScroll } = {}) {
-  requestAnimationFrame(() => {
-    if (restoreScroll) {
-      scrollTo({ left: restoreScroll[0], top: restoreScroll[1], behavior: 'instant' });
-      if (reset) content.focus({ preventScroll: true });
-    } else if (url.hash) {
-      let id;
-      try { id = decodeURIComponent(url.hash.slice(1)); } catch { return; }
-      const target = document.getElementById(id);
-      target?.scrollIntoView({ behavior: 'instant', block: 'start' });
-      target?.focus({ preventScroll: true });
-    } else if (reset) {
-      scrollTo({ top: 0, behavior: 'instant' });
-      content.focus({ preventScroll: true });
-    }
-  });
+  // View Transition update callbacks suspend animation frames. Apply layout,
+  // scroll and focus together before their new-document snapshot is captured.
+  let target = null;
+  if (url.hash) {
+    try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { /* Ignore malformed fragments. */ }
+  }
+  if (restoreScroll) {
+    scrollTo({ left: restoreScroll[0], top: restoreScroll[1], behavior: 'instant' });
+    if (reset) (target || content).focus({ preventScroll: true });
+  } else if (url.hash) {
+    target?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    target?.focus({ preventScroll: true });
+  } else if (reset) {
+    scrollTo({ top: 0, behavior: 'instant' });
+    content.focus({ preventScroll: true });
+  }
 }
 
 function render({ reset = false, restoreScroll } = {}) {
@@ -102,11 +104,12 @@ function render({ reset = false, restoreScroll } = {}) {
       link.setAttribute('href', `#${link.getAttribute('href')}`);
     }
   }
-  scrollToTarget(url, { reset, restoreScroll });
+  return scrollToTarget(url, { reset, restoreScroll });
 }
 
 render();
 initEasterEggs(document);
+initXRay();
 if (standalone) {
   addEventListener('hashchange', () => {
     render({ reset: true });

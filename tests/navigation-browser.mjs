@@ -18,7 +18,20 @@ async function context(options = {}) {
   const result = await browser.newContext({ viewport: { width: 1000, height: 760 }, deviceScaleFactor: 1, ...options });
   await result.addInitScript(() => {
     const canvases = new WeakSet();
-    window.__navigationProbe = { documentToken: `${performance.timeOrigin}:${Math.random()}`, contexts: 0, draws: 0 };
+    window.__navigationProbe = { documentToken: `${performance.timeOrigin}:${Math.random()}`, contexts: 0, draws: 0, transitionCommits: [] };
+    if (typeof document.startViewTransition === 'function') {
+      const startViewTransition = document.startViewTransition.bind(document);
+      document.startViewTransition = (update) => startViewTransition(async () => {
+        await update();
+        // The browser may take its new-page snapshot after this callback
+        // resolves. Observe that boundary, rather than a later settled frame.
+        window.__navigationProbe.transitionCommits.push({
+          path: `${location.pathname}${location.hash}`,
+          scroll: [scrollX, scrollY],
+          focus: document.activeElement?.id || '',
+        });
+      });
+    }
     const getContext = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (type, ...args) {
       const value = getContext.call(this, type, ...args);
@@ -78,6 +91,25 @@ async function assertScenePaused(page) {
 
 async function assertSameDocument(page, token) {
   assert.equal((await probe(page)).documentToken, token, 'Enhanced navigation must retain the same document.');
+}
+
+async function assertTransitionCommit(page, path, top, focus) {
+  const supported = await page.evaluate(() => typeof document.startViewTransition === 'function');
+  if (!supported) return;
+  await page.waitForFunction((value) => window.__navigationProbe.transitionCommits.at(-1)?.path === value, path);
+  const snapshot = await page.evaluate(() => window.__navigationProbe.transitionCommits.at(-1));
+  assert.ok(Math.abs(snapshot.scroll[1] - top) < 2, `The View Transition update for ${path} must restore scroll before its new-page snapshot: ${JSON.stringify(snapshot)}`);
+  assert.equal(snapshot.focus, focus, `The View Transition update for ${path} must transfer focus before its new-page snapshot.`);
+}
+
+async function assertContactReadable(page) {
+  assert.equal(await page.locator('#contact').evaluate((element) => element === document.activeElement), true, 'Returning to a Contact hash history entry must focus its section without changing the saved scroll position.');
+  const states = await page.locator('#contact .kinetic-item').evaluateAll((items) => items.map((item) => {
+    const style = getComputedStyle(item);
+    return { x: new DOMMatrixReadOnly(style.transform).m41, opacity: Number(style.opacity) };
+  }));
+  assert.equal(states.length, 3);
+  assert.ok(states.every(({ x, opacity }) => Math.abs(x) < .1 && opacity > .99), `All Contact labels must be readable immediately after history restoration: ${JSON.stringify(states)}`);
 }
 
 async function readyHero(page) {
@@ -192,6 +224,7 @@ try {
       await page.waitForFunction(() => scrollY < 2);
       await finishedTransition(page);
       assert.equal(await page.locator('#page-content').evaluate((element) => element === document.activeElement), true, 'Page navigation must move keyboard focus into new content.');
+      await assertTransitionCommit(page, path, 0, 'page-content');
     }
     await scroll(340);
     await activate('/about', 'about');
@@ -207,9 +240,35 @@ try {
       await page.waitForFunction((value) => Math.abs(scrollY - value) < 2, top);
       await finishedTransition(page);
       await assertSameDocument(page, token);
+      await assertTransitionCommit(page, path, top, 'page-content');
     }
+
+    // Contact is readable through a focus override even at the beginning of
+    // its scroll timeline. Returning through history must retain that focus,
+    // rather than restoring the position with all three labels offscreen.
+    await page.locator('.page-nav a[href="/#contact"]').evaluate((link) => link.click());
+    await pageKind(page, 'home', '/#contact');
+    await finishedTransition(page);
+    await assertContactReadable(page);
+    const contactStart = await page.evaluate(() => scrollY);
+    await assertTransitionCommit(page, '/#contact', contactStart, 'contact');
+    await scroll(contactStart + 80);
+    const contactSaved = await page.evaluate(() => scrollY);
+    await page.goBack();
+    await pageKind(page, 'work', '/work');
+    await page.waitForFunction(() => Math.abs(scrollY - 930) < 2);
+    await finishedTransition(page);
+    await assertSameDocument(page, token);
+    await assertTransitionCommit(page, '/work', 930, 'page-content');
+    await page.goForward();
+    await pageKind(page, 'home', '/#contact');
+    await page.waitForFunction((top) => Math.abs(scrollY - top) < 2, contactSaved);
+    await finishedTransition(page);
+    await assertSameDocument(page, token);
+    await assertContactReadable(page);
+    await assertTransitionCommit(page, '/#contact', contactSaved, 'contact');
     assert.deepEqual(errors, []);
-    console.log('PASS navigation history: backward and forward entries restore separate scroll positions and ordinary navigation transfers focus.');
+    console.log('PASS navigation history: distinct scroll positions, Contact focus/readability on Back/Forward and restoration before View Transition snapshots.');
   } finally { await historyContext.close(); }
 
   // Feature detection must preserve real URL navigation on a small viewport.

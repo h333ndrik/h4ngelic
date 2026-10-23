@@ -86,3 +86,5 @@ Die vorhandene Produktions-Crawlerpolitik wird erhalten: Wenn `public/robots.txt
 4. Indexabdeckung, ausgeschlossene Seiten, Canonical-Auswahl und Crawlfehler beobachten. Nach dem Hinzufügen realer Projekte neu bauen und deren Sitemap-/Metadateneinträge prüfen.
 
 Lokale Tests prüfen technische Voraussetzungen. Sie bestätigen weder eine tatsächliche Veröffentlichung noch Suchmaschinenindexierung.
+
+Die vorhandenen Live-Header und die Live-`robots.txt` von `https://h4ngelic.com` konnten am 23. Oktober 2026 aus dieser Cloud-Umgebung nicht gelesen werden: Der ausgehende CONNECT-Proxy antwortete bereits vor dem Zugriff auf die Domain mit 403. Das ist keine Aussage über einen HTTP-Status der Website. Aktuelle Hosting-/WAF-Regeln, Trainingscrawler-Regeln außerhalb des Repositories und der tatsächliche Indexstatus müssen daher bei der späteren freigegebenen Veröffentlichung geprüft werden. Es wurden keine Zugriffsregeln umgangen oder Hosting-Einstellungen verändert.

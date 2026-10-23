@@ -12,6 +12,7 @@ Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Kompo
 | Seitentitel, Beschreibungen, Domain und Indexierung | `src/data/seoContent.js` |
 | Scroll-Distanzen, Staffelung und Überschwinger | `src/data/motionSettings.js` — Anleitung in [MOTION.md](MOTION.md) |
 | Tintenabdrücke, Footer-Hinweis und optionale Besuchszählung | `src/data/easterSettings.js` — Anleitung in [EASTER-EGGS.md](EASTER-EGGS.md) |
+| X-Ray-Farben, Solarisation, Körnung und Umschaltung | `src/data/xraySettings.js` — Anleitung in [XRAY.md](XRAY.md) |
 
 ## Ein Tattoo, Schmuckstück oder Gemälde hinzufügen
 
