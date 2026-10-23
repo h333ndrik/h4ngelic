@@ -6,6 +6,7 @@
   "scripts": {
     "images:optimize": "node scripts/optimize-images.mjs",
     "assets:hero": "node scripts/build-font.mjs && node scripts/prepare-hero-assets.mjs",
+    "assets:xray": "node scripts/prepare-xray-texture.mjs",
     "predev": "npm run images:optimize",
     "dev": "vite --host 0.0.0.0",
     "prebuild": "npm run images:optimize",
@@ -23,7 +24,9 @@
     "test:navigation": "node tests/navigation-browser.mjs",
     "test:easter": "node tests/easter-browser.mjs",
     "test:xray": "node tests/xray-browser.mjs",
-    "measure:performance": "node scripts/measure-performance.mjs"
+    "test:master": "node tests/master-browser.mjs",
+    "measure:performance": "node scripts/measure-performance.mjs",
+    "measure:xray": "node scripts/measure-xray.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

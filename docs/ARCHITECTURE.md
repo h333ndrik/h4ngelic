@@ -15,6 +15,7 @@ Die bestehende Website bleibt Vite + JavaScript + CSS + Three.js. Ein kleiner Bu
 | `src/image-reveals.js` | Sichtbarkeitsgesteuerte Masken für vorhandene, nicht kritische Bilder |
 | `src/footer.js`, `src/easter-eggs.js` | Semantischer Footer, kurzlebige Tinte und standardmäßig nicht persistente Besuchsanzeige |
 | `src/xray.js`, `src/data/xraySettings.js` | Dokumentweiter Modus, wiederverwendbare Medienfilter und editierbare visuelle Parameter |
+| `src/wordmark-xray.js` | Farbkurven ausschließlich auf den Fragmenten des Wordmarks; Normalzweig unverändert, keine zusätzliche Rendering-Schleife |
 | `scripts/prerender.mjs` | Vollständige statische Dokumente, 404, Sitemap, Robots und Routenmanifest |
 | `scripts/serve-preview.mjs` | Lokale Prüfung echter Statuscodes, Canonical-Redirects und komprimierter Dateien |
 | `vite.config.js` | Gemeinsame öffentliche SEO-Buildkonfiguration und Entwicklungs-Redirects/404 |

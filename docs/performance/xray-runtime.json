@@ -1,0 +1,108 @@
+{
+  "baseURL": "http://127.0.0.1:4202",
+  "measuredAt": "2026-10-23T19:26:41.727Z",
+  "browser": "154.0.8037.57",
+  "renderer": "SwiftShader",
+  "deviceScaleFactor": 1,
+  "observationMs": 3000,
+  "sequence": "normal → xray → normal; three seconds after each settled mode",
+  "caveats": "Single software-GPU observation per profile; resource hints overridden for coverage. No physical-device FPS, INP or statistical performance claim.",
+  "results": [
+    {
+      "profile": "1440px-desktop-full",
+      "xrayQuality": "full",
+      "samples": [
+        {
+          "mode": "normal",
+          "transitionMs": 0,
+          "elapsedMs": 3110.89999999851,
+          "webglClearCalls": 23,
+          "frameIntervalMedianMs": 133.19999999999982,
+          "frameIntervalP95Ms": 250,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "taskDurationMs": 61.515,
+          "scriptDurationMs": 13.423,
+          "layoutDurationMs": 0
+        },
+        {
+          "mode": "xray",
+          "transitionMs": 809.8999999985099,
+          "elapsedMs": 3153.2000000029802,
+          "webglClearCalls": 17,
+          "frameIntervalMedianMs": 166.70000000000073,
+          "frameIntervalP95Ms": 350.0000000000009,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "taskDurationMs": 41.14500000000002,
+          "scriptDurationMs": 12.485999999999997,
+          "layoutDurationMs": 0.358
+        },
+        {
+          "mode": "normal",
+          "transitionMs": 696,
+          "elapsedMs": 3087.5,
+          "webglClearCalls": 21,
+          "frameIntervalMedianMs": 149.89999999999964,
+          "frameIntervalP95Ms": 283.2999999999993,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "taskDurationMs": 66.70800000000001,
+          "scriptDurationMs": 10.917999999999997,
+          "layoutDurationMs": 0
+        }
+      ]
+    },
+    {
+      "profile": "390px-touch-lite",
+      "xrayQuality": "lite",
+      "samples": [
+        {
+          "mode": "normal",
+          "transitionMs": 0,
+          "elapsedMs": 3028.2999999970198,
+          "webglClearCalls": 68,
+          "frameIntervalMedianMs": 49.899999999999636,
+          "frameIntervalP95Ms": 66.70000000000027,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "taskDurationMs": 94.42500000000001,
+          "scriptDurationMs": 35.436,
+          "layoutDurationMs": 0
+        },
+        {
+          "mode": "xray",
+          "transitionMs": 1.7999999970197678,
+          "elapsedMs": 3010.300000000745,
+          "webglClearCalls": 68,
+          "frameIntervalMedianMs": 49.900000000000546,
+          "frameIntervalP95Ms": 83.30000000000018,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "taskDurationMs": 138.039,
+          "scriptDurationMs": 28.672000000000004,
+          "layoutDurationMs": 0.554
+        },
+        {
+          "mode": "normal",
+          "transitionMs": 0.5999999977648258,
+          "elapsedMs": 3028.800000000745,
+          "webglClearCalls": 76,
+          "frameIntervalMedianMs": 33.399999999999636,
+          "frameIntervalP95Ms": 66.70000000000073,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "taskDurationMs": 117.866,
+          "scriptDurationMs": 29.392000000000003,
+          "layoutDurationMs": 0.45699999999999996
+        }
+      ]
+    }
+  ]
+}

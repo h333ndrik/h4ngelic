@@ -13,15 +13,15 @@ html[data-mode='xray'] {
 }
 
 /* The treatment belongs to media, never the document or its semantic text. */
-html:is([data-mode='xray'], [data-xray-transition]) :is(.project-image img, .artwork-viewer-image, .about-portrait img),
-html:is([data-mode='xray'], [data-xray-transition]) :is(#logo-canvas, .fallback) {
+html:is([data-mode='xray'], [data-xray-transition]) :is(.project-image img, .artwork-viewer-image, .about-portrait img, .fallback) {
   filter: url('#h4-xray-treatment');
 }
 html[data-xray-quality='lite']:is([data-mode='xray'], [data-xray-transition]) :is(.project-image img, .artwork-viewer-image, .about-portrait img) {
   filter: url('#h4-xray-lite');
 }
-/* Keep an animated mobile WebGL surface out of the multi-pass SVG pipeline. */
-html[data-xray-quality='lite'][data-mode='xray'] :is(#logo-canvas, .fallback) {
+/* Animated WebGL handles color within its existing material shader. Keep
+   full-viewport compositing filters away from that continuously changing surface. */
+html[data-xray-quality='lite'][data-mode='xray'] .fallback {
   filter: invert(.84) sepia(.62) saturate(3.2) hue-rotate(218deg) contrast(1.2);
 }
 
@@ -32,10 +32,11 @@ html[data-xray-quality='lite'][data-mode='xray'] :is(#logo-canvas, .fallback) {
   pointer-events: none;
   user-select: none;
   background-position: center;
-  background-size: 900px 1100px;
+  background-size: cover;
+  background-repeat: no-repeat;
   opacity: 0;
   visibility: hidden;
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
   transition: opacity var(--xray-duration, 650ms) ease, visibility 0s var(--xray-duration, 650ms);
 }
 html[data-mode='xray'] .xray-distress { opacity: var(--xray-grain, .24); visibility: visible; transition-delay: 0s; }

@@ -39,6 +39,7 @@ async function displayed(page, number) {
     const image = dialog?.querySelector('.artwork-viewer-image');
     return dialog?.open && image?.complete && image.naturalWidth > 0
       && dialog.querySelector('.artwork-viewer-count').textContent === `${index} / 2`
+      && dialog.querySelector('.artwork-viewer-status').textContent === `image ${index} of 2`
       && !dialog.querySelector('.artwork-viewer-stage').classList.contains('is-switching');
   }, number);
 }

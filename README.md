@@ -4,7 +4,7 @@ Artist website with an interactive chrome wordmark, a horizontal typographic cat
 
 **Inhalte bearbeiten:** [Anleitung für Projekte, Bilder, About und Kontakt](docs/CONTENT.md). Editable data lives in `src/data/artworks.js` and `src/data/siteContent.js`. The archive starts empty and contact destinations stay unset until real projects and addresses are supplied.
 
-**Review-Vorschau:** [Interaktive Offline-Vorschau als ZIP](docs/previews/portfolio-preview.zip) herunterladen, entpacken und `h4ngelic-preview.html` im Browser öffnen. Standbilder: [Homepage](docs/previews/homepage.png), [mobil](docs/previews/mobile.png), [Work](docs/previews/work.png), [About](docs/previews/about.png). Diese Dateien sind ein Review-Snapshot des Feature-Branches; eine neue Vorschau lässt sich mit `npm run preview:export` erzeugen.
+**Review-Vorschau:** [Interaktive Offline-Vorschau als ZIP](docs/previews/portfolio-preview.zip) herunterladen, entpacken und `h4ngelic-preview.html` im Browser öffnen. Standbilder: [Homepage](docs/previews/homepage.png), [mobil](docs/previews/mobile.png), [Work](docs/previews/work.png), [About](docs/previews/about.png), [the other side](docs/previews/homepage-xray.png), [mobil alternativ](docs/previews/mobile-xray.png). Diese Dateien sind ein Review-Snapshot des Feature-Branches; eine neue Vorschau lässt sich mit `npm run preview:export` erzeugen.
 
 ## Development
 
@@ -29,14 +29,16 @@ npm run test:motion      # Pinning, reverse/stop poses, native wheel/touch, resi
 npm run test:navigation  # Lazy-import races, one scene, scroll history, fallback
 npm run test:easter      # Ink, hidden hint and consent/storage safeguards
 npm run test:xray        # Actual media pixels/restoration, lite/reduced variants
+npm run test:master      # Full combined motion/navigation/fixture/media checks
 npm run images:optimize  # Generate responsive WebP files and image dimensions
 npm run build
 npm run preview -- --port 4173
 npm run measure:performance -- --base-url http://127.0.0.1:4173 --label local
+npm run measure:xray     # Runtime observation; set H4_BASE_URL to built preview
 npm run preview:export   # Download/open artifacts/h4ngelic-preview.html offline
 ```
 
-Browser tests default to `/usr/bin/chromium`; override `CHROMIUM_PATH` for another installation. Outside this cloud machine, install Chromium or use Playwright's documented browser installation. `H4_BASE_URL` can change the dev-server test target. Screenshots are saved in ignored `artifacts/`. The production bundle does not expose the `?test=1` development inspection hook.
+Browser tests default to `/usr/bin/chromium`; override `CHROMIUM_PATH` for another installation. Outside this cloud machine, install Chromium or use Playwright's documented browser installation. `H4_BASE_URL` can change the dev-server test target. SEO checks use `H4_PREVIEW_URL` and require the built strict preview server; add `H4_EXPECT_DEPLOYMENT=production` only for an explicitly built production configuration. Screenshots are saved in ignored `artifacts/`. The production bundle does not expose the `?test=1` development inspection hook.
 
 ## Pages and hosting
 
@@ -64,17 +66,17 @@ Real below-fold images receive an IntersectionObserver mask/rise reveal; keyboar
 
 ## Small footer interactions
 
-Blank clicks/taps leave short-lived organic off-white ink traces; links, controls, dialogs, canvas and scrolling gestures are excluded. Marks are capped and removed automatically. The footer's hidden hint can be discovered with hover, keyboard focus or its accessible touch target, which also toggles X-Ray.
+Blank clicks/taps leave short-lived organic off-white ink traces; links, controls, dialogs, canvas and scrolling gestures are excluded. Marks are capped and removed automatically. The footer's hidden hint can be discovered with hover, keyboard focus or its accessible touch target, which also toggles The Other Side.
 
 Persistent returning-visitor memory is disabled by default. The footer uses the nonpersistent “nice to meet you.” fallback without touching browser storage. Enabling persistence requires both an explicit configuration flag and a valid consent callback. [EASTER-EGGS.md](docs/EASTER-EGGS.md) documents settings, exact visit messages and lifecycle/privacy behavior.
 
 ## The other side
 
-Press `4` / Numpad `4` or use the discreet footer control to toggle X-Ray. It solarizes semantic media with non-monotonic channel curves, adds restrained channel separation and a static grain/scratch/chemical-stain layer, and uses protected readable UI colors. It preserves the document and current navigation state, existing canvas physics, original artwork files and custom cursor. Typing, repeated keys and modified shortcuts are ignored. Normal mode restores the original image treatment without accumulating filter nodes.
+Press `4` / Numpad `4` or use the discreet footer control to toggle The Other Side. It solarizes semantic media with non-monotonic channel curves, adds restrained channel separation and a static grain/scratch/chemical-stain layer, and uses protected readable UI colors. It preserves the document and current navigation state, existing canvas physics, original artwork files and custom cursor. Typing, repeated keys and modified shortcuts are ignored. Normal mode restores the original image treatment without accumulating filter nodes.
 
-The bounded 650 ms transition has no steady-state animation loop. Touch/constrained devices use a cheaper image filter and hero treatment; reduced motion switches immediately. Colors, channel curves, grain and transition parameters live in `src/data/xraySettings.js`; [XRAY.md](docs/XRAY.md) explains editing and the missing second reference. No reference image is published as a fabricated artwork entry.
+The bounded 650 ms media/UI transition has no steady-state animation loop. The wordmark applies its alternate color curves directly in the existing material shader, avoiding a filter over the full animated canvas. Normal mode skips that color processing completely. Touch/constrained devices use a cheaper photo filter; reduced motion switches immediately. Colors, channel curves, grain and transition parameters live in `src/data/xraySettings.js`; [XRAY.md](docs/XRAY.md) explains editing and the missing second reference. No reference image is published as a fabricated artwork entry.
 
-The earlier microinteraction baseline and its reproducible Lighthouse settings are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md). They refer to commit `0a65d3b`, before the master-brief expansion. New performance claims require fresh measurements of the integrated build.
+The final implementation, verified checks and remaining release requirements are in [FINAL-REPORT.md](docs/FINAL-REPORT.md). Fresh loading/runtime measurements against `0a65d3b` are in [MASTER-PERFORMANCE.md](docs/MASTER-PERFORMANCE.md): mobile Lighthouse medians are 71 for Home and 100 for Work. These are software-GPU lab results, not physical-device FPS or field Core Web Vitals. The earlier microinteraction audit remains in [PERFORMANCE.md](docs/PERFORMANCE.md).
 
 ## Wordmark and interaction
 

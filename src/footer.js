@@ -19,7 +19,7 @@ export function renderFooter({ home = false } = {}) {
       <span data-visit-message>${escape(visitorMessage(1))}</span>
       ${easterSettings.visits.showNumber ? '<span class="footer-visit-number" data-visit-number>visit 001</span>' : ''}
     </div>
-    <button class="footer-secret" type="button" data-xray-toggle aria-label="toggle x-ray mode (4)" aria-pressed="false" aria-keyshortcuts="4">
+    <button class="footer-secret" type="button" data-xray-toggle aria-label="toggle the other side (4)" aria-pressed="false" aria-keyshortcuts="4">
       <span data-xray-hint><span data-xray-hint-text>PRESS 4 TO SEE THE OTHER SIDE.</span></span>
     </button>
     <span class="sr-only" data-mode-status role="status" aria-live="polite"></span>

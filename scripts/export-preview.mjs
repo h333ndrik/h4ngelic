@@ -30,6 +30,7 @@ const assets = new Map([
   ['/assets/h4ngelic-cursor-hover.svg', await dataURL('public/assets/h4ngelic-cursor-hover.svg', 'image/svg+xml')],
   ['/assets/h4ngelic-cursor-pressed.svg', await dataURL('public/assets/h4ngelic-cursor-pressed.svg', 'image/svg+xml')],
   ['/assets/wordmark-fallback.svg', await dataURL('public/assets/wordmark-fallback.svg', 'image/svg+xml')],
+  ['/assets/xray-distress.webp', await dataURL('public/assets/xray-distress.webp', 'image/webp')],
 ]);
 const portfolioImages = artworks.filter((project) => project.published !== false)
   .flatMap((project) => project.images || []).flatMap((image) => [image.src, image.fullSrc]);

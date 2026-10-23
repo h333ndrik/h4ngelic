@@ -39,7 +39,7 @@ test('keyboard shortcut supports both 4 keys while preserving typing, repeats an
   assert.equal(isXRayShortcut({ ...event, composedPath: () => [{}, { isContentEditable: true }] }), false, 'A shadow-DOM editor must retain its typing keys.');
 });
 
-test('X-Ray quality fallback follows device and connection hints', () => {
+test('The Other Side quality fallback follows device and connection hints', () => {
   assert.equal(chooseXRayQuality({}), 'full');
   assert.equal(chooseXRayQuality({ coarsePointer: true, memory: 8, cores: 8 }), 'lite');
   assert.equal(chooseXRayQuality({ memory: 4, cores: 12 }), 'lite');

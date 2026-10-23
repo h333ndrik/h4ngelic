@@ -67,17 +67,22 @@ async function settled(page, mode) {
   await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 }
 
-async function pixelDifference(before, after) {
+async function pixelDifference(before, after, { foregroundOnly = false } = {}) {
   const [original, changed] = await Promise.all([before, after].map((bytes) => sharp(bytes).ensureAlpha().raw().toBuffer()));
   assert.equal(original.length, changed.length, 'The treatment must preserve image dimensions.');
   let pixelsChanged = 0;
   let totalDelta = 0;
+  let pixels = 0;
   for (let index = 0; index < original.length; index += 4) {
+    // The hero background changes too. Exclude its original charcoal pixels
+    // when checking that the actual wordmark, rather than only the studio, changes.
+    if (foregroundOnly && Math.abs(original[index] - 48) + Math.abs(original[index + 1] - 48) + Math.abs(original[index + 2] - 51) < 12) continue;
+    pixels++;
     const delta = Math.abs(original[index] - changed[index]) + Math.abs(original[index + 1] - changed[index + 1]) + Math.abs(original[index + 2] - changed[index + 2]);
     if (delta > 18) pixelsChanged++;
     totalDelta += delta;
   }
-  return { pixelsChanged, pixels: original.length / 4, fraction: pixelsChanged / (original.length / 4), meanChannelDelta: totalDelta / (original.length / 4 * 3) };
+  return { pixelsChanged, pixels, fraction: pixelsChanged / pixels, meanChannelDelta: totalDelta / (pixels * 3) };
 }
 
 try {
@@ -86,6 +91,8 @@ try {
   assert.equal(await full.page.locator('html').getAttribute('data-xray-quality'), 'full');
   await full.page.keyboard.press('4');
   await settled(full.page, 'xray');
+  assert.equal(await full.page.locator('[data-xray-toggle]').getAttribute('aria-label'), 'toggle the other side (4)');
+  assert.match(await full.page.locator('[data-mode-status]').textContent(), /^the other side is on\./);
   assert.match(await full.media.evaluate((element) => getComputedStyle(element).filter), /h4-xray-treatment/);
   const transformed = await full.media.screenshot();
   const fullPixels = await pixelDifference(before, transformed);
@@ -108,7 +115,7 @@ try {
   assert.equal((await pixelDifference(before, await full.media.screenshot())).pixelsChanged, 0, 'Interrupted toggles must not accumulate residual filters.');
   assert.deepEqual(full.errors, []);
   await full.context.close();
-  console.log('PASS X-Ray full pipeline: real rendered pixel changes, exact normal restoration, numpad and interrupted-toggle reuse.', fullPixels);
+  console.log('PASS The Other Side full pipeline: real rendered pixel changes, exact normal restoration, numpad and interrupted-toggle reuse.', fullPixels);
 
   const lite = await open({ lite: true });
   const liteBefore = await lite.media.screenshot();
@@ -124,7 +131,7 @@ try {
   assert.equal((await pixelDifference(liteBefore, await lite.media.screenshot())).pixelsChanged, 0);
   assert.deepEqual(lite.errors, []);
   await lite.context.close();
-  console.log('PASS X-Ray touch/lite pipeline: actual photograph treatment, cheap hero filter and exact restoration.', litePixels);
+  console.log('PASS The Other Side touch/lite pipeline: actual photograph treatment, no multipass canvas filter and exact restoration.', litePixels);
 
   const reduced = await open({ reduced: true });
   const reducedBefore = await reduced.media.screenshot();
@@ -137,7 +144,33 @@ try {
   assert.equal((await pixelDifference(reducedBefore, await reduced.media.screenshot())).pixelsChanged, 0);
   assert.deepEqual(reduced.errors, []);
   await reduced.context.close();
-  console.log('PASS X-Ray reduced motion: immediate treatment and clean restoration.');
+  console.log('PASS The Other Side reduced motion: immediate treatment and clean restoration.');
+
+  // Exercise the real WebGL material as well as semantic image fixtures. The
+  // paused reduced-motion pose lets us verify original pixels after exit.
+  const heroContext = await browser.newContext({ viewport: { width: 1000, height: 760 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+  try {
+    const page = await heroContext.newPage();
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto(new URL('/', baseURL).href, { waitUntil: 'networkidle' });
+    await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
+    const canvas = page.locator('#logo-canvas');
+    const original = await canvas.screenshot();
+    await page.keyboard.press('4');
+    await settled(page, 'xray');
+    assert.equal(await canvas.evaluate((element) => getComputedStyle(element).filter), 'none', 'The animated canvas must not use a full-viewport compositor filter.');
+    const changed = await canvas.screenshot();
+    const difference = await pixelDifference(original, changed, { foregroundOnly: true });
+    assert.ok(difference.fraction > .15 && difference.meanChannelDelta > 8, 'The real hero must visibly change in the alternate mode.');
+    await page.keyboard.press('4');
+    await settled(page, 'normal');
+    assert.equal((await pixelDifference(original, await canvas.screenshot())).pixelsChanged, 0, 'Normal restores the original WebGL pixels exactly.');
+    assert.deepEqual(errors, []);
+    await writeFile(new URL('hero-normal.png', artifacts), original);
+    await writeFile(new URL('hero-xray.png', artifacts), changed);
+    console.log('PASS The Other Side real WebGL hero: material processing without a canvas filter and exact original pixel restoration.', difference);
+  } finally { await heroContext.close(); }
 } finally {
   await browser.close();
 }

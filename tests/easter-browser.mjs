@@ -177,7 +177,7 @@ async function checkHint(page, { hover }) {
   const box = await button.boundingBox();
   assert.ok(box.width >= 44 && box.height >= 44, 'The discreet control must retain an accessible touch target.');
   assert.ok(box.x >= 0 && box.x + box.width <= (await page.viewportSize()).width + 1, 'The footer control must fit the viewport.');
-  assert.match(await button.getAttribute('aria-label'), /toggle x-ray mode/);
+  assert.match(await button.getAttribute('aria-label'), /toggle the other side/);
 }
 
 async function checkIsolatedConsentGate(page) {

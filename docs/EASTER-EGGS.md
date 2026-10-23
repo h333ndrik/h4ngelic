@@ -8,7 +8,7 @@ Clicking or tapping a noninteractive area leaves a small irregular off-white pig
 
 The default cap is 12 marks. Each lives for 2.4–3.5 seconds, then its element, animation listener and fallback timer are removed. The fixed, clipped, `pointer-events: none` effect layer does not enlarge the document or intercept input. It has no animation frame loop. The traces are tiny SVG interface shapes, not additional artwork or portfolio entries.
 
-X-Ray mode changes the existing marks through the `--ink-color-1` to `--ink-color-4` variables. Reduced motion disables the spreading transform. Route changes, document hiding, preference changes and disposal clear active marks. Add `data-no-ink` to a future interactive region if its semantics are not already covered by the exclusion selector.
+The Other Side mode changes the existing marks through the `--ink-color-1` to `--ink-color-4` variables. Reduced motion disables the spreading transform. Route changes, document hiding, preference changes and disposal clear active marks. Add `data-no-ink` to a future interactive region if its semantics are not already covered by the exclusion selector.
 
 ## A discreet footer hint
 
@@ -41,7 +41,7 @@ Exact messages are configured as: “nice to meet you.”, “you came back.”,
 - Render `renderFooter({ home: true })` on Home or `renderFooter()` elsewhere.
 - Call `initEasterEggs(document)` once after the initial content is available; dispose it before replacing the application lifecycle.
 - Dispatch `h4:pagechange` on `document` after a client-side/offline route change.
-- X-Ray dispatches `new CustomEvent('h4:modechange', { detail: { mode: 'xray' } })` on `document`; normal mode uses `mode: 'normal'`.
+- The Other Side dispatches `new CustomEvent('h4:modechange', { detail: { mode: 'xray' } })` on `document`; normal mode uses `mode: 'normal'`.
 - `data-ink-mark`, `data-visit-message`, `data-visit-number`, `data-xray-toggle`, `data-xray-hint`, `data-xray-hint-text` and `data-mode-status` are stable integration/test hooks.
 
 Pure visit-counting, privacy-gate and footer-rendering checks run with `node --test tests/easter-eggs.test.js`. With the development server running, `npm run test:easter` checks actual ink/cleanup, control exclusions, hover/keyboard hint behavior, touch scrolling, default zero-storage access and an isolated consent gate at 1440/390/320px. Its consent fixture uses an in-memory fake store; it writes no personal visitor data.
