@@ -1,5 +1,7 @@
 # Control vs. Corruption — 24. Oktober 2026
 
+**Aktueller Nachtrag:** [Ladeoptimierung und neue Messungen](LOADING-REFINEMENT.md). Die erste Abnahme unten bleibt als Vergleich erhalten; Start-Bundle und ZIP-Daten sind aktualisiert.
+
 Stand: 24. Oktober 2026, Europe/Berlin. Feature-Branch `feat/control-corruption`, aufbauend auf PR #10 / `40e15d1`. Die neueste Anweisung aktiviert The Other Side und erweitert die bestehende Website; die vorherige Entscheidung „vorbereiten, deaktiviert lassen“ ist damit abgelöst. Frühere Messungen und Freigabestände bleiben in ihren historischen Berichten erhalten.
 
 ## Umgesetzte Funktionen
@@ -73,7 +75,7 @@ Die kalte erste Aktivierung lädt den vorher nicht angefragten Wordmark-Hook und
 
 `npm run preview:export` und der separate explizite Production-Build sind erfolgreich. Beide prerendern sechs Dokumentrouten plus eine echte 404-Seite. Preview: null indexierbare Routen; Production-Konfiguration: Homepage und About indexierbar, leere Archive weiterhin `noindex`. Beide strikten HTTP-/No-JS-SEO-Prüfungen bestätigen Canonicals auf `https://h4ngelic.com`, Metadaten, Redirects, Statuscodes, Sitemap und Robots. Der Production-Build liegt ausschließlich lokal in `/tmp/h4-control-production`; dies ist keine Veröffentlichung.
 
-Der reguläre Build behält getrennte Chunks: Einstieg **60,35kB / 20,46kB gzip**, bedarfsgeladener Hero **597,86kB / 153,55kB gzip**, erst bei Entdeckung geladene Korruption **10,84kB / 4,51kB gzip**. Die bestehende >500kB-Three.js-Warnung bleibt; Innenrouten fragen den Hero nicht an. Nur der Offline-Export kombiniert aus technischen Gründen alle Module (689,44kB JavaScript vor Einbettung der lokalen Assets). Keine neuen Abhängigkeiten.
+Der reguläre Build behält getrennte Chunks: Einstieg **74,56kB / 25,21kB gzip**, bedarfsgeladener Hero **597,83kB / 153,54kB gzip**, erst bei Entdeckung geladene Korruption **10,80kB / 4,50kB gzip**. Die bestehende >500kB-Three.js-Warnung bleibt; Innenrouten fragen den Hero nicht an. Nur der Offline-Export kombiniert aus technischen Gründen alle Module (689,17kB JavaScript vor Einbettung der lokalen Assets). Keine neuen Abhängigkeiten.
 
 Optimierte Filmdateien: **896×1344px / 244.514 Bytes** am Desktop und **512×768px / 87.338 Bytes** für Touch-/kleinere Geräte. Das Bildskript findet weiterhin null veröffentlichte Portfolio-/Portraitbilder und erfindet keine Inhalte.
 
@@ -83,7 +85,7 @@ Film und Canvas-Code laden erst bei Entdeckung; die normale erste Seite erhält 
 
 Die interaktive Standardgrenze ist zwei Regionen, jeweils höchstens 620×420px auf Desktop oder 360×300px mobil, DPR 1 und 30 Paint-Frames/s. Gezeichnet werden nur ausstehende Bewegungen und ausheilende Felder; anschließend stoppt der RAF vollständig. Blockbudget, Bildvorbereitung und bestehende Geräteprofile begrenzen Aufwand. Foto-Pixel werden einmal vorbereitet; es gibt kein `getImageData()` pro Pointermove. Reduzierte Bewegung schaltet interaktive Korruption aus. Diese technischen Grenzen allein beweisen keine reale Telefon-Framerate.
 
-Frische kalte Navigationen gegen den eingefrorenen Stand **`40e15d1`** und den finalen Build, jeweils **drei Homepage-Läufe und ein Work-Lauf**, seriell ohne parallele Browser. Lighthouse **13.5.0**, Headless Chromium **154**, SwiftShader-Software-GPU; mobile Emulation **412×823 / DPR 1,75**, simuliert **150ms RTT / 1638,4kbit/s / 4× CPU-Verlangsamung**. Die Tabelle zeigt Homepage-Mediane bzw. den einzelnen Work-Lauf. Alle acht Berichte waren gültig, ohne Lighthouse-Warnungen.
+**Erste Feature-Abnahme vor der Ladeoptimierung:** Frische kalte Navigationen gegen den eingefrorenen Stand **`40e15d1`** und den finalen Build, jeweils **drei Homepage-Läufe und ein Work-Lauf**, seriell ohne parallele Browser. Lighthouse **13.5.0**, Headless Chromium **154**, SwiftShader-Software-GPU; mobile Emulation **412×823 / DPR 1,75**, simuliert **150ms RTT / 1638,4kbit/s / 4× CPU-Verlangsamung**. Die Tabelle zeigt Homepage-Mediane bzw. den einzelnen Work-Lauf. Alle acht Berichte waren gültig, ohne Lighthouse-Warnungen.
 
 | Messwert | Homepage vorher → nachher | Work vorher → nachher |
 | --- | --- | --- |
@@ -106,7 +108,7 @@ Die Homepage hat unter simulierter langsamer CPU weiterhin erhebliche TBT durch 
 
 ## Vorschau und Review
 
-Die aktuelle [Offline-Vorschau als ZIP](previews/portfolio-preview.zip) enthält die exakt geprüfte `h4ngelic-preview.html`, eine deutsche Anleitung und beide Hörproben. ZIP **1.736.078 Bytes**, HTML **2.567.714 Bytes**; Integrität und Byte-Übereinstimmung wurden nach dem Verpacken geprüft. Die Datei funktioniert bei **1440/390/320px ohne HTTP-Anfragen und ohne JavaScript-Laufzeitfehler**. Geprüft wurden WebGL, kurzer/Ein-Sekunden-Hold, nativer mobiler Hold, Modushinweis, Film, Mute, Kategorie-/About-/Contact-Navigation und Rückkehr. [Maschinenlesbarer Vorschau- und Verpackungsnachweis](previews/control-preview-results.json).
+Die aktuelle [Offline-Vorschau als ZIP](previews/portfolio-preview.zip) enthält die exakt geprüfte `h4ngelic-preview.html`, eine deutsche Anleitung und beide Hörproben. ZIP **1.737.047 Bytes**, HTML **2.567.441 Bytes**; Integrität und Byte-Übereinstimmung wurden nach dem Verpacken geprüft. Die Datei funktioniert bei **1440/390/320px ohne HTTP-Anfragen und ohne JavaScript-Laufzeitfehler**. Geprüft wurden WebGL, kurzer/Ein-Sekunden-Hold, nativer mobiler Hold, Modushinweis, Film, Mute, Kategorie-/About-/Contact-Navigation und Rückkehr. [Maschinenlesbarer Vorschau- und Verpackungsnachweis](previews/control-preview-results.json).
 
 Aktuelle Standbilder: [Normaler Hero](previews/homepage-hero.png), [The Other Side](previews/homepage-hero-xray.png), [390px](previews/mobile-hero-xray.png), [320px](previews/mobile-320-hero-xray.png), [mobiler Kontakt](previews/mobile-contact-xray.png), [Work](previews/work-xray.png), [About](previews/about-xray.png) und [tatsächlicher Cursor-Bildschaden](previews/control-cursor-corruption.png). Die gepaarten Hero-Bilder verwenden dieselbe pausierte Pose. Bei 320px ist das dritte Kontaktlabel zunächst teilweise im vorgesehenen horizontalen Scroller; es bleibt erreichbar und erzeugt keinen Seitenüberlauf. Vollseitige Bilder können einen fixierten Filmhintergrund nur an ihrer ursprünglichen Viewport-Position zeigen; gesonderte Viewport-Aufnahmen prüfen die wirkliche Scroll-Komposition. Zusätzliche Aufnahmen bleiben im ignorierten Ausführungsordner, wesentliche Paare sind eingecheckt.
 

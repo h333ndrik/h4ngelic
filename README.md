@@ -6,6 +6,8 @@ Artist website with an interactive chrome wordmark, a horizontal typographic cat
 
 **Aktueller Stand — [Control vs. Corruption / PR #11](https://github.com/h333ndrik/h4ngelic/pull/11):** Normal Mode behält `#303033`, die bestehende Chrome-Skulptur, ihre Physik und reversible Editorial-Bewegung. **The other side ist jetzt freigeschaltet:** `4` oder Numpad `4` mindestens eine Sekunde halten; erneut halten kehrt zurück. Die alternative Darstellung ergänzt zerstörte Filmflächen, solarisierte Bilder und lokale, bildbasierte Cursor-Verzerrung. Zugehörige Funktionen und tatsächliche Verifikation stehen in [CONTROL-CORRUPTION.md](docs/CONTROL-CORRUPTION.md).
 
+**Ladeoptimierung:** Drei Startanfragen weniger; aktueller Messvergleich und Abnahme in [LOADING-REFINEMENT.md](docs/LOADING-REFINEMENT.md).
+
 **Review-Vorschau:** [Interaktive Offline-Vorschau als ZIP](docs/previews/portfolio-preview.zip) herunterladen, entpacken und `h4ngelic-preview.html` im Browser öffnen. Standbilder: [Homepage](docs/previews/homepage.png), [mobil](docs/previews/mobile.png), [Work](docs/previews/work.png), [About](docs/previews/about.png). Aktuelle Gegenansichten: [The Other Side am Desktop](docs/previews/homepage-hero-xray.png), [mobil](docs/previews/mobile-hero-xray.png) und [Cursor-Korruption](docs/previews/control-cursor-corruption.png). Hörproben: [Eintritt](docs/previews/other-side-enter.wav), [Rückkehr](docs/previews/other-side-leave.wav). Der genaue Snapshot- und Prüfstand steht in [CONTROL-CORRUPTION.md](docs/CONTROL-CORRUPTION.md); `npm run preview:export` erzeugt eine neue Offline-Datei. Ältere Berichte und die `media-*`-Test-Fixtures dokumentieren vorherige PR-Stände.
 
 ## Development

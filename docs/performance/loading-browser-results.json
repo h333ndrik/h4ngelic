@@ -1,0 +1,64 @@
+[
+  {
+    "suite": "mode-audio",
+    "exitCode": 0,
+    "durationMs": 10491,
+    "settings": {
+      "H4_BASE_URL": "http://127.0.0.1:4221"
+    }
+  },
+  {
+    "suite": "xray",
+    "exitCode": 0,
+    "durationMs": 38264,
+    "settings": {
+      "H4_BASE_URL": "http://127.0.0.1:4221"
+    }
+  },
+  {
+    "suite": "navigation",
+    "exitCode": 0,
+    "durationMs": 14049,
+    "settings": {
+      "H4_BASE_URL": "http://127.0.0.1:4221"
+    }
+  },
+  {
+    "suite": "corruption",
+    "exitCode": 0,
+    "durationMs": 20485,
+    "settings": {
+      "H4_BASE_URL": "http://127.0.0.1:4221"
+    }
+  },
+  {
+    "suite": "material",
+    "exitCode": 0,
+    "durationMs": 10260,
+    "settings": {
+      "H4_BASE_URL": "http://127.0.0.1:5173"
+    }
+  },
+  {
+    "suite": "seo",
+    "exitCode": 0,
+    "durationMs": 3728,
+    "settings": {
+      "H4_PREVIEW_URL": "http://127.0.0.1:4221"
+    }
+  },
+  {
+    "suite": "offline",
+    "exitCode": 0,
+    "durationMs": 25986,
+    "settings": {}
+  },
+  {
+    "suite": "hover",
+    "exitCode": 0,
+    "durationMs": 13574,
+    "settings": {
+      "H4_BASE_URL": "http://127.0.0.1:4221"
+    }
+  }
+]

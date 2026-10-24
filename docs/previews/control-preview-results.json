@@ -1,9 +1,9 @@
 {
   "offline": {
-    "checkedAt": "2026-10-24T20:06:02.184Z",
+    "checkedAt": "2026-10-24T20:50:16.470Z",
     "html": "h4ngelic-preview.html (inside portfolio-preview.zip)",
-    "htmlBytes": 2567714,
-    "htmlSha256": "f82af84bd654970c64e85e8aa8abaee335c80f37206789aeeb462bb5d913cef0",
+    "htmlBytes": 2567441,
+    "htmlSha256": "20e6f02bf1650191e0c31f074b1b372ba0b3f65ee71848018af171bfdf947aa3",
     "reports": [
       {
         "width": 1440,
@@ -68,12 +68,12 @@
     ]
   },
   "package": {
-    "packagedAt": "2026-10-24T20:07:17.391333+00:00",
+    "packagedAt": "2026-10-24T20:51:30.717720+00:00",
     "file": "docs/previews/portfolio-preview.zip",
-    "zipBytes": 1736078,
-    "htmlBytes": 2567714,
-    "htmlSha256": "f82af84bd654970c64e85e8aa8abaee335c80f37206789aeeb462bb5d913cef0",
-    "offlineCheckedAt": "2026-10-24T20:06:02.184Z",
+    "zipBytes": 1737047,
+    "htmlBytes": 2567441,
+    "htmlSha256": "20e6f02bf1650191e0c31f074b1b372ba0b3f65ee71848018af171bfdf947aa3",
+    "offlineCheckedAt": "2026-10-24T20:50:16.470Z",
     "members": [
       "h4ngelic-preview.html",
       "BITTE-LESEN.txt",
@@ -556,5 +556,18 @@
     "fixedFilmCapture": "Full-page screenshots of a fixed film layer represent its capture viewport; separate scrolled viewport screenshots preserve the actual section composition.",
     "portfolioFixtures": "Existing media-normal.png/media-xray.png are historical supplied-artwork browser fixtures, not current portfolio projects; not recaptured."
   },
-  "captureStorageNote": "Essential current pairs remain in docs/previews; additional exact viewport captures are retained in ignored artifacts/control-capture-extras in the execution workspace."
+  "captureStorageNote": "Essential current pairs remain in docs/previews; additional exact viewport captures are retained in ignored artifacts/control-capture-extras in the execution workspace.",
+  "loadingRefinement": {
+    "checkedAt": "2026-10-24T20:51:30.750579+00:00",
+    "base": "http://127.0.0.1:4221",
+    "checks": "docs/performance/loading-browser-results.json",
+    "materialDevBase": "http://127.0.0.1:5173",
+    "material": {
+      "meshPixels": 109453,
+      "alteredMeshPixels": 108116,
+      "meanRestorationDifference": 0,
+      "shaderErrors": 0
+    },
+    "captureReuseNote": "The loading-only follow-up changes no presentation source. Existing full-page and mobile captures retain their original capturedAt timestamp; the current material test freshly captured normal/other/restored mesh images in ignored artifacts and confirmed exact Normal restoration. The prior49 captures were not rerun."
+  }
 }
