@@ -112,6 +112,6 @@ Aktuelle Standbilder: [Normaler Hero](previews/homepage-hero.png), [The Other Si
 
 Hörproben aus denselben PCM-/Lautstärkeeinstellungen: [Eintritt](previews/other-side-enter.wav), [Rückkehr](previews/other-side-leave.wav), jeweils **0,7s / 48kHz / Stereo / 134.444 Bytes**. Die Website erzeugt die Klänge selbst und lädt diese Review-WAVs nicht herunter.
 
-Review auf dem separaten Branch `feat/control-corruption`, Basis `feat/homepage-motion-refinement` (PR #10). Kein Merge in `main`, keine Produktionsveröffentlichung und keine DNS-Änderung.
+[Pull Request #11](https://github.com/h333ndrik/h4ngelic/pull/11) auf dem separaten Branch `feat/control-corruption`, Basis `feat/homepage-motion-refinement` (PR #10). Kein Merge in `main`, keine Produktionsveröffentlichung und keine DNS-Änderung.
 
 Die frühere [REFINEMENT-REPORT.md](REFINEMENT-REPORT.md) bleibt ein historischer PR-10-Snapshot. [FINAL-REPORT.md](FINAL-REPORT.md) und [MASTER-PERFORMANCE.md](MASTER-PERFORMANCE.md) behalten ihren älteren PR-9-Kontext. Die Werte dieser Berichte sind keine Ersatzmessung für die neue aktive Bildkorruption.
