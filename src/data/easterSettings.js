@@ -1,20 +1,21 @@
-/** Small, optional interactions. No browser storage is used by default. */
+/** Local interaction settings; visitor memory contains only count/last activity. */
 export const easterSettings = {
   ink: {
     enabled: true,
     maximumMarks: 12,
-    minimumLifetimeMs: 2400,
-    maximumLifetimeMs: 3500,
+    minimumLifetimeMs: 6000,
+    maximumLifetimeMs: 12000,
     minimumSize: 28,
     maximumSize: 49,
     maximumPointerTravel: 8,
   },
-  hint: { fadeMs: 600, visibleMs: 2200 },
+  hint: { fadeMs: 600, visibleMs: 2000 },
   visits: {
-    // A consent integration must also pass hasVisitorConsent to initEasterEggs.
-    // Enabling this flag alone never authorizes nonessential browser storage.
-    enabled: false,
-    showNumber: false,
+    enabled: true,
+    // Optional host policy: true also requires hasVisitorConsent() === true.
+    // The requested local-only counter works without a separate integration.
+    requireConsent: false,
+    showNumber: true,
     storageKey: 'h4ngelic.visits.v1',
     separatedVisitMs: 30 * 60 * 1000,
     writeIntervalMs: 60 * 1000,
@@ -47,6 +48,6 @@ export function nextVisit(record, now, intervalMs = easterSettings.visits.separa
   return { count: separated && count < Number.MAX_SAFE_INTEGER ? count + 1 : count, lastSeen: now };
 }
 
-export function canRememberVisits(settings, consent) {
-  return settings.enabled === true && consent === true;
+export function canRememberVisits(settings, consent = false) {
+  return settings.enabled === true && (settings.requireConsent !== true || consent === true);
 }

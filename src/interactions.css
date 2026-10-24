@@ -1,16 +1,45 @@
-.category-magnet {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: inherit;
-  width: 100%;
+.category-magnet, .interaction-visual {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px));
+  width: max-content;
   min-width: 0;
-  transform: translate3d(var(--magnet-x, 0px), var(--magnet-y, 0px), 0);
-  transition: transform 180ms ease-out;
+  transform: translate3d(var(--magnet-x, 0px), var(--magnet-y, 0px), 0) scale(var(--ui-active-scale, 1));
+  transform-origin: 50% 50%;
+  filter: none;
+  transition: transform var(--ui-release-duration, 340ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1.12)), filter var(--ui-release-duration, 340ms) ease-out;
 }
 
-[data-magnet-active] .category-magnet {
-  transition-duration: 90ms;
+.category-link .interaction-visual, .contact-link .interaction-visual { transform-origin: 0 50%; }
+.artwork-open > .interaction-visual { display: block; width: 100%; height: 100%; }
+
+/* One bounded surface glows at a time. Never filter the page, live canvas or
+   invisible secret hotspots. Text, arrows and photographs share this response. */
+[data-ui-interactive] {
+  --ui-hover-glow: drop-shadow(0 0 2px rgb(255 255 255 / calc(.95 * var(--ui-glow-strength, 1))))
+    drop-shadow(0 0 7px rgb(255 255 255 / calc(.62 * var(--ui-glow-strength, 1))))
+    drop-shadow(0 0 16px rgb(255 255 255 / calc(.38 * var(--ui-glow-strength, 1))));
+}
+html[data-mode='xray'] [data-ui-interactive] {
+  --ui-hover-glow: drop-shadow(0 0 2px rgb(255 255 255 / .98))
+    drop-shadow(1px 0 5px var(--xray-acid, #c9f144))
+    drop-shadow(-1px 0 11px var(--xray-pink, #ef9fc4))
+    drop-shadow(0 0 calc(20px * var(--ui-other-glow-strength, 1.15) * var(--corruption-glow-strength, 1)) var(--xray-violet, #b98be1));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual {
+    --ui-active-scale: var(--ui-target-scale, var(--ui-hover-scale, 1.22));
+    filter: var(--ui-hover-glow);
+    transition-duration: var(--ui-hover-duration, 260ms);
+  }
+  .artwork-open[data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual {
+    --ui-active-scale: var(--ui-target-scale, var(--ui-image-scale, 1.08));
+  }
+  [data-ui-interactive]:is(:hover, :focus-visible) .arrow {
+    transform: translate(var(--ui-arrow-movement, 2px), calc(-1 * var(--ui-arrow-movement, 2px)));
+  }
 }
 
 .content-section.reveal-pending {
@@ -29,10 +58,15 @@
 }
 
 @media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
-  .category-magnet { transform: none !important; transition: none; }
+  .category-magnet, .interaction-visual { transform: none !important; transition: none; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  [data-ui-interactive] .interaction-visual { filter: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .content-section.reveal-pending { opacity: 1; transform: none; transition: none; }
-  .category-link:hover .arrow { transform: none; }
+  [data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual { transition: none; }
+  [data-ui-interactive]:is(:hover, :focus-visible) .arrow { transform: none; }
 }

@@ -3,10 +3,7 @@ import { easterSettings, visitorMessage, nextVisit, canRememberVisits } from './
 import { createInkImprint } from './ink-imprint.js';
 
 const interactive = 'a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable="true"],[role="button"],[role="link"],[role="checkbox"],[role="switch"],[role="radio"],[role="tab"],[role="menuitem"],[role="combobox"],[role="slider"],[role="spinbutton"],[contenteditable]:not([contenteditable="false"]),[tabindex]:not([tabindex="-1"]),[aria-disabled="true"],.is-unconfigured,[data-no-ink]';
-/**
- * Ephemeral UI only by default. A real consent integration must explicitly
- * enable visits AND supply a synchronous hasVisitorConsent() returning true.
- */
+/** Local count/last activity only. A host can opt out or require a consent gate. */
 export function initEasterEggs(root = document, { settings = easterSettings, hasVisitorConsent = () => false, storage } = {}) {
   const pageDocument = root.ownerDocument || root;
   const view = pageDocument.defaultView || window;
@@ -29,7 +26,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
 
   function updateVisitorCopy() {
     for (const element of root.querySelectorAll('[data-visit-message]')) element.textContent = visitorMessage(visit.count);
-    for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = `visit ${String(visit.count).padStart(3, '0')}`;
+    for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = `VISIT ${String(visit.count).padStart(3, '0')}`;
   }
 
   function consentGranted() {
@@ -51,7 +48,8 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     if (!authorized || !visitStorage) return;
     // Recheck at every write as well as the integration's privacy-change event.
     if (!canRememberVisits(settings.visits, consentGranted())) { forgetVisitorMemory(); return; }
-    try { visitStorage.setItem(settings.visits.storageKey, JSON.stringify(visit)); lastWrite = Date.now(); } catch { /* Storage may be denied or full. */ }
+    try { visitStorage.setItem(settings.visits.storageKey, JSON.stringify(visit)); lastWrite = Date.now(); }
+    catch { authorized = false; visitStorage = null; /* Retain the in-memory greeting when storage is unavailable. */ }
   }
 
   function readVisit() {
@@ -64,7 +62,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     if (!canRememberVisits(settings.visits, consentGranted())) { forgetVisitorMemory(); return; }
     if (authorized) return;
     try {
-      // Do not even access localStorage's getter until both gates are satisfied.
+      // An opted-out or consent-gated host does not even access the getter.
       visitStorage = storage || view.localStorage;
       authorized = Boolean(visitStorage);
       if (authorized) {
@@ -77,7 +75,18 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
 
   function activity({ flush = false } = {}) {
     if (!authorized) return;
-    visit.lastSeen = Date.now();
+    const now = Date.now();
+    // Return after a long idle interval is a new visit, not a page view. Merge
+    // the local record with storage so another open tab cannot lower the count.
+    if (now - visit.lastSeen >= settings.visits.separatedVisitMs) {
+      const stored = readVisit();
+      if (!authorized) return;
+      const source = stored && Number.isSafeInteger(stored.count) && stored.count >= visit.count
+        && Number.isFinite(stored.lastSeen) && stored.lastSeen >= 0 ? stored : visit;
+      visit = nextVisit(source, now, settings.visits.separatedVisitMs);
+      updateVisitorCopy();
+      flush = true;
+    } else visit.lastSeen = now;
     if (flush || visit.lastSeen - lastWrite >= settings.visits.writeIntervalMs) writeVisit();
   }
 
@@ -111,8 +120,8 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     mark.setAttribute('viewBox', '0 0 100 100');
     mark.setAttribute('focusable', 'false');
     mark.innerHTML = createInkImprint(Math.random, { pressure: Math.min(heldMs / 1600, 1) });
-    mark.style.left = `${event.clientX}px`;
-    mark.style.top = `${event.clientY}px`;
+    mark.style.left = `${event.clientX + view.scrollX}px`;
+    mark.style.top = `${event.clientY + view.scrollY}px`;
     mark.style.setProperty('--ink-size', `${size * (1 + Math.min(heldMs / 1600, .5))}px`);
     mark.style.setProperty('--ink-angle', `${Math.round(Math.random() * 360)}deg`);
     mark.style.setProperty('--ink-lifetime', `${lifetime}ms`);

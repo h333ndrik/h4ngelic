@@ -11,10 +11,13 @@ Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Kompo
 | Automatisch ermittelte Bildgrößen | `src/data/imageManifest.json` — nicht manuell bearbeiten |
 | Seitentitel, Beschreibungen, Domain und Indexierung | `src/data/seoContent.js` |
 | Scroll-Distanzen, Staffelung, Nachbilder und Überschwinger | `src/data/motionSettings.js` — Anleitung in [MOTION.md](MOTION.md) |
-| Prozedurale Tinte, versteckte Nachrichten und optionale Besuchszählung | `src/data/easterSettings.js` — Anleitung in [EASTER-EGGS.md](EASTER-EGGS.md) |
+| Prozedurale Tinte, versteckte Nachrichten und lokale Besuchszählung | `src/data/easterSettings.js` — Anleitung in [EASTER-EGGS.md](EASTER-EGGS.md) |
 | Zurückhaltende Hero-Kameratiefe | `src/data/heroDepthSettings.js` — Anleitung in [MOTION.md](MOTION.md) |
-| Freigabe des zurückgestellten Modus und seines öffentlichen Hinweises | `src/data/featureFlags.js` — `otherSideEnabled: false` beibehalten |
-| Zurückgestellte The-Other-Side-Parameter | `src/data/xraySettings.js` — historischer Entwicklungsstand in [XRAY.md](XRAY.md) |
+| Aktiver Modus und öffentliche versteckte Anweisung | `src/data/featureFlags.js` — aktuell `otherSideEnabled: true` |
+| Farbkurven, Palette, Hold- und Übergangszeit | `src/data/xraySettings.js` — [XRAY.md](XRAY.md) |
+| Beschädigungs-/Glow-/Smear-Stärke, Recovery und Qualitätsgrenzen | `src/data/corruptionSettings.js` |
+| Metallisch-kristalline Ein-/Austrittsklänge | `src/data/modeAudioSettings.js` |
+| Gemeinsame Hover-Vergrößerung, Glow und Pfeilabstände | `src/data/uiEffectSettings.js` |
 
 ## Ein Tattoo, Schmuckstück oder Gemälde hinzufügen
 
@@ -108,8 +111,34 @@ Mit `npm run preview:export` erzeugst du `artifacts/h4ngelic-preview.html`. Dies
 
 `src/data/heroDepthSettings.js` ergänzt die vorhandene Logoanimation um eine kleine Kamerabewegung. Die aktuellen Obergrenzen sind 8% mehr Z-Distanz (`distance: .08`) und ein Grad mehr Blickwinkel (`fieldOfView: 1`). Änderungen der Kameratiefe erfordern keine Änderung an Logo-Geometrie, Chrome-Material oder Physik. [MOTION.md](MOTION.md) erläutert alle Werte, Umkehrverhalten und reduzierte Bewegung.
 
-## Versteckte Nachrichten und spätere Freigaben
+## Versteckte Nachrichten und lokale Erinnerung
 
-Die sechs Besuchstexte stehen in `src/data/easterSettings.js`. Sie erscheinen ausschließlich nach Entdeckung des zentralen Header-Hotspots; die bisherige sichtbare Footer-Begrüßung entfällt. Dauerhafte Speicherung ist aus und benötigt vor Aktivierung zusätzlich eine gültige Consent-Anbindung. Ein normaler Seitenwechsel oder unmittelbares Neuladen zählt nicht als neuer getrennter Besuch. Das aktuelle Fallback zeigt „nice to meet you.“ ohne Browser-Speicherzugriff. [EASTER-EGGS.md](EASTER-EGGS.md) beschreibt die Konfiguration.
+Die sechs Besuchstexte stehen in `src/data/easterSettings.js`. Sie erscheinen nach Entdeckung des zentralen Header-Hotspots; die äußeren Header-Labels bleiben unverändert. Die Schriftgröße und die räumlich getrennten Footer-Hotspots stehen in `src/easter-eggs.css`.
 
-Der reservierte leere Bereich nach Kontakt gehört zum zukünftigen Hinweis `press 4 for the other side.`. Die öffentliche Darstellung und der Modus bleiben gemeinsam durch `featureFlags.otherSideEnabled: false` deaktiviert. Das aktuelle Briefing verschiebt den vollständigen Modus ausdrücklich; die Flag ist keine Produktionsfreigabe. Echte Inhaltsbearbeitung erfordert keine Aktivierung dieses Modus.
+Die neu angeforderte lokale Speicherung ist aktiv: `visits.enabled: true`, `requireConsent: false`, `showNumber: true`. Gespeichert werden nur `count` und `lastSeen`. Ein normaler Seitenwechsel oder unmittelbares Neuladen ist kein neuer Besuch; standardmäßig trennt eine halbe Stunde Inaktivität die Besuche. `enabled: false` deaktiviert Speicherzugriffe, `showNumber: false` entfernt den separaten versteckten Footer-Zähler. Für eine vorhandene Host-Consent-Anbindung kann `requireConsent: true` mit Callback verwendet werden. Fehler beim Speicherzugriff lassen die Begrüßung weiterhin funktionieren. Details: [EASTER-EGGS.md](EASTER-EGGS.md).
+
+Die versteckte Anweisung unter Kontakt lautet in Normal Mode `HOLD 4 TO SEE THE OTHER SIDE.` und im alternativen Zustand `HOLD 4 TO REVERSE.`. Der separate Zähler steht ganz unten als `VISIT 001`. Beide Anweisungsvarianten nutzen dieselbe Position; der Zähler steht nicht neben der Begrüßung oben.
+
+## Visuelle Intensität und Klang anpassen
+
+In `src/data/corruptionSettings.js` lassen sich einzelne Beiträge ändern:
+
+| Wert | Wirkung |
+| --- | --- |
+| `distressIntensity` | Film-/Materialschaden und Grundstärke der Cursor-Korruption |
+| `filmBurnIntensity` | Ausgebrannte helle Stellen im Wordmark-Material |
+| `grainIntensity` | Deckkraft der zusätzlichen Körnung |
+| `colorCorruption` | Solarisation/Farbkorruption und lokale Kanalverschiebung |
+| `pixelCorruption` | Stärke des lokalen Makroblock-Schadens |
+| `glowStrength` | Helle Materialstellen und zusätzlicher Other-Side-Hoverglanz |
+| `smearingIntensity` | Länge des horizontalen Pixelnachziehens |
+| `recoveryMs` / `recoverySpeed` | Basis-Ausheilzeit; höhere Geschwindigkeit heilt früher |
+| `field` / `quality` | Begrenzung von Impulsen, aktiven Bildregionen, Auflösung und Paint-Rate |
+
+`0` entfernt den jeweiligen Beitrag; die Standardstärke liegt meist bei `1`. Die Einstellungen greifen an unterschiedlichen Stellen, deshalb entfernt beispielsweise `pixelCorruption: 0` nicht die Filmtextur. Halte Qualitätsgrenzen auch bei höherer Intensität klein. Die eigentliche Hintergrundtextur liegt als lokale optimierte Varianten `public/assets/corrupted-film.webp` und `corrupted-film-mobile.webp` vor. Sie ist eine generierte Gestaltungstextur, kein Portfolioeintrag.
+
+`src/data/xraySettings.js` enthält die Palette, neunwertige nicht-monotone Farbkurven, Sättigung, Kanalabstand und `shortcutHoldMs: 1000`. Die sechs Besuchstexte oder echte Projektbilder müssen dafür nicht in Komponenten eingetragen werden. `src/data/uiEffectSettings.js` steuert Hover-Skalen und Pfeilform/-abstände gemeinsam; große Labels werden automatisch auf den vorhandenen Platz begrenzt.
+
+`src/data/modeAudioSettings.js` steuert `enabled`, `volume`, `durationSeconds`, Grundton, inharmonische Teiltöne, Ausklang und Ein-/Austrittsverlauf. Die Standardklänge dauern 0,7 Sekunden, werden lokal im Browser erzeugt und über den Footer stummgeschaltet. Ein Audiofehler verhindert keinen Moduswechsel. `npm run sounds:export` erzeugt Review-WAVs aus denselben Einstellungen. Die Website benötigt diese Dateien nicht zur Laufzeit.
+
+Nach Änderungen an Daten/Assets prüfst du den Entwicklungsserver und erzeugst einen neuen Build bzw. Offline-Export. Die normalen Inhaltsdateien bleiben unabhängig von Effekt-Parametern. [XRAY.md](XRAY.md) erläutert die technische Umsetzung; der tatsächlich geprüfte aktuelle Stand steht in [CONTROL-CORRUPTION.md](CONTROL-CORRUPTION.md).

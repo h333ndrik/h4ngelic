@@ -1,7 +1,7 @@
 import { isXRayShortcut, xraySettings } from './data/xraySettings.js';
 
-/** A single hold timer, installed only with the postponed mode controller. */
-export function bindXRayShortcut(doc, activate) {
+/** A single hold timer; user audio is primed inside the initial key gesture. */
+export function bindXRayShortcut(doc, activate, { onStart = () => {}, onEnd = () => {} } = {}) {
   const view = doc.defaultView;
   const removers = [];
   let held = null;
@@ -13,6 +13,7 @@ export function bindXRayShortcut(doc, activate) {
   const cancel = () => {
     view.clearTimeout(timer);
     timer = 0;
+    if (held && !held.completed) onEnd('cancel');
     held = null;
   };
   const matches = (event) => held && (held.code ? event.code === held.code : event.key === held.key);
@@ -23,6 +24,8 @@ export function bindXRayShortcut(doc, activate) {
     const remaining = xraySettings.shortcutHoldMs - (view.performance.now() - held.started);
     if (remaining > 0) { timer = view.setTimeout(finish, remaining); return; }
     // Keep the key latched until release: browser key repeat cannot toggle twice.
+    held.completed = true;
+    onEnd('complete');
     activate();
   };
   listen(doc, 'keydown', (event) => {
@@ -34,6 +37,7 @@ export function bindXRayShortcut(doc, activate) {
     if (doc.hidden || !isXRayShortcut(event, doc.activeElement)) return;
     event.preventDefault();
     held = { key: event.key, code: event.code, started: view.performance.now() };
+    onStart(event);
     timer = view.setTimeout(finish, xraySettings.shortcutHoldMs);
   });
   listen(doc, 'keyup', (event) => { if (matches(event)) cancel(); });
@@ -42,8 +46,10 @@ export function bindXRayShortcut(doc, activate) {
   listen(doc, 'compositionstart', cancel);
   listen(doc, 'focusin', () => { if (!eligible()) cancel(); });
   listen(doc, 'h4:pagechange', cancel);
-  return () => {
+  const dispose = () => {
     cancel();
     for (const remove of removers) remove();
   };
+  dispose.cancel = cancel;
+  return dispose;
 }

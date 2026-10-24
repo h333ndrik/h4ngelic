@@ -1,5 +1,7 @@
 # Homepage refinement — 24. Oktober 2026
 
+> Historischer PR-10-Snapshot (`40e15d1`): Dieser Bericht beschreibt den damals deaktivierten Modus und die tatsächlich gemessenen früheren Ergebnisse. Das spätere Control-vs.-Corruption-Update aktiviert den Modus und ist separat in [CONTROL-CORRUPTION.md](CONTROL-CORRUPTION.md) dokumentiert.
+
 Stand: 24. Oktober 2026, Europe/Berlin. Dieses Update setzt das neueste Homepage-Briefing im bestehenden Projekt um. Der anschließende Wunsch bereitet einen Ein-Sekunden-Tastendruck für den späteren Modus vor; die ausdrückliche Entscheidung bleibt **`otherSideEnabled: false`**.
 
 Die Website bleibt Vite, JavaScript, CSS und Three.js. Es wurden keine neuen Laufzeitabhängigkeiten hinzugefügt. Bestehende URLs, vorgerendertes HTML, Metadaten, der h4-Cursor, Chrome-Material, Tattoo-Reveal sowie Infinity-Bewegung und Interaktionsphysik bleiben Bestandteil der Anwendung.

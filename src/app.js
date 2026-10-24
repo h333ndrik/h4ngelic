@@ -11,6 +11,7 @@ import { initNavigation } from './navigation.js';
 import { initEasterEggs } from './easter-eggs.js';
 import { initImageReveals } from './image-reveals.js';
 import { featureFlags } from './data/featureFlags.js';
+import { initCorruptionLifecycle } from './corruption-lifecycle.js';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -109,7 +110,10 @@ function render({ reset = false, restoreScroll } = {}) {
 
 render();
 initEasterEggs(document);
-if (featureFlags.otherSideEnabled) import('./xray.js').then(({ initXRay }) => initXRay());
+if (featureFlags.otherSideEnabled) {
+  initCorruptionLifecycle();
+  import('./xray.js').then(({ initXRay }) => initXRay());
+}
 if (standalone) {
   addEventListener('hashchange', () => {
     render({ reset: true });

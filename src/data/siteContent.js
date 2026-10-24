@@ -16,11 +16,11 @@ export const siteContent = {
   ],
 
   home: {
-    selectedWorkLabel: '01 / selected works',
-    aboutLabel: '02 / about',
-    contactLabel: '03 / contact',
+    selectedWorkLabel: '01 / SELECTED WORKS',
+    aboutLabel: '02 / ABOUT',
+    contactLabel: '03 / CONTACT',
     aboutPreview: 'tattooing, jewellery, painting and everything in between.',
-    moreAboutLabel: 'more about',
+    moreAboutLabel: 'MORE ABOUT',
   },
 
   about: {

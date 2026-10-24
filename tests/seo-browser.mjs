@@ -82,7 +82,7 @@ try {
     if (path === '/') {
       assert.equal(await page.locator('.hero').count(), 1);
       assert.equal(await page.locator('#selected-work a[href="/work/tattoos"]').count(), 1);
-      assert.match(metadata.text, /selected works?/);
+      assert.match(metadata.text, /selected works?/i);
       assert.equal(await page.locator('.fallback').isVisible(), true, 'The no-JS homepage retains the accessible static wordmark.');
     } else {
       assert.equal(await page.locator('.hero').count(), 0, 'Interior HTML must not expose a competing hero or download its font/scene.');

@@ -117,6 +117,14 @@ try {
   });
   const moved = await translation(magnet);
   assert.ok(Math.abs(moved.x) <= 3.1 && Math.abs(moved.y) <= 3.1, 'Magnetic movement must stay restrained to a few pixels.');
+  await page.waitForFunction(() => {
+    const visual = document.querySelector('#selected-work .category-magnet');
+    const matrix = new DOMMatrixReadOnly(getComputedStyle(visual).transform);
+    return matrix.m11 >= 1.18;
+  });
+  const luminous = await magnet.evaluate((element) => ({ transform: new DOMMatrixReadOnly(getComputedStyle(element).transform).m11, filter: getComputedStyle(element).filter }));
+  assert.ok(luminous.transform <= 1.25, 'The large category label magnifies strongly within its reserved hit area.');
+  assert.ok((luminous.filter.match(/drop-shadow/g) || []).length >= 3 && luminous.filter.includes('255, 255, 255'), 'Normal hover produces an intense bounded white glow.');
   const after = await link.boundingBox();
   for (const property of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[property] - after[property]) < .25, 'Only the label/arrow wrapper may move, preserving the clickable area.');
   const hoverCursor = await nativeCursor(page, magnet);
@@ -142,6 +150,10 @@ try {
   await page.waitForFunction(() => document.querySelectorAll('.motion-echo').length === 0 && !document.documentElement.hasAttribute('data-scroll-choreography'));
   await page.mouse.move(before.x + before.width * .8, before.y + before.height * .65);
   assert.ok(Math.hypot(...Object.values(await translation(magnet))) < .05);
+  assert.equal(await magnet.evaluate((element) => {
+    const value = getComputedStyle(element).transform;
+    return value === 'none' ? 1 : new DOMMatrixReadOnly(value).m11;
+  }), 1, 'Reduced motion disables the new hover magnification.');
   const reducedCursor = await nativeCursor(page, magnet);
   assert.equal(reducedCursor.width, defaultCursor.width, 'Reduced motion must disable cursor scaling.');
   await page.evaluate(() => document.activeElement?.blur());
@@ -187,7 +199,7 @@ try {
   await page.waitForFunction((frame) => window.__H4_TEST__.snapshot().frameCount > frame, hidden.frameCount, { timeout: 10000 });
   assert.deepEqual(errors, []);
   await desktop.close();
-  console.log('PASS microinteractions desktop: restrained magnet/stable hit areas, reversible choreography, keyboard/reduced motion, exact native cursor feedback, offscreen and controlled hidden-state WebGL pause.');
+  console.log('PASS microinteractions desktop: strong luminous hover with stable hit areas, restrained magnet, reversible choreography, keyboard/reduced motion, exact native cursor feedback and offscreen/hidden-state WebGL pause.');
 
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
   const mobilePage = await mobile.newPage();

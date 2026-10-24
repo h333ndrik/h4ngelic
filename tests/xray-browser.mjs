@@ -1,34 +1,35 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 
-// Keep the existing command as a regression guard for the latest approved
-// decision: the alternate mode and its public tease are deliberately postponed.
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
+const route = (path) => new URL(path, baseURL).href;
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
-const deferredResource = (value) => {
-  const path = new URL(value).pathname;
-  return /\/(?:src\/|assets\/)(?:wordmark-xray|xray)(?:\.|-)/.test(path)
-    || /\/assets\/xray-distress\./.test(path);
-};
+
+async function waitMode(page, mode) {
+  await page.waitForFunction((expected) => document.documentElement.hasAttribute('data-xray-ready')
+    && document.documentElement.dataset.mode === expected
+    && !document.documentElement.hasAttribute('data-xray-transition'), mode, { timeout: 6000 });
+}
 
 async function normalPresentation(page) {
-  const state = await page.evaluate(() => ({
-    mode: document.documentElement.dataset.mode,
-    ready: document.documentElement.hasAttribute('data-xray-ready'),
-    background: getComputedStyle(document.documentElement).backgroundColor,
-    overlays: document.querySelectorAll('.xray-distress,[data-xray-filters]').length,
-    hint: document.querySelectorAll('[data-other-side-hint],[data-xray-toggle]').length,
-    mediaFilters: [...document.querySelectorAll('#logo-canvas,.project-image img,.about-portrait img')].map((image) => getComputedStyle(image).filter),
-  }));
-  assert.notEqual(state.mode, 'xray', 'The postponed mode must not become public.');
-  assert.equal(state.ready, false, 'No alternate-mode controller may initialize.');
-  assert.equal(state.background, 'rgb(48, 48, 51)', 'The approved uninterrupted charcoal palette must remain in use.');
-  assert.equal(state.overlays, 0, 'No distressed overlay or image-processing definitions may initialize.');
-  assert.equal(state.hint, 0, 'The disabled public hint must not advertise an unavailable shortcut.');
-  assert.ok(state.mediaFilters.every((filter) => filter === 'none'), 'Normal media must have no alternate color treatment.');
+  await waitMode(page, 'normal');
+  // Lite devices skip the SVG/RAF treatment while the inexpensive CSS color
+  // transition still finishes. Verify the visible restored state, not only
+  // the controller's completed flag.
+  await page.waitForFunction(() => getComputedStyle(document.documentElement).backgroundColor === 'rgb(48, 48, 51)');
+  assert.equal(await page.locator('html').evaluate((element) => getComputedStyle(element).backgroundColor), 'rgb(48, 48, 51)', 'Normal Mode keeps the original charcoal background.');
+  const media = await page.locator('#logo-canvas,.project-image img,.about-portrait img').evaluateAll((items) => items.map((item) => getComputedStyle(item).filter));
+  assert.ok(media.every((filter) => filter === 'none'), 'Normal Mode restores clean media without negative-image filters.');
+  if (await page.locator('[data-xray-hint-text]').count()) assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+}
+
+async function holdKey(page, key, mode) {
+  await page.keyboard.down(key);
+  try { await waitMode(page, mode); }
+  finally { await page.keyboard.up(key); }
 }
 
 try {
@@ -41,109 +42,87 @@ try {
     const context = await browser.newContext({ deviceScaleFactor: 1, ...options });
     try {
       const page = await context.newPage();
-      const requests = [];
       const errors = [];
-      page.on('request', (request) => requests.push(request.url()));
       page.on('pageerror', (error) => errors.push(error.message));
-      for (const path of ['/work', '/about', '/']) {
-        await page.goto(new URL(path === '/' ? '/?test=1' : path, baseURL).href, { waitUntil: 'networkidle' });
-        if (path === '/') await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-        await normalPresentation(page);
-        await page.keyboard.press('4');
-        await page.keyboard.press('Numpad4');
-        await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-        await normalPresentation(page);
-        if (path === '/') {
-          const gap = await page.locator('[data-footer-secret-space]').boundingBox();
-          assert.ok(gap.height >= options.viewport.height * .25 && gap.height <= options.viewport.height * .35 + 2, 'The reserved hidden-footer area remains spacious without publishing the postponed hint.');
-          if (await page.evaluate(() => Boolean(window.__H4_TEST__))) {
-            assert.equal(await page.evaluate(() => window.__H4_TEST__.snapshot().xrayAmount), 0, 'The dormant shader must not modify the original chrome.');
-          }
-        }
+      await page.goto(route('/work'), { waitUntil: 'networkidle' });
+      await normalPresentation(page);
+      await page.keyboard.press('4');
+      await page.keyboard.press('Numpad4');
+      await page.waitForTimeout(1100);
+      await normalPresentation(page);
+
+      // Use the real public controller, including on built preview servers.
+      await page.evaluate(() => {
+        window.__modeChanges = [];
+        document.addEventListener('h4:modechange', (event) => window.__modeChanges.push(event.detail.mode));
+      });
+      await page.keyboard.down('4');
+      const shortHold = await page.evaluate(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 850));
+        return document.documentElement.dataset.mode;
+      });
+      assert.equal(shortHold, 'normal', 'An 850ms hold must not change realities.');
+      await page.keyboard.up('4');
+      await page.waitForTimeout(250);
+      assert.deepEqual(await page.evaluate(() => window.__modeChanges), [], 'Release before one second cancels the pending transition.');
+
+      await page.keyboard.down('4');
+      await waitMode(page, 'xray');
+      await page.keyboard.down('4');
+      await page.waitForTimeout(1100);
+      assert.deepEqual(await page.evaluate(() => window.__modeChanges), ['xray'], 'A continuous hold and native repeats toggle exactly once.');
+      await page.keyboard.up('4');
+
+      await page.locator('.page-nav a[href="/about"]').click();
+      await page.waitForURL((url) => url.pathname === '/about');
+      await page.locator('.about-copy').waitFor();
+      await waitMode(page, 'xray');
+      assert.equal(await page.locator('#logo-canvas').isVisible(), false, 'Interior navigation stays lightweight in either reality.');
+      const mute = page.locator('[data-mode-mute]');
+      assert.equal(await mute.count(), 1, 'The visitor can control transition sound.');
+      if (await mute.isEnabled()) {
+        await mute.click();
+        assert.equal(await mute.getAttribute('aria-pressed'), 'true', 'The sound control exposes its muted state.');
       }
-      assert.deepEqual(requests.filter(deferredResource), [], 'The deferred controller, color shader and texture must not download.');
+      await page.locator('.brand-link').click();
+      await page.waitForURL((url) => url.pathname === '/');
+      await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
+      await waitMode(page, 'xray');
+      const hint = page.locator('[data-other-side-hint][data-mode-hold]');
+      const text = page.locator('[data-xray-hint-text]');
+      assert.equal(await text.textContent(), 'HOLD 4 TO REVERSE.');
+      const placement = await page.locator('[data-footer-secret-space]').evaluate((space) => {
+        const area = space.getBoundingClientRect();
+        const control = space.querySelector('[data-other-side-hint]').getBoundingClientRect();
+        return { height: area.height / innerHeight, x: control.x + control.width / 2, width: innerWidth, y: (control.y + control.height / 2 - area.y) / area.height };
+      });
+      assert.ok(placement.height >= .25 && placement.height <= .35 + .002, 'The instruction retains generous negative space.');
+      assert.ok(Math.abs(placement.x - placement.width / 2) < 1 && placement.y > .25 && placement.y < .5, 'The instruction is centered horizontally and slightly above the middle.');
+      const position = await hint.boundingBox();
+
+      await holdKey(page, 'Numpad4', 'normal');
+      await normalPresentation(page);
+      const restoredPosition = await hint.boundingBox();
+      assert.ok(Math.abs(position.x + position.width / 2 - restoredPosition.x - restoredPosition.width / 2) < 1 && Math.abs(position.y - restoredPosition.y) < 1, 'Both instruction variants occupy the same reveal zone.');
+
+      if (options.hasTouch) {
+        await hint.scrollIntoViewIfNeeded();
+        await hint.tap();
+        await page.waitForTimeout(1100);
+        assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal', 'A short mobile tap reveals the instruction without switching mode.');
+        const box = await hint.boundingBox();
+        const touch = await context.newCDPSession(page);
+        try {
+          await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: box.x + box.width / 2, y: box.y + box.height / 2 }] });
+          await waitMode(page, 'xray');
+          await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+        } finally { await touch.detach(); }
+        await holdKey(page, '4', 'normal');
+      }
+      await normalPresentation(page);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mode controls and effects cannot cause horizontal page overflow.');
       assert.deepEqual(errors, []);
-      console.log(`PASS postponed the other side (${label}): Normal palette, inert 4/numpad, no public tease, no controller/shader/texture requests and reserved footer space.`);
+      console.log(`PASS public realities (${label}): short-hold cancellation, repeat latch, keyboard/numpad switching, mode-preserving navigation, sound control, mode-aware instruction${options.hasTouch ? ', real touch hold' : ''} and clean Normal restoration.`);
     } finally { await context.close(); }
   }
-
-  // Exercise the postponed controller only after every real browsing profile
-  // has proved that the public flag never downloads or initializes it.
-  const controllerSource = await fetch(new URL('/src/xray.js', baseURL)).catch(() => null);
-  const fixtureAvailable = controllerSource?.ok && /^(?:text|application)\/(?:javascript|ecmascript)(?:;|$)/i.test(controllerSource.headers.get('content-type') || '');
-  if (fixtureAvailable) await verifyDormantControllerFixture();
-  else console.log('SKIP dev-only dormant controller fixture on built server');
 } finally { await browser.close(); }
-
-async function verifyDormantControllerFixture() {
-  const fixture = await browser.newContext({ viewport: { width: 1200, height: 900 }, reducedMotion: 'reduce' });
-  try {
-    const page = await fixture.newPage();
-    const errors = [];
-    page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
-    await normalPresentation(page);
-    await page.evaluate(async () => {
-      const { initXRay } = await import('/src/xray.js');
-      window.__xrayFixtureChanges = [];
-      let pressedAt = 0;
-      const down = (event) => { if (event.key === '4' && !event.repeat) pressedAt = performance.now(); };
-      const change = (event) => window.__xrayFixtureChanges.push({ mode: event.detail.mode, heldFor: performance.now() - pressedAt });
-      document.addEventListener('keydown', down, true);
-      document.addEventListener('h4:modechange', change);
-      window.__xrayFixtureDispose = initXRay();
-      window.__xrayFixtureCleanup = () => {
-        window.__xrayFixtureDispose();
-        document.removeEventListener('keydown', down, true);
-        document.removeEventListener('h4:modechange', change);
-      };
-    });
-    const changes = () => page.evaluate(() => window.__xrayFixtureChanges);
-    await page.keyboard.down('4');
-    const shortHold = await page.evaluate(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 850));
-      return document.documentElement.dataset.mode;
-    });
-    assert.equal(shortHold, 'normal', 'An 850ms hold must not activate the postponed mode.');
-    await page.keyboard.up('4');
-    await page.waitForTimeout(250);
-    assert.deepEqual(await changes(), [], 'Releasing before one second cancels activation.');
-
-    await page.keyboard.down('4');
-    await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray', null, { timeout: 2500 });
-    assert.deepEqual((await changes()).map((entry) => entry.mode), ['xray']);
-    assert.ok((await changes())[0].heldFor >= 1000, 'A real keyboard hold activates only after one full second.');
-    await page.keyboard.down('4'); // A second down while held is native key repeat.
-    await page.waitForTimeout(1100);
-    assert.deepEqual((await changes()).map((entry) => entry.mode), ['xray'], 'A held or repeated key toggles exactly once.');
-    await page.keyboard.up('4');
-    await page.keyboard.down('4');
-    await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal', null, { timeout: 2500 });
-    assert.deepEqual((await changes()).map((entry) => entry.mode), ['xray', 'normal'], 'Release followed by a new full hold returns to Normal.');
-    assert.ok((await changes())[1].heldFor >= 1000);
-    await page.keyboard.up('4');
-
-    await page.keyboard.down('4');
-    await page.waitForTimeout(400);
-    await page.evaluate(() => window.dispatchEvent(new Event('blur')));
-    await page.waitForTimeout(850);
-    assert.equal((await changes()).length, 2, 'Losing window focus cancels the pending hold.');
-    await page.keyboard.up('4');
-
-    await page.keyboard.down('4');
-    await page.waitForTimeout(400);
-    await page.evaluate(() => window.__xrayFixtureDispose());
-    await page.waitForTimeout(850);
-    assert.equal((await changes()).length, 2, 'Disposal cancels a pending hold.');
-    await page.keyboard.up('4');
-    await normalPresentation(page);
-    await page.keyboard.down('4');
-    await page.waitForTimeout(1100);
-    await page.keyboard.up('4');
-    assert.equal((await changes()).length, 2, 'A disposed controller leaves no keyboard shortcut listener.');
-    await normalPresentation(page);
-    await page.evaluate(() => window.__xrayFixtureCleanup());
-    assert.deepEqual(errors, []);
-    console.log('PASS isolated dormant controller: 850ms/release cancellation, one-second real key hold, repeat latch, release/new hold, blur cancellation and disposal cleanup; public feature flag unchanged.');
-  } finally { await fixture.close(); }
-}

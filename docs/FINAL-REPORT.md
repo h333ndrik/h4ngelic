@@ -1,6 +1,6 @@
 # Abschlussbericht und Produktionsbereitschaft
 
-**Historischer PR-9-Snapshot.** Dieser Bericht dokumentiert den damaligen abgeschlossenen Masterbrief-Stand. Das neueste Homepage-Briefing verschiebt „the other side“ und ersetzt die ausdrücklich geänderten Layout-/Bewegungsentscheidungen. Modus-Aktivierung, Testzahlen und Messwerte unten gelten ausschließlich für den früheren Stand; aktuell sind Modus und öffentlicher Hinweis deaktiviert. Aktuelle Verifikation und neue Messwerte stehen in [REFINEMENT-REPORT.md](REFINEMENT-REPORT.md); die folgenden damaligen Ergebnisse bleiben unverändert erhalten.
+**Historischer PR-9-Snapshot.** Modus-Aktivierung, Testzahlen und Messwerte unten gelten ausschließlich für den damaligen Stand. PR #10 stellte den Modus zwischenzeitlich zurück; das aktuelle [Control-vs.-Corruption-Update](CONTROL-CORRUPTION.md) aktiviert ihn mit Ein-Sekunden-Hold, Filmkorruption und Klang. Die damaligen Messungen bleiben unverändert. Gemeinsame Vorschau-Dateinamen zeigen inzwischen den aktuellen Stand; originale Screenshots liegen in der Git-Historie.
 
 Stand: 23. Oktober 2026. Das bestehende Projekt wurde in den fünf gewünschten Phasen erweitert. Der alternative Modus heißt auf Wunsch **the other side**. Interne Dateinamen und der Statuswert `xray` bleiben stabile technische Bezeichner.
 

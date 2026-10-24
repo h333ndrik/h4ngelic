@@ -64,7 +64,7 @@ function fallback(message) {
 }
 
 async function initialize() {
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: quality.antialias, alpha: false, stencil: false, powerPreference: 'low-power' });
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: quality.antialias, alpha: true, stencil: false, powerPreference: 'low-power' });
   renderer.setClearColor('#303033');
   renderer.setPixelRatio(quality.pixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -120,9 +120,21 @@ async function initialize() {
   // Install after the artwork hook so both treatments share one mesh program.
   // Uniform updates leave the hero's existing visibility/RAF lifecycle intact.
   let wordmarkXRay = null;
+  let materialLoading = null;
+  let materialDisposed = false;
+  const prepareMaterial = () => {
+    if (materialLoading || materialDisposed) return materialLoading;
+    materialLoading = import('./wordmark-xray.js').then(({ attachWordmarkXRay }) => {
+      if (!materialDisposed) wordmarkXRay = attachWordmarkXRay(chrome, { renderer });
+    }).catch(error => {
+      materialLoading = null;
+      if (!materialDisposed) console.warn('The damaged material is unavailable; the original chrome remains usable.', error);
+    });
+    return materialLoading;
+  };
   if (featureFlags.otherSideEnabled) {
-    const { attachWordmarkXRay } = await import('./wordmark-xray.js');
-    wordmarkXRay = attachWordmarkXRay(chrome, { renderer });
+    document.addEventListener('h4:modeprepare', prepareMaterial);
+    if (document.documentElement.dataset.mode === 'xray' || document.documentElement.hasAttribute('data-mode-holding')) await prepareMaterial();
   }
 
   const bounds = { x: 1, y: 1 };
@@ -327,6 +339,8 @@ async function initialize() {
   syncRendering();
 
   disposeScene = () => {
+    materialDisposed = true;
+    document.removeEventListener('h4:modeprepare', prepareMaterial);
     observer.disconnect();
     visibilityObserver.disconnect();
     document.removeEventListener('visibilitychange', syncRendering);
