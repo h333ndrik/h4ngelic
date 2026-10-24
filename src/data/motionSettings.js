@@ -7,7 +7,7 @@ export const motionSettings = Object.freeze({
   mobileBreakpoint: 700,
   approach: .85,
   pin: Object.freeze({ work: .68, contact: .58, mobileWork: .48, mobileContact: .44 }),
-  fly: Object.freeze({ start: .025, stagger: .14, duration: .66, distanceVw: 1.35, rotation: 6.5, overshoot: 12, overshootAt: .78 }),
+  fly: Object.freeze({ start: .025, stagger: .14, duration: .66, distanceVw: 1.35, rotation: 6.5, overshoot: 12, overshootAt: .78, accelerationRamp: .12 }),
   heading: Object.freeze({ start: 0, end: .27, rise: 112 }),
   about: Object.freeze({ approach: .88, finish: .08, headingEnd: .28, copyStart: .045, copyEnd: .84, linkStart: .18, linkEnd: 1, copyDistanceVw: 1.12, linkDistanceVw: 1.04 }),
   trail: Object.freeze({ layers: 2, distanceVw: .045, maximumDistance: 64, mobileMaximumDistance: 26, opacity: .22, secondaryOpacity: .13, fadeIn: .08, fadeOutStart: .38, fadeOutEnd: .82 }),
@@ -26,6 +26,28 @@ export function easeOutCubic(value) {
   return 1 - (1 - clamp01(value)) ** 3;
 }
 
+/** Start at rest, then meet the established cubic with matching velocity and
+ * acceleration. The short ramp preserves the rest of the existing entrance.
+ */
+function easeFromRest(value, accelerationRamp) {
+  const p = clamp01(value);
+  const ramp = Math.max(0, Math.min(.3, Number.isFinite(accelerationRamp) ? accelerationRamp : 0));
+  if (!ramp || p >= ramp) return easeOutCubic(p);
+  const end = easeOutCubic(ramp);
+  const velocity = ramp * 3 * (1 - ramp) ** 2;
+  const acceleration = ramp ** 2 * -6 * (1 - ramp);
+  const a = 10 * end - 4 * velocity + acceleration / 2;
+  const b = -15 * end + 7 * velocity - acceleration;
+  const c = 6 * end - 3 * velocity + acceleration / 2;
+  const q = p / ramp;
+  return q ** 3 * (a + q * (b + q * c));
+}
+
+function smoothSettle(value) {
+  const p = clamp01(value);
+  return p ** 3 * (10 + p * (-15 + 6 * p));
+}
+
 /** The approach and native pin form one continuous, reversible scroll range. */
 export function pinnedProgress(position, top, viewportHeight, pinRun, settings = motionSettings) {
   const approach = Math.max(0, viewportHeight * settings.approach);
@@ -33,16 +55,16 @@ export function pinnedProgress(position, top, viewportHeight, pinRun, settings =
 }
 
 /** A continuous, deterministic entrance with one small controlled overshoot. */
-export function sampleFlyIn(progress, { distance = 0, rotation = 0, overshoot = 0, overshootAt = .78 } = {}) {
+export function sampleFlyIn(progress, { distance = 0, rotation = 0, overshoot = 0, overshootAt = .78, accelerationRamp = motionSettings.fly.accelerationRamp } = {}) {
   const p = clamp01(progress);
   if (p === 0) return { x: distance, rotation, opacity: 0 };
   if (p === 1) return { x: 0, rotation: 0, opacity: 1 };
   const turn = Math.max(.01, Math.min(.99, overshootAt));
   const settle = clamp01((p - turn) / (1 - turn));
   const x = p < turn
-    ? distance + (-overshoot - distance) * easeOutCubic(p / turn)
-    : -overshoot * (1 - settle * settle * (3 - 2 * settle));
-  return { x, rotation: rotation * (1 - easeOutCubic(p)), opacity: progressBetween(p, 0, .16) };
+    ? distance + (-overshoot - distance) * easeFromRest(p / turn, accelerationRamp)
+    : -overshoot * (1 - smoothSettle(settle));
+  return { x, rotation: rotation * (1 - easeFromRest(p, accelerationRamp)), opacity: progressBetween(p, 0, .16) };
 }
 
 export function kineticItemProgress(sectionProgress, index, settings = motionSettings.fly) {
@@ -50,7 +72,7 @@ export function kineticItemProgress(sectionProgress, index, settings = motionSet
 }
 
 export function sampleKineticItem(sectionProgress, index, viewportWidth, settings = motionSettings.fly) {
-  return sampleFlyIn(kineticItemProgress(sectionProgress, index, settings), { distance: viewportWidth * settings.distanceVw, rotation: settings.rotation, overshoot: settings.overshoot, overshootAt: settings.overshootAt });
+  return sampleFlyIn(kineticItemProgress(sectionProgress, index, settings), { distance: viewportWidth * settings.distanceVw, rotation: settings.rotation, overshoot: settings.overshoot, overshootAt: settings.overshootAt, accelerationRamp: settings.accelerationRamp });
 }
 
 /** Empty decorative spans use CSS generated text, keeping real DOM text unique.

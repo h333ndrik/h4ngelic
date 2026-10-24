@@ -24,15 +24,17 @@ try {
   assert.equal(before.xrayAmount, 0);
   const clip = { x: 0, y: 210, width: 1440, height: 600 };
   const normal = await page.screenshot({ clip, path: 'artifacts/material-normal.png' });
-  const hold = async expected => {
-    await page.keyboard.down('4');
+  const changeMode = async expected => {
+    if (expected === 'normal') {
+      for (let index = 0; index < 3; index++) await page.keyboard.press('3');
+    } else await page.keyboard.down('4');
     try {
       await page.waitForFunction(mode => document.documentElement.dataset.mode === mode
         && !document.documentElement.hasAttribute('data-xray-transition'), expected, { timeout: 10000 });
-    } finally { await page.keyboard.up('4'); }
+    } finally { if (expected === 'xray') await page.keyboard.up('4'); }
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   };
-  await hold('xray');
+  await changeMode('xray');
   await page.waitForFunction(() => window.__H4_TEST__.snapshot().xrayAmount === 1);
   // Wait for the actual film texture upload/render, not just the public mode flag.
   await page.waitForLoadState('networkidle');
@@ -42,7 +44,7 @@ try {
   assert.deepEqual(alteredState.position, before.position, 'Material activation must preserve the fixed sculpture position.');
   assert.equal(alteredState.baseTime, before.baseTime);
   assert.ok(requests.some(url => /\/wordmark-xray(?:\.|-)/.test(url)), 'The first real hold must load and attach the material.');
-  await hold('normal');
+  await changeMode('normal');
   await page.waitForFunction(() => window.__H4_TEST__.snapshot().xrayAmount === 0);
   const restoredState = await snapshot();
   const restored = await page.screenshot({ clip, path: 'artifacts/material-restored.png' });

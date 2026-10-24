@@ -84,7 +84,9 @@ async function normalPresentation(page) {
   assert.equal(await page.locator('html').evaluate((element) => getComputedStyle(element).backgroundColor), 'rgb(48, 48, 51)');
   assert.equal(await page.locator('[data-other-side-hint][data-mode-hold]').count(), 1, 'The activated mode has its subtle footer hold control.');
   assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
-  assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1, 'The hidden visit count remains separate from the header greeting.');
+  assert.equal(await page.locator('.footer-identity > [data-visit-counter-hotspot]').count(), 1, 'The hidden count is centered in the footer identity row, separate from the header greeting.');
+  assert.equal(await page.locator('[data-controls] [data-mode-mute]').count(), 1);
+  assert.equal(await page.locator('.page-footer [data-mode-mute]').count(), 0);
 }
 async function captureHomepage(page, filename) {
   const before = await snapshot(page);
@@ -145,7 +147,7 @@ try {
   assert.ok(Math.abs(header.x + header.width / 2 - 720) < 1, 'The secret header region is centered on the viewport.');
   assert.ok(Number(await page.locator('[data-visit-message]').evaluate((element) => getComputedStyle(element).opacity)) < .01);
   const moreAbout = page.locator('.about-preview .text-link');
-  assert.ok(parseFloat(await moreAbout.evaluate((element) => getComputedStyle(element).fontSize)) >= 24, 'MORE ABOUT has a prominent editorial size.');
+  assert.ok(parseFloat(await moreAbout.evaluate((element) => getComputedStyle(element).fontSize)) >= 30, 'MORE ABOUT has a prominent editorial size.');
   await normalPresentation(page);
 
   for (const selector of ['#selected-work', '#contact']) {
@@ -299,10 +301,16 @@ try {
     assert.equal(await page.locator('[data-ink-mark]').first().evaluate((mark) => getComputedStyle(mark).pointerEvents), 'none');
     const lifetimes = await page.locator('[data-ink-mark]').evaluateAll((marks) => marks.map((mark) => parseFloat(mark.style.getPropertyValue('--ink-lifetime'))));
     assert.ok(lifetimes.every((lifetime) => lifetime >= 6000 && lifetime <= 12000), 'The organic marks receive the requested six-to-twelve-second lifecycle.');
-    const anchored = await page.locator('[data-ink-mark]').first().evaluate((mark) => ({ y: mark.getBoundingClientRect().top, scroll: scrollY }));
+    const anchored = await page.locator('[data-ink-mark]').first().evaluate((mark) => {
+      const box = mark.getBoundingClientRect();
+      return { y: box.top + box.height / 2, scroll: scrollY };
+    });
     await page.evaluate(() => scrollBy({ top: 140, behavior: 'instant' }));
     await frames(page);
-    const scrolled = await page.locator('[data-ink-mark]').first().evaluate((mark) => ({ y: mark.getBoundingClientRect().top, scroll: scrollY }));
+    const scrolled = await page.locator('[data-ink-mark]').first().evaluate((mark) => {
+      const box = mark.getBoundingClientRect();
+      return { y: box.top + box.height / 2, scroll: scrollY };
+    });
     assert.ok(scrolled.scroll > anchored.scroll + 20, 'The ink-position check must exercise actual document scrolling.');
     assert.ok(Math.abs(scrolled.y + scrolled.scroll - anchored.y - anchored.scroll) < 1, 'Ink stays at its exact document position while the viewport moves.');
     const count = await page.locator('[data-ink-mark]').count();

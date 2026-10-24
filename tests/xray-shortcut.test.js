@@ -81,7 +81,7 @@ test('numpad 4 is supported and releasing another key does not interrupt a hold'
 });
 
 test('lost focus, hidden documents, composition and navigation cancel an incomplete hold', () => {
-  for (const interruption of ['blur', 'visibilitychange', 'compositionstart', 'h4:pagechange']) {
+  for (const interruption of ['blur', 'visibilitychange', 'compositionstart', 'h4:navigationstart', 'h4:pagechange']) {
     const f = fixture();
     f.key('keydown');
     f.tick(800);

@@ -49,7 +49,8 @@ async function checkInk(page, { touch }) {
     pointerEvents: getComputedStyle(mark.closest('.ink-layer')).pointerEvents,
     opacity: Number(getComputedStyle(mark).opacity),
     color: getComputedStyle(mark).color,
-    fill: getComputedStyle(mark.querySelector('path')).fill,
+    pigments: [...new Set([...mark.querySelectorAll('[data-ink-pigment]')].map(path => getComputedStyle(path).fill))],
+    filmImages: mark.querySelectorAll('image[data-ink-film]').length,
     lifetime: Number.parseFloat(mark.style.getPropertyValue('--ink-lifetime')),
     positioning: getComputedStyle(mark.closest('.ink-layer')).position,
   }));
@@ -57,7 +58,8 @@ async function checkInk(page, { touch }) {
   assert.ok(initial.paths >= 3, 'Ink should have broken pigment fragments, not a generic dot.');
   assert.equal(initial.regularShapes, 0);
   assert.equal(initial.pointerEvents, 'none');
-  assert.equal(initial.fill, initial.color, 'Pigment paths must use their configured off-white ink color.');
+  assert.ok(initial.pigments.length >= 3, 'Both realities use multiple visible chemical colors, not monochrome ink.');
+  assert.ok(initial.filmImages >= 4 && initial.filmImages <= 7, 'Actual film pixels are clipped into the contour and displaced bands.');
   assert.ok(initial.opacity > .1, 'A completed blank click/tap must create a visible imprint.');
   assert.ok(initial.lifetime >= 6000 && initial.lifetime <= 12000, 'Each mark lasts within the requested six-to-twelve-second interval.');
   assert.equal(initial.positioning, 'absolute');
@@ -92,7 +94,8 @@ async function checkInk(page, { touch }) {
     else await page.mouse.click(point.x, point.y);
   }
   assert.equal(await page.locator('[data-ink-mark]').count(), 12, 'The effect must cap concurrent DOM marks.');
-  const silhouettes = await page.locator('[data-ink-mark] path:first-child').evaluateAll((paths) => paths.map((path) => path.getAttribute('d')));
+  const silhouettes = await page.locator('[data-ink-mark] > [data-ink-pigment="base"]').evaluateAll((paths) => paths.map((path) => path.getAttribute('d')));
+  assert.equal(silhouettes.length, 12, 'Each active mark has exactly one visible base contour; repeated clip/channel paths are not separate marks.');
   assert.equal(new Set(silhouettes).size, silhouettes.length, 'Every actual click must create new contour geometry, not rotate a stored silhouette.');
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Ink near a viewport boundary must not enlarge the document.');
   await page.waitForTimeout(5000);
@@ -192,7 +195,7 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   const copy = await message.boundingBox();
   assert.ok(Math.abs(copy.x + copy.width / 2 - width / 2) < .6, 'Visitor copy itself remains exactly centered.');
   assert.ok(box.width >= 44 && box.height >= 44, 'Secret target remains usable by touch.');
-  assert.equal(await message.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize)), touch ? 12 : 14, 'The returning message is deliberately larger while preserving its location.');
+  assert.equal(await message.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize)), touch ? 14 : 16, 'The returning message is deliberately larger while preserving its location.');
   assert.equal(Number(await message.evaluate((element) => getComputedStyle(element).opacity)), 0);
   if (touch) {
     assert.ok(copy.y >= labels[0].y + labels[0].height, 'Mobile visitor copy uses its own visual row, without covering the original labels.');
@@ -233,10 +236,24 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   const counterBox = await counter.boundingBox();
   assert.ok(Math.abs(counterBox.x + counterBox.width / 2 - width / 2) < .6);
   assert.ok(counterBox.y + await page.evaluate(() => scrollY) > hintDocumentY + hintBox.height + 30, 'Visit count and mode instruction remain spatially separated.');
+  const row = await counter.evaluate(element => {
+    const identity = element.closest('.footer-identity');
+    const bounds = identity.getBoundingClientRect();
+    const count = element.getBoundingClientRect();
+    const left = identity.querySelector('.footer-brand').getBoundingClientRect();
+    const right = identity.querySelector('.footer-location').getBoundingClientRect();
+    return { parentIsIdentity: element.parentElement === identity,
+      centerError: Math.abs(count.x + count.width / 2 - bounds.x - bounds.width / 2),
+      leftGap: count.left - left.right, rightGap: right.left - count.right,
+      verticalError: Math.max(Math.abs(count.y + count.height / 2 - left.y - left.height / 2), Math.abs(count.y + count.height / 2 - right.y - right.height / 2)) };
+  });
+  assert.equal(row.parentIsIdentity, true, 'The visit counter shares the copyright/location identity row.');
+  assert.ok(row.centerError < .6 && row.verticalError < .6 && row.leftGap >= 0 && row.rightGap >= 0, 'The count is independently centered and aligned without colliding with either label.');
   const footer = await page.locator('[data-artist-footer]').boundingBox();
   assert.ok(footer.y + footer.height - (counterBox.y + counterBox.height) >= 12, 'The bottom count has an intentional small bottom inset.');
   assert.equal(await page.locator('.masthead [data-visit-number]').count(), 0);
-  assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'false');
+  assert.equal(await page.locator('[data-controls] [data-mode-mute]').getAttribute('aria-pressed'), 'false');
+  assert.equal(await page.locator('.page-footer [data-mode-mute]').count(), 0, 'The footer cannot retain a duplicate sound control.');
 
 }
 
@@ -385,7 +402,7 @@ try {
     if (!touch) await checkSeparatedReturn();
     assert.deepEqual(errors, [], 'The tested refinement flow must not throw browser errors.');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Footer and effects must not overflow at ${width}px.`);
-    console.log(`PASS hidden messages/ink ${width}px: exact header center, untouched labels, timed hover/tap rediscovery, mode hint and separate final count, document-anchored procedural blots, cleanup/exclusions and local visit continuity.`);
+    console.log(`PASS hidden messages/ink ${width}px: exact header center, untouched labels, timed hover/tap rediscovery, mode hint and independently centered identity-row count, document-anchored procedural blots, cleanup/exclusions and local visit continuity.`);
     await context.close();
   }
 } finally {

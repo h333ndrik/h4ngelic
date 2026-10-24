@@ -1,0 +1,331 @@
+{
+  "baseURL": "http://127.0.0.1:5173",
+  "measuredAt": "2026-10-24T23:05:12.569Z",
+  "browser": "154.0.8037.57",
+  "renderer": "SwiftShader",
+  "chromeFlags": [
+    "--no-sandbox",
+    "--use-angle=swiftshader",
+    "--enable-unsafe-swiftshader"
+  ],
+  "deviceScaleFactor": 1,
+  "overriddenResourceHints": {
+    "deviceMemory": 8,
+    "hardwareConcurrency": 8
+  },
+  "observationMs": 3000,
+  "sequence": "normal → trusted hold4 → xray → trusted released333 → normal; stationary three-second observation after each settled state",
+  "transitionDefinitions": {
+    "inputToModeChangeMs": "First trusted shortcut keydown to authoritative modechange; includes the one-second entry hold.",
+    "controllerTransitionMs": "Modechange to removal of data-xray-transition; zero/near-zero when the controller skips animation.",
+    "settledFromModeChangeMs": "Modechange to observed controller completion, matching optional hero uniform and optional compositor-transition completion. Not a visual paint latency guarantee.",
+    "declaredTransitionMs": "Requested duration from event detail when exposed; null means unavailable."
+  },
+  "caveats": "Single software-GPU observation per profile; resource hints overridden for coverage. The measurement itself adds a bounded RAF observer. Callback intervals are not GPU/compositor FPS. No physical-device input, native-touch latency, INP or statistical performance claim. Missing DEV counters remain null; ambient scheduling is separate from recovered pointer-ROI idleness.",
+  "results": [
+    {
+      "profile": "1440px-desktop-full",
+      "inputMethod": "trusted keyboard on both emulated profiles; no native-touch latency measurement",
+      "xrayQuality": "full",
+      "samples": [
+        {
+          "mode": "normal",
+          "transition": {
+            "method": "initial-normal-state",
+            "inputToModeChangeMs": 0,
+            "controllerTransitionMs": 0,
+            "declaredTransitionMs": null,
+            "settledFromModeChangeMs": 0,
+            "variant": null
+          },
+          "elapsedMs": 3147.2999999970198,
+          "webglClearCalls": 26,
+          "rafCallbackIntervalMedianMs": 116.69999999999982,
+          "rafCallbackIntervalP95Ms": 249.90000000000055,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "effectBefore": {
+            "mode": "normal",
+            "devHookAvailable": false,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": null,
+            "ambientFrames": null,
+            "ambientQueued": null,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 0
+          },
+          "effectAfter": {
+            "mode": "normal",
+            "devHookAvailable": false,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": null,
+            "ambientFrames": null,
+            "ambientQueued": null,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 0
+          },
+          "roiFramesDelta": null,
+          "ambientFramesDelta": null,
+          "transitionFramesDelta": null,
+          "taskDurationMs": 68.474,
+          "scriptDurationMs": 13.248999999999999,
+          "layoutDurationMs": 0
+        },
+        {
+          "mode": "xray",
+          "transition": {
+            "method": "trusted-keyboard-continuous-4-hold",
+            "inputToModeChangeMs": 1334.2999999970198,
+            "controllerTransitionMs": 1192.3999999910593,
+            "declaredTransitionMs": 755.1534712128341,
+            "settledFromModeChangeMs": 2030.8999999910593,
+            "variant": 1920246028
+          },
+          "elapsedMs": 3115.9000000059605,
+          "webglClearCalls": 12,
+          "rafCallbackIntervalMedianMs": 200.10000000000036,
+          "rafCallbackIntervalP95Ms": 466.59999999999854,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "effectBefore": {
+            "mode": "xray",
+            "devHookAvailable": true,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": 0,
+            "ambientFrames": 4,
+            "ambientQueued": true,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 1
+          },
+          "effectAfter": {
+            "mode": "xray",
+            "devHookAvailable": true,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": 0,
+            "ambientFrames": 12,
+            "ambientQueued": true,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 1
+          },
+          "roiFramesDelta": 0,
+          "ambientFramesDelta": 8,
+          "transitionFramesDelta": null,
+          "taskDurationMs": 23.73700000000001,
+          "scriptDurationMs": 12.461999999999973,
+          "layoutDurationMs": 0
+        },
+        {
+          "mode": "normal",
+          "transition": {
+            "method": "trusted-keyboard-three-released-3-presses",
+            "inputToModeChangeMs": 215,
+            "controllerTransitionMs": 1476.4000000059605,
+            "declaredTransitionMs": 746.2496989220381,
+            "settledFromModeChangeMs": 1849.7000000029802,
+            "variant": 4102007770
+          },
+          "elapsedMs": 3058.699999988079,
+          "webglClearCalls": 24,
+          "rafCallbackIntervalMedianMs": 116.70000000000073,
+          "rafCallbackIntervalP95Ms": 233.29999999999927,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "effectBefore": {
+            "mode": "normal",
+            "devHookAvailable": true,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": 0,
+            "ambientFrames": 13,
+            "ambientQueued": false,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 0
+          },
+          "effectAfter": {
+            "mode": "normal",
+            "devHookAvailable": true,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": 0,
+            "ambientFrames": 13,
+            "ambientQueued": false,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 0
+          },
+          "roiFramesDelta": 0,
+          "ambientFramesDelta": 0,
+          "transitionFramesDelta": null,
+          "taskDurationMs": 40.55000000000008,
+          "scriptDurationMs": 17.31700000000003,
+          "layoutDurationMs": 0
+        }
+      ],
+      "errors": []
+    },
+    {
+      "profile": "390px-touch-lite",
+      "inputMethod": "trusted keyboard on both emulated profiles; no native-touch latency measurement",
+      "xrayQuality": "lite",
+      "samples": [
+        {
+          "mode": "normal",
+          "transition": {
+            "method": "initial-normal-state",
+            "inputToModeChangeMs": 0,
+            "controllerTransitionMs": 0,
+            "declaredTransitionMs": null,
+            "settledFromModeChangeMs": 0,
+            "variant": null
+          },
+          "elapsedMs": 3027.5,
+          "webglClearCalls": 87,
+          "rafCallbackIntervalMedianMs": 33.30000000000018,
+          "rafCallbackIntervalP95Ms": 50.100000000000364,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "effectBefore": {
+            "mode": "normal",
+            "devHookAvailable": false,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": null,
+            "ambientFrames": null,
+            "ambientQueued": null,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 0
+          },
+          "effectAfter": {
+            "mode": "normal",
+            "devHookAvailable": false,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": null,
+            "ambientFrames": null,
+            "ambientQueued": null,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 0
+          },
+          "roiFramesDelta": null,
+          "ambientFramesDelta": null,
+          "transitionFramesDelta": null,
+          "taskDurationMs": 89.75999999999999,
+          "scriptDurationMs": 44.033,
+          "layoutDurationMs": 0
+        },
+        {
+          "mode": "xray",
+          "transition": {
+            "method": "trusted-keyboard-continuous-4-hold",
+            "inputToModeChangeMs": 1068.7999999970198,
+            "controllerTransitionMs": 1049.2000000029802,
+            "declaredTransitionMs": 871.9768156576902,
+            "settledFromModeChangeMs": 1151.6000000089407,
+            "variant": 2916659348
+          },
+          "elapsedMs": 3025.1000000089407,
+          "webglClearCalls": 68,
+          "rafCallbackIntervalMedianMs": 33.400000000001455,
+          "rafCallbackIntervalP95Ms": 83.29999999999927,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "effectBefore": {
+            "mode": "xray",
+            "devHookAvailable": true,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": 0,
+            "ambientFrames": 2,
+            "ambientQueued": true,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 1
+          },
+          "effectAfter": {
+            "mode": "xray",
+            "devHookAvailable": true,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": 0,
+            "ambientFrames": 8,
+            "ambientQueued": true,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 1
+          },
+          "roiFramesDelta": 0,
+          "ambientFramesDelta": 6,
+          "transitionFramesDelta": null,
+          "taskDurationMs": 66.60699999999997,
+          "scriptDurationMs": 30.335999999999974,
+          "layoutDurationMs": 0
+        },
+        {
+          "mode": "normal",
+          "transition": {
+            "method": "trusted-keyboard-three-released-3-presses",
+            "inputToModeChangeMs": 58.900000005960464,
+            "controllerTransitionMs": 935.0999999940395,
+            "declaredTransitionMs": 785.3259495273232,
+            "settledFromModeChangeMs": 1042.0999999940395,
+            "variant": 977714605
+          },
+          "elapsedMs": 3034,
+          "webglClearCalls": 79,
+          "rafCallbackIntervalMedianMs": 33.399999999999636,
+          "rafCallbackIntervalP95Ms": 66.70000000000073,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "observedPixelRatio": 1,
+          "effectBefore": {
+            "mode": "normal",
+            "devHookAvailable": true,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": 0,
+            "ambientFrames": 8,
+            "ambientQueued": false,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 0
+          },
+          "effectAfter": {
+            "mode": "normal",
+            "devHookAvailable": true,
+            "roiRegions": 0,
+            "roiQueued": false,
+            "roiFrames": 0,
+            "ambientFrames": 8,
+            "ambientQueued": false,
+            "transitionFrames": null,
+            "transitionQueued": null,
+            "materialUniformAmount": 0
+          },
+          "roiFramesDelta": 0,
+          "ambientFramesDelta": 0,
+          "transitionFramesDelta": null,
+          "taskDurationMs": 70.48699999999997,
+          "scriptDurationMs": 28.52899999999997,
+          "layoutDurationMs": 0
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

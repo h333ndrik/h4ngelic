@@ -1,0 +1,64 @@
+/* These are the browser's captured page images, not a filter on the live DOM.
+   The reverse instruction is captured separately and never enters this graph. */
+.mode-snapshot-definitions { position: fixed; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+html[data-mode-snapshot],
+html[data-mode-snapshot] .corruption-background,
+html[data-mode-snapshot] .xray-distress { transition: none !important; }
+html[data-mode-snapshot] .xray-distress::after { animation: none !important; opacity: 0; }
+html[data-mode-snapshot] [data-other-side-hint] { view-transition-name: h4-mode-instruction; }
+html[data-mode-snapshot]::view-transition { pointer-events: none; }
+html[data-mode-snapshot]::view-transition-group(*) { animation-duration: var(--mode-snapshot-duration, 800ms); }
+html[data-mode-snapshot]::view-transition-group(root) { animation: none; }
+html[data-mode-snapshot]::view-transition-image-pair(*) { isolation: isolate; }
+html[data-mode-snapshot]::view-transition-old(*),
+html[data-mode-snapshot]::view-transition-new(*) {
+  mix-blend-mode: normal;
+  object-fit: fill;
+  transform: none;
+  animation-duration: var(--mode-snapshot-duration, 800ms);
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+html[data-mode-snapshot]::view-transition-old(*) {
+  filter: var(--mode-snapshot-old-filter);
+  animation-name: h4-snapshot-break;
+}
+html[data-mode-snapshot]::view-transition-new(*) {
+  filter: var(--mode-snapshot-new-filter);
+  animation-name: h4-snapshot-emerge;
+}
+html[data-mode-snapshot='leaving']::view-transition-old(*) { animation-name: h4-snapshot-reassemble-old; }
+html[data-mode-snapshot='leaving']::view-transition-new(*) { animation-name: h4-snapshot-reassemble-new; }
+html[data-mode-snapshot]::view-transition-group(h4-mode-instruction) { animation: none; z-index: 10; }
+html[data-mode-snapshot]::view-transition-old(h4-mode-instruction),
+html[data-mode-snapshot]::view-transition-new(h4-mode-instruction) { animation: none; filter: none; transform: none; }
+html[data-mode-snapshot]::view-transition-old(h4-mode-instruction) { opacity: 0; }
+html[data-mode-snapshot]::view-transition-new(h4-mode-instruction) { opacity: 1; }
+
+@keyframes h4-snapshot-break {
+  0%, 28% { opacity: 1; }
+  52% { opacity: .82; }
+  78% { opacity: .18; }
+  100% { opacity: 0; }
+}
+@keyframes h4-snapshot-emerge {
+  0%, 12% { opacity: 0; }
+  43% { opacity: .48; }
+  76%, 100% { opacity: 1; }
+}
+@keyframes h4-snapshot-reassemble-old {
+  0%, 12% { opacity: 1; }
+  46% { opacity: .67; }
+  82%, 100% { opacity: 0; }
+}
+@keyframes h4-snapshot-reassemble-new {
+  0% { opacity: 0; }
+  28% { opacity: .24; }
+  67% { opacity: .86; }
+  100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-mode-snapshot]::view-transition-old(*),
+  html[data-mode-snapshot]::view-transition-new(*) { animation: none; filter: none; }
+}

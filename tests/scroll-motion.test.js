@@ -41,6 +41,51 @@ test('fly-in decelerates into one bounded physical overshoot and returns continu
   assert.ok(Math.abs(sampleFlyIn(overshootAt - .00001, options).x - sampleFlyIn(overshootAt + .00001, options).x) < .001);
 });
 
+test('fly-in starts and settles at rest without velocity or acceleration jumps', () => {
+  // Normalize geometry to compare derivatives independently of viewport size.
+  const options = { distance: 1, rotation: 1, overshoot: .01, overshootAt: .78 };
+  const h = .00001;
+  const sides = (f, p) => {
+    const value = f(p);
+    return {
+      leftVelocity: (3 * value - 4 * f(p - h) + f(p - 2 * h)) / (2 * h),
+      rightVelocity: (-3 * value + 4 * f(p + h) - f(p + 2 * h)) / (2 * h),
+      leftAcceleration: (2 * value - 5 * f(p - h) + 4 * f(p - 2 * h) - f(p - 3 * h)) / h ** 2,
+      rightAcceleration: (2 * value - 5 * f(p + h) + 4 * f(p + 2 * h) - f(p + 3 * h)) / h ** 2,
+    };
+  };
+  for (const component of ['x', 'rotation']) {
+    const boundaries = component === 'x'
+      ? [0, options.overshootAt * motionSettings.fly.accelerationRamp, options.overshootAt, 1]
+      : [0, motionSettings.fly.accelerationRamp, 1];
+    for (const progress of boundaries) {
+      const sample = sides((p) => sampleFlyIn(p, options)[component], progress);
+      assert.ok(Math.abs(sample.leftVelocity - sample.rightVelocity) < .00001, `${component} velocity is continuous at ${progress}`);
+      assert.ok(Math.abs(sample.leftAcceleration - sample.rightAcceleration) < .002, `${component} acceleration is continuous at ${progress}`);
+      if (progress === 0 || progress === 1) {
+        assert.ok(Math.abs(sample.leftVelocity) < .00001 && Math.abs(sample.rightVelocity) < .00001, 'Stationary endpoints meet the moving range at rest.');
+        assert.ok(Math.abs(sample.leftAcceleration) < .002 && Math.abs(sample.rightAcceleration) < .002, 'Endpoint acceleration returns smoothly to zero.');
+      }
+    }
+  }
+});
+
+test('the brief acceleration ramp preserves established later approach positions and bounded direction', () => {
+  const options = { distance: 1944, rotation: 6.5, overshoot: 12, overshootAt: .78 };
+  for (const progress of [.15, .3, .5, .7]) {
+    assert.deepEqual(sampleFlyIn(progress, options), sampleFlyIn(progress, { ...options, accelerationRamp: 0 }), 'The established middle/late approach remains exact.');
+  }
+  for (const accelerationRamp of [.04, .12, .3]) {
+    let previous = options.distance;
+    for (let index = 0; index <= 780; index++) {
+      const sample = sampleFlyIn(index / 1000, { ...options, accelerationRamp });
+      assert.ok(sample.x <= previous + 1e-10, 'Acceleration never reverses the incoming word.');
+      assert.ok(sample.x >= -options.overshoot && sample.x <= options.distance, 'Ramping never adds an extra overshoot.');
+      previous = sample.x;
+    }
+  }
+});
+
 test('scroll reversal and stopped scroll reproduce the same poses with no time or history dependency', () => {
   const positions = Array.from({ length: 121 }, (_, index) => -.2 + index * .012);
   const down = positions.map((progress) => Array.from({ length: 3 }, (_, index) => sampleKineticItem(progress, index, 390)));

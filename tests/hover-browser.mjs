@@ -61,7 +61,7 @@ try {
   assert.ok(arrow.gap >= 7 && arrow.gap <= 18.1, 'The arrow must sit close to its own word rather than at the column edge.');
   assert.ok(Math.abs(arrow.ratio - .72) < .01);
   assert.ok(Math.abs(arrow.stroke - 1.25) < .1);
-  assert.ok(Number(await page.locator('.about-preview .text-link').evaluate((element) => parseFloat(getComputedStyle(element).fontSize))) >= 24, 'More About needs a prominent readable size.');
+  assert.ok(Number(await page.locator('.about-preview .text-link').evaluate((element) => parseFloat(getComputedStyle(element).fontSize))) >= 30, 'More About needs a prominent readable size.');
 
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
   const speed = page.locator('#speed-control');
@@ -86,6 +86,7 @@ try {
   await page.keyboard.down('4');
   await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray', null, { timeout: 3000 });
   await page.keyboard.up('4');
+  await page.waitForFunction(() => !document.documentElement.hasAttribute('data-xray-transition'));
   await settle(page);
   await link.hover();
   await page.waitForTimeout(300);

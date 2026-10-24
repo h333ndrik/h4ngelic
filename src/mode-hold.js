@@ -70,6 +70,7 @@ export function bindModeHold(doc, activate, { onStart = () => {}, onEnd = () => 
   listen(view, 'blur', () => { pointerId = null; suppressClickUntil = 0; cancel(); });
   listen(doc, 'visibilitychange', () => { if (doc.hidden) { pointerId = null; suppressClickUntil = 0; cancel(); } });
   listen(doc, 'h4:pagechange', () => { pointerId = null; suppressClickUntil = 0; cancel(); });
+  listen(doc, 'h4:navigationstart', () => { pointerId = null; suppressClickUntil = 0; cancel(); });
   const dispose = () => {
     cancel();
     for (const remove of removers) remove();

@@ -24,6 +24,7 @@ export function initNavigation({ render }) {
   }
 
   function update(options, trigger) {
+    document.dispatchEvent(new CustomEvent('h4:navigationstart'));
     const currentRevision = ++revision;
     transition?.skipTransition();
     sharedArtwork?.cleanup();

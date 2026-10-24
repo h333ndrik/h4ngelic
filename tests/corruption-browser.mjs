@@ -21,15 +21,21 @@ const reports = [];
 async function setup(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, ...options });
   await context.addInitScript(() => {
-    window.__corruptionProbe = { imageDraws: 0, historyDraws: 0, fills: 0, sources: [] };
+    window.__corruptionProbe = { imageDraws: 0, filmDraws: 0, historyDraws: 0, fills: 0, sources: [] };
     const draw = CanvasRenderingContext2D.prototype.drawImage;
     CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) {
       if (this.canvas.hasAttribute('data-corruption-region')) {
         const probe = window.__corruptionProbe;
         if (source instanceof HTMLImageElement) {
           probe.imageDraws++;
+          if (/corrupted-film/.test(source.currentSrc || source.src)) probe.filmDraws++;
           if (probe.sources.length < 12 && !probe.sources.includes(source.currentSrc || source.src)) probe.sources.push(source.currentSrc || source.src);
-        } else if (source instanceof HTMLCanvasElement) probe.historyDraws++;
+        } else if (source instanceof HTMLCanvasElement) {
+          if (source.hasAttribute('data-corruption-ambient')) {
+            probe.filmDraws++;
+            if (!probe.sources.includes('canvas:corruption-ambient')) probe.sources.push('canvas:corruption-ambient');
+          } else probe.historyDraws++;
+        }
       }
       return draw.call(this, source, ...args);
     };
@@ -49,10 +55,13 @@ async function setup(options = {}) {
   return { context, page, errors, requests };
 }
 
-async function hold(page, expected) {
-  await page.keyboard.down('4');
+async function changeMode(page, expected) {
+  if (expected === 'normal') {
+    for (let index = 0; index < 3; index++) await page.keyboard.press('3');
+  } else await page.keyboard.down('4');
   try { await page.waitForFunction(value => document.documentElement.dataset.mode === value, expected); }
-  finally { await page.keyboard.up('4'); }
+  finally { if (expected === 'xray') await page.keyboard.up('4'); }
+  await page.waitForFunction(() => !document.documentElement.hasAttribute('data-xray-transition'));
   if (expected === 'xray') {
     await page.locator('.corruption-background').waitFor({ state: 'attached', timeout: 20000 });
     await page.waitForFunction(() => !document.documentElement.hasAttribute('data-xray-transition'));
@@ -93,10 +102,10 @@ async function recovered(page) {
 
 async function stableIdle(page) {
   await recovered(page);
-  const before = await page.evaluate(() => ({ draws: window.__corruptionProbe.imageDraws + window.__corruptionProbe.historyDraws, snapshot: window.__H4_CORRUPTION__?.snapshot() }));
+  const before = await page.evaluate(() => ({ draws: window.__corruptionProbe.imageDraws + window.__corruptionProbe.filmDraws + window.__corruptionProbe.historyDraws, snapshot: window.__H4_CORRUPTION__?.snapshot() }));
   await page.waitForTimeout(400);
-  const after = await page.evaluate(() => ({ draws: window.__corruptionProbe.imageDraws + window.__corruptionProbe.historyDraws, snapshot: window.__H4_CORRUPTION__?.snapshot() }));
-  assert.equal(after.draws, before.draws, 'Recovered surfaces must perform no further image/history rendering.');
+  const after = await page.evaluate(() => ({ draws: window.__corruptionProbe.imageDraws + window.__corruptionProbe.filmDraws + window.__corruptionProbe.historyDraws, snapshot: window.__H4_CORRUPTION__?.snapshot() }));
+  assert.equal(after.draws, before.draws, 'Recovered pointer regions must perform no further film/history rendering, independently of ambient background motion.');
   if (after.snapshot) {
     assert.equal(after.snapshot.queued, false);
     assert.equal(after.snapshot.regions, 0);
@@ -155,7 +164,7 @@ try {
     assert.ok(!requests.some(url => /corrupted-film(?:-mobile)?\.webp/.test(url)), 'The film texture is noncritical and must wait for user discovery.');
     assert.ok(!requests.some(url => /\/src\/main\.js|\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture/.test(url)), 'Direct Work must not download the hero.');
     const originalText = await page.locator('.page-heading,.archive-empty,.work-filters').allTextContents();
-    await hold(page, 'xray');
+    await changeMode(page, 'xray');
     const contrast = await page.evaluate(() => ({
       main: Number(getComputedStyle(document.querySelector('body > main')).zIndex),
       heading: getComputedStyle(document.querySelector('.page-heading')).textShadow,
@@ -189,7 +198,7 @@ try {
     assert.deepEqual(await page.locator('.page-heading,.archive-empty,.work-filters').allTextContents(), originalText, 'Live semantic UI remains intact.');
     await page.screenshot({ path: new URL('background-damage.png', output).pathname });
     const drawing = await page.evaluate(() => window.__corruptionProbe);
-    assert.ok(drawing.imageDraws > 0 && drawing.sources.some(url => /corrupted-film/.test(url)), 'Displaced blocks must draw from the real film bitmap.');
+    assert.ok(drawing.filmDraws > 0 && drawing.sources.some(url => /corrupted-film|canvas:corruption-ambient/.test(url)), 'Displaced blocks must draw from the actual film bitmap or its current animated composite.');
     assert.ok(drawing.historyDraws > 0, 'Fast motion must reuse actual preceding damaged pixels.');
     assert.equal(drawing.fills, 0, 'The distortion may not substitute solid-color square particles.');
     await stableIdle(page);
@@ -233,7 +242,7 @@ try {
     await page.waitForFunction(() => document.documentElement.dataset.page === 'about');
     assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Page replacement discards obsolete photo/background history.');
     await page.mouse.move(600, 500);
-    await hold(page, 'normal');
+    await changeMode(page, 'normal');
     assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Returning to Normal cancels the render loop and damage.');
     await page.mouse.move(700, 550);
     await page.waitForTimeout(200);
@@ -249,7 +258,7 @@ try {
     const { context, page, errors, requests } = await setup({ viewport: { width, height: 844 }, isMobile: true, hasTouch: true });
     try {
       console.log(`START corruption ${width}px touch: mode activation`);
-      await hold(page, 'xray');
+      await changeMode(page, 'xray');
       await page.waitForTimeout(300);
       const session = await context.newCDPSession(page);
       console.log(`START corruption ${width}px touch: gesture`);

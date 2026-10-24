@@ -1,0 +1,121 @@
+{
+  "capturedAt": "2026-10-24T23:04:13.028Z",
+  "base": "http://127.0.0.1:5173",
+  "staticShotsReducedMotion": true,
+  "profiles": [
+    {
+      "width": 1440,
+      "mode": "xray",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "mode": "xray",
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "mode": "xray",
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "nativeCapture": {
+    "mode": "xray",
+    "phase": "entering",
+    "frame": "5",
+    "oldFilter": "url(\"#h4-mode-snapshot-1-old\")",
+    "peakOwnedProcessRssKiB": 1073132
+  },
+  "reverseCapture": {
+    "mode": "normal",
+    "phase": "leaving",
+    "frame": "5",
+    "peakOwnedProcessRssKiB": 1116900
+  },
+  "protectedHint": {
+    "text": "PRESS 3 THREE TIMES TO REVERSE.",
+    "top": 579.09375,
+    "bottom": 629.46875,
+    "height": 844,
+    "x": 195,
+    "y": 604.28125,
+    "opacity": "1",
+    "color": "rgb(255, 255, 255)",
+    "before": {
+      "active": true,
+      "queued": false,
+      "regions": 0,
+      "frames": 0,
+      "maximumBlocks": 72,
+      "drawMs": [],
+      "source": "http://127.0.0.1:5173/assets/corrupted-film-mobile.webp",
+      "quality": {
+        "width": 360,
+        "height": 300,
+        "pixelRatio": 1,
+        "framesPerSecond": 30,
+        "maximumBlocks": 72,
+        "minimumBlocks": 40,
+        "maximumPhotoDimension": 640
+      },
+      "ambient": {
+        "active": true,
+        "queued": true,
+        "frames": 3,
+        "elapsed": 1.1198999999910595,
+        "width": 355,
+        "height": 768,
+        "framesPerSecond": 2,
+        "quality": "mobile",
+        "drawMs": [
+          65.29999999701977,
+          0.6000000089406967,
+          0.7000000029802322
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      }
+    },
+    "after": {
+      "active": true,
+      "queued": false,
+      "regions": 0,
+      "frames": 0,
+      "maximumBlocks": 72,
+      "drawMs": [],
+      "source": "http://127.0.0.1:5173/assets/corrupted-film-mobile.webp",
+      "quality": {
+        "width": 360,
+        "height": 300,
+        "pixelRatio": 1,
+        "framesPerSecond": 30,
+        "maximumBlocks": 72,
+        "minimumBlocks": 40,
+        "maximumPhotoDimension": 640
+      },
+      "ambient": {
+        "active": true,
+        "queued": true,
+        "frames": 4,
+        "elapsed": 1.619799999991059,
+        "width": 355,
+        "height": 768,
+        "framesPerSecond": 2,
+        "quality": "mobile",
+        "drawMs": [
+          65.29999999701977,
+          0.6000000089406967,
+          0.7000000029802322,
+          0.5
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      }
+    }
+  }
+}
