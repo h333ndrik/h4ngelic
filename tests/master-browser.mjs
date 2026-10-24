@@ -79,10 +79,12 @@ async function horizontal(page, selector, width) {
 async function crispEchoes(page, selector) {
   assert.ok((await echoStates(page, selector)).every((echo) => echo.opacity < .001 && Math.abs(echo.x) < .01), 'The final/focused typography must have no remaining trail.');
 }
-async function normalOnly(page) {
-  assert.notEqual(await page.locator('html').getAttribute('data-mode'), 'xray');
-  assert.equal(await page.locator('.xray-distress,[data-xray-filters],[data-xray-toggle],[data-other-side-hint]').count(), 0, 'The postponed mode and public hint must remain absent.');
+async function normalPresentation(page) {
+  await page.locator('html[data-xray-ready][data-mode="normal"]').waitFor();
   assert.equal(await page.locator('html').evaluate((element) => getComputedStyle(element).backgroundColor), 'rgb(48, 48, 51)');
+  assert.equal(await page.locator('[data-other-side-hint][data-mode-hold]').count(), 1, 'The activated mode has its subtle footer hold control.');
+  assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+  assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1, 'The hidden visit count remains separate from the header greeting.');
 }
 async function captureHomepage(page, filename) {
   const before = await snapshot(page);
@@ -108,14 +110,14 @@ try {
     window.__storageWrites = [];
     for (const method of ['setItem', 'removeItem', 'clear']) {
       const original = Storage.prototype[method];
-      Storage.prototype[method] = function (...args) { window.__storageWrites.push({ method, key: String(args[0] || '') }); return original.apply(this, args); };
+      Storage.prototype[method] = function (...args) { window.__storageWrites.push({ method, key: String(args[0] || ''), value: args[1] }); return original.apply(this, args); };
     }
   });
   const page = await context.newPage();
   const errors = errorsFor(page);
   await readyHome(page);
   assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'art on skin & beyond');
-  assert.deepEqual(await page.locator('.kinetic-heading').allTextContents(), ['01 / selected works', '02 / about', '03 / contact']);
+  assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01 / SELECTED WORKS', '02 / ABOUT', '03 / CONTACT']);
   assert.equal(await page.locator('#page-content > .content-section').count(), 3);
   const headerLabels = await page.locator('.masthead h1, .masthead .edition').evaluateAll((items) => items.map((item) => {
     const box = item.getBoundingClientRect(); return { text: item.textContent.trim(), left: box.left, right: box.right };
@@ -142,7 +144,9 @@ try {
   const header = await page.locator('[data-visitor-hotspot]').boundingBox();
   assert.ok(Math.abs(header.x + header.width / 2 - 720) < 1, 'The secret header region is centered on the viewport.');
   assert.ok(Number(await page.locator('[data-visit-message]').evaluate((element) => getComputedStyle(element).opacity)) < .01);
-  await normalOnly(page);
+  const moreAbout = page.locator('.about-preview .text-link');
+  assert.ok(parseFloat(await moreAbout.evaluate((element) => getComputedStyle(element).fontSize)) >= 24, 'MORE ABOUT has a prominent editorial size.');
+  await normalPresentation(page);
 
   for (const selector of ['#selected-work', '#contact']) {
     await scrollProgress(page, selector, 0);
@@ -279,7 +283,8 @@ try {
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => !document.querySelector('.artwork-dialog').open);
     assert.equal(await openers.first().evaluate((button) => button === document.activeElement), true);
-    await page.keyboard.press('4'); await normalOnly(page);
+    await page.keyboard.press('4');
+    assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal', 'A quick 4 press must not accidentally change realities.');
     await page.locator('a[href="/about"]:visible').first().click(); await pageKind(page, 'about');
     assert.match(await page.locator('main').textContent(), /h333ndrik/);
     await page.locator('a[href="/work"]:visible').first().click(); await pageKind(page, 'work');
@@ -292,19 +297,32 @@ try {
     }
     assert.equal(new Set(shapes).size, 3, 'Separate blank-area clicks create genuinely different contours.');
     assert.equal(await page.locator('[data-ink-mark]').first().evaluate((mark) => getComputedStyle(mark).pointerEvents), 'none');
+    const lifetimes = await page.locator('[data-ink-mark]').evaluateAll((marks) => marks.map((mark) => parseFloat(mark.style.getPropertyValue('--ink-lifetime'))));
+    assert.ok(lifetimes.every((lifetime) => lifetime >= 6000 && lifetime <= 12000), 'The organic marks receive the requested six-to-twelve-second lifecycle.');
+    const anchored = await page.locator('[data-ink-mark]').first().evaluate((mark) => ({ y: mark.getBoundingClientRect().top, scroll: scrollY }));
+    await page.evaluate(() => scrollBy({ top: 140, behavior: 'instant' }));
+    await frames(page);
+    const scrolled = await page.locator('[data-ink-mark]').first().evaluate((mark) => ({ y: mark.getBoundingClientRect().top, scroll: scrollY }));
+    assert.ok(scrolled.scroll > anchored.scroll + 20, 'The ink-position check must exercise actual document scrolling.');
+    assert.ok(Math.abs(scrolled.y + scrolled.scroll - anchored.y - anchored.scroll) < 1, 'Ink stays at its exact document position while the viewport moves.');
     const count = await page.locator('[data-ink-mark]').count();
     await page.locator('.filter-link[aria-current="page"]').click(); await pageKind(page, 'work');
     assert.ok(await page.locator('[data-ink-mark]').count() <= count, 'Functional navigation must not add ink.');
-    await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 5500 });
+    await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 13200 });
     await page.locator('.brand-link').click(); await pageKind(page, 'home');
     await page.locator('#stage.is-ready').waitFor();
     assert.equal(await page.locator('[data-visit-message]').textContent(), 'nice to meet you.');
-    assert.deepEqual(await page.evaluate(() => window.__storageWrites), []);
+    const remembered = await page.evaluate(() => JSON.parse(localStorage.getItem('h4ngelic.visits.v1')));
+    assert.equal(remembered.count, 1, 'Route navigation belongs to the same local visit.');
+    assert.deepEqual(Object.keys(remembered).sort(), ['count', 'lastSeen'], 'Visit memory stores only its count and last activity.');
     await page.reload({ waitUntil: 'networkidle' });
     assert.equal(await page.locator('[data-visit-message]').textContent(), 'nice to meet you.');
-    assert.deepEqual(await page.evaluate(() => window.__storageWrites), [], 'Navigation and reload do not fabricate persistent visits.');
-    await normalOnly(page);
-    console.log('PASS master integration: semantic image-to-detail URLs/history, accessible viewer, procedural ink, nonpersistent hidden visitor feedback and postponed alternate mode.');
+    assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('h4ngelic.visits.v1')).count), 1, 'An immediate reload does not increment the visit counter.');
+    const writes = await page.evaluate(() => window.__storageWrites);
+    assert.ok(writes.some((entry) => entry.method === 'setItem' && entry.key === 'h4ngelic.visits.v1'));
+    assert.ok(writes.every((entry) => entry.key === 'h4ngelic.visits.v1'), 'The default integration uses only its local visit record.');
+    await normalPresentation(page);
+    console.log('PASS master integration: semantic image-to-detail URLs/history, accessible viewer, document-anchored procedural ink, minimal local visit memory and safe short-key behavior.');
   }
   assert.deepEqual(errors, []);
   await context.close();
@@ -335,11 +353,11 @@ try {
     assert.ok(Math.abs(visitor.x + visitor.width / 2 - width / 2) < 1, `Header secret is viewport-centered at ${width}px.`);
     const gap = await p.locator('[data-footer-secret-space]').boundingBox();
     assert.ok(gap.height >= (width < 600 ? 844 : 1000) * .25);
-    await normalOnly(p);
+    await normalPresentation(p);
     const layout = await p.evaluate(() => ({ tagline: document.querySelector('.identity').getBoundingClientRect().right, navigation: document.querySelector('.hero-nav').getBoundingClientRect().left }));
     assert.ok(layout.tagline < layout.navigation, `Tagline/navigation do not collide at ${width}px.`);
     if (width === 390) await captureHomepage(p, 'master-mobile-normal.png');
     assert.deepEqual(errors, []); await responsive.close();
-    console.log(`PASS master responsive ${width}px: horizontal strips, reversible motion, centered hidden header, reserved footer space, Normal-only presentation and reduced motion.`);
+    console.log(`PASS master responsive ${width}px: horizontal strips, reversible motion, centered hidden header, hidden mode instruction/count and reduced motion.`);
   }
 } finally { await browser.close(); }

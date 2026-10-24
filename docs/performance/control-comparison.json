@@ -1,0 +1,597 @@
+{
+  "generatedAt": "2026-10-24T20:11:00.877404Z",
+  "baselineRevision": "40e15d1",
+  "finalBranch": "feat/control-corruption",
+  "methodology": "One fresh serial group per frozen build: baseline first, then final; 3 cold-browser Home navigations and 1 Work navigation each. Every completed run retained; no selective reruns.",
+  "scope": "Initial Normal Mode loading. Lighthouse never holds 4 or activates the film/interactive corruption. Active-effect CPU observations are separate below.",
+  "conditions": {
+    "lighthouseVersion": "13.5.0",
+    "hostUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "platform": "Linux x86_64",
+    "chromeFlags": [
+      "--headless=new",
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader"
+    ],
+    "softwareGPU": "SwiftShader, explicitly selected by the existing harness; not a physical mobile GPU.",
+    "settings": {
+      "output": "json",
+      "maxWaitForFcp": 20000,
+      "maxWaitForLoad": 20000,
+      "pauseAfterFcpMs": 1000,
+      "pauseAfterLoadMs": 1000,
+      "networkQuietThresholdMs": 1000,
+      "cpuQuietThresholdMs": 1000,
+      "formFactor": "mobile",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      },
+      "throttlingMethod": "simulate",
+      "screenEmulation": {
+        "mobile": true,
+        "width": 412,
+        "height": 823,
+        "deviceScaleFactor": 1.75,
+        "disabled": false
+      },
+      "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+      "auditMode": false,
+      "gatherMode": false,
+      "clearStorageTypes": [
+        "file_systems",
+        "shader_cache",
+        "service_workers",
+        "cache_storage"
+      ],
+      "disableStorageReset": false,
+      "debugNavigation": false,
+      "channel": "node",
+      "usePassiveGathering": false,
+      "disableFullPageScreenshot": true,
+      "skipAboutBlank": false,
+      "blankPage": "about:blank",
+      "ignoreStatusCode": false,
+      "locale": "en-US",
+      "blockedUrlPatterns": null,
+      "additionalTraceCategories": null,
+      "extraHeaders": null,
+      "precomputedLanternData": null,
+      "onlyAudits": null,
+      "onlyCategories": [
+        "performance"
+      ],
+      "skipAudits": null
+    },
+    "storage": "Separate Chromium instance per run; Lighthouse storage reset enabled.",
+    "benchmarkIndexRanges": {
+      "baseline": [
+        2618,
+        2745.5
+      ],
+      "final": [
+        2532.5,
+        2842
+      ]
+    },
+    "fetchTimeRange": [
+      "2026-10-24T20:08:26.868Z",
+      "2026-10-24T20:09:20.965Z"
+    ]
+  },
+  "summaryFiles": {
+    "baseline": "control-baseline-summary.json",
+    "final": "control-final-summary.json"
+  },
+  "commands": [
+    "node scripts/measure-performance.mjs --base-url http://127.0.0.1:4213 --label control-baseline --home-runs 3 --work-runs 1",
+    "node scripts/measure-performance.mjs --base-url http://127.0.0.1:4214 --label control-final --home-runs 3 --work-runs 1"
+  ],
+  "routes": {
+    "home-mobile": {
+      "baselineRuns": 3,
+      "finalRuns": 3,
+      "baselineMedian": {
+        "performanceScore": 72,
+        "fcpMs": 1503.6484999999998,
+        "lcpMs": 2104.3782,
+        "totalBlockingTimeMs": 1744.5000000000005,
+        "cumulativeLayoutShift": 0.002386490642491831,
+        "speedIndexMs": 1910.1902436897549,
+        "totalTransferredBytes": 342756,
+        "transferredScriptBytes": 171033,
+        "uncompressedScriptBytes": 651109,
+        "requestCount": 8
+      },
+      "finalMedian": {
+        "performanceScore": 69,
+        "fcpMs": 1653.6227500000002,
+        "lcpMs": 2404.3473000000004,
+        "totalBlockingTimeMs": 1896.5,
+        "cumulativeLayoutShift": 0.002386490642491831,
+        "speedIndexMs": 1960.6045828518304,
+        "totalTransferredBytes": 353810,
+        "transferredScriptBytes": 179907,
+        "uncompressedScriptBytes": 672756,
+        "requestCount": 11
+      },
+      "deltaFinalMinusBaseline": {
+        "performanceScore": -3,
+        "fcpMs": 149.97425000000044,
+        "lcpMs": 299.96910000000025,
+        "totalBlockingTimeMs": 151.99999999999955,
+        "cumulativeLayoutShift": 0.0,
+        "speedIndexMs": 50.41433916207552,
+        "totalTransferredBytes": 11054,
+        "transferredScriptBytes": 8874,
+        "uncompressedScriptBytes": 21647,
+        "requestCount": 3
+      },
+      "percentDelta": {
+        "performanceScore": -4.166666666666666,
+        "fcpMs": 9.974023184274813,
+        "lcpMs": 14.254524210524528,
+        "totalBlockingTimeMs": 8.713098308971023,
+        "cumulativeLayoutShift": 0.0,
+        "speedIndexMs": 2.6392313189022656,
+        "totalTransferredBytes": 3.2250347185753134,
+        "transferredScriptBytes": 5.188472400063146,
+        "uncompressedScriptBytes": 3.3246353529132606,
+        "requestCount": 37.5
+      },
+      "ranges": {
+        "baseline": {
+          "performanceScore": [
+            71,
+            72
+          ],
+          "fcpMs": [
+            1502.5886249999999,
+            1512.61525
+          ],
+          "lcpMs": [
+            2103.10635,
+            2115.1383
+          ],
+          "totalBlockingTimeMs": [
+            1714,
+            1875.5
+          ],
+          "cumulativeLayoutShift": [
+            0.002386490642491831,
+            0.002386490642491831
+          ],
+          "speedIndexMs": [
+            1886.5406859987388,
+            1925.7714981057838
+          ],
+          "totalTransferredBytes": [
+            342756,
+            342756
+          ],
+          "transferredScriptBytes": [
+            171033,
+            171033
+          ],
+          "uncompressedScriptBytes": [
+            651109,
+            651109
+          ],
+          "requestCount": [
+            8,
+            8
+          ]
+        },
+        "final": {
+          "performanceScore": [
+            69,
+            70
+          ],
+          "fcpMs": [
+            1653.0341250000001,
+            1655.18925
+          ],
+          "lcpMs": [
+            2403.64095,
+            2406.2271
+          ],
+          "totalBlockingTimeMs": [
+            1774,
+            1911
+          ],
+          "cumulativeLayoutShift": [
+            0.002386490642491831,
+            0.002386490642491831
+          ],
+          "speedIndexMs": [
+            1918.6189403657424,
+            1974.815348703333
+          ],
+          "totalTransferredBytes": [
+            353810,
+            353810
+          ],
+          "transferredScriptBytes": [
+            179907,
+            179907
+          ],
+          "uncompressedScriptBytes": [
+            672756,
+            672756
+          ],
+          "requestCount": [
+            11,
+            11
+          ]
+        }
+      }
+    },
+    "work-mobile": {
+      "baselineRuns": 1,
+      "finalRuns": 1,
+      "baselineMedian": {
+        "performanceScore": 100,
+        "fcpMs": 1054.2283,
+        "lcpMs": 1054.2283,
+        "totalBlockingTimeMs": 0,
+        "cumulativeLayoutShift": 0,
+        "speedIndexMs": 1054.2283,
+        "totalTransferredBytes": 29223,
+        "transferredScriptBytes": 18484,
+        "uncompressedScriptBytes": 53706,
+        "requestCount": 4
+      },
+      "finalMedian": {
+        "performanceScore": 100,
+        "fcpMs": 1262.1236250000002,
+        "lcpMs": 1405.54835,
+        "totalBlockingTimeMs": 0,
+        "cumulativeLayoutShift": 0,
+        "speedIndexMs": 1262.1236250000002,
+        "totalTransferredBytes": 39885,
+        "transferredScriptBytes": 27188,
+        "uncompressedScriptBytes": 74895,
+        "requestCount": 7
+      },
+      "deltaFinalMinusBaseline": {
+        "performanceScore": 0,
+        "fcpMs": 207.89532500000018,
+        "lcpMs": 351.32005000000004,
+        "totalBlockingTimeMs": 0,
+        "cumulativeLayoutShift": 0,
+        "speedIndexMs": 207.89532500000018,
+        "totalTransferredBytes": 10662,
+        "transferredScriptBytes": 8704,
+        "uncompressedScriptBytes": 21189,
+        "requestCount": 3
+      },
+      "percentDelta": {
+        "performanceScore": 0.0,
+        "fcpMs": 19.720142686361218,
+        "lcpMs": 33.32485477766059,
+        "totalBlockingTimeMs": null,
+        "cumulativeLayoutShift": null,
+        "speedIndexMs": 19.720142686361218,
+        "totalTransferredBytes": 36.48496047633713,
+        "transferredScriptBytes": 47.08937459424367,
+        "uncompressedScriptBytes": 39.4536923248799,
+        "requestCount": 75.0
+      },
+      "ranges": {
+        "baseline": {
+          "performanceScore": [
+            100,
+            100
+          ],
+          "fcpMs": [
+            1054.2283,
+            1054.2283
+          ],
+          "lcpMs": [
+            1054.2283,
+            1054.2283
+          ],
+          "totalBlockingTimeMs": [
+            0,
+            0
+          ],
+          "cumulativeLayoutShift": [
+            0,
+            0
+          ],
+          "speedIndexMs": [
+            1054.2283,
+            1054.2283
+          ],
+          "totalTransferredBytes": [
+            29223,
+            29223
+          ],
+          "transferredScriptBytes": [
+            18484,
+            18484
+          ],
+          "uncompressedScriptBytes": [
+            53706,
+            53706
+          ],
+          "requestCount": [
+            4,
+            4
+          ]
+        },
+        "final": {
+          "performanceScore": [
+            100,
+            100
+          ],
+          "fcpMs": [
+            1262.1236250000002,
+            1262.1236250000002
+          ],
+          "lcpMs": [
+            1405.54835,
+            1405.54835
+          ],
+          "totalBlockingTimeMs": [
+            0,
+            0
+          ],
+          "cumulativeLayoutShift": [
+            0,
+            0
+          ],
+          "speedIndexMs": [
+            1262.1236250000002,
+            1262.1236250000002
+          ],
+          "totalTransferredBytes": [
+            39885,
+            39885
+          ],
+          "transferredScriptBytes": [
+            27188,
+            27188
+          ],
+          "uncompressedScriptBytes": [
+            74895,
+            74895
+          ],
+          "requestCount": [
+            7,
+            7
+          ]
+        }
+      }
+    }
+  },
+  "initialRequestSamples": {
+    "baseline": {
+      "home-mobile": [
+        {
+          "url": "http://127.0.0.1:4213/",
+          "resourceType": "Document",
+          "transferSize": 2407,
+          "resourceSize": 8033
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/index-DX2Yi8zA.js",
+          "resourceType": "Script",
+          "transferSize": 18484,
+          "resourceSize": 53706
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/index-CWKzyB9c.css",
+          "resourceType": "Stylesheet",
+          "transferSize": 5880,
+          "resourceSize": 24994
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/wordmark-fallback.svg",
+          "resourceType": "Image",
+          "transferSize": 1605,
+          "resourceSize": 3383
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/main-DzSND93U.js",
+          "resourceType": "Script",
+          "transferSize": 152549,
+          "resourceSize": 597403
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/h4ngelic-cursor.svg",
+          "resourceType": "Other",
+          "transferSize": 2588,
+          "resourceSize": 12354
+        },
+        {
+          "url": "http://127.0.0.1:4213/fonts/wordmark.typeface.json",
+          "resourceType": "Fetch",
+          "transferSize": 1552,
+          "resourceSize": 3414
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/tattoo-texture-640.webp",
+          "resourceType": "Image",
+          "transferSize": 157691,
+          "resourceSize": 157480
+        }
+      ],
+      "work-mobile": [
+        {
+          "url": "http://127.0.0.1:4213/work",
+          "resourceType": "Document",
+          "transferSize": 2271,
+          "resourceSize": 6443
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/index-DX2Yi8zA.js",
+          "resourceType": "Script",
+          "transferSize": 18484,
+          "resourceSize": 53706
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/index-CWKzyB9c.css",
+          "resourceType": "Stylesheet",
+          "transferSize": 5880,
+          "resourceSize": 24994
+        },
+        {
+          "url": "http://127.0.0.1:4213/assets/h4ngelic-cursor.svg",
+          "resourceType": "Other",
+          "transferSize": 2588,
+          "resourceSize": 12354
+        }
+      ]
+    },
+    "final": {
+      "home-mobile": [
+        {
+          "url": "http://127.0.0.1:4214/",
+          "resourceType": "Document",
+          "transferSize": 2675,
+          "resourceSize": 8999
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/index-DLcGoxcK.js",
+          "resourceType": "Script",
+          "transferSize": 20615,
+          "resourceSize": 60356
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/index-DpUDeA-C.css",
+          "resourceType": "Stylesheet",
+          "transferSize": 6362,
+          "resourceSize": 27282
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/wordmark-fallback.svg",
+          "resourceType": "Image",
+          "transferSize": 1605,
+          "resourceSize": 3383
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/xray-CLNJ3Fk3.js",
+          "resourceType": "Script",
+          "transferSize": 5578,
+          "resourceSize": 13407
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/xraySettings-YwJf4kLT.js",
+          "resourceType": "Script",
+          "transferSize": 995,
+          "resourceSize": 1132
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/xray-DC5Z5zT4.css",
+          "resourceType": "Stylesheet",
+          "transferSize": 1430,
+          "resourceSize": 3491
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/main-DgpbISV7.js",
+          "resourceType": "Script",
+          "transferSize": 152719,
+          "resourceSize": 597861
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/h4ngelic-cursor.svg",
+          "resourceType": "Other",
+          "transferSize": 2588,
+          "resourceSize": 12354
+        },
+        {
+          "url": "http://127.0.0.1:4214/fonts/wordmark.typeface.json",
+          "resourceType": "Fetch",
+          "transferSize": 1552,
+          "resourceSize": 3414
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/tattoo-texture-640.webp",
+          "resourceType": "Image",
+          "transferSize": 157691,
+          "resourceSize": 157480
+        }
+      ],
+      "work-mobile": [
+        {
+          "url": "http://127.0.0.1:4214/work",
+          "resourceType": "Document",
+          "transferSize": 2317,
+          "resourceSize": 6668
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/index-DLcGoxcK.js",
+          "resourceType": "Script",
+          "transferSize": 20615,
+          "resourceSize": 60356
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/index-DpUDeA-C.css",
+          "resourceType": "Stylesheet",
+          "transferSize": 6362,
+          "resourceSize": 27282
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/xray-CLNJ3Fk3.js",
+          "resourceType": "Script",
+          "transferSize": 5578,
+          "resourceSize": 13407
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/xraySettings-YwJf4kLT.js",
+          "resourceType": "Script",
+          "transferSize": 995,
+          "resourceSize": 1132
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/xray-DC5Z5zT4.css",
+          "resourceType": "Stylesheet",
+          "transferSize": 1430,
+          "resourceSize": 3491
+        },
+        {
+          "url": "http://127.0.0.1:4214/assets/h4ngelic-cursor.svg",
+          "resourceType": "Other",
+          "transferSize": 2588,
+          "resourceSize": 12354
+        }
+      ]
+    }
+  },
+  "findings": [
+    "Final Home median performance score is 69 versus baseline 72. FCP +149.97ms, LCP +299.97ms, TBT +152.00ms; CLS unchanged. All three final Home runs show the higher LCP.",
+    "Initial Home transferred bytes increase by 11054B; scripts by 8874B; requests increase from 8 to 11. Enabled mode control loads an additional xray JS chunk, shared settings JS and xray CSS. Film WebP, interactive corruption module and damaged wordmark material are absent before discovery.",
+    "Existing hero main chunk remains the main CPU cost on both builds: about 4 seconds of Lighthouse-attributed CPU work in each representative first Home report. This measurement uses simulated mobile CPU/network and a software GPU.",
+    "Work remains score 100, TBT 0 and CLS 0. Its single LCP sample increases from 1054ms to 1406ms; one run cannot characterize variance. Work requests contain no hero main chunk, wordmark font or tattoo hero texture."
+  ],
+  "separateActiveCorruptionObservation": {
+    "source": "control-corruption-results.json",
+    "measuredAt": "2026-10-24T19:52:48.688Z",
+    "sourceURL": "http://127.0.0.1:5173",
+    "method": "Earlier development-server desktop Work acceptance run with real pointer input, Canvas2D source/history draw instrumentation and own controller performance.now timings. Includes background/photo preparation and recovery. No Lighthouse CPU throttling.",
+    "framesMeasured": 156,
+    "controllerDurationMs": {
+      "median": 0.8999999910593033,
+      "p95NearestRank": 2.6000000089406967,
+      "maximum": 58.79999999701977
+    },
+    "idle": "After natural expiry, observed no new effect image/history draws or controller frames over 400ms; queued=false and regions=0.",
+    "paintedPixelsSlowFast": [
+      1510,
+      40020
+    ],
+    "limits": "Controller CPU timings are not FPS or GPU/compositor time. This earlier development acceptance run is not relabeled as a fresh final-build or physical-phone measurement."
+  },
+  "limitations": [
+    "Local laboratory measurement with three Home samples and one Work sample per build; baseline-first ordering can include host variation. These are descriptive results, not a statistical field-performance claim.",
+    "Simulated Slow 4G, 4x CPU slowdown, mobile emulation and SwiftShader do not establish physical-device frame rate, Safari behavior, battery cost or field INP.",
+    "Cold initial loading and active Other Side interaction are distinct workloads. No idle/active FPS is inferred from a Lighthouse score or the configured 30-paint-frames/s ceiling."
+  ]
+}

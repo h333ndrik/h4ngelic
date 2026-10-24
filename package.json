@@ -25,9 +25,14 @@
     "test:navigation": "node tests/navigation-browser.mjs",
     "test:easter": "node tests/easter-browser.mjs",
     "test:xray": "node tests/xray-browser.mjs",
+    "test:mode-audio": "node tests/mode-audio-browser.mjs",
+    "test:hover": "node tests/hover-browser.mjs",
+    "test:corruption": "node tests/corruption-browser.mjs",
+    "sounds:export": "node scripts/export-mode-sounds.mjs",
     "test:master": "node tests/master-browser.mjs",
     "measure:performance": "node scripts/measure-performance.mjs",
-    "measure:xray": "node scripts/measure-xray.mjs"
+    "measure:xray": "node scripts/measure-xray.mjs",
+    "test:material": "node tests/wordmark-corruption-browser.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

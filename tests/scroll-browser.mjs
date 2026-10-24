@@ -90,7 +90,7 @@ try {
   const errors = errorsFor(page);
   await readyHome(page);
   assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'art on skin & beyond');
-  assert.deepEqual(await page.locator('.kinetic-heading').allTextContents(), ['01 / selected works', '02 / about', '03 / contact']);
+  assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01 / SELECTED WORKS', '02 / ABOUT', '03 / CONTACT']);
   assert.equal(await page.locator('#page-content > .content-section').count(), 3, 'The homepage contains exactly three major sections.');
   const headingStyles = await page.locator('.kinetic-heading').evaluateAll((headings) => headings.map((heading) => {
     const style = getComputedStyle(heading);

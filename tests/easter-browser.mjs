@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { easterSettings, visitorMessage } from '../src/data/easterSettings.js';
 
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const route = (path) => new URL(path, baseURL).href;
@@ -9,51 +10,24 @@ const browser = await chromium.launch({
   args: ['--no-sandbox'],
 });
 
-async function instrumentStorage(context, observed) {
-  await context.exposeBinding('__recordEasterStorage', (_source, operation) => observed.push(operation));
-  await context.addInitScript(() => {
-    const record = (storage, operation) => {
-      const entry = { storage, operation, path: location.pathname };
-      window.__H4_EASTER_STORAGE_LOG__.push(entry);
-      window.__recordEasterStorage(entry).catch(() => {});
-    };
-    window.__H4_EASTER_STORAGE_LOG__ = [];
-    for (const name of ['localStorage', 'sessionStorage']) {
-      let owner = window;
-      let descriptor;
-      while (owner && !descriptor) { descriptor = Object.getOwnPropertyDescriptor(owner, name); owner = Object.getPrototypeOf(owner); }
-      if (!descriptor?.get) throw new Error(`Cannot instrument ${name}'s native getter.`);
-      Object.defineProperty(window, name, {
-        configurable: true,
-        enumerable: descriptor.enumerable,
-        get() { record(name, 'getter'); return descriptor.get.call(this); },
-      });
-    }
-    for (const name of ['getItem', 'setItem', 'removeItem', 'clear', 'key']) {
-      const original = Storage.prototype[name];
-      Object.defineProperty(Storage.prototype, name, {
-        configurable: true, writable: true,
-        value(...argumentsList) { record('Storage.prototype', name); return Reflect.apply(original, this, argumentsList); },
-      });
-    }
-  });
-}
-
 async function ready(page, path = '/work') {
   await page.goto(route(path), { waitUntil: 'networkidle' });
   await page.locator('[data-artist-footer]').waitFor();
   if (path === '/') await page.locator('[data-visitor-hotspot]').waitFor();
 }
 
-async function assertFallback(page) {
-  if (await page.locator('[data-visit-message]').count()) assert.equal(await page.locator('[data-visit-message]').first().textContent(), 'nice to meet you.');
-  assert.equal(await page.locator('[data-visit-number]').count(), 0);
-  assert.equal(await page.locator('.page-footer [data-visit-message]').count(), 0);
-  assert.deepEqual(await page.evaluate(() => window.__H4_EASTER_STORAGE_LOG__), [], 'Tested default browsing must not call browser storage getters or methods.');
+async function assertLocalVisit(page, count = 1) {
+  const record = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), easterSettings.visits.storageKey);
+  assert.deepEqual(Object.keys(record).sort(), ['count', 'lastSeen'], 'Local memory contains a counter and activity time, without an identifier.');
+  assert.equal(record.count, count);
+  assert.ok(Number.isFinite(record.lastSeen));
+  if (await page.locator('[data-visit-message]').count()) assert.equal(await page.locator('[data-visit-message]').first().textContent(), visitorMessage(count));
+  if (await page.locator('[data-visit-number]').count()) assert.equal(await page.locator('[data-visit-number]').textContent(), `VISIT ${String(count).padStart(3, '0')}`);
+  assert.equal(await page.locator('.page-footer [data-visit-message]').count(), 0, 'The returning message stays on the frontpage header.');
 }
 
 async function waitForNoMarks(page) {
-  await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 4200 });
+  await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 13200 });
 }
 
 async function blankPoint(page) {
@@ -76,6 +50,8 @@ async function checkInk(page, { touch }) {
     opacity: Number(getComputedStyle(mark).opacity),
     color: getComputedStyle(mark).color,
     fill: getComputedStyle(mark.querySelector('path')).fill,
+    lifetime: Number.parseFloat(mark.style.getPropertyValue('--ink-lifetime')),
+    positioning: getComputedStyle(mark.closest('.ink-layer')).position,
   }));
   assert.equal(initial.tag, 'svg');
   assert.ok(initial.paths >= 3, 'Ink should have broken pigment fragments, not a generic dot.');
@@ -83,6 +59,34 @@ async function checkInk(page, { touch }) {
   assert.equal(initial.pointerEvents, 'none');
   assert.equal(initial.fill, initial.color, 'Pigment paths must use their configured off-white ink color.');
   assert.ok(initial.opacity > .1, 'A completed blank click/tap must create a visible imprint.');
+  assert.ok(initial.lifetime >= 6000 && initial.lifetime <= 12000, 'Each mark lasts within the requested six-to-twelve-second interval.');
+  assert.equal(initial.positioning, 'absolute');
+  const anchored = await page.locator('[data-ink-mark]').evaluate((mark) => {
+    const before = mark.getBoundingClientRect();
+    const originalScroll = scrollY;
+    const originalStyle = { left: mark.style.left, top: mark.style.top };
+    const spacer = document.createElement('div');
+    spacer.style.height = '1000px';
+    document.body.append(spacer);
+    scrollTo({ top: originalScroll + 150, behavior: 'instant' });
+    const after = mark.getBoundingClientRect();
+    const shifted = scrollY - originalScroll;
+    const result = {
+      shifted,
+      documentBefore: before.y + before.height / 2 + originalScroll,
+      documentAfter: after.y + after.height / 2 + scrollY,
+      viewportDelta: after.y + after.height / 2 - before.y - before.height / 2,
+      sameStyle: mark.style.left === originalStyle.left && mark.style.top === originalStyle.top,
+    };
+    scrollTo({ top: originalScroll, behavior: 'instant' });
+    spacer.remove();
+    return result;
+  });
+  assert.ok(anchored.shifted > 100);
+  assert.ok(Math.abs(anchored.documentAfter - anchored.documentBefore) < .6, 'The imprint remains anchored to its original document position.');
+  assert.ok(Math.abs(anchored.viewportDelta + anchored.shifted) < .6, 'Ink moves naturally with document scrolling instead of sticking to the viewport.');
+  assert.equal(anchored.sameStyle, true);
+
   for (let index = 0; index < 14; index++) {
     if (touch) await page.touchscreen.tap(point.x, point.y);
     else await page.mouse.click(point.x, point.y);
@@ -91,6 +95,8 @@ async function checkInk(page, { touch }) {
   const silhouettes = await page.locator('[data-ink-mark] path:first-child').evaluateAll((paths) => paths.map((path) => path.getAttribute('d')));
   assert.equal(new Set(silhouettes).size, silhouettes.length, 'Every actual click must create new contour geometry, not rotate a stored silhouette.');
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Ink near a viewport boundary must not enlarge the document.');
+  await page.waitForTimeout(5000);
+  assert.ok(await page.locator('[data-ink-mark]').count() > 0, 'Ink must remain present beyond the former short lifetime.');
   await waitForNoMarks(page);
 
   await page.mouse.move(point.x, point.y);
@@ -158,17 +164,17 @@ async function revealCycle(page, button, { touch }) {
   if (touch) await button.tap(); else await button.hover();
   await page.waitForFunction((element) => {
     const opacity = Number(getComputedStyle(element).opacity);
-    return opacity > .28 && opacity <= .31;
+    return opacity > .33 && opacity <= .36;
   }, await message.elementHandle());
   await page.waitForFunction((element) => Number(getComputedStyle(element).opacity) < .01, await message.elementHandle(), { timeout: 4200 });
   if (!touch) assert.equal(await button.evaluate((element) => element.matches(':hover')), true, 'Secrets expire even while the pointer stays inside.');
   await page.mouse.move(1, 1);
   if (touch) await button.tap(); else await button.hover();
-  await page.waitForFunction((element) => Number(getComputedStyle(element).opacity) > .28, await message.elementHandle());
+  await page.waitForFunction((element) => Number(getComputedStyle(element).opacity) > .33, await message.elementHandle());
   await page.mouse.move(1, 1);
 }
 
-async function checkHeaderAndFutureHint(page, { touch }) {
+async function checkHeaderAndFooterSecrets(page, { touch }) {
   await page.locator('.brand-link').click();
   await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
   await page.evaluate(() => { document.activeElement?.blur(); scrollTo({ top: 0, behavior: 'instant' }); });
@@ -186,6 +192,7 @@ async function checkHeaderAndFutureHint(page, { touch }) {
   const copy = await message.boundingBox();
   assert.ok(Math.abs(copy.x + copy.width / 2 - width / 2) < .6, 'Visitor copy itself remains exactly centered.');
   assert.ok(box.width >= 44 && box.height >= 44, 'Secret target remains usable by touch.');
+  assert.equal(await message.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize)), touch ? 12 : 14, 'The returning message is deliberately larger while preserving its location.');
   assert.equal(Number(await message.evaluate((element) => getComputedStyle(element).opacity)), 0);
   if (touch) {
     assert.ok(copy.y >= labels[0].y + labels[0].height, 'Mobile visitor copy uses its own visual row, without covering the original labels.');
@@ -203,28 +210,34 @@ async function checkHeaderAndFutureHint(page, { touch }) {
   const space = page.locator('[data-footer-secret-space]');
   const proportion = await space.evaluate((element) => element.getBoundingClientRect().height / innerHeight);
   assert.ok(proportion >= .29 && proportion <= .31, 'Homepage reserves approximately30vh for the quiet secret area.');
-  assert.equal(await page.locator('[data-other-side-hint], [data-xray-toggle]').count(), 0, 'A postponed shortcut must not be publicly advertised.');
-
-  // Enable only the reusable hint markup in this browser fixture. The actual
-  // public mode flag remains false, so a touch reveals copy without a theme.
-  await page.evaluate(async () => {
-    const { renderFooter } = await import('/src/footer.js');
-    const template = document.createElement('template');
-    template.innerHTML = renderFooter({ home: true, otherSideEnabled: true });
-    document.querySelector('[data-footer-secret-space]').replaceWith(template.content.querySelector('[data-footer-secret-space]'));
-  });
-  const futureHint = page.locator('[data-other-side-hint]');
-  await futureHint.scrollIntoViewIfNeeded();
-  assert.equal((await futureHint.textContent()).trim(), 'press 4 for the other side.');
-  await revealCycle(page, futureHint, { touch });
-  assert.notEqual(await page.locator('html').getAttribute('data-mode'), 'xray', 'Discovering a hint never activates the postponed mode.');
+  const hint = page.locator('[data-other-side-hint]');
+  await hint.scrollIntoViewIfNeeded();
+  assert.equal((await hint.textContent()).trim(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+  await revealCycle(page, hint, { touch });
+  assert.notEqual(await page.locator('html').getAttribute('data-mode'), 'xray', 'Discovering the hint through hover or a short tap does not activate the mode.');
   await page.keyboard.press('Tab');
-  await futureHint.focus();
-  assert.equal(Number(await futureHint.locator('[data-secret-message]').evaluate((element) => getComputedStyle(element).opacity)), 1);
-  assert.equal(await futureHint.evaluate((element) => element.matches(':focus-visible')), true);
-  const hintBox = await futureHint.boundingBox();
+  await hint.focus();
+  assert.equal(Number(await hint.locator('[data-secret-message]').evaluate((element) => getComputedStyle(element).opacity)), 1);
+  assert.equal(await hint.evaluate((element) => element.matches(':focus-visible')), true);
+  await hint.evaluate((element) => element.blur());
+  const hintBox = await hint.boundingBox();
+  const hintDocumentY = hintBox.y + await page.evaluate(() => scrollY);
+  const spaceBox = await space.boundingBox();
   assert.ok(hintBox.width >= 44 && hintBox.height >= 44);
-  assert.ok(Math.abs(hintBox.x + hintBox.width / 2 - (await page.viewportSize()).width / 2) < .6);
+  assert.ok(Math.abs(hintBox.x + hintBox.width / 2 - width / 2) < .6);
+  assert.ok(Math.abs((hintBox.y + hintBox.height / 2 - spaceBox.y) / spaceBox.height - .4) < .01, 'Instruction sits somewhat above the midpoint of the reserved area.');
+  const counter = page.locator('[data-visit-counter-hotspot]');
+  await counter.scrollIntoViewIfNeeded();
+  assert.equal((await counter.textContent()).trim(), 'VISIT 001');
+  await revealCycle(page, counter, { touch });
+  const counterBox = await counter.boundingBox();
+  assert.ok(Math.abs(counterBox.x + counterBox.width / 2 - width / 2) < .6);
+  assert.ok(counterBox.y + await page.evaluate(() => scrollY) > hintDocumentY + hintBox.height + 30, 'Visit count and mode instruction remain spatially separated.');
+  const footer = await page.locator('[data-artist-footer]').boundingBox();
+  assert.ok(footer.y + footer.height - (counterBox.y + counterBox.height) >= 12, 'The bottom count has an intentional small bottom inset.');
+  assert.equal(await page.locator('.masthead [data-visit-number]').count(), 0);
+  assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'false');
+
 }
 
 async function checkIsolatedConsentGate(page) {
@@ -243,7 +256,7 @@ async function checkIsolatedConsentGate(page) {
       setItem(_key, next) { calls.push('set'); value = next; },
       removeItem() { calls.push('remove'); value = null; },
     };
-    const settings = { ...easterSettings, ink: { ...easterSettings.ink, enabled: false }, visits: { ...easterSettings.visits, enabled: true, writeIntervalMs: 0 } };
+    const settings = { ...easterSettings, ink: { ...easterSettings.ink, enabled: false }, visits: { ...easterSettings.visits, enabled: true, requireConsent: true, writeIntervalMs: 0 } };
     const dispose = initEasterEggs(fixture, { settings, storage, hasVisitorConsent: () => consent });
     const beforeConsent = [...calls];
     consent = true;
@@ -270,6 +283,75 @@ async function checkIsolatedConsentGate(page) {
   assert.equal(result.withdrawn.message, 'nice to meet you.');
 }
 
+async function checkIsolatedStorageFallbacks(page) {
+  const result = await page.evaluate(async () => {
+    const { initEasterEggs } = await import('/src/easter-eggs.js');
+    const { easterSettings } = await import('/src/data/easterSettings.js');
+    const fixture = document.createElement('section');
+    fixture.hidden = true;
+    fixture.innerHTML = '<span data-visit-message></span><span data-visit-number></span>';
+    document.body.append(fixture);
+    const base = { ...easterSettings, ink: { ...easterSettings.ink, enabled: false } };
+    const original = Object.getOwnPropertyDescriptor(window, 'localStorage');
+    let getterCalls = 0;
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      get() { getterCalls++; throw new DOMException('Storage unavailable', 'SecurityError'); },
+    });
+    const disabled = initEasterEggs(fixture, { settings: { ...base, visits: { ...base.visits, enabled: false } } });
+    const disabledCalls = getterCalls;
+    disabled();
+    const denied = initEasterEggs(fixture, { settings: base });
+    const deniedResult = { calls: getterCalls, message: fixture.querySelector('[data-visit-message]').textContent };
+    denied();
+    if (original) Object.defineProperty(window, 'localStorage', original); else delete window.localStorage;
+
+    let repaired = null;
+    const malformed = initEasterEggs(fixture, {
+      settings: base,
+      storage: { getItem: () => '{not valid JSON', setItem: (_key, value) => { repaired = JSON.parse(value); } },
+    });
+    const repairedResult = { record: repaired, message: fixture.querySelector('[data-visit-message]').textContent };
+    malformed();
+    let failedWrites = 0;
+    const unwritable = initEasterEggs(fixture, {
+      settings: base,
+      storage: { getItem: () => null, setItem: () => { failedWrites++; throw new DOMException('Full', 'QuotaExceededError'); } },
+    });
+    fixture.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));
+    const unwritableResult = { failedWrites, message: fixture.querySelector('[data-visit-message]').textContent };
+    unwritable();
+    fixture.remove();
+    return { disabledCalls, deniedResult, repairedResult, unwritableResult };
+  });
+  assert.equal(result.disabledCalls, 0, 'An explicit opt-out does not access the browser storage getter.');
+  assert.deepEqual(result.deniedResult, { calls: 1, message: 'nice to meet you.' });
+  assert.equal(result.repairedResult.record.count, 1, 'Malformed storage resets to a usable first visit.');
+  assert.deepEqual(Object.keys(result.repairedResult.record).sort(), ['count', 'lastSeen']);
+  assert.equal(result.repairedResult.message, 'nice to meet you.');
+  assert.deepEqual(result.unwritableResult, { failedWrites: 1, message: 'nice to meet you.' }, 'Unavailable storage falls back without repeated writes on interaction.');
+}
+
+async function checkSeparatedReturn() {
+  const context = await browser.newContext({
+    viewport: { width: 1000, height: 760 }, reducedMotion: 'reduce',
+    storageState: { cookies: [], origins: [{ origin: new URL(baseURL).origin, localStorage: [{
+      name: easterSettings.visits.storageKey,
+      value: JSON.stringify({ count: 4, lastSeen: Date.now() - 31 * 60 * 1000 }),
+    }] }] },
+  });
+  try {
+    const page = await context.newPage();
+    await ready(page, '/');
+    await assertLocalVisit(page, 5);
+    await page.reload({ waitUntil: 'networkidle' });
+    await assertLocalVisit(page, 5);
+    await page.evaluate(() => document.querySelector('.hero-nav a[href="/work"]').click());
+    await page.locator('.work-page').waitFor();
+    await assertLocalVisit(page, 5);
+  } finally { await context.close(); }
+}
+
 try {
   for (const width of [1440, 390, 320]) {
     const touch = width <= 600;
@@ -279,30 +361,31 @@ try {
       isMobile: touch,
       reducedMotion: width === 320 ? 'reduce' : 'no-preference',
     });
-    const storageCalls = [];
-    await instrumentStorage(context, storageCalls);
     const page = await context.newPage();
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
     await ready(page);
-    await assertFallback(page);
+    await assertLocalVisit(page);
     await checkInk(page, { touch });
     if (touch) await checkTouchScroll(page, context);
-    if (!touch) await checkIsolatedConsentGate(page);
-    await checkHeaderAndFutureHint(page, { touch });
-    await assertFallback(page);
+    if (!touch) {
+      await checkIsolatedConsentGate(page);
+      await checkIsolatedStorageFallbacks(page);
+    }
+    await checkHeaderAndFooterSecrets(page, { touch });
+    await assertLocalVisit(page);
     await page.evaluate(() => document.querySelector('.hero-nav a[href="/about"]').click());
     await page.waitForURL(route('/about'));
-    await assertFallback(page);
+    await assertLocalVisit(page);
     await page.reload({ waitUntil: 'networkidle' });
-    await assertFallback(page);
+    await assertLocalVisit(page);
     await page.evaluate(() => document.querySelector('.page-nav a[href="/work"]').click());
     await page.locator('.work-page').waitFor();
-    await assertFallback(page);
+    await assertLocalVisit(page);
+    if (!touch) await checkSeparatedReturn();
     assert.deepEqual(errors, [], 'The tested refinement flow must not throw browser errors.');
-    assert.deepEqual(storageCalls, [], 'No browser storage getter/method access should be observed across tested navigation and reloads.');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Footer and effects must not overflow at ${width}px.`);
-    console.log(`PASS hidden messages/ink ${width}px: exact header center, untouched labels, timed hover/tap rediscovery, gated future footer hint, unique procedural contours, cleanup/exclusions and zero default storage access.`);
+    console.log(`PASS hidden messages/ink ${width}px: exact header center, untouched labels, timed hover/tap rediscovery, mode hint and separate final count, document-anchored procedural blots, cleanup/exclusions and local visit continuity.`);
     await context.close();
   }
 } finally {

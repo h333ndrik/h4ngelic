@@ -22,7 +22,7 @@ Each of the three homepage sections has this structure:
 <section class="content-section selected-work" data-motion="work">
   <div class="section-pin">
     <h2 class="kinetic-heading">
-      <span class="kinetic-heading-text">01 / selected works</span>
+      <span class="kinetic-heading-text">01 / SELECTED WORKS</span>
     </h2>
     <div class="category-strip">
       <a class="category-link" href="/work/tattoos">
@@ -42,11 +42,11 @@ the same two inner wrappers, including unconfigured disabled spans. About uses
 
 ```html
 <p class="about-preview-copy kinetic-item" data-motion-item="copy">…</p>
-<a class="text-link kinetic-item" data-motion-item="link" href="/about">more about ↗</a>
+<a class="text-link kinetic-item" data-motion-item="link" href="/about">MORE ABOUT ↗</a>
 ```
 
 `.kinetic-item` owns scroll translation and rotation; `.category-magnet` owns
-the independent, small pointer hover translation. Anchor hit areas stay in the
+the independent magnetic translation and shared inner hover scale. Anchor hit areas stay in the
 three-column grid. Heading masking belongs to `.kinetic-heading`, and its
 inner text owns the heading transform. Shared heading typography remains in
 the site's normal stylesheet.
@@ -165,7 +165,7 @@ Scroll events schedule one animation frame and reuse cached section bounds.
 Only resize/ResizeObserver callbacks request new layout measurements. Per-value
 caching avoids repeated DOM writes at the endpoints. No work runs on a timer
 or on every display frame while the page is idle; hidden documents cancel the
-pending frame. UI animation uses transform and opacity only.
+pending frame. Scroll choreography uses transform and opacity only. The separately requested hover glow uses bounded filters on inner labels/images, never the whole page or live WebGL canvas.
 
 Run `node --test tests/scroll-motion.test.js tests/hero-depth.test.js` for
 endpoint, overshoot, stagger, early approach, echo, camera reversal and
@@ -174,4 +174,15 @@ running, `npm run test:motion` checks actual pinned stages, reverse/stopped
 poses and echoes, native wheel/touch scrolling, resize, 320/390/768/1920px layout
 and live reduced-motion changes. `npm run test:portfolio` also checks Contact anchor focus
 and navigation. These browser checks write review screenshots to `artifacts/`.
-Current execution results are recorded in [REFINEMENT-REPORT.md](REFINEMENT-REPORT.md).
+Current execution results are recorded in [CONTROL-CORRUPTION.md](CONTROL-CORRUPTION.md). [REFINEMENT-REPORT.md](REFINEMENT-REPORT.md) retains the historical PR-10 snapshot.
+
+
+## Shared hover, arrows and Other Side surfaces
+
+`src/data/uiEffectSettings.js` controls a separate shared interaction layer. Suitable labels target `1.22`, large category/contact labels target at most `1.20` within their own column, and image interiors target `1.08`. `.interaction-visual` moves/scales while its semantic link/button hit area stays stationary. Existing `.category-magnet` wrappers combine that scale with the bounded 3px magnetic offset. Resize and entry measurements prevent oversized labels from colliding or overflowing. Touch does not retain mouse-hover magnification. Reduced motion removes nonessential transforms/transitions while keyboard focus remains visible.
+
+Normal hover uses a strong bounded white glow; Other Side adds white, acid, violet and magenta fringes. Invisible `.secret-hotspot` controls are excluded so their independent 35%-opacity discovery stays faint and stationary. A child-list observer renews inner wrappers when hero control text changes or gallery controls appear; it does not observe animation styles or run an idle loop.
+
+Arrows share `.72em` dimensions, `1.25px` stroke, a responsive `clamp(7px, .22em, 18px)` label gap and a 2px hover movement. They sit next to their words rather than at an unrelated column edge. The main headings now use uppercase source labels; `MORE ABOUT` is 24–44px with the existing editorial font.
+
+The core scroll timing and C1-continuous deceleration remain unchanged because they already provide precise stopping/reversal. No liquid deformation is applied to Normal Mode. Other Side cursor damage is a distinct, input-driven source/history-pixel system on film/photo surfaces; see [XRAY.md](XRAY.md) for its lifecycle and bounded rendering, rather than treating it as another scroll animation.

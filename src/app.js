@@ -11,6 +11,8 @@ import { initNavigation } from './navigation.js';
 import { initEasterEggs } from './easter-eggs.js';
 import { initImageReveals } from './image-reveals.js';
 import { featureFlags } from './data/featureFlags.js';
+import { initCorruptionLifecycle } from './corruption-lifecycle.js';
+import { initXRay } from './xray.js';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -109,7 +111,13 @@ function render({ reset = false, restoreScroll } = {}) {
 
 render();
 initEasterEggs(document);
-if (featureFlags.otherSideEnabled) import('./xray.js').then(({ initXRay }) => initXRay());
+if (featureFlags.otherSideEnabled) {
+  initCorruptionLifecycle();
+  // Input handling is needed from startup. Bundle it with the entry stylesheet
+  // instead of delaying first paint with an immediately requested CSS chunk.
+  // Film, pixel rendering, damaged material and Web Audio stay gesture-driven.
+  initXRay();
+}
 if (standalone) {
   addEventListener('hashchange', () => {
     render({ reset: true });

@@ -6,6 +6,23 @@
 }
 .page-footer.exhibition-footer-home { border: 0; }
 .footer-identity { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 16px; min-width: 0; }
+.footer-identity > span { align-self: center; }
+.mode-mute {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-decoration: underline;
+  text-decoration-color: #ffffff40;
+  text-underline-offset: 4px;
+}
+.mode-mute:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+.footer-visit-hotspot.secret-hotspot { grid-column: 1 / -1; justify-self: center; margin-top: 12px; font-size: 12px; }
 .footer-contact-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
 
@@ -23,7 +40,7 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.4;
   letter-spacing: .04em;
   text-align: center;
@@ -38,18 +55,29 @@
   transform: translateX(-50%);
 }
 .secret-message { opacity: 0; transition: opacity 600ms ease-out; pointer-events: none; }
-.secret-message.is-discovered { opacity: .3; }
+.secret-message.is-discovered { opacity: .35; }
 .secret-hotspot:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
 .secret-hotspot:focus-visible .secret-message { opacity: 1; transition: none; }
-.footer-secret-space { position: relative; display: grid; place-items: center; min-height: 30svh; }
-.footer-secret { max-width: calc(100vw - 44px); }
+.footer-secret-space { position: relative; min-height: 30svh; }
+.footer-secret {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: calc(100vw - 44px);
+  touch-action: pan-y;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
 
+body { position: relative; }
 .ink-layer {
   --ink-color-1: #f0efeb;
   --ink-color-2: #e6e5df;
   --ink-color-3: #f0efeb;
   --ink-color-4: #d9d8d1;
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 8;
   overflow: hidden;
@@ -87,6 +115,7 @@
 }
 @media (max-width: 600px) {
   .exhibition-footer { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .secret-hotspot { font-size: 12px; }
   .visitor-hotspot { top: -11px; }
   .visitor-hotspot .secret-message {
     position: absolute;
@@ -94,7 +123,7 @@
     left: 50%;
     width: min(230px, calc(100vw - 72px));
     transform: translateX(-50%);
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.25;
   }
 }

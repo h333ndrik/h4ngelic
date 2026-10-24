@@ -2,7 +2,6 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { easterSettings, visitorMessages, visitorMessage, nextVisit, canRememberVisits } from '../src/data/easterSettings.js';
 import { renderFooter } from '../src/footer.js';
-import { featureFlags } from '../src/data/featureFlags.js';
 import { createInkImprint } from '../src/ink-imprint.js';
 
 test('visitor copy follows the six exact messages, then remains stable', () => {
@@ -28,31 +27,45 @@ test('ordinary page views and reloads are one visit until separated inactivity',
   assert.deepEqual(nextVisit({ count: 4, lastSeen: 9000 }, 8000), { count: 4, lastSeen: 8000 }, 'Clock rollback must not create a new visit.');
 });
 
-test('persistent visitor memory requires both an explicit flag and valid consent', () => {
-  assert.equal(easterSettings.visits.enabled, false);
-  assert.equal(canRememberVisits(easterSettings.visits, true), false);
-  assert.equal(canRememberVisits({ enabled: true }, false), false);
-  assert.equal(canRememberVisits({ enabled: true }, 'yes'), false);
-  assert.equal(canRememberVisits({ enabled: true }, true), true);
+test('the requested local counter works by default and supports opt-out or a host consent gate', () => {
+  assert.equal(easterSettings.visits.enabled, true);
+  assert.equal(canRememberVisits(easterSettings.visits), true);
+  assert.equal(canRememberVisits({ enabled: false }, true), false);
+  assert.equal(canRememberVisits({ enabled: true, requireConsent: true }, false), false);
+  assert.equal(canRememberVisits({ enabled: true, requireConsent: true }, 'yes'), false);
+  assert.equal(canRememberVisits({ enabled: true, requireConsent: true }, true), true);
 });
 
-test('the postponed mode has no public teaser; homepage reserves a spacious quiet area', () => {
-  assert.equal(featureFlags.otherSideEnabled, false);
-  const html = renderFooter({ home: true });
+test('the homepage separates its hidden instruction, final count and accessible sound control', () => {
+  const html = renderFooter({ home: true, otherSideEnabled: true });
   assert.match(html, /h4ngelic © 2026/);
   assert.match(html, /berlin, de/);
   assert.match(html, /data-footer-secret-space/);
-  assert.doesNotMatch(html, /data-visit-message|data-visit-number/, 'Visitor copy belongs to the header, not the visible footer.');
-  assert.doesNotMatch(html, /press 4|data-xray-toggle|data-other-side-hint|aria-keyshortcuts/);
+  assert.doesNotMatch(html, /data-visit-message/, 'The returning message stays in the header.');
+  assert.match(html, /data-other-side-hint data-secret-hotspot data-mode-hold/);
+  assert.match(html, />HOLD 4 TO SEE THE OTHER SIDE\.<\/span>/);
+  assert.match(html, /data-visit-counter-hotspot/);
+  assert.match(html, />VISIT 001<\/span>/);
+  assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
+  assert.ok(html.indexOf('data-visit-counter-hotspot') > html.indexOf('footer-identity'));
+  assert.match(html, /data-mode-mute aria-label="mute transition sounds" aria-pressed="false"/);
+  assert.match(html, /data-mode-status role="status" aria-live="polite"/);
+  assert.doesNotMatch(html, /data-xray-toggle/, 'A simple touch tap must not bypass the hold control.');
   assert.doesNotMatch(html, /instagram|book a tat|mailto:/, 'The homepage contact links are not duplicated in the footer.');
   assert.doesNotMatch(renderFooter(), /data-footer-secret-space/, 'The large quiet area is homepage-specific.');
 });
 
-test('the future hint is opt-in, exact lowercase copy and a reveal-only accessible hotspot', () => {
-  const html = renderFooter({ home: true, otherSideEnabled: true });
-  assert.match(html, /data-other-side-hint data-secret-hotspot aria-label="reveal the other side shortcut"/);
-  assert.match(html, />press 4 for the other side\.<\/span>/);
-  assert.doesNotMatch(html, /data-xray-toggle|background|border|PRESS 4/);
+test('the shared release gate can still omit all alternate-mode controls independently of visits', () => {
+  const html = renderFooter({ home: true, otherSideEnabled: false });
+  assert.doesNotMatch(html, /data-other-side-hint|data-mode-hold|data-mode-mute|data-mode-status/);
+  assert.match(html, /data-visit-number/);
+  assert.doesNotMatch(renderFooter(), /data-visit-counter-hotspot/, 'The hidden final count belongs to the homepage.');
+});
+
+test('ink remains temporary for six to twelve seconds with a bounded active count', () => {
+  assert.equal(easterSettings.ink.minimumLifetimeMs, 6000);
+  assert.equal(easterSettings.ink.maximumLifetimeMs, 12000);
+  assert.equal(easterSettings.ink.maximumMarks, 12);
 });
 
 test('each procedural ink impression changes its contour, fragmentation and pigment density', () => {

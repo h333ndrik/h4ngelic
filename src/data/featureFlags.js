@@ -1,6 +1,5 @@
-/** Features remain private until their interaction is ready for public use. */
+/** Shared release gates for application, hero material and discoverable controls. */
 export const featureFlags = {
-  // Latest art direction postpones this mode. Keep both the mode bootstrap and
-  // its public keyboard hint disabled together; no unavailable shortcut tease.
-  otherSideEnabled: false,
+  // The Control vs. Corruption update explicitly activates hold-4 switching.
+  otherSideEnabled: true,
 };
