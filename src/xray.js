@@ -1,9 +1,10 @@
 import './xray.css';
 import { xraySettings, chooseXRayQuality, solarizedChannels } from './data/xraySettings.js';
-import { bindXRayShortcut } from './xray-shortcut.js';
+import { bindXRayShortcut, bindReverseShortcut } from './xray-shortcut.js';
 import { bindModeHold } from './mode-hold.js';
 import { createModeAudio } from './mode-audio.js';
 import { corruptionSettings } from './data/corruptionSettings.js';
+import { createModeSnapshotTransition } from './mode-snapshot.js';
 
 const controllers = new WeakMap();
 const svgNamespace = 'http://www.w3.org/2000/svg';
@@ -46,7 +47,10 @@ export function initXRay({ root = document } = {}) {
   const previousAttributes = new Map(['data-mode', 'data-xray-quality', 'data-xray-ready', 'data-xray-transition', 'data-mode-holding'].map((name) => [name, html.getAttribute(name)]));
   const previousProperties = new Map();
   const audio = createModeAudio({ view });
+  const snapshot = createModeSnapshotTransition({ doc, settings: corruptionSettings.transition });
   let mode = 'normal';
+  let pendingMode = null;
+  let generation = 0;
   let amount = 0;
   let frame = 0;
   let destroyed = false;
@@ -108,8 +112,9 @@ export function initXRay({ root = document } = {}) {
     for (const button of doc.querySelectorAll('[data-mode-hold]')) {
       button.setAttribute('aria-pressed', String(mode === 'xray'));
       button.setAttribute('aria-label', mode === 'xray' ? 'hold for one second to return to normal mode' : 'hold for one second to enter the other side');
+      button.setAttribute('aria-keyshortcuts', mode === 'xray' ? '3' : '4');
     }
-    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'HOLD 4 TO REVERSE.' : 'HOLD 4 TO SEE THE OTHER SIDE.';
+    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'PRESS 3 THREE TIMES TO REVERSE.' : 'HOLD 4 TO SEE THE OTHER SIDE.';
     for (const button of doc.querySelectorAll('[data-mode-mute]')) {
       button.textContent = audio.muted ? 'sound off' : 'sound on';
       button.setAttribute('aria-pressed', String(audio.muted));
@@ -119,38 +124,47 @@ export function initXRay({ root = document } = {}) {
   }
 
   function announce() {
-    for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = mode === 'xray' ? 'the other side is on. hold 4 for one second to return.' : 'the other side is off.';
+    for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = mode === 'xray' ? 'the other side is on. press 3 three times within two seconds to return. on touch, hold the instruction for one second.' : 'the other side is off.';
   }
 
   function finish(target) {
+    view.cancelAnimationFrame(frame);
     treat(target);
     html.removeAttribute('data-xray-transition');
     frame = 0;
   }
 
-  function setMode(next) {
-    if (destroyed || !['normal', 'xray'].includes(next) || next === mode) return;
+  function applyMode(next, { captured = false, duration, variant } = {}) {
+    if (destroyed) return;
     view.cancelAnimationFrame(frame);
     frame = 0;
     mode = next;
+    pendingMode = null;
     if (mode === 'xray' && !overlay.style.backgroundImage) overlay.style.backgroundImage = 'url("/assets/xray-distress.webp")';
     const target = mode === 'xray' ? 1 : 0;
     html.dataset.mode = mode;
     refresh();
     announce();
-    audio.play(mode);
-    doc.dispatchEvent(new view.CustomEvent('h4:modechange', { detail: { mode } }));
+    if (!doc.hidden) audio.play(mode);
+    doc.dispatchEvent(new view.CustomEvent('h4:modechange', { detail: { mode, captured, duration, variant } }));
     const theme = doc.querySelector('meta[name="theme-color"]');
     if (theme) theme.content = mode === 'xray' ? xraySettings.palette.background : '#303033';
-    if (reduced.matches || html.dataset.xrayQuality === 'lite') { finish(target); return; }
+    if (captured) {
+      // The browser captures a complete destination frame. Intermediate media
+      // curves would bake an unfinished treatment into that destination bitmap.
+      treat(target);
+      html.dataset.xrayTransition = mode === 'xray' ? 'entering' : 'leaving';
+      return;
+    }
+    if (reduced.matches || doc.hidden || html.dataset.xrayQuality === 'lite') { finish(target); return; }
     html.dataset.xrayTransition = mode === 'xray' ? 'entering' : 'leaving';
     const from = amount;
     const started = view.performance.now();
     let previousUpdate = -Infinity;
-    const duration = Math.max(1, xraySettings.transitionMs);
+    const fallbackDuration = Math.max(1, xraySettings.transitionMs);
     const step = (now) => {
       if (destroyed) return;
-      const progress = Math.min(1, Math.max(0, (now - started) / duration));
+      const progress = Math.min(1, Math.max(0, (now - started) / fallbackDuration));
       if (progress >= 1) { finish(target); return; }
       // This bounded transition is the only RAF work: no idle distortion loop.
       if (now - previousUpdate >= 1000 / xraySettings.transitionFramesPerSecond) {
@@ -163,23 +177,40 @@ export function initXRay({ root = document } = {}) {
     frame = view.requestAnimationFrame(step);
   }
 
-  const toggle = () => setMode(mode === 'xray' ? 'normal' : 'xray');
+  function setMode(next) {
+    if (destroyed || !['normal', 'xray'].includes(next) || next === (pendingMode || mode)) return;
+    snapshot.skip();
+    const request = ++generation;
+    pendingMode = next;
+    const transition = snapshot.run(detail => applyMode(next, detail), { mode: next });
+    if (transition) void transition.finished.then(() => {
+      if (!destroyed && request === generation) finish(mode === 'xray' ? 1 : 0);
+    });
+  }
+
+  const toggle = () => setMode((pendingMode || mode) === 'xray' ? 'normal' : 'xray');
   const endHold = () => html.removeAttribute('data-mode-holding');
-  const prepare = (event) => {
+  const prepare = (event, hold = true) => {
     // Priming and preloading happen inside the original gesture, not its timer.
     void audio.prime(event).then(refresh);
-    html.setAttribute('data-mode-holding', '');
+    snapshot.prepare();
+    if (hold) html.setAttribute('data-mode-holding', '');
     const source = event.type === 'keydown' ? 'keyboard' : event.type === 'click' ? 'accessible' : 'pointer';
     doc.dispatchEvent(new view.CustomEvent('h4:modeprepare', { detail: { source } }));
   };
   let stopPointer;
-  const stopKeyboard = bindXRayShortcut(doc, toggle, {
+  const stopKeyboard = bindXRayShortcut(doc, () => setMode('xray'), {
+    isEnabled: () => mode === 'normal',
     onStart(event) { stopPointer?.cancel(); prepare(event); }, onEnd: endHold,
   });
-  stopPointer = bindModeHold(doc, toggle, {
-    onStart(event) { stopKeyboard.cancel(); prepare(event); }, onEnd: endHold,
+  const stopReverse = bindReverseShortcut(doc, () => setMode('normal'), {
+    isEnabled: () => mode === 'xray',
+    onStart(event) { stopPointer?.cancel(); prepare(event, false); },
   });
-  removers.push(stopKeyboard, stopPointer);
+  stopPointer = bindModeHold(doc, toggle, {
+    onStart(event) { stopKeyboard.cancel(); stopReverse.cancel(); prepare(event); }, onEnd: endHold,
+  });
+  removers.push(stopKeyboard, stopReverse, stopPointer);
   listen(doc, 'click', (event) => {
     const mute = event.target.closest?.('[data-mode-mute]');
     if (mute && !mute.disabled) {
@@ -214,6 +245,7 @@ export function initXRay({ root = document } = {}) {
     if (destroyed) return;
     destroyed = true;
     view.cancelAnimationFrame(frame);
+    snapshot.dispose();
     audio.dispose();
     for (const remove of removers) remove();
     defs.remove();

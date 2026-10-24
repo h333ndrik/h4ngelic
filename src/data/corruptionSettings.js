@@ -1,7 +1,7 @@
-/**
- * Other Side effect controls. Values are provisional until all supplied visual
- * references have been inspected. These numbers do not define a new palette.
- * Intensity controls use 0 = none, 1 = intended strength, up to 2 = exaggerated.
+import { ambientFilmSettings } from './ambientFilmSettings.js';
+
+/** Reference-based pixel/film controls. Existing hero material strengths stay
+ * unchanged; stronger damage is scoped to the film, image ROIs and snapshots.
  */
 export const corruptionSettings = Object.freeze({
   assets: Object.freeze({ desktop: '/assets/corrupted-film.webp', mobile: '/assets/corrupted-film-mobile.webp' }),
@@ -9,24 +9,30 @@ export const corruptionSettings = Object.freeze({
   filmBurnIntensity: 1,
   grainIntensity: .7,
   colorCorruption: 1,
-  pixelCorruption: 1,
+  pixelCorruption: 1.35,
   glowStrength: 1,
-  smearingIntensity: 1,
+  smearingIntensity: 1.35,
   // Higher recoverySpeed restores the original pixels sooner.
   recoverySpeed: 1,
-  recoveryMs: 1600,
+  recoveryMs: 2350,
+  ambient: ambientFilmSettings,
+  transition: Object.freeze({ minimumDurationMs: 720, maximumDurationMs: 920, framesPerSecond: 20,
+    displacementPx: 180, smearPx: 220, channelOffsetPx: 9, colorStrength: .86, columns: 18, rows: 12 }),
+  rendering: Object.freeze({ maximumSourceStretch: 190, maximumHistoryStretch: 250,
+    sourceSmearRatio: .55, historySmearRatio: .72, historyOpacity: .74, stripeOpacity: .66, stripeEvery: 3 }),
   field: Object.freeze({
     maximumImpulses: 36,
     maximumVelocity: 4, // CSS pixels per millisecond, independent of frame rate.
     velocityResetMs: 180,
     coalesceDistance: 20,
     coalesceWindowMs: 40,
-    minimumRadius: 24,
-    maximumRadius: 120,
+    minimumRadius: 32,
+    maximumRadius: 200,
     minimumBlockSize: 12,
     maximumBlockSize: 40,
-    maximumDisplacement: 84,
-    maximumSmear: 164,
+    maximumDisplacement: 150,
+    maximumSmear: 330,
+    channelOffsetPx: 9,
     instabilityIntervalMs: 80,
     maximumCoordinate: 10_000_000,
   }),
@@ -37,3 +43,8 @@ export const corruptionSettings = Object.freeze({
     reducedMotion: Object.freeze({ interactiveCorruption: false }),
   }),
 });
+
+/** Shared by asset loading and ambient/ROI rendering, including weak desktops. */
+export function chooseCorruptionProfile({ coarsePointer = false, memory, cores, saveData = false } = {}) {
+  return coarsePointer || saveData || memory > 0 && memory <= 4 || cores > 0 && cores <= 4 ? 'mobile' : 'desktop';
+}

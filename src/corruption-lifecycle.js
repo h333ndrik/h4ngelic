@@ -1,4 +1,4 @@
-import { corruptionSettings } from './data/corruptionSettings.js';
+import { corruptionSettings, chooseCorruptionProfile } from './data/corruptionSettings.js';
 
 /** Only the original input gesture preloads the film/effect code. Normal page
  * loads allocate neither effect canvases nor an additional rendering context.
@@ -11,11 +11,14 @@ export function initCorruptionLifecycle(doc = document) {
     if (disposed || preparing) return preparing;
     preparing = (async () => {
       const image = new Image();
-      const mobile = matchMedia('(pointer: coarse)').matches || navigator.deviceMemory > 0 && navigator.deviceMemory <= 4;
-      image.src = corruptionSettings.assets[mobile ? 'mobile' : 'desktop'];
+      const profile = chooseCorruptionProfile({ coarsePointer: matchMedia('(pointer: coarse)').matches,
+        memory: navigator.deviceMemory, cores: navigator.hardwareConcurrency, saveData: navigator.connection?.saveData });
+      image.src = corruptionSettings.assets[profile];
       const [{ createCorruption }] = await Promise.all([import('./corruption.js'), image.decode()]);
       if (disposed) return;
-      controller = await createCorruption({ image });
+      const created = await createCorruption({ image });
+      if (disposed) { created.dispose(); return; }
+      controller = created;
       controller.setActive(doc.documentElement.dataset.mode === 'xray');
       doc.dispatchEvent(new CustomEvent('h4:corruptionready'));
     })().catch(error => {

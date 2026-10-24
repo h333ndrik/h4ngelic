@@ -13,6 +13,7 @@ import { initImageReveals } from './image-reveals.js';
 import { featureFlags } from './data/featureFlags.js';
 import { initCorruptionLifecycle } from './corruption-lifecycle.js';
 import { initXRay } from './xray.js';
+import { initModeIcons } from './mode-icons.js';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -117,9 +118,11 @@ if (featureFlags.otherSideEnabled) {
   // instead of delaying first paint with an immediately requested CSS chunk.
   // Film, pixel rendering, damaged material and Web Audio stay gesture-driven.
   initXRay();
+  initModeIcons();
 }
 if (standalone) {
   addEventListener('hashchange', () => {
+    document.dispatchEvent(new CustomEvent('h4:navigationstart'));
     render({ reset: true });
     document.dispatchEvent(new CustomEvent('h4:pagechange'));
   });

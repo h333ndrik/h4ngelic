@@ -32,7 +32,11 @@
     "test:master": "node tests/master-browser.mjs",
     "measure:performance": "node scripts/measure-performance.mjs",
     "measure:xray": "node scripts/measure-xray.mjs",
-    "test:material": "node tests/wordmark-corruption-browser.mjs"
+    "test:material": "node tests/wordmark-corruption-browser.mjs",
+    "assets:mode-icons": "node scripts/prepare-mode-icons.mjs",
+    "test:icons": "node tests/ref09-icons-browser.mjs",
+    "test:mode-foundation": "node tests/ref09-foundation-browser.mjs",
+    "test:mode-snapshot": "node tests/mode-snapshot-browser.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

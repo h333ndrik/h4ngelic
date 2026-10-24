@@ -36,7 +36,7 @@ test('the requested local counter works by default and supports opt-out or a hos
   assert.equal(canRememberVisits({ enabled: true, requireConsent: true }, true), true);
 });
 
-test('the homepage separates its hidden instruction, final count and accessible sound control', () => {
+test('the homepage keeps its hidden instruction separate from the identity-row count', () => {
   const html = renderFooter({ home: true, otherSideEnabled: true });
   assert.match(html, /h4ngelic © 2026/);
   assert.match(html, /berlin, de/);
@@ -48,7 +48,7 @@ test('the homepage separates its hidden instruction, final count and accessible 
   assert.match(html, />VISIT 001<\/span>/);
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
   assert.ok(html.indexOf('data-visit-counter-hotspot') > html.indexOf('footer-identity'));
-  assert.match(html, /data-mode-mute aria-label="mute transition sounds" aria-pressed="false"/);
+  assert.doesNotMatch(html, /data-mode-mute/, 'The sound control belongs to the upper hero controls, without a footer duplicate.');
   assert.match(html, /data-mode-status role="status" aria-live="polite"/);
   assert.doesNotMatch(html, /data-xray-toggle/, 'A simple touch tap must not bypass the hold control.');
   assert.doesNotMatch(html, /instagram|book a tat|mailto:/, 'The homepage contact links are not duplicated in the footer.');
@@ -66,6 +66,23 @@ test('ink remains temporary for six to twelve seconds with a bounded active coun
   assert.equal(easterSettings.ink.minimumLifetimeMs, 6000);
   assert.equal(easterSettings.ink.maximumLifetimeMs, 12000);
   assert.equal(easterSettings.ink.maximumMarks, 12);
+  assert.ok(new Set(easterSettings.ink.palette).size >= 5, 'Colorful chemical ink is configured for both modes.');
+  assert.match(easterSettings.ink.texture, /corrupted-film.*\.webp$/);
+});
+
+test('ink clips actual film pixels and bounded displaced bands to independent organic masks', () => {
+  const samples = Array.from({ length: 3 }, () => createInkImprint(() => .5, { texture: easterSettings.ink.texture }));
+  const ids = samples.flatMap(markup => [...markup.matchAll(/<clipPath id="([^"]+)"/g)].map(match => match[1]));
+  assert.equal(new Set(ids).size, ids.length, 'Concurrent marks must never share SVG clip IDs.');
+  for (const markup of samples) {
+    assert.match(markup, /data-ink-film href="\/assets\/corrupted-film-mobile\.webp"/);
+    assert.match(markup, /class="ink-tear"/);
+    assert.match(markup, /clip-rule="evenodd"/);
+    assert.ok((markup.match(/data-ink-pigment=/g) || []).length >= 8);
+    assert.ok((markup.match(/<image /g) || []).length <= 7);
+    assert.ok((markup.match(/<path /g) || []).length <= 40);
+    for (const [, reference] of markup.matchAll(/clip-path="url\(#([^\)]+)\)"/g)) assert.ok(markup.includes(`id="${reference}"`));
+  }
 });
 
 test('each procedural ink impression changes its contour, fragmentation and pigment density', () => {

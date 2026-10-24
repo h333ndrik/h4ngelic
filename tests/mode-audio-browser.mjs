@@ -8,9 +8,18 @@ const route = (path) => new URL(path, baseURL).href;
 async function mode(page, expected) {
   await page.waitForFunction((value) => document.documentElement.dataset.mode === value, expected);
 }
-async function hold(page, expected) {
-  await page.keyboard.down('4');
-  try { await mode(page, expected); } finally { await page.keyboard.up('4'); }
+async function changeMode(page, expected) {
+  if (expected === 'normal') {
+    for (let index = 0; index < 3; index++) await page.keyboard.press('3');
+    await mode(page, expected);
+  } else {
+    await page.keyboard.down('4');
+    try { await mode(page, expected); } finally { await page.keyboard.up('4'); }
+  }
+  await page.waitForFunction(() => !document.documentElement.hasAttribute('data-xray-transition'));
+}
+async function pageKind(page, expected) {
+  await page.waitForFunction(value => document.documentElement.dataset.page === value, expected);
 }
 
 try {
@@ -65,24 +74,45 @@ try {
   assert.ok(first.starts[0].peak <= .681, 'The actual AudioBuffer has controlled amplitude.');
   assert.ok(Math.abs(first.starts[0].time - first.changes[0].time) < 100, 'The cue begins with the actual mode transition.');
 
-  const mute = page.locator('[data-mode-mute]');
+  assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0, 'Work cannot duplicate the relocated frontpage sound control.');
+  await page.locator('.page-nav a[href="/about"]').click();
+  await pageKind(page, 'about');
+  assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0);
+  assert.ok(!requests.some((url) => /\/src\/main\.js|\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans/.test(url)), 'Direct Work/About, including mode sound, must not import the Three.js hero.');
+
+  // Exercise the real relocated button. It is never clicked through a hidden
+  // hero or manufactured footer fixture on an interior page.
+  await page.locator('.brand-link').click();
+  await pageKind(page, 'home');
+  const mute = page.locator('[data-controls] [data-mode-mute]');
+  assert.equal(await mute.isVisible(), true);
+  assert.equal(await page.locator('.page-footer [data-mode-mute]').count(), 0);
   await mute.click();
   assert.equal(await mute.getAttribute('aria-pressed'), 'true');
-  await hold(page, 'normal');
-  assert.equal(await page.evaluate(() => window.__audioProbe.starts.length), 1, 'Muting prevents the reverse-transition sound.');
-  await page.locator('.page-nav a[href="/about"]').click();
-  await page.waitForURL((url) => url.pathname === '/about');
-  assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true', 'Mute remains active across enhanced navigation.');
-  await page.locator('[data-mode-mute]').click();
-  await hold(page, 'xray');
-  await hold(page, 'normal');
+  await changeMode(page, 'normal');
+  assert.equal(await page.evaluate(() => window.__audioProbe.starts.length), 1, 'Muting prevents the 333 reverse-transition sound.');
+  await page.locator('.hero-nav a[href="/about"]').click();
+  await pageKind(page, 'about');
+  assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0);
+  assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true', 'The retained Home control reflects mute across enhanced navigation.');
+  await changeMode(page, 'xray');
+  await changeMode(page, 'normal');
+  assert.equal(await page.evaluate(() => window.__audioProbe.starts.length), 1, 'Mute remains effective for both transitions after leaving the frontpage.');
+
+  await page.locator('.brand-link').click();
+  await pageKind(page, 'home');
+  await mute.click();
+  assert.equal(await mute.getAttribute('aria-pressed'), 'false');
+  await page.locator('.hero-nav a[href="/work"]').click();
+  await pageKind(page, 'work');
+  await changeMode(page, 'xray');
+  await changeMode(page, 'normal');
   const final = await page.evaluate(() => window.__audioProbe);
   assert.deepEqual(final.starts.map((start) => start.mode), ['xray', 'xray', 'normal']);
-  assert.equal(final.contexts, 1, 'Navigation reuses one audio context.');
-  assert.ok(!requests.some((url) => /\/src\/main\.js|\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans/.test(url)), 'Mode sound on Work/About must not import the Three.js hero.');
+  assert.equal(final.contexts, 1, 'Navigation and the relocated mute button reuse one audio context.');
   assert.deepEqual(errors, []);
   await context.close();
-  console.log('PASS mode audio: trusted-gesture priming, silent short holds, actual transition timing, bounded 0.7s buffers, repeat latch, source cleanup, mute across navigation and no interior 3D scene.');
+  console.log('PASS mode audio: trusted-gesture priming, silent short holds, actual transition timing, bounded 0.7s buffers, repeat latch, source cleanup, visible upper mute across navigation, strict 333 return and no direct interior 3D scene.');
 
   const unsupported = await browser.newContext({ reducedMotion: 'reduce' });
   await unsupported.addInitScript(() => { window.AudioContext = undefined; window.webkitAudioContext = undefined; });
@@ -91,9 +121,12 @@ try {
   fallback.on('pageerror', (error) => fallbackErrors.push(error.message));
   await fallback.goto(route('/work'), { waitUntil: 'networkidle' });
   await mode(fallback, 'normal');
-  assert.equal(await fallback.locator('[data-mode-mute]').isDisabled(), true);
-  await hold(fallback, 'xray');
-  await hold(fallback, 'normal');
+  assert.equal(await fallback.locator('[data-mode-mute]:visible').count(), 0);
+  await changeMode(fallback, 'xray');
+  await changeMode(fallback, 'normal');
+  await fallback.locator('.brand-link').click();
+  await pageKind(fallback, 'home');
+  assert.equal(await fallback.locator('[data-controls] [data-mode-mute]').isDisabled(), true, 'The relocated control announces unavailable audio.');
   assert.deepEqual(fallbackErrors, [], 'Unavailable audio must not prevent either mode transition.');
   await unsupported.close();
   console.log('PASS unavailable audio: both visual mode transitions and accessible mute status remain reliable.');

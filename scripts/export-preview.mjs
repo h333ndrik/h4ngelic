@@ -5,6 +5,7 @@ import { build } from 'vite';
 import { artworks } from '../src/data/artworks.js';
 import { siteContent } from '../src/data/siteContent.js';
 import { corruptionSettings } from '../src/data/corruptionSettings.js';
+import { modeIconSettings } from '../src/data/modeIconSettings.js';
 import imageManifest from '../src/data/imageManifest.json' with { type: 'json' };
 
 const root = new URL('../', import.meta.url);
@@ -35,6 +36,13 @@ const assets = new Map([
   [corruptionSettings.assets.desktop, await dataURL(`public${corruptionSettings.assets.desktop}`, 'image/webp')],
   [corruptionSettings.assets.mobile, await dataURL(`public${corruptionSettings.assets.mobile}`, 'image/webp')],
 ]);
+for (const path of new Set([
+  ...Object.values(modeIconSettings.cursor.other),
+  ...Object.values(modeIconSettings.favicon.normal),
+  ...Object.values(modeIconSettings.favicon.other),
+])) {
+  assets.set(path, await dataURL(`public${path}`, path.endsWith('.svg') ? 'image/svg+xml' : 'image/png'));
+}
 const portfolioImages = artworks.filter((project) => project.published !== false)
   .flatMap((project) => project.images || []).flatMap((image) => [image.src, image.fullSrc]);
 if (siteContent.about.portrait?.src) portfolioImages.push(siteContent.about.portrait.src);

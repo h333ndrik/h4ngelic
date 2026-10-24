@@ -26,10 +26,9 @@ async function normalPresentation(page) {
   if (await page.locator('[data-xray-hint-text]').count()) assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
 }
 
-async function holdKey(page, key, mode) {
-  await page.keyboard.down(key);
-  try { await waitMode(page, mode); }
-  finally { await page.keyboard.up(key); }
+async function reverseKeys(page, key = '3') {
+  for (let index = 0; index < 3; index++) await page.keyboard.press(key);
+  await waitMode(page, 'normal');
 }
 
 try {
@@ -78,19 +77,37 @@ try {
       await page.locator('.about-copy').waitFor();
       await waitMode(page, 'xray');
       assert.equal(await page.locator('#logo-canvas').isVisible(), false, 'Interior navigation stays lightweight in either reality.');
-      const mute = page.locator('[data-mode-mute]');
-      assert.equal(await mute.count(), 1, 'The visitor can control transition sound.');
-      if (await mute.isEnabled()) {
-        await mute.click();
-        assert.equal(await mute.getAttribute('aria-pressed'), 'true', 'The sound control exposes its muted state.');
-      }
+      assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0, 'Interior pages do not duplicate the relocated frontpage sound control.');
+      assert.equal(await page.locator('.page-footer [data-mode-mute]').count(), 0);
       await page.locator('.brand-link').click();
       await page.waitForURL((url) => url.pathname === '/');
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await waitMode(page, 'xray');
+      const mute = page.locator('[data-controls] [data-mode-mute]');
+      assert.equal(await mute.count(), 1, 'The sound control belongs to the upper wordmark controls.');
+      assert.equal(await mute.isVisible(), true);
+      if (await mute.isEnabled()) {
+        await mute.click();
+        assert.equal(await mute.getAttribute('aria-pressed'), 'true', 'The visible upper control exposes the muted state.');
+      }
       const hint = page.locator('[data-other-side-hint][data-mode-hold]');
       const text = page.locator('[data-xray-hint-text]');
-      assert.equal(await text.textContent(), 'HOLD 4 TO REVERSE.');
+      assert.equal(await text.textContent(), 'PRESS 3 THREE TIMES TO REVERSE.');
+      await hint.scrollIntoViewIfNeeded();
+      await page.mouse.move(1, 1);
+      await hint.evaluate(element => element.blur());
+      await page.waitForTimeout(2700);
+      const reverseStyle = await hint.evaluate(element => ({
+        opacity: Number(getComputedStyle(element.querySelector('[data-secret-message]')).opacity),
+        size: parseFloat(getComputedStyle(element).fontSize), color: getComputedStyle(element).color,
+      }));
+      assert.equal(reverseStyle.opacity, 1, 'The reverse instruction remains visible without hover after the normal secret expiry.');
+      assert.equal(reverseStyle.color, 'rgb(255, 255, 255)');
+      assert.ok(reverseStyle.size >= (options.hasTouch ? 18 : 20) && reverseStyle.size <= 24.1);
+      await page.keyboard.down('4');
+      await page.waitForTimeout(1100);
+      await page.keyboard.up('4');
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'A fresh 4 hold cannot invoke the removed legacy reverse shortcut.');
       const placement = await page.locator('[data-footer-secret-space]').evaluate((space) => {
         const area = space.getBoundingClientRect();
         const control = space.querySelector('[data-other-side-hint]').getBoundingClientRect();
@@ -100,10 +117,10 @@ try {
       assert.ok(Math.abs(placement.x - placement.width / 2) < 1 && placement.y > .25 && placement.y < .5, 'The instruction is centered horizontally and slightly above the middle.');
       const position = await hint.boundingBox();
 
-      await holdKey(page, 'Numpad4', 'normal');
+      await reverseKeys(page, 'Numpad3');
       await normalPresentation(page);
       const restoredPosition = await hint.boundingBox();
-      assert.ok(Math.abs(position.x + position.width / 2 - restoredPosition.x - restoredPosition.width / 2) < 1 && Math.abs(position.y - restoredPosition.y) < 1, 'Both instruction variants occupy the same reveal zone.');
+      assert.ok(Math.abs(position.x + position.width / 2 - restoredPosition.x - restoredPosition.width / 2) < 1 && Math.abs(position.y + position.height / 2 - restoredPosition.y - restoredPosition.height / 2) < 1, 'Both instruction variants retain the same center even when their typography wraps.');
 
       if (options.hasTouch) {
         await hint.scrollIntoViewIfNeeded();
@@ -117,12 +134,12 @@ try {
           await waitMode(page, 'xray');
           await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
         } finally { await touch.detach(); }
-        await holdKey(page, '4', 'normal');
+        await reverseKeys(page);
       }
       await normalPresentation(page);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mode controls and effects cannot cause horizontal page overflow.');
       assert.deepEqual(errors, []);
-      console.log(`PASS public realities (${label}): short-hold cancellation, repeat latch, keyboard/numpad switching, mode-preserving navigation, sound control, mode-aware instruction${options.hasTouch ? ', real touch hold' : ''} and clean Normal restoration.`);
+      console.log(`PASS public realities (${label}): short-hold cancellation, repeat latch, keyboard/numpad entry and distinct 333 return, mode-preserving navigation, upper sound control, persistent reverse instruction${options.hasTouch ? ', real touch hold' : ''} and clean Normal restoration.`);
     } finally { await context.close(); }
   }
 } finally { await browser.close(); }

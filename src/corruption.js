@@ -1,8 +1,9 @@
 import './corruption.css';
-import { corruptionSettings } from './data/corruptionSettings.js';
+import { corruptionSettings, chooseCorruptionProfile } from './data/corruptionSettings.js';
 import { xraySettings } from './data/xraySettings.js';
 import { createCorruptionField, sampleCorruptionBlock } from './corruption-field.js';
 import { artworkRect } from './artwork-transitions.js';
+import { createAmbientFilm } from './ambient-film.js';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -35,11 +36,13 @@ function photoSource(image, maximum, settings) {
 export async function createCorruption({ image, settings = corruptionSettings } = {}) {
   const doc = document;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const mobile = matchMedia('(pointer: coarse)').matches || navigator.deviceMemory > 0 && navigator.deviceMemory <= 4;
-  const quality = settings.quality[mobile ? 'mobile' : 'desktop'];
+  const profile = chooseCorruptionProfile({ coarsePointer: matchMedia('(pointer: coarse)').matches,
+    memory: navigator.deviceMemory, cores: navigator.hardwareConcurrency, saveData: navigator.connection?.saveData });
+  const quality = settings.quality[profile];
+  const rendering = settings.rendering || corruptionSettings.rendering;
   const source = image || new Image();
   if (!image) {
-    source.src = settings.assets[mobile ? 'mobile' : 'desktop'];
+    source.src = settings.assets[profile];
     await source.decode();
   }
   const background = doc.createElement('div');
@@ -47,6 +50,8 @@ export async function createCorruption({ image, settings = corruptionSettings } 
   background.setAttribute('aria-hidden', 'true');
   background.style.backgroundImage = `url("${source.src}")`;
   doc.body.prepend(background);
+  const ambient = createAmbientFilm({ image: source, container: background, settings: settings.ambient || corruptionSettings.ambient, profile });
+  const backgroundSurface = { container: background, background: true, get source() { return ambient.source; } };
   const photos = new WeakMap();
   const regions = [];
   const removers = [];
@@ -86,20 +91,22 @@ export async function createCorruption({ image, settings = corruptionSettings } 
     const container = target?.closest?.('.artwork-viewer-stage, .artwork-open, .about-portrait');
     const photo = container?.querySelector('img:not(.artwork-flight-copy)');
     if (!photo?.complete || !photo.naturalWidth || container.querySelector('.artwork-flight-copy')
-      || container.closest('.is-switching, .is-image-loading')) return { container: background, source, background: true };
+      || container.closest('.is-switching, .is-image-loading')) return backgroundSurface;
     let record = photos.get(photo);
     if (!record || record.url !== photo.currentSrc) {
       try {
         record = { container, photo, url: photo.currentSrc, source: photoSource(photo, quality.maximumPhotoDimension, settings), background: false };
         photos.set(photo, record);
         container.classList.add('corruption-photo-surface');
-      } catch { return { container: background, source, background: true }; }
+      } catch { return backgroundSurface; }
     }
     return record;
   }
 
   function mapping(surface) {
     if (surface.background) {
+      if (ambient.sourceIsViewport) return { left: 0, top: 0, width: viewport.width, height: viewport.height,
+        originX: 0, originY: 0, clipLeft: 0, clipTop: 0, clipRight: viewport.width, clipBottom: viewport.height };
       const scale = Math.max(viewport.width / source.naturalWidth, viewport.height / source.naturalHeight);
       const width = source.naturalWidth * scale;
       const height = source.naturalHeight * scale;
@@ -139,10 +146,18 @@ export async function createCorruption({ image, settings = corruptionSettings } 
         field: createCorruptionField({ settings, seed: sequence * 4711 }), surface, x, y, width, height, frames: 0 };
       surface.container.append(canvas);
       regions.push(region);
-      if (previous?.container === surface.container) region.field.stroke({
+      if (!point.priorInput && previous?.container === surface.container) region.field.stroke({
         x: previous.x - map.originX, y: previous.y - map.originY, time: previous.time,
       });
     }
+    // Several native moves may be coalesced before one paint. Preserve the
+    // preceding raw position so a fast stroke cannot look like a stationary
+    // first point merely because its first event missed the render cadence.
+    const prior = point.priorInput;
+    const priorContainer = prior?.target?.closest?.('.artwork-viewer-stage, .artwork-open, .about-portrait') || background;
+    if (prior && priorContainer === surface.container) region.field.stroke({
+      x: prior.x - map.originX, y: prior.y - map.originY, time: prior.time,
+    });
     region.field.stroke(local);
     previous = { ...point, container: surface.container };
   }
@@ -187,19 +202,19 @@ export async function createCorruption({ image, settings = corruptionSettings } 
           if (opacity < .005) continue;
           context.globalAlpha = opacity;
           copyPixels(context, region, map, x - block.offsetX, y - block.offsetY, cell, cell,
-            x, y, cell + Math.min(54, block.smearLength * .28), cell);
+            x, y, cell + Math.min(rendering.maximumSourceStretch, block.smearLength * rendering.sourceSmearRatio), cell);
           // A displaced sample of the previous damaged frame produces actual
           // temporal persistence, rather than a decorative noise overlay.
           if (region.frames && impulse.speed > .15) {
-            context.globalAlpha = opacity * .55;
+            context.globalAlpha = opacity * rendering.historyOpacity;
             const hx = clamp(x - region.x - block.offsetX * .6, 0, Math.max(0, region.width - cell));
             const hy = clamp(y - region.y, 0, Math.max(0, region.height - cell));
             context.drawImage(region.history, hx, hy, cell, cell, x - region.x, y - region.y,
-              cell + Math.min(90, block.smearLength * .45), cell);
+              cell + Math.min(rendering.maximumHistoryStretch, block.smearLength * rendering.historySmearRatio), cell);
           }
-          if (impulse.speed > .3 && drawn % 4 === 0) {
-            context.globalAlpha = opacity * .5;
-            copyPixels(context, region, map, x + block.channelShift * 6, y, cell / 4, Math.max(2, cell / 6),
+          if (impulse.speed > .3 && drawn % rendering.stripeEvery === 0) {
+            context.globalAlpha = opacity * rendering.stripeOpacity;
+            copyPixels(context, region, map, x + block.channelShift * settings.field.channelOffsetPx, y, cell / 4, Math.max(2, cell / 6),
               x - block.channelShift, y + cell * .6, cell + block.smearLength, Math.max(2, cell / 6));
           }
           drawn++;
@@ -239,11 +254,17 @@ export async function createCorruption({ image, settings = corruptionSettings } 
 
   listen(doc, 'pointermove', event => {
     if (!active || reduced.matches || doc.hidden || event.isPrimary === false) return;
+    if (event.target?.closest?.('[data-other-side-hint], [data-corruption-protected]')) {
+      pending = null;
+      previous = lastPointer = null;
+      return;
+    }
     // Layout and hover changes can synthesize boundary movement under a still
     // pointer. Only a new physical position refreshes a recovering field.
     if (lastPointer && Math.hypot(event.clientX - lastPointer.x, event.clientY - lastPointer.y) < .5) return;
-    lastPointer = { x: event.clientX, y: event.clientY };
-    pending = { x: event.clientX, y: event.clientY, time: performance.now(), target: event.target };
+    const point = { x: event.clientX, y: event.clientY, time: performance.now(), target: event.target };
+    pending = { ...point, priorInput: lastPointer };
+    lastPointer = point;
     if (!frame) {
       doc.documentElement.setAttribute('data-corruption-running', '');
       frame = requestAnimationFrame(tick);
@@ -253,14 +274,18 @@ export async function createCorruption({ image, settings = corruptionSettings } 
   listen(window, 'blur', clear);
   listen(doc, 'visibilitychange', () => { if (doc.hidden) clear(); });
   listen(doc, 'h4:pagechange', clear);
-  listen(window, 'resize', () => { viewport = { width: innerWidth, height: innerHeight }; clear(); }, { passive: true });
+  listen(window, 'resize', () => {
+    viewport = { width: innerWidth, height: innerHeight };
+    clear();
+    ambient.resize(viewport);
+  }, { passive: true });
   listen(reduced, 'change', clear);
   const snapshot = () => ({ active, queued: Boolean(frame), regions: regions.length, frames: frameCount,
-    maximumBlocks, drawMs: [...timings], source: source.src, quality });
+    maximumBlocks, drawMs: [...timings], source: source.src, quality, ambient: ambient.snapshot() });
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) window.__H4_CORRUPTION__ = { snapshot };
   return {
-    setActive(value) { active = value; if (!active) clear(); },
+    setActive(value) { active = value; if (!active) clear(); ambient.setActive(active); },
     snapshot,
-    dispose() { disposed = true; clear(); for (const remove of removers) remove(); background.remove(); delete window.__H4_CORRUPTION__; },
+    dispose() { disposed = true; clear(); ambient.dispose(); for (const remove of removers) remove(); background.remove(); delete window.__H4_CORRUPTION__; },
   };
 }

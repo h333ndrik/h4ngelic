@@ -5,6 +5,8 @@
  */
 export const xraySettings = {
   shortcutHoldMs: 1000,
+  reversePresses: 3,
+  reverseWindowMs: 2000,
   transitionMs: 650,
   transitionFramesPerSecond: 30,
   saturation: 0.58,
@@ -39,13 +41,17 @@ export function chooseXRayQuality({ coarsePointer = false, memory, cores, saveDa
 }
 
 function editable(element) {
-  return Boolean(element && (element.isContentEditable || element.closest?.('input, textarea, select, [role="textbox"], [contenteditable]:not([contenteditable="false"])')));
+  return Boolean(element && (element.isContentEditable || element.closest?.('input, textarea, select, [role="textbox"], [role="searchbox"], [role="combobox"], [role="spinbutton"], [role="slider"], [contenteditable]:not([contenteditable="false"])')));
+}
+
+export function isModeDigit(event, digit, activeElement = event.target) {
+  if (event.defaultPrevented || event.repeat || event.isComposing || event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return false;
+  // Physical numpad keys work with Num Lock either on or off.
+  const matches = event.key === digit || event.code === `Numpad${digit}` || (!event.key && event.code === `Digit${digit}`);
+  if (!matches || editable(event.target) || editable(activeElement)) return false;
+  return !(event.composedPath?.() || []).some(editable);
 }
 
 export function isXRayShortcut(event, activeElement = event.target) {
-  if (event.defaultPrevented || event.repeat || event.isComposing || event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return false;
-  // Numpad4 is an explicitly approved shortcut, including Num Lock-off events.
-  const digit = event.key === '4' || event.code === 'Numpad4' || (!event.key && event.code === 'Digit4');
-  if (!digit || editable(event.target) || editable(activeElement)) return false;
-  return !(event.composedPath?.() || []).some(editable);
+  return isModeDigit(event, '4', activeElement);
 }

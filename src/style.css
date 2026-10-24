@@ -9,7 +9,7 @@
   -webkit-font-smoothing: antialiased;
 }
 * { box-sizing: border-box; }
-body { margin: 0; }
+body { margin: 0; background-color: inherit; }
 button { font: inherit; }
 a { color: inherit; text-decoration: none; }
 a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outline-offset: 6px; }
@@ -29,11 +29,12 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 .stage.is-fallback #logo-canvas { display: none; }
 .hero-bottom { position: absolute; inset: auto 35px 40px; display: flex; align-items: end; gap: 20px; z-index: 1; pointer-events: none; }
 .identity { margin: 0; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .06em; line-height: 1.5; }
-.controls { position: absolute; top: 93px; right: 25px; display: flex; gap: 12px; align-items: center; pointer-events: auto; }
+.controls { position: absolute; top: 93px; right: 25px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; align-items: center; max-width: calc(100% - 50px); pointer-events: auto; }
 .controls button { background: transparent; border: 2px solid #a4a7af; color: #f6f5f3; padding: 16px 21px; min-height: 54px; border-radius: 99px; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .025em; transition: border-color .15s, background .15s; }
 .controls button:hover:not(:disabled) { background: #ffffff0b; border-color: #e6e5e1; }
 .controls button:focus-visible { outline: 2px solid white; outline-offset: 5px; }
 .controls button:disabled { opacity: .4; }
+html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 .hero-nav { position: absolute; right: 28px; bottom: 42px; display: flex; gap: 26px; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .06em; z-index: 1; }
 .hero-nav a { opacity: .75; }
 .hero-nav a:hover { opacity: 1; }
@@ -109,8 +110,8 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 @media (max-width: 600px) {
   .masthead { inset: 23px 22px auto; }
   .hero-bottom { inset: auto 22px 28px; }
-  .controls { top: 72px; right: 22px; gap: 7px; }
-  .controls button { padding: 10px 14px; min-height: 44px; border-width: 1px; }
+  .controls { top: 72px; right: 22px; gap: 7px; max-width: calc(100% - 44px); }
+  .controls button { padding: 10px clamp(9px, 2.5vw, 14px); min-height: 44px; border-width: 1px; }
   .hero-nav { right: 22px; bottom: 30px; gap: 12px; font-size: 14px; }
   .identity { font-size: 12px; }
   .content-section { padding: 65px 22px; }

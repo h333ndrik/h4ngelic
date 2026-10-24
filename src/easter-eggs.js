@@ -101,8 +101,27 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
 
   function clearMarks() { for (const mark of marks.keys()) forgetMark(mark); }
 
+  function protectedBounds() {
+    const hint = root.querySelector('[data-other-side-hint]');
+    const rect = hint?.getBoundingClientRect();
+    return rect?.width && rect.height ? { left: rect.left + view.scrollX, right: rect.right + view.scrollX,
+      top: rect.top + view.scrollY, bottom: rect.bottom + view.scrollY } : null;
+  }
+
+  const intersectsHint = (record, bounds) => bounds && record.x + record.extent > bounds.left
+    && record.x - record.extent < bounds.right && record.y + record.extent > bounds.top && record.y - record.extent < bounds.bottom;
+
   function imprint(event, heldMs) {
     if (disposed || !settings.ink.enabled) return;
+    const random = Math.random();
+    const size = settings.ink.minimumSize + random * (settings.ink.maximumSize - settings.ink.minimumSize);
+    const lifetime = settings.ink.minimumLifetimeMs + Math.random() * (settings.ink.maximumLifetimeMs - settings.ink.minimumLifetimeMs);
+    const scale = 1 + Math.min(heldMs / 1600, .5);
+    const position = { x: event.clientX + view.scrollX, y: event.clientY + view.scrollY,
+      extent: size * scale * .8 + (settings.ink.otherGlowPx || 6) * 2 };
+    // A mark cannot spread across the visible reverse instruction. The single
+    // geometry read happens after a blank click, never during scrolling/moving.
+    if (intersectsHint(position, protectedBounds())) return;
     if (!layer) {
       layer = pageDocument.createElement('div');
       layer.className = 'ink-layer';
@@ -110,25 +129,33 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
       pageDocument.body.append(layer);
     }
     while (marks.size >= Math.max(1, settings.ink.maximumMarks)) forgetMark(marks.keys().next().value);
-    const random = Math.random();
-    const size = settings.ink.minimumSize + random * (settings.ink.maximumSize - settings.ink.minimumSize);
-    const lifetime = settings.ink.minimumLifetimeMs + Math.random() * (settings.ink.maximumLifetimeMs - settings.ink.minimumLifetimeMs);
     const mark = pageDocument.createElementNS('http://www.w3.org/2000/svg', 'svg');
     mark.classList.add('ink-mark');
     mark.setAttribute('data-ink-mark', '');
     mark.setAttribute('data-pigment', String(1 + Math.floor(Math.random() * 4)));
     mark.setAttribute('viewBox', '0 0 100 100');
     mark.setAttribute('focusable', 'false');
-    mark.innerHTML = createInkImprint(Math.random, { pressure: Math.min(heldMs / 1600, 1) });
-    mark.style.left = `${event.clientX + view.scrollX}px`;
-    mark.style.top = `${event.clientY + view.scrollY}px`;
-    mark.style.setProperty('--ink-size', `${size * (1 + Math.min(heldMs / 1600, .5))}px`);
+    mark.innerHTML = createInkImprint(Math.random, { pressure: Math.min(heldMs / 1600, 1), texture: settings.ink.texture });
+    mark.style.left = `${position.x}px`;
+    mark.style.top = `${position.y}px`;
+    mark.style.setProperty('--ink-size', `${size * scale}px`);
     mark.style.setProperty('--ink-angle', `${Math.round(Math.random() * 360)}deg`);
     mark.style.setProperty('--ink-lifetime', `${lifetime}ms`);
-    const finish = () => forgetMark(mark);
-    const timer = setTimeout(finish, lifetime + 50);
-    marks.set(mark, { finish, timer });
-    mark.addEventListener('animationend', finish, { once: true });
+    const colors = settings.ink.palette;
+    const offset = Math.floor(Math.random() * colors.length);
+    mark.style.setProperty('--ink-primary', colors[offset]);
+    for (let index = 1; index <= 3; index++) mark.style.setProperty(`--ink-accent-${index}`, colors[(offset + index) % colors.length]);
+    mark.style.setProperty('--ink-texture-opacity', String(settings.ink.textureOpacity));
+    mark.style.setProperty('--ink-other-texture-opacity', String(settings.ink.otherTextureOpacity));
+    mark.style.setProperty('--ink-smear-distance', `${settings.ink.smearDistance}px`);
+    mark.style.setProperty('--ink-fracture-duration', `${settings.ink.fractureMs}ms`);
+    mark.style.setProperty('--ink-glow', `${settings.ink.glowPx}px`);
+    mark.style.setProperty('--ink-other-glow', `${settings.ink.otherGlowPx}px`);
+    const finish = (event) => { if (event.target === mark) forgetMark(mark); };
+    const timer = setTimeout(() => forgetMark(mark), lifetime + 50);
+    marks.set(mark, { finish, timer, ...position });
+    // Child tear animations end first and must not consume the lifetime listener.
+    mark.addEventListener('animationend', finish);
     layer.append(mark);
   }
 
@@ -204,6 +231,11 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     updateVisitorCopy();
     candidate = null;
     clearMarks();
+  });
+  listen(root, 'h4:modechange', () => {
+    const bounds = protectedBounds();
+    // The larger Other Side hint can intersect a mark that was safe before it.
+    for (const [mark, record] of marks) if (intersectsHint(record, bounds)) forgetMark(mark);
   });
   listen(root, 'h4:privacychange', refreshConsent);
   listen(pageDocument, 'visibilitychange', () => {
