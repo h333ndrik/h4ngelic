@@ -1,16 +1,17 @@
 /**
- * Homepage choreography uses scroll distance, never elapsed animation time.
- * Pin distances are multiples of viewport height; travel is viewport width.
- * Keeping the settings here makes the sequence editable without touching DOM
- * listeners or the Three.js scene. See docs/MOTION.md before changing ranges.
+ * All choreography scrubs with native scroll distance, never elapsed time.
+ * Entrances begin when the section's top reaches 85% of the viewport, before
+ * its short sticky interval. The final item settles immediately before release.
  */
 export const motionSettings = Object.freeze({
   mobileBreakpoint: 700,
-  pin: Object.freeze({ work: 1.12, contact: .95, mobileWork: .68, mobileContact: .60 }),
-  fly: Object.freeze({ start: .03, stagger: .16, duration: .58, distanceVw: 1.5, rotation: 6.5, overshoot: 14, overshootAt: .78 }),
-  heading: Object.freeze({ start: -.72, end: -.06, rise: 112 }),
-  about: Object.freeze({ approach: .78, finish: .10, headingEnd: .48, copyStart: .14, copyEnd: .88, linkStart: .32, linkEnd: 1, copyDistanceVw: .48, linkDistanceVw: .27 }),
-  hero: Object.freeze({ start: .02, end: .90, scale: .88 }),
+  approach: .85,
+  pin: Object.freeze({ work: .68, contact: .58, mobileWork: .48, mobileContact: .44 }),
+  fly: Object.freeze({ start: .025, stagger: .14, duration: .66, distanceVw: 1.35, rotation: 6.5, overshoot: 12, overshootAt: .78 }),
+  heading: Object.freeze({ start: 0, end: .27, rise: 112 }),
+  about: Object.freeze({ approach: .88, finish: .08, headingEnd: .28, copyStart: .045, copyEnd: .84, linkStart: .18, linkEnd: 1, copyDistanceVw: 1.12, linkDistanceVw: 1.04 }),
+  trail: Object.freeze({ layers: 2, distanceVw: .045, maximumDistance: 64, mobileMaximumDistance: 26, opacity: .22, secondaryOpacity: .13, fadeIn: .08, fadeOutStart: .38, fadeOutEnd: .82 }),
+  hero: Object.freeze({ start: .02, end: .90, scale: .97 }),
 });
 
 export function clamp01(value) {
@@ -25,10 +26,15 @@ export function easeOutCubic(value) {
   return 1 - (1 - clamp01(value)) ** 3;
 }
 
+/** The approach and native pin form one continuous, reversible scroll range. */
+export function pinnedProgress(position, top, viewportHeight, pinRun, settings = motionSettings) {
+  const approach = Math.max(0, viewportHeight * settings.approach);
+  return (position - top + approach) / Math.max(1, approach + pinRun);
+}
+
 /** A continuous, deterministic entrance with one small controlled overshoot. */
 export function sampleFlyIn(progress, { distance = 0, rotation = 0, overshoot = 0, overshootAt = .78 } = {}) {
   const p = clamp01(progress);
-  // Explicit endpoints avoid floating-point remnants at rest and on reversal.
   if (p === 0) return { x: distance, rotation, opacity: 0 };
   if (p === 1) return { x: 0, rotation: 0, opacity: 1 };
   const turn = Math.max(.01, Math.min(.99, overshootAt));
@@ -39,9 +45,26 @@ export function sampleFlyIn(progress, { distance = 0, rotation = 0, overshoot = 
   return { x, rotation: rotation * (1 - easeOutCubic(p)), opacity: progressBetween(p, 0, .16) };
 }
 
+export function kineticItemProgress(sectionProgress, index, settings = motionSettings.fly) {
+  return progressBetween(sectionProgress, settings.start + index * settings.stagger, settings.start + index * settings.stagger + settings.duration);
+}
+
 export function sampleKineticItem(sectionProgress, index, viewportWidth, settings = motionSettings.fly) {
-  const local = progressBetween(sectionProgress, settings.start + index * settings.stagger, settings.start + index * settings.stagger + settings.duration);
-  return sampleFlyIn(local, { distance: viewportWidth * settings.distanceVw, rotation: settings.rotation, overshoot: settings.overshoot, overshootAt: settings.overshootAt });
+  return sampleFlyIn(kineticItemProgress(sectionProgress, index, settings), { distance: viewportWidth * settings.distanceVw, rotation: settings.rotation, overshoot: settings.overshoot, overshootAt: settings.overshootAt });
+}
+
+/** Empty decorative spans use CSS generated text, keeping real DOM text unique.
+ * The echo depends only on progress, so reverse and stopped scroll are exact.
+ */
+export function sampleMotionTrail(progress, layer, viewportWidth, settings = motionSettings.trail) {
+  const p = clamp01(progress);
+  const maximum = viewportWidth <= motionSettings.mobileBreakpoint ? settings.mobileMaximumDistance : settings.maximumDistance;
+  const distance = Math.min(Math.max(0, viewportWidth) * settings.distanceVw, maximum);
+  const envelope = progressBetween(p, 0, settings.fadeIn) * (1 - progressBetween(p, settings.fadeOutStart, settings.fadeOutEnd));
+  return {
+    x: distance * (layer === 0 ? .55 : 1) * (1 - p) ** 3,
+    opacity: (layer === 0 ? settings.opacity : settings.secondaryOpacity) * envelope,
+  };
 }
 
 export function sampleHeading(progress, start = motionSettings.heading.start, end = motionSettings.heading.end) {

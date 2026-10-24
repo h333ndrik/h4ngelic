@@ -1,4 +1,5 @@
 import './gallery.css';
+import { animateArtworkFlight, artworkRect } from './artwork-transitions.js';
 
 /** Native modal artwork viewer. No scene, animation library or scroll handler. */
 export function initGallery(root = document) {
@@ -36,6 +37,7 @@ export function initGallery(root = document) {
   const timers = new Set();
   let images = [];
   let selected = 0;
+  let displayed = 0;
   let opener = null;
   let ticket = 0;
   let closed = false;
@@ -43,6 +45,8 @@ export function initGallery(root = document) {
   let savedOverflow = '';
   let savedPadding = '';
   let pageLocked = false;
+  let flight = null;
+  let closing = false;
 
   const listen = (element, type, handler, options) => {
     element.addEventListener(type, handler, options);
@@ -52,6 +56,7 @@ export function initGallery(root = document) {
     const timer = setTimeout(() => { timers.delete(timer); resolve(); }, milliseconds);
     timers.add(timer);
   });
+  const cancelFlight = () => { flight?.cancel(); flight = null; };
 
   // A loading class is opt-in only while JS is active; images remain visible
   // without JS or when they have already arrived from the browser cache.
@@ -64,7 +69,9 @@ export function initGallery(root = document) {
     listen(image, 'error', ready, { once: true });
   }
 
-  async function showImage(index) {
+  async function showImage(index, { openingFrom, openingRect } = {}) {
+    if (closing) return;
+    cancelFlight();
     const request = ++ticket;
     selected = (index + images.length) % images.length;
     const thumbnail = images[selected];
@@ -73,6 +80,7 @@ export function initGallery(root = document) {
     image.className = 'artwork-viewer-image';
     image.alt = thumbnail.alt;
     image.decoding = 'async';
+    image.dataset.artworkImage = thumbnail.dataset.artworkImage || String(selected);
     image.src = source;
     status.textContent = 'loading image';
     count.textContent = `${selected + 1} / ${images.length}`;
@@ -86,10 +94,20 @@ export function initGallery(root = document) {
         if (closed || request !== ticket || !dialog.open) return;
       }
       stage.replaceChildren(image);
+      displayed = images.indexOf(thumbnail);
       caption.textContent = thumbnail.closest('figure')?.querySelector('figcaption')?.textContent || '';
       stage.classList.remove('has-image-error');
-      // One frame supplies the transition's start state without per-frame work.
-      if (reducedMotion.matches) stage.classList.remove('is-switching');
+      if (openingFrom) {
+        stage.classList.remove('is-switching');
+        dialog.classList.add('is-open');
+        const movement = animateArtworkFlight({ from: openingFrom, to: image, host: dialog, fromRect: openingRect });
+        flight = movement;
+        if (movement) {
+          await movement.finished;
+          if (flight === movement) flight = null;
+          if (closed || request !== ticket || !dialog.open) return;
+        }
+      } else if (reducedMotion.matches) stage.classList.remove('is-switching');
       else requestAnimationFrame(() => requestAnimationFrame(() => {
         if (!closed && request === ticket) stage.classList.remove('is-switching');
       }));
@@ -118,29 +136,51 @@ export function initGallery(root = document) {
   function finishClose() {
     clearTimeout(closeTimer);
     if (!dialog.open) return;
+    cancelFlight();
+    closing = false;
+    dialog.classList.remove('is-open');
     dialog.close();
     stage.replaceChildren();
     restorePage();
   }
 
   function requestClose() {
-    if (!dialog.open) return;
-    ++ticket;
-    dialog.classList.remove('is-open');
-    if (reducedMotion.matches) finishClose();
-    else closeTimer = setTimeout(finishClose, 160);
+    if (!dialog.open || closing) return;
+    closing = true;
+    const request = ++ticket;
+    const currentRect = flight?.currentRect();
+    cancelFlight();
+    const image = stage.querySelector('.artwork-viewer-image');
+    const movement = image && images[displayed] ? animateArtworkFlight({
+      from: image, to: images[displayed], host: dialog, direction: 'closing', fromRect: currentRect,
+    }) : null;
+    if (movement) {
+      flight = movement;
+      movement.finished.then(() => {
+        if (flight === movement) flight = null;
+        if (!closed && request === ticket && dialog.open) finishClose();
+      });
+    } else {
+      dialog.classList.remove('is-open');
+      if (reducedMotion.matches) finishClose();
+      else closeTimer = setTimeout(finishClose, 160);
+    }
   }
 
   function open(trigger) {
     if (closed || typeof dialog.showModal !== 'function') return;
     clearTimeout(closeTimer);
+    cancelFlight();
+    closing = false;
     opener = trigger;
     const project = trigger.closest('.project') || root;
     images = [...project.querySelectorAll('[data-artwork-open] img')];
     selected = images.indexOf(trigger.querySelector('img'));
     if (selected < 0) return;
-    if (dialog.open) { showImage(selected); return; }
-    title.textContent = project.querySelector('.project-meta h2')?.textContent || 'artwork';
+    if (dialog.open) { dialog.classList.add('is-open'); showImage(selected); return; }
+    title.textContent = project.querySelector('h1, h2')?.textContent || 'artwork';
+    const openingFrom = trigger.querySelector('img');
+    const openingRect = artworkRect(openingFrom);
     savedOverflow = document.body.style.overflow;
     savedPadding = document.body.style.paddingRight;
     const scrollbar = innerWidth - document.documentElement.clientWidth;
@@ -154,9 +194,9 @@ export function initGallery(root = document) {
     closeButton.focus({ preventScroll: true });
     if (reducedMotion.matches) dialog.classList.add('is-open');
     else requestAnimationFrame(() => {
-      if (!closed && dialog.open) dialog.classList.add('is-open');
+      if (!closed && dialog.open && !closing) dialog.classList.add('is-open');
     });
-    showImage(selected);
+    showImage(selected, { openingFrom, openingRect });
   }
 
   for (const trigger of triggers) listen(trigger, 'click', () => open(trigger));
@@ -173,11 +213,24 @@ export function initGallery(root = document) {
     if (event.key === 'ArrowLeft' && images.length > 1) { event.preventDefault(); showImage(selected - 1); }
     if (event.key === 'ArrowRight' && images.length > 1) { event.preventDefault(); showImage(selected + 1); }
   });
-  listen(dialog, 'close', restorePage);
+  listen(dialog, 'close', () => {
+    if (dialog.open) return;
+    ++ticket;
+    clearTimeout(closeTimer);
+    cancelFlight(); closing = false; dialog.classList.remove('is-open'); stage.replaceChildren(); restorePage();
+  });
+  listen(reducedMotion, 'change', () => {
+    if (!reducedMotion.matches) return;
+    cancelFlight();
+    stage.classList.remove('is-switching');
+    if (closing) finishClose();
+  });
+  listen(window, 'resize', cancelFlight);
 
   return () => {
     closed = true;
     ++ticket;
+    cancelFlight();
     clearTimeout(closeTimer);
     for (const timer of timers) clearTimeout(timer);
     for (const remove of removers) remove();

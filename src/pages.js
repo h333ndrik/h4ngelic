@@ -62,27 +62,32 @@ export function renderHomepageSections() {
   ${renderFooter({ home: true })}`;
 }
 
-function imageMarkup(image, { critical = false } = {}) {
+function imageMarkup(image, { critical = false, href = '', imageIndex = 0, figureId = '' } = {}) {
   const source = contentURL(image?.src);
   if (!source) return '';
   const asset = getImageAsset(image, { sizes: '(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)' });
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
-  return `<figure class="project-image">
-    <button class="artwork-open" type="button" data-artwork-open aria-label="open ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
-      <img src="${escape(asset.src || source)}" data-full-src="${escape(asset.fullSrc || source)}" alt="${escape(image.alt || '')}" loading="${critical ? 'eager' : 'lazy'}"${critical ? ' fetchpriority="high"' : ''} decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
-    </button>
+  const element = href ? 'a' : 'button';
+  const action = href ? `href="${escape(href)}" data-artwork-link` : 'type="button" data-artwork-open';
+  return `<figure class="project-image"${figureId ? ` id="${escape(figureId)}" tabindex="-1"` : ''}>
+    <${element} class="artwork-open" ${action} aria-label="open ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
+      <img src="${escape(asset.src || source)}" data-full-src="${escape(asset.fullSrc || source)}" data-artwork-image="${imageIndex}" alt="${escape(image.alt || '')}" loading="${critical ? 'eager' : 'lazy'}"${critical ? ' fetchpriority="high"' : ''} decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
+    </${element}>
     ${image.caption ? `<figcaption>${escape(image.caption)}</figcaption>` : ''}
   </figure>`;
 }
 
 export function renderProject(project) {
-  const images = (Array.isArray(project.images) ? project.images : []).map(imageMarkup).filter(Boolean).join('');
+  const href = projectURL(project);
+  const images = (Array.isArray(project.images) ? project.images : []).map((image, index) => imageMarkup(image, {
+    href: href ? `${href}${index ? `#image-${index + 1}` : ''}` : '', imageIndex: index,
+  })).filter(Boolean).join('');
   if (!images) return '';
   const label = categoryById(project.category)?.label || '';
   const details = project.details && typeof project.details === 'object'
     ? Object.entries(project.details).filter(([, value]) => value !== '' && value !== null && value !== undefined)
       .map(([key, value]) => `<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('') : '';
-  return `<article class="project"${project.id ? ` id="project-${escape(project.id)}"` : ''}>
+  return `<article class="project"${project.id ? ` id="project-${escape(project.id)}"` : ''}${href ? ` data-project-url="${escape(href)}"` : ''}>
     <div class="project-images">${images}</div>
     <div class="project-meta">
       ${project.title ? `<h2>${projectURL(project) ? `<a href="${projectURL(project)}">${escape(project.title)} ${arrow}</a>` : escape(project.title)}</h2>` : ''}
@@ -156,9 +161,9 @@ export function renderArtworkPage(project) {
   return `${header('work')}
     <div class="page-shell artwork-page">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">home</a><span aria-hidden="true">/</span><a href="${categoryURL(category.id)}">${escape(category.label)}</a></nav>
-      <article class="project artwork-detail">
+      <article class="project artwork-detail" data-project-url="${escape(projectURL(project))}">
         <h1 class="page-heading">${escape(project.title || category.label)}</h1>
-        <div class="project-images">${project.images.map((image, index) => imageMarkup(image, { critical: index === 0 })).join('')}</div>
+        <div class="project-images">${project.images.map((image, index) => imageMarkup(image, { critical: index === 0, imageIndex: index, figureId: `image-${index + 1}` })).join('')}</div>
         <div class="project-meta">
           <p class="project-index">${escape(category.label)}${project.year ? ` / ${escape(project.year)}` : ''}</p>
           ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}

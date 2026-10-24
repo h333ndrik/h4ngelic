@@ -1,5 +1,10 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { featureFlags } from '../src/data/featureFlags.js';
+
+if (!featureFlags.otherSideEnabled) {
+  throw new Error('the other side is postponed. Measure the current Normal site with npm run measure:performance.');
+}
 
 // A small runtime observation, separate from Lighthouse loading measurements.
 // SwiftShader is not representative of a physical phone's GPU or input latency.

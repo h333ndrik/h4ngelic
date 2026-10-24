@@ -1,5 +1,6 @@
 import './xray.css';
-import { xraySettings, chooseXRayQuality, isXRayShortcut, solarizedChannels } from './data/xraySettings.js';
+import { xraySettings, chooseXRayQuality, solarizedChannels } from './data/xraySettings.js';
+import { bindXRayShortcut } from './xray-shortcut.js';
 
 const controllers = new WeakMap();
 const svgNamespace = 'http://www.w3.org/2000/svg';
@@ -102,7 +103,7 @@ export function initXRay({ root = document } = {}) {
   }
 
   function announce() {
-    for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = mode === 'xray' ? 'the other side is on. press 4 or activate the footer control to return.' : 'the other side is off.';
+    for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = mode === 'xray' ? 'the other side is on. hold 4 for one second to return.' : 'the other side is off.';
   }
 
   function finish(target) {
@@ -146,11 +147,7 @@ export function initXRay({ root = document } = {}) {
   }
 
   const toggle = () => setMode(mode === 'xray' ? 'normal' : 'xray');
-  listen(doc, 'keydown', (event) => {
-    if (!isXRayShortcut(event, doc.activeElement)) return;
-    event.preventDefault();
-    toggle();
-  });
+  removers.push(bindXRayShortcut(doc, toggle));
   listen(doc, 'click', (event) => {
     const button = event.target.closest?.('[data-xray-toggle]');
     if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;

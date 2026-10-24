@@ -1,4 +1,5 @@
 import { resolveRoute } from './routes.js';
+import { prepareArtworkTransition } from './artwork-transitions.js';
 import './navigation.css';
 
 /** Enhance ordinary anchors; without JavaScript the prerendered URLs still work. */
@@ -10,32 +11,57 @@ export function initNavigation({ render }) {
   let nextKey = key;
   let transition;
   let revision = 0;
+  let renderedRoute = resolveRoute(location.href);
+  let renderedHash = location.hash;
+  let sharedArtwork = null;
   const positions = new Map([[key, [scrollX, scrollY]]]);
+  const galleryPositions = new Map();
   history.replaceState({ ...history.state, h4NavigationKey: key }, '');
 
-  function remember() { positions.set(key, [scrollX, scrollY]); }
+  function remember() {
+    positions.set(key, [scrollX, scrollY]);
+    if (renderedRoute.kind === 'work') galleryPositions.set(renderedRoute.canonicalPath, [scrollX, scrollY]);
+  }
 
-  function update(options) {
+  function update(options, trigger) {
     const currentRevision = ++revision;
     transition?.skipTransition();
+    sharedArtwork?.cleanup();
+    sharedArtwork = null;
+    const destination = resolveRoute(location.href);
+    const destinationHash = location.hash;
+    const fromHash = renderedHash;
+    const enhanced = typeof document.startViewTransition === 'function' && !reduced.matches && !document.hidden;
+    let artwork = prepareArtworkTransition(destination, trigger, { animate: enhanced, fromHash });
+    sharedArtwork = artwork;
     const commit = async () => {
       if (currentRevision !== revision) return;
       try {
         // Include scroll restoration and focus in the new view snapshot.
         await render(options);
+        if (currentRevision !== revision) return;
+        renderedRoute = destination;
+        renderedHash = destinationHash;
+        await artwork?.afterRender();
         if (currentRevision === revision) document.dispatchEvent(new CustomEvent('h4:pagechange'));
       } catch {
         // A normal document navigation remains the fallback for every browser,
         // including reduced motion and browsers without View Transitions.
-        location.assign(location.href);
+        if (currentRevision === revision) location.assign(location.href);
       }
     };
-    if (typeof document.startViewTransition === 'function' && !reduced.matches && !document.hidden) {
+    if (enhanced) {
       try {
         transition = document.startViewTransition(commit);
-        transition.finished.catch(() => {});
-        transition.updateCallbackDone.catch(() => location.assign(location.href));
-      } catch { commit(); }
+        transition.ready.catch(() => {});
+        transition.finished.then(() => artwork?.cleanup(), () => artwork?.cleanup());
+        transition.updateCallbackDone.catch(() => { if (currentRevision === revision) location.assign(location.href); });
+      } catch {
+        artwork?.cleanup();
+        artwork = prepareArtworkTransition(destination, trigger, { animate: false, fromHash });
+        sharedArtwork = artwork;
+        commit();
+      }
     } else commit();
   }
 
@@ -51,11 +77,13 @@ export function initNavigation({ render }) {
     if (route.kind === 'not-found') return;
     event.preventDefault();
     remember();
+    const restoreScroll = route.kind === 'work' && renderedRoute.kind === 'artwork'
+      ? galleryPositions.get(route.canonicalPath) : undefined;
     key = ++nextKey;
     const destination = route.redirectPath || `${url.pathname}${url.search}${url.hash}`;
     history.pushState({ h4NavigationKey: key }, '', destination);
     positions.set(key, [0, 0]);
-    update({ reset: true });
+    update({ reset: true, restoreScroll }, anchor);
   }
 
   function pop(event) {
@@ -74,11 +102,13 @@ export function initNavigation({ render }) {
   return () => {
     ++revision;
     transition?.skipTransition();
+    sharedArtwork?.cleanup();
     history.scrollRestoration = previousRestoration;
     removeEventListener('scroll', remember);
     removeEventListener('pagehide', remember);
     removeEventListener('popstate', pop);
     document.removeEventListener('click', click);
     positions.clear();
+    galleryPositions.clear();
   };
 }

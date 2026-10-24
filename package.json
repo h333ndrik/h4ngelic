@@ -19,6 +19,7 @@
     "test:portfolio": "node tests/portfolio-browser.mjs",
     "test:micro": "node tests/microinteractions-browser.mjs",
     "test:gallery": "node tests/gallery-browser.mjs",
+    "test:artwork-transitions": "node tests/artwork-transitions-browser.mjs",
     "test:seo": "node tests/seo-browser.mjs",
     "test:motion": "node tests/scroll-browser.mjs",
     "test:navigation": "node tests/navigation-browser.mjs",

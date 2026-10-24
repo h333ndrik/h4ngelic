@@ -42,12 +42,13 @@ async function instrumentStorage(context, observed) {
 async function ready(page, path = '/work') {
   await page.goto(route(path), { waitUntil: 'networkidle' });
   await page.locator('[data-artist-footer]').waitFor();
-  await page.waitForFunction(() => document.querySelector('[data-visit-message]')?.textContent === 'nice to meet you.');
+  if (path === '/') await page.locator('[data-visitor-hotspot]').waitFor();
 }
 
 async function assertFallback(page) {
-  assert.equal(await page.locator('[data-visit-message]').first().textContent(), 'nice to meet you.');
-  assert.equal(await page.locator('[data-visit-number]').first().textContent(), 'visit 001');
+  if (await page.locator('[data-visit-message]').count()) assert.equal(await page.locator('[data-visit-message]').first().textContent(), 'nice to meet you.');
+  assert.equal(await page.locator('[data-visit-number]').count(), 0);
+  assert.equal(await page.locator('.page-footer [data-visit-message]').count(), 0);
   assert.deepEqual(await page.evaluate(() => window.__H4_EASTER_STORAGE_LOG__), [], 'Tested default browsing must not call browser storage getters or methods.');
 }
 
@@ -87,6 +88,8 @@ async function checkInk(page, { touch }) {
     else await page.mouse.click(point.x, point.y);
   }
   assert.equal(await page.locator('[data-ink-mark]').count(), 12, 'The effect must cap concurrent DOM marks.');
+  const silhouettes = await page.locator('[data-ink-mark] path:first-child').evaluateAll((paths) => paths.map((path) => path.getAttribute('d')));
+  assert.equal(new Set(silhouettes).size, silhouettes.length, 'Every actual click must create new contour geometry, not rotate a stored silhouette.');
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Ink near a viewport boundary must not enlarge the document.');
   await waitForNoMarks(page);
 
@@ -147,37 +150,81 @@ async function checkTouchScroll(page, context) {
   await page.locator('[data-easter-scroll-fixture]').evaluate((element) => element.remove());
 }
 
-async function checkHint(page, { hover }) {
-  const button = page.locator('[data-xray-toggle]');
-  const hint = page.locator('[data-xray-hint]');
-  await button.scrollIntoViewIfNeeded();
+async function revealCycle(page, button, { touch }) {
+  const message = button.locator('[data-secret-message]');
   await page.mouse.move(1, 1);
   await button.evaluate((element) => element.blur());
-  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity) < .01, null, { timeout: 4200 });
-  if (hover) {
-    await button.hover();
-    await page.waitForFunction(() => {
-      const opacity = Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity);
-      return opacity > .30 && opacity <= .36;
-    });
-    await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity) < .01, null, { timeout: 4200 });
-    assert.equal(await button.evaluate((element) => element.matches(':hover')), true, 'The hint must expire while the pointer stays inside its hotspot.');
-    await page.mouse.move(1, 1);
-    await button.hover();
-    await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity) > .30);
-    await page.mouse.move(1, 1);
-  }
-  await page.locator('.work-filters a').last().focus();
-  await page.keyboard.press('Tab');
-  assert.equal(await button.evaluate((element) => element === document.activeElement), true, 'The hidden hotspot must remain part of keyboard navigation.');
-  assert.equal(Number(await hint.evaluate((element) => getComputedStyle(element).opacity)), 1, 'Keyboard focus must make the instruction fully readable.');
-  const focusStyle = await button.evaluate((element) => ({ visible: element.matches(':focus-visible'), outline: getComputedStyle(element).outlineStyle }));
-  assert.equal(focusStyle.visible, true);
-  assert.notEqual(focusStyle.outline, 'none');
+  await page.waitForFunction((element) => Number(getComputedStyle(element).opacity) < .01, await message.elementHandle(), { timeout: 4200 });
+  if (touch) await button.tap(); else await button.hover();
+  await page.waitForFunction((element) => {
+    const opacity = Number(getComputedStyle(element).opacity);
+    return opacity > .28 && opacity <= .31;
+  }, await message.elementHandle());
+  await page.waitForFunction((element) => Number(getComputedStyle(element).opacity) < .01, await message.elementHandle(), { timeout: 4200 });
+  if (!touch) assert.equal(await button.evaluate((element) => element.matches(':hover')), true, 'Secrets expire even while the pointer stays inside.');
+  await page.mouse.move(1, 1);
+  if (touch) await button.tap(); else await button.hover();
+  await page.waitForFunction((element) => Number(getComputedStyle(element).opacity) > .28, await message.elementHandle());
+  await page.mouse.move(1, 1);
+}
+
+async function checkHeaderAndFutureHint(page, { touch }) {
+  await page.locator('.brand-link').click();
+  await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
+  await page.evaluate(() => { document.activeElement?.blur(); scrollTo({ top: 0, behavior: 'instant' }); });
+  const button = page.locator('[data-visitor-hotspot]');
+  const message = button.locator('[data-visit-message]');
+  const labels = await page.locator('.masthead h1, .masthead .edition').evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect(); return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+  }));
   const box = await button.boundingBox();
-  assert.ok(box.width >= 44 && box.height >= 44, 'The discreet control must retain an accessible touch target.');
-  assert.ok(box.x >= 0 && box.x + box.width <= (await page.viewportSize()).width + 1, 'The footer control must fit the viewport.');
-  assert.match(await button.getAttribute('aria-label'), /toggle the other side/);
+  const width = (await page.viewportSize()).width;
+  const originalInset = width <= 600 ? 22 : 35;
+  assert.ok(Math.abs(labels[0].x - originalInset) < .6, 'The left header label keeps its original viewport inset.');
+  assert.ok(Math.abs(labels[1].x + labels[1].width - (width - originalInset)) < .6, 'The right header label keeps its original viewport inset.');
+  assert.ok(Math.abs(box.x + box.width / 2 - width / 2) < .6, 'Visitor target is centered against the viewport independently of label lengths.');
+  const copy = await message.boundingBox();
+  assert.ok(Math.abs(copy.x + copy.width / 2 - width / 2) < .6, 'Visitor copy itself remains exactly centered.');
+  assert.ok(box.width >= 44 && box.height >= 44, 'Secret target remains usable by touch.');
+  assert.equal(Number(await message.evaluate((element) => getComputedStyle(element).opacity)), 0);
+  if (touch) {
+    assert.ok(copy.y >= labels[0].y + labels[0].height, 'Mobile visitor copy uses its own visual row, without covering the original labels.');
+    assert.ok(copy.y + copy.height < (await page.locator('.controls').boundingBox()).y, 'Visitor copy must not collide with the hero controls.');
+  }
+  await revealCycle(page, button, { touch });
+  assert.deepEqual(await page.locator('.masthead h1, .masthead .edition').evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect(); return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+  })), labels, 'Revealing a secret must not shift original header labels.');
+  await page.locator('.skip-link').focus();
+  await page.keyboard.press('Tab');
+  assert.equal(await button.evaluate((element) => element === document.activeElement), true);
+  assert.equal(Number(await message.evaluate((element) => getComputedStyle(element).opacity)), 1, 'Keyboard focus keeps the secret legible.');
+  await button.evaluate((element) => element.blur());
+  const space = page.locator('[data-footer-secret-space]');
+  const proportion = await space.evaluate((element) => element.getBoundingClientRect().height / innerHeight);
+  assert.ok(proportion >= .29 && proportion <= .31, 'Homepage reserves approximately30vh for the quiet secret area.');
+  assert.equal(await page.locator('[data-other-side-hint], [data-xray-toggle]').count(), 0, 'A postponed shortcut must not be publicly advertised.');
+
+  // Enable only the reusable hint markup in this browser fixture. The actual
+  // public mode flag remains false, so a touch reveals copy without a theme.
+  await page.evaluate(async () => {
+    const { renderFooter } = await import('/src/footer.js');
+    const template = document.createElement('template');
+    template.innerHTML = renderFooter({ home: true, otherSideEnabled: true });
+    document.querySelector('[data-footer-secret-space]').replaceWith(template.content.querySelector('[data-footer-secret-space]'));
+  });
+  const futureHint = page.locator('[data-other-side-hint]');
+  await futureHint.scrollIntoViewIfNeeded();
+  assert.equal((await futureHint.textContent()).trim(), 'press 4 for the other side.');
+  await revealCycle(page, futureHint, { touch });
+  assert.notEqual(await page.locator('html').getAttribute('data-mode'), 'xray', 'Discovering a hint never activates the postponed mode.');
+  await page.keyboard.press('Tab');
+  await futureHint.focus();
+  assert.equal(Number(await futureHint.locator('[data-secret-message]').evaluate((element) => getComputedStyle(element).opacity)), 1);
+  assert.equal(await futureHint.evaluate((element) => element.matches(':focus-visible')), true);
+  const hintBox = await futureHint.boundingBox();
+  assert.ok(hintBox.width >= 44 && hintBox.height >= 44);
+  assert.ok(Math.abs(hintBox.x + hintBox.width / 2 - (await page.viewportSize()).width / 2) < .6);
 }
 
 async function checkIsolatedConsentGate(page) {
@@ -241,21 +288,21 @@ try {
     await assertFallback(page);
     await checkInk(page, { touch });
     if (touch) await checkTouchScroll(page, context);
-    await checkHint(page, { hover: !touch });
     if (!touch) await checkIsolatedConsentGate(page);
+    await checkHeaderAndFutureHint(page, { touch });
     await assertFallback(page);
-    await page.locator('.page-nav a[href="/about"]').click();
+    await page.evaluate(() => document.querySelector('.hero-nav a[href="/about"]').click());
     await page.waitForURL(route('/about'));
     await assertFallback(page);
     await page.reload({ waitUntil: 'networkidle' });
     await assertFallback(page);
-    await page.goBack({ waitUntil: 'networkidle' });
+    await page.evaluate(() => document.querySelector('.page-nav a[href="/work"]').click());
     await page.locator('.work-page').waitFor();
     await assertFallback(page);
-    assert.deepEqual(errors, [], 'The tested Phase C flow must not throw browser errors.');
+    assert.deepEqual(errors, [], 'The tested refinement flow must not throw browser errors.');
     assert.deepEqual(storageCalls, [], 'No browser storage getter/method access should be observed across tested navigation and reloads.');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Footer and effects must not overflow at ${width}px.`);
-    console.log(`PASS easter eggs ${width}px: organic bounded ink/cleanup, functional control exclusions, ${touch ? 'native touch-scroll cancellation, ' : 'timed hidden hover discovery, isolated consent gating, '}keyboard/touch target, stable fallback visit copy and zero observed browser storage API access.`);
+    console.log(`PASS hidden messages/ink ${width}px: exact header center, untouched labels, timed hover/tap rediscovery, gated future footer hint, unique procedural contours, cleanup/exclusions and zero default storage access.`);
     await context.close();
   }
 } finally {

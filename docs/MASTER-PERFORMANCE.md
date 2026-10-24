@@ -1,5 +1,7 @@
 # Master-brief performance audit
 
+**Historical PR-9 measurements.** These actual results describe the previous integrated build, including its then-active alternate mode. The latest homepage refinement defers that mode and changes its loading boundary and motion architecture; the public mode and hint are now disabled. Do not reuse the numbers below as measurements of that update; current results belong in [REFINEMENT-REPORT.md](REFINEMENT-REPORT.md). The original measurements and their limits remain intact below.
+
 Measured 23 October 2026. This is a fresh comparison with the existing microinteraction build (`0a65d3b`), **not** the earlier original/tagline baseline in [PERFORMANCE.md](PERFORMANCE.md).
 
 ## Loading measurements

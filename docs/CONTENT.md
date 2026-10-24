@@ -10,9 +10,11 @@ Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Kompo
 | Automatisch erzeugte Bildvarianten | `public/images/optimized/` |
 | Automatisch ermittelte Bildgrößen | `src/data/imageManifest.json` — nicht manuell bearbeiten |
 | Seitentitel, Beschreibungen, Domain und Indexierung | `src/data/seoContent.js` |
-| Scroll-Distanzen, Staffelung und Überschwinger | `src/data/motionSettings.js` — Anleitung in [MOTION.md](MOTION.md) |
-| Tintenabdrücke, Footer-Hinweis und optionale Besuchszählung | `src/data/easterSettings.js` — Anleitung in [EASTER-EGGS.md](EASTER-EGGS.md) |
-| The Other Side-Farben, Solarisation, Körnung und Umschaltung | `src/data/xraySettings.js` — Anleitung in [XRAY.md](XRAY.md) |
+| Scroll-Distanzen, Staffelung, Nachbilder und Überschwinger | `src/data/motionSettings.js` — Anleitung in [MOTION.md](MOTION.md) |
+| Prozedurale Tinte, versteckte Nachrichten und optionale Besuchszählung | `src/data/easterSettings.js` — Anleitung in [EASTER-EGGS.md](EASTER-EGGS.md) |
+| Zurückhaltende Hero-Kameratiefe | `src/data/heroDepthSettings.js` — Anleitung in [MOTION.md](MOTION.md) |
+| Freigabe des zurückgestellten Modus und seines öffentlichen Hinweises | `src/data/featureFlags.js` — `otherSideEnabled: false` beibehalten |
+| Zurückgestellte The-Other-Side-Parameter | `src/data/xraySettings.js` — historischer Entwicklungsstand in [XRAY.md](XRAY.md) |
 
 ## Ein Tattoo, Schmuckstück oder Gemälde hinzufügen
 
@@ -49,7 +51,7 @@ export const artworks = [
 ```
 
 3. Wähle `tattoos`, `jewellery` oder `paintings` als Kategorie. Für Schmuck oder Malerei wird nur dieser Wert geändert; der Aufbau bleibt gleich. Jedes Projekt benötigt eine eigene `id` und mindestens ein vorhandenes Bild. Titel, Jahr, Beschreibung, Bildunterschrift und `details` sind optional. Die Bildmaße werden automatisch ermittelt; wenn du `width` und `height` selbst angibst, müssen sie den angezeigten, gegebenenfalls nach EXIF gedrehten Maßen entsprechen.
-4. Füge weitere Projekte mit Komma getrennt in dieselbe Liste ein. Die Reihenfolge der Einträge ist die Reihenfolge im Archiv. Mit `published: false` bleibt ein Entwurf verborgen. Mehrere Bilder erscheinen gemeinsam innerhalb des Projekts, mit der ersten Aufnahme als großem Hauptbild. Ein Klick auf ein Bild öffnet den Viewer; Pfeiltasten wechseln zwischen den Bildern desselben Projekts, Escape schließt ihn.
+4. Füge weitere Projekte mit Komma getrennt in dieselbe Liste ein. Die Reihenfolge der Einträge ist die Reihenfolge im Archiv. Mit `published: false` bleibt ein Entwurf verborgen. Mehrere Bilder erscheinen gemeinsam innerhalb des Projekts, mit der ersten Aufnahme als großem Hauptbild. Ein Archivbild verlinkt auf die echte Projektdetailseite. Unterstützte Browser übernehmen das gewählte Bild dabei in einen gemeinsamen Übergang; ohne diese Fähigkeit bleibt der normale Link verwendbar. Auf der Detailseite öffnet ein Bild den Viewer; Pfeiltasten wechseln zwischen Aufnahmen desselben Projekts, Escape schließt ihn. Rücknavigation bewahrt die Archivposition, soweit sie im selben Dokument verfügbar ist. Die Übergänge aktivieren sich aus den echten Bilddaten automatisch; dafür werden keine Animationsangaben im Datensatz benötigt. Details stehen in [ARTWORK-TRANSITIONS.md](ARTWORK-TRANSITIONS.md).
 5. Starte `npm run dev` und prüfe `/work` sowie den jeweiligen Filter. Der Start erzeugt automatisch passende WebP-Dateien. Wenn der Entwicklungsserver bereits läuft und du Bilder oder Einträge ergänzt, führe `npm run images:optimize` erneut aus oder starte den Server neu. `npm run build` erzeugt die Varianten ebenfalls automatisch und prüft den Produktionsbuild. `npm test` prüft unter anderem Datenanzeige, Bildverarbeitung und Animation; `npm run test:portfolio` und `npm run test:gallery` prüfen Navigation und Viewer bei laufendem Entwicklungsserver.
 
 Solange keine veröffentlichten Einträge mit Bildern vorhanden sind, zeigt das Archiv ausschließlich „archive in progress.“. Das bereits gelieferte Poster bleibt im 3D-Reveal und wird nicht automatisch zum Portfolioeintrag. Du kannst es später bewusst als Projekt mit deinen Angaben aufnehmen.
@@ -97,4 +99,17 @@ Die Produktionsseiten verwenden echte URLs: `/`, `/work`, `/work/tattoos`, `/wor
 
 In `src/data/seoContent.js` kannst du Seitentitel und Beschreibungen bearbeiten. Optionale projektbezogene Werte stehen am Projekt unter `seo: { title, description, image }`; `image` kann ein echtes Bildobjekt mit `src`, `alt`, `width` und `height` sein. Für ein indexierbares Projekt sind ein echter Titel, eine Beschreibung und ein Bild mit Alt-Text nötig. Entwürfe erzeugen keine Detailseiten. Leere Archive werden nicht in die Sitemap aufgenommen. Die bestätigte Domain ist `https://h4ngelic.com`; Vorschau-Builds bleiben standardmäßig `noindex`.
 
-Mit `npm run preview:export` erzeugst du `artifacts/h4ngelic-preview.html`. Diese eigenständige Datei enthält die vorhandenen Standardassets sowie lokal konfigurierte Portfolio-/Portraitbilder und verwendet ausschließlich für die Offline-Vorschau Hash-Adressen wie `#/work?category=tattoos`. Die echte Website behält ihre normalen URLs. Extern verlinkte Bilder werden nicht heruntergeladen und benötigen Internetzugriff. Prüfe Ergänzungen auch über `npm run preview`.
+Mit `npm run preview:export` erzeugst du `artifacts/h4ngelic-preview.html`. Diese eigenständige Datei enthält die vorhandenen Standardassets sowie lokal konfigurierte Portfolio-/Portraitbilder und verwendet ausschließlich für die Offline-Vorschau Hash-Adressen wie `#/work/tattoos`. Die echte Website behält ihre normalen URLs. Extern verlinkte Bilder werden nicht heruntergeladen und benötigen Internetzugriff. Prüfe Ergänzungen auch über `npm run preview`.
+
+
+## Homepage-Bewegung anpassen
+
+`src/data/motionSettings.js` steuert die frühen Fly-ins und ihre temporären Nachbilder. `approach: .85` beginnt den Ablauf, sobald die Oberkante eines Work-/Kontaktabschnitts etwa 85% der Viewporthöhe erreicht. `pin` steuert die zusätzliche Scrollstrecke; `fly` Distanz, Staffelung und kleinen Überschwinger. `trail` enthält die zwei Nachbild-Ebenen mit `.22` und `.13` maximaler Deckkraft. Das sind Scrollbereiche, keine Zeitangaben. Nachbilder werden aus dem vorhandenen Label erzeugt; du musst Text oder Links dafür nicht doppelt eintragen.
+
+`src/data/heroDepthSettings.js` ergänzt die vorhandene Logoanimation um eine kleine Kamerabewegung. Die aktuellen Obergrenzen sind 8% mehr Z-Distanz (`distance: .08`) und ein Grad mehr Blickwinkel (`fieldOfView: 1`). Änderungen der Kameratiefe erfordern keine Änderung an Logo-Geometrie, Chrome-Material oder Physik. [MOTION.md](MOTION.md) erläutert alle Werte, Umkehrverhalten und reduzierte Bewegung.
+
+## Versteckte Nachrichten und spätere Freigaben
+
+Die sechs Besuchstexte stehen in `src/data/easterSettings.js`. Sie erscheinen ausschließlich nach Entdeckung des zentralen Header-Hotspots; die bisherige sichtbare Footer-Begrüßung entfällt. Dauerhafte Speicherung ist aus und benötigt vor Aktivierung zusätzlich eine gültige Consent-Anbindung. Ein normaler Seitenwechsel oder unmittelbares Neuladen zählt nicht als neuer getrennter Besuch. Das aktuelle Fallback zeigt „nice to meet you.“ ohne Browser-Speicherzugriff. [EASTER-EGGS.md](EASTER-EGGS.md) beschreibt die Konfiguration.
+
+Der reservierte leere Bereich nach Kontakt gehört zum zukünftigen Hinweis `press 4 for the other side.`. Die öffentliche Darstellung und der Modus bleiben gemeinsam durch `featureFlags.otherSideEnabled: false` deaktiviert. Das aktuelle Briefing verschiebt den vollständigen Modus ausdrücklich; die Flag ist keine Produktionsfreigabe. Echte Inhaltsbearbeitung erfordert keine Aktivierung dieses Modus.

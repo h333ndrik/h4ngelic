@@ -1,28 +1,39 @@
-# Footer and ink interactions
+# Hidden messages and ink interactions
 
-`src/data/easterSettings.js` contains the small interaction settings. `src/footer.js` renders semantic footer content without browser APIs; `initEasterEggs(document)` adds the behavior and returns a cleanup function.
+`src/data/easterSettings.js` configures these small interactions. `initEasterEggs(document)` installs delegated events and returns a cleanup function. The current public experience uses the existing charcoal and off-white palette.
 
-## Ink traces
+## Centered header message
 
-Clicking or tapping a noninteractive area leaves a small irregular off-white pigment trace. A completed tap creates the mark immediately; scrolling, dragging more than 8 px, text selection and cancelled gestures do not. Canvas, navigation, links, controls, dialogs and unconfigured contact destinations are excluded. A longer stationary press increases the size, up to 1.5 times the normal mark.
+The hero's returning-visitor button is positioned absolutely at 50% of the masthead, whose equal left and right insets keep its center aligned with the viewport. It does not participate in the header's flex layout: the original h4ngelic and Berlin labels retain their positions. Its invisible target is at least 44 px tall and wide. On small screens the copy occupies a separate centered row above the hero controls.
 
-The default cap is 12 marks. Each lives for 2.4–3.5 seconds, then its element, animation listener and fallback timer are removed. The fixed, clipped, `pointer-events: none` effect layer does not enlarge the document or intercept input. It has no animation frame loop. The traces are tiny SVG interface shapes, not additional artwork or portfolio entries.
+Hovering on desktop or tapping reveals the text at 30% opacity. It fades in over 600 ms, remains revealed for 2.2 seconds, then fades out even if the pointer stays inside. Leaving and returning, or tapping again, allows rediscovery. Native keyboard activation works; visible keyboard focus provides an outline and fully readable copy for as long as the button retains focus. `aria-describedby` connects each hotspot to its message for assistive technology. Reduced motion removes opacity transitions.
 
-The Other Side mode changes the existing marks through the `--ink-color-1` to `--ink-color-4` variables. Reduced motion disables the spreading transform. Route changes, document hiding, preference changes and disposal clear active marks. Add `data-no-ink` to a future interactive region if its semantics are not already covered by the exclusion selector.
+Exact visitor messages are:
 
-## A discreet footer hint
+1. `nice to meet you.`
+2. `you came back.`
+3. `twice wasn't enough?`
+4. `getting familiar.`
+5. `we're practically friends now.`
+6. `you know your way around here.` (also used for later visits)
 
-The footer contains a 44 px minimum-height mode button with an accessible name and the `4` keyboard shortcut. Its visual text starts invisible. Entering the hotspot fades the exact “PRESS 4 TO SEE THE OTHER SIDE.” hint to 35% opacity over 600 ms, holds it for two seconds and fades it away even while the pointer remains there. Leave and re-enter to discover it again.
+No visitor copy or visit number appears in the visible footer.
 
-Configured Instagram, email and booking destinations appear as compact footer links on interior pages. On Home the prominent Contact row already provides them, so the footer avoids duplicating them. Unset destinations create no invented footer links.
+## Reserved footer secret
 
-Keyboard focus supplies a visible outline and fully readable text for as long as the button retains visible focus. Touch users can activate the same button. After the `h4:modechange` event announces `detail.mode: 'xray'`, the text briefly becomes “YOU FOUND THE OTHER SIDE.”, then returns to the ordinary hint. `src/xray.js` owns actual mode activation, button state and the live-region announcement; the footer module owns only hint presentation.
+On Home, `renderFooter({ home: true })` reserves 30svh of empty space after Contact and before the final footer. The future hidden hint sits at the center of that area and uses exactly `press 4 for the other side.` with the same hover/tap/focus behavior as the header.
+
+**The hint and Other Side mode are disabled by default.** `src/data/featureFlags.js` exports `otherSideEnabled: false`. `src/footer.js` omits the hint markup while this flag is false; `src/app.js` skips the mode bootstrap and the hero material stays in its normal mode. The empty space remains. The postponed mode is not publicly advertised and pressing `4` does not activate it. The existing mode implementation remains in the repository for a later development phase; this update does not enable it.
+
+When the actual shortcut is approved and ready, change the shared feature flag so bootstrap and hint become available together. `renderFooter({ home: true, otherSideEnabled: true })` exposes only the reusable hint markup for isolated previews/tests; revealing it never changes the mode or pretends to implement a shortcut.
+
+Configured Instagram, email and booking destinations appear as compact footer links on interior pages. On Home the prominent Contact row already provides them. Unset destinations create no invented footer links.
 
 ## Returning visitors and privacy
 
-Persistent visitor memory is **disabled by default** (`visits.enabled: false`). The nonpersistent fallback always shows “nice to meet you.” and, if configured, “visit 001”. Default browsing does not access `localStorage`, `sessionStorage`, cookies, identifiers, analytics or a backend. Internal routes can refresh the footer through `h4:pagechange` without creating another visit.
+Persistent visitor memory is **disabled by default** (`visits.enabled: false`). The fallback uses `nice to meet you.`. Default browsing does not access browser storage getters or methods, cookies, identifiers, analytics or a backend. Internal route changes refresh the header copy through `h4:pagechange` without creating another visit.
 
-This decorative feature is not treated as technically essential. There is no assumed German/EU legal exemption and no custom consent banner in the website. To enable persistence later, first integrate a valid consent mechanism and assess the applicable requirements. Then set `visits.enabled: true` **and** pass a synchronous consent function:
+To enable persistence later, first integrate an appropriate consent mechanism, then set `visits.enabled: true` **and** pass a synchronous consent function:
 
 ```js
 const dispose = initEasterEggs(document, {
@@ -30,18 +41,23 @@ const dispose = initEasterEggs(document, {
 });
 ```
 
-The example consent API is a placeholder for the site's actual approved integration, not an included service. The flag alone does not enable storage. Dispatch `h4:privacychange` after consent changes so the module reevaluates the gate immediately; it also rechecks the consent function before every write. Withdrawal removes this feature's saved record on a best-effort basis and restores the nonpersistent fallback. Storage failures also leave the footer usable.
+The example API represents the site's future consent integration; no consent provider is included. The setting alone does not enable storage. Dispatch `h4:privacychange` after consent changes so the gate is reevaluated immediately. It also checks consent before each read and write. Withdrawal removes this feature's saved record on a best-effort basis and restores the fallback. Storage failures leave the interaction usable.
 
-Once authorized, the only stored value is `{ count, lastSeen }` under `h4ngelic.visits.v1`. It has no personal or random identifier. A new visit requires at least 30 minutes of separated inactivity; page reloads and internal navigation update the existing visit. Activity writes are throttled to once a minute, with a final checkpoint on page departure/document hiding. No permanent timer is needed.
+Once authorized, the only stored value is `{ count, lastSeen }` under `h4ngelic.visits.v1`, with no personal or random identifier. A new visit requires at least 30 minutes of separated inactivity; immediate reloads and internal navigation preserve the count. Activity writes are throttled to once a minute, with a checkpoint on page departure/document hiding. No permanent timer is used.
 
-Exact messages are configured as: “nice to meet you.”, “you came back.”, “twice wasn't enough?”, “getting familiar.”, “we're practically friends now.” and, from visit six onward, “you know your way around here.”.
+## Procedural ink traces
 
-## Integration contract
+A completed click or tap on a noninteractive area leaves an immediate off-white pigment trace. `src/ink-imprint.js` generates fresh numeric SVG geometry for every impression: an asymmetric contour with a varying point/lobe count, irregular edges, internal dry gaps and a varying number of small organic satellite fragments. Main and satellite pigment densities vary independently. This does not reuse a stored silhouette with a new angle or scale. A longer stationary press increases size and spread.
+
+Scrolling, dragging more than 8 px, text selection and cancelled gestures do not leave ink. Canvas, navigation, links, controls, dialogs and unconfigured contact destinations are excluded. Add `data-no-ink` to a future interactive region if its semantics are not already covered by the exclusion selector.
+
+The default cap is 12 marks. Each lives for 2.4–3.5 seconds, then its element, animation listener and fallback timer are removed. The fixed, clipped, `pointer-events: none` layer does not enlarge the document or intercept input, and needs no animation frame loop. Reduced motion keeps the gentle fade and removes spreading transforms. Route changes, document hiding, preference changes and disposal clear active marks. These SVG traces are ephemeral interface effects, not portfolio artwork.
+
+## Integration and verification
 
 - Render `renderFooter({ home: true })` on Home or `renderFooter()` elsewhere.
-- Call `initEasterEggs(document)` once after the initial content is available; dispose it before replacing the application lifecycle.
+- Call `initEasterEggs(document)` once after initial content exists; dispose it before replacing the application lifecycle.
 - Dispatch `h4:pagechange` on `document` after a client-side/offline route change.
-- The Other Side dispatches `new CustomEvent('h4:modechange', { detail: { mode: 'xray' } })` on `document`; normal mode uses `mode: 'normal'`.
-- `data-ink-mark`, `data-visit-message`, `data-visit-number`, `data-xray-toggle`, `data-xray-hint`, `data-xray-hint-text` and `data-mode-status` are stable integration/test hooks.
+- Stable hooks include `data-secret-hotspot`, `data-secret-message`, `data-visitor-hotspot`, `data-visit-message`, `data-footer-secret-space`, `data-other-side-hint` and `data-ink-mark`.
 
-Pure visit-counting, privacy-gate and footer-rendering checks run with `node --test tests/easter-eggs.test.js`. With the development server running, `npm run test:easter` checks actual ink/cleanup, control exclusions, hover/keyboard hint behavior, touch scrolling, default zero-storage access and an isolated consent gate at 1440/390/320px. Its consent fixture uses an in-memory fake store; it writes no personal visitor data.
+Run `node --test tests/easter-eggs.test.js` for exact visitor copy, visit separation, consent gates, inactive/future footer markup and procedural geometry variation. With the development server running, `npm run test:easter` checks 1440/390/320 px layouts, original header label insets, exact message centering, timed hover/tap rediscovery, keyboard access, gated footer hint, unique ink contours, cleanup, input exclusions, native touch scrolling and zero default storage access. Its isolated consent fixture uses an in-memory store.

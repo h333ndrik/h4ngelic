@@ -58,26 +58,83 @@ scroll container. Do not add `overflow: hidden/auto` to its ancestors.
 
 ## Sequence settings
 
-- `pin.work` / `pin.contact`: additional section height in viewport heights.
-  The defaults are 1.12 and .95. Below 700px they shorten to .68 and .60.
-  The sticky wrapper itself is at least one viewport tall. At the end of the
-  additional distance it releases through ordinary browser layout.
-- `fly.distanceVw`: starting horizontal travel in viewport widths, currently
-  1.5. `rotation` starts at 6.5 degrees and reaches zero.
-- `fly.start`, `stagger`, `duration`: fractions of the pin's additional scroll
-  distance. The last item must finish before progress 1, when the pin releases.
-  The default three-item endpoint is .93.
-- `fly.overshoot`: the brief distance past the final column position, currently
-  14px. `overshootAt` is the local progress at that turning point. The first
-  segment decelerates; the final segment returns continuously to exactly zero.
-- `heading`: masked upward reveal before the pinned link sequence. All three
-  headings use the same sampling helper. About maps it to its shorter,
-  unpinned approach range.
-- `about`: paragraph/link entrance ranges and smaller travel distances.
-- `hero`: fade/scale applied to the existing `#stage` wrapper as the hero exits.
-  The original scene animation continues while visible; its existing viewport
-  observer still owns pausing WebGL. No scene material, geometry, rotation or
-  interaction state is changed here.
+The latest homepage refinement begins before the sticky stage. For Work and
+Contact, `pinnedProgress()` maps one continuous range from
+`sectionTop - viewportHeight * approach` to `sectionTop + pinRun`. With the
+default `approach: .85`, the heading starts revealing as the section's top
+reaches 85% of the viewport height. Link stagger begins just after that.
+
+| Setting | Current value | Effect |
+| --- | --- | --- |
+| `approach` | `.85` | Viewport fraction before the section reaches the top |
+| `pin.work` / `pin.contact` | `.68` / `.58` | Extra section height in viewport heights |
+| `pin.mobileWork` / `pin.mobileContact` | `.48` / `.44` | Shorter extra height at 700px and below |
+| `fly.distanceVw` | `1.35` | Starting travel in viewport widths, beyond the right edge |
+| `fly.rotation` | `6.5` | Starting rotation in degrees; settles at zero |
+| `fly.start` / `stagger` / `duration` | `.025` / `.14` / `.66` | Fractions of the combined approach and pin range |
+| `fly.overshoot` / `overshootAt` | `12` / `.78` | Pixel overshoot and local progress at its turning point |
+| `heading.start` / `end` / `rise` | `0` / `.27` / `112` | Masked heading reveal range and starting rise in percent |
+| `hero.start` / `end` / `scale` | `.02` / `.90` / `.97` | Hero wrapper fade range and final scale |
+
+The three links finish at section progress `.965`, shortly before release at
+`1`. The first segment strongly decelerates; the final segment continuously
+returns from the small overshoot to exact alignment. The sticky wrapper remains
+at least one viewport tall and releases through ordinary browser layout.
+
+About is unpinned. Its shorter range starts with the section at 88% of viewport
+height and ends at 8%. The copy runs from `.045` to `.84`, the More About link
+from `.18` to `1`, with travel of `1.12` and `1.04` viewport widths respectively.
+All three headings share the same typography and sampling helper; About maps
+that helper to its own approach range. Edit these values in
+`src/data/motionSettings.js`; CSS spacing and typography live in
+`src/homepage.css`.
+
+## Temporary typographic echoes
+
+Work and Contact receive two `.motion-echo` spans per flying label. The spans
+are empty, `aria-hidden="true"`, noninteractive and unselectable. Their
+`data-echo-text` attribute supplies decorative CSS-generated text; the original
+label remains the only semantic text and interaction target. About uses its
+ordinary fly-in without extra echo layers.
+
+`trail` in the motion settings controls the effect:
+
+- `layers: 2` caps the effect at two copies.
+- `distanceVw: .045` is capped at 64px on desktop and 26px at 700px and below.
+- `opacity: .22` and `secondaryOpacity: .13` keep both copies restrained.
+- `fadeIn: .08`, `fadeOutStart: .38` and `fadeOutEnd: .82` describe local item
+  progress. Displacement contracts cubically and the copies disappear before
+  the text reaches its final position.
+
+Both displacement and opacity come from the same local scroll progress as the
+original label. Reversing scroll restores the exact earlier echo state;
+stopping does not let it drift. There is no blur, RGB separation, duplicate
+link or persistent duplication. Section clipping contains offscreen travel.
+
+## Hero depth composition
+
+The existing `#stage` wrapper fades and scales as the hero exits. A separate
+camera-only composition in `src/hero-depth.js` adds restrained depth without
+writing the sculpture's transforms, quaternions or physics state. The original
+infinity movement, rotation, chrome material and tattoo reveal continue.
+
+`src/data/heroDepthSettings.js` contains the camera settings:
+
+| Setting | Current value | Effect at full progress |
+| --- | --- | --- |
+| `start` / `end` | `.02` / `.92` | Fractions of the hero's scroll-out distance |
+| `distance` | `.08` | Increase base camera Z distance by 8% |
+| `horizontal` / `vertical` | `.012` / `.005` | Offsets relative to base camera distance |
+| `fieldOfView` | `1` | Add one degree to the original 35° field of view |
+
+The offsets use a smooth bounded interpolation, and the camera continues to
+look at the origin. Scroll reversal restores its original position and FOV.
+Resize caches the hero's document position, height and base camera distance;
+updates read the cached values inside the existing hero render loop. Hit
+testing updates and uses the same composed camera. The viewport observer and
+document-visibility lifecycle still pause WebGL offscreen or in a hidden tab.
+No second scene or independent camera animation loop is created. Reduced motion
+restores the base camera and removes the wrapper fade/scale.
 
 For diagnostics, each section exposes `data-motion-progress` and
 `data-motion-state` (`before`, `active`, `settled` or `focus`). Link wrappers
@@ -110,9 +167,11 @@ caching avoids repeated DOM writes at the endpoints. No work runs on a timer
 or on every display frame while the page is idle; hidden documents cancel the
 pending frame. UI animation uses transform and opacity only.
 
-Run `node --test tests/scroll-motion.test.js` for endpoint, overshoot, stagger,
-reverse and stopped-scroll determinism checks. With the development server
+Run `node --test tests/scroll-motion.test.js tests/hero-depth.test.js` for
+endpoint, overshoot, stagger, early approach, echo, camera reversal and
+stopped-scroll determinism checks. With the development server
 running, `npm run test:motion` checks actual pinned stages, reverse/stopped
-poses, native wheel/touch scrolling, resize, 320/390/768/1920px layout and live
-reduced-motion changes. `npm run test:portfolio` also checks Contact anchor focus
+poses and echoes, native wheel/touch scrolling, resize, 320/390/768/1920px layout
+and live reduced-motion changes. `npm run test:portfolio` also checks Contact anchor focus
 and navigation. These browser checks write review screenshots to `artifacts/`.
+Current execution results are recorded in [REFINEMENT-REPORT.md](REFINEMENT-REPORT.md).

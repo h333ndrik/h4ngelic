@@ -16,11 +16,11 @@ async function fixture(page) {
   // view uses two views of the actual supplied texture to exercise the viewer.
   await page.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
   await page.evaluate(async () => {
-    const { renderProject } = await import('/src/pages.js');
+    const { renderArtworkPage } = await import('/src/pages.js');
     const { initGallery } = await import('/src/gallery.js');
     const { initImageReveals } = await import('/src/image-reveals.js');
     const archive = document.querySelector('.portfolio-archive');
-    archive.innerHTML = renderProject({
+    archive.innerHTML = renderArtworkPage({
       id: 'gallery-test-fixture', category: 'tattoos', title: 'test fixture',
       images: [
         { src: '/assets/tattoo-texture.webp', alt: 'provided artwork', caption: 'first view', width: 1024, height: 1448 },

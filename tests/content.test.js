@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { siteContent } from '../src/data/siteContent.js';
 import { artworks } from '../src/data/artworks.js';
 import { contentURL, emailURL, escapeHTML } from '../src/content-utils.js';
-import { normalizeCategory, renderHomepageSections, renderWorkPage, renderProject, renderAboutPage } from '../src/pages.js';
+import { normalizeCategory, renderHomepageSections, renderWorkPage, renderProject, renderAboutPage, renderArtworkPage } from '../src/pages.js';
 
 test('homepage categories retain their exact horizontal-strip order and canonical category links', () => {
   const markup = renderHomepageSections();
@@ -96,6 +96,22 @@ test('artwork opening controls preserve image dimensions and lazy loading', () =
   const unknownSize = renderProject({ category: 'paintings', images: [{ src: '/images/size-fixture.avif', alt: 'test image' }] });
   assert.match(unknownSize, /--artwork-ratio: [\d.]+ \/ [\d.]+/);
   assert.match(unknownSize, /width="[\d.]+" height="[\d.]+"/);
+});
+
+test('published artwork images link to their real detail URL and matching photograph fragment', () => {
+  const project = { id: 'real-url-fixture', category: 'tattoos', title: 'artwork', images: [
+    { src: '/images/one.webp', alt: 'whole artwork', width: 600, height: 800 },
+    { src: '/images/two.webp', alt: 'artwork detail', width: 600, height: 800 },
+  ] };
+  const archive = renderProject(project);
+  assert.match(archive, /<a class="artwork-open" href="\/work\/tattoos\/real-url-fixture" data-artwork-link/);
+  assert.match(archive, /href="\/work\/tattoos\/real-url-fixture#image-2" data-artwork-link/);
+  assert.doesNotMatch(archive, /data-artwork-open/);
+  const detail = renderArtworkPage(project);
+  assert.equal((detail.match(/type="button" data-artwork-open/g) || []).length, 2);
+  assert.match(detail, /id="image-2" tabindex="-1"/);
+  assert.match(detail, /data-artwork-image="1"/);
+  assert.match(detail, /loading="eager" fetchpriority="high"/);
 });
 
 test('about optional content renders only when configured', () => {

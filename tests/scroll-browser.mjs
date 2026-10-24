@@ -51,7 +51,7 @@ async function scrollProgress(page, selector, progress) {
   const position = await page.locator(selector).evaluate((section, value) => {
     const run = parseFloat(getComputedStyle(section).getPropertyValue('--motion-run'));
     if (!Number.isFinite(run) || run <= 0) throw new Error('A pinned section must expose its positive scroll run.');
-    return section.getBoundingClientRect().top + scrollY + run * value;
+    return section.getBoundingClientRect().top + scrollY - innerHeight * .85 + (innerHeight * .85 + run) * value;
   }, progress);
   await page.evaluate((top) => scrollTo({ top, behavior: 'instant' }), position);
   await frames(page);
@@ -101,6 +101,14 @@ try {
   assert.ok(parseFloat(headingStyles[0][1]) >= 48, 'Desktop section headings must be intentionally large.');
   assert.equal(await page.locator('#selected-work img, #selected-work picture').count(), 0);
   assert.equal(await page.locator('#contact .contact-link-primary').count(), 0, 'Contact must not duplicate a get-in-touch heading.');
+  const surfaces = await page.locator('.content-section, .category-strip, .category-link, .contact-links, .contact-link').evaluateAll((elements) => elements.map((element) => {
+    const style = getComputedStyle(element);
+    return { border: ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth'].map((name) => parseFloat(style[name])), background: style.backgroundColor, shadow: style.boxShadow };
+  }));
+  assert.ok(surfaces.every((style) => style.border.every((value) => value === 0) && style.background === 'rgba(0, 0, 0, 0)' && style.shadow === 'none'), 'Homepage sections and typographic links must share one uninterrupted surface, without dividing lines or panels.');
+  assert.equal(await page.locator('.motion-echo').count(), 12, 'Six flying links have at most two decorative echoes each.');
+  assert.ok(await page.locator('.motion-echo').evaluateAll((echoes) => echoes.every((echo) => echo.getAttribute('aria-hidden') === 'true' && echo.textContent === '' && getComputedStyle(echo).pointerEvents === 'none')));
+
 
   for (const selector of ['#selected-work', '#contact']) {
     await scrollProgress(page, selector, 0);
@@ -108,22 +116,33 @@ try {
     assert.equal(initial.length, 3);
     assert.ok(initial.every((item) => item.left >= 1440), 'All category/contact labels start fully beyond the right viewport edge.');
     assert.ok(initial.every((item) => item.x >= 1440), 'The fly-in covers a substantial viewport-width distance.');
+    const entry = await page.locator(selector).boundingBox();
+    assert.ok(Math.abs(entry.y - 850) < 2, 'The entrance starts when the section reaches the lower 85% viewport threshold.');
+    await scrollProgress(page, selector, .08);
+    assert.ok((await itemStates(page, selector))[0].x < initial[0].x, 'The first word must already move before the sticky interval begins.');
     await scrollProgress(page, selector, .48);
     const midway = await itemStates(page, selector);
     assert.ok(midway.some((item) => item.x > 5) && midway.some((item) => item.x < initial[0].x), 'The timeline must expose a real intermediate state.');
     assert.ok(midway[0].x < midway[1].x && midway[1].x <= midway[2].x, 'The three arrivals must be scroll-staggered.');
+    const echoState = () => page.locator(`${selector} .motion-echo`).evaluateAll((echoes) => echoes.map((echo) => ({ opacity: Number(getComputedStyle(echo).opacity), transform: getComputedStyle(echo).transform })));
+    const midwayEchoes = await echoState();
+    assert.ok(midwayEchoes.some((echo) => echo.opacity > .1 && echo.opacity <= .25), 'A flying word must show its restrained typographic afterimage.');
+    await scrollProgress(page, selector, .68);
     const pinnedBefore = await page.locator(`${selector} .section-pin`).boundingBox();
-    await scrollProgress(page, selector, .55);
+    await scrollProgress(page, selector, .74);
     const pinnedAfter = await page.locator(`${selector} .section-pin`).boundingBox();
     assert.ok(Math.abs(pinnedBefore.y - pinnedAfter.y) < 2, 'The section stage stays pinned while its scroll timeline advances.');
     await scrollProgress(page, selector, 1);
     const settled = await itemStates(page, selector);
     assert.ok(settled.every((item) => Math.abs(item.x) < .1 && Math.abs(item.y) < .1 && item.opacity > .99), 'Links must finish fully visible in exact final positions.');
     await horizontal(page, `${selector} ${selector === '#contact' ? '.contact-link' : '.category-link'}`, 1440);
+    assert.ok((await echoState()).every((echo) => echo.opacity === 0), 'Settled labels must be crisp without a persistent echo.');
     await scrollProgress(page, selector, .48);
     closeStates(await itemStates(page, selector), midway, 'Reverse scrolling must reproduce the same intermediate state');
+    assert.deepEqual(await echoState(), midwayEchoes, 'Reversing must restore the same afterimage spacing and opacity.');
     await page.waitForTimeout(180);
     closeStates(await itemStates(page, selector), midway, 'Stopping scroll must stop the choreography');
+    assert.deepEqual(await echoState(), midwayEchoes, 'Afterimages must remain tied to stopped scroll progress.');
     const wheelStart = await page.evaluate(() => scrollY);
     await page.mouse.wheel(0, 60);
     await page.waitForFunction((before) => scrollY > before + 20, wheelStart);
@@ -179,6 +198,7 @@ try {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await frames(page);
   assert.ok((await itemStates(page, '#selected-work')).every((item) => Math.abs(item.x) < .1 && item.opacity > .99));
+  assert.equal(await page.locator('.motion-echo').count(), 0, 'Reduced motion removes decorative echoes entirely.');
   for (const pin of await page.locator('.section-pin').all()) assert.notEqual(await pin.evaluate((element) => getComputedStyle(element).position), 'sticky', 'Reduced motion disables nonessential pinning.');
   await captureHomepage(page, 'master-home-normal.png');
   console.log('PASS master motion: shared headings, extreme staggered fly-ins, native pinning, exact reverse/stop states, hero recession and reduced-motion fallback.');

@@ -4,17 +4,16 @@
   gap: 8px 24px;
   align-items: center;
 }
+.page-footer.exhibition-footer-home { border: 0; }
 .footer-identity { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 16px; min-width: 0; }
 .footer-contact-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
-.footer-personal { display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: baseline; min-width: 0; }
-.footer-visit-number { opacity: .55; font-size: 10px; white-space: nowrap; }
-.footer-secret {
-  justify-self: end;
+
+/* These are stationary, discoverable targets, not visible interface ornaments. */
+.secret-hotspot {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
-  max-width: 100%;
+  justify-content: center;
   min-width: 44px;
   min-height: 44px;
   margin: 0;
@@ -24,16 +23,26 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 10px;
-  line-height: 1.5;
-  letter-spacing: .07em;
-  text-align: right;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: .04em;
+  text-align: center;
+  pointer-events: auto;
 }
-[data-xray-hint] { opacity: 0; transition: opacity 600ms ease-out; }
-[data-xray-hint].is-discovered { opacity: .35; }
-.footer-secret:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
-.footer-secret:focus-visible [data-xray-hint] { opacity: 1; transition: none; }
-[data-mode='xray'] [data-xray-hint] { color: var(--xray-acid, #c9f144); }
+.visitor-hotspot {
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  z-index: 1;
+  width: clamp(76px, calc(100vw - 260px), 320px);
+  transform: translateX(-50%);
+}
+.secret-message { opacity: 0; transition: opacity 600ms ease-out; pointer-events: none; }
+.secret-message.is-discovered { opacity: .3; }
+.secret-hotspot:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
+.secret-hotspot:focus-visible .secret-message { opacity: 1; transition: none; }
+.footer-secret-space { position: relative; display: grid; place-items: center; min-height: 30svh; }
+.footer-secret { max-width: calc(100vw - 44px); }
 
 .ink-layer {
   --ink-color-1: #f0efeb;
@@ -78,9 +87,18 @@
 }
 @media (max-width: 600px) {
   .exhibition-footer { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .footer-secret { justify-self: start; justify-content: flex-start; text-align: left; }
+  .visitor-hotspot { top: -11px; }
+  .visitor-hotspot .secret-message {
+    position: absolute;
+    top: 34px;
+    left: 50%;
+    width: min(230px, calc(100vw - 72px));
+    transform: translateX(-50%);
+    font-size: 10px;
+    line-height: 1.25;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  [data-xray-hint] { transition: none; }
+  .secret-message { transition: none; }
   .ink-mark { animation-name: ink-fade; }
 }
