@@ -9,12 +9,12 @@ export const easterSettings = {
     maximumSize: 49,
     maximumPointerTravel: 8,
   },
-  hint: { fadeMs: 600, visibleMs: 2000 },
+  hint: { fadeMs: 600, visibleMs: 2200 },
   visits: {
     // A consent integration must also pass hasVisitorConsent to initEasterEggs.
     // Enabling this flag alone never authorizes nonessential browser storage.
     enabled: false,
-    showNumber: true,
+    showNumber: false,
     storageKey: 'h4ngelic.visits.v1',
     separatedVisitMs: 30 * 60 * 1000,
     writeIntervalMs: 60 * 1000,

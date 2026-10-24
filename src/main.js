@@ -8,7 +8,8 @@ import { sampleBase } from './motion.js';
 import { bindControls } from './controls.js';
 import { attachArtwork, revealWeight } from './reveal.js';
 import { chooseRenderQuality, AdaptiveResolution } from './render-quality.js';
-import { attachWordmarkXRay } from './wordmark-xray.js';
+import { featureFlags } from './data/featureFlags.js';
+import { createHeroDepth } from './hero-depth.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
@@ -118,7 +119,11 @@ async function initialize() {
   }
   // Install after the artwork hook so both treatments share one mesh program.
   // Uniform updates leave the hero's existing visibility/RAF lifecycle intact.
-  const wordmarkXRay = attachWordmarkXRay(chrome, { renderer });
+  let wordmarkXRay = null;
+  if (featureFlags.otherSideEnabled) {
+    const { attachWordmarkXRay } = await import('./wordmark-xray.js');
+    wordmarkXRay = attachWordmarkXRay(chrome, { renderer });
+  }
 
   const bounds = { x: 1, y: 1 };
   const halfExtents = new THREE.Vector3();
@@ -130,17 +135,18 @@ async function initialize() {
   const pointerVelocity = new THREE.Vector3();
   const lever = new THREE.Vector3();
   const worldSize = { x: 1, y: 1 };
+  const heroDepth = createHeroDepth(camera, { worldSize });
 
   function resize() {
-    const { width, height } = stage.getBoundingClientRect();
+    // Layout dimensions exclude the separate CSS scroll-fade/scale wrapper.
+    const width = stage.clientWidth;
+    const height = stage.clientHeight;
     if (width <= 0 || height <= 0) return;
     camera.aspect = width / Math.max(height, 1);
-    const tangent = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-    camera.position.z = Math.max(size.x * 1.48 / (2 * tangent * camera.aspect), size.x * 1.12 / (2 * tangent));
-    camera.updateProjectionMatrix();
-    camera.updateMatrixWorld();
-    worldSize.y = 2 * tangent * camera.position.z;
-    worldSize.x = worldSize.y * camera.aspect;
+    const tangent = Math.tan(THREE.MathUtils.degToRad(35 / 2));
+    const distance = Math.max(size.x * 1.48 / (2 * tangent * camera.aspect), size.x * 1.12 / (2 * tangent));
+    const rect = stage.closest('.hero').getBoundingClientRect();
+    heroDepth.resize({ distance, top: rect.top + scrollY, height: rect.height, scrollPosition: scrollY, reduced: reducedMotion.matches });
     renderer.setSize(width, height, false);
   }
   const observer = new ResizeObserver(resize);
@@ -154,6 +160,7 @@ async function initialize() {
   resize();
 
   function locate(event) {
+    heroDepth.update(scrollY, reducedMotion.matches);
     const rect = canvas.getBoundingClientRect();
     pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
     raycaster.setFromCamera(pointer, camera);
@@ -242,6 +249,7 @@ async function initialize() {
     animationFrame = requestAnimationFrame(animate);
     const dt = Math.min((timestamp - previousFrame) / 1000, .25);
     previousFrame = timestamp;
+    heroDepth.update(scrollY, reducedMotion.matches);
     if (pendingPointer) {
       processPointer(pendingPointer, timestamp);
       pendingPointer = null;
@@ -290,7 +298,7 @@ async function initialize() {
 
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay.amount.value, pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount }),
+      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount }),
       hitPoint: () => {
         // Search real geometry instead of guessing a point inside a glyph hole.
         const vertices = geometry.getAttribute('position');
@@ -325,7 +333,7 @@ async function initialize() {
     cancelAnimationFrame(animationFrame);
     geometry.dispose();
     environmentMap.dispose();
-    wordmarkXRay.dispose();
+    wordmarkXRay?.dispose();
     artwork?.dispose();
     chrome.dispose();
     renderer.dispose();

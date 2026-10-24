@@ -5,20 +5,27 @@
 .kinetic-heading {
   margin: 0 0 clamp(40px, 6vw, 90px);
   color: #f0efeb;
-  font-size: clamp(28px, 4.44vw, 64px);
+  font-size: clamp(32px, 6vw, 88px);
   line-height: 1.08;
   font-weight: 400;
   letter-spacing: -.045em;
   overflow: clip;
 }
 .kinetic-heading-text { display: block; }
+/* One uninterrupted charcoal surface: typography/space carry the composition. */
+.selected-work, .category-strip, .category-link, .category-link + .category-link {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.category-link:hover { background: transparent; }
 .category-link > .kinetic-item, .contact-link > .kinetic-item {
   display: block;
   width: 100%;
   min-width: 0;
   gap: inherit;
 }
-.about-preview { display: block; }
+.about-preview { display: block; border: 0; background: transparent; }
 .about-preview > .section-pin {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
@@ -27,12 +34,12 @@
 .about-preview .kinetic-heading { grid-column: 1 / -1; }
 .about-preview-copy { grid-column: 2; margin-bottom: 36px; }
 .about-preview .text-link { grid-column: 2; justify-self: start; }
-.contact-section { padding-top: 110px; padding-bottom: 110px; }
+.contact-section { padding-top: 110px; padding-bottom: 110px; border: 0; background: transparent; }
 .contact-links {
   display: grid;
   grid-template-columns: repeat(3, minmax(110px, 1fr));
   gap: 0;
-  border-block: 1px solid #ffffff30;
+  border: 0;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   scrollbar-width: thin;
@@ -51,9 +58,9 @@
   line-height: 1.12;
   letter-spacing: -.045em;
 }
-.contact-link + .contact-link { border-left: 1px solid #ffffff20; }
+.contact-link + .contact-link { border-left: 0; }
 .contact-link .arrow { width: .65em; height: .65em; flex: 0 0 .65em; }
-.contact-link:not(.is-unconfigured):hover { text-decoration: none; background: #ffffff04; }
+.contact-link:not(.is-unconfigured):hover { text-decoration: none; background: transparent; }
 .contact-link:focus-visible { outline-offset: -4px; }
 .hero-nav a { display: inline-flex; align-items: center; gap: 7px; }
 .controls button { text-transform: lowercase; }

@@ -23,6 +23,23 @@ async function readyHome(page) {
   await page.locator('#selected-work .category-magnet').first().waitFor();
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
   await page.waitForFunction(() => window.__H4_TEST__?.snapshot().frameCount > 0);
+  await page.locator('[data-scroll-choreography]').waitFor();
+}
+
+async function settleSection(page, section) {
+  await section.evaluate((element) => {
+    // A previous keyboard check deliberately reveals the row through focus.
+    // Release that override before sampling the ordinary scroll timeline again.
+    document.activeElement?.blur();
+    scrollTo({ top: element.getBoundingClientRect().top + scrollY + parseFloat(getComputedStyle(element).getPropertyValue('--motion-run')), behavior: 'instant' });
+  });
+  await page.waitForFunction((element) => element.dataset.motionState === 'settled', await section.elementHandle());
+  const states = await section.locator('.kinetic-item').evaluateAll((items) => items.map((item) => {
+    const style = getComputedStyle(item);
+    const matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
+    return { x: matrix.m41, opacity: Number(style.opacity) };
+  }));
+  assert.ok(states.every((item) => Math.abs(item.x) < .1 && item.opacity > .99), 'The entire link row must be crisp and aligned before testing its interactions.');
 }
 
 const snapshot = (page) => page.evaluate(() => window.__H4_TEST__.snapshot());
@@ -83,9 +100,7 @@ try {
   assert.equal(keyboardReveal.scrollBefore, keyboardReveal.scrollAfter);
   await page.evaluate(() => document.activeElement?.blur());
 
-  await firstSection.scrollIntoViewIfNeeded();
-  await firstSection.evaluate((section) => scrollTo({ top: section.getBoundingClientRect().top + scrollY + parseFloat(getComputedStyle(section).getPropertyValue('--motion-run')), behavior: 'instant' }));
-  await page.waitForFunction(() => document.getElementById('selected-work').dataset.motionState === 'settled');
+  await settleSection(page, firstSection);
   assert.equal(await firstSection.evaluate((element) => element.offsetTop), layoutTop, 'The reveal must preserve the reserved layout.');
   await assertHorizontal(page, 1440);
   await page.mouse.move(1, 1);
@@ -124,14 +139,16 @@ try {
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForFunction(() => [...document.querySelectorAll('.content-section')].every((element) => Number(getComputedStyle(element).opacity) === 1));
+  await page.waitForFunction(() => document.querySelectorAll('.motion-echo').length === 0 && !document.documentElement.hasAttribute('data-scroll-choreography'));
   await page.mouse.move(before.x + before.width * .8, before.y + before.height * .65);
   assert.ok(Math.hypot(...Object.values(await translation(magnet))) < .05);
   const reducedCursor = await nativeCursor(page, magnet);
   assert.equal(reducedCursor.width, defaultCursor.width, 'Reduced motion must disable cursor scaling.');
   await page.evaluate(() => document.activeElement?.blur());
   await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.locator('[data-scroll-choreography]').waitFor();
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-  await page.waitForFunction(() => document.getElementById('selected-work').dataset.motionState === 'before');
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('#selected-work .kinetic-item')).opacity) < .05);
   assert.ok(Number(await firstSection.locator('.kinetic-item').first().evaluate((element) => getComputedStyle(element).opacity)) < .05, 'The master brief requires the timeline to reverse when scrolling back to the hero.');
   if (await page.locator('#pause-control').getAttribute('aria-pressed') === 'true') await page.locator('#pause-control').click();
   let state = await snapshot(page);
@@ -180,8 +197,9 @@ try {
   if (mobileState.pixelRatio !== undefined) assert.ok(mobileState.pixelRatio <= 1.5, 'Mobile render resolution must be capped.');
   for (const width of [390, 320]) {
     await mobilePage.setViewportSize({ width, height: 844 });
-    await mobilePage.locator('#selected-work').scrollIntoViewIfNeeded();
-    await mobilePage.waitForFunction(() => Number(getComputedStyle(document.getElementById('selected-work')).opacity) > .99);
+    // Resize updates the native run in the next scheduled animation frame.
+    await mobilePage.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    await settleSection(mobilePage, mobilePage.locator('#selected-work'));
     await assertHorizontal(mobilePage, width);
     const mobileMagnet = mobilePage.locator('#selected-work .category-magnet').first();
     assert.ok(Math.hypot(...Object.values(await translation(mobileMagnet))) < .05, 'Touch devices must not receive magnetic movement.');

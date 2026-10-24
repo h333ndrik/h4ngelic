@@ -4,7 +4,9 @@ Artist website with an interactive chrome wordmark, a horizontal typographic cat
 
 **Inhalte bearbeiten:** [Anleitung für Projekte, Bilder, About und Kontakt](docs/CONTENT.md). Editable data lives in `src/data/artworks.js` and `src/data/siteContent.js`. The archive starts empty and contact destinations stay unset until real projects and addresses are supplied.
 
-**Review-Vorschau:** [Interaktive Offline-Vorschau als ZIP](docs/previews/portfolio-preview.zip) herunterladen, entpacken und `h4ngelic-preview.html` im Browser öffnen. Standbilder: [Homepage](docs/previews/homepage.png), [mobil](docs/previews/mobile.png), [Work](docs/previews/work.png), [About](docs/previews/about.png), [the other side](docs/previews/homepage-xray.png), [mobil alternativ](docs/previews/mobile-xray.png). Diese Dateien sind ein Review-Snapshot des Feature-Branches; eine neue Vorschau lässt sich mit `npm run preview:export` erzeugen.
+**Aktueller Stand:** Das neueste Homepage-Briefing ersetzt die frühere Art Direction an den ausdrücklich geänderten Stellen. Die Startseite verwendet einen durchgehenden Hintergrund `#303033`, frühere reversible Fly-ins mit kurzlebigen typografischen Nachbildern und eine zurückhaltende Kameratiefenbewegung. **The other side ist auf später verschoben und standardmäßig deaktiviert.**
+
+**Review-Vorschau:** [Interaktive Offline-Vorschau als ZIP](docs/previews/portfolio-preview.zip) herunterladen, entpacken und `h4ngelic-preview.html` im Browser öffnen. Standbilder: [Homepage](docs/previews/homepage.png), [mobil](docs/previews/mobile.png), [Work](docs/previews/work.png), [About](docs/previews/about.png). Die Dateien sind Review-Snapshots; `npm run preview:export` erzeugt die aktuelle Offline-Datei. Neue Verifikation und Messwerte gehören in [REFINEMENT-REPORT.md](docs/REFINEMENT-REPORT.md). Ältere farbige Vergleichsbilder gehören zum historischen PR-9-Stand.
 
 ## Development
 
@@ -24,17 +26,17 @@ npm run test:artwork     # Compare the actual reveal on/off at the same 3D pose
 npm run test:portfolio   # Page links, filters, history, horizontal mobile layout
 npm run test:micro       # Magnets, reveals, cursor, rendering pause, 320/390px
 npm run test:gallery     # Viewer transitions, keyboard/touch, image races/errors
+npm run test:artwork-transitions # Shared gallery/detail image transitions and fallbacks
 npm run test:seo         # Prerendered HTML, metadata, strict HTTP status, robots
 npm run test:motion      # Pinning, reverse/stop poses, native wheel/touch, resize
 npm run test:navigation  # Lazy-import races, one scene, scroll history, fallback
 npm run test:easter      # Ink, hidden hint and consent/storage safeguards
-npm run test:xray        # Actual media pixels/restoration, lite/reduced variants
+npm run test:xray        # Deferred-mode gate: unchanged Normal palette, no mode resources
 npm run test:master      # Full combined motion/navigation/fixture/media checks
 npm run images:optimize  # Generate responsive WebP files and image dimensions
 npm run build
 npm run preview -- --port 4173
 npm run measure:performance -- --base-url http://127.0.0.1:4173 --label local
-npm run measure:xray     # Runtime observation; set H4_BASE_URL to built preview
 npm run preview:export   # Download/open artifacts/h4ngelic-preview.html offline
 ```
 
@@ -54,9 +56,10 @@ The Three.js module is imported only when the homepage hero enters the viewport.
 
 ## Restrained UI interactions
 
-The homepage has three matching large headings: “01 / selected works”, “02 / about” and “03 / contact”. Work and Contact use native sticky stages: labels travel 1.5 viewport widths into three equal columns with scroll-based staggering, slight rotation and a controlled 14 px overshoot. About has a shorter, unpinned sequence. The hero visually recedes through a wrapper transform; its Three.js physics and movement remain intact. Every pose follows actual scroll progress and reverses when scrolling upward. There is no wheel/touch interception or idle scroll-animation loop. Parameters are in `src/data/motionSettings.js`; see [MOTION.md](docs/MOTION.md).
+The homepage has three matching large headings: “01 / selected works”, “02 / about” and “03 / contact”. Work and Contact remain horizontal three-column strips on an uninterrupted charcoal surface, without section lines, link boxes or hover panels. Their reversible timeline begins when the section approaches approximately 85% of the viewport height and continues through a shorter native sticky interval. Labels fly from beyond the right edge with scroll-based staggering, slight rotation and controlled overshoot. Up to two low-opacity monochrome echoes shrink and disappear before the final crisp position. About uses a shorter unpinned sequence. Parameters are in `src/data/motionSettings.js`; see [MOTION.md](docs/MOTION.md).
 
-Category, configured Contact and important navigation labels move at most 3 px under a mouse, inside stationary link hit areas. Arrows move slightly up/right. The artwork viewer uses a native modal dialog, short opacity/scale transitions, asynchronous image decoding, arrow-key navigation, Escape, focus restoration and an image-error state. It is initialized only when artwork exists.
+The hero combines its existing wrapper fade/scale with a small camera distance, perspective and position change: at most 8% more camera Z distance and one additional degree of field of view. `src/hero-depth.js` runs inside the existing visible-hero render loop and reads cached geometry. It never writes the logo’s animation transforms or physics state. Scroll reversal restores the original camera, and reduced motion disables this composition. Settings are in `src/data/heroDepthSettings.js`; [MOTION.md](docs/MOTION.md) explains the editable values and echo timing.
+Category, configured Contact and important navigation labels move at most 3 px under a mouse, inside stationary link hit areas. Arrows move slightly up/right. Real archive photographs link to their canonical artwork detail URLs. Supported browsers pair the selected photograph across the page transition; browser Back can return it to its archive position while restoring scroll. Detail photographs open the native modal viewer with an aspect-preserving expansion/return, asynchronous decoding, arrow-key navigation, Escape, focus restoration and an image-error state. Reduced-motion and unsupported browsers retain ordinary links and immediate/simpler presentation. The reusable architecture activates when genuine project images are added; the empty archive contains no stock placeholders. See [ARTWORK-TRANSITIONS.md](docs/ARTWORK-TRANSITIONS.md).
 
 Reduced motion disables dramatic choreography and nonessential pinning and makes viewer transitions immediate. Keyboard/anchor focus immediately reveals its section without changing pin geometry. Touch interaction does not activate magnets or the custom cursor. Pointer updates are coalesced to animation frames; scroll work uses cached geometry and one scheduled frame per update. The bottom-left tagline comes unchanged from the existing hero-tagline feature: “art on skin & beyond”.
 
@@ -64,19 +67,21 @@ Local portfolio and portrait images are automatically converted into responsive 
 
 Real below-fold images receive an IntersectionObserver mask/rise reveal; keyboard focus unmasks them immediately. The first critical detail image stays unmasked for loading performance. No image effect or viewer is created for the empty archive.
 
-## Small footer interactions
+## Hidden messages and ink
 
-Blank clicks/taps leave short-lived organic off-white ink traces; links, controls, dialogs, canvas and scrolling gestures are excluded. Marks are capped and removed automatically. The footer's hidden hint can be discovered with hover, keyboard focus or its accessible touch target, which also toggles The Other Side.
+The returning-visitor message now occupies an invisible hotspot at the exact horizontal center of the hero header; the left identity and right location retain their positions. Hover or tap reveals small text at about 30% opacity for roughly 2.2 seconds, then it fades even if the pointer stays inside. Keyboard focus makes the message fully readable. Persistent visitor memory remains disabled by default: the safe “nice to meet you.” fallback touches no browser storage. A real consent callback and an explicit configuration flag are both required before durable visit counting can be enabled.
 
-Persistent returning-visitor memory is disabled by default. The footer uses the nonpersistent “nice to meet you.” fallback without touching browser storage. Enabling persistence requires both an explicit configuration flag and a valid consent callback. [EASTER-EGGS.md](docs/EASTER-EGGS.md) documents settings, exact visit messages and lifecycle/privacy behavior.
+After Contact, a blank area of 30% of the viewport height (30svh) reserves the future centered hint. The exact hint is `press 4 for the other side.`; its public markup is omitted while the feature is postponed, so the page does not advertise an unavailable shortcut. Hidden-message timing, visit copy and safeguards are documented in [EASTER-EGGS.md](docs/EASTER-EGGS.md).
 
-## The other side
+Blank clicks/taps leave temporary off-white ink imprints. Each imprint generates its own contour, protrusions, fragmentation and satellite droplets rather than reusing one rotated shape. Links, controls, dialogs, the canvas and scrolling gestures are excluded. Marks are capped and completely removed after their short lifetime; no extra render loop is introduced.
 
-Press `4` / Numpad `4` or use the discreet footer control to toggle The Other Side. It solarizes semantic media with non-monotonic channel curves, adds restrained channel separation and a static grain/scratch/chemical-stain layer, and uses protected readable UI colors. It preserves the document and current navigation state, existing canvas physics, original artwork files and custom cursor. Typing, repeated keys and modified shortcuts are ignored. Normal mode restores the original image treatment without accumulating filter nodes.
+## The other side — postponed
 
-The bounded 650 ms media/UI transition has no steady-state animation loop. The wordmark applies its alternate color curves directly in the existing material shader, avoiding a filter over the full animated canvas. Normal mode skips that color processing completely. Touch/constrained devices use a cheaper photo filter; reduced motion switches immediately. Colors, channel curves, grain and transition parameters live in `src/data/xraySettings.js`; [XRAY.md](docs/XRAY.md) explains editing and the missing second reference. No reference image is published as a fabricated artwork entry.
+`src/data/featureFlags.js` contains `otherSideEnabled: false`. This gates the mode bootstrap, its wordmark shader and the public footer hint together. In the current default build, pressing `4` leaves the normal charcoal palette unchanged, and the mode’s filters and texture are not initialized. This refinement adds no solarization, false-color palette or global distressed filter to the public experience.
 
-The final implementation, verified checks and remaining release requirements are in [FINAL-REPORT.md](docs/FINAL-REPORT.md). Fresh loading/runtime measurements against `0a65d3b` are in [MASTER-PERFORMANCE.md](docs/MASTER-PERFORMANCE.md): mobile Lighthouse medians are 71 for Home and 100 for Work. These are software-GPU lab results, not physical-device FPS or field Core Web Vitals. The earlier microinteraction audit remains in [PERFORMANCE.md](docs/PERFORMANCE.md).
+The latest follow-up explicitly keeps that flag disabled. The dormant shortcut is prepared for a continuous hold of `4` or numpad `4` for at least one second; a short tap does nothing. Its threshold is `xraySettings.shortcutHoldMs` in `src/data/xraySettings.js` (currently `1000`). This does not activate the public mode or hint.
+
+The earlier implementation is retained as dormant development material. [XRAY.md](docs/XRAY.md) explains its status and the future activation boundary. Leave the flag `false` for this refinement; a later activation needs its own visual/accessibility review and build. Current verification belongs in [REFINEMENT-REPORT.md](docs/REFINEMENT-REPORT.md). [FINAL-REPORT.md](docs/FINAL-REPORT.md) and [MASTER-PERFORMANCE.md](docs/MASTER-PERFORMANCE.md) retain historical PR-9 results; their scores and pixel comparisons are not measurements of this update.
 
 ## Wordmark and interaction
 

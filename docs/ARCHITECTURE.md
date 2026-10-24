@@ -11,11 +11,14 @@ Die bestehende Website bleibt Vite + JavaScript + CSS + Three.js. Ein kleiner Bu
 | `src/pages.js` | Gemeinsame semantische HTML-Renderer für Build und Browser |
 | `src/seo.js` | Reine Metadaten-/JSON-LD-Erzeugung und Aktualisierung nach Navigation |
 | `src/app.js` | Seiteneinstieg, Interaktionen und bedarfsgeladener Hero |
-| `src/navigation.js` | Normale Links progressiv ergänzen, kurze View Transitions, Verlauf/Scrollposition/Fokus |
+| `src/navigation.js`, `src/artwork-transitions.js` | Normale Links, geteilte Artwork-Bildübergänge, Verlauf/Scrollposition/Fokus |
 | `src/image-reveals.js` | Sichtbarkeitsgesteuerte Masken für vorhandene, nicht kritische Bilder |
-| `src/footer.js`, `src/easter-eggs.js` | Semantischer Footer, kurzlebige Tinte und standardmäßig nicht persistente Besuchsanzeige |
-| `src/xray.js`, `src/data/xraySettings.js` | Dokumentweiter Modus, wiederverwendbare Medienfilter und editierbare visuelle Parameter |
-| `src/wordmark-xray.js` | Farbkurven ausschließlich auf den Fragmenten des Wordmarks; Normalzweig unverändert, keine zusätzliche Rendering-Schleife |
+| `src/footer.js`, `src/easter-eggs.js`, `src/ink-imprint.js` | Zentrierte versteckte Nachrichten, prozedurale Tinte und abgesicherte Besuchsanzeige |
+| `src/scroll-choreography.js`, `src/data/motionSettings.js` | Frühe scrollgebundene Fly-ins, native Pins und dekorative typografische Nachbilder |
+| `src/hero-depth.js`, `src/data/heroDepthSettings.js` | Kleine reversible Kamera-Komposition innerhalb der bestehenden Hero-Schleife |
+| `src/data/featureFlags.js` | Gemeinsame Freigabegrenze für den zurückgestellten Modus und dessen öffentlichen Hinweis |
+| `src/xray.js`, `src/data/xraySettings.js` | Zurückgestellte Modus-Grundlage; bei Standardflag nicht gestartet |
+| `src/wordmark-xray.js` | Zurückgestellte zusätzliche Farbverarbeitung; bei Standardflag nicht an das Chrome-Material gebunden |
 | `scripts/prerender.mjs` | Vollständige statische Dokumente, 404, Sitemap, Robots und Routenmanifest |
 | `scripts/serve-preview.mjs` | Lokale Prüfung echter Statuscodes, Canonical-Redirects und komprimierter Dateien |
 | `vite.config.js` | Gemeinsame öffentliche SEO-Buildkonfiguration und Entwicklungs-Redirects/404 |
@@ -35,6 +38,16 @@ Vite erzeugt zunächst den bestehenden Einstieg und die unveränderten Code-/Ass
 Die Startseite enthält den tatsächlichen Hero. Auf Work, About, Projektseiten und 404 liegt sein ursprüngliches Markup ausschließlich in einem **inerten `<template id="hero-template">`**. Es erzeugt dort weder einen aktiven zusätzlichen H1 noch Canvas-/Hero-Anfragen. Bei späterer Navigation zur Startseite kann der Browser dieses Template einmal klonen. Der bestehende Three.js-Einstieg bleibt ein dynamischer Import, der erst beim sichtbaren Homepage-Hero ausgelöst wird.
 
 Normale Anker bleiben die Navigationsgrundlage. Die Browser-Erweiterung erhält das Dokument und die bereits erzeugte 3D-Szene, aktualisiert Inhalt/Metadaten und stellt Fokus und Verlaufpositionen wieder her. Unbekannte Routen werden regulär angefordert und behalten ihre tatsächlichen HTTP-Statuscodes. Ein verspätet fertig geladenes 3D-Modul wartet zusätzlich auf den sichtbaren Hero, bevor es einen Kontext anlegt. Seitenmodule räumen ihre eigenen Observer und Listener vor dem Austausch auf; delegierte Footer-/Navigationslistener werden nur einmal pro Dokument angelegt. Es gibt keine persistenten Navigations- oder Besucherkennungen.
+
+## Aktuelle Homepage-Komposition
+
+Die Startseite bleibt eine zusammenhängende Fläche `#303033`. Alle drei nummerierten Überschriften teilen Typografie und Abstandssystem; Work und Kontakt bleiben horizontale Zeilen ohne Rahmen oder Trenner. Die Bewegungswerte werden aus dem tatsächlichen Scrollfortschritt berechnet. Die Annäherung beginnt, wenn der Abschnitt etwa 85% der Viewporthöhe erreicht, und geht ohne Zustandswechsel in ein kurzes Sticky-Intervall über. About bleibt unpinned. Höchstens zwei dekorative Nachbilder je Work-/Kontaktlabel verschwinden vor dem Endpunkt. Ihre leeren, `aria-hidden` markierten Spans erzeugen Text nur per CSS-Datenattribut; das semantische Label und sein Klickziel existieren weiterhin genau einmal. Reduzierte Bewegung entfernt diese Effekte. Einstellungen und Ablauf stehen in [MOTION.md](MOTION.md).
+
+Die Kamera-Komposition ist unabhängig von der bestehenden Infinity- und Interaktionsphysik. Sie aktualisiert Kameradistanz, Position und FOV aus gespeicherten Hero-Maßen innerhalb der vorhandenen Render-Schleife: maximal 8% zusätzliche Z-Distanz und ein Grad mehr FOV. Es gibt keine zweite Szene und keine weitere Frame-Schleife. Raycasting verwendet dieselbe aktuelle Kamera; der ursprüngliche Zustand wird bei Umkehr oder reduzierter Bewegung wiederhergestellt. Der bestehende Sichtbarkeitsmechanismus pausiert WebGL außerhalb des sichtbaren Hero-Bereichs und in verdeckten Dokumenten.
+
+Reale Archivbilder sind normale Links zu Projektdokumenten. Die progressive Bildzuordnung ergänzt auf geeigneten Browsern den Seitenwechsel und die Rücknavigation. Auf der Detailseite bleibt der semantische Mehrbild-Viewer zugänglich. Ohne echte Bilder existiert nur die wiederverwendbare Architektur und die ehrliche leere Archivmeldung. Details stehen in [ARTWORK-TRANSITIONS.md](ARTWORK-TRANSITIONS.md).
+
+Der Besuchshinweis liegt unabhängig von den unveränderten äußeren Labels im horizontalen Zentrum des Hero-Headers. Sein Fallback benötigt keinen Speicher. Eine zentrale Freigabe `featureFlags.otherSideEnabled` bleibt `false`: Der frühere alternative Modus und sein Material-Hook werden nicht importiert oder gestartet, und der zukünftige Tastaturhinweis wird nicht öffentlich gerendert. Nach Kontakt bleibt dafür ein leerer Bereich von etwa `30svh` reserviert. Der spätere Hinweis lautet exakt `press 4 for the other side.`. [XRAY.md](XRAY.md) dokumentiert die Freigabegrenze. Frühere aktive Modus-Dokumentation beschreibt den PR-9-Snapshot, nicht die aktuelle Freigabe.
 
 ## Build und Vorschau
 

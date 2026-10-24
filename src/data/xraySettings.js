@@ -4,6 +4,7 @@
  * Their non-monotonic curves create solarized violet, acid green and pale pink.
  */
 export const xraySettings = {
+  shortcutHoldMs: 1000,
   transitionMs: 650,
   transitionFramesPerSecond: 30,
   saturation: 0.32,

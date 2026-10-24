@@ -28,21 +28,22 @@
   background: #303033;
   color: #f0efeb;
   opacity: 0;
-  transform: scale(.99);
-  transition: opacity 150ms ease-out, transform 150ms ease-out;
+  transform: none;
+  transition: opacity 150ms ease-out;
   overflow: hidden;
   overscroll-behavior: contain;
 }
 .artwork-dialog[open] { display: flex; flex-direction: column; }
-.artwork-dialog.is-open { opacity: 1; transform: scale(1); }
-.artwork-dialog::backdrop { background: rgb(21 21 23 / 88%); }
+.artwork-dialog.is-open { opacity: 1; }
+.artwork-dialog::backdrop { background: rgb(21 21 23 / 88%); transition: background-color 160ms ease-out; }
+.artwork-dialog:not(.is-open)::backdrop { background: transparent; }
 .artwork-viewer-header { display: flex; justify-content: end; flex: 0 0 auto; }
 .artwork-dialog button { background: transparent; color: inherit; border: 0; padding: 10px 12px; min-width: 45px; min-height: 45px; font: inherit; font-size: 13px; }
 .artwork-dialog button:hover { background: #ffffff0a; }
 .artwork-dialog button:focus-visible { outline: 2px solid #f0efeb; outline-offset: -3px; }
 .artwork-viewer-figure { margin: 14px 0 0; min-height: 0; flex: 1; display: flex; flex-direction: column; }
 .artwork-viewer-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.artwork-viewer-stage img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; opacity: 1; transform: scale(1); transition: opacity 130ms ease-out, transform 130ms ease-out; }
+.artwork-viewer-stage img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; opacity: 1; transform: scale(1); transition: opacity 130ms ease-out, transform 130ms ease-out; }
 .artwork-viewer-stage.is-switching img { opacity: 0; transform: scale(.992); }
 .artwork-viewer-caption { height: 3em; min-height: 3em; flex: 0 0 3em; overflow: auto; font-size: 12px; line-height: 1.5; color: #c5c5bf; margin-top: 14px; }
 .artwork-viewer-navigation { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 44px; flex: 0 0 auto; }

@@ -1,5 +1,5 @@
 import './scroll-choreography.css';
-import { motionSettings, progressBetween, sampleFlyIn, sampleHeading, sampleHero, sampleKineticItem } from './data/motionSettings.js';
+import { motionSettings, progressBetween, pinnedProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn, sampleHeading, sampleHero, sampleKineticItem } from './data/motionSettings.js';
 
 /** Native scrolling + native sticky positioning; no wheel/touch interception.
  * Each scroll/resize schedules at most one frame. Nothing runs while idle.
@@ -24,6 +24,7 @@ export function initScrollChoreography(root = document) {
   const listeners = [];
   const previousRootAttribute = page.getAttribute('data-scroll-choreography');
   const values = new WeakMap();
+  const echoes = new Map();
   let frame = 0;
   let disposed = false;
   let enabled = false;
@@ -48,10 +49,41 @@ export function initScrollChoreography(root = document) {
     element.style.setProperty(name, value);
   }
 
-  function applyItem(element, sample) {
+  function prepareEchoes() {
+    for (const section of sections) {
+      if (section.kind === 'about') continue;
+      for (const item of section.items) {
+        if (echoes.has(item)) continue;
+        const label = item.querySelector('.category-magnet > span');
+        if (!label) continue;
+        const layers = Array.from({ length: motionSettings.trail.layers }, () => {
+          const echo = owner.createElement('span');
+          echo.className = 'motion-echo';
+          echo.setAttribute('aria-hidden', 'true');
+          // Generated content is decorative; no duplicate readable DOM text.
+          echo.dataset.echoText = label.textContent.trim();
+          item.append(echo);
+          return echo;
+        });
+        echoes.set(item, layers);
+      }
+    }
+  }
+
+  function removeEchoes() {
+    for (const layers of echoes.values()) for (const echo of layers) { values.delete(echo); echo.remove(); }
+    echoes.clear();
+  }
+
+  function applyItem(element, sample, localProgress = 1) {
     setValue(element, '--kinetic-x', `${sample.x.toFixed(3)}px`);
     setValue(element, '--kinetic-rotate', `${sample.rotation.toFixed(3)}deg`);
     setValue(element, '--kinetic-opacity', sample.opacity.toFixed(4));
+    echoes.get(element)?.forEach((echo, layer) => {
+      const trail = sampleMotionTrail(localProgress, layer, width);
+      setValue(echo, '--echo-x', `${trail.x.toFixed(3)}px`);
+      setValue(echo, '--echo-opacity', trail.opacity.toFixed(4));
+    });
   }
 
   function measure() {
@@ -91,7 +123,7 @@ export function initScrollChoreography(root = document) {
       const focused = section === focusSection;
       const progress = section.kind === 'about'
         ? progressBetween(position, section.top - height * motionSettings.about.approach, section.top - height * motionSettings.about.finish)
-        : (position - section.top) / Math.max(1, section.run);
+        : pinnedProgress(position, section.top, height, section.run);
       const lastEnd = motionSettings.fly.start + motionSettings.fly.duration + Math.max(0, section.items.length - 1) * motionSettings.fly.stagger;
       const state = focused ? 'focus' : progress < 0 ? 'before' : progress >= (section.kind === 'about' ? 1 : lastEnd) ? 'settled' : 'active';
       if (state !== section.lastState) { section.element.dataset.motionState = state; section.lastState = state; }
@@ -104,7 +136,7 @@ export function initScrollChoreography(root = document) {
       setValue(section.heading, '--heading-opacity', heading.opacity.toFixed(4));
       section.items.forEach((item, index) => {
         if (focused) return applyItem(item, { x: 0, rotation: 0, opacity: 1 });
-        if (section.kind !== 'about') return applyItem(item, sampleKineticItem(progress, index, width));
+        if (section.kind !== 'about') return applyItem(item, sampleKineticItem(progress, index, width), kineticItemProgress(progress, index));
         const link = item.dataset.motionItem === 'link';
         const settings = motionSettings.about;
         const local = progressBetween(progress, link ? settings.linkStart : settings.copyStart, link ? settings.linkEnd : settings.copyEnd);
@@ -120,6 +152,7 @@ export function initScrollChoreography(root = document) {
   }
 
   function clearStyles() {
+    removeEchoes();
     for (const section of sections) {
       section.element.removeAttribute('data-motion-pin');
       section.element.removeAttribute('data-motion-state');
@@ -154,6 +187,7 @@ export function initScrollChoreography(root = document) {
     frame = 0;
     enabled = !reduced.matches;
     if (!enabled) return clearStyles();
+    prepareEchoes();
     page.setAttribute('data-scroll-choreography', '');
     stage?.setAttribute('data-scroll-hero', '');
     dirty = true;

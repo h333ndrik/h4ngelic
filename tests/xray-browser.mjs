@@ -1,176 +1,149 @@
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
-import sharp from 'sharp';
 
+// Keep the existing command as a regression guard for the latest approved
+// decision: the alternate mode and its public tease are deliberately postponed.
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
-const artifacts = new URL('../artifacts/xray/', import.meta.url);
-await mkdir(artifacts, { recursive: true });
 const browser = await chromium.launch({
-  executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium',
-  headless: true,
+  executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
+const deferredResource = (value) => {
+  const path = new URL(value).pathname;
+  return /\/(?:src\/|assets\/)(?:wordmark-xray|xray)(?:\.|-)/.test(path)
+    || /\/assets\/xray-distress\./.test(path);
+};
 
-async function open({ lite = false, reduced = false } = {}) {
-  const context = await browser.newContext({
-    viewport: lite ? { width: 390, height: 844 } : { width: 1280, height: 900 },
-    deviceScaleFactor: 1,
-    isMobile: lite,
-    hasTouch: lite,
-    reducedMotion: reduced ? 'reduce' : 'no-preference',
-  });
-  // Explicit profiles make both presentation pipelines reproducible in CI;
-  // these overrides are coverage fixtures, not device-performance measurements.
-  await context.addInitScript((weak) => {
-    Object.defineProperty(navigator, 'deviceMemory', { get: () => weak ? 2 : 8 });
-    Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => weak ? 2 : 8 });
-  }, lite);
-  const page = await context.newPage();
-  const errors = [];
-  page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
-  await page.locator('html[data-xray-ready]').waitFor();
-  await page.evaluate(async () => {
-    // The real application and its real stylesheet remain in use. Only the
-    // photograph is a temporary fixture, never an artwork-data entry or route.
-    const fixture = document.createElement('div');
-    fixture.dataset.xrayFixture = '';
-    Object.assign(fixture.style, { position: 'fixed', left: '16px', top: '16px', width: '256px', zIndex: '2147483000', pointerEvents: 'none' });
-    const figure = document.createElement('figure');
-    figure.className = 'project-image';
-    Object.assign(figure.style, { margin: '0', width: '256px' });
-    const image = new Image();
-    image.src = '/assets/tattoo-texture.webp';
-    image.alt = 'supplied tattoo artwork used only in an automated test';
-    image.width = 256;
-    image.height = 362;
-    Object.assign(image.style, { display: 'block', width: '256px', height: '362px', maxWidth: 'none', opacity: '1', transform: 'none', transition: 'none' });
-    figure.append(image);
-    fixture.append(figure);
-    if (!document.querySelector('#logo-canvas')) {
-      const canvas = document.createElement('canvas');
-      canvas.id = 'logo-canvas';
-      canvas.width = 256;
-      canvas.height = 80;
-      Object.assign(canvas.style, { position: 'relative', width: '256px', height: '80px', opacity: '1' });
-      fixture.append(canvas);
-    }
-    document.body.append(fixture);
-    await image.decode();
-  });
-  return { context, page, errors, media: page.locator('[data-xray-fixture] img') };
-}
-
-async function settled(page, mode) {
-  await page.waitForFunction((expected) => document.documentElement.dataset.mode === expected && !document.documentElement.hasAttribute('data-xray-transition'), mode);
-  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-}
-
-async function pixelDifference(before, after, { foregroundOnly = false } = {}) {
-  const [original, changed] = await Promise.all([before, after].map((bytes) => sharp(bytes).ensureAlpha().raw().toBuffer()));
-  assert.equal(original.length, changed.length, 'The treatment must preserve image dimensions.');
-  let pixelsChanged = 0;
-  let totalDelta = 0;
-  let pixels = 0;
-  for (let index = 0; index < original.length; index += 4) {
-    // The hero background changes too. Exclude its original charcoal pixels
-    // when checking that the actual wordmark, rather than only the studio, changes.
-    if (foregroundOnly && Math.abs(original[index] - 48) + Math.abs(original[index + 1] - 48) + Math.abs(original[index + 2] - 51) < 12) continue;
-    pixels++;
-    const delta = Math.abs(original[index] - changed[index]) + Math.abs(original[index + 1] - changed[index + 1]) + Math.abs(original[index + 2] - changed[index + 2]);
-    if (delta > 18) pixelsChanged++;
-    totalDelta += delta;
-  }
-  return { pixelsChanged, pixels, fraction: pixelsChanged / pixels, meanChannelDelta: totalDelta / (pixels * 3) };
+async function normalPresentation(page) {
+  const state = await page.evaluate(() => ({
+    mode: document.documentElement.dataset.mode,
+    ready: document.documentElement.hasAttribute('data-xray-ready'),
+    background: getComputedStyle(document.documentElement).backgroundColor,
+    overlays: document.querySelectorAll('.xray-distress,[data-xray-filters]').length,
+    hint: document.querySelectorAll('[data-other-side-hint],[data-xray-toggle]').length,
+    mediaFilters: [...document.querySelectorAll('#logo-canvas,.project-image img,.about-portrait img')].map((image) => getComputedStyle(image).filter),
+  }));
+  assert.notEqual(state.mode, 'xray', 'The postponed mode must not become public.');
+  assert.equal(state.ready, false, 'No alternate-mode controller may initialize.');
+  assert.equal(state.background, 'rgb(48, 48, 51)', 'The approved uninterrupted charcoal palette must remain in use.');
+  assert.equal(state.overlays, 0, 'No distressed overlay or image-processing definitions may initialize.');
+  assert.equal(state.hint, 0, 'The disabled public hint must not advertise an unavailable shortcut.');
+  assert.ok(state.mediaFilters.every((filter) => filter === 'none'), 'Normal media must have no alternate color treatment.');
 }
 
 try {
-  const full = await open();
-  const before = await full.media.screenshot();
-  assert.equal(await full.page.locator('html').getAttribute('data-xray-quality'), 'full');
-  await full.page.keyboard.press('4');
-  await settled(full.page, 'xray');
-  assert.equal(await full.page.locator('[data-xray-toggle]').getAttribute('aria-label'), 'toggle the other side (4)');
-  assert.match(await full.page.locator('[data-mode-status]').textContent(), /^the other side is on\./);
-  assert.match(await full.media.evaluate((element) => getComputedStyle(element).filter), /h4-xray-treatment/);
-  const transformed = await full.media.screenshot();
-  const fullPixels = await pixelDifference(before, transformed);
-  assert.ok(fullPixels.fraction > .15 && fullPixels.meanChannelDelta > 8, `The actual photograph must transform, not just its CSS property: ${JSON.stringify(fullPixels)}`);
-  await writeFile(new URL('normal.png', artifacts), before);
-  await writeFile(new URL('other-side.png', artifacts), transformed);
-  await full.page.keyboard.press('Numpad4');
-  await settled(full.page, 'normal');
-  assert.equal(await full.media.evaluate((element) => getComputedStyle(element).filter), 'none');
-  assert.equal((await pixelDifference(before, await full.media.screenshot())).pixelsChanged, 0, 'Returning to Normal must restore the original photograph exactly.');
+  for (const profile of [
+    { label: 'desktop', viewport: { width: 1440, height: 1000 } },
+    { label: '390px touch', viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true },
+    { label: 'reduced motion', viewport: { width: 1000, height: 760 }, reducedMotion: 'reduce' },
+  ]) {
+    const { label, ...options } = profile;
+    const context = await browser.newContext({ deviceScaleFactor: 1, ...options });
+    try {
+      const page = await context.newPage();
+      const requests = [];
+      const errors = [];
+      page.on('request', (request) => requests.push(request.url()));
+      page.on('pageerror', (error) => errors.push(error.message));
+      for (const path of ['/work', '/about', '/']) {
+        await page.goto(new URL(path === '/' ? '/?test=1' : path, baseURL).href, { waitUntil: 'networkidle' });
+        if (path === '/') await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
+        await normalPresentation(page);
+        await page.keyboard.press('4');
+        await page.keyboard.press('Numpad4');
+        await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+        await normalPresentation(page);
+        if (path === '/') {
+          const gap = await page.locator('[data-footer-secret-space]').boundingBox();
+          assert.ok(gap.height >= options.viewport.height * .25 && gap.height <= options.viewport.height * .35 + 2, 'The reserved hidden-footer area remains spacious without publishing the postponed hint.');
+          if (await page.evaluate(() => Boolean(window.__H4_TEST__))) {
+            assert.equal(await page.evaluate(() => window.__H4_TEST__.snapshot().xrayAmount), 0, 'The dormant shader must not modify the original chrome.');
+          }
+        }
+      }
+      assert.deepEqual(requests.filter(deferredResource), [], 'The deferred controller, color shader and texture must not download.');
+      assert.deepEqual(errors, []);
+      console.log(`PASS postponed the other side (${label}): Normal palette, inert 4/numpad, no public tease, no controller/shader/texture requests and reserved footer space.`);
+    } finally { await context.close(); }
+  }
 
-  await full.page.evaluate(() => {
-    // Synchronous toggles intentionally interrupt the bounded transition.
-    for (let index = 0; index < 10; index++) document.dispatchEvent(new KeyboardEvent('keydown', { key: '4', code: 'Digit4', bubbles: true }));
-  });
-  await settled(full.page, 'normal');
-  assert.equal(await full.page.locator('[data-xray-filters]').count(), 1);
-  assert.equal(await full.page.locator('[data-xray-filters] filter').count(), 2);
-  assert.equal(await full.page.locator('.xray-distress').count(), 1);
-  assert.equal((await pixelDifference(before, await full.media.screenshot())).pixelsChanged, 0, 'Interrupted toggles must not accumulate residual filters.');
-  assert.deepEqual(full.errors, []);
-  await full.context.close();
-  console.log('PASS The Other Side full pipeline: real rendered pixel changes, exact normal restoration, numpad and interrupted-toggle reuse.', fullPixels);
+  // Exercise the postponed controller only after every real browsing profile
+  // has proved that the public flag never downloads or initializes it.
+  const controllerSource = await fetch(new URL('/src/xray.js', baseURL)).catch(() => null);
+  const fixtureAvailable = controllerSource?.ok && /^(?:text|application)\/(?:javascript|ecmascript)(?:;|$)/i.test(controllerSource.headers.get('content-type') || '');
+  if (fixtureAvailable) await verifyDormantControllerFixture();
+  else console.log('SKIP dev-only dormant controller fixture on built server');
+} finally { await browser.close(); }
 
-  const lite = await open({ lite: true });
-  const liteBefore = await lite.media.screenshot();
-  assert.equal(await lite.page.locator('html').getAttribute('data-xray-quality'), 'lite');
-  await lite.page.locator('[data-xray-toggle]').tap();
-  await settled(lite.page, 'xray');
-  assert.match(await lite.media.evaluate((element) => getComputedStyle(element).filter), /h4-xray-lite/);
-  assert.doesNotMatch(await lite.page.locator('#logo-canvas').evaluate((element) => getComputedStyle(element).filter), /url\(/, 'An animated weak-device hero must use the cheaper CSS treatment.');
-  const litePixels = await pixelDifference(liteBefore, await lite.media.screenshot());
-  assert.ok(litePixels.fraction > .15 && litePixels.meanChannelDelta > 8, 'The lite pipeline must still transform the actual photograph.');
-  await lite.page.locator('[data-xray-toggle]').tap();
-  await settled(lite.page, 'normal');
-  assert.equal((await pixelDifference(liteBefore, await lite.media.screenshot())).pixelsChanged, 0);
-  assert.deepEqual(lite.errors, []);
-  await lite.context.close();
-  console.log('PASS The Other Side touch/lite pipeline: actual photograph treatment, no multipass canvas filter and exact restoration.', litePixels);
-
-  const reduced = await open({ reduced: true });
-  const reducedBefore = await reduced.media.screenshot();
-  await reduced.page.keyboard.press('4');
-  assert.equal(await reduced.page.locator('html').getAttribute('data-mode'), 'xray');
-  assert.equal(await reduced.page.locator('html').getAttribute('data-xray-transition'), null, 'Reduced motion must not schedule the distortion transition.');
-  assert.ok((await pixelDifference(reducedBefore, await reduced.media.screenshot())).fraction > .15);
-  await reduced.page.keyboard.press('4');
-  assert.equal(await reduced.media.evaluate((element) => getComputedStyle(element).filter), 'none');
-  assert.equal((await pixelDifference(reducedBefore, await reduced.media.screenshot())).pixelsChanged, 0);
-  assert.deepEqual(reduced.errors, []);
-  await reduced.context.close();
-  console.log('PASS The Other Side reduced motion: immediate treatment and clean restoration.');
-
-  // Exercise the real WebGL material as well as semantic image fixtures. The
-  // paused reduced-motion pose lets us verify original pixels after exit.
-  const heroContext = await browser.newContext({ viewport: { width: 1000, height: 760 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+async function verifyDormantControllerFixture() {
+  const fixture = await browser.newContext({ viewport: { width: 1200, height: 900 }, reducedMotion: 'reduce' });
   try {
-    const page = await heroContext.newPage();
+    const page = await fixture.newPage();
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto(new URL('/', baseURL).href, { waitUntil: 'networkidle' });
-    await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-    const canvas = page.locator('#logo-canvas');
-    const original = await canvas.screenshot();
-    await page.keyboard.press('4');
-    await settled(page, 'xray');
-    assert.equal(await canvas.evaluate((element) => getComputedStyle(element).filter), 'none', 'The animated canvas must not use a full-viewport compositor filter.');
-    const changed = await canvas.screenshot();
-    const difference = await pixelDifference(original, changed, { foregroundOnly: true });
-    assert.ok(difference.fraction > .15 && difference.meanChannelDelta > 8, 'The real hero must visibly change in the alternate mode.');
-    await page.keyboard.press('4');
-    await settled(page, 'normal');
-    assert.equal((await pixelDifference(original, await canvas.screenshot())).pixelsChanged, 0, 'Normal restores the original WebGL pixels exactly.');
+    await page.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
+    await normalPresentation(page);
+    await page.evaluate(async () => {
+      const { initXRay } = await import('/src/xray.js');
+      window.__xrayFixtureChanges = [];
+      let pressedAt = 0;
+      const down = (event) => { if (event.key === '4' && !event.repeat) pressedAt = performance.now(); };
+      const change = (event) => window.__xrayFixtureChanges.push({ mode: event.detail.mode, heldFor: performance.now() - pressedAt });
+      document.addEventListener('keydown', down, true);
+      document.addEventListener('h4:modechange', change);
+      window.__xrayFixtureDispose = initXRay();
+      window.__xrayFixtureCleanup = () => {
+        window.__xrayFixtureDispose();
+        document.removeEventListener('keydown', down, true);
+        document.removeEventListener('h4:modechange', change);
+      };
+    });
+    const changes = () => page.evaluate(() => window.__xrayFixtureChanges);
+    await page.keyboard.down('4');
+    const shortHold = await page.evaluate(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 850));
+      return document.documentElement.dataset.mode;
+    });
+    assert.equal(shortHold, 'normal', 'An 850ms hold must not activate the postponed mode.');
+    await page.keyboard.up('4');
+    await page.waitForTimeout(250);
+    assert.deepEqual(await changes(), [], 'Releasing before one second cancels activation.');
+
+    await page.keyboard.down('4');
+    await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray', null, { timeout: 2500 });
+    assert.deepEqual((await changes()).map((entry) => entry.mode), ['xray']);
+    assert.ok((await changes())[0].heldFor >= 1000, 'A real keyboard hold activates only after one full second.');
+    await page.keyboard.down('4'); // A second down while held is native key repeat.
+    await page.waitForTimeout(1100);
+    assert.deepEqual((await changes()).map((entry) => entry.mode), ['xray'], 'A held or repeated key toggles exactly once.');
+    await page.keyboard.up('4');
+    await page.keyboard.down('4');
+    await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal', null, { timeout: 2500 });
+    assert.deepEqual((await changes()).map((entry) => entry.mode), ['xray', 'normal'], 'Release followed by a new full hold returns to Normal.');
+    assert.ok((await changes())[1].heldFor >= 1000);
+    await page.keyboard.up('4');
+
+    await page.keyboard.down('4');
+    await page.waitForTimeout(400);
+    await page.evaluate(() => window.dispatchEvent(new Event('blur')));
+    await page.waitForTimeout(850);
+    assert.equal((await changes()).length, 2, 'Losing window focus cancels the pending hold.');
+    await page.keyboard.up('4');
+
+    await page.keyboard.down('4');
+    await page.waitForTimeout(400);
+    await page.evaluate(() => window.__xrayFixtureDispose());
+    await page.waitForTimeout(850);
+    assert.equal((await changes()).length, 2, 'Disposal cancels a pending hold.');
+    await page.keyboard.up('4');
+    await normalPresentation(page);
+    await page.keyboard.down('4');
+    await page.waitForTimeout(1100);
+    await page.keyboard.up('4');
+    assert.equal((await changes()).length, 2, 'A disposed controller leaves no keyboard shortcut listener.');
+    await normalPresentation(page);
+    await page.evaluate(() => window.__xrayFixtureCleanup());
     assert.deepEqual(errors, []);
-    await writeFile(new URL('hero-normal.png', artifacts), original);
-    await writeFile(new URL('hero-xray.png', artifacts), changed);
-    console.log('PASS The Other Side real WebGL hero: material processing without a canvas filter and exact original pixel restoration.', difference);
-  } finally { await heroContext.close(); }
-} finally {
-  await browser.close();
+    console.log('PASS isolated dormant controller: 850ms/release cancellation, one-second real key hold, repeat latch, release/new hold, blur cancellation and disposal cleanup; public feature flag unchanged.');
+  } finally { await fixture.close(); }
 }

@@ -1,0 +1,145 @@
+{
+  "generatedAt": "2026-10-24T17:25:59.952Z",
+  "baselineRevision": "9a46686",
+  "finalBranch": "feat/homepage-motion-refinement",
+  "buildAssets": [
+    "index-DX2Yi8zA.js",
+    "main-DzSND93U.js"
+  ],
+  "methodology": "Two fresh serial groups per build; first baseline then final, confirmation final then baseline. Home has six cold-browser runs per build, Work two. All runs retained; medians and ranges combine both groups.",
+  "conditions": "Lighthouse 13.5.0; Chromium 154; SwiftShader software GPU; simulated mobile Slow 4G; CPU slowdown 4x; 412x823 viewport with DPR1.75.",
+  "builds": {
+    "baseline": {
+      "sources": [
+        "refinement-baseline-summary.json",
+        "refinement-confirm-baseline-summary.json"
+      ],
+      "routes": {
+        "home-mobile": {
+          "runs": 6,
+          "medians": {
+            "performanceScore": 71,
+            "fcpMs": 1504.5511875,
+            "lcpMs": 2105.461425,
+            "totalBlockingTimeMs": 1882,
+            "cumulativeLayoutShift": 0.002386490642491831,
+            "speedIndexMs": 1929.7215199336697,
+            "totalTransferredBytes": 342642,
+            "transferredScriptBytes": 170560,
+            "uncompressedScriptBytes": 651000,
+            "requestCount": 8
+          },
+          "ranges": {
+            "performanceScore": [
+              71,
+              72
+            ],
+            "lcpMs": [
+              2103.6700499999997,
+              2112.22815
+            ],
+            "totalBlockingTimeMs": [
+              1752,
+              1980
+            ]
+          }
+        },
+        "work-mobile": {
+          "runs": 2,
+          "medians": {
+            "performanceScore": 100,
+            "fcpMs": 1115.2725500000001,
+            "lcpMs": 1121.2725500000001,
+            "totalBlockingTimeMs": 0,
+            "cumulativeLayoutShift": 0,
+            "speedIndexMs": 1115.2725500000001,
+            "totalTransferredBytes": 29357,
+            "transferredScriptBytes": 18248,
+            "uncompressedScriptBytes": 53302,
+            "requestCount": 4
+          },
+          "ranges": {
+            "performanceScore": [
+              100,
+              100
+            ],
+            "lcpMs": [
+              1118.8304,
+              1123.7147
+            ],
+            "totalBlockingTimeMs": [
+              0,
+              0
+            ]
+          }
+        }
+      }
+    },
+    "final": {
+      "sources": [
+        "refinement-final-summary.json",
+        "refinement-confirm-final-summary.json"
+      ],
+      "routes": {
+        "home-mobile": {
+          "runs": 6,
+          "medians": {
+            "performanceScore": 71,
+            "fcpMs": 1523.5965625,
+            "lcpMs": 2103.3612,
+            "totalBlockingTimeMs": 2083.5,
+            "cumulativeLayoutShift": 0.002386490642491831,
+            "speedIndexMs": 2015.7595526093896,
+            "totalTransferredBytes": 342756,
+            "transferredScriptBytes": 171033,
+            "uncompressedScriptBytes": 651109,
+            "requestCount": 8
+          },
+          "ranges": {
+            "performanceScore": [
+              70,
+              71
+            ],
+            "lcpMs": [
+              2008.4980500000001,
+              2107.1702999999998
+            ],
+            "totalBlockingTimeMs": [
+              1834,
+              2207.5
+            ]
+          }
+        },
+        "work-mobile": {
+          "runs": 2,
+          "medians": {
+            "performanceScore": 100,
+            "fcpMs": 1111.21295,
+            "lcpMs": 1111.21295,
+            "totalBlockingTimeMs": 0,
+            "cumulativeLayoutShift": 0,
+            "speedIndexMs": 1111.21295,
+            "totalTransferredBytes": 29223,
+            "transferredScriptBytes": 18484,
+            "uncompressedScriptBytes": 53706,
+            "requestCount": 4
+          },
+          "ranges": {
+            "performanceScore": [
+              100,
+              100
+            ],
+            "lcpMs": [
+              1051.5376,
+              1170.8883
+            ],
+            "totalBlockingTimeMs": [
+              0,
+              0
+            ]
+          }
+        }
+      }
+    }
+  }
+}
