@@ -119,6 +119,11 @@ function fixture({ mode = 'xray', reduced = false, fine = true } = {}) {
   return { doc, view, target, visual, controller, batches, media, step, advance, send,
     setTransform(value) { transform = value; },
     setRect(value) { rect = value; },
+    transition(type, propertyName = 'transform', target = visual) {
+      const event = new Event(type);
+      Object.defineProperties(event, { target: { value: target }, propertyName: { value: propertyName } });
+      doc.dispatchEvent(event);
+    },
     get layoutReads() { return layoutReads; }, get styleReads() { return styleReads; }, get pending() { return frames.size + timers.size; } };
 }
 
@@ -240,4 +245,79 @@ test('navigation and blur stay suspended until their matching resume events', ()
     assert.equal(f.pending, 0);
     f.controller.dispose();
   }
+});
+
+test('real CSS transition events recover growth and contraction when stalled RAF expires the original window', () => {
+  const f = fixture();
+  f.controller.track({ target: f.target, visual: f.visual }, 400);
+  const originalReads = f.layoutReads;
+  const baseline = f.batches[0].samples[0];
+  // Reproduce the browser failure: the original observer's only RAF arrives
+  // seconds late, before CSS has started, and still sees an identity matrix.
+  f.step(3200);
+  assert.equal(f.pending, 0);
+  close(f.batches.at(-1).samples[0].width, 200, 'The stalled original observation is still unexpanded');
+  f.advance(100);
+  f.transition('transitionrun');
+  f.transition('transitionstart');
+  assert.ok(f.pending > 0, 'The real CSS start rearms a finite observer using its cached footprint.');
+  f.setTransform('matrix(1.2, 0, 0, 1.2, 0, 0)');
+  f.advance(300);
+  f.transition('transitionend');
+  f.advance(100);
+  const expanded = f.batches.at(-1).samples[0];
+  close(expanded.width, 240, 'Actual transition completion publishes the resolved enlarged pose before departure');
+  assert.ok(expanded.points[1].x > baseline.points[1].x);
+  assert.ok(expanded.points[0].y < baseline.points[0].y && expanded.points[3].y > baseline.points[3].y);
+  assert.equal(f.layoutReads, originalReads, 'Late native transition events never remeasure geometry.');
+  assert.equal(f.pending, 0);
+
+  // Release after a settled enlargement gets a new cached session; CSS can
+  // again start later than its initial observation window.
+  f.setRect({ left: 120, top: 236, width: 240, height: 48 });
+  f.controller.track({ target: f.target, visual: f.visual }, 400);
+  const releaseReads = f.layoutReads;
+  f.step(3200);
+  assert.equal(f.pending, 0);
+  f.advance(100);
+  f.transition('transitionrun');
+  f.transition('transitionstart');
+  f.setTransform('matrix(1, 0, 0, 1, 0, 0)');
+  f.advance(340);
+  f.transition('transitionend');
+  f.advance(100);
+  const contracted = f.batches.at(-1).samples[0];
+  close(contracted.width, 200, 'The final resolved release returns to the exact base width');
+  close(contracted.points[1].x - expanded.points[1].x, -40, 'Release preserves its inward signed edge');
+  assert.ok(contracted.points[0].y > expanded.points[0].y && contracted.points[3].y < expanded.points[3].y);
+  assert.equal(f.layoutReads, releaseReads);
+  assert.equal(f.pending, 0, 'The rearmed observer also ends without an idle loop.');
+  assert.ok(f.batches.every((batch, index) => index === 0 || batch.time - f.batches[index - 1].time >= 1000 / 12 - 1));
+  f.controller.dispose();
+});
+
+test('a delayed end pose is immutable until bounded admission and non-transform events do not revive work', () => {
+  const f = fixture();
+  f.controller.track({ target: f.target, visual: f.visual }, 400);
+  f.advance(500);
+  assert.equal(f.pending, 0);
+  f.transition('transitionend', 'filter');
+  assert.equal(f.pending, 0);
+  f.transition('transitionend', 'transform', {});
+  assert.equal(f.pending, 0);
+  f.setTransform('matrix(1.2, 0, 0, 1.2, 0, 0)');
+  f.transition('transitionend');
+  // End occurs less than one sampling interval after the previous emission.
+  // A subsequent style change cannot erase the already captured final pose.
+  f.setTransform('matrix(1.1, 0, 0, 1.1, 0, 0)');
+  f.advance(120);
+  close(f.batches.at(-1).samples[0].width, 240, 'The resolved completion survives a delayed delivery');
+  assert.equal(f.pending, 0);
+  f.controller.reset();
+  const count = f.batches.length;
+  for (const type of ['transitionrun', 'transitionstart', 'transitionend', 'transitioncancel']) f.transition(type);
+  f.advance(200);
+  assert.equal(f.batches.length, count, 'Reset invalidates old visual contexts so late native events cannot revive them.');
+  assert.equal(f.pending, 0);
+  f.controller.dispose();
 });

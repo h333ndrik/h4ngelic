@@ -9,6 +9,7 @@ import { livingDecayDefaults } from '../src/data/livingDecaySettings.js';
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const destination = new URL('../artifacts/color-memory/', import.meta.url);
 const widths = (process.env.H4_COLOR_WIDTHS || '1000,390,320').split(',').map(Number);
+const recordVideo = process.env.H4_COLOR_VIDEO !== '0';
 await mkdir(destination, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -70,12 +71,49 @@ async function settleWorkSection(page) {
   await page.waitForTimeout(160);
 }
 
+async function nativeCanvasMemoryOracle(page) {
+  const result = await page.evaluate(async () => {
+    const { paintImageMemory } = await import('/src/image-memory.js');
+    const bitmap = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64; canvas.height = 8;
+      return { canvas, context: canvas.getContext('2d', { willReadFrequently: true }) };
+    };
+    const history = bitmap(), output = bitmap(), sourceB = bitmap();
+    history.context.fillStyle = '#050c19'; history.context.fillRect(0, 0, 64, 8);
+    history.context.fillStyle = '#f00500'; history.context.fillRect(8, 0, 8, 8);
+    sourceB.context.fillStyle = '#0000f5'; sourceB.context.fillRect(0, 0, 64, 8);
+    const center = () => {
+      const pixels = output.context.getImageData(0, 0, 64, 1).data;
+      let total = 0, weighted = 0;
+      for (let x = 0; x < 64; x++) {
+        const weight = Math.max(0, pixels[x * 4] - pixels[x * 4 + 2] - 20);
+        total += weight; weighted += (x + .5) * weight;
+      }
+      return total > 0 ? weighted / total : null;
+    };
+    const centers = [];
+    for (const offsetX of [8, 8, -8]) {
+      const cells = Array.from({ length: 8 }, (_, index) => ({ x: index * 8, y: 0, width: 8, height: 8,
+        offsetX, offsetY: 0, recovery: .015, bleed: 0, negative: 0 }));
+      paintImageMemory({ context: output.context, history: history.canvas, historyContext: history.context,
+        source: sourceB.canvas, width: 64, height: 8, cells });
+      centers.push(center());
+    }
+    const survivingColor = [...output.context.getImageData(20, 0, 1, 1).data];
+    return { centers, survivingColor, note: 'Controlled red source A / blue source B on native browser Canvas2D, not a DOM snapshot.' };
+  });
+  assert.deepEqual(result.centers, [20, 28, 20], 'Native browser pixels retain and successively move source A after source B replaces it.');
+  assert.ok(result.survivingColor[0] > 220 && result.survivingColor[2] > 0 && result.survivingColor[2] < 20);
+  return result;
+}
+
 try {
   for (const width of widths) {
     const mobile = width < 600;
     const context = await browser.newContext({ viewport: { width, height: mobile ? 844 : 760 }, deviceScaleFactor: 1,
       isMobile: mobile, hasTouch: mobile, reducedMotion: 'no-preference',
-      recordVideo: { dir: destination.pathname, size: { width: Math.min(width, 1000), height: mobile ? 844 : 760 } } });
+      recordVideo: recordVideo ? { dir: destination.pathname, size: { width: Math.min(width, 1000), height: mobile ? 844 : 760 } } : undefined });
     const errors = [], requests = [];
     const page = await context.newPage();
     const video = page.video();
@@ -117,6 +155,7 @@ try {
       const first = await state(page);
       assert.ok(first.ambient.width <= (mobile ? 512 : 1120) && first.ambient.height <= (mobile ? 768 : 800));
       assert.equal(await page.evaluate(() => window.__colorProbe.webgl), 0, 'The shared memory field must not add a WebGL renderer.');
+      const canvasMemoryOracle = await nativeCanvasMemoryOracle(page);
       await page.evaluate(defaults => window.__H4_CORRUPTION__.configureLivingDecay({ ...defaults,
         idleIntensity: 0, mutationSpeed: 0, negativeExposure: 0, colorBleeding: 0, recoverySpeed: .1,
         heroMosh: 0, sectionMosh: 0, typographyMosh: 0, hoverMosh: 0, clickMosh: 0, navigationMosh: 0,
@@ -149,11 +188,13 @@ try {
       const seed = reverse.ambient.seed;
       await page.evaluate(() => window.__H4_CORRUPTION__.configureLivingDecay({ navigationMosh: 1.25 }));
       const navigationStart = await state(page);
+      const navigationWallStarted = Date.now();
       await page.locator('.page-nav a[href="/about"]').click();
       await page.waitForURL(url => url.pathname === '/about');
       await settleNavigation(page, '.about-page');
       await settleMode(page, 'xray');
       const navigationEnd = await state(page);
+      const navigationWallMs = Date.now() - navigationWallStarted;
       assert.equal(await page.evaluate(() => window.__colorProbe.token), token, 'Internal navigation preserves the renderer document.');
       assert.equal(navigationEnd.ambient.seed, seed);
       assert.ok(navigationEnd.ambient.frames >= navigationStart.ambient.frames);
@@ -238,18 +279,22 @@ try {
         assert.match(enlarged.filter, /drop-shadow/, 'The sampled pixel effect must preserve the established white glow.');
         for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(hitBefore[key] - hitAfter[key]) < .5,
           'Hover visuals must not move the actual link hit target.');
-        const leaveAt = await page.evaluate(() => performance.now());
+        await page.waitForFunction(from => window.__colorProbe.impulses.slice(from).some(sample => sample.kind === 'hover-motion'
+          && sample.vectors?.reduce((sum, vector) => sum + vector.dx, 0) > .2), startIndex);
+        const leaveIndex = await page.evaluate(() => window.__colorProbe.impulses.length);
         await page.mouse.move(2, 2);
         await page.waitForFunction(() => {
           const target = document.querySelector('#selected-work .category-link');
           const scale = new DOMMatrixReadOnly(getComputedStyle(target.querySelector('.category-magnet')).transform).a;
           return !target.matches(':hover') && Math.abs(scale - 1) < .01;
         });
-        await page.waitForTimeout(200);
+        await page.waitForFunction(from => window.__colorProbe.impulses.slice(from).some(sample => sample.kind === 'hover-motion'
+          && sample.vectors?.reduce((sum, vector) => sum + vector.dx, 0) < -.2), leaveIndex);
         hover = await page.evaluate(({ from, leave }) => {
           const samples = window.__colorProbe.impulses.slice(from).filter(sample => sample.kind === 'hover-motion');
-          return { samples, growth: samples.filter(sample => sample.time < leave), contraction: samples.filter(sample => sample.time >= leave) };
-        }, { from: startIndex, leave: leaveAt });
+          return { samples, growth: window.__colorProbe.impulses.slice(from, leave).filter(sample => sample.kind === 'hover-motion'),
+            contraction: window.__colorProbe.impulses.slice(leave).filter(sample => sample.kind === 'hover-motion') };
+        }, { from: startIndex, leave: leaveIndex });
         assert.ok(hover.growth.some(sample => sample.vectors?.some(vector => Math.hypot(vector.dx, vector.dy) > .2)),
           'Resolved hover expansion must publish moving edges.');
         assert.ok(hover.contraction.some(sample => sample.vectors?.some(vector => Math.hypot(vector.dx, vector.dy) > .2)),
@@ -283,9 +328,10 @@ try {
       assert.ok(probe.transitions.some(event => event.kind === 'mode' && event.duration >= 750 && event.duration <= 1200));
       assert.ok(probe.transitions.some(event => event.kind === 'navigation' && event.duration >= 250 && event.duration <= 450));
       assert.deepEqual(errors, []);
-      reports.push({ width, mobile, enterWallMs, reverseWallMs, firstMotionPixels, secondMotionPixels, reversePixels,
+      reports.push({ width, mobile, recordedVideo: recordVideo, canvasMemoryOracle, enterWallMs, reverseWallMs, firstMotionPixels, secondMotionPixels, reversePixels,
         memoryBefore: beforeInput.ambient.memory, memoryAfter: reverse.ambient.memory,
-        parallax: { scrollPixels, parallaxPixels, ratio: parallaxRatio, sourceOffsetPixels, sourceOffsetRatio }, navigation: { before: navigationStart.ambient, after: navigationEnd.ambient },
+        parallax: { scrollPixels, parallaxPixels, ratio: parallaxRatio, sourceOffsetPixels, sourceOffsetRatio },
+        navigation: { wallMs: navigationWallMs, before: navigationStart.ambient, after: navigationEnd.ambient },
         heroSamples: hero.length, heroRelativeEdgeMotion, heroVectors, hover, transitions: probe.transitions, webglContexts: probe.webgl, errors,
         requestsThreeOnWorkOrAbout: nonHomeHeroRequests,
       });

@@ -27,6 +27,7 @@ export function createFiniteHoverMotion({ doc = document, publish, maximumHz = 1
   const fine = view.matchMedia('(hover: hover) and (pointer: fine)');
   const interval = 1000 / clamp(Number.isFinite(maximumHz) ? maximumHz : 12, 1, 12);
   const records = new Map();
+  let contexts = new WeakMap();
   const removers = [];
   let timer = 0, frame = 0, disposed = false, last = -Infinity, emitted = 0;
   let navigating = false, focused = typeof doc.hasFocus !== 'function' || doc.hasFocus();
@@ -34,8 +35,8 @@ export function createFiniteHoverMotion({ doc = document, publish, maximumHz = 1
     && doc.documentElement.dataset.mode === 'xray' && (typeof doc.hasFocus !== 'function' || doc.hasFocus());
   const now = () => view.performance.now();
   const listen = (target, type, handler) => {
-    target.addEventListener(type, handler);
-    removers.push(() => target.removeEventListener(type, handler));
+    target.addEventListener(type, handler, true);
+    removers.push(() => target.removeEventListener(type, handler, true));
   };
   const matrixOf = style => {
     try {
@@ -50,6 +51,7 @@ export function createFiniteHoverMotion({ doc = document, publish, maximumHz = 1
     view.cancelAnimationFrame(frame);
     timer = frame = 0;
     records.clear();
+    contexts = new WeakMap();
     last = -Infinity;
   }
 
@@ -83,9 +85,9 @@ export function createFiniteHoverMotion({ doc = document, publish, maximumHz = 1
     const samples = [];
     for (const [target, record] of records) {
       if (target.isConnected === false || record.visual.isConnected === false) { records.delete(target); continue; }
-      const style = view.getComputedStyle(record.visual);
-      if (style.display === 'none' || style.visibility === 'hidden') { records.delete(target); continue; }
-      const value = sample(record, style);
+      const style = record.endPose ? null : view.getComputedStyle(record.visual);
+      if (style && (style.display === 'none' || style.visibility === 'hidden')) { records.delete(target); continue; }
+      const value = record.endPose || sample(record, style);
       if (value) samples.push(value);
       // Include one final resolved pose after the transition duration. Its
       // signed edge movement is needed for a full contraction, then stop.
@@ -127,7 +129,8 @@ export function createFiniteHoverMotion({ doc = document, publish, maximumHz = 1
       if (corners.length !== 4) return false;
       footprint.left = rect.left + (view.scrollX || 0) - Math.min(...corners.map(point => point.x));
       footprint.top = rect.top + (view.scrollY || 0) - Math.min(...corners.map(point => point.y));
-      record = { target, visual, footprint, until: time };
+      record = { target, visual, footprint, until: time, duration: 400, endPose: null };
+      contexts.set(visual, record);
       while (records.size >= 8) records.delete(records.keys().next().value);
       records.set(target, record);
       // Establish the baseline immediately when possible, before the first
@@ -137,11 +140,41 @@ export function createFiniteHoverMotion({ doc = document, publish, maximumHz = 1
         if (baseline) { last = time; emitted++; publish?.([baseline], time); }
       }
     }
-    record.until = time + clamp(Number.isFinite(durationMs) ? durationMs : 400, 80, 1200);
+    record.duration = clamp(Number.isFinite(durationMs) ? durationMs : 400, 80, 1200);
+    record.until = time + record.duration;
+    record.endPose = null;
     schedule();
     return true;
   }
 
+  function actualTransition(event) {
+    if (event.propertyName !== 'transform' || !active()) return;
+    const record = contexts.get(event.target);
+    if (!record || record.target.isConnected === false || record.visual.isConnected === false) return;
+    const time = now();
+    // A blocked main thread can consume the original observation window
+    // before CSS has even started. Native transition events establish the
+    // real animation lifetime, using the original cached footprint.
+    if (event.type === 'transitionrun' || event.type === 'transitionstart') {
+      record.until = time + record.duration;
+      record.endPose = null;
+    } else {
+      // Capture the resolved final pose at the actual end, even if a stalled
+      // RAF already expired its wall-clock window. Keep this immutable pose
+      // until the bounded publisher can admit it; do not reread geometry.
+      record.endPose = sample(record, view.getComputedStyle(record.visual));
+      record.until = time;
+    }
+    while (records.size >= 8 && !records.has(record.target)) records.delete(records.keys().next().value);
+    records.set(record.target, record);
+    if (record.endPose && time - last + .01 >= interval) {
+      view.clearTimeout(timer); view.cancelAnimationFrame(frame);
+      timer = frame = 0;
+      tick(time);
+    } else schedule();
+  }
+
+  for (const type of ['transitionrun', 'transitionstart', 'transitionend', 'transitioncancel']) listen(doc, type, actualTransition);
   listen(doc, 'h4:navigationstart', () => { navigating = true; reset(); });
   listen(doc, 'h4:pagechange', () => { navigating = false; reset(); });
   for (const type of ['h4:modechange', 'visibilitychange']) listen(doc, type, reset);
