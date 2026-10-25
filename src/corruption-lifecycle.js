@@ -24,7 +24,9 @@ export function initCorruptionLifecycle(doc = document) {
       if (disposed) { created.dispose(); return; }
       controller = created;
       controller.setActive(doc.documentElement.dataset.mode === 'xray');
-      if (pendingTransition && doc.documentElement.dataset.mode === 'xray') controller.transition(pendingTransition);
+      // Creation can finish between native snapshot intent and its commit.
+      // The controller retains this numeric intent until activation as well.
+      if (pendingTransition) controller.transition(pendingTransition);
       pendingTransition = null;
       if (pendingImpulse && performance.now() - pendingImpulse.time <= temporalMoshSettings.maximumPendingAgeMs) {
         controller.impulse(pendingImpulse.detail);

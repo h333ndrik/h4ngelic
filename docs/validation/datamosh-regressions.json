@@ -1,0 +1,149 @@
+{
+  "startedAt": "2026-10-25T20:36:37.567Z",
+  "group": "dev",
+  "base": "http://127.0.0.1:5173",
+  "tests": [
+    "navigation-browser.mjs",
+    "artwork-transitions-browser.mjs",
+    "gallery-browser.mjs",
+    "corruption-browser.mjs",
+    "xray-browser.mjs",
+    "mode-snapshot-browser.mjs",
+    "mode-snapshot-modal-browser.mjs",
+    "mode-audio-browser.mjs",
+    "ref09-mode-cancel-browser.mjs",
+    "ref09-icons-browser.mjs",
+    "scroll-browser.mjs",
+    "hover-browser.mjs",
+    "microinteractions-browser.mjs",
+    "wordmark-corruption-browser.mjs",
+    "browser.mjs"
+  ],
+  "completed": [
+    {
+      "file": "navigation-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 25263
+    },
+    {
+      "file": "artwork-transitions-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 17161
+    },
+    {
+      "file": "gallery-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 10828
+    },
+    {
+      "file": "corruption-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 31297
+    },
+    {
+      "file": "xray-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 116375
+    },
+    {
+      "file": "mode-snapshot-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 6163
+    },
+    {
+      "file": "mode-snapshot-modal-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 4809
+    },
+    {
+      "file": "mode-audio-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 15282
+    },
+    {
+      "file": "ref09-mode-cancel-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 3826
+    },
+    {
+      "file": "ref09-icons-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 114227
+    },
+    {
+      "file": "scroll-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 38149
+    },
+    {
+      "file": "hover-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 63751
+    },
+    {
+      "file": "microinteractions-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 13520
+    },
+    {
+      "file": "wordmark-corruption-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 13212
+    },
+    {
+      "file": "browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 46156
+    }
+  ],
+  "passed": true,
+  "previousFailures": [
+    {
+      "file": "xray-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 68386
+    },
+    {
+      "file": "ref09-icons-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 42427
+    },
+    {
+      "file": "ref09-icons-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 77560
+    },
+    {
+      "file": "scroll-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 29505
+    },
+    {
+      "file": "browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 26844
+    }
+  ],
+  "resumedAt": "2026-10-25T20:58:02.125Z",
+  "finishedAt": "2026-10-25T20:58:48.283Z"
+}

@@ -1,0 +1,2806 @@
+{
+  "measuredAt": "2026-10-25T19:36:37.779Z",
+  "note": "Headless Chromium with software WebGL. Motion integration and pixel tests; not physical-device frame-rate measurements.",
+  "reports": [
+    {
+      "width": 1000,
+      "mobile": false,
+      "recordedVideo": false,
+      "canvasMemoryOracle": {
+        "centers": [
+          20,
+          28,
+          20
+        ],
+        "survivingColor": [
+          228,
+          2,
+          10,
+          255
+        ],
+        "note": "Controlled red source A / blue source B on native browser Canvas2D, not a DOM snapshot."
+      },
+      "enterWallMs": 8489,
+      "reverseWallMs": 2341,
+      "firstMotionPixels": {
+        "changed": 281815,
+        "meanChannelDelta": 7.635841666666667,
+        "pixels": 760000
+      },
+      "secondMotionPixels": {
+        "changed": 73654,
+        "meanChannelDelta": 1.1300605263157895,
+        "pixels": 760000
+      },
+      "reversePixels": {
+        "changed": 2549,
+        "meanChannelDelta": 0.028728508771929825,
+        "pixels": 760000
+      },
+      "memoryBefore": {
+        "cells": 1008,
+        "columns": 36,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 19,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 12
+        },
+        "energy": 0.5267527298885702,
+        "maxEnergy": 0.5607691504030975,
+        "movingCells": 999,
+        "heldCells": 0
+      },
+      "memoryAfter": {
+        "cells": 1008,
+        "columns": 36,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 28,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 12,
+          "cursor": 9
+        },
+        "energy": 0.48855013104249406,
+        "maxEnergy": 0.5677324418564459,
+        "movingCells": 14,
+        "heldCells": 11
+      },
+      "parallax": {
+        "scrollPixels": 180,
+        "parallaxPixels": 72,
+        "ratio": 0.4,
+        "sourceOffsetPixels": 62.27915785571816,
+        "sourceOffsetRatio": 0.3459953214206565
+      },
+      "navigation": {
+        "wallMs": 1240,
+        "before": {
+          "active": true,
+          "queued": true,
+          "frames": 21,
+          "elapsed": 5.066637999999999,
+          "seed": 3791321642,
+          "regenerations": 0,
+          "width": 1000,
+          "height": 760,
+          "framesPerSecond": 6,
+          "quality": "desktop",
+          "drawMs": [
+            438.09999999962747,
+            51.90000000037253,
+            41.69999999925494,
+            21.300000000745058,
+            13,
+            10.400000000372529,
+            8,
+            11.700000001117587,
+            6.099999999627471,
+            9.400000000372529,
+            11.700000001117587,
+            6.699999999254942,
+            5.400000000372529,
+            4.700000001117587,
+            3.900000000372529,
+            3.5,
+            3.599999999627471,
+            3,
+            2.899999998509884,
+            2.700000001117587,
+            5.299999998882413
+          ],
+          "preparationMs": 432.5,
+          "viewport": {
+            "width": 1000,
+            "height": 760
+          },
+          "settings": {
+            "seed": null,
+            "idleIntensity": 0,
+            "mutationSpeed": 0,
+            "scrollStrength": 1.15,
+            "scrollInertia": 0.72,
+            "scrollMosh": 1.1,
+            "sectionMosh": 0,
+            "typographyMosh": 0,
+            "heroMosh": 0,
+            "cursorRadius": 35,
+            "cursorMosh": 2,
+            "hoverMosh": 0,
+            "clickMosh": 0,
+            "navigationMosh": 1.25,
+            "feedbackPersistence": 0.99,
+            "pixelDisplacement": 1.35,
+            "colorBleeding": 0,
+            "negativeExposure": 0,
+            "recoverySpeed": 0.1,
+            "parallaxStrength": 0.4,
+            "modeTransitionMs": 950,
+            "navigationTransitionMs": 340,
+            "blockSize": 28,
+            "organicDecay": 1.15,
+            "colorVariation": 1.15,
+            "voidCoverage": 0.34,
+            "bleachCoverage": 0.3
+          },
+          "composition": {
+            "seed": 3791321642,
+            "source": {
+              "scale": 1.3653408173657955,
+              "x": 0.4379365269560367,
+              "y": 0.8041109254118055,
+              "angle": -0.25958052908536045,
+              "flip": 1
+            },
+            "flow": {
+              "x": -0.11971133574978726,
+              "y": -0.992808740943089,
+              "speed": 0.9652062970679254,
+              "curl": 0.361355297267437
+            },
+            "tint": {
+              "violet": 0.8128094539511949,
+              "green": 1.1470793841406703,
+              "warm": 0.2573590718721971
+            },
+            "field": {
+              "x": 33.499807859770954,
+              "y": 17.69789766287431,
+              "stretch": 1.3853589352220297,
+              "frequency": 2.5103506740182637,
+              "voidBias": 0.03136897481046617,
+              "bleachBias": -0.005256181173026561
+            },
+            "controls": {
+              "seed": 3791321642,
+              "idleIntensity": 0.45,
+              "mutationSpeed": 0.22,
+              "scrollStrength": 1.15,
+              "scrollInertia": 0.72,
+              "scrollMosh": 1.1,
+              "sectionMosh": 0.9,
+              "typographyMosh": 0.8,
+              "heroMosh": 1.35,
+              "cursorRadius": 35,
+              "cursorMosh": 1.25,
+              "hoverMosh": 1.1,
+              "clickMosh": 1.4,
+              "navigationMosh": 1.25,
+              "feedbackPersistence": 0.96,
+              "pixelDisplacement": 1.35,
+              "colorBleeding": 0.55,
+              "negativeExposure": 0.14,
+              "recoverySpeed": 0.8,
+              "parallaxStrength": 0.4,
+              "modeTransitionMs": 950,
+              "navigationTransitionMs": 340,
+              "blockSize": 28,
+              "organicDecay": 1.15,
+              "colorVariation": 1.15,
+              "voidCoverage": 0.34,
+              "bleachCoverage": 0.3
+            }
+          },
+          "motion": {
+            "x": 0,
+            "y": 0,
+            "strength": 0
+          },
+          "memory": {
+            "cells": 1008,
+            "columns": 36,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 28,
+            "byKind": {
+              "mode": 6,
+              "section": 1,
+              "idle": 12,
+              "cursor": 9
+            },
+            "energy": 0.48855013104249406,
+            "maxEnergy": 0.5677324418564459,
+            "movingCells": 14,
+            "heldCells": 11
+          },
+          "parallax": {
+            "x": 0,
+            "y": 0,
+            "offsetX": 0,
+            "offsetY": 0,
+            "sourceX": 150,
+            "sourceY": 114,
+            "strength": 0.4
+          },
+          "advectedBlocks": 12616,
+          "recoveredBlocks": 20160,
+          "carriedSurfaces": 0,
+          "activeFramesPerSecond": 18,
+          "material": {
+            "width": 1000,
+            "height": 760,
+            "codecFragments": 156,
+            "sourceReadback": true
+          }
+        },
+        "after": {
+          "active": true,
+          "queued": true,
+          "frames": 25,
+          "elapsed": 6.299838,
+          "seed": 3791321642,
+          "regenerations": 0,
+          "width": 1000,
+          "height": 760,
+          "framesPerSecond": 6,
+          "quality": "desktop",
+          "drawMs": [
+            438.09999999962747,
+            51.90000000037253,
+            41.69999999925494,
+            21.300000000745058,
+            13,
+            10.400000000372529,
+            8,
+            11.700000001117587,
+            6.099999999627471,
+            9.400000000372529,
+            11.700000001117587,
+            6.699999999254942,
+            5.400000000372529,
+            4.700000001117587,
+            3.900000000372529,
+            3.5,
+            3.599999999627471,
+            3,
+            2.899999998509884,
+            2.700000001117587,
+            5.299999998882413,
+            3.700000001117587,
+            4.5,
+            9.099999999627471,
+            12.400000000372529
+          ],
+          "preparationMs": 432.5,
+          "viewport": {
+            "width": 1000,
+            "height": 760
+          },
+          "settings": {
+            "seed": null,
+            "idleIntensity": 0,
+            "mutationSpeed": 0,
+            "scrollStrength": 1.15,
+            "scrollInertia": 0.72,
+            "scrollMosh": 1.1,
+            "sectionMosh": 0,
+            "typographyMosh": 0,
+            "heroMosh": 0,
+            "cursorRadius": 35,
+            "cursorMosh": 2,
+            "hoverMosh": 0,
+            "clickMosh": 0,
+            "navigationMosh": 1.25,
+            "feedbackPersistence": 0.99,
+            "pixelDisplacement": 1.35,
+            "colorBleeding": 0,
+            "negativeExposure": 0,
+            "recoverySpeed": 0.1,
+            "parallaxStrength": 0.4,
+            "modeTransitionMs": 950,
+            "navigationTransitionMs": 340,
+            "blockSize": 28,
+            "organicDecay": 1.15,
+            "colorVariation": 1.15,
+            "voidCoverage": 0.34,
+            "bleachCoverage": 0.3
+          },
+          "composition": {
+            "seed": 3791321642,
+            "source": {
+              "scale": 1.3653408173657955,
+              "x": 0.4379365269560367,
+              "y": 0.8041109254118055,
+              "angle": -0.25958052908536045,
+              "flip": 1
+            },
+            "flow": {
+              "x": -0.11971133574978726,
+              "y": -0.992808740943089,
+              "speed": 0.9652062970679254,
+              "curl": 0.361355297267437
+            },
+            "tint": {
+              "violet": 0.8128094539511949,
+              "green": 1.1470793841406703,
+              "warm": 0.2573590718721971
+            },
+            "field": {
+              "x": 33.499807859770954,
+              "y": 17.69789766287431,
+              "stretch": 1.3853589352220297,
+              "frequency": 2.5103506740182637,
+              "voidBias": 0.03136897481046617,
+              "bleachBias": -0.005256181173026561
+            },
+            "controls": {
+              "seed": 3791321642,
+              "idleIntensity": 0.45,
+              "mutationSpeed": 0.22,
+              "scrollStrength": 1.15,
+              "scrollInertia": 0.72,
+              "scrollMosh": 1.1,
+              "sectionMosh": 0.9,
+              "typographyMosh": 0.8,
+              "heroMosh": 1.35,
+              "cursorRadius": 35,
+              "cursorMosh": 1.25,
+              "hoverMosh": 1.1,
+              "clickMosh": 1.4,
+              "navigationMosh": 1.25,
+              "feedbackPersistence": 0.96,
+              "pixelDisplacement": 1.35,
+              "colorBleeding": 0.55,
+              "negativeExposure": 0.14,
+              "recoverySpeed": 0.8,
+              "parallaxStrength": 0.4,
+              "modeTransitionMs": 950,
+              "navigationTransitionMs": 340,
+              "blockSize": 28,
+              "organicDecay": 1.15,
+              "colorVariation": 1.15,
+              "voidCoverage": 0.34,
+              "bleachCoverage": 0.3
+            }
+          },
+          "motion": {
+            "x": 0,
+            "y": 0,
+            "strength": 0
+          },
+          "memory": {
+            "cells": 1008,
+            "columns": 36,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 42,
+            "byKind": {
+              "mode": 6,
+              "section": 1,
+              "idle": 12,
+              "cursor": 17,
+              "navigation": 6
+            },
+            "energy": 0.4848081508118743,
+            "maxEnergy": 0.9824901114218062,
+            "movingCells": 194,
+            "heldCells": 68
+          },
+          "parallax": {
+            "x": 0,
+            "y": 0,
+            "offsetX": 0,
+            "offsetY": 0,
+            "sourceX": 150,
+            "sourceY": 114,
+            "strength": 0.4
+          },
+          "advectedBlocks": 13395,
+          "recoveredBlocks": 24192,
+          "carriedSurfaces": 0,
+          "activeFramesPerSecond": 18,
+          "material": {
+            "width": 1000,
+            "height": 760,
+            "codecFragments": 156,
+            "sourceReadback": true
+          }
+        }
+      },
+      "heroSamples": 7,
+      "heroRelativeEdgeMotion": 47.226764709770855,
+      "heroVectors": [
+        {
+          "kind": "logo",
+          "time": 30712.10000000149,
+          "x": 541.7855403241549,
+          "y": 357.5913339250377,
+          "dx": 6.56079249597849,
+          "dy": -2.5199965933339854,
+          "deltaMs": 200,
+          "strength": 0.12682693404617112,
+          "vectors": [
+            {
+              "x": 183.1106976096425,
+              "y": 387.65820388366626,
+              "dx": 5.162111594786921,
+              "dy": -17.76489683080092,
+              "weight": 1
+            },
+            {
+              "x": 757.204400137623,
+              "y": 379.65882180718665,
+              "dx": -15.979354618230559,
+              "dy": -13.16160154039909,
+              "weight": 1
+            },
+            {
+              "x": 218.63276165397406,
+              "y": 279.14479475494,
+              "dx": 24.71237257804333,
+              "dy": 4.199604310433074,
+              "weight": 1
+            },
+            {
+              "x": 837.3931281549203,
+              "y": 295.69752102061136,
+              "dx": -1.0930779059589213,
+              "dy": 7.69415994401146,
+              "weight": 1
+            },
+            {
+              "x": 189.8821001566892,
+              "y": 431.2023976910343,
+              "dx": 6.07906509455384,
+              "dy": -12.672548353103252,
+              "weight": 1
+            },
+            {
+              "x": 772.082956279349,
+              "y": 413.51921701309317,
+              "dx": -18.84223152351433,
+              "dy": -10.333968067971341,
+              "weight": 1
+            },
+            {
+              "x": 227.0639402018631,
+              "y": 325.4815089749442,
+              "dx": 26.061508131535646,
+              "dy": 11.664994299524153,
+              "weight": 1
+            },
+            {
+              "x": 855.112163738148,
+              "y": 331.1961185918643,
+              "dx": -4.3377250863485415,
+              "dy": 11.813977518811669,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 31344.300000000745,
+          "x": 556.0805780694334,
+          "y": 353.5799959851291,
+          "dx": 6.52671997893583,
+          "dy": -1.080175409921253,
+          "deltaMs": 250,
+          "strength": 0.14096050933576398,
+          "vectors": [
+            {
+              "x": 203.7027115353025,
+              "y": 342.8702829584865,
+              "dx": 15.536548950093163,
+              "dy": -24.447878552464317,
+              "weight": 1
+            },
+            {
+              "x": 719.2706588825317,
+              "y": 350.9888033822196,
+              "dx": -19.975770068485303,
+              "dy": -13.658406978592211,
+              "weight": 1
+            },
+            {
+              "x": 291.2741737457393,
+              "y": 298.085457565768,
+              "dx": 44.15651271181855,
+              "dy": 14.459853393838614,
+              "weight": 1
+            },
+            {
+              "x": 827.7368539445112,
+              "y": 320.3828658707895,
+              "dx": -9.379772438462396,
+              "dy": 15.786489962707662,
+              "weight": 1
+            },
+            {
+              "x": 207.99169549034377,
+              "y": 395.9092576200646,
+              "dx": 11.76570559208912,
+              "dy": -20.854089680544917,
+              "weight": 1
+            },
+            {
+              "x": 724.9453491349882,
+              "y": 389.02957810732096,
+              "dx": -25.894804418211834,
+              "dy": -12.746889127573638,
+              "weight": 1
+            },
+            {
+              "x": 296.7546681408233,
+              "y": 357.8843585380665,
+              "dx": 39.32892324345369,
+              "dy": 19.086128998427,
+              "weight": 1
+            },
+            {
+              "x": 834.5162079731729,
+              "y": 361.77548760141144,
+              "dx": -16.503564318085523,
+              "dy": 16.893692949765466,
+              "weight": 1
+            }
+          ]
+        }
+      ],
+      "hover": {
+        "samples": [
+          {
+            "kind": "hover-motion",
+            "time": 47126.10000000149,
+            "x": 151.10000000000002,
+            "y": 261.58203000000003,
+            "dx": 19.200000000000017,
+            "dy": -0.023439999999993688,
+            "deltaMs": 160,
+            "strength": 0.15901207572614903,
+            "vectors": [
+              {
+                "x": 47.15,
+                "y": 229.68203,
+                "dx": 0.29999999999999716,
+                "dy": -5.823440000000005,
+                "weight": 1
+              },
+              {
+                "x": 255.05,
+                "y": 229.68203,
+                "dx": 38.10000000000002,
+                "dy": -5.823440000000005,
+                "weight": 1
+              },
+              {
+                "x": 255.05,
+                "y": 293.48203,
+                "dx": 38.10000000000002,
+                "dy": 5.776560000000018,
+                "weight": 1
+              },
+              {
+                "x": 47.15,
+                "y": 293.48203,
+                "dx": 0.29999999999999716,
+                "dy": 5.776560000000018,
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "kind": "hover-motion",
+            "time": 57718.70000000112,
+            "x": 151.09999923706056,
+            "y": 261.5820294482421,
+            "dx": -19.200000000000017,
+            "dy": 0.023439999999993688,
+            "deltaMs": 160,
+            "strength": 0.15901207572614903,
+            "vectors": [
+              {
+                "x": 47.14999923706055,
+                "y": 229.68202944824208,
+                "dx": -0.29999999999999716,
+                "dy": 5.823440000000005,
+                "weight": 1
+              },
+              {
+                "x": 255.04999923706055,
+                "y": 229.68202944824208,
+                "dx": -38.10000000000002,
+                "dy": 5.823440000000005,
+                "weight": 1
+              },
+              {
+                "x": 255.04999923706055,
+                "y": 293.4820294482421,
+                "dx": -38.10000000000002,
+                "dy": -5.776560000000018,
+                "weight": 1
+              },
+              {
+                "x": 47.14999923706055,
+                "y": 293.4820294482421,
+                "dx": -0.29999999999999716,
+                "dy": -5.776560000000018,
+                "weight": 1
+              }
+            ]
+          }
+        ],
+        "growth": [
+          {
+            "kind": "hover-motion",
+            "time": 47126.10000000149,
+            "x": 151.10000000000002,
+            "y": 261.58203000000003,
+            "dx": 19.200000000000017,
+            "dy": -0.023439999999993688,
+            "deltaMs": 160,
+            "strength": 0.15901207572614903,
+            "vectors": [
+              {
+                "x": 47.15,
+                "y": 229.68203,
+                "dx": 0.29999999999999716,
+                "dy": -5.823440000000005,
+                "weight": 1
+              },
+              {
+                "x": 255.05,
+                "y": 229.68203,
+                "dx": 38.10000000000002,
+                "dy": -5.823440000000005,
+                "weight": 1
+              },
+              {
+                "x": 255.05,
+                "y": 293.48203,
+                "dx": 38.10000000000002,
+                "dy": 5.776560000000018,
+                "weight": 1
+              },
+              {
+                "x": 47.15,
+                "y": 293.48203,
+                "dx": 0.29999999999999716,
+                "dy": 5.776560000000018,
+                "weight": 1
+              }
+            ]
+          }
+        ],
+        "contraction": [
+          {
+            "kind": "hover-motion",
+            "time": 57718.70000000112,
+            "x": 151.09999923706056,
+            "y": 261.5820294482421,
+            "dx": -19.200000000000017,
+            "dy": 0.023439999999993688,
+            "deltaMs": 160,
+            "strength": 0.15901207572614903,
+            "vectors": [
+              {
+                "x": 47.14999923706055,
+                "y": 229.68202944824208,
+                "dx": -0.29999999999999716,
+                "dy": 5.823440000000005,
+                "weight": 1
+              },
+              {
+                "x": 255.04999923706055,
+                "y": 229.68202944824208,
+                "dx": -38.10000000000002,
+                "dy": 5.823440000000005,
+                "weight": 1
+              },
+              {
+                "x": 255.04999923706055,
+                "y": 293.4820294482421,
+                "dx": -38.10000000000002,
+                "dy": -5.776560000000018,
+                "weight": 1
+              },
+              {
+                "x": 47.14999923706055,
+                "y": 293.4820294482421,
+                "dx": -0.29999999999999716,
+                "dy": -5.776560000000018,
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      },
+      "transitions": [
+        {
+          "kind": "mode",
+          "mode": "xray",
+          "duration": 950,
+          "direction": "entering",
+          "strength": 1,
+          "variant": 4194155019,
+          "x": 500,
+          "y": 380,
+          "at": 2161.60000000149
+        },
+        {
+          "kind": "navigation",
+          "duration": 340,
+          "direction": "forward",
+          "strength": 1,
+          "variant": 2792894725,
+          "x": 500,
+          "y": 380,
+          "at": 20413
+        },
+        {
+          "kind": "navigation",
+          "duration": 340,
+          "direction": "forward",
+          "strength": 1,
+          "variant": 3380340828,
+          "x": 500,
+          "y": 380,
+          "at": 23038.10000000149
+        },
+        {
+          "kind": "mode",
+          "mode": "normal",
+          "duration": 950,
+          "direction": "leaving",
+          "strength": 1,
+          "variant": 3753164548,
+          "x": 500,
+          "y": 380,
+          "at": 60312.300000000745
+        }
+      ],
+      "webglContexts": 1,
+      "errors": [],
+      "requestsThreeOnWorkOrAbout": []
+    },
+    {
+      "width": 390,
+      "mobile": true,
+      "recordedVideo": false,
+      "canvasMemoryOracle": {
+        "centers": [
+          20,
+          28,
+          20
+        ],
+        "survivingColor": [
+          228,
+          2,
+          10,
+          255
+        ],
+        "note": "Controlled red source A / blue source B on native browser Canvas2D, not a DOM snapshot."
+      },
+      "enterWallMs": 4310,
+      "reverseWallMs": 1384,
+      "firstMotionPixels": {
+        "changed": 219490,
+        "meanChannelDelta": 16.761049980438184,
+        "pixels": 272640
+      },
+      "secondMotionPixels": {
+        "changed": 62483,
+        "meanChannelDelta": 2.084114583333333,
+        "pixels": 272640
+      },
+      "reversePixels": {
+        "changed": 10131,
+        "meanChannelDelta": 0.6130636248043818,
+        "pixels": 272640
+      },
+      "memoryBefore": {
+        "cells": 364,
+        "columns": 13,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 27,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 20
+        },
+        "energy": 0.32843294530688716,
+        "maxEnergy": 0.35545656568734485,
+        "movingCells": 347,
+        "heldCells": 0
+      },
+      "memoryAfter": {
+        "cells": 364,
+        "columns": 13,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 35,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 20,
+          "cursor": 8
+        },
+        "energy": 0.3138257369659133,
+        "maxEnergy": 0.5627363762847958,
+        "movingCells": 12,
+        "heldCells": 12
+      },
+      "parallax": {
+        "scrollPixels": 180,
+        "parallaxPixels": 72,
+        "ratio": 0.4,
+        "sourceOffsetPixels": 63.769963200626634,
+        "sourceOffsetRatio": 0.35427757333681464
+      },
+      "navigation": {
+        "wallMs": 896,
+        "before": {
+          "active": true,
+          "queued": true,
+          "frames": 20,
+          "elapsed": 4.594399999999255,
+          "seed": 4198167419,
+          "regenerations": 0,
+          "width": 355,
+          "height": 768,
+          "framesPerSecond": 3,
+          "quality": "mobile",
+          "drawMs": [
+            112.90000000037253,
+            8.5,
+            6,
+            9.900000000372529,
+            5.699999999254942,
+            5.900000000372529,
+            3.100000001490116,
+            2.400000000372529,
+            1.900000000372529,
+            2.099999999627471,
+            2.100000001490116,
+            1.799999998882413,
+            1.5,
+            1.400000000372529,
+            1.400000000372529,
+            1.099999999627471,
+            1,
+            1,
+            1,
+            0.8999999985098839
+          ],
+          "preparationMs": 106,
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "settings": {
+            "seed": null,
+            "idleIntensity": 0,
+            "mutationSpeed": 0,
+            "scrollStrength": 1.15,
+            "scrollInertia": 0.72,
+            "scrollMosh": 1.1,
+            "sectionMosh": 0,
+            "typographyMosh": 0,
+            "heroMosh": 0,
+            "cursorRadius": 35,
+            "cursorMosh": 2,
+            "hoverMosh": 0,
+            "clickMosh": 0,
+            "navigationMosh": 1.25,
+            "feedbackPersistence": 0.99,
+            "pixelDisplacement": 1.35,
+            "colorBleeding": 0,
+            "negativeExposure": 0,
+            "recoverySpeed": 0.1,
+            "parallaxStrength": 0.4,
+            "modeTransitionMs": 950,
+            "navigationTransitionMs": 340,
+            "blockSize": 28,
+            "organicDecay": 1.15,
+            "colorVariation": 1.15,
+            "voidCoverage": 0.34,
+            "bleachCoverage": 0.3
+          },
+          "composition": {
+            "seed": 4198167419,
+            "source": {
+              "scale": 1.3021272868104279,
+              "x": 0.6064567205030471,
+              "y": 0.3779188741464168,
+              "angle": -0.21251407838426528,
+              "flip": 1
+            },
+            "flow": {
+              "x": 0.9700007271611111,
+              "y": 0.24310201419757024,
+              "speed": 1.3026595658622684,
+              "curl": -0.6712551624514163
+            },
+            "tint": {
+              "violet": 0.6663110650843009,
+              "green": 1.03773551043123,
+              "warm": 0.1718548442935571
+            },
+            "field": {
+              "x": 84.97030028607696,
+              "y": 71.90742356237024,
+              "stretch": 1.1577616555616261,
+              "frequency": 2.8768499966245145,
+              "voidBias": 0.04120225802063942,
+              "bleachBias": 0.036854332415387034
+            },
+            "controls": {
+              "seed": 4198167419,
+              "idleIntensity": 0.45,
+              "mutationSpeed": 0.22,
+              "scrollStrength": 1.15,
+              "scrollInertia": 0.72,
+              "scrollMosh": 1.1,
+              "sectionMosh": 0.9,
+              "typographyMosh": 0.8,
+              "heroMosh": 1.35,
+              "cursorRadius": 35,
+              "cursorMosh": 1.25,
+              "hoverMosh": 1.1,
+              "clickMosh": 1.4,
+              "navigationMosh": 1.25,
+              "feedbackPersistence": 0.96,
+              "pixelDisplacement": 1.35,
+              "colorBleeding": 0.55,
+              "negativeExposure": 0.14,
+              "recoverySpeed": 0.8,
+              "parallaxStrength": 0.4,
+              "modeTransitionMs": 950,
+              "navigationTransitionMs": 340,
+              "blockSize": 28,
+              "organicDecay": 1.15,
+              "colorVariation": 1.15,
+              "voidCoverage": 0.34,
+              "bleachCoverage": 0.3
+            }
+          },
+          "motion": {
+            "x": 0,
+            "y": 0,
+            "strength": 0
+          },
+          "memory": {
+            "cells": 364,
+            "columns": 13,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 35,
+            "byKind": {
+              "mode": 6,
+              "section": 1,
+              "idle": 20,
+              "cursor": 8
+            },
+            "energy": 0.3138257369659133,
+            "maxEnergy": 0.5627363762847958,
+            "movingCells": 12,
+            "heldCells": 12
+          },
+          "parallax": {
+            "x": 0,
+            "y": 0,
+            "offsetX": 0,
+            "offsetY": 0,
+            "sourceX": 53.250000000000014,
+            "sourceY": 115.20000000000005,
+            "strength": 0.4
+          },
+          "advectedBlocks": 4391,
+          "recoveredBlocks": 6916,
+          "carriedSurfaces": 0,
+          "activeFramesPerSecond": 18,
+          "material": {
+            "width": 355,
+            "height": 768,
+            "codecFragments": 64,
+            "sourceReadback": true
+          }
+        },
+        "after": {
+          "active": true,
+          "queued": true,
+          "frames": 25,
+          "elapsed": 5.510999999999255,
+          "seed": 4198167419,
+          "regenerations": 0,
+          "width": 355,
+          "height": 768,
+          "framesPerSecond": 3,
+          "quality": "mobile",
+          "drawMs": [
+            112.90000000037253,
+            8.5,
+            6,
+            9.900000000372529,
+            5.699999999254942,
+            5.900000000372529,
+            3.100000001490116,
+            2.400000000372529,
+            1.900000000372529,
+            2.099999999627471,
+            2.100000001490116,
+            1.799999998882413,
+            1.5,
+            1.400000000372529,
+            1.400000000372529,
+            1.099999999627471,
+            1,
+            1,
+            1,
+            0.8999999985098839,
+            0.7999999988824129,
+            1.5,
+            2.099999999627471,
+            1.599999999627471,
+            1.5
+          ],
+          "preparationMs": 106,
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "settings": {
+            "seed": null,
+            "idleIntensity": 0,
+            "mutationSpeed": 0,
+            "scrollStrength": 1.15,
+            "scrollInertia": 0.72,
+            "scrollMosh": 1.1,
+            "sectionMosh": 0,
+            "typographyMosh": 0,
+            "heroMosh": 0,
+            "cursorRadius": 35,
+            "cursorMosh": 2,
+            "hoverMosh": 0,
+            "clickMosh": 0,
+            "navigationMosh": 1.25,
+            "feedbackPersistence": 0.99,
+            "pixelDisplacement": 1.35,
+            "colorBleeding": 0,
+            "negativeExposure": 0,
+            "recoverySpeed": 0.1,
+            "parallaxStrength": 0.4,
+            "modeTransitionMs": 950,
+            "navigationTransitionMs": 340,
+            "blockSize": 28,
+            "organicDecay": 1.15,
+            "colorVariation": 1.15,
+            "voidCoverage": 0.34,
+            "bleachCoverage": 0.3
+          },
+          "composition": {
+            "seed": 4198167419,
+            "source": {
+              "scale": 1.3021272868104279,
+              "x": 0.6064567205030471,
+              "y": 0.3779188741464168,
+              "angle": -0.21251407838426528,
+              "flip": 1
+            },
+            "flow": {
+              "x": 0.9700007271611111,
+              "y": 0.24310201419757024,
+              "speed": 1.3026595658622684,
+              "curl": -0.6712551624514163
+            },
+            "tint": {
+              "violet": 0.6663110650843009,
+              "green": 1.03773551043123,
+              "warm": 0.1718548442935571
+            },
+            "field": {
+              "x": 84.97030028607696,
+              "y": 71.90742356237024,
+              "stretch": 1.1577616555616261,
+              "frequency": 2.8768499966245145,
+              "voidBias": 0.04120225802063942,
+              "bleachBias": 0.036854332415387034
+            },
+            "controls": {
+              "seed": 4198167419,
+              "idleIntensity": 0.45,
+              "mutationSpeed": 0.22,
+              "scrollStrength": 1.15,
+              "scrollInertia": 0.72,
+              "scrollMosh": 1.1,
+              "sectionMosh": 0.9,
+              "typographyMosh": 0.8,
+              "heroMosh": 1.35,
+              "cursorRadius": 35,
+              "cursorMosh": 1.25,
+              "hoverMosh": 1.1,
+              "clickMosh": 1.4,
+              "navigationMosh": 1.25,
+              "feedbackPersistence": 0.96,
+              "pixelDisplacement": 1.35,
+              "colorBleeding": 0.55,
+              "negativeExposure": 0.14,
+              "recoverySpeed": 0.8,
+              "parallaxStrength": 0.4,
+              "modeTransitionMs": 950,
+              "navigationTransitionMs": 340,
+              "blockSize": 28,
+              "organicDecay": 1.15,
+              "colorVariation": 1.15,
+              "voidCoverage": 0.34,
+              "bleachCoverage": 0.3
+            }
+          },
+          "motion": {
+            "x": 0,
+            "y": 0,
+            "strength": 0
+          },
+          "memory": {
+            "cells": 364,
+            "columns": 13,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 49,
+            "byKind": {
+              "mode": 6,
+              "section": 1,
+              "idle": 20,
+              "cursor": 16,
+              "navigation": 6
+            },
+            "energy": 0.3455794605946799,
+            "maxEnergy": 0.9848656924003446,
+            "movingCells": 147,
+            "heldCells": 95
+          },
+          "parallax": {
+            "x": 0,
+            "y": 0,
+            "offsetX": 0,
+            "offsetY": 0,
+            "sourceX": 53.250000000000014,
+            "sourceY": 115.20000000000005,
+            "strength": 0.4
+          },
+          "advectedBlocks": 4991,
+          "recoveredBlocks": 8736,
+          "carriedSurfaces": 0,
+          "activeFramesPerSecond": 18,
+          "material": {
+            "width": 355,
+            "height": 768,
+            "codecFragments": 64,
+            "sourceReadback": true
+          }
+        }
+      },
+      "heroSamples": 13,
+      "heroRelativeEdgeMotion": 11.960245529841231,
+      "heroVectors": [
+        {
+          "kind": "logo",
+          "time": 13689.699999999255,
+          "x": 211.58527465071444,
+          "y": 413.13422317017864,
+          "dx": 1.4871916219776722,
+          "dy": -0.5585630606386758,
+          "deltaMs": 116.79999999999927,
+          "strength": 0.09871412410839209,
+          "vectors": [
+            {
+              "x": 77.27573344728094,
+              "y": 424.16954944817803,
+              "dx": 2.1238190779555595,
+              "dy": -3.9089631033378964,
+              "weight": 1
+            },
+            {
+              "x": 306.15187202650895,
+              "y": 421.1946995097152,
+              "dx": -3.394412120493257,
+              "dy": -3.329602736224672,
+              "weight": 1
+            },
+            {
+              "x": 99.02233053721571,
+              "y": 387.39635005736403,
+              "dx": 6.301401917785569,
+              "dy": 1.348353534354942,
+              "weight": 1
+            },
+            {
+              "x": 333.905935686455,
+              "y": 387.56163041145396,
+              "dx": 0.3344873874812606,
+              "dy": 1.7608312200569571,
+              "weight": 1
+            },
+            {
+              "x": 81.4322074973188,
+              "y": 440.34116796981635,
+              "dx": 1.9825659708329795,
+              "dy": -2.873648044490892,
+              "weight": 1
+            },
+            {
+              "x": 311.3798315108171,
+              "y": 435.9544796457343,
+              "dx": -3.850299375595853,
+              "dy": -2.4936052776020006,
+              "weight": 1
+            },
+            {
+              "x": 103.49079498619132,
+              "y": 403.92630945267325,
+              "dx": 6.16421413924067,
+              "dy": 2.532208345430604,
+              "weight": 1
+            },
+            {
+              "x": 339.4943213039667,
+              "y": 402.6185173166664,
+              "dx": -0.1397603526953617,
+              "dy": 2.71600574692161,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 13861.800000000745,
+          "x": 213.0505116168721,
+          "y": 412.61977013575336,
+          "dx": 1.4432823103375938,
+          "dy": -0.47034300821189845,
+          "deltaMs": 116.60000000000036,
+          "strength": 0.099446671340494,
+          "vectors": [
+            {
+              "x": 79.5725937830037,
+              "y": 420.2256102609498,
+              "dx": 2.4699015934899506,
+              "dy": -3.9789152711185807,
+              "weight": 1
+            },
+            {
+              "x": 302.7030813500405,
+              "y": 417.91062403981607,
+              "dx": -3.503169232443611,
+              "dy": -3.2385482035736004,
+              "weight": 1
+            },
+            {
+              "x": 105.52900597002821,
+              "y": 388.89818374902563,
+              "dx": 6.711948947839446,
+              "dy": 1.6553138489683192,
+              "weight": 1
+            },
+            {
+              "x": 334.11185388574995,
+              "y": 389.49817594149965,
+              "dx": 0.07734901110865167,
+              "dy": 2.1122598400344827,
+              "weight": 1
+            },
+            {
+              "x": 83.48919061626646,
+              "y": 437.361071743756,
+              "dx": 2.1314002670623324,
+              "dy": -3.0865444076298445,
+              "weight": 1
+            },
+            {
+              "x": 307.3929700975897,
+              "y": 433.4358868067411,
+              "dx": -4.123423450859093,
+              "dy": -2.5435804003843145,
+              "weight": 1
+            },
+            {
+              "x": 109.75094524038785,
+              "y": 406.52897338745174,
+              "dx": 6.3560863691523934,
+              "dy": 2.6731195241263777,
+              "weight": 1
+            },
+            {
+              "x": 339.1342562990312,
+              "y": 405.4284545639105,
+              "dx": -0.5803696571754813,
+              "dy": 2.903868747566662,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 14011.900000000373,
+          "x": 214.5696278550107,
+          "y": 412.17201189805553,
+          "dx": 1.5949501659397072,
+          "dy": -0.42517346718381077,
+          "deltaMs": 133.29999999999927,
+          "strength": 0.10073597963637847,
+          "vectors": [
+            {
+              "x": 82.46975992912812,
+              "y": 415.94082475898267,
+              "dx": 3.3244306987588885,
+              "dy": -4.590655732815719,
+              "weight": 1
+            },
+            {
+              "x": 298.9015668176611,
+              "y": 414.50633283036717,
+              "dx": -4.099859832315246,
+              "dy": -3.570034215324199,
+              "weight": 1
+            },
+            {
+              "x": 112.94416746209035,
+              "y": 390.85598509265026,
+              "dx": 8.118374036284834,
+              "dy": 2.2602888382809283,
+              "weight": 1
+            },
+            {
+              "x": 334.0033590377566,
+              "y": 391.9603547764866,
+              "dx": -0.2943387070953918,
+              "dy": 2.8120978299393187,
+              "weight": 1
+            },
+            {
+              "x": 85.9012026251931,
+              "y": 433.94072062792554,
+              "dx": 2.6926237507909434,
+              "dy": -3.75415782403104,
+              "weight": 1
+            },
+            {
+              "x": 302.83052775590346,
+              "y": 430.68783013024665,
+              "dx": -5.001461232513293,
+              "dy": -2.9525329526045994,
+              "weight": 1
+            },
+            {
+              "x": 116.64902895431405,
+              "y": 409.46835742480414,
+              "dx": 7.440081058700002,
+              "dy": 3.2056485505784167,
+              "weight": 1
+            },
+            {
+              "x": 338.214249244504,
+              "y": 408.6348002793904,
+              "dx": -1.2596444518790122,
+              "dy": 3.5088226833930776,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 14161.5,
+          "x": 216.31944529446417,
+          "y": 411.7818212422531,
+          "dx": 1.904684712967196,
+          "dy": -0.3552078444209883,
+          "deltaMs": 166.70000000000073,
+          "strength": 0.10204620736761527,
+          "vectors": [
+            {
+              "x": 86.64672998351766,
+              "y": 410.7908818195845,
+              "dx": 5.029509410020182,
+              "dy": -5.709230145980541,
+              "weight": 1
+            },
+            {
+              "x": 294.2511033378796,
+              "y": 410.6096310657212,
+              "dx": -5.201067127247711,
+              "dy": -4.223369313967737,
+              "weight": 1
+            },
+            {
+              "x": 122.34858743023997,
+              "y": 393.66367145632694,
+              "dx": 10.690465900014388,
+              "dy": 3.3550838890723753,
+              "weight": 1
+            },
+            {
+              "x": 333.32801384490557,
+              "y": 395.3860775545204,
+              "dx": -1.0563516786066884,
+              "dy": 4.039347726128312,
+              "weight": 1
+            },
+            {
+              "x": 89.18599357861653,
+              "y": 429.58571943018745,
+              "dx": 3.8769581560559345,
+              "dy": -4.955844571445141,
+              "weight": 1
+            },
+            {
+              "x": 297.032831020104,
+              "y": 427.3489700061849,
+              "dx": -6.593932239085575,
+              "dy": -3.7251872955189924,
+              "weight": 1
+            },
+            {
+              "x": 125.09095873057025,
+              "y": 413.16396738166964,
+              "dx": 9.443778493812403,
+              "dy": 4.185571363152576,
+              "weight": 1
+            },
+            {
+              "x": 336.30807603470544,
+              "y": 412.6825181098002,
+              "dx": -2.5527019677180647,
+              "dy": 4.586612977426569,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 14328.199999999255,
+          "x": 219.3226374648188,
+          "y": 411.4526615613677,
+          "dx": 0.8611092181871811,
+          "dy": -0.0097590000063974,
+          "deltaMs": 83.39999999999964,
+          "strength": 0.10373640622015311,
+          "vectors": [
+            {
+              "x": 96.35543335533019,
+              "y": 401.5890515168668,
+              "dx": 3.4611045238253837,
+              "dy": -2.690567251957418,
+              "weight": 1
+            },
+            {
+              "x": 285.6683657576742,
+              "y": 404.04652810859045,
+              "dx": -2.5920564843862053,
+              "dy": -1.842095216718917,
+              "weight": 1
+            },
+            {
+              "x": 140.50115111979068,
+              "y": 399.888151656741,
+              "dx": 5.651104473687582,
+              "dy": 2.1192589016676493,
+              "weight": 1
+            },
+            {
+              "x": 330.44139550301213,
+              "y": 402.63998513472814,
+              "dx": -1.296992337248355,
+              "dy": 2.383491925047906,
+              "weight": 1
+            },
+            {
+              "x": 96.51365956587742,
+              "y": 421.189135006057,
+              "dx": 2.5785721817303227,
+              "dy": -2.601903224203056,
+              "weight": 1
+            },
+            {
+              "x": 285.83285392763355,
+              "y": 421.21228139358027,
+              "dx": -3.488061960610196,
+              "dy": -1.8512485316870766,
+              "weight": 1
+            },
+            {
+              "x": 140.67184469880874,
+              "y": 420.234519872082,
+              "dx": 4.7014656801437695,
+              "dy": 2.1908003920588044,
+              "weight": 1
+            },
+            {
+              "x": 330.6172670049034,
+              "y": 420.3755078337716,
+              "dx": -2.2525356974350075,
+              "dy": 2.3554825498166565,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 14545.300000000745,
+          "x": 220.40978470747177,
+          "y": 411.49340664004046,
+          "dx": 1.3131852671187687,
+          "dy": 0.09124915735202421,
+          "deltaMs": 133.3000000000011,
+          "strength": 0.10411446710172426,
+          "vectors": [
+            {
+              "x": 101.18394118704813,
+              "y": 398.1884705181462,
+              "dx": 6.195911139610516,
+              "dy": -4.110594745483809,
+              "weight": 1
+            },
+            {
+              "x": 282.3229297158542,
+              "y": 401.75156665809385,
+              "dx": -4.098815599253953,
+              "dy": -2.7478276842742844,
+              "weight": 1
+            },
+            {
+              "x": 147.87812384448975,
+              "y": 402.76311715240337,
+              "dx": 9.102840975710592,
+              "dy": 3.6306720896570823,
+              "weight": 1
+            },
+            {
+              "x": 328.4810548279331,
+              "y": 405.8121936929575,
+              "dx": -2.6236890129097787,
+              "dy": 3.9609251914108086,
+              "weight": 1
+            },
+            {
+              "x": 100.11330216830797,
+              "y": 417.80817959220263,
+              "dx": 4.620713023130776,
+              "dy": -4.160007603505619,
+              "weight": 1
+            },
+            {
+              "x": 281.27721950017656,
+              "y": 418.8233214047307,
+              "dx": -5.623206894303735,
+              "dy": -2.9266714460122216,
+              "weight": 1
+            },
+            {
+              "x": 146.73201637855777,
+              "y": 423.09137056828934,
+              "dx": 7.418877679354324,
+              "dy": 3.522901000355887,
+              "weight": 1
+            },
+            {
+              "x": 327.37161741031196,
+              "y": 423.4180829875553,
+              "dx": -4.238763491747932,
+              "dy": 3.729667757750633,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 14666,
+          "x": 221.90252021399925,
+          "y": 411.70792030555333,
+          "dx": 1.6722857459361364,
+          "dy": 0.3377781736735983,
+          "deltaMs": 183.29999999999927,
+          "strength": 0.10437803563519697,
+          "vectors": [
+            {
+              "x": 109.23596078189075,
+              "y": 393.5546383596417,
+              "dx": 9.908128050074708,
+              "dy": -5.157069571525199,
+              "weight": 1
+            },
+            {
+              "x": 277.5185796539172,
+              "y": 398.7006211701547,
+              "dx": -5.50988452462002,
+              "dy": -3.3540632916040636,
+              "weight": 1
+            },
+            {
+              "x": 158.67809468645817,
+              "y": 407.2905122629665,
+              "dx": 12.497100708226213,
+              "dy": 5.424118131469186,
+              "weight": 1
+            },
+            {
+              "x": 324.78264040533116,
+              "y": 410.614477251273,
+              "dx": -4.773139832294078,
+              "dy": 5.643641925220152,
+              "weight": 1
+            },
+            {
+              "x": 106.15657250286327,
+              "y": 412.91953248709297,
+              "dx": 7.4658276459798145,
+              "dy": -5.617286606713776,
+              "weight": 1
+            },
+            {
+              "x": 274.5958737328417,
+              "y": 415.3962629598134,
+              "dx": -7.739484640366015,
+              "dy": -3.9274454438223643,
+              "weight": 1
+            },
+            {
+              "x": 155.40077114171072,
+              "y": 427.2694107356682,
+              "dx": 9.918631846951513,
+              "dy": 4.833179334401905,
+              "weight": 1
+            },
+            {
+              "x": 321.6987031480437,
+              "y": 427.7649776502326,
+              "dx": -7.107065032788512,
+              "dy": 4.9641215676040815,
+              "weight": 1
+            }
+          ]
+        }
+      ],
+      "hover": null,
+      "transitions": [
+        {
+          "kind": "mode",
+          "mode": "xray",
+          "duration": 950,
+          "direction": "entering",
+          "strength": 1,
+          "variant": 218786956,
+          "x": 195,
+          "y": 422,
+          "at": 1958.699999999255
+        },
+        {
+          "kind": "navigation",
+          "duration": 340,
+          "direction": "forward",
+          "strength": 1,
+          "variant": 2987056852,
+          "x": 195,
+          "y": 422,
+          "at": 7351.9000000003725
+        },
+        {
+          "kind": "navigation",
+          "duration": 340,
+          "direction": "forward",
+          "strength": 1,
+          "variant": 3592329377,
+          "x": 195,
+          "y": 422,
+          "at": 9023.300000000745
+        },
+        {
+          "kind": "mode",
+          "mode": "normal",
+          "duration": 950,
+          "direction": "leaving",
+          "strength": 1,
+          "variant": 4195597281,
+          "x": 195,
+          "y": 422,
+          "at": 18914.900000000373
+        }
+      ],
+      "webglContexts": 1,
+      "errors": [],
+      "requestsThreeOnWorkOrAbout": []
+    },
+    {
+      "width": 320,
+      "mobile": true,
+      "recordedVideo": false,
+      "canvasMemoryOracle": {
+        "centers": [
+          20,
+          28,
+          20
+        ],
+        "survivingColor": [
+          228,
+          2,
+          10,
+          255
+        ],
+        "note": "Controlled red source A / blue source B on native browser Canvas2D, not a DOM snapshot."
+      },
+      "enterWallMs": 3316,
+      "reverseWallMs": 1787,
+      "firstMotionPixels": {
+        "changed": 131124,
+        "meanChannelDelta": 11.062417967258495,
+        "pixels": 223488
+      },
+      "secondMotionPixels": {
+        "changed": 36285,
+        "meanChannelDelta": 1.8997395833333333,
+        "pixels": 223488
+      },
+      "reversePixels": {
+        "changed": 18742,
+        "meanChannelDelta": 1.015490764604811,
+        "pixels": 223488
+      },
+      "memoryBefore": {
+        "cells": 308,
+        "columns": 11,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 23,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 16
+        },
+        "energy": 0.33881761815732336,
+        "maxEnergy": 0.3599980709610087,
+        "movingCells": 298,
+        "heldCells": 0
+      },
+      "memoryAfter": {
+        "cells": 308,
+        "columns": 11,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 32,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 16,
+          "cursor": 9
+        },
+        "energy": 0.3240004204954959,
+        "maxEnergy": 0.5593289239704958,
+        "movingCells": 57,
+        "heldCells": 12
+      },
+      "parallax": {
+        "scrollPixels": 180,
+        "parallaxPixels": 72,
+        "ratio": 0.4,
+        "sourceOffsetPixels": 63.769963200626634,
+        "sourceOffsetRatio": 0.35427757333681464
+      },
+      "navigation": {
+        "wallMs": 847,
+        "before": {
+          "active": true,
+          "queued": true,
+          "frames": 18,
+          "elapsed": 3.3082000000014897,
+          "seed": 4239451233,
+          "regenerations": 0,
+          "width": 291,
+          "height": 768,
+          "framesPerSecond": 3,
+          "quality": "mobile",
+          "drawMs": [
+            111.09999999962747,
+            9.400000000372529,
+            8.400000000372529,
+            20.300000000745058,
+            4,
+            3.799999998882413,
+            2.699999999254942,
+            1.599999999627471,
+            1.5,
+            1.400000000372529,
+            1.299999998882413,
+            1.599999999627471,
+            1.200000001117587,
+            1.099999999627471,
+            1,
+            1.099999999627471,
+            1,
+            0.900000000372529
+          ],
+          "preparationMs": 103.20000000111759,
+          "viewport": {
+            "width": 320,
+            "height": 844
+          },
+          "settings": {
+            "seed": null,
+            "idleIntensity": 0,
+            "mutationSpeed": 0,
+            "scrollStrength": 1.15,
+            "scrollInertia": 0.72,
+            "scrollMosh": 1.1,
+            "sectionMosh": 0,
+            "typographyMosh": 0,
+            "heroMosh": 0,
+            "cursorRadius": 35,
+            "cursorMosh": 2,
+            "hoverMosh": 0,
+            "clickMosh": 0,
+            "navigationMosh": 1.25,
+            "feedbackPersistence": 0.99,
+            "pixelDisplacement": 1.35,
+            "colorBleeding": 0,
+            "negativeExposure": 0,
+            "recoverySpeed": 0.1,
+            "parallaxStrength": 0.4,
+            "modeTransitionMs": 950,
+            "navigationTransitionMs": 340,
+            "blockSize": 28,
+            "organicDecay": 1.15,
+            "colorVariation": 1.15,
+            "voidCoverage": 0.34,
+            "bleachCoverage": 0.3
+          },
+          "composition": {
+            "seed": 4239451233,
+            "source": {
+              "scale": 1.3394012970337645,
+              "x": 0.19443092728033662,
+              "y": 0.3875663080252707,
+              "angle": 0.03819048546720296,
+              "flip": 1
+            },
+            "flow": {
+              "x": -0.9947071067782327,
+              "y": 0.10275101812088044,
+              "speed": 1.3785352418664845,
+              "curl": -0.9950904813595116
+            },
+            "tint": {
+              "violet": 1.1941238282946869,
+              "green": 1.1534445395693183,
+              "warm": 0.12025882363785059
+            },
+            "field": {
+              "x": 18.725792698096484,
+              "y": 0.5273556290194392,
+              "stretch": 0.68671272136271,
+              "frequency": 1.790815385337919,
+              "voidBias": 0.04274541199207306,
+              "bleachBias": 0.04526958519592881
+            },
+            "controls": {
+              "seed": 4239451233,
+              "idleIntensity": 0.45,
+              "mutationSpeed": 0.22,
+              "scrollStrength": 1.15,
+              "scrollInertia": 0.72,
+              "scrollMosh": 1.1,
+              "sectionMosh": 0.9,
+              "typographyMosh": 0.8,
+              "heroMosh": 1.35,
+              "cursorRadius": 35,
+              "cursorMosh": 1.25,
+              "hoverMosh": 1.1,
+              "clickMosh": 1.4,
+              "navigationMosh": 1.25,
+              "feedbackPersistence": 0.96,
+              "pixelDisplacement": 1.35,
+              "colorBleeding": 0.55,
+              "negativeExposure": 0.14,
+              "recoverySpeed": 0.8,
+              "parallaxStrength": 0.4,
+              "modeTransitionMs": 950,
+              "navigationTransitionMs": 340,
+              "blockSize": 28,
+              "organicDecay": 1.15,
+              "colorVariation": 1.15,
+              "voidCoverage": 0.34,
+              "bleachCoverage": 0.3
+            }
+          },
+          "motion": {
+            "x": 0,
+            "y": 0,
+            "strength": 0
+          },
+          "memory": {
+            "cells": 308,
+            "columns": 11,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 32,
+            "byKind": {
+              "mode": 6,
+              "section": 1,
+              "idle": 16,
+              "cursor": 9
+            },
+            "energy": 0.3240004204954959,
+            "maxEnergy": 0.5593289239704958,
+            "movingCells": 57,
+            "heldCells": 12
+          },
+          "parallax": {
+            "x": 0,
+            "y": 0,
+            "offsetX": 0,
+            "offsetY": 0,
+            "sourceX": 43.650000000000006,
+            "sourceY": 115.20000000000005,
+            "strength": 0.4
+          },
+          "advectedBlocks": 3885,
+          "recoveredBlocks": 5236,
+          "carriedSurfaces": 0,
+          "activeFramesPerSecond": 16,
+          "material": {
+            "width": 291,
+            "height": 768,
+            "codecFragments": 64,
+            "sourceReadback": true
+          }
+        },
+        "after": {
+          "active": true,
+          "queued": true,
+          "frames": 22,
+          "elapsed": 4.17480000000149,
+          "seed": 4239451233,
+          "regenerations": 0,
+          "width": 291,
+          "height": 768,
+          "framesPerSecond": 3,
+          "quality": "mobile",
+          "drawMs": [
+            111.09999999962747,
+            9.400000000372529,
+            8.400000000372529,
+            20.300000000745058,
+            4,
+            3.799999998882413,
+            2.699999999254942,
+            1.599999999627471,
+            1.5,
+            1.400000000372529,
+            1.299999998882413,
+            1.599999999627471,
+            1.200000001117587,
+            1.099999999627471,
+            1,
+            1.099999999627471,
+            1,
+            0.900000000372529,
+            1.3999999985098839,
+            1.5,
+            1.099999999627471,
+            1.199999999254942
+          ],
+          "preparationMs": 103.20000000111759,
+          "viewport": {
+            "width": 320,
+            "height": 844
+          },
+          "settings": {
+            "seed": null,
+            "idleIntensity": 0,
+            "mutationSpeed": 0,
+            "scrollStrength": 1.15,
+            "scrollInertia": 0.72,
+            "scrollMosh": 1.1,
+            "sectionMosh": 0,
+            "typographyMosh": 0,
+            "heroMosh": 0,
+            "cursorRadius": 35,
+            "cursorMosh": 2,
+            "hoverMosh": 0,
+            "clickMosh": 0,
+            "navigationMosh": 1.25,
+            "feedbackPersistence": 0.99,
+            "pixelDisplacement": 1.35,
+            "colorBleeding": 0,
+            "negativeExposure": 0,
+            "recoverySpeed": 0.1,
+            "parallaxStrength": 0.4,
+            "modeTransitionMs": 950,
+            "navigationTransitionMs": 340,
+            "blockSize": 28,
+            "organicDecay": 1.15,
+            "colorVariation": 1.15,
+            "voidCoverage": 0.34,
+            "bleachCoverage": 0.3
+          },
+          "composition": {
+            "seed": 4239451233,
+            "source": {
+              "scale": 1.3394012970337645,
+              "x": 0.19443092728033662,
+              "y": 0.3875663080252707,
+              "angle": 0.03819048546720296,
+              "flip": 1
+            },
+            "flow": {
+              "x": -0.9947071067782327,
+              "y": 0.10275101812088044,
+              "speed": 1.3785352418664845,
+              "curl": -0.9950904813595116
+            },
+            "tint": {
+              "violet": 1.1941238282946869,
+              "green": 1.1534445395693183,
+              "warm": 0.12025882363785059
+            },
+            "field": {
+              "x": 18.725792698096484,
+              "y": 0.5273556290194392,
+              "stretch": 0.68671272136271,
+              "frequency": 1.790815385337919,
+              "voidBias": 0.04274541199207306,
+              "bleachBias": 0.04526958519592881
+            },
+            "controls": {
+              "seed": 4239451233,
+              "idleIntensity": 0.45,
+              "mutationSpeed": 0.22,
+              "scrollStrength": 1.15,
+              "scrollInertia": 0.72,
+              "scrollMosh": 1.1,
+              "sectionMosh": 0.9,
+              "typographyMosh": 0.8,
+              "heroMosh": 1.35,
+              "cursorRadius": 35,
+              "cursorMosh": 1.25,
+              "hoverMosh": 1.1,
+              "clickMosh": 1.4,
+              "navigationMosh": 1.25,
+              "feedbackPersistence": 0.96,
+              "pixelDisplacement": 1.35,
+              "colorBleeding": 0.55,
+              "negativeExposure": 0.14,
+              "recoverySpeed": 0.8,
+              "parallaxStrength": 0.4,
+              "modeTransitionMs": 950,
+              "navigationTransitionMs": 340,
+              "blockSize": 28,
+              "organicDecay": 1.15,
+              "colorVariation": 1.15,
+              "voidCoverage": 0.34,
+              "bleachCoverage": 0.3
+            }
+          },
+          "motion": {
+            "x": 0,
+            "y": 0,
+            "strength": 0
+          },
+          "memory": {
+            "cells": 308,
+            "columns": 11,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 46,
+            "byKind": {
+              "mode": 6,
+              "section": 1,
+              "idle": 16,
+              "cursor": 17,
+              "navigation": 6
+            },
+            "energy": 0.3551607449198802,
+            "maxEnergy": 0.937641192435799,
+            "movingCells": 130,
+            "heldCells": 92
+          },
+          "parallax": {
+            "x": 0,
+            "y": 0,
+            "offsetX": 0,
+            "offsetY": 0,
+            "sourceX": 43.650000000000006,
+            "sourceY": 115.20000000000005,
+            "strength": 0.4
+          },
+          "advectedBlocks": 4463,
+          "recoveredBlocks": 6468,
+          "carriedSurfaces": 0,
+          "activeFramesPerSecond": 16,
+          "material": {
+            "width": 291,
+            "height": 768,
+            "codecFragments": 64,
+            "sourceReadback": true
+          }
+        }
+      },
+      "heroSamples": 13,
+      "heroRelativeEdgeMotion": 8.74868946039325,
+      "heroVectors": [
+        {
+          "kind": "logo",
+          "time": 10260.699999999255,
+          "x": 172.6300754842694,
+          "y": 415.10876440737604,
+          "dx": 1.06613911922463,
+          "dy": -0.4386178655813069,
+          "deltaMs": 100,
+          "strength": 0.09482940813221345,
+          "vectors": [
+            {
+              "x": 62.471085275815625,
+              "y": 426.28608253573907,
+              "dx": 1.378580340254679,
+              "dy": -2.6765566161738548,
+              "weight": 1
+            },
+            {
+              "x": 254.38893331184525,
+              "y": 423.54060703005996,
+              "dx": -2.268563898641503,
+              "dy": -2.3997728606428836,
+              "weight": 1
+            },
+            {
+              "x": 78.11843687533371,
+              "y": 393.1080389976579,
+              "dx": 4.200416882375649,
+              "dy": 0.7905571042624615,
+              "weight": 1
+            },
+            {
+              "x": 274.28313655050164,
+              "y": 392.534168616443,
+              "dx": 0.3985960772379258,
+              "dy": 1.0207300276530304,
+              "weight": 1
+            },
+            {
+              "x": 66.04893560379861,
+              "y": 438.77647271706417,
+              "dx": 1.3659164434515247,
+              "dy": -1.8798641824770925,
+              "weight": 1
+            },
+            {
+              "x": 258.8649933722569,
+              "y": 435.18370730199865,
+              "dx": -2.4740503179306756,
+              "dy": -1.718503528013514,
+              "weight": 1
+            },
+            {
+              "x": 81.90476165046908,
+              "y": 405.7550192416188,
+              "dx": 4.197809242718606,
+              "dy": 1.679075487763896,
+              "weight": 1
+            },
+            {
+              "x": 279.0042352871959,
+              "y": 404.3126121962106,
+              "dx": 0.19259867138356412,
+              "dy": 1.7804432416996292,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 10428.199999999255,
+          "x": 173.8556143587411,
+          "y": 414.63613391772907,
+          "dx": 1.3849386297187323,
+          "dy": -0.5066431137126983,
+          "deltaMs": 133.29999999999927,
+          "strength": 0.09545123474771194,
+          "vectors": [
+            {
+              "x": 64.2231172988629,
+              "y": 423.1170065868717,
+              "dx": 2.1254837058398834,
+              "dy": -3.6615952815608352,
+              "weight": 1
+            },
+            {
+              "x": 251.66878614000845,
+              "y": 420.7709025075004,
+              "dx": -3.1717304450320967,
+              "dy": -3.1396361844762737,
+              "weight": 1
+            },
+            {
+              "x": 83.22295603091396,
+              "y": 394.1736990765711,
+              "dx": 6.008621428784878,
+              "dy": 1.3407630535639328,
+              "weight": 1
+            },
+            {
+              "x": 274.6484552869953,
+              "y": 393.90079183260104,
+              "dx": 0.33204139574928604,
+              "dy": 1.712516404663063,
+              "weight": 1
+            },
+            {
+              "x": 67.69608201737114,
+              "y": 436.47271545566696,
+              "dx": 1.9283763836935321,
+              "dy": -2.727650340317325,
+              "weight": 1
+            },
+            {
+              "x": 255.8242638489442,
+              "y": 433.14426474849813,
+              "dx": -3.607408728694594,
+              "dy": -2.3603815789875284,
+              "weight": 1
+            },
+            {
+              "x": 86.90848124255614,
+              "y": 407.7861220322134,
+              "dx": 5.8096299414554835,
+              "dy": 2.383130093425393,
+              "weight": 1
+            },
+            {
+              "x": 279.04080807522655,
+              "y": 406.4936846908405,
+              "dx": -0.11945309532228521,
+              "dy": 2.581701747560203,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 10527.199999999255,
+          "x": 175.13577765864974,
+          "y": 414.1998961105404,
+          "dx": 1.1753879700985976,
+          "dy": -0.36583250066468054,
+          "deltaMs": 116.70000000000073,
+          "strength": 0.09624680555153912,
+          "vectors": [
+            {
+              "x": 66.37546296353833,
+              "y": 419.6565240821926,
+              "dx": 2.179207623510976,
+              "dy": -3.2593697277973206,
+              "weight": 1
+            },
+            {
+              "x": 248.64241749510745,
+              "y": 417.86532083137115,
+              "dx": -2.881006844769871,
+              "dy": -2.6715271677821875,
+              "weight": 1
+            },
+            {
+              "x": 89.02685481323662,
+              "y": 395.56229778539705,
+              "dx": 5.599176135860432,
+              "dy": 1.4364343640879724,
+              "weight": 1
+            },
+            {
+              "x": 274.8427340211939,
+              "y": 395.66124427351303,
+              "dx": 0.05651607264798031,
+              "dy": 1.8083884771609178,
+              "weight": 1
+            },
+            {
+              "x": 69.57703088498874,
+              "y": 433.8239841911392,
+              "dx": 1.8335213515416768,
+              "dy": -2.56981218873824,
+              "weight": 1
+            },
+            {
+              "x": 252.31537092575223,
+              "y": 430.90633474730976,
+              "dx": -3.4103771176893645,
+              "dy": -2.1154784233891633,
+              "weight": 1
+            },
+            {
+              "x": 92.43150106888812,
+              "y": 410.07942988490635,
+              "dx": 5.236409711208495,
+              "dy": 2.2034856119604456,
+              "weight": 1
+            },
+            {
+              "x": 278.7308593379771,
+              "y": 408.99771017439537,
+              "dx": -0.5004443791766562,
+              "dy": 2.426349219549536,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 10643.5,
+          "x": 176.53004692269755,
+          "y": 413.82216927140416,
+          "dx": 1.6131505579970167,
+          "dy": -0.3896211776077507,
+          "deltaMs": 166.6999999999989,
+          "strength": 0.09732099881301444,
+          "vectors": [
+            {
+              "x": 69.32554926148141,
+              "y": 415.6906911791767,
+              "dx": 3.720964972375185,
+              "dy": -4.672296078234467,
+              "weight": 1
+            },
+            {
+              "x": 245.08983478111264,
+              "y": 414.70266968792,
+              "dx": -4.224158583219747,
+              "dy": -3.653775119120212,
+              "weight": 1
+            },
+            {
+              "x": 96.05249732354355,
+              "y": 397.51097087452195,
+              "dx": 8.4521088847534,
+              "dy": 2.4609118141617614,
+              "weight": 1
+            },
+            {
+              "x": 274.67588049362683,
+              "y": 398.08232173480826,
+              "dx": -0.3902231277820647,
+              "dy": 3.033766445429535,
+              "weight": 1
+            },
+            {
+              "x": 71.96715836395107,
+              "y": 430.5848047936325,
+              "dx": 2.946733606382992,
+              "dy": -3.908546606275195,
+              "weight": 1
+            },
+            {
+              "x": 248.0069323081171,
+              "y": 428.3125098922419,
+              "dx": -5.20650011758093,
+              "dy": -3.0721712867465953,
+              "weight": 1
+            },
+            {
+              "x": 98.86430165440409,
+              "y": 412.8316729598602,
+              "dx": 7.629191459823431,
+              "dy": 3.3010005379472886,
+              "weight": 1
+            },
+            {
+              "x": 277.76509056196494,
+              "y": 412.0472568418933,
+              "dx": -1.4310931728477385,
+              "dy": 3.672744115446392,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 10761.199999999255,
+          "x": 177.7999844213728,
+          "y": 413.54949757236466,
+          "dx": 0.9267244393535066,
+          "dy": -0.15572222047120476,
+          "deltaMs": 99.89999999999964,
+          "strength": 0.098172449250993,
+          "vectors": [
+            {
+              "x": 72.49522714307436,
+              "y": 411.96920046309583,
+              "dx": 2.6183907908107074,
+              "dy": -2.770685353927263,
+              "weight": 1
+            },
+            {
+              "x": 241.69527152526277,
+              "y": 411.83545065087094,
+              "dx": -2.56496792848003,
+              "dy": -2.0806629549778677,
+              "weight": 1
+            },
+            {
+              "x": 102.91301765855775,
+              "y": 399.58889611341397,
+              "dx": 5.268931785275015,
+              "dy": 1.6949386636222812,
+              "weight": 1
+            },
+            {
+              "x": 274.2080522072946,
+              "y": 400.6201266128603,
+              "dx": -0.5454334448824625,
+              "dy": 2.041843310674494,
+              "weight": 1
+            },
+            {
+              "x": 74.44070139685917,
+              "y": 427.4084844165784,
+              "dx": 2.000352459433188,
+              "dy": -2.4440941478329705,
+              "weight": 1
+            },
+            {
+              "x": 243.76806614009394,
+              "y": 425.8487170807604,
+              "dx": -3.2712322184654283,
+              "dy": -1.8554143362163131,
+              "weight": 1
+            },
+            {
+              "x": 104.98381165271024,
+              "y": 415.50519533858346,
+              "dx": 4.609828536788896,
+              "dy": 2.046044219499265,
+              "weight": 1
+            },
+            {
+              "x": 276.4020858931009,
+              "y": 415.0252113835827,
+              "dx": -1.2949161648803056,
+              "dy": 2.2831649679323505,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 10876.599999999627,
+          "x": 178.71159990101242,
+          "y": 413.42355985041166,
+          "dx": 0.8965065199257083,
+          "dy": -0.09615322343483967,
+          "deltaMs": 100.10000000000036,
+          "strength": 0.09868905273709686,
+          "vectors": [
+            {
+              "x": 75.27726394685278,
+              "y": 409.22114115077335,
+              "dx": 2.9456828167461424,
+              "dy": -2.725433270717758,
+              "weight": 1
+            },
+            {
+              "x": 239.124011294214,
+              "y": 409.7993073420848,
+              "dx": -2.5775525336175065,
+              "dy": -1.9916236625944066,
+              "weight": 1
+            },
+            {
+              "x": 108.24425508608526,
+              "y": 401.3637968239261,
+              "dx": 5.393543069780009,
+              "dy": 1.8548627574020884,
+              "weight": 1
+            },
+            {
+              "x": 273.52951907492394,
+              "y": 402.73604397460394,
+              "dx": -0.8116328198588008,
+              "dy": 2.1899914128128444,
+              "weight": 1
+            },
+            {
+              "x": 76.549025081731,
+              "y": 424.9360630843796,
+              "dx": 2.216294910310509,
+              "dy": -2.50074851656467,
+              "weight": 1
+            },
+            {
+              "x": 240.45015501473733,
+              "y": 423.99082730808004,
+              "dx": -3.3645900322477473,
+              "dy": -1.8603652091443905,
+              "weight": 1
+            },
+            {
+              "x": 109.59684644665589,
+              "y": 417.57210184010205,
+              "dx": 4.616241051102392,
+              "dy": 2.087768783537797,
+              "weight": 1
+            },
+            {
+              "x": 274.9317806616393,
+              "y": 417.32870589043716,
+              "dx": -1.6456942980428835,
+              "dy": 2.3238240457766324,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 11026.39999999851,
+          "x": 179.6607087408139,
+          "y": 413.3577069891241,
+          "dx": 1.001711159677285,
+          "dy": -0.03555249914029446,
+          "deltaMs": 116.60000000000036,
+          "strength": 0.09913015170423028,
+          "vectors": [
+            {
+              "x": 78.6830790513215,
+              "y": 406.3191264978175,
+              "dx": 3.865947392191302,
+              "dy": -3.078596035193982,
+              "weight": 1
+            },
+            {
+              "x": 236.33775783083598,
+              "y": 407.7078899897559,
+              "dx": -2.994954393138528,
+              "dy": -2.191211042063344,
+              "weight": 1
+            },
+            {
+              "x": 114.1324341984079,
+              "y": 403.46457338198536,
+              "dx": 6.382815154865284,
+              "dy": 2.346690358716444,
+              "weight": 1
+            },
+            {
+              "x": 272.4686871253566,
+              "y": 405.18328912336233,
+              "dx": -1.3100310792758592,
+              "dy": 2.7044988847039235,
+              "weight": 1
+            },
+            {
+              "x": 79.1004667767092,
+              "y": 422.21069857886425,
+              "dx": 2.886588479645866,
+              "dy": -2.94998049446599,
+              "weight": 1
+            },
+            {
+              "x": 236.76776186699436,
+              "y": 421.9813202197457,
+              "dx": -4.000196263238166,
+              "dy": -2.1586489675243,
+              "weight": 1
+            },
+            {
+              "x": 114.57607686762202,
+              "y": 419.8484377699132,
+              "dx": 5.3422197908298585,
+              "dy": 2.4649030760845108,
+              "weight": 1
+            },
+            {
+              "x": 272.9230350731319,
+              "y": 419.8526505630343,
+              "dx": -2.3717968789718498,
+              "dy": 2.724065299417589,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 11127.299999998882,
+          "x": 180.63877553913147,
+          "y": 413.36347619549736,
+          "dx": 0.9544224369577989,
+          "dy": 0.04709091188675529,
+          "deltaMs": 116.70000000000073,
+          "strength": 0.09946766239607409,
+          "vectors": [
+            {
+              "x": 82.79796689314028,
+              "y": 403.30918534563784,
+              "dx": 4.363828291446239,
+              "dy": -2.941286269165346,
+              "weight": 1
+            },
+            {
+              "x": 233.3538717495071,
+              "y": 405.5908017249475,
+              "dx": -2.9728177695192244,
+              "dy": -2.042965487553488,
+              "weight": 1
+            },
+            {
+              "x": 120.54691787623779,
+              "y": 405.9050863497466,
+              "dx": 6.446152200794472,
+              "dy": 2.534335576806086,
+              "weight": 1
+            },
+            {
+              "x": 270.94701137319413,
+              "y": 407.9549249964823,
+              "dx": -1.7333204250491008,
+              "dy": 2.838772861535972,
+              "weight": 1
+            },
+            {
+              "x": 82.17242680361599,
+              "y": 419.2560441386853,
+              "dx": 3.257331574167708,
+              "dy": -2.959328385891922,
+              "weight": 1
+            },
+            {
+              "x": 232.7380124024397,
+              "y": 419.83175031107913,
+              "dx": -4.059302665871201,
+              "dy": -2.1404908498088844,
+              "weight": 1
+            },
+            {
+              "x": 119.88545954089547,
+              "y": 422.3239461366396,
+              "dx": 5.2765455557170355,
+              "dy": 2.486113657368378,
+              "weight": 1
+            },
+            {
+              "x": 270.2997153693312,
+              "y": 422.57117422636065,
+              "dx": -2.8748425286296424,
+              "dy": 2.712982027235171,
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "kind": "logo",
+          "time": 11244.5,
+          "x": 181.75363901937067,
+          "y": 413.4918537697422,
+          "dx": 1.2753045235206173,
+          "dy": 0.2096642366029755,
+          "deltaMs": 166.6999999999989,
+          "strength": 0.09967453184155653,
+          "vectors": [
+            {
+              "x": 88.54433094080369,
+              "y": 399.89660396949483,
+              "dx": 7.128899803880586,
+              "dy": -3.8838764831206163,
+              "weight": 1
+            },
+            {
+              "x": 229.78000624865874,
+              "y": 403.2511835896245,
+              "dx": -4.174913232177516,
+              "dy": -2.6362707830924705,
+              "weight": 1
+            },
+            {
+              "x": 128.3722371330121,
+              "y": 409.1255750600204,
+              "dx": 9.20448631275417,
+              "dy": 3.9066418437413972,
+              "weight": 1
+            },
+            {
+              "x": 268.4523866501389,
+              "y": 411.4806678562108,
+              "dx": -3.25592902106132,
+              "dy": 4.212712857921019,
+              "weight": 1
+            },
+            {
+              "x": 86.48323345608478,
+              "y": 415.69186679340373,
+              "dx": 5.364281730769861,
+              "dy": -4.169026304671206,
+              "weight": 1
+            },
+            {
+              "x": 227.79248305786922,
+              "y": 417.2614102108579,
+              "dx": -5.831756023269747,
+              "dy": -3.0001893506335477,
+              "weight": 1
+            },
+            {
+              "x": 126.20138862196971,
+              "y": 425.34196366035286,
+              "dx": 7.355312606431454,
+              "dy": 3.5499213900581026,
+              "weight": 1
+            },
+            {
+              "x": 266.3712759256347,
+              "y": 425.8214168837557,
+              "dx": -4.982036358763423,
+              "dy": 3.787503287554955,
+              "weight": 1
+            }
+          ]
+        }
+      ],
+      "hover": null,
+      "transitions": [
+        {
+          "kind": "mode",
+          "mode": "xray",
+          "duration": 950,
+          "direction": "entering",
+          "strength": 1,
+          "variant": 223564079,
+          "x": 160,
+          "y": 422,
+          "at": 1911.699999999255
+        },
+        {
+          "kind": "navigation",
+          "duration": 340,
+          "direction": "forward",
+          "strength": 1,
+          "variant": 3215815641,
+          "x": 160,
+          "y": 422,
+          "at": 5905.89999999851
+        },
+        {
+          "kind": "navigation",
+          "duration": 340,
+          "direction": "forward",
+          "strength": 1,
+          "variant": 2827638080,
+          "x": 160,
+          "y": 422,
+          "at": 7336.699999999255
+        },
+        {
+          "kind": "mode",
+          "mode": "normal",
+          "duration": 950,
+          "direction": "leaving",
+          "strength": 1,
+          "variant": 1165435828,
+          "x": 160,
+          "y": 422,
+          "at": 16233.89999999851
+        }
+      ],
+      "webglContexts": 1,
+      "errors": [],
+      "requestsThreeOnWorkOrAbout": []
+    }
+  ]
+}

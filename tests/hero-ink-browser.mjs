@@ -148,6 +148,9 @@ async function desktop() {
     const travel = Math.max(...moving.map(frame => Math.hypot(frame.after.projected.x - first.after.projected.x,
       frame.after.projected.y - first.after.projected.y)));
     assert.ok(travel > 3, 'The verified paint must actually move on screen with the rotating/translating logo.');
+    const rasterTravel = Math.max(...moving.map(frame => Math.hypot(frame.centroid.x - first.centroid.x,
+      frame.centroid.y - first.centroid.y)));
+    assert.ok(rasterTravel > 3, 'The actual pigment-pixel centroid must move too; projected coordinates alone cannot prove adhesion.');
     // Resume the actual base motion. A front decal may correctly wrap a small
     // bevel: that sliver can remain visible after the cap rotates away. Most
     // pigment must disappear from the rendered image, rather than remain as a

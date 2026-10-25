@@ -12,7 +12,7 @@ const browser = await chromium.launch({
 async function waitMode(page, mode) {
   await page.waitForFunction((expected) => document.documentElement.hasAttribute('data-xray-ready')
     && document.documentElement.dataset.mode === expected
-    && !document.documentElement.hasAttribute('data-xray-transition'), mode, { timeout: 6000 });
+    && !document.documentElement.hasAttribute('data-xray-transition'), mode, { timeout: 15000 });
 }
 
 async function normalPresentation(page) {

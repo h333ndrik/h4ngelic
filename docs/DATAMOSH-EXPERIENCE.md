@@ -14,7 +14,7 @@ Photographs keep at most two clipped source-pixel regions so native dialogs and 
 
 `src/motion-mosh.js` connects the existing publishers to the image field. Signed vectors are CSS-pixel displacement over the reported `deltaMs`. The hero publishes eight projected geometry corners; the existing kinetic type publishes four transformed corners. Opposing edges are retained, so rotation or scaling around a stationary center still produces movement.
 
-`src/finite-hover-motion.js` samples the resolved visual transform at at most 12Hz during a finite hover/magnet transition. It caches the layout footprint and stops after the final pose. Both expansion and contraction contribute vectors. Link hit targets remain stationary. `src/corruption.js` coalesces pointer input before submitting it; there is no canvas rendering or geometry measurement for each raw pointer event.
+`src/finite-hover-motion.js` samples the resolved visual transform at at most 12Hz during a finite hover/magnet transition. It caches the layout footprint and uses actual CSS transition start/end events to retain the final pose even when a slow renderer outlasts the initial observation window. Both expansion and contraction contribute vectors. Link hit targets remain stationary. `src/corruption.js` coalesces pointer input before submitting it; there is no canvas rendering or geometry measurement for each raw pointer event. Touch contact establishes a numeric baseline without painting, so the first real movement still has a vector if native panning subsequently cancels Pointer Events.
 
 Actual native scroll displacement advances the source crop at an initial gain of `.4`. The field follows the signed movement of the visible content. Inertia events carry zero additional source travel. Source offsets ease smoothly within finite image overscan on long pages, so `.4` is a local starting gain, not a promise of unbounded constant travel. No repeating texture tiles or reset of image history are used.
 
@@ -30,10 +30,20 @@ Edit `src/data/livingDecaySettings.js` for persistence, pixel displacement, bloc
 
 The same original sources and editable portfolio/contact data remain documented in the main README. The material texture is an experimental background, not an invented portfolio project.
 
+## Final feature: paint on the sculpture
+
+`src/hero-ink.js` reuses the existing raycaster and actual chrome wordmark. It identifies the hit's connected geometry component, converts the world hit to mesh-local coordinates and projects a procedural organic texture through an identity-world proxy. The resulting decal is an identity-transform child of the wordmark. Translation, rotation, nonuniform scale, perspective and depth therefore apply exactly once. A shallow projector and facing-normal restriction prevent paint from appearing through the back or on a neighbouring letter.
+
+The original `createInkImprint` contour, dry gaps and satellites supply each new texture. Every splash has a dominant pigment and tonal variation; consecutive splashes use different primary colors. The material is rough, depth-tested and slightly offset to avoid Z-fighting. Settling changes the texture's UVs, never the surface geometry's registration.
+
+`src/data/heroInkSettings.js` contains the editable palette, projector size/depth, opacity, fade timing, texture resolution, gesture threshold and resource limits. Defaults allow six desktop or three mobile marks, each lasting 6–12 seconds. The existing hero animation loop updates their fade. Expiry, route changes, mode changes and scene disposal release geometries, materials and textures. Generation checks prevent a late image decode from resurrecting cleared paint. Failed texture preparation leaves the chrome usable.
+
+Only a short, deliberate pointer-up on the actual mesh creates a mark. Empty canvas clicks, long holds, drags, out-and-back movement, pointer cancellation and native touch scrolling do not stamp the sculpture. The Normal homepage's existing document-attached colorful ink is preserved; it excludes deliberate canvas taps to avoid duplicate flat marks. Other Side mode clears surface paint and continues using image memory.
+
 ## References
 
 The audit in [DATAMOSH-EXPERIENCE-AUDIT.md](DATAMOSH-EXPERIENCE-AUDIT.md) records exact pinned references. Niccolò Fanton's MIT `data-mosh` informed signed geometry velocity, stable block sampling, output feedback and selective residual reconstruction. Supermosh informed the visual direction; its GPL video/FFmpeg pipeline was not imported. This Canvas implementation is codec-inspired temporal image processing, not actual compressed-video packet removal.
 
 ## Validation
 
-See the accompanying validation report for commands, actual browser evidence, measurements and remaining limits. Historical reports describe their original versions and are not measurements of this update.
+See [DATAMOSH-VALIDATION.md](DATAMOSH-VALIDATION.md) for commands, actual browser evidence, measurements and remaining limits. Historical reports describe their original versions and are not measurements of this update.

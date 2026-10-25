@@ -1,0 +1,164 @@
+{
+  "checkpoint": "92cf25d",
+  "nativeText": {
+    "measuredAt": "2026-10-25T19:26:52.035Z",
+    "reports": [
+      {
+        "profile": "native-desktop",
+        "brightBefore": 5724,
+        "brightAfter": 5596,
+        "movedOutsideMask": 5095,
+        "unexpectedColors": 0,
+        "metadata": {
+          "callbacks": [
+            {
+              "captured": true,
+              "duration": 1000,
+              "variant": 1947,
+              "kind": "mode",
+              "strength": 1
+            }
+          ],
+          "filter": "url(\"#h4-mode-snapshot-3-old\")",
+          "source": "SourceGraphic",
+          "controller": {
+            "active": true,
+            "prepared": false,
+            "nativeCount": 1,
+            "current": {
+              "kind": "mode",
+              "strength": 1,
+              "variant": 1947,
+              "duration": 1000,
+              "frames": 4,
+              "native": true
+            },
+            "last": null
+          }
+        },
+        "realtime": {
+          "elapsedMs": 894,
+          "calls": [
+            {
+              "captured": true,
+              "duration": 750,
+              "variant": 2231,
+              "kind": "mode",
+              "strength": 1
+            }
+          ],
+          "flag": false,
+          "snapshot": {
+            "active": false,
+            "prepared": false,
+            "nativeCount": 2,
+            "current": null,
+            "last": {
+              "kind": "mode",
+              "strength": 1,
+              "variant": 2231,
+              "duration": 750,
+              "frames": 5,
+              "native": true,
+              "skipped": false
+            }
+          }
+        },
+        "fallback": {
+          "calls": [
+            {
+              "captured": false
+            }
+          ],
+          "handle": null,
+          "active": false,
+          "flag": false
+        },
+        "interruption": {
+          "calls": [
+            {
+              "captured": false,
+              "duration": 800,
+              "variant": 13,
+              "kind": "mode",
+              "strength": 1
+            }
+          ],
+          "invalid": false,
+          "flag": false,
+          "snapshot": {
+            "active": false,
+            "prepared": false,
+            "nativeCount": 1,
+            "current": null,
+            "last": {
+              "kind": "mode",
+              "strength": 1,
+              "variant": 13,
+              "duration": 800,
+              "frames": 1,
+              "native": true,
+              "skipped": true
+            }
+          }
+        }
+      },
+      {
+        "profile": "reduced-motion",
+        "calls": [
+          {
+            "captured": false
+          }
+        ],
+        "prepared": null,
+        "handle": null,
+        "nodes": 0
+      }
+    ]
+  },
+  "nativePhoto": {
+    "viewport": {
+      "width": 390,
+      "height": 700
+    },
+    "limitBytes": 2147483648,
+    "maximumTreeRssBytes": 910704640,
+    "aborted": null,
+    "clip": {
+      "x": 85,
+      "y": 203,
+      "width": 220,
+      "height": 260
+    },
+    "metadata": {
+      "calls": [
+        {
+          "captured": true,
+          "duration": 1000,
+          "variant": 1947,
+          "kind": "mode",
+          "strength": 1
+        }
+      ],
+      "dialogOpen": true,
+      "image": "/assets/tattoo-texture-640.webp",
+      "dialogName": "none",
+      "filter": "url(\"#h4-mode-snapshot-3-old\")"
+    },
+    "pixels": {
+      "brightBefore": 39328,
+      "brightAfter": 38208,
+      "darkAfter": 9147,
+      "movedOutsideMask": 12146,
+      "changed": 37574,
+      "unexpectedChroma": 0
+    },
+    "restoration": {
+      "changedChannels": 25,
+      "maximumDelta": 1,
+      "meanDelta": 0.0001456876456876457
+    },
+    "passed": true,
+    "finishedAt": "2026-10-25T19:27:32.942Z"
+  }
+}
