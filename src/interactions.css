@@ -23,9 +23,9 @@
 }
 html[data-mode='xray'] [data-ui-interactive] {
   --ui-hover-glow: drop-shadow(0 0 2px rgb(255 255 255 / .98))
-    drop-shadow(1px 0 5px var(--xray-acid, #c9f144))
-    drop-shadow(-1px 0 11px var(--xray-pink, #ef9fc4))
-    drop-shadow(0 0 calc(20px * var(--ui-other-glow-strength, 1.15) * var(--corruption-glow-strength, 1)) var(--xray-violet, #b98be1));
+    drop-shadow(0 0 7px rgb(255 255 255 / .75))
+    drop-shadow(0 0 16px rgb(255 255 255 / .48))
+    drop-shadow(0 0 calc(22px * var(--ui-other-glow-strength, 1.15) * var(--corruption-glow-strength, 1)) rgb(185 139 225 / .24));
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -35,7 +35,7 @@ html[data-mode='xray'] [data-ui-interactive] {
     transition-duration: var(--ui-hover-duration, 260ms);
   }
   .artwork-open[data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual {
-    --ui-active-scale: var(--ui-target-scale, var(--ui-image-scale, 1.08));
+    --ui-active-scale: var(--ui-target-scale, var(--ui-image-scale, 1.22));
   }
   [data-ui-interactive]:is(:hover, :focus-visible) .arrow {
     transform: translate(var(--ui-arrow-movement, 2px), calc(-1 * var(--ui-arrow-movement, 2px)));

@@ -22,9 +22,17 @@ const reports = [];
 async function setup(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, ...options });
   await context.addInitScript((materialPaths) => {
-    window.__corruptionProbe = { imageDraws: 0, filmDraws: 0, historyDraws: 0, fills: 0, sources: [] };
+    window.__corruptionProbe = { imageDraws: 0, filmDraws: 0, historyDraws: 0, ambientDraws: 0, fills: 0, webGL: 0, sources: [] };
+    const getContext = HTMLCanvasElement.prototype.getContext;
+    const seen = new WeakSet();
+    HTMLCanvasElement.prototype.getContext = function (type, ...args) {
+      const context = getContext.call(this, type, ...args);
+      if (context && /webgl/.test(type) && !seen.has(context)) { seen.add(context); window.__corruptionProbe.webGL++; }
+      return context;
+    };
     const draw = CanvasRenderingContext2D.prototype.drawImage;
     CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) {
+      if (this.canvas.hasAttribute('data-corruption-ambient')) window.__corruptionProbe.ambientDraws++;
       if (this.canvas.hasAttribute('data-corruption-region')) {
         const probe = window.__corruptionProbe;
         if (source instanceof HTMLImageElement) {
@@ -42,7 +50,7 @@ async function setup(options = {}) {
     };
     const fill = CanvasRenderingContext2D.prototype.fillRect;
     CanvasRenderingContext2D.prototype.fillRect = function (...args) {
-      if (this.canvas.hasAttribute('data-corruption-region')) window.__corruptionProbe.fills++;
+      if (this.canvas.hasAttribute('data-corruption-region') || this.canvas.hasAttribute('data-corruption-ambient')) window.__corruptionProbe.fills++;
       return fill.apply(this, args);
     };
   }, Object.values(livingDecayMaterialAssets));
@@ -106,7 +114,7 @@ async function stableIdle(page) {
   const before = await page.evaluate(() => ({ draws: window.__corruptionProbe.imageDraws + window.__corruptionProbe.filmDraws + window.__corruptionProbe.historyDraws, snapshot: window.__H4_CORRUPTION__?.snapshot() }));
   await page.waitForTimeout(400);
   const after = await page.evaluate(() => ({ draws: window.__corruptionProbe.imageDraws + window.__corruptionProbe.filmDraws + window.__corruptionProbe.historyDraws, snapshot: window.__H4_CORRUPTION__?.snapshot() }));
-  assert.equal(after.draws, before.draws, 'Recovered pointer regions must perform no further film/history rendering, independently of ambient background motion.');
+  assert.equal(after.draws, before.draws, 'Recovered photograph regions perform no further ROI work; the shared ambient scheduler remains independent.');
   if (after.snapshot) {
     assert.equal(after.snapshot.queued, false);
     assert.equal(after.snapshot.regions, 0);
@@ -114,13 +122,44 @@ async function stableIdle(page) {
   }
 }
 
-async function stroke(page, from, to, milliseconds = 30, selector = '[data-corruption-region]') {
+async function freezeBackground(page, seed = 6831) {
+  await page.evaluate(value => {
+    const controller = window.__H4_CORRUPTION__;
+    controller.configureLivingDecay({ idleIntensity: 0, mutationSpeed: 0, scrollMosh: 0, parallaxStrength: 0,
+      heroMosh: 0, sectionMosh: 0, typographyMosh: 0, hoverMosh: 0, clickMosh: 0, navigationMosh: 0,
+      cursorMosh: 1.25, cursorRadius: 35 });
+    controller.regenerateLivingDecay(value);
+    const canvas = document.querySelector('[data-corruption-ambient]');
+    window.__corruptionBaseline = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+  }, seed);
+}
+
+async function backgroundPixels(page) {
+  return page.locator('[data-corruption-ambient]').evaluate(canvas => {
+    const bytes = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    const before = window.__corruptionBaseline;
+    let changed = 0, difference = 0;
+    const colors = new Set();
+    for (let index = 0; index < bytes.length; index += 4) {
+      const delta = Math.abs(bytes[index] - before[index]) + Math.abs(bytes[index + 1] - before[index + 1])
+        + Math.abs(bytes[index + 2] - before[index + 2]);
+      if (delta > 12) { changed++; difference += delta; }
+      if (colors.size < 4096) colors.add(`${bytes[index] >> 2},${bytes[index + 1] >> 2},${bytes[index + 2] >> 2}`);
+    }
+    return { changed, difference, colors: colors.size, width: canvas.width, height: canvas.height,
+      snapshot: window.__H4_CORRUPTION__.snapshot().ambient };
+  });
+}
+
+async function stroke(page, from, to, milliseconds = 30, selector) {
+  const prior = await page.evaluate(() => window.__H4_CORRUPTION__.snapshot().ambient.advectedBlocks);
   await page.mouse.move(from.x, from.y);
   await page.waitForTimeout(milliseconds);
   await page.mouse.move(to.x, to.y);
-  await page.waitForFunction(value => [...document.querySelectorAll(value)].some(canvas => Number(canvas.dataset.corruptionFrame) >= 1), selector);
+  if (selector) await page.waitForFunction(value => [...document.querySelectorAll(value)].some(canvas => Number(canvas.dataset.corruptionFrame) >= 1), selector);
+  else await page.waitForFunction(value => window.__H4_CORRUPTION__.snapshot().ambient.advectedBlocks > value, prior);
   await page.waitForTimeout(55);
-  return pixels(page);
+  return selector ? pixels(page, selector) : backgroundPixels(page);
 }
 
 async function addPhotographFixtures(page) {
@@ -172,37 +211,50 @@ try {
     }));
     assert.ok(contrast.main >= 1 && contrast.heading !== 'none', 'Essential live content must paint above the damaged film with legible edge separation.');
     await recovered(page);
+    await freezeBackground(page);
     const slow = await stroke(page, { x: 680, y: 600 }, { x: 690, y: 600 }, 100);
-    assert.ok(slow.painted > 30 && slow.colors > 5, `Even slow movement must alter a localized region with varied image pixels: ${JSON.stringify(slow)}.`);
+    assert.ok(slow.changed > 30 && slow.colors > 5, `Slow physical movement must displace actual shared-history pixels: ${JSON.stringify(slow)}.`);
+    assert.ok(slow.snapshot.memory.byKind.cursor > 0 && slow.snapshot.memory.movingCells > 0);
+    assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Background inputs share one image history rather than allocating independent ROI histories.');
     await stableIdle(page);
+    const accepted = (await page.evaluate(() => window.__H4_CORRUPTION__.snapshot())).ambient.memory.accepted;
     await page.evaluate(() => {
       for (let index = 0; index < 12; index++) document.dispatchEvent(new PointerEvent('pointermove', {
         bubbles: true, isPrimary: true, pointerType: 'mouse', clientX: 690, clientY: 600,
       }));
     });
     await page.waitForTimeout(150);
-    assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Same-position layout/hover pointer events must not restart recovered damage.');
+    assert.equal((await page.evaluate(() => window.__H4_CORRUPTION__.snapshot())).ambient.memory.accepted, accepted,
+      'Same-position layout/hover pointer events must not introduce new movement into the shared field.');
+    await freezeBackground(page);
     const fast = await stroke(page, { x: 450, y: 600 }, { x: 750, y: 600 }, 25);
-    assert.ok(fast.painted > slow.painted * 1.2, `Fast movement should damage more image surface (${fast.painted} vs ${slow.painted} pixels).`);
-    assert.ok(fast.alpha > slow.alpha, 'Fast movement must produce stronger sampled-pixel corruption.');
-    assert.ok(fast.boxes.every(box => box.width <= 620 && box.height <= 420));
-    assert.ok(fast.regions <= 2);
-    const anchored = fast.boxes.at(-1);
-    await page.mouse.move(1180, 650);
-    await page.waitForTimeout(90);
-    const moved = await pixels(page);
-    assert.ok(moved.regions <= 2);
-    const old = moved.boxes.find(box => box.id === anchored.id);
-    assert.ok(old, 'Leaving an active region retains its cooling history rather than moving that canvas.');
-    assert.equal(old.left, anchored.left);
-    assert.equal(old.top, anchored.top);
+    assert.ok(fast.changed > slow.changed * 1.2, `Fast movement must damage more actual image surface (${fast.changed} vs ${slow.changed} pixels).`);
+    assert.ok(fast.difference > slow.difference, 'Fast movement must produce stronger sampled-image displacement.');
+    assert.ok(fast.width <= 1120 && fast.height <= 800 && fast.snapshot.memory.cells <= 1400);
+    const anchored = await page.locator('[data-corruption-ambient]').boundingBox();
+    // Pixel readback may take longer than the physical gesture reset window
+    // on software GPUs. Establish a fresh real path before reversing it.
+    await page.mouse.move(740, 600);
+    await page.waitForTimeout(25);
+    await page.mouse.move(470, 650);
+    await page.waitForFunction(before => window.__H4_CORRUPTION__.snapshot().ambient.memory.accepted > before,
+      fast.snapshot.memory.accepted);
+    const moved = await backgroundPixels(page);
+    assert.ok(moved.snapshot.memory.accepted > fast.snapshot.memory.accepted, 'A physical direction reversal enters the existing global field.');
+    assert.ok(moved.changed > 30 && moved.snapshot.memory.heldCells > 0, 'Old damaged pixels remain while new movement is applied.');
+    assert.deepEqual(await page.locator('[data-corruption-ambient]').boundingBox(), anchored, 'History remains in its fixed bounded buffer; pointer input never moves the canvas.');
     assert.deepEqual(await page.locator('.page-heading,.archive-empty,.work-filters').allTextContents(), originalText, 'Live semantic UI remains intact.');
     await page.screenshot({ path: new URL('background-damage.png', output).pathname });
     const drawing = await page.evaluate(() => window.__corruptionProbe);
-    assert.ok(drawing.filmDraws > 0 && drawing.sources.some(url => url === 'canvas:corruption-ambient'
-      || Object.values(livingDecayMaterialAssets).includes(new URL(url, baseURL).pathname)), 'Displaced blocks must draw from the current Living Decay material or its actual animated composite.');
-    assert.ok(drawing.historyDraws > 0, 'Fast motion must reuse actual preceding damaged pixels.');
+    assert.ok(drawing.ambientDraws > 0 && moved.snapshot.advectedBlocks > fast.snapshot.advectedBlocks,
+      'Successive motion transports the actual preceding shared output.');
     assert.equal(drawing.fills, 0, 'The distortion may not substitute solid-color square particles.');
+    assert.equal(drawing.webGL, 0, 'The shared history allocates no extra WebGL renderer on Work.');
+    const recoveryBefore = moved.snapshot.memory.energy;
+    await page.waitForTimeout(1400);
+    const recoveryAfter = (await backgroundPixels(page)).snapshot.memory;
+    assert.ok(recoveryAfter.energy < recoveryBefore, 'Without new input, the signed field progressively recovers instead of being reset or randomly rehashed.');
+    assert.ok(recoveryAfter.accepted >= moved.snapshot.memory.accepted, 'Recovery preserves field identity and cumulative history counters.');
     await stableIdle(page);
 
     await addPhotographFixtures(page);
@@ -218,9 +270,8 @@ try {
     await page.waitForFunction(() => window.__fixtureOpened === true);
     const dialog = page.locator('.artwork-dialog[open]');
     await dialog.locator('img').evaluate(image => image.decode());
-    // Opening this fixture is a real click, so it now also starts the native
-    // click snapshot. Chromium retargets pointer input to the captured root
-    // during that animation. Exercise the live dialog image after it settles.
+    // Exercise the live dialog after any outstanding route/mode capture. Local
+    // click effects never use native snapshots or suspend its hit testing.
     await page.waitForFunction(() => !document.documentElement.hasAttribute('data-mode-snapshot'));
     const dialogImage = await dialog.locator('img').boundingBox();
     const modalPixels = await stroke(page, { x: dialogImage.x + dialogImage.width * .2, y: dialogImage.y + dialogImage.height * .4 },
@@ -244,9 +295,14 @@ try {
     assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'A hidden document clears damage immediately.');
     await page.evaluate(() => { delete document.hidden; document.dispatchEvent(new Event('visibilitychange')); });
     await stroke(page, { x: 450, y: 600 }, { x: 750, y: 600 });
+    const beforeNavigation = await page.evaluate(() => window.__H4_CORRUPTION__.snapshot().ambient);
     await page.locator('.page-nav a[href="/about"]').click();
     await page.waitForFunction(() => document.documentElement.dataset.page === 'about');
-    assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Page replacement discards obsolete photo/background history.');
+    const afterNavigation = await page.evaluate(() => window.__H4_CORRUPTION__.snapshot().ambient);
+    assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Page replacement discards obsolete photo ROI nodes.');
+    assert.equal(afterNavigation.seed, beforeNavigation.seed);
+    assert.equal(afterNavigation.regenerations, beforeNavigation.regenerations, 'Internal navigation must not reset the shared image memory.');
+    assert.ok(afterNavigation.memory.accepted >= beforeNavigation.memory.accepted && afterNavigation.advectedBlocks >= beforeNavigation.advectedBlocks);
     await page.mouse.move(600, 500);
     await changeMode(page, 'normal');
     assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Returning to Normal cancels the render loop and damage.');
@@ -256,7 +312,7 @@ try {
     assert.deepEqual(errors, []);
     reports.push({ profile: 'desktop', slow, fast, drawing,
       renderer: await page.evaluate(() => window.__H4_CORRUPTION__?.snapshot() || null) });
-    console.log('PASS corruption desktop: actual film/photo/history sampling, velocity response, fixed cooling anchors, bounded regions, native-dialog containment, UI operation, recovery/idle, hidden/navigation/mode cleanup and no interior hero.');
+    console.log('PASS corruption desktop: real shared pixel displacement, velocity response, repeated inputs, bounded buffers, photo/modal containment, progressive recovery, navigation memory continuity and lifecycle cleanup.');
     } finally { await context.close(); }
   }
 
@@ -266,6 +322,7 @@ try {
       console.log(`START corruption ${width}px touch: mode activation`);
       await changeMode(page, 'xray');
       await page.waitForTimeout(300);
+      await freezeBackground(page);
       const session = await context.newCDPSession(page);
       console.log(`START corruption ${width}px touch: gesture`);
       // Move left from the interior: a right swipe from the viewport edge is
@@ -276,9 +333,11 @@ try {
       await touch(session, 'touchEnd');
       await page.waitForTimeout(150);
       console.log(`START corruption ${width}px touch: readback`);
-      const state = await pixels(page);
-      assert.ok(state.painted > 20, `Touch movement must also displace actual surface pixels: ${JSON.stringify({state, runtime: await page.evaluate(() => ({ snapshot: window.__H4_CORRUPTION__?.snapshot(), url:location.href, mode:document.documentElement.dataset.mode, background:document.querySelector('.corruption-background')?.className, hidden:document.hidden })), errors})}.`);
-      assert.ok(state.regions <= 2 && state.boxes.every(box => box.width <= 360 && box.height <= 300));
+      const state = await backgroundPixels(page);
+      assert.ok(state.changed > 20, `Touch movement must displace real shared image pixels: ${JSON.stringify({state, errors})}.`);
+      assert.ok(state.width <= 512 && state.height <= 768 && state.snapshot.memory.cells <= 600);
+      assert.ok(state.snapshot.memory.byKind.cursor > 0);
+      assert.equal(await page.locator('[data-corruption-region]').count(), 0);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mobile damage must not expand the document width.');
       assert.ok(requests.some(url => new URL(url).pathname === livingDecayMaterialAssets.mobile), 'Constrained touch profiles use the smaller Living Decay source.');
       console.log(`START corruption ${width}px touch: screenshot`);
@@ -286,11 +345,17 @@ try {
       console.log(`START corruption ${width}px touch: recovery`);
       await stableIdle(page);
       await page.emulateMedia({ reducedMotion: 'reduce' });
+      const reduced = await page.evaluate(() => window.__H4_CORRUPTION__.snapshot().ambient);
       await touch(session, 'touchStart', width - 70, 550);
       await touch(session, 'touchMove', 80, 550);
       await touch(session, 'touchEnd');
       await page.waitForTimeout(150);
       assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Reduced motion removes interactive distortion while retaining static art direction.');
+      const reducedAfter = await page.evaluate(() => window.__H4_CORRUPTION__.snapshot().ambient);
+      assert.equal(reducedAfter.frames, reduced.frames);
+      assert.equal(reducedAfter.memory.accepted, reduced.memory.accepted);
+      assert.equal(reducedAfter.queued, false);
+      assert.equal(await page.evaluate(() => window.__corruptionProbe.webGL), 0);
       assert.deepEqual(errors, []);
       reports.push({ profile: `touch-${width}`, state });
       await session.detach();

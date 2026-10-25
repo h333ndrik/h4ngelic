@@ -180,10 +180,16 @@ export function initScrollChoreography(root = document) {
           const angle = (pose.rotation || 0) * Math.PI / 180;
           const cosine = Math.abs(Math.cos(angle));
           const sine = Math.abs(Math.sin(angle));
-          motionSamples.push({ target: source.element, kind: source.heading ? 'section' : 'typography',
-            x: section.pinLeft - scrollX + source.x + (source.heading ? 0 : pose.x)
-              - ((source.scroller?.scrollLeft || 0) - source.scrollLeft),
-            y: pinY + source.y + (source.heading ? pose.y * source.height / 100 : 0),
+          const x = section.pinLeft - scrollX + source.x + (source.heading ? 0 : pose.x)
+            - ((source.scroller?.scrollLeft || 0) - source.scrollLeft);
+          const y = pinY + source.y + (source.heading ? pose.y * source.height / 100 : 0);
+          const points = [['tl', -1, -1], ['tr', 1, -1], ['br', 1, 1], ['bl', -1, 1]].map(([id, sideX, sideY]) => {
+            const localX = sideX * source.width / 2;
+            const localY = sideY * source.height / 2;
+            return { id, x: x + Math.cos(angle) * localX - Math.sin(angle) * localY,
+              y: y + Math.sin(angle) * localX + Math.cos(angle) * localY };
+          });
+          motionSamples.push({ target: source.element, kind: source.heading ? 'section' : 'typography', x, y, points,
             width: source.width * cosine + source.height * sine,
             height: source.height * cosine + source.width * sine, opacity: pose.opacity, angle });
         }

@@ -4,6 +4,8 @@ Artist website with an interactive chrome wordmark, a horizontal typographic cat
 
 **Inhalte bearbeiten:** [Anleitung für Projekte, Bilder, About und Kontakt](docs/CONTENT.md). Editable data lives in `src/data/artworks.js` and `src/data/siteContent.js`. The archive starts empty and contact destinations stay unset until real projects and addresses are supplied.
 
+**Neu — [gemeinsamer Bildspeicher und 3D-Tinte](docs/DATAMOSH-EXPERIENCE.md):** Beschädigte Bildteile und Farben bleiben im gerenderten Ergebnis erhalten und lassen sich erneut verschieben. Scrollen, Cursor, Logo, Schrift und Hover-Kanten speisen denselben Hintergrundspeicher. Moduswechsel dauern standardmäßig 950 ms, interne Seitenwechsel 340 ms. Auf der normalen Startseite können kurze Klicks oder Taps organische Farbe auf der tatsächlichen 3D-Oberfläche hinterlassen. [Browsernachweise und Messwerte](docs/DATAMOSH-VALIDATION.md).
+
 **Aktueller Stand — [Living Decay und finales h4-Reveal](docs/LIVING-DECAY.md):** Normal Mode verbindet ein durchgängiger, ruhiger Grauverlauf. Das große originale h4 erscheint erst im Schlussabschnitt hinter dem Hinweis. `4` oder Numpad `4` mindestens eine Sekunde halten, um The Other Side zu öffnen; drei getrennte `3`-Drücke innerhalb von zwei Sekunden führen zurück. Pro Aktivierung entsteht eine neue zusammenhängende Materialwelt. Scrollen, Logo- und Schriftbewegungen, Hover, Klicks und interne Seitenwechsel lösen abgestufte Bildkorruption aus. Die stärksten Übergänge zerlegen echte Aufnahmen der sichtbaren Seite. Hero, Geometrie, Physik und bestehender Klang bleiben erhalten. [Prüfung und Messwerte](docs/INTERACTION-DATAMOSH.md).
 
 **HTML-Vorschau ohne ZIP:** [Einzelne HTML-Datei](docs/previews/h4ngelic-preview.html) herunterladen und im Browser öffnen. Sie enthält die vollständige interaktive Website und benötigt kein Internet. Alternativ: [ZIP herunterladen](docs/previews/portfolio-preview.zip), entpacken und die HTML-Datei öffnen.
@@ -46,6 +48,8 @@ npm run test:living-decay # Seed/history, material, cursor, scroll and lifecycle
 npm run test:end-reveal  # Exact final h4 silhouette, progression and mode bridge
 npm run test:interaction-mosh # Rapid clicks, local pixels, navigation and reduced motion
 npm run test:mobile      # Real 4/3 taps, native-scroll ink and desktop preservation
+npm run test:color-memory # Actual old-color carry, signed motion, hover and mobile history
+npm run test:hero-ink    # Real rotating surface paint, touch, occlusion and GPU cleanup
 npm run test:standalone  # Exact exported HTML with every HTTP request blocked
 npm run sounds:export    # Review WAVs from the same runtime PCM/settings
 npm run images:optimize  # Generate responsive WebP files and image dimensions

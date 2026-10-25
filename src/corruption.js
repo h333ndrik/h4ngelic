@@ -70,6 +70,9 @@ export async function createCorruption({ image, settings = corruptionSettings } 
   let sequence = 0;
   let disposed = false;
   let receivedImpulses = 0;
+  let pendingTransition = null;
+  let sharedInputs = 0;
+  let rememberedSurfaces = 0;
   let paintedBlocks = 0;
   let reconstructedBlocks = 0;
   let maximumBlocks = quality.maximumBlocks;
@@ -93,12 +96,25 @@ export async function createCorruption({ image, settings = corruptionSettings } 
     region.canvas.width = region.canvas.height = 1;
   }
 
-  function clear() {
+  function clear({ remember = false } = {}) {
     cancelAnimationFrame(frame);
     frame = 0;
     pending = previous = lastPointer = null;
     pendingImpulses = [];
-    for (const region of [...regions]) removeRegion(region);
+    for (const region of [...regions]) {
+      // Native navigation snapshots retain outgoing DOM pixels separately.
+      // Actual photo history can additionally enter the shared material field
+      // before its old route container is detached. Never reset that field.
+      if (remember && active && region.lastMap) {
+        const map = region.lastMap;
+        ambient.rememberSurface({ image: region.history, rect: {
+          left: map.originX + region.x, top: map.originY + region.y,
+          width: region.width, height: region.height,
+        }, opacity: .4, time: performance.now() });
+        rememberedSurfaces++;
+      }
+      removeRegion(region);
+    }
     doc.documentElement.removeAttribute('data-corruption-running');
   }
 
@@ -169,7 +185,14 @@ export async function createCorruption({ image, settings = corruptionSettings } 
       });
     }
     if (point.kind) {
-      region.field.impulse({ ...local, kind: point.kind, strength: point.strength, dx: point.dx, dy: point.dy });
+      if (point.vectors?.length) {
+        for (const vector of point.vectors.slice(0, 8)) {
+          if (![vector.x, vector.y, vector.dx, vector.dy].every(Number.isFinite)) continue;
+          region.field.impulse({ x: vector.x - map.originX, y: vector.y - map.originY, time: point.time,
+            kind: point.kind, strength: point.strength * clamp(Number.isFinite(vector.weight) ? vector.weight : 1, 0, 1),
+            dx: vector.dx, dy: vector.dy });
+        }
+      } else region.field.impulse({ ...local, kind: point.kind, strength: point.strength, dx: point.dx, dy: point.dy });
       return;
     }
     // Several native moves may be coalesced before one paint. Preserve the
@@ -212,6 +235,7 @@ export async function createCorruption({ image, settings = corruptionSettings } 
     });
     const map = mapping(region.surface);
     if (!samples.length || !map || !region.surface.container.isConnected) { removeRegion(region); return; }
+    region.lastMap = map;
     const blocks = [];
     // Strongest/recent damage gets a bounded drawing budget. Every rectangle
     // contains sampled image pixels, never a randomly colored square.
@@ -278,14 +302,26 @@ export async function createCorruption({ image, settings = corruptionSettings } 
       const point = pending;
       pending = null;
       const surface = surfaceAt(point.target);
-      const map = mapping(surface);
-      if (map) regionAt(surface, point, map);
+      ambient.stroke(point);
+      sharedInputs++;
+      if (!surface.background) {
+        const map = mapping(surface);
+        if (map) regionAt(surface, point, map);
+      }
     }
     for (const point of pendingImpulses.splice(0)) {
       if (point.target?.isConnected === false) continue;
       const surface = surfaceAt(point.target);
-      const map = mapping(surface);
-      if (map) regionAt(surface, point, map);
+      ambient.impulse(point);
+      sharedInputs++;
+      if (!surface.background) {
+        const living = getLivingDecaySettings();
+        const control = { hover: 'hoverMosh', focus: 'hoverMosh', 'hover-motion': 'hoverMosh', click: 'clickMosh',
+          navigation: 'navigationMosh', section: 'sectionMosh', scroll: 'scrollMosh', typography: 'typographyMosh', logo: 'heroMosh' }[point.kind];
+        const strength = point.strength * (living[control] ?? 1);
+        const map = strength > 0 && mapping(surface);
+        if (map) regionAt(surface, { ...point, strength: clamp(strength, 0, 1) }, map);
+      }
     }
     for (const region of [...regions]) paint(region, now);
     const duration = performance.now() - started;
@@ -304,16 +340,13 @@ export async function createCorruption({ image, settings = corruptionSettings } 
       || !Object.hasOwn(temporalMoshSettings.impulses, detail?.kind) || ![detail.x, detail.y, detail.strength].every(Number.isFinite)
       || detail.strength <= 0 || typeof detail.target?.closest !== 'function' || detail.target.isConnected === false
       || detail.target?.closest?.('[data-other-side-hint], [data-corruption-protected]')) return;
-    const living = getLivingDecaySettings();
-    const control = { hover: 'hoverMosh', focus: 'hoverMosh', click: 'clickMosh', navigation: 'navigationMosh',
-      section: 'sectionMosh', scroll: 'scrollMosh', typography: 'typographyMosh', logo: 'typographyMosh' }[detail.kind];
-    const strength = detail.strength * (living[control] ?? 1);
-    if (strength <= 0) return;
     // Discrete input already carries viewport coordinates. Keep it on its real
     // surface; do no event-time layout or cross-surface pointer interpolation.
     pendingImpulses.push({ kind: detail.kind, target: detail.target, time: performance.now(),
       x: clamp(detail.x, 0, viewport.width), y: clamp(detail.y, 0, viewport.height),
-      strength: clamp(strength, 0, 1), dx: detail.dx, dy: detail.dy });
+      strength: clamp(detail.strength, 0, 1), dx: detail.dx, dy: detail.dy, deltaMs: detail.deltaMs,
+      vectors: detail.vectors?.slice(0, 8).map(vector => ({ x: vector.x, y: vector.y,
+        dx: vector.dx, dy: vector.dy, weight: vector.weight })) });
     if (pendingImpulses.length > temporalMoshSettings.maximumQueuedImpulses) pendingImpulses.shift();
     receivedImpulses++;
     if (!frame) {
@@ -326,7 +359,25 @@ export async function createCorruption({ image, settings = corruptionSettings } 
   listen(doc, 'h4:scrollmotion', event => {
     if (active && !disposed && !doc.hidden && !reduced.matches) ambient.setMotion(event.detail);
   });
+  function transitionIntent(detail) {
+    if (disposed || reduced.matches || doc.hidden || !['mode', 'navigation'].includes(detail?.kind)) return;
+    const impulse = { kind: detail.kind, x: viewport.width / 2, y: viewport.height / 2,
+      strength: clamp(Number(detail.strength) || 1, 0, 2), direction: detail.direction,
+      mode: detail.mode, duration: detail.duration, variant: detail.variant, time: performance.now() };
+    if (active) ambient.impulse(impulse);
+    else if (detail.kind === 'mode' && detail.mode === 'xray') pendingTransition = impulse;
+  }
+  listen(doc, 'h4:transitionintent', event => transitionIntent(event.detail));
 
+  listen(doc, 'pointerdown', event => {
+    if (!active || disposed || doc.documentElement.dataset.mode !== 'xray' || reduced.matches || doc.hidden
+      || event.isPrimary === false || getLivingDecaySettings().cursorMosh <= 0
+      || event.target?.closest?.('[data-other-side-hint], [data-corruption-protected]')) return;
+    // Touch scrolling can cancel Pointer Events after its first real move.
+    // Keep the contact position as a numeric baseline so that first movement
+    // still has a physical vector. Contact alone never paints or starts a RAF.
+    lastPointer = { x: event.clientX, y: event.clientY, time: performance.now(), target: event.target };
+  }, { passive: true });
   listen(doc, 'pointermove', event => {
     if (!active || disposed || doc.documentElement.dataset.mode !== 'xray' || reduced.matches || doc.hidden || event.isPrimary === false
       || getLivingDecaySettings().cursorMosh <= 0) return;
@@ -349,7 +400,7 @@ export async function createCorruption({ image, settings = corruptionSettings } 
   listen(doc, 'pointerout', event => { if (!event.relatedTarget) { previous = lastPointer = null; for (const region of regions) region.field.resetPointer(); } });
   listen(window, 'blur', clear);
   listen(doc, 'visibilitychange', () => { if (doc.hidden) clear(); });
-  listen(doc, 'h4:pagechange', clear);
+  listen(doc, 'h4:pagechange', () => clear({ remember: true }));
   listen(window, 'resize', () => {
     viewport = { width: innerWidth, height: innerHeight };
     clear();
@@ -358,10 +409,19 @@ export async function createCorruption({ image, settings = corruptionSettings } 
   listen(reduced, 'change', clear);
   const snapshot = () => ({ active, queued: Boolean(frame), regions: regions.length, frames: frameCount,
     maximumBlocks, pendingImpulses: pendingImpulses.length, receivedImpulses, paintedBlocks, reconstructedBlocks,
+    sharedInputs, rememberedSurfaces,
     drawMs: [...timings], source: source.src, quality, ambient: ambient.snapshot() });
   const controller = {
-    setActive(value) { if (disposed) return; active = value; if (!active) clear(); ambient.setActive(active); },
+    setActive(value) {
+      if (disposed) return;
+      active = value;
+      if (!active) clear();
+      ambient.setActive(active);
+      if (active && pendingTransition) ambient.impulse(pendingTransition);
+      pendingTransition = null;
+    },
     impulse: queueImpulse,
+    transition: transitionIntent,
     configureLivingDecay: patch => disposed ? ambient.readSettings() : ambient.configure(patch),
     readLivingDecaySettings: ambient.readSettings,
     regenerateLivingDecay(value) { if (!disposed) clear(); return ambient.regenerate(value); },

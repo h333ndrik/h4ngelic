@@ -72,8 +72,12 @@ async function controlPoint(page) {
 }
 
 async function tap(cdp, point) {
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] });
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  // Queue a real short contact without keeping the finger down while a slow
+  // software renderer acknowledges the first protocol command.
+  await Promise.all([
+    cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] }),
+    cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }),
+  ]);
 }
 
 async function taps(page, cdp, count, { feedback = false } = {}) {

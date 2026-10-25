@@ -1,4 +1,5 @@
 import { temporalMoshSettings } from './data/temporalMoshSettings.js';
+import { historyCellSample } from './image-memory.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
 
@@ -11,12 +12,8 @@ export function paintTemporalPixels({ context, history, historyContext, width, h
   drawSource, frame = 0, settings = temporalMoshSettings }) {
   context.clearRect(0, 0, width, height);
   for (const block of blocks) {
-    const sourceWidth = Math.min(block.width, width);
-    const sourceHeight = Math.min(block.height, height);
-    const offsetX = clamp(block.offsetX * settings.advectionRatio, -settings.maximumAdvectionPx, settings.maximumAdvectionPx);
-    const offsetY = clamp(block.offsetY * settings.advectionRatio, -settings.maximumAdvectionPx, settings.maximumAdvectionPx);
-    const sx = clamp(block.x - offsetX, 0, width - sourceWidth);
-    const sy = clamp(block.y - offsetY, 0, height - sourceHeight);
+    const { sx, sy, sw: sourceWidth, sh: sourceHeight } = historyCellSample(block, width, height,
+      settings.maximumAdvectionPx, settings.advectionRatio);
     context.globalAlpha = block.opacity;
     context.drawImage(history, sx, sy, sourceWidth, sourceHeight, block.x, block.y,
       block.width + block.stretch, block.height);
@@ -38,6 +35,7 @@ export function paintTemporalPixels({ context, history, historyContext, width, h
     const block = blocks[index];
     historyContext.globalAlpha = settings.minimumReconstruction
       + (settings.maximumReconstruction - settings.minimumReconstruction) * block.progress ** 2;
+    historyContext.globalAlpha *= .65 + ((index * 73 % 101) / 100) * .35;
     drawSource(historyContext, { ...block, offsetX: 0, offsetY: 0, stretch: 0 });
     reconstructed++;
   }

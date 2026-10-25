@@ -1,6 +1,7 @@
 import { ambientFilmSettings } from './data/ambientFilmSettings.js';
 import { configureLivingDecay, getLivingDecaySettings, normalizeLivingSeed, subscribeLivingDecay } from './data/livingDecaySettings.js';
-import { createLivingComposition, renderLivingMaterial, livingRegion, livingCodecFragment, livingRandom } from './living-decay-material.js';
+import { createLivingComposition, renderLivingMaterial, livingCodecFragment } from './living-decay-material.js';
+import { createImageMemoryField, paintImageMemory } from './image-memory.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
 const finite = (value, fallback) => Number.isFinite(value) ? value : fallback;
@@ -79,6 +80,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
   let activated = false;
   let disposed = false;
   let timer = 0;
+  let scheduledCadence = 0;
   let frame = 0;
   let frames = 0;
   let regenerations = 0;
@@ -98,6 +100,13 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
   let motion = { x: 0, y: 0, strength: 0, time: 0 };
   let flow = { x: 0, y: 0, strength: 0 };
   let codec = [];
+  let memory = createImageMemoryField({ width: canvas.width, height: canvas.height, seed: currentSeed,
+    maxCells: quality.maximumCells || 1400 });
+  let parallax = { x: 0, y: 0 };
+  let previousPointer = null;
+  let advectedBlocks = 0, recoveredBlocks = 0, carriedSurfaces = 0;
+  let lastInputTime = -Infinity;
+  let activeCadence = quality.activeFramesPerSecond || (profile === 'mobile' ? 18 : 24);
   const now = () => view.performance.now();
   const listen = (target, type, callback) => {
     target.addEventListener(type, callback);
@@ -136,6 +145,9 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     validSource = prepared = false;
     motion = { x: 0, y: 0, strength: 0, time: 0 };
     flow = { x: 0, y: 0, strength: 0 };
+    memory = createImageMemoryField({ width: canvas.width, height: canvas.height, cellSize: controls.blockSize,
+      seed: currentSeed, maxCells: quality.maximumCells || 1400 });
+    parallax = { x: 0, y: 0 }; previousPointer = null;
     regenerations++;
     canvas.dataset.livingSeed = String(currentSeed);
     if (active) sync();
@@ -197,59 +209,142 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     preparationMs = now() - started;
   }
 
-  function regionalMotion(time, delta, timestamp) {
-    const age = Math.max(0, timestamp - motion.time);
-    const decay = Math.exp(-age / (70 + controls.scrollInertia * 330));
-    const blend = 1 - Math.exp(-Math.max(.016, delta) * 6);
-    const target = motion.strength * decay;
-    flow.x += (motion.x * target - flow.x) * blend;
-    flow.y += (motion.y * target - flow.y) * blend;
-    flow.strength += (target - flow.strength) * blend;
-    if (Math.abs(flow.x) + Math.abs(flow.y) + flow.strength < .001) flow = { x: 0, y: 0, strength: 0 };
-    const count = quality.regions || (profile === 'mobile' ? 11 : 26);
-    const bitmap = validSource ? history : material;
-    for (let index = 0; index < count; index++) {
-      const region = livingRegion(composition, index, time * (.75 + controls.mutationSpeed * .5), controls);
-      const width = Math.max(1, Math.min(canvas.width, region.width * canvas.width));
-      const height = Math.max(1, Math.min(canvas.height, region.height * canvas.height));
-      const x = clamp(region.x * canvas.width, 0, canvas.width - width);
-      const y = clamp(region.y * canvas.height, 0, canvas.height - height);
-      const lag = .25 + livingRandom(currentSeed, index + 201) * .75;
-      const mx = clamp(flow.x * controls.scrollStrength * lag * 11, -44, 44) * canvas.width / viewport.width;
-      const my = clamp(flow.y * controls.scrollStrength * lag * 11, -44, 44) * canvas.height / viewport.height;
-      context.globalAlpha = clamp(region.opacity * (.45 + controls.feedbackPersistence * .55)
-        + flow.strength * .17 * controls.scrollMosh, 0, .65);
-      if (context.globalAlpha <= 0) continue;
-      context.drawImage(bitmap, clamp(x - region.dx * canvas.width - mx, 0, canvas.width - width),
-        clamp(y - region.dy * canvas.height - my, 0, canvas.height - height), width, height, x, y, width, height);
+  function parallaxOffset() {
+    // Finite source images cannot travel forever at a constant ratio without
+    // tiling. Ease continuously into overscan instead of a hard frozen clamp.
+    const soften = (value, limit) => limit * 2 / Math.PI * Math.atan(value / limit * Math.PI / 2);
+    return { x: soften(parallax.x, viewport.width * .205), y: soften(parallax.y, viewport.height * .205) };
+  }
+
+  function sourceRect() {
+    // A continuous overscanned source, not a translated DOM layer or tiles.
+    // At .70 crop there is ~21% viewport travel available in either direction.
+    const width = material.width * .7, height = material.height * .7;
+    const offset = parallaxOffset();
+    return { x: (material.width - width) / 2 + offset.x / viewport.width * width,
+      y: (material.height - height) / 2 + offset.y / viewport.height * height, width, height };
+  }
+
+  function wake() {
+    if (!canRun()) return;
+    lastInputTime = now();
+    // Replace the idle timer with the *same* scheduler at its active cadence.
+    // A burst of DOM input never creates one render per event.
+    if (timer && scheduledCadence < activeCadence) { view.clearTimeout(timer); timer = 0; }
+    schedule();
+  }
+
+  function input(point, gain = 1, radius = 70) {
+    const sx = canvas.width / viewport.width, sy = canvas.height / viewport.height;
+    const result = memory.impulse({ kind: point.kind, x: point.x * sx, y: point.y * sy,
+      dx: point.dx * sx, dy: point.dy * sy, deltaMs: point.deltaMs,
+      strength: point.strength * gain, radius: radius * Math.max(sx, sy), time: point.time ?? now() });
+    if (result) wake();
+    return result;
+  }
+
+  function impulse(detail = {}) {
+    if (!canRun() || ![detail.x, detail.y, detail.strength].every(Number.isFinite) || detail.strength <= 0) return false;
+    const gains = { cursor: controls.cursorMosh, hover: controls.hoverMosh, focus: controls.hoverMosh,
+      'hover-motion': controls.hoverMosh, click: controls.clickMosh, navigation: controls.navigationMosh,
+      section: controls.sectionMosh, scroll: controls.scrollMosh, typography: controls.typographyMosh,
+      type: controls.typographyMosh, logo: controls.heroMosh, mode: 2 };
+    if (!Object.hasOwn(gains, detail.kind) || gains[detail.kind] <= 0) return false;
+    const gain = gains[detail.kind];
+    const radius = detail.kind === 'cursor' ? controls.cursorRadius
+      : detail.kind === 'hover-motion' || detail.kind === 'hover' ? 70
+      : detail.kind === 'logo' ? 118 : detail.kind === 'mode' ? Math.max(viewport.width, viewport.height) : 135;
+    if (Array.isArray(detail.vectors) && detail.vectors.length) {
+      let accepted = false;
+      for (const vector of detail.vectors.slice(0, 12)) {
+        if (![vector.x, vector.y, vector.dx, vector.dy].every(Number.isFinite)) continue;
+        accepted = input({ ...vector, kind: detail.kind, time: detail.time,
+          deltaMs: detail.deltaMs, strength: detail.strength * clamp(finite(vector.weight, 1), 0, 1) }, gain, radius) || accepted;
+      }
+      return accepted;
     }
-    // Thin compressed remnants evolve at their own phases and recover from
-    // current material pixels; the entire backdrop never moves as one plane.
-    const remnants = profile === 'mobile' ? 12 : 30;
-    for (let index = 0; index < Math.min(codec.length, remnants); index++) {
-      const fragment = codec[index];
-      const phase = livingRandom(currentSeed, index + 301) * Math.PI * 2;
-      const envelope = .5 + .5 * Math.sin(time * (.04 + controls.mutationSpeed * .08) + phase);
-      const width = Math.max(1, Math.min(canvas.width, fragment.width * canvas.width));
-      const height = Math.max(1, Math.min(canvas.height, fragment.height * canvas.height));
-      const x = clamp(fragment.x * canvas.width, 0, canvas.width - width);
-      const y = clamp(fragment.y * canvas.height, 0, canvas.height - height);
-      const movement = Math.sin(time * .055 + phase) * controls.idleIntensity;
-      context.globalAlpha = fragment.opacity * envelope * controls.idleIntensity * .42;
-      context.drawImage(bitmap, clamp(x - fragment.dx * canvas.width * movement, 0, canvas.width - width),
-        clamp(y - fragment.dy * canvas.height * movement, 0, canvas.height - height), width, height,
-        x, y, Math.min(canvas.width - x, width * (1 + (fragment.stretch - 1) * envelope * .16)), height);
+    if (detail.kind === 'mode' || detail.kind === 'navigation') {
+      const reverse = detail.direction === 'reverse' || detail.direction === 'leaving' || detail.mode === 'normal';
+      let accepted = false;
+      for (let index = 0; index < 6; index++) {
+        const x = ((index % 3) + .5) / 3 * viewport.width;
+        const y = (Math.floor(index / 3) + .5) / 2 * viewport.height;
+        const direction = reverse ? -1 : 1;
+        accepted = input({ kind: detail.kind, x, y, dx: direction * (x - viewport.width / 2) * .23,
+          dy: direction * (y - viewport.height / 2) * .15, deltaMs: 80,
+          strength: detail.strength, time: detail.time }, gain, radius * .58) || accepted;
+      }
+      return accepted;
     }
-    context.globalAlpha = 1;
+    if (Number.isFinite(detail.dx) && Number.isFinite(detail.dy)) return input(detail, gain, radius);
+    // A stationary click pushes the *existing* image away from the target.
+    // No fresh randomized texture is generated by this event.
+    let accepted = false;
+    for (const sign of [-1, 1]) accepted = input({ ...detail, x: detail.x + sign * radius * .26,
+      dx: sign * 18, dy: sign * 3, deltaMs: 70 }, gain, radius * .72) || accepted;
+    return accepted;
+  }
+
+  function stroke(point = {}) {
+    if (!canRun() || ![point.x, point.y, point.time].every(Number.isFinite)) return false;
+    const previous = Object.hasOwn(point, 'priorInput') ? point.priorInput : previousPointer;
+    previousPointer = { x: point.x, y: point.y, time: point.time };
+    if (!previous || point.time - previous.time > 250 || point.time < previous.time) return false;
+    const dx = point.x - previous.x, dy = point.y - previous.y;
+    if (Math.hypot(dx, dy) < .25) return false;
+    const count = Math.min(8, Math.max(1, Math.ceil(Math.hypot(dx, dy) / controls.cursorRadius)));
+    let accepted = false;
+    for (let index = 1; index <= count; index++) accepted = impulse({ kind: 'cursor',
+      x: previous.x + dx * index / count, y: previous.y + dy * index / count, dx, dy,
+      deltaMs: Math.max(8, point.time - previous.time), time: point.time,
+      strength: finite(point.strength, .45 + Math.min(1, Math.hypot(dx, dy) / Math.max(8, point.time - previous.time)) * .4) }) || accepted;
+    return accepted;
+  }
+
+  function setMotion(value = {}) {
+    if (!canRun() || ![value.x, value.y, value.strength].every(Number.isFinite)) return;
+    motion = { x: clamp(value.x, -4, 4), y: clamp(value.y, -4, 4), strength: clamp(value.strength, 0, 2),
+      time: clamp(finite(value.time, now()), now() - 1000, now()) };
+    const dx = clamp(finite(value.deltaX), -1e7, 1e7), dy = clamp(finite(value.deltaY), -1e7, 1e7);
+    // Only native displacement changes the source position. Inertia-tail
+    // events explicitly carry delta=0 and cannot fabricate parallax travel.
+    parallax.x = clamp(parallax.x + dx * controls.parallaxStrength, -1e7, 1e7);
+    parallax.y = clamp(parallax.y + dy * controls.parallaxStrength, -1e7, 1e7);
+    if (motion.strength <= .001 || controls.scrollMosh <= 0) return;
+    const dt = clamp(finite(value.deltaMs, 80), 8, 150);
+    for (let index = 0; index < 6; index++) input({ kind: 'scroll',
+      x: ((index % 3) + .5) / 3 * viewport.width, y: (Math.floor(index / 3) + .5) / 2 * viewport.height,
+      dx: motion.x * dt * controls.scrollStrength * .34,
+      dy: motion.y * dt * controls.scrollStrength * .34,
+      deltaMs: dt, strength: motion.strength * .65, time: motion.time },
+      controls.scrollMosh, Math.max(viewport.width / 3, viewport.height / 2));
+  }
+
+  function rememberSurface({ image: bitmap, rect, opacity = .4, time = now() } = {}) {
+    if (!canRun() || !bitmap || !rect || ![rect.left, rect.top, rect.width, rect.height].every(Number.isFinite)
+      || rect.width <= 0 || rect.height <= 0 || !validSource) return false;
+    const sx = canvas.width / viewport.width, sy = canvas.height / viewport.height;
+    historyContext.globalCompositeOperation = 'source-over'; historyContext.globalAlpha = clamp(opacity, 0, .8);
+    historyContext.drawImage(bitmap, rect.left * sx, rect.top * sy, rect.width * sx, rect.height * sy);
+    historyContext.globalAlpha = 1;
+    context.drawImage(history, 0, 0);
+    carriedSurfaces++;
+    input({ kind: 'navigation', x: rect.left + rect.width / 2, y: rect.top + rect.height / 2,
+      dx: -12, dy: -4, deltaMs: 80, strength: .5, time }, controls.navigationMosh, Math.max(rect.width, rect.height) * .65);
+    return true;
   }
 
   function schedule() {
     if (!canRun() || timer || frame) return;
+    const energy = memory.snapshot().energy;
+    const moving = now() - lastInputTime < 650 || energy > .012;
+    const requested = moving ? activeCadence : cadence;
+    scheduledCadence = requested;
     timer = view.setTimeout(() => {
       timer = 0;
       if (!canRun()) return;
       frame = view.requestAnimationFrame(paint);
-    }, 1000 / cadence);
+    }, 1000 / requested);
   }
 
   function paint(timestamp = now()) {
@@ -261,14 +356,36 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     previousTime = timestamp;
     const alreadyPrepared = prepared;
     prepareMaterial();
-    if (validSource) {
-      historyContext.globalCompositeOperation = 'copy';
+    const rect = sourceRect();
+    if (!validSource) {
+      context.globalAlpha = 1; context.globalCompositeOperation = 'copy';
+      context.drawImage(material, rect.x, rect.y, rect.width, rect.height, 0, 0, canvas.width, canvas.height);
+      historyContext.globalAlpha = 1; historyContext.globalCompositeOperation = 'copy';
       historyContext.drawImage(canvas, 0, 0);
+    } else {
+      // Slow chemical drift is distinct from interaction motion. Stable source
+      // regions evolve continuously; they never rehash or flash on a timer.
+      if (controls.idleIntensity > 0 && delta > 0) for (let index = 0; index < 4; index++) {
+        const phase = random(currentSeed, index + 1901) * Math.PI * 2;
+        memory.impulse({ kind: 'idle', x: random(currentSeed, index + 2001) * canvas.width,
+          y: random(currentSeed, index + 2101) * canvas.height,
+          dx: Math.sin(elapsed * (.08 + controls.mutationSpeed * .08) + phase) * delta * 45,
+          dy: Math.cos(elapsed * .06 + phase) * delta * 25,
+          deltaMs: delta * 1000, strength: controls.idleIntensity * .5,
+          radius: Math.min(canvas.width, canvas.height) * .15, time: timestamp });
+      }
+      const cells = memory.step({ time: timestamp, deltaMs: delta * 1000,
+        persistence: controls.feedbackPersistence, recoverySpeed: controls.recoverySpeed,
+        displacement: controls.pixelDisplacement, colorBleeding: controls.colorBleeding,
+        negativeExposure: controls.negativeExposure });
+      const result = paintImageMemory({ context, history, historyContext, source: material,
+        width: canvas.width, height: canvas.height, cells, sourceRect: rect });
+      advectedBlocks += result.advected; recoveredBlocks += result.recovered;
     }
-    context.globalAlpha = 1;
-    context.globalCompositeOperation = 'source-over';
-    context.drawImage(material, 0, 0);
-    regionalMotion(elapsed, delta, timestamp);
+    const age = Math.max(0, timestamp - motion.time);
+    const decay = Math.exp(-age / (70 + controls.scrollInertia * 330));
+    flow = { x: motion.x * decay, y: motion.y * decay, strength: motion.strength * decay };
+    if (flow.strength < .001) flow = { x: 0, y: 0, strength: 0 };
     validSource = true;
     canvas.hidden = false;
     canvas.dataset.ambientFrame = String(++frames);
@@ -276,9 +393,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     const duration = now() - started;
     times.push(duration);
     if (times.length > 180) times.shift();
-    // Preparation is paid once per seed/resize/config, never used to lower a
-    // healthy steady-state cadence. Later expensive frames degrade one way.
-    if (alreadyPrepared && duration > 14 && cadence > 2) cadence = Math.max(2, cadence - 1);
+    if (alreadyPrepared && duration > 14 && activeCadence > 10) activeCadence = Math.max(10, activeCadence - 2);
     schedule();
   }
 
@@ -288,6 +403,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
       canvas.hidden = true;
       motion = { x: 0, y: 0, strength: 0, time: 0 };
       flow = { x: 0, y: 0, strength: 0 };
+      previousPointer = null;
       return;
     }
     paint(now());
@@ -302,6 +418,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     canvas.style.width = `${viewport.width}px`;
     canvas.style.height = `${viewport.height}px`;
     validSource = prepared = false;
+    memory.resize(dimensions.width, dimensions.height, controls.blockSize);
     sync();
   }
 
@@ -309,6 +426,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     if (disposed) return;
     controls = next;
     if (detail.changed.includes('seed') && next.seed !== null && next.seed !== currentSeed) { resetComposition(next.seed); return; }
+    if (detail.changed.includes('blockSize')) memory.resize(canvas.width, canvas.height, controls.blockSize);
     if (detail.changed.some(key => ['organicDecay', 'colorVariation', 'voidCoverage', 'bleachCoverage', 'blockSize'].includes(key))) {
       prepared = false;
       composition = createLivingComposition(currentSeed, controls);
@@ -330,11 +448,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
       if (active && activated) regenerate(controls.seed ?? undefined);
       else { if (active) activated = true; sync(); if (active) announceSeed(); }
     },
-    setMotion(value = {}) {
-      if (disposed || !active || ![value.x, value.y, value.strength].every(Number.isFinite)) return;
-      motion = { x: clamp(value.x, -4, 4), y: clamp(value.y, -4, 4), strength: clamp(value.strength, 0, 2),
-        time: clamp(finite(value.time, now()), now() - 1000, now()) };
-    },
+    setMotion, impulse, stroke, rememberSurface,
     configure: patch => disposed ? controls : configureLivingDecay(patch),
     readSettings: () => controls,
     regenerate: value => disposed ? currentSeed : regenerate(value),
@@ -347,7 +461,10 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     snapshot: () => ({ active, queued: Boolean(timer || frame), frames, elapsed, seed: currentSeed, regenerations,
       width: canvas.width, height: canvas.height, framesPerSecond: cadence, quality: profile,
       drawMs: [...times], preparationMs, viewport: { ...viewport }, settings: { ...controls },
-      composition, motion: { ...flow }, material: { width: material.width, height: material.height,
+      composition, motion: { ...flow }, memory: memory.snapshot(),
+      parallax: { ...parallax, offsetX: parallaxOffset().x, offsetY: parallaxOffset().y,
+        sourceX: sourceRect().x, sourceY: sourceRect().y, strength: controls.parallaxStrength },
+      advectedBlocks, recoveredBlocks, carriedSurfaces, activeFramesPerSecond: activeCadence, material: { width: material.width, height: material.height,
         codecFragments: codec.length, sourceReadback: Boolean(sourcePixels) } }),
     dispose() {
       if (disposed) return;

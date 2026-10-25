@@ -38,10 +38,23 @@ try {
   await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal' && !document.documentElement.hasAttribute('data-mode-snapshot') && !document.documentElement.hasAttribute('data-xray-transition'));
   const mobileMode = page.locator('[data-mobile-mode]');
   assert.equal(await mobileMode.isVisible(), true);
-  for (let index = 0; index < 4; index++) await mobileMode.tap();
+  const cdp = await context.newCDPSession(page);
+  async function shortTaps(count) {
+    const box = await mobileMode.boundingBox();
+    const point = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    for (let index = 0; index < count; index++) {
+      await Promise.all([
+        cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] }),
+        cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }),
+      ]);
+      if (index < count - 1) await page.waitForTimeout(65);
+    }
+  }
+  await shortTaps(4);
   await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray' && !document.documentElement.hasAttribute('data-mode-snapshot') && !document.documentElement.hasAttribute('data-xray-transition'));
-  for (let index = 0; index < 3; index++) await mobileMode.tap();
+  await shortTaps(3);
   await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal' && !document.documentElement.hasAttribute('data-mode-snapshot') && !document.documentElement.hasAttribute('data-xray-transition'));
+  await cdp.detach();
   const result = await page.evaluate(() => ({ events: window.__offlineModeEvents,
     viewTransitionSupported: typeof document.startViewTransition === 'function',
     retainedMaps: document.querySelectorAll('.mode-snapshot-definitions feImage[href]').length,

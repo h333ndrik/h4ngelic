@@ -1,5 +1,7 @@
 import './interactions.css';
 import { uiEffectSettings, boundedHoverScale, uiEffectProperties } from './data/uiEffectSettings.js';
+import { createVisualMotionPublisher } from './motion-mosh.js';
+import { createFiniteHoverMotion } from './finite-hover-motion.js';
 
 const magneticSelector = '.category-link, .contact-link[href], .hero-nav a, .page-nav a, .text-link';
 const interactiveSelector = 'a[href], button, [role="button"]';
@@ -19,6 +21,9 @@ export function initInteractions(root = document, { revealSections = true, setti
   const states = new Map();
   const wrappers = new Map();
   const originalProperties = new Map();
+  const motionPublisher = createVisualMotionPublisher({ doc: owner });
+  const hoverMotion = createFiniteHoverMotion({ doc: owner,
+    publish: (samples, time) => motionPublisher.publish(samples, time) });
   let observer = null;
   let resizeObserver = null;
   let contentObserver = null;
@@ -43,10 +48,16 @@ export function initInteractions(root = document, { revealSections = true, setti
     observer?.unobserve(section);
   }
 
+  function trackHover(target, duration = settings.hover.durationMs) {
+    const visual = targets.get(target)?.wrapper;
+    if (visual) hoverMotion.track({ target, visual }, duration + 64);
+  }
+
   function resetMagnet() {
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
     if (active) {
+      trackHover(active.link, settings.hover.releaseMs);
       active.wrapper.style.removeProperty('--magnet-x');
       active.wrapper.style.removeProperty('--magnet-y');
       active.link.removeAttribute('data-magnet-active');
@@ -74,8 +85,13 @@ export function initInteractions(root = document, { revealSections = true, setti
     const horizontalScroll = (active.scroller?.scrollLeft || 0) - scrollerLeft;
     const dx = normalize((active.pointerX + scrollX - x + horizontalScroll - width / 2) / (width / 2)) * settings.magnetDistance;
     const dy = normalize((active.pointerY + scrollY - y - height / 2) / (height / 2)) * settings.magnetDistance;
-    active.wrapper.style.setProperty('--magnet-x', `${dx.toFixed(2)}px`);
-    active.wrapper.style.setProperty('--magnet-y', `${dy.toFixed(2)}px`);
+    const magnetX = `${dx.toFixed(2)}px`;
+    const magnetY = `${dy.toFixed(2)}px`;
+    if (active.wrapper.style.getPropertyValue('--magnet-x') === magnetX
+      && active.wrapper.style.getPropertyValue('--magnet-y') === magnetY) return;
+    trackHover(active.link);
+    active.wrapper.style.setProperty('--magnet-x', magnetX);
+    active.wrapper.style.setProperty('--magnet-y', magnetY);
   }
 
   function move(event, state) {
@@ -142,7 +158,14 @@ export function initInteractions(root = document, { revealSections = true, setti
     }
     targets.set(target, { wrapper, attribute: target.getAttribute('data-ui-interactive'), scale: target.style.getPropertyValue('--ui-target-scale') });
     target.setAttribute('data-ui-interactive', '');
-    listen(target, 'pointerenter', (event) => { if (event.pointerType === 'mouse' && fine.matches && !reduced.matches) fitVisual(target); }, { passive: true });
+    listen(target, 'pointerenter', (event) => {
+      if (event.pointerType !== 'mouse' || !fine.matches || reduced.matches) return;
+      trackHover(target);
+      fitVisual(target);
+    }, { passive: true });
+    listen(target, 'pointerleave', event => {
+      if (event.pointerType === 'mouse') trackHover(target, settings.hover.releaseMs);
+    }, { passive: true });
     resizeObserver?.observe(target);
     if (!target.matches(magneticSelector)) return;
     const state = { link: target, wrapper, scroller: target.closest('.category-strip, .contact-links'), bounds: null };
@@ -182,7 +205,11 @@ export function initInteractions(root = document, { revealSections = true, setti
     reveal(event.target.closest?.('.content-section'), true);
     resetMagnet();
     const target = event.target.closest?.('[data-ui-interactive]');
-    if (target) fitVisual(target);
+    if (target) { trackHover(target); fitVisual(target); }
+  });
+  listen(root, 'focusout', event => {
+    const target = event.target.closest?.('[data-ui-interactive]');
+    if (target) trackHover(target, settings.hover.releaseMs);
   });
   listen(reduced, 'change', () => {
     resetMagnet();
@@ -196,6 +223,8 @@ export function initInteractions(root = document, { revealSections = true, setti
   return function dispose() {
     disposed = true;
     resetMagnet();
+    hoverMotion.dispose();
+    motionPublisher.reset();
     observer?.disconnect();
     resizeObserver?.disconnect();
     contentObserver?.disconnect();

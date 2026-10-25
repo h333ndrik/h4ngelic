@@ -62,7 +62,8 @@ export function initMoshTransitions({ doc = document } = {}) {
     // A null return always means the caller still owns the update. Once run
     // accepts it, even a thrown native API gets a handled fallback promise.
     if (!enabled() || typeof doc.startViewTransition !== 'function') return null;
-    const amount = getLivingDecaySettings().navigationMosh;
+    const controls = getLivingDecaySettings();
+    const amount = controls.navigationMosh;
     if (amount <= 0) return null;
     const tune = interactionMoshSettings.navigation;
     let updatePromise;
@@ -71,7 +72,7 @@ export function initMoshTransitions({ doc = document } = {}) {
       return updatePromise;
     };
     const handle = snapshot.run(commit, {
-      kind: 'navigation', duration: tune.durationMs,
+      kind: 'navigation', duration: controls.navigationTransitionMs,
       // Mode switching remains the strongest capture even at nav strength 1.
       strength: clamp(clamp(tune.strength, 0, 1) * .8 * amount, 0, 1),
       dx: tune.dx, dy: tune.dy,

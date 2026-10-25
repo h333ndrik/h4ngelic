@@ -12,6 +12,7 @@ import { featureFlags } from './data/featureFlags.js';
 import { createHeroDepth } from './hero-depth.js';
 import { sampleHero } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
+import { createHeroInk, isHeroInkClick } from './hero-ink.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
@@ -108,6 +109,13 @@ async function initialize() {
   const logo = new THREE.Group();
   logo.add(wordmark);
   scene.add(logo);
+  const heroInk = createHeroInk({ mesh: wordmark, camera, canvas, profile: quality.name,
+    reduced: () => reducedMotion.matches });
+  let inkCandidate = null;
+  const cancelInkGesture = () => { inkCandidate = null; };
+  document.addEventListener('h4:modechange', cancelInkGesture);
+  document.addEventListener('h4:pagechange', cancelInkGesture);
+  window.addEventListener('blur', cancelInkGesture);
 
   // Only an explicitly supplied original artwork is loaded. No substitute art.
   const artworkUrl = import.meta.env.VITE_TATTOO_ARTWORK_URL || (quality.name === 'desktop' ? '/assets/tattoo-texture.webp' : '/assets/tattoo-texture-640.webp');
@@ -204,12 +212,14 @@ async function initialize() {
     let maximumX = -Infinity;
     let minimumY = Infinity;
     let maximumY = -Infinity;
-    for (const corner of motionCorners) {
+    const points = [];
+    for (const [id, corner] of motionCorners.entries()) {
       motionPoint.copy(corner).applyMatrix4(wordmark.matrixWorld).project(camera);
       minimumX = Math.min(minimumX, motionPoint.x);
       maximumX = Math.max(maximumX, motionPoint.x);
       minimumY = Math.min(minimumY, motionPoint.y);
       maximumY = Math.max(maximumY, motionPoint.y);
+      points.push({ id, x: left + (motionPoint.x + 1) * width / 2, y: top + (1 - motionPoint.y) * height / 2 });
     }
     const angularVelocity = previousMotionTime === null ? 0
       : logo.quaternion.angleTo(motionQuaternion) * 1000 / Math.max(1, timestamp - previousMotionTime);
@@ -217,7 +227,7 @@ async function initialize() {
     previousMotionTime = timestamp;
     motionPublisher.publish([{ kind: 'logo', target: canvas, x, y,
       width: Math.max(1, (maximumX - minimumX) * width / 2),
-      height: Math.max(1, (maximumY - minimumY) * height / 2), opacity: pose.opacity, angularVelocity }], timestamp);
+      height: Math.max(1, (maximumY - minimumY) * height / 2), opacity: pose.opacity, angularVelocity, points }], timestamp);
   }
 
   function locate(event) {
@@ -232,6 +242,8 @@ async function initialize() {
   function pointerMove(event) {
     if (dragPointer !== null && event.pointerId !== dragPointer) return;
     if (document.hidden || !stageIsVisible) return;
+    if (inkCandidate?.pointerId === event.pointerId) inkCandidate.travel = Math.max(inkCandidate.travel,
+      Math.hypot(event.clientX - inkCandidate.x, event.clientY - inkCandidate.y));
     pendingPointer = { clientX: event.clientX, clientY: event.clientY, pointerId: event.pointerId, pointerType: event.pointerType };
   }
 
@@ -259,9 +271,14 @@ async function initialize() {
 
   function pointerDown(event) {
     if (!event.isPrimary || event.button !== 0) return;
+    inkCandidate = null;
     pendingPointer = null;
     const hit = locate(event);
     if (!hit) return;
+    if (document.documentElement.dataset.mode === 'normal' && document.documentElement.dataset.page === 'home') {
+      inkCandidate = { x: event.clientX, y: event.clientY, time: performance.now(), travel: 0,
+        pointerId: event.pointerId, faceIndex: hit.faceIndex };
+    }
     dragPointer = event.pointerId;
     canvas.setPointerCapture(event.pointerId);
     physics.beginDrag(planePoint, basePosition, performance.now() / 1000);
@@ -277,6 +294,9 @@ async function initialize() {
     // Preserve the last coalesced drag sample even when release precedes the
     // next frame. A cancelled touch scroll must not apply that queued movement.
     if (event.type === 'pointerup' && pendingPointer && !document.hidden && stageIsVisible) processPointer(pendingPointer, now);
+    const paintCandidate = inkCandidate;
+    const paintHit = !document.hidden && stageIsVisible && isHeroInkClick(paintCandidate, event, now) ? locate(event) : null;
+    inkCandidate = null;
     physics.endDrag(now / 1000);
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
     dragPointer = null;
@@ -287,6 +307,7 @@ async function initialize() {
       physics.velocity.set(0, 0, 0);
       physics.angularVelocity.set(0, 0, 0);
     }
+    if (paintHit) void heroInk.stamp(paintHit, { startedFaceIndex: paintCandidate.faceIndex });
   }
 
   function pointerLeave() {
@@ -328,6 +349,7 @@ async function initialize() {
     bounds.x = Math.max(.15, worldSize.x / 2 / perspectiveMargin - halfExtents.x - .2);
     bounds.y = Math.max(.15, worldSize.y / 2 / perspectiveMargin - halfExtents.y - .2);
     publishLogoMotion(timestamp);
+    heroInk.update(timestamp);
     if (artwork) artwork.opacity.value = revealEnabled ? revealWeight(logo.quaternion, Number(import.meta.env.VITE_REVEAL_ANGLE || 150)) : 0;
     renderer.render(scene, camera);
     if (frameCount === 0) {
@@ -348,6 +370,7 @@ async function initialize() {
       animationFrame = 0;
       pendingPointer = null;
       previousPoint = null;
+      inkCandidate = null;
       resolution.reset();
       motionPublisher.reset();
       previousMotionTime = null;
@@ -362,21 +385,33 @@ async function initialize() {
 
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount }),
-      hitPoint: () => {
+      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
+        heroInk: { ...heroInk.snapshot(), gpu: { ...renderer.info.memory } } }),
+      hitPoint: ({ minFacing = 0, maxFacing = 1, minAbsNormalZ = 0, maxAbsNormalZ = 1 } = {}) => {
         // Search real geometry instead of guessing a point inside a glyph hole.
         const vertices = geometry.getAttribute('position');
         const point = new THREE.Vector3();
         const rect = canvas.getBoundingClientRect();
         const triangle = new THREE.Vector3();
-        for (let i = 0; i + 2 < vertices.count; i += 21) {
+        const normalMatrix = new THREE.Matrix3().getNormalMatrix(wordmark.matrixWorld);
+        const cameraPoint = camera.getWorldPosition(new THREE.Vector3());
+        const searchStep = minFacing === 0 && maxFacing === 1 && minAbsNormalZ === 0 && maxAbsNormalZ === 1 ? 21 : 3;
+        for (let i = 0; i + 2 < vertices.count; i += searchStep) {
           point.fromBufferAttribute(vertices, i);
           point.add(triangle.fromBufferAttribute(vertices, i + 1));
           point.add(triangle.fromBufferAttribute(vertices, i + 2)).divideScalar(3);
           point.applyMatrix4(wordmark.matrixWorld).project(camera);
           const x = rect.left + (point.x + 1) * rect.width / 2;
           const y = rect.top + (1 - point.y) * rect.height / 2;
-          if (point.z < 1 && x > 10 && x < innerWidth - 10 && y > rect.top + 10 && y < rect.bottom - 10 && locate({ clientX: x, clientY: y })) return { x, y };
+          if (point.z < 1 && x > 10 && x < innerWidth - 10 && y > rect.top + 10 && y < rect.bottom - 10) {
+            const hit = locate({ clientX: x, clientY: y });
+            if (!hit) continue;
+            const facing = hit.face.normal.clone().applyNormalMatrix(normalMatrix)
+              .dot(cameraPoint.clone().sub(hit.point).normalize());
+            const normalZ = Math.abs(hit.face.normal.z);
+            if (facing >= minFacing && facing <= maxFacing && normalZ >= minAbsNormalZ && normalZ <= maxAbsNormalZ) return { x, y, facing,
+              faceIndex: hit.faceIndex, normal: hit.face.normal.toArray() };
+          }
         }
         return null;
       },
@@ -393,6 +428,10 @@ async function initialize() {
   disposeScene = () => {
     materialDisposed = true;
     document.removeEventListener('h4:modeprepare', prepareMaterial);
+    document.removeEventListener('h4:modechange', cancelInkGesture);
+    document.removeEventListener('h4:pagechange', cancelInkGesture);
+    window.removeEventListener('blur', cancelInkGesture);
+    heroInk.dispose();
     observer.disconnect();
     visibilityObserver.disconnect();
     document.removeEventListener('visibilitychange', syncRendering);

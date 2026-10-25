@@ -6,6 +6,7 @@ import { createModeAudio } from './mode-audio.js';
 import { corruptionSettings } from './data/corruptionSettings.js';
 import { createModeSnapshotTransition } from './mode-snapshot.js';
 import { initMobileMode } from './mobile-mode.js';
+import { getLivingDecaySettings } from './data/livingDecaySettings.js';
 
 const controllers = new WeakMap();
 const svgNamespace = 'http://www.w3.org/2000/svg';
@@ -186,7 +187,7 @@ export function initXRay({ root = document } = {}) {
     snapshot.skip();
     const request = ++generation;
     pendingMode = next;
-    const transition = snapshot.run(detail => applyMode(next, detail), { mode: next });
+    const transition = snapshot.run(detail => applyMode(next, detail), { mode: next, duration: getLivingDecaySettings().modeTransitionMs });
     if (transition) void transition.finished.then(() => {
       if (!destroyed && request === generation) finish(mode === 'xray' ? 1 : 0);
     });

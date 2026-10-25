@@ -1,0 +1,139 @@
+{
+  "htmlBytes": 5482951,
+  "htmlSha256": "d14c609466968878ef9885f1ae069821bc43c7d46deb9c0292ad03ae0a8a1f4d",
+  "zipBytes": 3580153,
+  "exactBytesVerified": true,
+  "standard": {
+    "contract": "living-decay-final",
+    "checkedAt": "2026-10-25T21:07:22.743Z",
+    "html": "/workspace/h4ngelic/artifacts/h4ngelic-preview.html",
+    "htmlBytes": 5482951,
+    "htmlSha256": "d14c609466968878ef9885f1ae069821bc43c7d46deb9c0292ad03ae0a8a1f4d",
+    "reports": [
+      {
+        "width": 1440,
+        "mobile": false,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0,
+        "identityCenterError": 0,
+        "reverseHint": {
+          "opacity": 1,
+          "color": "rgb(255, 255, 255)",
+          "fontSize": 24
+        },
+        "verified": [
+          "WebGL hero",
+          "short hold cancellation",
+          "one-second 4 hold",
+          "4 cannot reverse",
+          "released 333 return",
+          "persistent reverse hint",
+          "embedded film",
+          "upper hero mute",
+          "centered identity row",
+          "category filter",
+          "About",
+          "Contact",
+          "visitor",
+          "horizontal bounds"
+        ]
+      },
+      {
+        "width": 390,
+        "mobile": true,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0,
+        "identityCenterError": -0.0078125,
+        "reverseHint": {
+          "opacity": 1,
+          "color": "rgb(255, 255, 255)",
+          "fontSize": 18
+        },
+        "verified": [
+          "WebGL hero",
+          "short hold cancellation",
+          "native touch hold",
+          "4 cannot reverse",
+          "released 333 return",
+          "persistent reverse hint",
+          "embedded film",
+          "upper hero mute",
+          "centered identity row",
+          "category filter",
+          "About",
+          "Contact",
+          "visitor",
+          "horizontal bounds"
+        ]
+      },
+      {
+        "width": 320,
+        "mobile": true,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0,
+        "identityCenterError": 0,
+        "reverseHint": {
+          "opacity": 1,
+          "color": "rgb(255, 255, 255)",
+          "fontSize": 18
+        },
+        "verified": [
+          "WebGL hero",
+          "short hold cancellation",
+          "native touch hold",
+          "4 cannot reverse",
+          "released 333 return",
+          "persistent reverse hint",
+          "embedded film",
+          "upper hero mute",
+          "centered identity row",
+          "category filter",
+          "About",
+          "Contact",
+          "visitor",
+          "horizontal bounds"
+        ]
+      }
+    ]
+  },
+  "native": {
+    "checkedAt": "2026-10-25T21:09:19.302Z",
+    "method": "Exact exported HTML bytes executed with network rejected; managed browser blocks file:// navigation.",
+    "width": 390,
+    "reducedMotion": false,
+    "events": [
+      {
+        "mode": "xray",
+        "captured": true,
+        "duration": 950,
+        "variant": 3744361806
+      },
+      {
+        "mode": "normal",
+        "captured": true,
+        "duration": 950,
+        "variant": 3673385541
+      },
+      {
+        "mode": "xray",
+        "captured": true,
+        "duration": 950,
+        "variant": 1823826442
+      },
+      {
+        "mode": "normal",
+        "captured": true,
+        "duration": 950,
+        "variant": 3273816148
+      }
+    ],
+    "viewTransitionSupported": true,
+    "retainedMaps": 0,
+    "webglContexts": 0,
+    "gray": "rgb(36, 36, 36)",
+    "body": "rgba(0, 0, 0, 0)",
+    "gradient": "linear-gradient(rgb(40, 40, 40) 0%, rgb(36, 36, 36) 50%, rgb(32, 32, 32) 100%)",
+    "runtimeErrors": [],
+    "externalHTTP": []
+  }
+}

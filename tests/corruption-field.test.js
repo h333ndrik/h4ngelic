@@ -169,3 +169,21 @@ test('section direction comes from its local hint rather than an arbitrary horiz
   assert.ok(sample.displacementY < 0);
   assert.deepEqual([sample.x, sample.y], [80, 90]);
 });
+
+test('a slower immediate reversal replaces the previous strong coalesced direction', () => {
+  const field = createCorruptionField();
+  field.stroke({ x: 50, y: 60, time: 0 });
+  field.stroke({ x: 58, y: 62, time: 2 });
+  field.stroke({ x: 56, y: 60, time: 10 });
+  const sample = field.sample(10)[0];
+  assert.ok(sample.displacementX < 0 && sample.displacementY < 0);
+  assert.ok(sample.velocityX < 0 && sample.velocityY < 0);
+});
+
+test('stable block transport does not invent fresh phase jitter during recovery', () => {
+  const impulse = movingField(20).sample;
+  assert.deepEqual(sampleCorruptionBlock(impulse, 2, 3), sampleCorruptionBlock({ ...impulse, phase: impulse.phase + 8 }, 2, 3));
+  const stationary = { ...impulse, displacementX: 0, displacementY: 0, smearLength: 0 };
+  const cell = sampleCorruptionBlock(stationary, 2, 3);
+  assert.equal(cell.offsetX, 0); assert.equal(cell.offsetY, 0);
+});

@@ -12,6 +12,7 @@ export const temporalMoshSettings = Object.freeze({
   maximumReconstruction: .3,
   impulses: Object.freeze({
     hover: Object.freeze({ maximumRadius: 64, recoveryRatio: .42 }),
+    'hover-motion': Object.freeze({ maximumRadius: 84, recoveryRatio: .5 }),
     focus: Object.freeze({ maximumRadius: 48, recoveryRatio: .32 }),
     click: Object.freeze({ maximumRadius: 150, recoveryRatio: .75 }),
     navigation: Object.freeze({ maximumRadius: 180, recoveryRatio: .85 }),

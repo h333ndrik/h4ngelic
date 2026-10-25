@@ -128,7 +128,11 @@ try {
   const resumed = await snapshot(page);
   await page.waitForTimeout(300);
   assert.ok((await snapshot(page)).baseTime > resumed.baseTime, 'Base animation must continue independently of physical displacement.');
-  await page.waitForTimeout(6200);
+  await page.waitForFunction(() => {
+    const state = window.__H4_TEST__.snapshot();
+    return Math.hypot(...state.offset) < .04
+      && 2 * Math.acos(Math.min(1, Math.abs(state.orientation[3]))) < .06;
+  }, null, { timeout: 15000 });
   const settled = await snapshot(page);
   assert.ok(magnitude(settled.offset) < 0.04, `Physics must return to its base path; offset=${magnitude(settled.offset)}.`);
   assert.ok(rotationAngle(settled.orientation) < 0.06, 'Additional rotation must settle back to the underlying rotation.');

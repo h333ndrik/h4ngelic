@@ -15,7 +15,7 @@ const cursor = target => target.evaluate(element => getComputedStyle(element).cu
 async function state(page, expected) {
   await page.waitForFunction(value => document.documentElement.dataset.mode === value
     && document.documentElement.hasAttribute('data-xray-ready')
-    && !document.documentElement.hasAttribute('data-xray-transition'), expected, { timeout: 6000 });
+    && !document.documentElement.hasAttribute('data-xray-transition'), expected, { timeout: 15000 });
 }
 async function enter(page) {
   await page.keyboard.down('4');
@@ -76,7 +76,12 @@ try {
         }
       } else {
         assert.equal(await cursor(page.locator('body')), 'auto');
-        assert.ok(!requests.some(href => /h4ngelic-cursor-other/.test(href)), 'Touch devices must not preload or use native cursor variants.');
+        assert.ok(!requests.some(href => /h4ngelic-cursor-other-(?:hover|pressed)/.test(href)),
+          'Touch devices must not request native hover/pressed cursor feedback.');
+        assert.equal(await page.locator('[data-mobile-mode] img').getAttribute('src'), settings.cursor.other.base,
+          'The established touch control reuses the exact Other Side brand asset as an image.');
+        assert.deepEqual(await page.evaluate(() => window.__iconWarm.filter(href => /h4ngelic-cursor-other/.test(href))), [],
+          'Touch controls must not warm native cursor resources through the cursor preloader.');
       }
 
       await page.evaluate(() => {

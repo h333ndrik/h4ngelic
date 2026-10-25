@@ -254,7 +254,10 @@ try {
       await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
       await responsivePage.waitForTimeout(150);
       assert.ok(await responsivePage.evaluate(() => scrollY) < before.y - 20, 'A real touch swipe through typography must retain normal page scrolling.');
-      assert.equal(await responsivePage.locator('[data-ink-mark]').count(), before.marks, 'A scroll gesture must not leave an ink mark.');
+      assert.equal(await responsivePage.locator('[data-ink-mark]:not([data-touch-ink])').count(), 0,
+        'Native scrolling must not create an accidental click imprint.');
+      assert.ok(await responsivePage.locator('[data-ink-mark][data-touch-ink]').count() <= 12,
+        'The established sparse document-attached touch trail stays bounded.');
     }
     if (width === 390) await captureHomepage(responsivePage, 'master-mobile-normal.png');
     assert.deepEqual(responsiveErrors, []);
