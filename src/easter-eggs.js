@@ -1,6 +1,7 @@
 import './easter-eggs.css';
 import { easterSettings, visitorMessage, nextVisit, canRememberVisits } from './data/easterSettings.js';
 import { createInkImprint } from './ink-imprint.js';
+import { createTouchInkSampler } from './touch-ink.js';
 
 const interactive = 'a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable="true"],[role="button"],[role="link"],[role="checkbox"],[role="switch"],[role="radio"],[role="tab"],[role="menuitem"],[role="combobox"],[role="slider"],[role="spinbutton"],[contenteditable]:not([contenteditable="false"]),[tabindex]:not([tabindex="-1"]),[aria-disabled="true"],.is-unconfigured,[data-no-ink]';
 /** Local count/last activity only. A host can opt out or require a consent gate. */
@@ -18,6 +19,11 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   let visitStorage = null;
   let visit = { count: 1, lastSeen: Date.now() };
   let lastWrite = 0;
+  const touchSettings = settings.ink.touch;
+  let touchSampler = createTouchInkSampler(touchSettings);
+  let touching = null;
+  let touchFrame = 0;
+  let touchProtected = null;
 
   function listen(target, type, callback, options) {
     target.addEventListener(type, callback, options);
@@ -111,17 +117,32 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   const intersectsHint = (record, bounds) => bounds && record.x + record.extent > bounds.left
     && record.x - record.extent < bounds.right && record.y + record.extent > bounds.top && record.y - record.extent < bounds.bottom;
 
-  function imprint(event, heldMs) {
+  function readTouchProtected() {
+    return [...root.querySelectorAll('[data-mobile-mode], [data-other-side-hint], [data-corruption-protected]')].flatMap(element => {
+      const rect = element.getBoundingClientRect();
+      if (!rect.width || !rect.height) return [];
+      const fixed = element.matches('[data-mobile-mode]');
+      return [{ fixed, left: rect.left + (fixed ? 0 : view.scrollX), right: rect.right + (fixed ? 0 : view.scrollX),
+        top: rect.top + (fixed ? 0 : view.scrollY), bottom: rect.bottom + (fixed ? 0 : view.scrollY) }];
+    });
+  }
+
+  function imprint(event, heldMs, { touch = false } = {}) {
     if (disposed || !settings.ink.enabled) return;
     const random = Math.random();
     const size = settings.ink.minimumSize + random * (settings.ink.maximumSize - settings.ink.minimumSize);
-    const lifetime = settings.ink.minimumLifetimeMs + Math.random() * (settings.ink.maximumLifetimeMs - settings.ink.minimumLifetimeMs);
+    const lifetimeSettings = touch ? touchSettings : settings.ink;
+    const lifetime = lifetimeSettings.minimumLifetimeMs + Math.random() * (lifetimeSettings.maximumLifetimeMs - lifetimeSettings.minimumLifetimeMs);
     const scale = 1 + Math.min(heldMs / 1600, .5);
     const position = { x: event.clientX + view.scrollX, y: event.clientY + view.scrollY,
       extent: size * scale * .8 + (settings.ink.otherGlowPx || 6) * 2 };
-    // A mark cannot spread across the visible reverse instruction. The single
-    // geometry read happens after a blank click, never during scrolling/moving.
-    if (intersectsHint(position, protectedBounds())) return;
+    // Touch geometry is measured at gesture start, not on move/scroll. The
+    // fixed logo's bounds stay in viewport coordinates as the page moves.
+    const protectedAreas = touch ? (touchProtected ?? readTouchProtected()).map(bounds => bounds.fixed ? {
+      left: bounds.left + view.scrollX, right: bounds.right + view.scrollX,
+      top: bounds.top + view.scrollY, bottom: bounds.bottom + view.scrollY,
+    } : bounds) : [protectedBounds()];
+    if (protectedAreas.some(bounds => intersectsHint(position, bounds))) return;
     if (!layer) {
       layer = pageDocument.createElement('div');
       layer.className = 'ink-layer';
@@ -132,6 +153,11 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     const mark = pageDocument.createElementNS('http://www.w3.org/2000/svg', 'svg');
     mark.classList.add('ink-mark');
     mark.setAttribute('data-ink-mark', '');
+    if (touch) {
+      mark.setAttribute('data-touch-ink', '');
+      for (const [key, value] of Object.entries({ clientX: event.clientX, clientY: event.clientY,
+        scrollX: view.scrollX, scrollY: view.scrollY })) mark.dataset[`touch${key[0].toUpperCase()}${key.slice(1)}`] = String(value);
+    }
     mark.setAttribute('data-pigment', String(1 + Math.floor(Math.random() * 4)));
     mark.setAttribute('viewBox', '0 0 100 100');
     mark.setAttribute('focusable', 'false');
@@ -141,7 +167,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     mark.style.setProperty('--ink-size', `${size * scale}px`);
     mark.style.setProperty('--ink-angle', `${Math.round(Math.random() * 360)}deg`);
     mark.style.setProperty('--ink-lifetime', `${lifetime}ms`);
-    const colors = settings.ink.palette;
+    const colors = touch ? touchSettings.palette : settings.ink.palette;
     const offset = Math.floor(Math.random() * colors.length);
     mark.style.setProperty('--ink-primary', colors[offset]);
     for (let index = 1; index <= 3; index++) mark.style.setProperty(`--ink-accent-${index}`, colors[(offset + index) % colors.length]);
@@ -179,7 +205,59 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     if (ignore(event.target) || Math.hypot(event.clientX - down.x, event.clientY - down.y) > settings.ink.maximumPointerTravel
       || Math.abs(view.scrollX - down.scrollX) + Math.abs(view.scrollY - down.scrollY) > 2
       || pageDocument.getSelection()?.isCollapsed === false) return;
-    imprint(event, performance.now() - down.started);
+    imprint(event, performance.now() - down.started, { touch: event.pointerType === 'touch' && Boolean(touchSettings?.enabled) });
+  }
+
+  function clearTouch() {
+    touching = null;
+    touchSampler.end();
+    if (touchFrame) view.cancelAnimationFrame(touchFrame);
+    touchFrame = 0;
+    touchProtected = null;
+  }
+
+  function sampleTouch() {
+    touchFrame = 0;
+    if (!touching || disposed || pageDocument.hidden) return;
+    // A sculpture grab stays clean. Only its native vertical page pan can
+    // create traces; no geometry lookup or pointer-capture interception.
+    if (touching.canvas && Math.abs(view.scrollY - touching.startScrollY) < 2) return;
+    const sample = touchSampler.sample({ id: touching.id, x: touching.x, y: touching.y,
+      scrollX: view.scrollX, scrollY: view.scrollY, time: view.performance.now() });
+    if (sample) imprint(sample, 0, { touch: true });
+  }
+
+  function scheduleTouch() {
+    if (touching && !touchFrame && !disposed && !pageDocument.hidden) touchFrame = view.requestAnimationFrame(sampleTouch);
+  }
+
+  function touchStart(event) {
+    clearTouch();
+    if (!settings.ink.enabled || !touchSettings?.enabled || event.touches.length !== 1 || pageDocument.hidden) return;
+    const target = event.target;
+    const heroCanvas = target instanceof view.Element && target.matches('#logo-canvas');
+    if (ignore(target) && !heroCanvas) return;
+    const finger = event.touches[0];
+    touchProtected = readTouchProtected();
+    touchSampler = createTouchInkSampler({ ...touchSettings,
+      minimumIntervalMs: reduced.matches ? Math.max(320, touchSettings.minimumIntervalMs) : touchSettings.minimumIntervalMs });
+    touching = { id: finger.identifier, x: finger.clientX, y: finger.clientY, canvas: heroCanvas, startScrollY: view.scrollY };
+    touchSampler.begin({ id: touching.id, x: touching.x, y: touching.y,
+      scrollX: view.scrollX, scrollY: view.scrollY, time: view.performance.now() });
+  }
+
+  function touchMove(event) {
+    if (!touching) return;
+    if (event.touches.length !== 1) return clearTouch();
+    const finger = [...event.touches].find(item => item.identifier === touching.id);
+    if (!finger) return clearTouch();
+    touching.x = finger.clientX;
+    touching.y = finger.clientY;
+    scheduleTouch();
+  }
+
+  function touchEnd(event) {
+    if (touching && ![...event.touches].some(item => item.identifier === touching.id)) clearTouch();
   }
 
   function clearHintTimer(hint) {
@@ -216,6 +294,14 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   listen(root, 'pointermove', pointerMove, { passive: true });
   listen(root, 'pointerup', pointerUp, { passive: true });
   listen(root, 'pointercancel', () => { candidate = null; }, { passive: true });
+  // Native TouchEvents continue through the pointercancel that begins a page
+  // pan. All listeners are passive; only live fingers can schedule stamps.
+  listen(root, 'touchstart', touchStart, { passive: true });
+  listen(root, 'touchmove', touchMove, { passive: true });
+  listen(root, 'touchend', touchEnd, { passive: true });
+  listen(root, 'touchcancel', clearTouch, { passive: true });
+  listen(view, 'scroll', scheduleTouch, { passive: true });
+  listen(view, 'resize', clearTouch, { passive: true });
   listen(root, 'keydown', () => activity(), { passive: true });
   listen(root, 'pointerover', (event) => {
     const hotspot = secretTarget(event);
@@ -230,9 +316,12 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     clearSecrets();
     updateVisitorCopy();
     candidate = null;
+    clearTouch();
     clearMarks();
   });
+  listen(root, 'h4:navigationstart', clearTouch);
   listen(root, 'h4:modechange', () => {
+    clearTouch();
     const bounds = protectedBounds();
     // The larger Other Side hint can intersect a mark that was safe before it.
     for (const [mark, record] of marks) if (intersectsHint(record, bounds)) forgetMark(mark);
@@ -240,6 +329,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   listen(root, 'h4:privacychange', refreshConsent);
   listen(pageDocument, 'visibilitychange', () => {
     candidate = null;
+    clearTouch();
     if (pageDocument.hidden) { activity({ flush: true }); clearMarks(); clearSecrets(); }
     else if (authorized) {
       visit = nextVisit(readVisit(), Date.now(), settings.visits.separatedVisitMs);
@@ -248,13 +338,14 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     }
   });
   listen(view, 'pagehide', () => { if (!pageDocument.hidden) activity({ flush: true }); });
-  listen(view, 'blur', () => { candidate = null; });
-  listen(reduced, 'change', clearMarks);
+  listen(view, 'blur', () => { candidate = null; clearTouch(); });
+  listen(reduced, 'change', () => { clearMarks(); clearTouch(); });
   refreshConsent();
 
   return () => {
     disposed = true;
     candidate = null;
+    clearTouch();
     for (const remove of removers) remove();
     clearMarks();
     layer?.remove();

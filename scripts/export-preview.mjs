@@ -6,6 +6,7 @@ import { artworks } from '../src/data/artworks.js';
 import { siteContent } from '../src/data/siteContent.js';
 import { corruptionSettings } from '../src/data/corruptionSettings.js';
 import { modeIconSettings } from '../src/data/modeIconSettings.js';
+import { livingDecayMaterialAssets } from '../src/data/livingDecaySettings.js';
 import imageManifest from '../src/data/imageManifest.json' with { type: 'json' };
 
 const root = new URL('../', import.meta.url);
@@ -29,12 +30,15 @@ const assets = new Map([
   ['/assets/tattoo-texture.webp', await dataURL('public/assets/tattoo-texture.webp', 'image/webp')],
   ['/assets/tattoo-texture-640.webp', await dataURL('public/assets/tattoo-texture-640.webp', 'image/webp')],
   ['/assets/h4ngelic-cursor.svg', await dataURL('public/assets/h4ngelic-cursor.svg', 'image/svg+xml')],
+  ['/assets/h4-monogram.svg', await dataURL('public/assets/h4-monogram.svg', 'image/svg+xml')],
   ['/assets/h4ngelic-cursor-hover.svg', await dataURL('public/assets/h4ngelic-cursor-hover.svg', 'image/svg+xml')],
   ['/assets/h4ngelic-cursor-pressed.svg', await dataURL('public/assets/h4ngelic-cursor-pressed.svg', 'image/svg+xml')],
   ['/assets/wordmark-fallback.svg', await dataURL('public/assets/wordmark-fallback.svg', 'image/svg+xml')],
   ['/assets/xray-distress.webp', await dataURL('public/assets/xray-distress.webp', 'image/webp')],
   [corruptionSettings.assets.desktop, await dataURL(`public${corruptionSettings.assets.desktop}`, 'image/webp')],
   [corruptionSettings.assets.mobile, await dataURL(`public${corruptionSettings.assets.mobile}`, 'image/webp')],
+  [livingDecayMaterialAssets.desktop, await dataURL(`public${livingDecayMaterialAssets.desktop}`, 'image/webp')],
+  [livingDecayMaterialAssets.mobile, await dataURL(`public${livingDecayMaterialAssets.mobile}`, 'image/webp')],
 ]);
 for (const path of new Set([
   ...Object.values(modeIconSettings.cursor.other),

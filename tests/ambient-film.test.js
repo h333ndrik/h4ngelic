@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ambientFilmSize, chemicalPatch, chemicalColorTables, createAmbientFilm } from '../src/ambient-film.js';
 import { ambientFilmSettings } from '../src/data/ambientFilmSettings.js';
+import { configureLivingDecay, getLivingDecaySettings } from '../src/data/livingDecaySettings.js';
 
 test('ambient backing store respects profile caps independently of display size', () => {
   for (const profile of ['desktop', 'mobile']) {
@@ -125,4 +126,103 @@ test('ambient scheduler runs only in active visible motion and releases all reso
   env.advance();
   assert.equal(env.queued, 0);
   assert.equal(film.snapshot().active, false);
+});
+
+test('a live composition keeps its seed and elapsed field until a fresh activation', () => {
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 737 });
+  film.setActive(true);
+  env.advance(400);
+  const beforeNavigation = film.snapshot();
+  env.doc.dispatchEvent(new Event('h4:pagechange'));
+  film.setActive(true);
+  assert.equal(film.snapshot().seed, 737);
+  assert.equal(film.snapshot().elapsed, beforeNavigation.elapsed);
+  assert.equal(film.snapshot().regenerations, 0);
+  env.advance(400);
+  assert.ok(film.snapshot().elapsed > beforeNavigation.elapsed);
+  film.setActive(false);
+  film.setActive(true);
+  assert.notEqual(film.snapshot().seed, 737);
+  assert.equal(film.snapshot().elapsed, 0);
+  assert.equal(film.snapshot().regenerations, 1);
+  film.regenerate(737);
+  assert.equal(film.snapshot().seed, 737);
+  assert.deepEqual(film.snapshot().composition, beforeNavigation.composition);
+  film.dispose();
+});
+
+test('live controls and bounded scroll motion preserve the current composition', () => {
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 101 });
+  film.setActive(true);
+  env.advance(400);
+  const previous = film.snapshot();
+  const effective = film.configure({ idleIntensity: .31, cursorRadius: 1000, blockSize: 36 });
+  assert.equal(effective.cursorRadius, 45);
+  assert.equal(film.readSettings(), effective);
+  assert.equal(film.snapshot().seed, previous.seed);
+  assert.equal(film.snapshot().elapsed, previous.elapsed);
+  film.setMotion({ x: NaN, y: 3, strength: 1 });
+  assert.deepEqual(film.snapshot().motion, { x: 0, y: 0, strength: 0 });
+  film.setMotion({ x: 999, y: -999, strength: 999, time: env.view.performance.now() });
+  env.advance(400);
+  const moving = film.snapshot().motion;
+  assert.ok(moving.strength > 0 && moving.strength <= 2);
+  assert.ok(Math.abs(moving.x) <= 8 && Math.abs(moving.y) <= 8);
+  assert.equal(film.snapshot().seed, previous.seed);
+  env.doc.hidden = true;
+  env.doc.dispatchEvent(new Event('visibilitychange'));
+  assert.deepEqual(film.snapshot().motion, { x: 0, y: 0, strength: 0 });
+  film.configure({ idleIntensity: .45, cursorRadius: 35, blockSize: 28 });
+  film.dispose();
+});
+
+test('manual seeds including zero are honored before activation and auto remains fresh', () => {
+  const original = getLivingDecaySettings();
+  for (const seed of [0, 321]) {
+    configureLivingDecay({ seed });
+    const env = environment();
+    const film = createAmbientFilm(env);
+    assert.equal(film.snapshot().seed, seed);
+    film.setActive(true);
+    assert.equal(film.snapshot().seed, seed);
+    film.setActive(false);
+    film.setActive(true);
+    assert.equal(film.snapshot().seed, seed, 'A manual debug seed remains reproducible across activations.');
+    film.configure({ seed: null });
+    assert.equal(film.snapshot().seed, seed, 'Selecting auto does not regenerate a seed of zero.');
+    film.setActive(false);
+    film.setActive(true);
+    const automatic = film.snapshot().seed;
+    assert.notEqual(automatic, seed);
+    assert.equal(film.readSettings().seed, null, 'A runtime seed never changes the auto policy.');
+    film.regenerate();
+    assert.notEqual(film.snapshot().seed, automatic);
+    film.dispose();
+  }
+  configureLivingDecay(original);
+});
+
+test('calibration input cannot bypass the ambient cadence or reset material time', () => {
+  const original = getLivingDecaySettings();
+  configureLivingDecay({ seed: null });
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 917 });
+  film.setActive(true);
+  const before = film.snapshot();
+  for (const patch of [{ cursorRadius: 25 }, { cursorMosh: .4 }, { hoverMosh: 0 }, { typographyMosh: .3 }, { clickMosh: .8 }]) {
+    film.configure(patch);
+    env.advance(10);
+  }
+  assert.equal(film.snapshot().frames, before.frames, 'Five input updates in 50ms cannot paint five ambient frames.');
+  assert.equal(film.snapshot().elapsed, before.elapsed);
+  assert.equal(env.queued, 1);
+  film.configure({ voidCoverage: .65 });
+  assert.equal(film.snapshot().frames, before.frames, 'Material changes wait for the existing scheduled paint.');
+  env.advance(150);
+  assert.equal(film.snapshot().frames, before.frames + 1);
+  assert.ok(film.snapshot().elapsed > before.elapsed);
+  film.dispose();
+  configureLivingDecay(original);
 });

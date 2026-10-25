@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { assertNormalTheme } from './helpers/normal-theme.mjs';
 
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const route = (path) => new URL(path, baseURL).href;
@@ -19,8 +20,7 @@ async function normalPresentation(page) {
   // Lite devices skip the SVG/RAF treatment while the inexpensive CSS color
   // transition still finishes. Verify the visible restored state, not only
   // the controller's completed flag.
-  await page.waitForFunction(() => getComputedStyle(document.documentElement).backgroundColor === 'rgb(48, 48, 51)');
-  assert.equal(await page.locator('html').evaluate((element) => getComputedStyle(element).backgroundColor), 'rgb(48, 48, 51)', 'Normal Mode keeps the original charcoal background.');
+  await assertNormalTheme(page);
   const media = await page.locator('#logo-canvas,.project-image img,.about-portrait img').evaluateAll((items) => items.map((item) => getComputedStyle(item).filter));
   assert.ok(media.every((filter) => filter === 'none'), 'Normal Mode restores clean media without negative-image filters.');
   if (await page.locator('[data-xray-hint-text]').count()) assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
@@ -111,9 +111,9 @@ try {
       const placement = await page.locator('[data-footer-secret-space]').evaluate((space) => {
         const area = space.getBoundingClientRect();
         const control = space.querySelector('[data-other-side-hint]').getBoundingClientRect();
-        return { height: area.height / innerHeight, x: control.x + control.width / 2, width: innerWidth, y: (control.y + control.height / 2 - area.y) / area.height };
+        return { height: area.height, expectedHeight: Math.max(440, Math.min(innerHeight * .82, 960)), x: control.x + control.width / 2, width: innerWidth, y: (control.y + control.height / 2 - area.y) / area.height };
       });
-      assert.ok(placement.height >= .25 && placement.height <= .35 + .002, 'The instruction retains generous negative space.');
+      assert.ok(Math.abs(placement.height - placement.expectedHeight) < 1, 'The final h4 reveal retains its spacious, responsive end section.');
       assert.ok(Math.abs(placement.x - placement.width / 2) < 1 && placement.y > .25 && placement.y < .5, 'The instruction is centered horizontally and slightly above the middle.');
       const position = await hint.boundingBox();
 

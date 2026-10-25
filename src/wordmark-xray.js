@@ -99,13 +99,13 @@ export function attachWordmarkXRay(material, { renderer, root = document, settin
   function applyMode(mode) {
     const enabled = mode === 'xray';
     amount.value = enabled ? 1 : 0;
-    renderer.setClearColor('#303033', enabled ? 0 : 1);
+    renderer.setClearColor('#242424', 0);
     if (enabled) prepareDamage();
   }
   const modeChange = event => { if (event.detail?.mode === 'xray') prepareDamage(); };
   const modeProgress = event => {
     amount.value = Math.max(0, Math.min(1, event.detail?.amount || 0));
-    renderer.setClearColor('#303033', 1 - amount.value);
+    renderer.setClearColor('#242424', 0);
   };
   root.addEventListener('h4:modechange', modeChange);
   root.addEventListener('h4:modeprogress', modeProgress);

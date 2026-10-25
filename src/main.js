@@ -10,6 +10,8 @@ import { attachArtwork, revealWeight } from './reveal.js';
 import { chooseRenderQuality, AdaptiveResolution } from './render-quality.js';
 import { featureFlags } from './data/featureFlags.js';
 import { createHeroDepth } from './hero-depth.js';
+import { sampleHero } from './data/motionSettings.js';
+import { createVisualMotionPublisher } from './motion-mosh.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
@@ -65,7 +67,7 @@ function fallback(message) {
 
 async function initialize() {
   renderer = new THREE.WebGLRenderer({ canvas, antialias: quality.antialias, alpha: true, stencil: false, powerPreference: 'low-power' });
-  renderer.setClearColor('#303033');
+  renderer.setClearColor('#242424', 0);
   renderer.setPixelRatio(quality.pixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -148,6 +150,16 @@ async function initialize() {
   const lever = new THREE.Vector3();
   const worldSize = { x: 1, y: 1 };
   const heroDepth = createHeroDepth(camera, { worldSize });
+  const motionPublisher = createVisualMotionPublisher({ doc: document });
+  const motionPoint = new THREE.Vector3();
+  const motionQuaternion = new THREE.Quaternion();
+  const motionCorners = Array.from({ length: 8 }, (_, index) => new THREE.Vector3(
+    index & 1 ? geometry.boundingBox.max.x : geometry.boundingBox.min.x,
+    index & 2 ? geometry.boundingBox.max.y : geometry.boundingBox.min.y,
+    index & 4 ? geometry.boundingBox.max.z : geometry.boundingBox.min.z,
+  ));
+  let motionLayout = null;
+  let previousMotionTime = null;
 
   function resize() {
     // Layout dimensions exclude the separate CSS scroll-fade/scale wrapper.
@@ -158,6 +170,9 @@ async function initialize() {
     const tangent = Math.tan(THREE.MathUtils.degToRad(35 / 2));
     const distance = Math.max(size.x * 1.48 / (2 * tangent * camera.aspect), size.x * 1.12 / (2 * tangent));
     const rect = stage.closest('.hero').getBoundingClientRect();
+    motionLayout = { left: rect.left + scrollX + stage.offsetLeft, top: rect.top + scrollY + stage.offsetTop,
+      width, height, heroTop: rect.top + scrollY, heroHeight: rect.height || 1 };
+    previousMotionTime = null;
     heroDepth.resize({ distance, top: rect.top + scrollY, height: rect.height, scrollPosition: scrollY, reduced: reducedMotion.matches });
     renderer.setSize(width, height, false);
   }
@@ -170,6 +185,40 @@ async function initialize() {
   });
   visibilityObserver.observe(stage);
   resize();
+
+  function publishLogoMotion(timestamp) {
+    if (!featureFlags.otherSideEnabled || !motionLayout || !motionPublisher.ready(timestamp)) return;
+    // Project the sculpture already computed by this render frame. The layout
+    // cache and the established hero scale supply viewport CSS coordinates;
+    // no DOM rectangle, new animation loop or physics update is needed here.
+    const pose = stage.hasAttribute('data-scroll-hero')
+      ? sampleHero((scrollY - motionLayout.heroTop) / motionLayout.heroHeight) : { scale: 1, opacity: 1 };
+    const width = motionLayout.width * pose.scale;
+    const height = motionLayout.height * pose.scale;
+    const left = motionLayout.left - scrollX + (motionLayout.width - width) / 2;
+    const top = motionLayout.top - scrollY + (motionLayout.height - height) / 2;
+    motionPoint.setFromMatrixPosition(wordmark.matrixWorld).project(camera);
+    const x = left + (motionPoint.x + 1) * width / 2;
+    const y = top + (1 - motionPoint.y) * height / 2;
+    let minimumX = Infinity;
+    let maximumX = -Infinity;
+    let minimumY = Infinity;
+    let maximumY = -Infinity;
+    for (const corner of motionCorners) {
+      motionPoint.copy(corner).applyMatrix4(wordmark.matrixWorld).project(camera);
+      minimumX = Math.min(minimumX, motionPoint.x);
+      maximumX = Math.max(maximumX, motionPoint.x);
+      minimumY = Math.min(minimumY, motionPoint.y);
+      maximumY = Math.max(maximumY, motionPoint.y);
+    }
+    const angularVelocity = previousMotionTime === null ? 0
+      : logo.quaternion.angleTo(motionQuaternion) * 1000 / Math.max(1, timestamp - previousMotionTime);
+    motionQuaternion.copy(logo.quaternion);
+    previousMotionTime = timestamp;
+    motionPublisher.publish([{ kind: 'logo', target: canvas, x, y,
+      width: Math.max(1, (maximumX - minimumX) * width / 2),
+      height: Math.max(1, (maximumY - minimumY) * height / 2), opacity: pose.opacity, angularVelocity }], timestamp);
+  }
 
   function locate(event) {
     heroDepth.update(scrollY, reducedMotion.matches);
@@ -278,6 +327,7 @@ async function initialize() {
     const perspectiveMargin = 1 + halfExtents.z / camera.position.z;
     bounds.x = Math.max(.15, worldSize.x / 2 / perspectiveMargin - halfExtents.x - .2);
     bounds.y = Math.max(.15, worldSize.y / 2 / perspectiveMargin - halfExtents.y - .2);
+    publishLogoMotion(timestamp);
     if (artwork) artwork.opacity.value = revealEnabled ? revealWeight(logo.quaternion, Number(import.meta.env.VITE_REVEAL_ANGLE || 150)) : 0;
     renderer.render(scene, camera);
     if (frameCount === 0) {
@@ -299,6 +349,8 @@ async function initialize() {
       pendingPointer = null;
       previousPoint = null;
       resolution.reset();
+      motionPublisher.reset();
+      previousMotionTime = null;
       return;
     }
     if (!animationFrame) {
@@ -345,6 +397,7 @@ async function initialize() {
     visibilityObserver.disconnect();
     document.removeEventListener('visibilitychange', syncRendering);
     cancelAnimationFrame(animationFrame);
+    motionPublisher.reset();
     geometry.dispose();
     environmentMap.dispose();
     wordmarkXRay?.dispose();

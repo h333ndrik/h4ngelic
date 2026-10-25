@@ -1,5 +1,8 @@
 import './scroll-choreography.css';
 import { motionSettings, progressBetween, pinnedProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn, sampleHeading, sampleHero, sampleKineticItem } from './data/motionSettings.js';
+import { createVisualMotionPublisher } from './motion-mosh.js';
+
+const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
 
 /** Native scrolling + native sticky positioning; no wheel/touch interception.
  * Each scroll/resize schedules at most one frame. Nothing runs while idle.
@@ -24,7 +27,9 @@ export function initScrollChoreography(root = document) {
   const listeners = [];
   const previousRootAttribute = page.getAttribute('data-scroll-choreography');
   const values = new WeakMap();
+  const poses = new WeakMap();
   const echoes = new Map();
+  const motionPublisher = createVisualMotionPublisher({ doc: owner });
   let frame = 0;
   let disposed = false;
   let enabled = false;
@@ -76,6 +81,7 @@ export function initScrollChoreography(root = document) {
   }
 
   function applyItem(element, sample, localProgress = 1) {
+    poses.set(element, sample);
     setValue(element, '--kinetic-x', `${sample.x.toFixed(3)}px`);
     setValue(element, '--kinetic-rotate', `${sample.rotation.toFixed(3)}deg`);
     setValue(element, '--kinetic-opacity', sample.opacity.toFixed(4));
@@ -100,7 +106,30 @@ export function initScrollChoreography(root = document) {
       setValue(section.element, '--motion-run', `${section.run}px`);
     }
     const offset = scrollY;
-    for (const section of sections) section.top = section.element.getBoundingClientRect().top + offset;
+    for (const section of sections) {
+      section.top = section.element.getBoundingClientRect().top + offset;
+      section.motionLayout = null;
+      if (owner.documentElement.dataset.mode !== 'xray') continue;
+      // Extra source footprints are cached only in the Other Side's existing
+      // layout pass. Undo our known translation around the unchanged center;
+      // ordinary scroll frames never read element geometry or computed style.
+      const pin = section.pin.getBoundingClientRect();
+      section.pinTravel = section.kind === 'about' ? 0 : Math.max(0, section.element.offsetHeight - section.pin.offsetHeight);
+      section.pinOffset = pin.top - (section.top - offset + clamp(offset - section.top, 0, section.pinTravel));
+      section.pinLeft = pin.left + scrollX;
+      section.motionLayout = [section.heading, ...section.items].filter(Boolean).map(element => {
+        const heading = element === section.heading;
+        const rect = element.getBoundingClientRect();
+        const pose = poses.get(element);
+        const itemWidth = element.offsetWidth || rect.width;
+        const itemHeight = element.offsetHeight || rect.height;
+        const scroller = element.closest('.category-strip, .contact-links');
+        return { element, heading, width: itemWidth, height: itemHeight,
+          x: rect.left + rect.width / 2 - pin.left - (heading ? 0 : pose?.x || 0),
+          y: rect.top + rect.height / 2 - pin.top - (heading ? (pose?.y || 0) * itemHeight / 100 : 0),
+          scroller, scrollLeft: scroller?.scrollLeft || 0 };
+      });
+    }
     if (hero) {
       const bounds = hero.getBoundingClientRect();
       heroTop = bounds.top + offset;
@@ -114,6 +143,7 @@ export function initScrollChoreography(root = document) {
     if (disposed || !enabled || owner.hidden) return;
     if (dirty) measure();
     const position = scrollY;
+    const motionSamples = owner.documentElement.dataset.mode === 'xray' ? [] : null;
     if (stage) {
       const sample = sampleHero((position - heroTop) / heroHeight);
       setValue(stage, '--hero-scroll-opacity', sample.opacity.toFixed(4));
@@ -134,6 +164,7 @@ export function initScrollChoreography(root = document) {
         : sampleHeading(progress);
       setValue(section.heading, '--heading-y', `${heading.y.toFixed(3)}%`);
       setValue(section.heading, '--heading-opacity', heading.opacity.toFixed(4));
+      if (section.heading) poses.set(section.heading, heading);
       section.items.forEach((item, index) => {
         if (focused) return applyItem(item, { x: 0, rotation: 0, opacity: 1 });
         if (section.kind !== 'about') return applyItem(item, sampleKineticItem(progress, index, width), kineticItemProgress(progress, index));
@@ -142,7 +173,23 @@ export function initScrollChoreography(root = document) {
         const local = progressBetween(progress, link ? settings.linkStart : settings.copyStart, link ? settings.linkEnd : settings.copyEnd);
         applyItem(item, sampleFlyIn(local, { distance: width * (link ? settings.linkDistanceVw : settings.copyDistanceVw) }));
       });
+      if (motionSamples && section.motionLayout) {
+        const pinY = section.top - position + clamp(position - section.top, 0, section.pinTravel) + section.pinOffset;
+        for (const source of section.motionLayout) {
+          const pose = poses.get(source.element);
+          const angle = (pose.rotation || 0) * Math.PI / 180;
+          const cosine = Math.abs(Math.cos(angle));
+          const sine = Math.abs(Math.sin(angle));
+          motionSamples.push({ target: source.element, kind: source.heading ? 'section' : 'typography',
+            x: section.pinLeft - scrollX + source.x + (source.heading ? 0 : pose.x)
+              - ((source.scroller?.scrollLeft || 0) - source.scrollLeft),
+            y: pinY + source.y + (source.heading ? pose.y * source.height / 100 : 0),
+            width: source.width * cosine + source.height * sine,
+            height: source.height * cosine + source.width * sine, opacity: pose.opacity, angle });
+        }
+      }
     }
+    if (motionSamples?.length) motionPublisher.publish(motionSamples);
   }
 
   function schedule(remeasure = false) {
@@ -164,11 +211,13 @@ export function initScrollChoreography(root = document) {
       for (const item of section.items) {
         for (const name of ['--kinetic-x', '--kinetic-rotate', '--kinetic-opacity']) item.style.removeProperty(name);
         values.delete(item);
+        poses.delete(item);
       }
       if (section.heading) {
         section.heading.style.removeProperty('--heading-y');
         section.heading.style.removeProperty('--heading-opacity');
         values.delete(section.heading);
+        poses.delete(section.heading);
       }
       values.delete(section.element);
     }
@@ -186,7 +235,7 @@ export function initScrollChoreography(root = document) {
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
     enabled = !reduced.matches;
-    if (!enabled) return clearStyles();
+    if (!enabled) { motionPublisher.reset(); return clearStyles(); }
     prepareEchoes();
     page.setAttribute('data-scroll-choreography', '');
     stage?.setAttribute('data-scroll-hero', '');
@@ -196,9 +245,11 @@ export function initScrollChoreography(root = document) {
   }
 
   listen(window, 'scroll', () => schedule(), { passive: true });
+  listen(root, 'scroll', () => schedule(), { passive: true, capture: true });
   listen(window, 'resize', () => schedule(true), { passive: true });
+  listen(owner, 'h4:modechange', () => { motionPublisher.reset(); schedule(true); });
   listen(owner, 'visibilitychange', () => {
-    if (owner.hidden) { if (frame) cancelAnimationFrame(frame); frame = 0; }
+    if (owner.hidden) { if (frame) cancelAnimationFrame(frame); frame = 0; motionPublisher.reset(); }
     else schedule(true);
   });
   listen(root, 'focusin', (event) => {
@@ -225,6 +276,7 @@ export function initScrollChoreography(root = document) {
     enabled = false;
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
+    motionPublisher.reset();
     resize?.disconnect();
     for (const remove of listeners) remove();
     clearStyles();

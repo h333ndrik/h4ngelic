@@ -36,7 +36,14 @@
     "assets:mode-icons": "node scripts/prepare-mode-icons.mjs",
     "test:icons": "node tests/ref09-icons-browser.mjs",
     "test:mode-foundation": "node tests/ref09-foundation-browser.mjs",
-    "test:mode-snapshot": "node tests/mode-snapshot-browser.mjs"
+    "test:mode-snapshot": "node tests/mode-snapshot-browser.mjs",
+    "test:interaction-mosh": "node tests/interaction-mosh-browser.mjs",
+    "test:living-decay": "node tests/living-decay-browser.mjs",
+    "test:normal-theme": "node tests/living-normal-browser.mjs",
+    "test:end-reveal": "node tests/end-reveal-browser.mjs",
+    "test:regression": "node scripts/check-interaction-regressions.mjs",
+    "test:standalone": "node tests/standalone-browser.mjs && node tests/standalone-native-browser.mjs",
+    "test:mobile": "node tests/mobile-interactions-browser.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

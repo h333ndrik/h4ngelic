@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { assertNormalTheme } from './helpers/normal-theme.mjs';
 
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const phase = process.env.H4_TEST_PHASE || 'full';
@@ -81,7 +82,7 @@ async function crispEchoes(page, selector) {
 }
 async function normalPresentation(page) {
   await page.locator('html[data-xray-ready][data-mode="normal"]').waitFor();
-  assert.equal(await page.locator('html').evaluate((element) => getComputedStyle(element).backgroundColor), 'rgb(48, 48, 51)');
+  await assertNormalTheme(page);
   assert.equal(await page.locator('[data-other-side-hint][data-mode-hold]').count(), 1, 'The activated mode has its subtle footer hold control.');
   assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
   assert.equal(await page.locator('.footer-identity > [data-visit-counter-hotspot]').count(), 1, 'The hidden count is centered in the footer identity row, separate from the header greeting.');

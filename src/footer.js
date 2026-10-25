@@ -16,7 +16,8 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
   const counter = home && easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="reveal local visit count" aria-describedby="footer-visit-count">
       <span class="secret-message" data-secret-message data-visit-number id="footer-visit-count">VISIT 001</span>
     </button>` : '';
-  return `${home ? `<div class="footer-secret-space" data-footer-secret-space>${hint}</div>` : ''}<footer class="page-footer exhibition-footer${home ? ' exhibition-footer-home' : ''}" data-artist-footer>
+  return `${home ? `<div class="footer-secret-space end-reveal" data-footer-secret-space data-end-reveal>
+    <div class="end-reveal-mark" aria-hidden="true"><span class="end-reveal-material"></span></div>${hint}</div>` : ''}<footer class="page-footer exhibition-footer${home ? ' exhibition-footer-home' : ''}" data-artist-footer>
     <div class="footer-identity">
       <span class="footer-brand">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>
       ${counter}
