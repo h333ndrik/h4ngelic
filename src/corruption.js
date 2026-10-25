@@ -369,6 +369,15 @@ export async function createCorruption({ image, settings = corruptionSettings } 
   }
   listen(doc, 'h4:transitionintent', event => transitionIntent(event.detail));
 
+  listen(doc, 'pointerdown', event => {
+    if (!active || disposed || doc.documentElement.dataset.mode !== 'xray' || reduced.matches || doc.hidden
+      || event.isPrimary === false || getLivingDecaySettings().cursorMosh <= 0
+      || event.target?.closest?.('[data-other-side-hint], [data-corruption-protected]')) return;
+    // Touch scrolling can cancel Pointer Events after its first real move.
+    // Keep the contact position as a numeric baseline so that first movement
+    // still has a physical vector. Contact alone never paints or starts a RAF.
+    lastPointer = { x: event.clientX, y: event.clientY, time: performance.now(), target: event.target };
+  }, { passive: true });
   listen(doc, 'pointermove', event => {
     if (!active || disposed || doc.documentElement.dataset.mode !== 'xray' || reduced.matches || doc.hidden || event.isPrimary === false
       || getLivingDecaySettings().cursorMosh <= 0) return;

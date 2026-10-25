@@ -232,8 +232,13 @@ try {
     assert.ok(fast.difference > slow.difference, 'Fast movement must produce stronger sampled-image displacement.');
     assert.ok(fast.width <= 1120 && fast.height <= 800 && fast.snapshot.memory.cells <= 1400);
     const anchored = await page.locator('[data-corruption-ambient]').boundingBox();
+    // Pixel readback may take longer than the physical gesture reset window
+    // on software GPUs. Establish a fresh real path before reversing it.
+    await page.mouse.move(740, 600);
+    await page.waitForTimeout(25);
     await page.mouse.move(470, 650);
-    await page.waitForTimeout(90);
+    await page.waitForFunction(before => window.__H4_CORRUPTION__.snapshot().ambient.memory.accepted > before,
+      fast.snapshot.memory.accepted);
     const moved = await backgroundPixels(page);
     assert.ok(moved.snapshot.memory.accepted > fast.snapshot.memory.accepted, 'A physical direction reversal enters the existing global field.');
     assert.ok(moved.changed > 30 && moved.snapshot.memory.heldCells > 0, 'Old damaged pixels remain while new movement is applied.');

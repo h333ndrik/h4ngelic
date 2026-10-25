@@ -1,0 +1,20 @@
+/** Surface paint belongs only to the Normal homepage. No extra render loop. */
+export const heroInkSettings = Object.freeze({
+  enabled: true,
+  maximumMarks: 6,
+  mobileMaximumMarks: 3,
+  minimumLifetimeMs: 6000,
+  maximumLifetimeMs: 12000,
+  minimumSize: 1.05,
+  maximumSize: 1.5,
+  projectionDepth: .14,
+  minimumNormalDot: .12,
+  textureSize: 256,
+  mobileTextureSize: 128,
+  maximumPointerTravel: 8,
+  maximumClickMs: 600,
+  settleMs: 320,
+  fadeStart: .58,
+  opacity: .94,
+  palette: Object.freeze(['#bcff16', '#8511ff', '#ff3dbb', '#2266ff']),
+});
