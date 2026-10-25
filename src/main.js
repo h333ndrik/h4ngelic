@@ -204,12 +204,14 @@ async function initialize() {
     let maximumX = -Infinity;
     let minimumY = Infinity;
     let maximumY = -Infinity;
-    for (const corner of motionCorners) {
+    const points = [];
+    for (const [id, corner] of motionCorners.entries()) {
       motionPoint.copy(corner).applyMatrix4(wordmark.matrixWorld).project(camera);
       minimumX = Math.min(minimumX, motionPoint.x);
       maximumX = Math.max(maximumX, motionPoint.x);
       minimumY = Math.min(minimumY, motionPoint.y);
       maximumY = Math.max(maximumY, motionPoint.y);
+      points.push({ id, x: left + (motionPoint.x + 1) * width / 2, y: top + (1 - motionPoint.y) * height / 2 });
     }
     const angularVelocity = previousMotionTime === null ? 0
       : logo.quaternion.angleTo(motionQuaternion) * 1000 / Math.max(1, timestamp - previousMotionTime);
@@ -217,7 +219,7 @@ async function initialize() {
     previousMotionTime = timestamp;
     motionPublisher.publish([{ kind: 'logo', target: canvas, x, y,
       width: Math.max(1, (maximumX - minimumX) * width / 2),
-      height: Math.max(1, (maximumY - minimumY) * height / 2), opacity: pose.opacity, angularVelocity }], timestamp);
+      height: Math.max(1, (maximumY - minimumY) * height / 2), opacity: pose.opacity, angularVelocity, points }], timestamp);
   }
 
   function locate(event) {

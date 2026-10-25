@@ -226,3 +226,66 @@ test('calibration input cannot bypass the ambient cadence or reset material time
   film.dispose();
   configureLivingDecay(original);
 });
+
+test('real scroll deltas move the source, inertia cannot fabricate travel, and navigation keeps image memory', () => {
+  const original = getLivingDecaySettings();
+  configureLivingDecay({ idleIntensity: 0, parallaxStrength: .4 });
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 152 });
+  film.setActive(true);
+  film.setMotion({ x: 0, y: -1, strength: 1, deltaY: 100, deltaMs: 100, time: env.view.performance.now() });
+  assert.equal(film.snapshot().parallax.y, 40, 'Native scroll displacement has the configured .4 starting gain.');
+  assert.ok(film.snapshot().parallax.offsetY > 35 && film.snapshot().parallax.offsetY < 40);
+  const beforeTail = film.snapshot();
+  film.setMotion({ x: 0, y: -.5, strength: .5, deltaY: 0, deltaMs: 80, time: env.view.performance.now() });
+  assert.deepEqual(film.snapshot().parallax, beforeTail.parallax, 'An inertia velocity does not move the real source.');
+  env.advance(80);
+  const beforeNavigation = film.snapshot();
+  env.doc.dispatchEvent(new Event('h4:pagechange'));
+  film.setActive(true);
+  assert.equal(film.snapshot().memory.accepted, beforeNavigation.memory.accepted);
+  assert.equal(film.snapshot().memory.energy, beforeNavigation.memory.energy);
+  assert.equal(film.snapshot().seed, 152);
+  for (let index = 0; index < 20; index++) film.setMotion({ x: 0, y: -2, strength: 1, deltaY: 500, time: env.view.performance.now() });
+  const longScroll = film.snapshot();
+  assert.ok(longScroll.parallax.y > env.view.innerHeight, 'Raw source travel keeps accumulating without resetting history.');
+  assert.ok(longScroll.parallax.offsetY < env.view.innerHeight * .205, 'The continuous source remains inside finite overscan.');
+  film.setMotion({ x: 0, y: 1, strength: 1, deltaY: -100, time: env.view.performance.now() });
+  assert.ok(film.snapshot().parallax.offsetY < longScroll.parallax.offsetY, 'Reverse scrolling moves back through the same source field.');
+  film.dispose(); configureLivingDecay(original);
+});
+
+test('continuous pointer input cannot postpone the one adaptive paint timer forever', () => {
+  const original = getLivingDecaySettings();
+  configureLivingDecay({ idleIntensity: 0 });
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 288 });
+  film.setActive(true);
+  const before = film.snapshot().frames;
+  for (let index = 0; index < 60; index++) {
+    film.stroke({ x: 200 + index * 2, y: 200, time: env.view.performance.now() });
+    env.advance(8);
+    assert.ok(env.queued <= 1, 'There is one shared ambient timer/RAF, even under event bursts.');
+  }
+  assert.ok(film.snapshot().frames > before + 5, '60 rapid pointer events must not starve the render scheduler.');
+  assert.ok(film.snapshot().memory.byKind.cursor > 0);
+  assert.ok(film.snapshot().advectedBlocks > 0);
+  film.dispose(); configureLivingDecay(original);
+});
+
+test('an explicit new-gesture pointer reset cannot bridge old history after quick navigation', () => {
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 431 });
+  film.setActive(true);
+  film.stroke({ x: 100, y: 100, time: env.view.performance.now() });
+  env.advance(40);
+  film.stroke({ x: 150, y: 100, time: env.view.performance.now() });
+  const accepted = film.snapshot().memory.accepted;
+  env.advance(40);
+  film.stroke({ x: 700, y: 700, time: env.view.performance.now(), priorInput: null });
+  assert.equal(film.snapshot().memory.accepted, accepted, 'Resetting a gesture preserves history without inventing a bridge to the old pointer.');
+  env.advance(40);
+  film.stroke({ x: 730, y: 700, time: env.view.performance.now() });
+  assert.ok(film.snapshot().memory.accepted > accepted, 'The next actual local movement still contributes.');
+  film.dispose();
+});

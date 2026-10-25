@@ -105,6 +105,7 @@ function fixture({ supported = true, reduced = false, hidden = false } = {}) {
     performance: { now: () => now },
     crypto: { getRandomValues(array) { array[0] = 1947; return array; } },
     Image: class { decode() { return Promise.resolve(); } },
+    CustomEvent: class extends Event { constructor(type, options) { super(type); this.detail = options?.detail; } },
     matchMedia(query) {
       if (!media.has(query)) media.set(query, Object.assign(new EventTarget(), { matches: query.includes('reduced-motion') && reduced }));
       return media.get(query);
@@ -122,6 +123,7 @@ function fixture({ supported = true, reduced = false, hidden = false } = {}) {
   doc.contains = element => element?.ownerDocument === doc && element.isConnected;
   view.getComputedStyle = element => ({
     viewTransitionName: element.style.getPropertyValue('view-transition-name') || (element === doc.documentElement ? 'root' : 'none'),
+    filter: element.style.getPropertyValue('filter') || element.stylesheetFilter || 'none',
     visibility: 'visible', display: 'block',
   });
   function makeTarget(visualClass = 'interaction-visual') {
@@ -258,6 +260,7 @@ test('local SourceGraphic filters alter only a safe inner visual and restore its
   assert.equal(handle.duration, 480);
   await handle.ready;
   assert.match(f.visual.style.getPropertyValue('filter'), /h4-mode-snapshot/);
+  assert.match(f.visual.style.getPropertyValue('filter'), /contrast\(1\.2\)/, 'The existing visual treatment survives the live pixel graph.');
   assert.equal(f.visual.style.getPropertyPriority('filter'), 'important');
   assert.equal(f.target.style.getPropertyValue('filter'), '');
   assert.equal(f.doc.documentElement.style.getPropertyValue('filter'), '');
@@ -301,6 +304,89 @@ test('local filters clean up on navigation, mode, visibility, blur, resize, scro
     assert.equal(f.doc.documentElement.hasAttribute('data-mode-snapshot'), false, cause);
     assert.equal(f.tasks.size, 0, cause);
     assert.equal(f.transitions.length, 0, cause);
+    controller.dispose();
+  }
+});
+
+test('live local corruption preserves stylesheet glow then restores stylesheet ownership', async () => {
+  const f = fixture({ supported: false }), controller = f.create();
+  f.visual.stylesheetFilter = 'brightness(1.1) drop-shadow(0px 0px 7px rgb(255, 255, 255))';
+  const handle = controller.run(() => {}, { ...local, target: f.target });
+  await handle.ready;
+  const filter = f.visual.style.getPropertyValue('filter');
+  assert.ok(filter.includes(f.visual.stylesheetFilter), 'White hover glow must remain visible under the local pixel graph.');
+  assert.match(filter, /url\("#h4-mode-snapshot-\d+-old"\)/);
+  assert.equal(f.visual.style.getPropertyPriority('filter'), 'important');
+  handle.skip(); await handle.finished;
+  assert.equal(f.visual.style.getPropertyValue('filter'), '', 'Cleanup must not pin a computed stylesheet value inline.');
+  assert.equal(f.visual.style.getPropertyPriority('filter'), '');
+  assert.equal(f.view.getComputedStyle(f.visual).filter, f.visual.stylesheetFilter);
+  controller.dispose();
+});
+
+test('major and ordinary navigation captures have distinct bounded durations', async () => {
+  for (const [kind, requested, expected] of [
+    ['mode', undefined, 950], ['mode', 100, 750], ['mode', 9999, 1200],
+    ['navigation', undefined, 340], ['navigation', 100, 250], ['navigation', 9999, 450],
+  ]) {
+    const f = fixture(), controller = f.create();
+    const handle = controller.run(() => {}, { kind, mode: 'xray', duration: requested, variant: 4 });
+    assert.equal(handle.duration, expected, `${kind}: ${requested}`);
+    assert.equal(f.doc.documentElement.style.getPropertyValue('--mode-snapshot-duration'), `${expected}ms`);
+    await f.transitions[0].complete(); await handle.finished;
+    controller.dispose();
+  }
+});
+
+test('navigation reads its centralized duration for each accepted route', async () => {
+  const original = getLivingDecaySettings();
+  const f = fixture(); f.doc.documentElement.dataset.mode = 'xray';
+  const service = initMoshTransitions({ doc: f.doc });
+  try {
+    for (const value of [250, 340, 450]) {
+      configureLivingDecay({ navigationTransitionMs: value });
+      const handle = service.navigation(() => {});
+      assert.equal(handle.duration, value);
+      await f.transitions.at(-1).complete(); await handle.finished;
+    }
+  } finally { service.dispose(); configureLivingDecay(original); }
+});
+
+test('accepted native captures coordinate one numeric transition intent without duplicating callbacks', async () => {
+  const f = fixture(), controller = f.create(), intents = [], commits = [];
+  f.doc.addEventListener('h4:transitionintent', event => intents.push(event.detail));
+  for (const [kind, mode, direction, variant] of [
+    ['mode', 'xray', 'entering', 4], ['mode', 'normal', 'leaving', 333],
+    ['navigation', undefined, 'forward', 27],
+  ]) {
+    const handle = controller.run(detail => commits.push(detail), { kind, mode, variant });
+    const event = intents.at(-1);
+    assert.equal(intents.length, commits.length + 1, 'The numeric intent is available before the asynchronous DOM update.');
+    assert.equal(event.kind, kind);
+    assert.equal(event.mode, mode);
+    assert.equal(event.direction, direction);
+    assert.equal(event.variant, variant);
+    assert.equal(event.duration, handle.duration);
+    assert.equal(event.strength, 1);
+    assert.equal(event.x, f.view.innerWidth / 2);
+    assert.equal(event.y, f.view.innerHeight / 2);
+    await f.transitions.at(-1).complete(); await handle.finished;
+  }
+  assert.equal(intents.length, 3);
+  assert.equal(commits.length, 3);
+  controller.dispose();
+});
+
+test('local and unavailable captures do not announce a native transition intent', async () => {
+  for (const options of [{ supported: false }, { reduced: true }, { hidden: true }, { throws: true }, { local: true }]) {
+    const f = fixture(options), controller = f.create(), intents = [];
+    f.doc.addEventListener('h4:transitionintent', event => intents.push(event.detail));
+    if (options.throws) f.doc.startViewTransition = () => { throw new Error('Native unavailable'); };
+    let committed = 0;
+    const handle = controller.run(() => committed++, options.local ? { ...local, target: f.target } : { mode: 'xray' });
+    if (handle) { await handle.ready; handle.skip(); await handle.finished; }
+    assert.equal(intents.length, 0, JSON.stringify(options));
+    assert.equal(committed, 1, JSON.stringify(options));
     controller.dispose();
   }
 });
@@ -373,7 +459,7 @@ test('service navigation leaves unavailable updates with its caller and native c
   const service = initMoshTransitions({ doc: f.doc }), gate = deferred(), calls = [];
   assert.equal(initMoshTransitions({ doc: f.doc }), service);
   const handle = service.navigation(async detail => { calls.push(detail); await gate.promise; }, { variant: 2026 });
-  assert.equal(handle.native, true); assert.equal(handle.duration, 600);
+  assert.equal(handle.native, true); assert.equal(handle.duration, 340);
   const update = f.transitions[0].invokeUpdate();
   await Promise.resolve(); await Promise.resolve();
   assert.equal(calls.length, 1); assert.equal(calls[0].captured, true);

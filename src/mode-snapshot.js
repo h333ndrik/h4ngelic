@@ -4,7 +4,7 @@ const svgNS = 'http://www.w3.org/2000/svg';
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const mix = (a, b, t) => a + (b - a) * t;
 const defaults = Object.freeze({
-  minimumDurationMs: 720, maximumDurationMs: 920,
+  minimumDurationMs: 950, maximumDurationMs: 950,
   framesPerSecond: 20, displacementPx: 180, smearPx: 220,
   channelOffsetPx: 9, colorStrength: .86, columns: 18, rows: 12,
 });
@@ -18,8 +18,8 @@ let serial = 0;
 function parameters(settings) {
   const finite = (name, minimum, maximum) => clamp(Number.isFinite(settings[name]) ? settings[name] : defaults[name], minimum, maximum);
   const result = {
-    minimumDurationMs: finite('minimumDurationMs', 600, 1000),
-    maximumDurationMs: finite('maximumDurationMs', 600, 1000),
+    minimumDurationMs: finite('minimumDurationMs', 750, 1200),
+    maximumDurationMs: finite('maximumDurationMs', 750, 1200),
     framesPerSecond: finite('framesPerSecond', 1, 30),
     displacementPx: finite('displacementPx', 0, 320),
     smearPx: finite('smearPx', 0, 420),
@@ -77,7 +77,7 @@ function regionMask(width, height, rect) {
  * never painted as decoration. Stable cells carry old image information across
  * phases while their sampling offsets advance, stretch and eventually recover.
  */
-function displacementMap(width, height, seed, phase, settings, mobile, kind, rect) {
+function displacementMap(width, height, seed, phase, settings, mobile, kind, rect, direction) {
   const random = randomSequence(seed);
   const local = kind === 'hover' || kind === 'click';
   const area = rect || { left: 0, top: 0, width, height };
@@ -88,20 +88,24 @@ function displacementMap(width, height, seed, phase, settings, mobile, kind, rec
   const cellWidth = area.width / columns;
   const cellHeight = area.height / rows;
   const scale = Math.max(1, settings.displacementPx * (mobile ? .65 : 1));
-  const probability = [.5, .8, .96, .68][phase];
-  const travel = [.3, .72, 1, .65][phase];
+  const reversing = direction === 'leaving';
+  const probability = reversing ? [.98, .94, .8, .65, .42, .18][phase] : [.38, .62, .86, .98, .8, .48][phase];
+  const travel = reversing ? [.76, 1, .78, .58, .32, .12][phase] : [.18, .46, .8, 1, .76, .38][phase];
   const rectangles = [];
   const gradients = [];
   for (let row = 0; row < rows; row++) {
     for (let column = 0; column < columns; column++) {
       const chance = random();
-      const direction = random() > .5 ? 1 : -1;
-      const offset = direction * scale * (.12 + random() * .34) * travel;
+      const sign = (random() > .5 ? 1 : -1) * (reversing ? -1 : 1);
+      const offset = sign * scale * (.12 + random() * .34) * travel;
       const vertical = .5 + (random() - .5) * .3 * travel;
       const smear = random() > .4;
       const span = 1.4 + random() * 2.6;
       const tall = random() > .76;
-      if (chance > probability) continue;
+      // Stable cells recover at different phases. Their held source regions
+      // survive together instead of becoming newly randomized every frame.
+      const recovery = random();
+      if (chance > probability || reversing && phase > 1 && recovery < (phase - 1) * .13) continue;
       const x = area.left + column * cellWidth;
       const y = area.top + row * cellHeight;
       const blockWidth = Math.min(area.left + area.width - x, smear ? Math.min(settings.smearPx * 1.35, cellWidth * span) : cellWidth + .5);
@@ -175,7 +179,7 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
   const localKind = kind => kind === 'hover' || kind === 'click';
   const nativeBusy = () => Boolean(owners.get(doc) || doc.activeViewTransition || doc.getAnimations?.().some(animation => animation.effect?.pseudoElement?.startsWith('::view-transition-')));
 
-  function prepare({ variant, kind = 'mode', rect, region, target, element, replacingHover = false } = {}) {
+  function prepare({ variant, kind = 'mode', mode, rect, region, target, element, replacingHover = false } = {}) {
     if (!supported(kind) || localKind(kind) && !replacingHover && nativeBusy()) return null;
     const local = localKind(kind);
     const parent = target || element?.parentElement;
@@ -189,7 +193,8 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     const width = local ? bounds.width : Math.max(1, view.innerWidth);
     const height = local ? bounds.height : Math.max(1, view.innerHeight);
     const scope = local ? scopedRect({ left: 0, top: 0, width, height }, width, height) : null;
-    const scopeKey = JSON.stringify(scope);
+    const direction = kind === 'mode' && mode === 'normal' ? 'leaving' : kind === 'mode' ? 'entering' : 'forward';
+    const scopeKey = JSON.stringify([scope, direction]);
     if (prepared?.width === width && prepared.height === height && prepared.kind === kind && prepared.scopeKey === scopeKey && prepared.visual === visual
       && (!Number.isFinite(variant) || prepared.seed === variant >>> 0)) return prepared;
     if (!definitions) {
@@ -212,7 +217,7 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
       : view.crypto?.getRandomValues ? view.crypto.getRandomValues(new Uint32Array(1))[0] : Math.floor(Math.random() * 4294967296);
     const mobile = coarse.matches || view.navigator.deviceMemory > 0 && view.navigator.deviceMemory <= 4
       || view.navigator.hardwareConcurrency > 0 && view.navigator.hardwareConcurrency <= 4 || view.navigator.connection?.saveData;
-    const maps = Array.from({ length: 4 }, (_, phase) => displacementMap(width, height, seed, phase, config, mobile, kind, scope));
+    const maps = Array.from({ length: 6 }, (_, phase) => displacementMap(width, height, seed, phase, config, mobile, kind, scope, direction));
     const mask = regionMask(width, height, scope);
     // Discovery may predecode the next capture while this graph still belongs
     // to an active one. Leave that capture's sampling and mask intact.
@@ -222,7 +227,7 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
       const image = new view.Image(); image.src = src;
       if (image.decode) decodes.push(image.decode().catch(() => {}));
     }
-    prepared = { width, height, seed, maps, mask, ready: Promise.all(decodes), mobile, kind, scopeKey, rect: scope, visual, target: parent };
+    prepared = { width, height, seed, maps, mask, ready: Promise.all(decodes), mobile, kind, direction, scopeKey, rect: scope, visual, target: parent };
     return prepared;
   }
 
@@ -291,7 +296,7 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     if (!localKind(kind)) owners.get(doc)?.skip();
     else skip();
     if (!supported(kind)) { commit(false); return null; }
-    const plan = prepare({ variant, kind, rect, region, target, element, replacingHover: supersedesHover });
+    const plan = prepare({ variant, kind, mode, rect, region, target, element, replacingHover: supersedesHover });
     if (!plan) { commit(false); return null; }
     // Superseding a capture releases its hrefs. Cached plans must rebind both
     // dependencies too, including a rapid mode reversal or hover-to-click.
@@ -301,8 +306,8 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     const random = randomSequence(seed);
     const local = localKind(kind);
     const length = local ? clamp(Number.isFinite(duration) ? duration : kind === 'hover' ? 300 : 400, 240, 480)
-      : kind === 'navigation' ? clamp(Number.isFinite(duration) ? duration : 600, 480, 720)
-        : clamp(Number.isFinite(duration) ? duration : mix(config.minimumDurationMs, config.maximumDurationMs, random()), 600, 1000);
+      : kind === 'navigation' ? clamp(Number.isFinite(duration) ? duration : 340, 250, 450)
+        : clamp(Number.isFinite(duration) ? duration : mix(config.minimumDurationMs, config.maximumDurationMs, random()), 750, 1200);
     const amount = clamp(Number.isFinite(strength) ? strength : 1, 0, 1);
     detail = { duration: length, variant: seed, kind, strength: amount };
     const entering = kind !== 'mode' || mode === 'xray';
@@ -334,11 +339,12 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     const travelY = clamp(Number.isFinite(dy) ? dy : kind === 'mode' ? (entering ? 14 : -11) : 5, -60, 60);
     let previousPhase = -1;
     function render(progress) {
-      const phase = progress < .17 ? 0 : progress < .4 ? 1 : progress < .73 ? 2 : 3;
-      const envelope = progress < .13 ? progress / .13 : progress > .72 ? (1 - progress) / .28 : 1;
-      const pulse = .9 + .1 * Math.sin(progress * Math.PI * (entering ? 5 : 3));
+      const phase = Math.min(plan.maps.length - 1, Math.floor(progress * plan.maps.length));
+      const envelope = entering ? progress < .13 ? progress / .13 : progress > .72 ? (1 - progress) / .28 : 1
+        : progress < .08 ? .65 + progress / .08 * .35 : Math.pow(1 - progress, .58);
+      const pulse = .94 + .06 * Math.sin(progress * Math.PI * (entering ? 2 : 1));
       const gain = clamp(envelope * pulse, 0, 1) * amount;
-      const displacement = config.displacementPx * (plan.mobile ? .65 : 1) * (kind === 'mode' ? 1.3 : local ? .65 : 1);
+      const displacement = config.displacementPx * (plan.mobile ? .65 : 1) * (kind === 'mode' ? 1.5 : local ? .65 : .9);
       const drift = Math.sin(progress * Math.PI) * (.35 + .65 * progress) * amount;
       for (let index = 0; index < filters.length; index++) {
         const filter = filters[index];
@@ -372,7 +378,14 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
       const ready = Promise.all([plan.ready, updateCallbackDone]).then(() => {
         if (active !== record || record.cleaned) return;
         if (record.visual.isConnected === false) { end(record); return; }
-        record.visual.style.setProperty('filter', `url("#${uid}-old")`, 'important');
+        const computed = view.getComputedStyle?.(record.visual);
+        const original = computed?.filter && computed.filter !== 'none' ? computed.filter : '';
+        const activeGlow = record.target?.matches?.(':hover, :focus-visible')
+          && computed?.getPropertyValue?.('--ui-hover-glow').trim();
+        // Keep the existing strong hover glow. Filtering only the inner visual
+        // preserves stable hit targets; original inline priority is restored.
+        const finish = activeGlow ? 'var(--ui-hover-glow)' : original;
+        record.visual.style.setProperty('filter', `url("#${uid}-old")${finish ? ` ${finish}` : ''}`, 'important');
         const started = view.performance.now();
         let painted = -Infinity;
         const frame = now => {
@@ -393,6 +406,11 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     try { record.transition = doc.startViewTransition(() => commit(true)); }
     catch { end(record); commit(false); return null; }
     nativeCount++;
+    const EventConstructor = view.CustomEvent || globalThis.CustomEvent;
+    if (typeof EventConstructor === 'function') doc.dispatchEvent(new EventConstructor('h4:transitionintent', { detail: {
+      kind, mode, duration: length, direction: plan.direction, strength: amount, variant: seed,
+      x: plan.width / 2, y: plan.height / 2,
+    } }));
     record.transition.ready.then(() => {
       if (active !== record || record.cleaned) return;
       const started = view.performance.now();

@@ -48,25 +48,51 @@ async function pixels(page, name) {
 }
 
 async function pointerArea(page, radius) {
+  const start = { x: 470, y: 505 }, end = { x: 500, y: 505 };
+  await page.mouse.move(start.x - 100, start.y - 100);
   await page.evaluate(value => {
-    window.__H4_CORRUPTION__.configureLivingDecay({ cursorRadius: value, cursorMosh: 1.25, hoverMosh: 0, clickMosh: 0, sectionMosh: 0, typographyMosh: 0 });
+    window.__H4_CORRUPTION__.configureLivingDecay({ cursorRadius: value, cursorMosh: 1.25,
+      idleIntensity: 0, mutationSpeed: 0, scrollMosh: 0, hoverMosh: 0, clickMosh: 0,
+      sectionMosh: 0, typographyMosh: 0, heroMosh: 0, navigationMosh: 0,
+      colorBleeding: 0, negativeExposure: 0, parallaxStrength: 0,
+      feedbackPersistence: .997, recoverySpeed: .1 });
     window.__H4_CORRUPTION__.regenerateLivingDecay(6831);
   }, radius);
-  await page.mouse.move(470 + radius, 505);
-  await page.waitForFunction(() => document.querySelector('[data-corruption-region]'));
-  await page.waitForTimeout(70);
-  return page.locator('[data-corruption-region]').evaluateAll((canvases, value) => canvases.reduce((result, canvas) => {
+  // A first physical position establishes the pointer baseline. Read actual
+  // opaque shared-history pixels, not alpha from an obsolete background ROI.
+  await page.mouse.move(start.x, start.y);
+  await page.waitForTimeout(35);
+  const before = await page.evaluate(() => {
+    const canvas = document.querySelector('[data-corruption-ambient]');
+    window.__livingCursorBefore = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    return window.__H4_CORRUPTION__.snapshot().ambient;
+  });
+  await page.mouse.move(end.x, end.y);
+  await page.waitForFunction(previous => {
+    const ambient = window.__H4_CORRUPTION__.snapshot().ambient;
+    return (ambient.memory.byKind.cursor || 0) > previous.accepted && ambient.advectedBlocks > previous.advected;
+  }, { accepted: before.memory.byKind.cursor || 0, advected: before.advectedBlocks });
+  return page.locator('[data-corruption-ambient]').evaluate((canvas, { radius, start, end }) => {
     const bytes = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
-    const rect = canvas.getBoundingClientRect();
-    for (let index = 3; index < bytes.length; index += 4) if (bytes[index] > 8) {
-      result.pixels++;
-      const pixel = (index - 3) / 4;
-      const x = rect.left + (pixel % canvas.width + .5) * rect.width / canvas.width;
-      const y = rect.top + (Math.floor(pixel / canvas.width) + .5) * rect.height / canvas.height;
-      if (Math.hypot(x - (470 + value), y - 505) > value + 1.5) result.outside++;
+    const before = window.__livingCursorBefore;
+    const snapshot = window.__H4_CORRUPTION__.snapshot();
+    const cell = snapshot.ambient.memory.cellSize;
+    const margin = radius + cell * Math.SQRT2 * innerWidth / canvas.width;
+    let pixels = 0, outside = 0;
+    for (let index = 0; index < bytes.length; index += 4) {
+      if (Math.abs(bytes[index] - before[index]) + Math.abs(bytes[index + 1] - before[index + 1])
+        + Math.abs(bytes[index + 2] - before[index + 2]) <= 12) continue;
+      pixels++;
+      const pixel = index / 4;
+      const x = (pixel % canvas.width + .5) * innerWidth / canvas.width;
+      const y = (Math.floor(pixel / canvas.width) + .5) * innerHeight / canvas.height;
+      const nearestX = Math.max(start.x, Math.min(end.x, x));
+      if (Math.hypot(x - nearestX, y - start.y) > margin) outside++;
     }
-    return result;
-  }, { pixels: 0, outside: 0 }), radius);
+    delete window.__livingCursorBefore;
+    return { pixels, outside, count: bytes.length / 4, radius, cellSize: cell,
+      regions: snapshot.regions, memory: snapshot.ambient.memory, advectedBlocks: snapshot.ambient.advectedBlocks };
+  }, { radius, start, end });
 }
 
 try {
@@ -112,6 +138,9 @@ try {
       assert.equal(first.ambient.settings.cursorRadius, 35);
       assert.ok(first.ambient.width <= (mobile ? 512 : 1120) && first.ambient.height <= (mobile ? 768 : 800));
       assert.ok(first.ambient.framesPerSecond <= (mobile ? 3 : 6));
+      assert.ok(first.ambient.activeFramesPerSecond <= (mobile ? 18 : 24)
+        && first.ambient.activeFramesPerSecond >= first.ambient.framesPerSecond, 'One adaptive scheduler caps idle and active rendering separately.');
+      assert.ok(first.ambient.memory.cells <= (mobile ? 600 : 1400));
       assert.ok(first.ambient.material.codecFragments <= (mobile ? 64 : 156));
       assert.equal(await page.evaluate(() => window.__livingProbe.webGL), 0, 'Material allocates no WebGL renderer.');
 
@@ -133,6 +162,11 @@ try {
       assert.equal(await page.evaluate(() => window.__livingProbe.token), token, 'Internal navigation preserves the renderer document.');
       assert.equal(afterNavigation.ambient.seed, first.ambient.seed);
       assert.ok(afterNavigation.ambient.elapsed >= beforeNavigation.ambient.elapsed);
+      assert.equal(afterNavigation.ambient.regenerations, beforeNavigation.ambient.regenerations, 'Navigation must not regenerate shared image history.');
+      assert.ok(afterNavigation.ambient.memory.accepted >= beforeNavigation.ambient.memory.accepted);
+      assert.ok(afterNavigation.ambient.advectedBlocks >= beforeNavigation.ambient.advectedBlocks);
+      assert.ok((afterNavigation.ambient.memory.byKind.navigation || 0) > (beforeNavigation.ambient.memory.byKind.navigation || 0),
+        'Native route capture also drives the existing shared image field.');
       await page.locator('.page-nav a[href="/work"]').click();
       await page.waitForURL(url => url.pathname === '/work');
       await settled(page, 'xray');
@@ -151,7 +185,9 @@ try {
 
       const reproduction = await page.evaluate(defaults => {
         const controller = window.__H4_CORRUPTION__;
-        controller.configureLivingDecay({ ...defaults, idleIntensity: 0, mutationSpeed: 0, scrollMosh: 0, cursorMosh: 0, sectionMosh: 0, typographyMosh: 0 });
+        controller.configureLivingDecay({ ...defaults, idleIntensity: 0, mutationSpeed: 0, scrollMosh: 0,
+          cursorMosh: 0, sectionMosh: 0, typographyMosh: 0, heroMosh: 0,
+          hoverMosh: 0, clickMosh: 0, navigationMosh: 0, parallaxStrength: 0 });
         controller.regenerateLivingDecay(6831);
         const snapshot = controller.snapshot().ambient;
         const canvas = document.querySelector('[data-corruption-ambient]');
@@ -189,8 +225,12 @@ try {
         const small = await pointerArea(page, 25);
         const large = await pointerArea(page, 45);
         assert.ok(small.pixels > 0 && large.pixels > small.pixels * 1.2, `Live cursor radius must affect real damaged pixel area: ${small.pixels} / ${large.pixels}`);
-        assert.equal(small.outside, 0, 'R25 compression remains inside its actual 25px footprint.');
-        assert.equal(large.outside, 0, 'R45 compression remains inside its actual 45px footprint.');
+        for (const result of [small, large]) {
+          assert.ok(result.outside <= result.pixels * .01, 'Cursor damage remains local, allowing the real macroblock footprint.');
+          assert.ok(result.pixels < result.count * .08, 'A local cursor stroke must not become full-screen damage.');
+          assert.equal(result.regions, 0, 'Background input uses the shared history, not independent ROI canvases.');
+          assert.ok(result.memory.byKind.cursor > 0 && result.advectedBlocks > 0, 'Actual movement must advect shared previous-output pixels.');
+        }
         pointer = { radius25: small, radius45: large };
       }
       await page.evaluate(defaults => {
@@ -263,7 +303,8 @@ try {
       await page.goto(new URL('/work?test=1&fx=1', base).href, { waitUntil: 'networkidle' });
       const panel = page.locator('.living-decay-panel');
       await panel.waitFor();
-      assert.equal(await panel.getByRole('slider').count(), 18);
+      const sliderCount = Object.keys(livingDecaySchema).filter(key => key !== 'seed').length;
+      assert.equal(await panel.getByRole('slider').count(), sliderCount);
       assert.equal(await panel.locator('[data-living-setting="seed"]').count(), 1);
       const regenerate = panel.getByRole('button', { name: 'Regenerate composition', exact: true });
       assert.equal(await regenerate.isDisabled(), true);
@@ -288,7 +329,7 @@ try {
       await radius.press('End');
       assert.equal((await state(page)).ambient.settings.cursorRadius, 45);
       for (const key of ['idleIntensity', 'mutationSpeed', 'scrollStrength', 'scrollMosh', 'sectionMosh', 'typographyMosh',
-        'cursorMosh', 'hoverMosh', 'clickMosh', 'navigationMosh']) {
+        'heroMosh', 'cursorMosh', 'hoverMosh', 'clickMosh', 'navigationMosh', 'colorBleeding', 'negativeExposure', 'parallaxStrength']) {
         const slider = panel.locator(`[data-living-setting="${key}"]`);
         await slider.focus(); await slider.press('Home');
         assert.equal((await state(page)).ambient.settings[key], 0, `${key} can be disabled from its actual control.`);
@@ -311,12 +352,12 @@ try {
       const toggle = panel.getByRole('button', { name: /Living decay calibration/ });
       await toggle.focus(); await toggle.press('Enter');
       assert.equal(await panel.locator('form').isHidden(), true);
-      const accepted = (await state(page)).receivedImpulses;
+      const accepted = (await state(page)).ambient.memory.accepted;
       await page.locator('.page-nav a[href="/about"]').hover();
       await page.locator('.page-nav a[href="/about"]').click();
       await page.waitForURL(url => url.pathname === '/about');
       await settled(page, 'xray');
-      assert.equal((await state(page)).receivedImpulses, accepted, 'Zero channels accept no hover/click/navigation/entrance damage.');
+      assert.equal((await state(page)).ambient.memory.accepted, accepted, 'Zero channels accept no hover/click/navigation/entrance damage into the shared image field.');
       assert.equal((await state(page)).ambient.seed, 321);
       await toggle.focus(); await toggle.press('Enter');
       assert.equal(await panel.locator('form').isHidden(), false);
@@ -325,9 +366,10 @@ try {
       assert.equal(await page.locator('.living-decay-panel').count(), 0);
       assert.equal(await page.evaluate(() => window.__livingPanelWebGL), 0);
       assert.deepEqual(errors, []);
-      reports.push({ profile: 'calibration-320', controls: 20, autoSeeds: [autoOne, autoTwo], manualSeed: 321,
+      const controls = sliderCount + 2;
+      reports.push({ profile: 'calibration-320', controls, autoSeeds: [autoOne, autoTwo], manualSeed: 321,
         manualChecksum: manualOne, bounds, errors });
-      console.log('PASS Living Decay DEV panel 320px: 20 controls, fresh auto/manual reproduction, radius bounds, zero channels and keyboard lifecycle.');
+      console.log(`PASS Living Decay DEV panel 320px: ${controls} controls, fresh auto/manual reproduction, radius bounds, zero channels and keyboard lifecycle.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL('results.json', destination), JSON.stringify({ testedAt: new Date().toISOString(), base, reports }, null, 2) + '\n');

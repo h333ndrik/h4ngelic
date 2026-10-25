@@ -101,8 +101,9 @@ export function createCorruptionField({ settings = corruptionSettings, seed = 0x
       && Math.hypot(point.x - latest.x, point.y - latest.y) <= config.coalesceDistance) {
       latest.updatedAt = now;
       latest.expiresAt = Math.max(latest.expiresAt, now + duration);
-      // Retain the strongest stroke inside this small, fixed damage region.
-      if (speed > latest.speed) Object.assign(latest, { speed, drive: speed, velocityX, velocityY,
+      // The latest physical direction wins, even when a reversal is slower.
+      // Keeping the older maximum would move history against the visitor.
+      Object.assign(latest, { speed, drive: speed, velocityX, velocityY,
         directionX: velocityX / config.maximumVelocity, directionY: velocityY / config.maximumVelocity });
       return latest.id;
     }
@@ -155,8 +156,7 @@ export function createCorruptionField({ settings = corruptionSettings, seed = 0x
       const drive = impulse.eventInput ? impulse.drive : impulse.speed;
       const energy = Math.min(1, config.intensity * (.18 + drive * .82)) * decay;
       const radius = config.minimumRadius + (impulse.maximumRadius - config.minimumRadius) * drive;
-      const direction = impulse.eventInput ? impulse.directionX
-        : Math.abs(impulse.directionX) > .001 ? Math.sign(impulse.directionX) : noise(impulse.seed, 73) < .5 ? -1 : 1;
+      const direction = impulse.directionX;
       const displacement = config.maximumDisplacement * Math.min(2, config.intensity) * (.08 + drive * .92) * decay;
       return {
         ...impulse,
@@ -165,7 +165,7 @@ export function createCorruptionField({ settings = corruptionSettings, seed = 0x
         radiusY: radius * (.55 + noise(impulse.seed, 71) * .25),
         blockSize: Math.round(config.minimumBlockSize + (config.maximumBlockSize - config.minimumBlockSize) * drive),
         displacementX: displacement * direction,
-        displacementY: displacement * impulse.directionY * (impulse.eventInput ? .55 : .15),
+        displacementY: displacement * impulse.directionY,
         smearLength: config.maximumSmear * config.smearingIntensity * (.05 + drive * .95) * decay,
         colorCorruption: config.colorCorruption,
         phase: Math.floor(age / config.instabilityIntervalMs),
@@ -189,11 +189,11 @@ export function sampleCorruptionBlock(impulse, column, row) {
     impulse.displacementX, impulse.displacementY, impulse.smearLength, impulse.phase,
     impulse.colorCorruption].every(Number.isFinite) || impulse.energy <= 0) return neutralBlock();
   const cell = hash(impulse.seed ^ Math.imul(Math.trunc(column), 73856093)
-    ^ Math.imul(Math.trunc(row), 19349663) ^ Math.imul(impulse.phase, 83492791));
+    ^ Math.imul(Math.trunc(row), 19349663));
   const horizontal = .35 + noise(cell, 11) * .65;
   return {
     offsetX: impulse.displacementX * horizontal,
-    offsetY: impulse.displacementY + (noise(cell, 17) - .5) * impulse.blockSize * .24 * impulse.energy,
+    offsetY: impulse.displacementY * (.35 + noise(cell, 17) * .65),
     smearLength: impulse.smearLength * (.5 + noise(cell, 23) * .5),
     channelShift: impulse.energy * clamp(impulse.colorCorruption, 0, 2) * (1 + noise(cell, 29) * 3),
     opacity: clamp(impulse.energy * (.65 + noise(cell, 31) * .35), 0, 1),

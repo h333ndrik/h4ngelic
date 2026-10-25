@@ -10,6 +10,6 @@ export const interactionMoshSettings = Object.freeze({
   hover: Object.freeze({ strength: .46, durationMs: 340, cooldownMs: 650, dx: 52, dy: 10 }),
   focus: Object.freeze({ strength: .2, durationMs: 240, cooldownMs: 650, dx: 20, dy: 0 }),
   click: Object.freeze({ strength: .78, durationMs: 420, cooldownMs: 320, dx: 90, dy: 14 }),
-  navigation: Object.freeze({ strength: 1, durationMs: 600, cooldownMs: 400, dx: 130, dy: 18 }),
+  navigation: Object.freeze({ strength: 1, durationMs: 340, cooldownMs: 400, dx: 130, dy: 18 }),
   section: Object.freeze({ strength: .38, durationMs: 380, cooldownMs: 1800, dx: 62, dy: 28 }),
 });

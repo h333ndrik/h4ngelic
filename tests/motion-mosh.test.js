@@ -212,7 +212,7 @@ test('motion output has a shared frame and impulse budget under dense high-frequ
   assert.ok(f.impulses.length <= 12, 'The combined motion stream admits at most twelve impulses in one second.');
   const bursts = new Map();
   for (const time of f.impulseTimes) bursts.set(time, (bursts.get(time) || 0) + 1);
-  assert.ok([...bursts.values()].every(count => count <= 2), 'A flush cannot exceed the two-region material budget.');
+  assert.ok([...bursts.values()].every(count => count <= 1), 'A flush distributes the shared budget one event at a time.');
   const times = [...bursts.keys()];
   assert.ok(times.every((time, index) => index === 0 || time - times[index - 1] >= 1000 / 12 - 1));
   f.drain();
@@ -339,4 +339,189 @@ test('visual publisher gating rejects Normal and reduced-motion frames before al
   assert.equal(batches.length, before, 'A preference change cancels an already queued publication.');
   assert.equal(f.pending(), 0);
   publisher.reset();
+});
+
+test('pure hover scaling and its contraction preserve opposing edge vectors at a stationary center', () => {
+  const f = fixture();
+  const link = f.target();
+  const pose = scale => f.sample(link, { kind: 'hover-motion', width: 200 * scale, height: 40 * scale,
+    points: [
+      { id: 'tl', x: 300 - 100 * scale, y: 250 - 20 * scale },
+      { id: 'tr', x: 300 + 100 * scale, y: 250 - 20 * scale },
+      { id: 'br', x: 300 + 100 * scale, y: 250 + 20 * scale },
+      { id: 'bl', x: 300 - 100 * scale, y: 250 + 20 * scale },
+    ] });
+  f.visual(pose(1));
+  f.tick(100);
+  f.visual(pose(1.22));
+  f.advance(100);
+  const expansion = f.impulses.at(-1);
+  assert.equal(expansion.kind, 'hover-motion');
+  assert.equal(expansion.dx, 0);
+  assert.equal(expansion.dy, 0);
+  assert.equal(expansion.deltaMs, 100);
+  assert.equal(expansion.vectors.length, 4);
+  assert.ok(expansion.vectors.some(vector => vector.dx < 0) && expansion.vectors.some(vector => vector.dx > 0));
+  assert.ok(expansion.vectors.some(vector => vector.dy < 0) && expansion.vectors.some(vector => vector.dy > 0));
+  f.visual(pose(1));
+  f.advance(100);
+  const contraction = f.impulses.at(-1);
+  assert.equal(contraction.kind, 'hover-motion');
+  assert.equal(contraction.vectors.length, 4);
+  for (let index = 0; index < 4; index++) {
+    assert.ok(Math.abs(contraction.vectors[index].dx + expansion.vectors[index].dx) < 1e-8);
+    assert.ok(Math.abs(contraction.vectors[index].dy + expansion.vectors[index].dy) < 1e-8);
+  }
+  f.controller.dispose();
+});
+
+test('actual hero corner trajectories survive constant bounds and opposing rotation directions', () => {
+  const f = fixture();
+  const hero = f.target();
+  const corners = [
+    { id: 0, x: 200, y: 200 }, { id: 1, x: 400, y: 200 },
+    { id: 2, x: 200, y: 300 }, { id: 3, x: 400, y: 300 },
+    { id: 4, x: 250, y: 220 }, { id: 5, x: 350, y: 220 },
+    { id: 6, x: 250, y: 280 }, { id: 7, x: 350, y: 280 },
+  ];
+  f.visual(f.sample(hero, { kind: 'logo', points: corners }));
+  f.tick(100);
+  f.visual(f.sample(hero, { kind: 'logo', points: corners.map(point => ({ ...point,
+    x: point.x + (point.id % 2 ? 8 : -8), y: point.y + (point.id < 4 ? 5 : -5) })) }));
+  f.advance(100);
+  const impulse = f.impulses.at(-1);
+  assert.equal(impulse.dx, 0);
+  assert.equal(impulse.dy, 0);
+  assert.equal(impulse.vectors.length, 8);
+  assert.ok(impulse.vectors.some(vector => vector.dx < 0) && impulse.vectors.some(vector => vector.dx > 0));
+  assert.ok(impulse.strength > 0);
+  f.controller.dispose();
+});
+
+test('the latest signed movement wins when reversal arrives before the next shared flush', () => {
+  const f = fixture();
+  const target = f.target();
+  f.visual(f.sample(target));
+  f.tick(10);
+  f.visual(f.sample(target, { x: 500 }));
+  f.tick(10);
+  f.visual(f.sample(target, { x: 495 }));
+  f.advance(100);
+  assert.ok(f.impulses.length > 0);
+  assert.equal(f.impulses[0].dx, -5);
+  assert.ok(f.impulses[0].vectors.every(vector => vector.dx < 0));
+  f.controller.dispose();
+});
+
+test('raw native scroll travel is emitted once while inertia keeps zero source-position delta', () => {
+  const f = fixture();
+  f.tick(100);
+  f.scrollTo(100, 20);
+  f.tick(5);
+  f.scrollTo(140, 25);
+  f.advance(100);
+  assert.equal(f.scrollMotion.reduce((sum, value) => sum + value.deltaY, 0), 140);
+  assert.equal(f.scrollMotion.reduce((sum, value) => sum + value.deltaX, 0), 25);
+  const first = f.scrollMotion.find(value => value.deltaY);
+  assert.equal(first.scrollY, 140);
+  assert.equal(first.scrollX, 25);
+  const afterNative = f.scrollMotion.length;
+  f.advance(400);
+  assert.ok(f.scrollMotion.length > afterNative);
+  assert.ok(f.scrollMotion.slice(afterNative).every(value => value.deltaX === 0 && value.deltaY === 0));
+  f.drain();
+  f.controller.dispose();
+});
+
+test('hero and hover controls are independent from typography and never multiply published vector energy', () => {
+  const f = fixture('xray', { typographyMosh: 0, heroMosh: 1.8, hoverMosh: .25 });
+  const hero = f.target(), hover = f.target();
+  f.visual(f.sample(hero, { kind: 'logo' }), f.sample(hover, { kind: 'hover-motion', x: 700 }));
+  f.tick(100);
+  f.visual(f.sample(hero, { kind: 'logo', x: 320 }), f.sample(hover, { kind: 'hover-motion', x: 720 }));
+  f.advance(100);
+  assert.equal(f.impulses.length, 2);
+  const heroImpulse = f.impulses.find(value => value.kind === 'logo');
+  const hoverImpulse = f.impulses.find(value => value.kind === 'hover-motion');
+  assert.equal(heroImpulse.strength, hoverImpulse.strength, 'Artistic gain is applied once by the renderer.');
+  assert.equal(heroImpulse.vectors[0].dx, hoverImpulse.vectors[0].dx);
+  f.controller.dispose();
+});
+
+test('sustained twelve-Hz mixed motion stays evenly paced and gives every channel coverage', () => {
+  const f = fixture();
+  const kinds = ['logo', 'typography', 'hover-motion', 'section'];
+  const elements = kinds.map(() => f.target());
+  const poses = index => elements.map((target, item) => f.sample(target, {
+    kind: kinds[item], x: 200 + item * 200 + index * (item + 1), y: 300,
+  }));
+  f.visual(...poses(0));
+  for (let index = 1; index <= 36; index++) {
+    f.tick(84);
+    f.visual(...poses(index));
+    f.step(0);
+  }
+  assert.equal(f.impulses.length, 36, 'Continued input has no half-second budget exhaustion gaps.');
+  for (let index = 1; index < f.impulseTimes.length; index++) {
+    assert.equal(f.impulseTimes[index] - f.impulseTimes[index - 1], 84);
+  }
+  for (const kind of kinds) {
+    const times = f.impulseTimes.filter((_, index) => f.impulses[index].kind === kind);
+    assert.equal(times.length, 9, `Round-robin admission prevents ${kind} starvation.`);
+    assert.ok(times.every((time, index) => index === 0 || time - times[index - 1] <= 336));
+  }
+  for (const time of f.impulseTimes) {
+    assert.ok(f.impulseTimes.filter(value => value > time - 1000 && value <= time).length <= 12);
+  }
+  assert.ok(f.controller.snapshot().pendingTargets > 0, 'Unselected latest poses remain available for the next fair flush.');
+  f.drain();
+  assert.equal(f.controller.snapshot().pendingTargets, 0);
+  f.controller.dispose();
+});
+
+test('a target waiting behind another channel retains its newest reversal rather than its first queued pose', () => {
+  const f = fixture();
+  const hero = f.target(), text = f.target(), hover = f.target();
+  f.visual(f.sample(hero, { kind: 'logo' }), f.sample(text, { x: 700 }),
+    f.sample(hover, { kind: 'hover-motion', x: 1000 }));
+  f.tick(100);
+  f.visual(f.sample(hero, { kind: 'logo', x: 340 }), f.sample(text, { x: 720 }),
+    f.sample(hover, { kind: 'hover-motion', x: 1010 }));
+  f.step(0);
+  assert.equal(f.impulses[0].kind, 'hover-motion');
+  assert.equal(f.controller.snapshot().pendingTargets, 2);
+  f.tick(5);
+  f.visual(f.sample(hero, { kind: 'logo', x: 339 }));
+  f.advance(250);
+  const heroImpulse = f.impulses.find(value => value.kind === 'logo');
+  assert.ok(heroImpulse);
+  assert.equal(heroImpulse.dx, -1);
+  assert.ok(heroImpulse.vectors.every(vector => vector.dx < 0));
+  assert.ok(f.impulses.some(value => value.target === text), 'The finite text sample was carried into the next flush.');
+  f.drain();
+  f.controller.dispose();
+});
+
+test('carried motion candidates are bounded, expire, and cannot survive navigation', () => {
+  const f = fixture();
+  const elements = Array.from({ length: 64 }, () => f.target());
+  const samples = (start, shift) => elements.slice(start, start + 32).map((target, index) =>
+    f.sample(target, { x: 100 + index * 20 + shift }));
+  f.visual(...samples(0, 0)); f.visual(...samples(32, 0));
+  f.tick(100);
+  f.visual(...samples(0, 10)); f.visual(...samples(32, 10));
+  assert.equal(f.controller.snapshot().pendingTargets, 32);
+  f.drain();
+  assert.equal(f.controller.snapshot().pendingTargets, 0);
+  assert.equal(f.pending(), 0);
+  f.tick(100);
+  f.visual(...samples(0, 20));
+  assert.ok(f.controller.snapshot().pendingTargets > 0);
+  f.send('h4:navigationstart');
+  assert.equal(f.controller.snapshot().pendingTargets, 0);
+  assert.equal(f.pending(), 0);
+  f.send('h4:pagechange');
+  f.advance(100);
+  assert.equal(f.controller.snapshot().pendingTargets, 0);
+  f.controller.dispose();
 });
