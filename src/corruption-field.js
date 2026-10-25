@@ -1,4 +1,5 @@
 import { corruptionSettings } from './data/corruptionSettings.js';
+import { temporalMoshSettings } from './data/temporalMoshSettings.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
 const finite = (value, fallback, minimum, maximum) => Number.isFinite(value) ? clamp(value, minimum, maximum) : fallback;
@@ -63,11 +64,16 @@ export function createCorruptionField({ settings = corruptionSettings, seed = 0x
   let sampledAt = 0;
 
   const prune = (now) => { impulses = impulses.filter((impulse) => now < impulse.expiresAt); };
+  const validPoint = point => point && [point.x, point.y, point.time].every(Number.isFinite)
+    && point.time >= 0 && Math.abs(point.x) <= config.maximumCoordinate && Math.abs(point.y) <= config.maximumCoordinate;
+  const append = impulse => {
+    if (impulses.length >= config.maximumImpulses) impulses.shift();
+    impulses.push(impulse);
+    return impulse.id;
+  };
 
   function stroke(point) {
-    if (!point || config.intensity === 0 || ![point.x, point.y, point.time].every(Number.isFinite)
-      || point.time < 0 || Math.abs(point.x) > config.maximumCoordinate || Math.abs(point.y) > config.maximumCoordinate
-      || previous && point.time < previous.time) return null;
+    if (!validPoint(point) || config.intensity === 0 || previous && point.time < previous.time) return null;
 
     const now = Math.max(point.time, sampledAt);
     prune(now);
@@ -91,12 +97,13 @@ export function createCorruptionField({ settings = corruptionSettings, seed = 0x
     const speed = Math.min(1, Math.hypot(velocityX, velocityY) / config.maximumVelocity);
     const duration = clamp(config.recoveryMs * (.6 + speed * .8) / config.recoverySpeed, 50, 10_000);
     const latest = impulses.at(-1);
-    if (latest && now - latest.updatedAt <= config.coalesceWindowMs
+    if (latest && !latest.eventInput && now - latest.updatedAt <= config.coalesceWindowMs
       && Math.hypot(point.x - latest.x, point.y - latest.y) <= config.coalesceDistance) {
       latest.updatedAt = now;
       latest.expiresAt = Math.max(latest.expiresAt, now + duration);
       // Retain the strongest stroke inside this small, fixed damage region.
-      if (speed > latest.speed) Object.assign(latest, { speed, velocityX, velocityY });
+      if (speed > latest.speed) Object.assign(latest, { speed, drive: speed, velocityX, velocityY,
+        directionX: velocityX / config.maximumVelocity, directionY: velocityY / config.maximumVelocity });
       return latest.id;
     }
 
@@ -104,11 +111,35 @@ export function createCorruptionField({ settings = corruptionSettings, seed = 0x
     const impulse = {
       id, x: point.x, y: point.y, createdAt: now, updatedAt: now,
       expiresAt: now + duration, velocityX, velocityY, speed,
+      eventInput: 0, drive: speed, directionX: velocityX / config.maximumVelocity,
+      directionY: velocityY / config.maximumVelocity, maximumRadius: config.maximumRadius,
       seed: hash(initialSeed ^ Math.imul(id, 0x9e3779b1)),
     };
-    if (impulses.length >= config.maximumImpulses) impulses.shift();
-    impulses.push(impulse);
-    return id;
+    return append(impulse);
+  }
+
+  /** Discrete controls never set/reset the physical pointer's previous point.
+   * Their direction is a normalized hint and their strength is independent of
+   * cursor speed, so focus/click cannot manufacture a teleport stroke.
+   */
+  function impulse(point) {
+    const tune = Object.hasOwn(temporalMoshSettings.impulses, point?.kind) ? temporalMoshSettings.impulses[point.kind] : null;
+    if (!tune || !validPoint(point) || config.intensity === 0 || !Number.isFinite(point.strength) || point.strength <= 0) return null;
+    const now = Math.max(point.time, sampledAt);
+    prune(now);
+    const drive = clamp(point.strength, 0, 1);
+    const dx = finite(point.dx, 0, -config.maximumCoordinate, config.maximumCoordinate);
+    const dy = finite(point.dy, 0, -config.maximumCoordinate, config.maximumCoordinate);
+    const length = Math.hypot(dx, dy);
+    const id = ++sequence;
+    const seed = hash(initialSeed ^ Math.imul(id, 0x9e3779b1));
+    return append({ id, x: point.x, y: point.y, createdAt: now, updatedAt: now,
+      expiresAt: now + clamp(config.recoveryMs * (.6 + drive * .8) * tune.recoveryRatio / config.recoverySpeed, 50, 10_000),
+      velocityX: 0, velocityY: 0, speed: 0, eventInput: 1, drive,
+      directionX: length ? dx / length : noise(seed, 73) < .5 ? -1 : 1,
+      directionY: length ? dy / length : 0,
+      maximumRadius: Math.min(config.maximumRadius, tune.maximumRadius), seed,
+    });
   }
 
   function sample(now) {
@@ -121,19 +152,21 @@ export function createCorruptionField({ settings = corruptionSettings, seed = 0x
       const lifetime = Math.max(1, impulse.expiresAt - impulse.updatedAt);
       const progress = clamp(age / lifetime, 0, 1);
       const decay = (1 - progress) ** 2;
-      const energy = Math.min(1, config.intensity * (.18 + impulse.speed * .82)) * decay;
-      const radius = config.minimumRadius + (config.maximumRadius - config.minimumRadius) * impulse.speed;
-      const direction = Math.abs(impulse.velocityX) > .001 ? Math.sign(impulse.velocityX) : noise(impulse.seed, 73) < .5 ? -1 : 1;
-      const displacement = config.maximumDisplacement * Math.min(2, config.intensity) * (.08 + impulse.speed * .92) * decay;
+      const drive = impulse.eventInput ? impulse.drive : impulse.speed;
+      const energy = Math.min(1, config.intensity * (.18 + drive * .82)) * decay;
+      const radius = config.minimumRadius + (impulse.maximumRadius - config.minimumRadius) * drive;
+      const direction = impulse.eventInput ? impulse.directionX
+        : Math.abs(impulse.directionX) > .001 ? Math.sign(impulse.directionX) : noise(impulse.seed, 73) < .5 ? -1 : 1;
+      const displacement = config.maximumDisplacement * Math.min(2, config.intensity) * (.08 + drive * .92) * decay;
       return {
         ...impulse,
-        age, progress, energy,
+        age, progress, energy, drive,
         radiusX: radius,
         radiusY: radius * (.55 + noise(impulse.seed, 71) * .25),
-        blockSize: Math.round(config.minimumBlockSize + (config.maximumBlockSize - config.minimumBlockSize) * impulse.speed),
+        blockSize: Math.round(config.minimumBlockSize + (config.maximumBlockSize - config.minimumBlockSize) * drive),
         displacementX: displacement * direction,
-        displacementY: displacement * impulse.velocityY / config.maximumVelocity * .15,
-        smearLength: config.maximumSmear * config.smearingIntensity * (.05 + impulse.speed * .95) * decay,
+        displacementY: displacement * impulse.directionY * (impulse.eventInput ? .55 : .15),
+        smearLength: config.maximumSmear * config.smearingIntensity * (.05 + drive * .95) * decay,
         colorCorruption: config.colorCorruption,
         phase: Math.floor(age / config.instabilityIntervalMs),
       };
@@ -142,6 +175,7 @@ export function createCorruptionField({ settings = corruptionSettings, seed = 0x
 
   return {
     stroke,
+    impulse,
     sample,
     resetPointer() { previous = null; },
     clear() { impulses = []; previous = null; sequence = 0; sampledAt = 0; },

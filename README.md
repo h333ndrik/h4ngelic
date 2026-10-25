@@ -4,11 +4,13 @@ Artist website with an interactive chrome wordmark, a horizontal typographic cat
 
 **Inhalte bearbeiten:** [Anleitung für Projekte, Bilder, About und Kontakt](docs/CONTENT.md). Editable data lives in `src/data/artworks.js` and `src/data/siteContent.js`. The archive starts empty and contact destinations stay unset until real projects and addresses are supplied.
 
-**Aktueller Stand — [Refinement 09 / Control vs. Corruption](docs/REFINEMENT-09.md), [PR #12](https://github.com/h333ndrik/h4ngelic/pull/12):** `4` oder Numpad `4` mindestens eine Sekunde halten, um The Other Side zu öffnen. Drei getrennte `3`-Drücke innerhalb von zwei Sekunden führen zurück. Der kurze Übergang zerlegt echte Browser-Aufnahmen der sichtbaren Website einschließlich Schrift und geöffneten Bildern. Dazu kommen lebende chemische Filmflächen, stärkere bildbasierte Cursor-Schlieren, exakt konturgleiche farbige Cursor/Favicons und verankerte mehrfarbige Tintenflecken. Normal Mode bleibt `#303033`; Hero, Geometrie, Physik und bestehender Klang bleiben erhalten. Sound sitzt bei den oberen Hero-Steuerungen.
+**Aktueller Stand — [Living Decay und finales h4-Reveal](docs/LIVING-DECAY.md):** Normal Mode verbindet ein durchgängiger, ruhiger Grauverlauf. Das große originale h4 erscheint erst im Schlussabschnitt hinter dem Hinweis. `4` oder Numpad `4` mindestens eine Sekunde halten, um The Other Side zu öffnen; drei getrennte `3`-Drücke innerhalb von zwei Sekunden führen zurück. Pro Aktivierung entsteht eine neue zusammenhängende Materialwelt. Scrollen, Logo- und Schriftbewegungen, Hover, Klicks und interne Seitenwechsel lösen abgestufte Bildkorruption aus. Die stärksten Übergänge zerlegen echte Aufnahmen der sichtbaren Seite. Hero, Geometrie, Physik und bestehender Klang bleiben erhalten. [Prüfung und Messwerte](docs/INTERACTION-DATAMOSH.md).
 
 **HTML-Vorschau ohne ZIP:** [Einzelne HTML-Datei](docs/previews/h4ngelic-preview.html) herunterladen und im Browser öffnen. Sie enthält die vollständige interaktive Website und benötigt kein Internet. Alternativ: [ZIP herunterladen](docs/previews/portfolio-preview.zip), entpacken und die HTML-Datei öffnen.
 
-**Aktuelle Standbilder:** [Homepage](docs/previews/ref09/home-1440-normal.png), [mobil](docs/previews/ref09/home-390-normal.png), [The Other Side](docs/previews/ref09/home-1440-other.png), [echter Datamosh-Zwischenstand](docs/previews/ref09/native-datamosh-390.png), [Work](docs/previews/ref09/work-normal.png) und [About](docs/previews/ref09/about-normal.png). Prüfung, Messwerte, Grenzen und konfigurierbare Parameter stehen in [REFINEMENT-09.md](docs/REFINEMENT-09.md). `npm run preview:export` erzeugt einen neuen Offline-Export. Die älteren Vorschauen und Berichte dokumentieren vorherige PR-Stände; [LOADING-REFINEMENT.md](docs/LOADING-REFINEMENT.md) enthält den historischen Ladevergleich.
+**Mobile Bedienung — Phase 1:** Das feste h4 öffnet The Other Side mit vier schnellen Taps und führt mit drei Taps zurück. Natürliche Fingerbewegung und Scrollen hinterlassen vereinzelt organische, seitengebundene Farbspuren für 6–10 Sekunden. Desktop bleibt bei `4` halten / `333`. Die neue versteckte mobile Contact-Nachricht aus Phase 2 wartet ausdrücklich auf Freigabe. [Umsetzung und Prüfung](docs/MOBILE-INTERACTIONS.md).
+
+`npm run preview:export` erzeugt einen neuen Offline-Export. Die älteren Vorschauen unter `docs/previews/ref09/` und [REFINEMENT-09.md](docs/REFINEMENT-09.md) dokumentieren PR #12; [LOADING-REFINEMENT.md](docs/LOADING-REFINEMENT.md) enthält den historischen Ladevergleich.
 
 ## Development
 
@@ -39,6 +41,12 @@ npm run test:mode-audio  # Real Web Audio, mute and unsupported-audio fallback
 npm run test:hover       # Shared scale/glow, arrows and responsive bounds
 npm run test:corruption  # Actual sampled pixels, recovery and lifecycle
 npm run test:material    # Cold material load, real mesh change and exact chrome restoration
+npm run test:normal-theme # Actual continuous gradient pixels at desktop/390/320px
+npm run test:living-decay # Seed/history, material, cursor, scroll and lifecycle checks
+npm run test:end-reveal  # Exact final h4 silhouette, progression and mode bridge
+npm run test:interaction-mosh # Rapid clicks, local pixels, navigation and reduced motion
+npm run test:mobile      # Real 4/3 taps, native-scroll ink and desktop preservation
+npm run test:standalone  # Exact exported HTML with every HTTP request blocked
 npm run sounds:export    # Review WAVs from the same runtime PCM/settings
 npm run images:optimize  # Generate responsive WebP files and image dimensions
 npm run build
@@ -80,7 +88,7 @@ The returning-visitor message remains at the exact horizontal center of the hero
 
 The latest request enables local visitor memory by default. Only `{ count, lastSeen }` is stored under `h4ngelic.visits.v1`; 30 minutes of separated inactivity creates a new visit, while reloads and internal navigation preserve it. No identifier, external analytics, backend or login is used. Storage failures retain the greeting fallback. `visits.enabled: false` opts out without accessing storage, and `visits.requireConsent: true` restores the optional host consent gate.
 
-After Contact, the 30svh secret area holds `HOLD 4 TO SEE THE OTHER SIDE.` at 40% of its height; in the alternate mode the same position reads `HOLD 4 TO REVERSE.`. Touch/pointer holding provides the discreet one-second alternative; native button activation remains available for keyboard and assistive technology. A separate hidden `VISIT 001` counter sits at the bottom center of the homepage footer. The small `sound on/off` control mutes transition audio. See [EASTER-EGGS.md](docs/EASTER-EGGS.md).
+After Contact, the spacious final section reveals the exact h4 monogram behind `HOLD 4 TO SEE THE OTHER SIDE.`; the alternate mode reads `PRESS 3 THREE TIMES TO REVERSE.`. Touch/pointer holding provides the discreet one-second alternative; native button activation remains available for keyboard and assistive technology. A separate hidden `VISIT 001` counter sits at the bottom center of the homepage footer. The upper hero's `sound on/off` control mutes the unchanged transition audio. See [EASTER-EGGS.md](docs/EASTER-EGGS.md) and [END-REVEAL.md](docs/END-REVEAL.md).
 
 Blank clicks/taps leave fresh procedural liquid stains with irregular contours, internal gaps and satellite droplets. Marks use document coordinates and scroll with their creation location. They live for 6–12 seconds, are capped at twelve, and completely clean up afterward. Normal Mode uses off-white pigment; The Other Side uses its corrupted colors. Links, controls, dialogs, the hero canvas and scrolling gestures are excluded.
 
@@ -88,7 +96,7 @@ Blank clicks/taps leave fresh procedural liquid stains with irregular contours, 
 
 `src/data/featureFlags.js` now has `otherSideEnabled: true`, following the new master brief. `src/xray.js` owns document-memory mode state. Main-keyboard/numpad `4` requires a continuous 1,000ms hold; short taps never accumulate, key repeats do not toggle twice, and blur, hidden state, typing or navigation cancels an unfinished hold. The state survives enhanced navigation without starting the Three.js hero on interior pages.
 
-The 650ms visual transition combines non-monotonic color curves, channel separation, a damaged-film surface and the existing wordmark material hook. The original h4 cursor remains recognizable. Dedicated Canvas2D regions resample actual film/photo pixels and previous damaged pixels for macroblock displacement and horizontal temporal smearing. At most two anchored regions recover after movement; no arbitrary DOM screenshotting, particles or second Three.js scene is used. Reduced motion disables interactive corruption and elaborate motion.
+The strongest native page transitions use randomized 720–920ms breakup/reconstruction over the existing wordmark material hook. The original h4 cursor remains recognizable. Dedicated Canvas2D regions resample actual material/photo pixels and previous damaged pixels for macroblock displacement and horizontal temporal smearing. At most two anchored regions recover after movement; no JavaScript page readback, particles or second Three.js scene is used. The unified Living Decay backplane evolves at a bounded cadence and preserves its seed across navigation. Reduced motion disables interactive corruption and elaborate motion.
 
 Related 0.7-second metallic-glass cues are synthesized locally through Web Audio. The input gesture primes audio, the actual mode change starts it, repeated changes stop the previous voice, and the footer mute option remains available. Unsupported/denied audio never prevents switching. No audio download is required.
 

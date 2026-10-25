@@ -1,0 +1,28 @@
+.mobile-mode { display: none; }
+@media (pointer: coarse) {
+  .mobile-mode {
+    display: grid; place-items: center; position: fixed;
+    right: max(14px, env(safe-area-inset-right)); bottom: max(90px, calc(env(safe-area-inset-bottom) + 78px));
+    width: 48px; height: 62px; padding: 6px 9px 10px; border: 0;
+    background: transparent; color: #f0efeb; z-index: 9;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+    --mobile-mode-progress: 0;
+  }
+  .mobile-mode img {
+    display: block; width: 28px; height: 42px; pointer-events: none;
+    filter: drop-shadow(0 1px 2px #101010);
+    transform: translateY(calc(var(--mobile-mode-progress) * -2px)) rotate(calc(var(--mobile-mode-progress) * -4deg)) scale(calc(1 + var(--mobile-mode-progress) * .08));
+    transition: transform 120ms ease-out;
+  }
+  .mobile-mode::after {
+    content: ''; position: absolute; left: 10px; bottom: 4px; height: 1px; width: 28px;
+    background: currentColor; opacity: .7; transform-origin: left;
+    transform: scaleX(var(--mobile-mode-progress)); transition: transform 120ms ease-out;
+  }
+  html[data-mode='xray'] .mobile-mode { color: #bcff16; }
+  .mobile-mode:focus-visible { outline: 1px solid currentColor; outline-offset: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-mode img, .mobile-mode::after { transition: none; }
+  .mobile-mode img { transform: none; }
+}

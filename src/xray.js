@@ -5,6 +5,7 @@ import { bindModeHold } from './mode-hold.js';
 import { createModeAudio } from './mode-audio.js';
 import { corruptionSettings } from './data/corruptionSettings.js';
 import { createModeSnapshotTransition } from './mode-snapshot.js';
+import { initMobileMode } from './mobile-mode.js';
 
 const controllers = new WeakMap();
 const svgNamespace = 'http://www.w3.org/2000/svg';
@@ -41,6 +42,7 @@ export function initXRay({ root = document } = {}) {
   if (controllers.has(doc)) return controllers.get(doc);
   const html = doc.documentElement;
   const view = doc.defaultView;
+  const normalThemeColor = view.getComputedStyle(html).getPropertyValue('--normal-background').trim() || '#242424';
   const reduced = view.matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = view.matchMedia('(pointer: coarse)');
   const removers = [];
@@ -54,6 +56,7 @@ export function initXRay({ root = document } = {}) {
   let amount = 0;
   let frame = 0;
   let destroyed = false;
+  let stopMobile;
 
   const defs = doc.createElementNS(svgNamespace, 'svg');
   defs.setAttribute('data-xray-filters', '');
@@ -108,6 +111,7 @@ export function initXRay({ root = document } = {}) {
 
   function refresh() {
     if (destroyed) return;
+    stopMobile?.refresh();
     for (const button of doc.querySelectorAll('[data-xray-toggle]')) button.setAttribute('aria-pressed', String(mode === 'xray'));
     for (const button of doc.querySelectorAll('[data-mode-hold]')) {
       button.setAttribute('aria-pressed', String(mode === 'xray'));
@@ -148,7 +152,7 @@ export function initXRay({ root = document } = {}) {
     if (!doc.hidden) audio.play(mode);
     doc.dispatchEvent(new view.CustomEvent('h4:modechange', { detail: { mode, captured, duration, variant } }));
     const theme = doc.querySelector('meta[name="theme-color"]');
-    if (theme) theme.content = mode === 'xray' ? xraySettings.palette.background : '#303033';
+    if (theme) theme.content = mode === 'xray' ? xraySettings.palette.background : normalThemeColor;
     if (captured) {
       // The browser captures a complete destination frame. Intermediate media
       // curves would bake an unfinished treatment into that destination bitmap.
@@ -201,16 +205,23 @@ export function initXRay({ root = document } = {}) {
   let stopPointer;
   const stopKeyboard = bindXRayShortcut(doc, () => setMode('xray'), {
     isEnabled: () => mode === 'normal',
-    onStart(event) { stopPointer?.cancel(); prepare(event); }, onEnd: endHold,
+    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); prepare(event); }, onEnd: endHold,
   });
   const stopReverse = bindReverseShortcut(doc, () => setMode('normal'), {
     isEnabled: () => mode === 'xray',
-    onStart(event) { stopPointer?.cancel(); prepare(event, false); },
+    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); prepare(event, false); },
   });
   stopPointer = bindModeHold(doc, toggle, {
-    onStart(event) { stopKeyboard.cancel(); stopReverse.cancel(); prepare(event); }, onEnd: endHold,
+    onStart(event) { stopMobile?.cancel(); stopKeyboard.cancel(); stopReverse.cancel(); prepare(event); }, onEnd: endHold,
   });
   removers.push(stopKeyboard, stopReverse, stopPointer);
+  stopMobile = initMobileMode({ doc, getMode: () => pendingMode || mode,
+    isBusy: () => Boolean(pendingMode || html.hasAttribute('data-xray-transition')),
+    onPrepare(event) {
+      stopKeyboard.cancel(); stopReverse.cancel(); stopPointer.cancel();
+      endHold(); prepare(event, false);
+    }, onChange: setMode });
+  removers.push(stopMobile);
   listen(doc, 'click', (event) => {
     const mute = event.target.closest?.('[data-mode-mute]');
     if (mute && !mute.disabled) {
@@ -263,7 +274,7 @@ export function initXRay({ root = document } = {}) {
     for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = 'HOLD 4 TO SEE THE OTHER SIDE.';
     for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = '';
     const theme = doc.querySelector('meta[name="theme-color"]');
-    if (theme) theme.content = '#303033';
+    if (theme) theme.content = normalThemeColor;
     controllers.delete(doc);
   }
   Object.assign(dispose, { setMode, toggle, refresh });

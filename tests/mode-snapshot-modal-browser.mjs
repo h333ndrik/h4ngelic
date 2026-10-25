@@ -73,6 +73,13 @@ try {
   await page.locator('[data-artwork-open]').first().click({ timeout: 3000 });
   await page.waitForFunction(() => document.querySelector('.artwork-dialog[open] .artwork-viewer-status')?.textContent === 'image 1 of 1', null, { timeout: 4000 });
   await page.waitForFunction(() => !document.querySelector('[data-artwork-flight-copy]'));
+  await page.waitForFunction(() => {
+    const dialog = document.querySelector('.artwork-dialog');
+    const image = dialog?.querySelector('.artwork-viewer-image');
+    return image && getComputedStyle(dialog).opacity === '1' && getComputedStyle(image).opacity === '1'
+      && !dialog.querySelector('.is-switching');
+  });
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   await page.mouse.move(0, 0);
   await page.addStyleTag({ content: 'main { visibility: hidden !important; }' });
   const clip = await page.locator('.artwork-viewer-image').evaluate(image => {
@@ -107,6 +114,7 @@ try {
     filter: getComputedStyle(document.documentElement, '::view-transition-old(root)').filter,
   }));
   await page.evaluate(async () => { window.__modalSnapshotProbe.controller.skip(); await window.__modalSnapshotProbe.handle.finished; });
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   const [before, after] = await Promise.all([original, displaced].map(value => sharp(value).removeAlpha().raw().toBuffer()));
   const pixels = report.pixels = { brightBefore: 0, brightAfter: 0, darkAfter: 0, movedOutsideMask: 0, changed: 0, unexpectedChroma: 0 };
   for (let offset = 0; offset < before.length; offset += 3) {
@@ -125,7 +133,22 @@ try {
   assert.ok(pixels.changed > 600 && pixels.movedOutsideMask > 300, `Actual modal image pixels must displace, not remain unchanged: ${JSON.stringify(pixels)}`);
   assert.ok(pixels.unexpectedChroma < 100, 'The UV control map must never become a visible colored overlay.');
   const restored = await page.screenshot({ clip, path: new URL('restored-dialog-image.png', destination).pathname, timeout: 3000 });
-  assert.deepEqual(await sharp(restored).removeAlpha().raw().toBuffer(), before, 'Live modal image pixels must restore exactly.');
+  const recovered = await sharp(restored).removeAlpha().raw().toBuffer();
+  const restoration = report.restoration = { changedChannels: 0, maximumDelta: 0, meanDelta: 0 };
+  for (let index = 0; index < before.length; index++) {
+    const delta = Math.abs(recovered[index] - before[index]);
+    if (delta) restoration.changedChannels++;
+    restoration.maximumDelta = Math.max(restoration.maximumDelta, delta);
+    restoration.meanDelta += delta / before.length;
+  }
+  // Releasing a native capture can re-composite the resampled modal image.
+  // SwiftShader changes a few channels by one quantization level even after
+  // opacity and two paint frames settle. No displaced/image-filtered result
+  // may survive; keep both per-channel and whole-image error bounds strict.
+  assert.ok(restoration.maximumDelta <= 1 && restoration.meanDelta < .001,
+    `The modal image must restore within sparse one-level raster rounding: ${JSON.stringify(restoration)}`);
+  assert.equal(await page.locator('.artwork-viewer-image').evaluate(image => getComputedStyle(image).filter), 'none');
+  assert.equal(await page.locator('html').getAttribute('data-mode-snapshot'), null);
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.querySelector('.artwork-dialog').open);
   await page.evaluate(() => window.__modalSnapshotProbe.controller.dispose());

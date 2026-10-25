@@ -8,6 +8,15 @@ export const easterSettings = {
     minimumSize: 48,
     maximumSize: 78,
     maximumPointerTravel: 8,
+    touch: {
+      enabled: true,
+      minimumIntervalMs: 180,
+      minimumTravel: 24,
+      initialTravel: 18,
+      minimumLifetimeMs: 6000,
+      maximumLifetimeMs: 10000,
+      palette: ['#8511ff', '#bcff16', '#ff3dbb', '#2266ff'],
+    },
     // The same damaged material appears only after a real blank click/tap.
     texture: '/assets/corrupted-film-mobile.webp',
     palette: ['#bcff16', '#8511ff', '#ff3dbb', '#2266ff', '#fffefb'],

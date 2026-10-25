@@ -3,7 +3,9 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: #303033;
+  background-color: var(--normal-background);
+  background-image: var(--normal-background-image);
+  background-attachment: fixed;
   transform: scaleY(1);
   transform-origin: top;
   transition: transform 520ms cubic-bezier(.2,.65,.3,1);

@@ -54,7 +54,12 @@ try {
   let alteredMeshPixels = 0;
   let restorationDifference = 0;
   for (let offset = 0; offset < originalPixels.length; offset += 3) {
-    const contrast = Math.abs(originalPixels[offset] - 48) + Math.abs(originalPixels[offset + 1] - 48) + Math.abs(originalPixels[offset + 2] - 51);
+    // The transparent sculpture shares the page gradient. Compare against the
+    // same row's empty left edge so background pixels cannot enter the mesh mask.
+    const rowStart = Math.floor(offset / (clip.width * 3)) * clip.width * 3;
+    const contrast = Math.abs(originalPixels[offset] - originalPixels[rowStart])
+      + Math.abs(originalPixels[offset + 1] - originalPixels[rowStart + 1])
+      + Math.abs(originalPixels[offset + 2] - originalPixels[rowStart + 2]);
     if (contrast > 18) {
       meshPixels++;
       const changed = Math.abs(originalPixels[offset] - alteredPixels[offset]) + Math.abs(originalPixels[offset + 1] - alteredPixels[offset + 1]) + Math.abs(originalPixels[offset + 2] - alteredPixels[offset + 2]);

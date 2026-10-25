@@ -1,4 +1,6 @@
 import { ambientFilmSettings } from './data/ambientFilmSettings.js';
+import { configureLivingDecay, getLivingDecaySettings, normalizeLivingSeed, subscribeLivingDecay } from './data/livingDecaySettings.js';
+import { createLivingComposition, renderLivingMaterial, livingRegion, livingCodecFragment, livingRandom } from './living-decay-material.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
 const finite = (value, fallback) => Number.isFinite(value) ? value : fallback;
@@ -53,11 +55,10 @@ export function chemicalColorTables(color) {
   }));
 }
 
-/** A deliberately small, low-frequency material compositor. The ordinary DOM
- * and the existing WebGL wordmark are never captured or painted here. It owns
- * no pointer listeners and has an independent lifecycle from the ROI renderer.
+/** One continuous sampled-image material with bounded, independent regional
+ * feedback. It owns no WebGL context and never captures the DOM or hero.
  */
-export function createAmbientFilm({ image, container, settings = ambientFilmSettings, profile = 'desktop', view = window, doc = document, seed = Math.floor(Math.random() * 0xffffffff) } = {}) {
+export function createAmbientFilm({ image, container, settings = ambientFilmSettings, profile = 'desktop', view = window, doc = document, seed } = {}) {
   const quality = settings[profile] || settings.desktop;
   const reduced = view.matchMedia('(prefers-reduced-motion: reduce)');
   const canvas = doc.createElement('canvas');
@@ -69,26 +70,48 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
   const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
   const history = doc.createElement('canvas');
   const historyContext = history.getContext('2d', { alpha: false });
-  const variants = [image];
+  const material = doc.createElement('canvas');
+  const materialContext = material.getContext('2d', { alpha: false });
+  const sample = doc.createElement('canvas');
   const removers = [];
   const times = [];
   let active = false;
+  let activated = false;
   let disposed = false;
   let timer = 0;
   let frame = 0;
   let frames = 0;
+  let regenerations = 0;
   let validSource = false;
   let elapsed = 0;
   let previousTime = null;
   let viewport = { width: view.innerWidth, height: view.innerHeight };
   let prepared = false;
+  let sourcePixels = null;
+  let preparationMs = 0;
   let cadence = Math.max(1, quality.framesPerSecond);
+  let controls = getLivingDecaySettings();
+  // Null in the shared controls means automatic seeds. The actual runtime
+  // seed is reported separately, so a fresh seed never changes that policy.
+  let currentSeed = seed === undefined ? controls.seed ?? freshSeed() : normalizeLivingSeed(seed);
+  let composition = createLivingComposition(currentSeed, controls);
+  let motion = { x: 0, y: 0, strength: 0, time: 0 };
+  let flow = { x: 0, y: 0, strength: 0 };
+  let codec = [];
   const now = () => view.performance.now();
   const listen = (target, type, callback) => {
     target.addEventListener(type, callback);
     removers.push(() => target.removeEventListener(type, callback));
   };
-  const canRun = () => active && settings.enabled && !disposed && !doc.hidden && !reduced.matches && Boolean(context && historyContext);
+  const canRun = () => active && settings.enabled && !disposed && !doc.hidden && !reduced.matches
+    && Boolean(context && historyContext && materialContext);
+
+  function freshSeed() {
+    let value;
+    if (view.crypto?.getRandomValues) value = view.crypto.getRandomValues(new Uint32Array(1))[0];
+    else value = Math.floor(Math.random() * 0x100000000) >>> 0;
+    return value;
+  }
 
   function stop() {
     view.clearTimeout(timer);
@@ -97,147 +120,127 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     previousTime = null;
   }
 
-  function prepareVariants() {
+  function announceSeed() {
+    const EventConstructor = view.CustomEvent || globalThis.CustomEvent;
+    if (typeof EventConstructor === 'function') doc.dispatchEvent(new EventConstructor('h4:livingseed', {
+      detail: { seed: currentSeed, elapsed, regenerations },
+    }));
+  }
+
+  function resetComposition(value, age = 0) {
+    stop();
+    currentSeed = normalizeLivingSeed(value, currentSeed);
+    controls = getLivingDecaySettings();
+    composition = createLivingComposition(currentSeed, controls);
+    elapsed = Math.max(0, finite(age, 0));
+    validSource = prepared = false;
+    motion = { x: 0, y: 0, strength: 0, time: 0 };
+    flow = { x: 0, y: 0, strength: 0 };
+    regenerations++;
+    canvas.dataset.livingSeed = String(currentSeed);
+    if (active) sync();
+    announceSeed();
+    return currentSeed;
+  }
+
+  function regenerate(value) {
+    let next = value === undefined ? freshSeed() : normalizeLivingSeed(value, currentSeed);
+    if (value === undefined && next === currentSeed) next = (next + 0x9e3779b1) >>> 0;
+    return resetComposition(next);
+  }
+
+  function prepareMaterial() {
     if (prepared) return;
+    const started = now();
+    material.width = canvas.width;
+    material.height = canvas.height;
+    if (!sourcePixels) {
+      const ratio = Math.min(1, quality.sourceDimension / Math.max(image.naturalWidth, image.naturalHeight));
+      sample.width = Math.max(1, Math.round(image.naturalWidth * ratio));
+      sample.height = Math.max(1, Math.round(image.naturalHeight * ratio));
+      try {
+        const sampleContext = sample.getContext('2d', { willReadFrequently: true });
+        sampleContext.drawImage(image, 0, 0, sample.width, sample.height);
+        sourcePixels = { pixels: sampleContext.getImageData(0, 0, sample.width, sample.height), width: sample.width, height: sample.height };
+      } catch { /* A restricted source retains sampled-image compositing. */ }
+      sample.width = sample.height = 1;
+    }
+    composition = createLivingComposition(currentSeed, controls);
+    if (sourcePixels) {
+      const output = materialContext.createImageData(material.width, material.height);
+      renderLivingMaterial({ source: sourcePixels.pixels.data, sourceWidth: sourcePixels.width, sourceHeight: sourcePixels.height,
+        width: material.width, height: material.height, composition, settings: controls, output: output.data });
+      materialContext.putImageData(output, 0, 0);
+    } else {
+      const width = image.naturalWidth / composition.source.scale;
+      const height = Math.min(image.naturalHeight, width * material.height / material.width);
+      materialContext.drawImage(image, (image.naturalWidth - width) * composition.source.x,
+        (image.naturalHeight - height) * composition.source.y, width, height, 0, 0, material.width, material.height);
+    }
+    const count = quality.codecFragments || (profile === 'mobile' ? 64 : 156);
+    codec = Array.from({ length: count }, (_, index) => livingCodecFragment(composition, index, controls));
+    // Pixel remnants come from the same composed image. No independent source
+    // rectangles, material cards or smooth oval masks are introduced.
+    materialContext.globalCompositeOperation = 'source-over';
+    for (const fragment of codec) {
+      const width = Math.max(1, Math.min(material.width, fragment.width * material.width));
+      const height = Math.max(1, Math.min(material.height, fragment.height * material.height));
+      const x = clamp(fragment.x * material.width, 0, material.width - width);
+      const y = clamp(fragment.y * material.height, 0, material.height - height);
+      materialContext.globalAlpha = fragment.opacity * .52;
+      materialContext.drawImage(material, clamp(x - fragment.dx * material.width, 0, material.width - width),
+        clamp(y - fragment.dy * material.height, 0, material.height - height), width, height,
+        x, y, Math.min(material.width - x, width * fragment.stretch), height);
+    }
+    materialContext.globalAlpha = 1;
     prepared = true;
-    const ratio = Math.min(1, quality.sourceDimension / Math.max(image.naturalWidth, image.naturalHeight));
-    const sample = doc.createElement('canvas');
-    sample.width = Math.max(1, Math.round(image.naturalWidth * ratio));
-    sample.height = Math.max(1, Math.round(image.naturalHeight * ratio));
-    let pixels = null;
-    try {
-      const sampleContext = sample.getContext('2d', { willReadFrequently: true });
-      sampleContext.drawImage(image, 0, 0, sample.width, sample.height);
-      pixels = sampleContext.getImageData(0, 0, sample.width, sample.height);
-    } catch { /* CORS-restricted material keeps the sampled Canvas fallback. */ }
-    for (const color of settings.palette) {
-      const variant = doc.createElement('canvas');
-      variant.width = sample.width;
-      variant.height = sample.height;
-      const target = variant.getContext('2d', { alpha: false });
-      if (!target) continue;
-      // One-time material preparation retains the photographic luminance and
-      // burned texture; motion below is actual sampled-pixel compositing.
-      if (pixels) {
-        const output = target.createImageData(variant.width, variant.height);
-        const tables = chemicalColorTables(color);
-        for (let index = 0; index < pixels.data.length; index += 4) {
-          const luminance = Math.round(pixels.data[index] * .2126 + pixels.data[index + 1] * .7152 + pixels.data[index + 2] * .0722);
-          for (let channel = 0; channel < 3; channel++) output.data[index + channel] = tables[channel][luminance] * .92 + pixels.data[index + channel] * .08;
-          output.data[index + 3] = 255;
-        }
-        target.putImageData(output, 0, 0);
-      } else {
-        target.drawImage(image, 0, 0, variant.width, variant.height);
-        target.globalCompositeOperation = 'color';
-        target.globalAlpha = .66;
-        target.fillStyle = color;
-        target.fillRect(0, 0, variant.width, variant.height);
-      }
-      variants.push(variant);
-    }
-    sample.width = sample.height = 1;
+    preparationMs = now() - started;
   }
 
-  function base() {
-    const scale = Math.max(canvas.width / image.naturalWidth, canvas.height / image.naturalHeight);
-    const width = image.naturalWidth * scale;
-    const height = image.naturalHeight * scale;
+  function regionalMotion(time, delta, timestamp) {
+    const age = Math.max(0, timestamp - motion.time);
+    const decay = Math.exp(-age / (70 + controls.scrollInertia * 330));
+    const blend = 1 - Math.exp(-Math.max(.016, delta) * 6);
+    const target = motion.strength * decay;
+    flow.x += (motion.x * target - flow.x) * blend;
+    flow.y += (motion.y * target - flow.y) * blend;
+    flow.strength += (target - flow.strength) * blend;
+    if (Math.abs(flow.x) + Math.abs(flow.y) + flow.strength < .001) flow = { x: 0, y: 0, strength: 0 };
+    const count = quality.regions || (profile === 'mobile' ? 11 : 26);
+    const bitmap = validSource ? history : material;
+    for (let index = 0; index < count; index++) {
+      const region = livingRegion(composition, index, time * (.75 + controls.mutationSpeed * .5), controls);
+      const width = Math.max(1, Math.min(canvas.width, region.width * canvas.width));
+      const height = Math.max(1, Math.min(canvas.height, region.height * canvas.height));
+      const x = clamp(region.x * canvas.width, 0, canvas.width - width);
+      const y = clamp(region.y * canvas.height, 0, canvas.height - height);
+      const lag = .25 + livingRandom(currentSeed, index + 201) * .75;
+      const mx = clamp(flow.x * controls.scrollStrength * lag * 11, -44, 44) * canvas.width / viewport.width;
+      const my = clamp(flow.y * controls.scrollStrength * lag * 11, -44, 44) * canvas.height / viewport.height;
+      context.globalAlpha = clamp(region.opacity * (.45 + controls.feedbackPersistence * .55)
+        + flow.strength * .17 * controls.scrollMosh, 0, .65);
+      if (context.globalAlpha <= 0) continue;
+      context.drawImage(bitmap, clamp(x - region.dx * canvas.width - mx, 0, canvas.width - width),
+        clamp(y - region.dy * canvas.height - my, 0, canvas.height - height), width, height, x, y, width, height);
+    }
+    // Thin compressed remnants evolve at their own phases and recover from
+    // current material pixels; the entire backdrop never moves as one plane.
+    const remnants = profile === 'mobile' ? 12 : 30;
+    for (let index = 0; index < Math.min(codec.length, remnants); index++) {
+      const fragment = codec[index];
+      const phase = livingRandom(currentSeed, index + 301) * Math.PI * 2;
+      const envelope = .5 + .5 * Math.sin(time * (.04 + controls.mutationSpeed * .08) + phase);
+      const width = Math.max(1, Math.min(canvas.width, fragment.width * canvas.width));
+      const height = Math.max(1, Math.min(canvas.height, fragment.height * canvas.height));
+      const x = clamp(fragment.x * canvas.width, 0, canvas.width - width);
+      const y = clamp(fragment.y * canvas.height, 0, canvas.height - height);
+      const movement = Math.sin(time * .055 + phase) * controls.idleIntensity;
+      context.globalAlpha = fragment.opacity * envelope * controls.idleIntensity * .42;
+      context.drawImage(bitmap, clamp(x - fragment.dx * canvas.width * movement, 0, canvas.width - width),
+        clamp(y - fragment.dy * canvas.height * movement, 0, canvas.height - height), width, height,
+        x, y, Math.min(canvas.width - x, width * (1 + (fragment.stretch - 1) * envelope * .16)), height);
+    }
     context.globalAlpha = 1;
-    context.globalCompositeOperation = 'source-over';
-    context.drawImage(image, (canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
-  }
-
-  function contour(patch, radius, time) {
-    context.beginPath();
-    const ring = (x, y, width, height, salt, count = 64) => {
-      const phase = random(patch.seed, salt) * Math.PI * 2;
-      const points = Array.from({ length: count }, (_, index) => {
-        const angle = index / count * Math.PI * 2;
-        const ragged = 1 + .16 * Math.sin(angle * 3 + phase) + .09 * Math.sin(angle * 7 - phase + time * .04)
-          + .045 * Math.sin(angle * 17 + phase * 2);
-        return [x + Math.cos(angle) * width * ragged, y + Math.sin(angle) * height * ragged];
-      });
-      const first = points[0]; const last = points.at(-1);
-      context.moveTo((first[0] + last[0]) / 2, (first[1] + last[1]) / 2);
-      for (let index = 0; index < points.length; index++) {
-        const point = points[index]; const next = points[(index + 1) % points.length];
-        context.quadraticCurveTo(point[0], point[1], (point[0] + next[0]) / 2, (point[1] + next[1]) / 2);
-      }
-      context.closePath();
-    };
-    ring(0, 0, radius, radius * (.63 + random(patch.seed, 24) * .3), 22);
-    // Irregular eroded openings, without clean ellipse/stencil geometry.
-    for (let index = 0; index < 6; index++) {
-      const angle = random(patch.seed, 29 + index) * Math.PI * 2;
-      const distance = radius * (.15 + random(patch.seed, 33 + index) * .4);
-      const hole = radius * (.015 + random(patch.seed, 37 + index) * .065);
-      const x = Math.cos(angle) * distance;
-      const y = Math.sin(angle) * distance * .7;
-      ring(x, y, hole, hole * (.5 + random(patch.seed, 45 + index) * .6), 50 + index, 32);
-    }
-  }
-
-  function patches(time) {
-    const length = Math.max(canvas.width, canvas.height);
-    for (let index = 0; index < quality.patches; index++) {
-      const life = settings.minimumEvolutionSeconds + random(seed, index + 1) * (settings.maximumEvolutionSeconds - settings.minimumEvolutionSeconds);
-      const position = time / life + random(seed, index + 12);
-      const current = Math.floor(position);
-      // Generations overlap for half a lifetime, eliminating loop resets.
-      for (const offset of [0, -1]) {
-        const generation = current + offset;
-        const age = (position - generation) / 1.5;
-        if (age < 0 || age >= 1) continue;
-        const patch = chemicalPatch(seed, index, generation, age, settings);
-        const radius = patch.radius * length;
-        const bitmap = variants[patch.variant % variants.length];
-        const width = bitmap.naturalWidth || bitmap.width;
-        const height = bitmap.naturalHeight || bitmap.height;
-        const cropWidth = width * (.33 + random(patch.seed, 42) * .32);
-        const cropHeight = Math.min(height, cropWidth * (.8 + random(patch.seed, 43) * .6));
-        context.save();
-        context.translate(patch.x * canvas.width, patch.y * canvas.height);
-        context.rotate(patch.rotation);
-        contour(patch, radius, time);
-        context.clip('evenodd');
-        context.globalAlpha = clamp(patch.opacity * settings.patchOpacity * settings.chemicalIntensity, 0, 1);
-        context.drawImage(bitmap, patch.sourceX * (width - cropWidth), patch.sourceY * (height - cropHeight), cropWidth, cropHeight,
-          -radius * 1.2, -radius * 1.15, radius * 2.4, radius * 2.3);
-        if (settings.exposureIntensity > 0 && random(patch.seed, 49) > .45) {
-          // Slow, local overexposure reuses luminous film information. It does
-          // not flash a rectangle or change the whole document's brightness.
-          context.globalCompositeOperation = 'screen';
-          context.globalAlpha = clamp(patch.opacity * settings.exposureIntensity * (.7 + .3 * Math.sin(time * .11 + random(patch.seed, 50) * 6)), 0, .45);
-          context.drawImage(bitmap, patch.sourceX * (width - cropWidth), patch.sourceY * (height - cropHeight), cropWidth, cropHeight,
-            -radius * 1.2, -radius * 1.15, radius * 2.4, radius * 2.3);
-        }
-        context.restore();
-      }
-    }
-  }
-
-  function tears(time) {
-    if (frames === 0) return;
-    const interval = Math.max(2, settings.bandIntervalSeconds);
-    const generation = Math.floor(time / interval);
-    const age = time - generation * interval;
-    const duration = Math.max(.2, Math.min(interval, settings.bandDurationSeconds));
-    if (age >= duration) return;
-    const key = (seed ^ Math.imul(generation + 1, 73856093)) >>> 0;
-    const envelope = Math.sin(age / duration * Math.PI);
-    context.save();
-    context.globalAlpha = clamp(envelope * settings.bandOpacity, 0, .85);
-    for (let index = 0; index < quality.bands; index++) {
-      const x = random(key, index + 2) * canvas.width * .74;
-      const y = random(key, index + 8) * canvas.height;
-      const width = Math.max(1, canvas.width * (.12 + random(key, index + 14) * .25));
-      const height = Math.max(2, canvas.height * (.007 + random(key, index + 20) * .035));
-      const shift = (random(key, index + 26) - .5) * canvas.width * .23 * envelope;
-      context.drawImage(history, clamp(x - shift, 0, canvas.width - width), clamp(y, 0, canvas.height - height), width, height,
-        x, y, width * (1 + .7 * envelope), height);
-    }
-    context.restore();
   }
 
   function schedule() {
@@ -253,28 +256,40 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     frame = 0;
     if (!canRun()) { stop(); return; }
     const started = now();
-    if (previousTime !== null) elapsed += clamp((timestamp - previousTime) / 1000, 0, .75);
+    const delta = previousTime === null ? 0 : clamp((timestamp - previousTime) / 1000, 0, .75);
+    elapsed += delta;
     previousTime = timestamp;
-    prepareVariants();
-    if (validSource) { historyContext.globalCompositeOperation = 'copy'; historyContext.drawImage(canvas, 0, 0); }
-    base();
-    const time = elapsed * Math.max(0, settings.movementSpeed);
-    patches(time);
-    tears(time);
+    const alreadyPrepared = prepared;
+    prepareMaterial();
+    if (validSource) {
+      historyContext.globalCompositeOperation = 'copy';
+      historyContext.drawImage(canvas, 0, 0);
+    }
+    context.globalAlpha = 1;
+    context.globalCompositeOperation = 'source-over';
+    context.drawImage(material, 0, 0);
+    regionalMotion(elapsed, delta, timestamp);
     validSource = true;
     canvas.hidden = false;
     canvas.dataset.ambientFrame = String(++frames);
+    canvas.dataset.livingSeed = String(currentSeed);
     const duration = now() - started;
     times.push(duration);
     if (times.length > 180) times.shift();
-    // Graceful one-way degradation avoids oscillation on weaker renderers.
-    if (duration > 14 && cadence > 2) cadence = Math.max(2, cadence - 1);
+    // Preparation is paid once per seed/resize/config, never used to lower a
+    // healthy steady-state cadence. Later expensive frames degrade one way.
+    if (alreadyPrepared && duration > 14 && cadence > 2) cadence = Math.max(2, cadence - 1);
     schedule();
   }
 
   function sync() {
     stop();
-    if (!canRun()) { canvas.hidden = true; return; }
+    if (!canRun()) {
+      canvas.hidden = true;
+      motion = { x: 0, y: 0, strength: 0, time: 0 };
+      flow = { x: 0, y: 0, strength: 0 };
+      return;
+    }
     paint(now());
   }
 
@@ -286,10 +301,21 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     canvas.height = history.height = dimensions.height;
     canvas.style.width = `${viewport.width}px`;
     canvas.style.height = `${viewport.height}px`;
-    validSource = false;
+    validSource = prepared = false;
     sync();
   }
 
+  removers.push(subscribeLivingDecay((next, detail) => {
+    if (disposed) return;
+    controls = next;
+    if (detail.changed.includes('seed') && next.seed !== null && next.seed !== currentSeed) { resetComposition(next.seed); return; }
+    if (detail.changed.some(key => ['organicDecay', 'colorVariation', 'voidCoverage', 'bleachCoverage', 'blockSize'].includes(key))) {
+      prepared = false;
+      composition = createLivingComposition(currentSeed, controls);
+    }
+    // The running cadence picks up settings on its next scheduled paint.
+    // Pointer/control input cannot add extra ambient frames or reset its clock.
+  }));
   listen(doc, 'visibilitychange', sync);
   listen(reduced, 'change', sync);
   container.prepend(canvas);
@@ -298,10 +324,31 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     canvas,
     get source() { return validSource && canRun() ? canvas : image; },
     get sourceIsViewport() { return validSource && canRun(); },
-    setActive(value) { if (disposed) return; active = Boolean(value); sync(); },
+    setActive(value) {
+      if (disposed || active === Boolean(value)) return;
+      active = Boolean(value);
+      if (active && activated) regenerate(controls.seed ?? undefined);
+      else { if (active) activated = true; sync(); if (active) announceSeed(); }
+    },
+    setMotion(value = {}) {
+      if (disposed || !active || ![value.x, value.y, value.strength].every(Number.isFinite)) return;
+      motion = { x: clamp(value.x, -4, 4), y: clamp(value.y, -4, 4), strength: clamp(value.strength, 0, 2),
+        time: clamp(finite(value.time, now()), now() - 1000, now()) };
+    },
+    configure: patch => disposed ? controls : configureLivingDecay(patch),
+    readSettings: () => controls,
+    regenerate: value => disposed ? currentSeed : regenerate(value),
+    restore(value = {}) {
+      if (disposed) return currentSeed;
+      if (value.settings) configureLivingDecay(value.settings);
+      return resetComposition(value.seed, value.elapsed);
+    },
     resize,
-    snapshot: () => ({ active, queued: Boolean(timer || frame), frames, elapsed, width: canvas.width, height: canvas.height,
-      framesPerSecond: cadence, quality: profile, drawMs: [...times], viewport: { ...viewport } }),
+    snapshot: () => ({ active, queued: Boolean(timer || frame), frames, elapsed, seed: currentSeed, regenerations,
+      width: canvas.width, height: canvas.height, framesPerSecond: cadence, quality: profile,
+      drawMs: [...times], preparationMs, viewport: { ...viewport }, settings: { ...controls },
+      composition, motion: { ...flow }, material: { width: material.width, height: material.height,
+        codecFragments: codec.length, sourceReadback: Boolean(sourcePixels) } }),
     dispose() {
       if (disposed) return;
       disposed = true;
@@ -309,9 +356,9 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
       stop();
       for (const remove of removers) remove();
       canvas.remove();
-      for (const bitmap of variants.slice(1)) bitmap.width = bitmap.height = 1;
-      history.width = history.height = canvas.width = canvas.height = 1;
-      variants.length = 0;
+      for (const bitmap of [canvas, history, material, sample]) bitmap.width = bitmap.height = 1;
+      sourcePixels = null;
+      codec.length = 0;
     },
   };
 }

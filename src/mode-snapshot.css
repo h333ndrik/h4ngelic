@@ -1,12 +1,16 @@
-/* These are the browser's captured page images, not a filter on the live DOM.
-   The reverse instruction is captured separately and never enters this graph. */
+/* Only native captured page images enter the pixel graph. The reverse
+   instruction is captured separately so it remains readable throughout. */
 .mode-snapshot-definitions { position: fixed; width: 0; height: 0; overflow: hidden; pointer-events: none; }
-html[data-mode-snapshot],
-html[data-mode-snapshot] .corruption-background,
-html[data-mode-snapshot] .xray-distress { transition: none !important; }
-html[data-mode-snapshot] .xray-distress::after { animation: none !important; opacity: 0; }
-html[data-mode-snapshot] [data-other-side-hint] { view-transition-name: h4-mode-instruction; }
-html[data-mode-snapshot]::view-transition { pointer-events: none; }
+html[data-mode-snapshot]:is([data-mosh-kind='mode'], [data-mosh-kind='navigation']),
+html[data-mode-snapshot]:is([data-mosh-kind='mode'], [data-mosh-kind='navigation']) .corruption-background,
+html[data-mode-snapshot]:is([data-mosh-kind='mode'], [data-mosh-kind='navigation']) .xray-distress { transition: none !important; }
+html[data-mode-snapshot]:is([data-mosh-kind='mode'], [data-mosh-kind='navigation']) .xray-distress::after { animation: none !important; opacity: 0; }
+html[data-mode-snapshot]:is([data-mosh-kind='mode'], [data-mosh-kind='navigation']) [data-other-side-hint] { view-transition-name: h4-mode-instruction; }
+html[data-mode-snapshot]::view-transition,
+html[data-mode-snapshot]::view-transition-group(*),
+html[data-mode-snapshot]::view-transition-image-pair(*),
+html[data-mode-snapshot]::view-transition-old(*),
+html[data-mode-snapshot]::view-transition-new(*) { pointer-events: none; }
 html[data-mode-snapshot]::view-transition-group(*) { animation-duration: var(--mode-snapshot-duration, 800ms); }
 html[data-mode-snapshot]::view-transition-group(root) { animation: none; }
 html[data-mode-snapshot]::view-transition-image-pair(*) { isolation: isolate; }
@@ -29,36 +33,56 @@ html[data-mode-snapshot]::view-transition-new(*) {
 }
 html[data-mode-snapshot='leaving']::view-transition-old(*) { animation-name: h4-snapshot-reassemble-old; }
 html[data-mode-snapshot='leaving']::view-transition-new(*) { animation-name: h4-snapshot-reassemble-new; }
+html[data-mode-snapshot][data-mosh-kind='navigation']::view-transition-old(*) { animation-name: h4-mosh-navigate-old; }
+html[data-mode-snapshot][data-mosh-kind='navigation']::view-transition-new(*) { animation-name: h4-mosh-navigate-new; }
+
+/* Hover/click filter their live inner visual directly. Native snapshots are
+   reserved for mode changes and navigation, so local gestures stay responsive. */
 html[data-mode-snapshot]::view-transition-group(h4-mode-instruction) { animation: none; z-index: 10; }
 html[data-mode-snapshot]::view-transition-old(h4-mode-instruction),
 html[data-mode-snapshot]::view-transition-new(h4-mode-instruction) { animation: none; filter: none; transform: none; }
 html[data-mode-snapshot]::view-transition-old(h4-mode-instruction) { opacity: 0; }
 html[data-mode-snapshot]::view-transition-new(h4-mode-instruction) { opacity: 1; }
 
+/* Keep the old captured frame through the strongest smear. The entering and
+   reverse curves recover in different orders within the same bounded duration. */
 @keyframes h4-snapshot-break {
-  0%, 28% { opacity: 1; }
-  52% { opacity: .82; }
-  78% { opacity: .18; }
+  0%, 44% { opacity: 1; }
+  66% { opacity: .94; }
+  82% { opacity: .56; }
   100% { opacity: 0; }
 }
 @keyframes h4-snapshot-emerge {
-  0%, 12% { opacity: 0; }
-  43% { opacity: .48; }
-  76%, 100% { opacity: 1; }
+  0%, 24% { opacity: 0; }
+  48% { opacity: .16; }
+  70% { opacity: .68; }
+  94%, 100% { opacity: 1; }
 }
 @keyframes h4-snapshot-reassemble-old {
-  0%, 12% { opacity: 1; }
-  46% { opacity: .67; }
-  82%, 100% { opacity: 0; }
+  0%, 20% { opacity: 1; }
+  52% { opacity: .92; }
+  76% { opacity: .38; }
+  94%, 100% { opacity: 0; }
 }
 @keyframes h4-snapshot-reassemble-new {
-  0% { opacity: 0; }
-  28% { opacity: .24; }
-  67% { opacity: .86; }
+  0%, 10% { opacity: 0; }
+  38% { opacity: .18; }
+  64% { opacity: .72; }
+  88%, 100% { opacity: 1; }
+}
+@keyframes h4-mosh-navigate-old {
+  0%, 32% { opacity: 1; }
+  57% { opacity: .86; }
+  78% { opacity: .32; }
+  100% { opacity: 0; }
+}
+@keyframes h4-mosh-navigate-new {
+  0%, 15% { opacity: 0; }
+  42% { opacity: .23; }
+  72% { opacity: .86; }
   100% { opacity: 1; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   html[data-mode-snapshot]::view-transition-old(*),
-  html[data-mode-snapshot]::view-transition-new(*) { animation: none; filter: none; }
+  html[data-mode-snapshot]::view-transition-new(*) { animation: none !important; filter: none !important; }
 }

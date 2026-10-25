@@ -14,6 +14,10 @@ import { featureFlags } from './data/featureFlags.js';
 import { initCorruptionLifecycle } from './corruption-lifecycle.js';
 import { initXRay } from './xray.js';
 import { initModeIcons } from './mode-icons.js';
+import { initInteractionMosh } from './interaction-mosh.js';
+import { initMoshTransitions } from './mosh-transitions.js';
+import { initEndReveal } from './end-reveal.js';
+import { initMotionMosh } from './motion-mosh.js';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -23,7 +27,9 @@ let stopInteractions = () => {};
 let stopGallery = () => {};
 let stopMotion = () => {};
 let stopImageReveals = () => {};
+let stopEndReveal = () => {};
 let heroObserver = null;
+let moshTransitions = null;
 
 function ensureHero() {
   if (!hero) {
@@ -86,6 +92,7 @@ function render({ reset = false, restoreScroll } = {}) {
   stopGallery();
   stopMotion();
   stopImageReveals();
+  stopEndReveal();
   heroObserver?.disconnect();
   const url = currentURL();
   const route = resolveRoute(url);
@@ -100,6 +107,7 @@ function render({ reset = false, restoreScroll } = {}) {
   stopInteractions = initInteractions(document, { revealSections: false });
   stopGallery = initGallery(content);
   stopMotion = initScrollChoreography(content);
+  stopEndReveal = initEndReveal(content);
   stopImageReveals = initImageReveals(content);
 
   if (standalone) {
@@ -113,22 +121,43 @@ function render({ reset = false, restoreScroll } = {}) {
 render();
 initEasterEggs(document);
 if (featureFlags.otherSideEnabled) {
-  initCorruptionLifecycle();
+  const corruptionLifecycle = initCorruptionLifecycle();
   // Input handling is needed from startup. Bundle it with the entry stylesheet
   // instead of delaying first paint with an immediately requested CSS chunk.
   // Film, pixel rendering, damaged material and Web Audio stay gesture-driven.
   initXRay();
   initModeIcons();
+  const motionMosh = initMotionMosh({ doc: document });
+  if (import.meta.env.DEV && new URLSearchParams(location.search).get('fx') === '1') {
+    import('./dev/living-decay-panel.js').then(({ initLivingDecayPanel }) => {
+      initLivingDecayPanel({ doc: document, getController: () => corruptionLifecycle.getController?.() });
+    });
+  }
+  moshTransitions = initMoshTransitions({ doc: document });
+  const interactionMosh = initInteractionMosh({ doc: document,
+    onSnapshot: detail => moshTransitions.interaction(detail) });
+  if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
+    window.__H4_INTERACTION_MOSH__ = { snapshot: () => ({
+      events: interactionMosh.snapshot(), transitions: moshTransitions.snapshot(),
+    }) };
+    window.__H4_MOTION_MOSH__ = motionMosh;
+  }
 }
 if (standalone) {
+  let hashRevision = 0;
   addEventListener('hashchange', () => {
+    const revision = ++hashRevision;
     document.dispatchEvent(new CustomEvent('h4:navigationstart'));
-    render({ reset: true });
-    document.dispatchEvent(new CustomEvent('h4:pagechange'));
+    const commit = () => {
+      if (revision !== hashRevision) return;
+      render({ reset: true });
+      document.dispatchEvent(new CustomEvent('h4:pagechange'));
+    };
+    if (!moshTransitions?.navigation(commit, { standalone: true })) commit();
   });
   document.querySelector('.skip-link').addEventListener('click', (event) => {
     event.preventDefault();
     content.focus();
     content.scrollIntoView({ behavior: 'instant' });
   });
-} else initNavigation({ render });
+} else initNavigation({ render, moshTransitions });

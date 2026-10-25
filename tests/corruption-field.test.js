@@ -127,3 +127,45 @@ test('pointer reset preserves trails but prevents a new entry inheriting a telep
   assert.equal(field.size, 0);
   assert.deepEqual(field.sample(1000), []);
 });
+
+test('discrete UI damage keeps event strength and direction separate from physical pointer velocity', () => {
+  const field = createCorruptionField();
+  field.stroke({ x: 0, y: 0, time: 0 });
+  field.impulse({ kind: 'click', x: 9000, y: 9000, time: 10, strength: .78, dx: -90, dy: 14 });
+  const event = field.sample(10).at(-1);
+  assert.equal(event.speed, 0);
+  assert.equal(event.velocityX, 0);
+  assert.equal(event.velocityY, 0);
+  assert.equal(event.drive, .78);
+  assert.ok(event.displacementX < 0 && event.displacementY > 0);
+  field.stroke({ x: 40, y: 0, time: 20 });
+  const pointer = field.sample(20).at(-1);
+  assert.equal(pointer.eventInput, 0);
+  assert.equal(pointer.speed, .5, 'The pointer continues from its physical point, without inheriting the remote click anchor.');
+  assert.equal(pointer.velocityX, 2);
+  assert.equal(field.size, 3);
+});
+
+test('hover remains small, click is stronger, and discrete damage has a finite recovery', () => {
+  const field = createCorruptionField();
+  field.impulse({ kind: 'hover', x: 50, y: 60, time: 0, strength: .46, dx: 52, dy: 10 });
+  field.impulse({ kind: 'click', x: 50, y: 60, time: 0, strength: .78, dx: 90, dy: 14 });
+  const [hover, click] = field.sample(0);
+  assert.ok(hover.radiusX <= 64);
+  assert.ok(click.radiusX > hover.radiusX && click.energy > hover.energy);
+  assert.ok(click.expiresAt > hover.expiresAt);
+  assert.deepEqual(field.sample(click.expiresAt), []);
+  assert.equal(field.impulse({ kind: 'unknown', x: 0, y: 0, time: 1, strength: 1 }), null);
+  assert.equal(field.impulse({ kind: 'constructor', x: 0, y: 0, time: 1, strength: 1 }), null);
+  assert.equal(field.impulse({ kind: 'click', x: Infinity, y: 0, time: 1, strength: 1 }), null);
+  assert.equal(field.impulse({ kind: 'click', x: 0, y: 0, time: 1, strength: 0 }), null);
+});
+
+test('section direction comes from its local hint rather than an arbitrary horizontal jump', () => {
+  const field = createCorruptionField();
+  field.impulse({ kind: 'section', x: 80, y: 90, time: 0, strength: .38, dx: 0, dy: -28 });
+  const [sample] = field.sample(0);
+  assert.equal(sample.displacementX, 0);
+  assert.ok(sample.displacementY < 0);
+  assert.deepEqual([sample.x, sample.y], [80, 90]);
+});

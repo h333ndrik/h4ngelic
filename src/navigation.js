@@ -3,7 +3,7 @@ import { prepareArtworkTransition } from './artwork-transitions.js';
 import './navigation.css';
 
 /** Enhance ordinary anchors; without JavaScript the prerendered URLs still work. */
-export function initNavigation({ render }) {
+export function initNavigation({ render, moshTransitions } = {}) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const previousRestoration = history.scrollRestoration;
   history.scrollRestoration = 'manual';
@@ -53,8 +53,13 @@ export function initNavigation({ render }) {
     };
     if (enhanced) {
       try {
-        transition = document.startViewTransition(commit);
-        transition.ready.catch(() => {});
+        // Route capture owns the one native transition. Awaiting commit includes
+        // artwork decode, focus and scroll before the destination is captured.
+        transition = document.documentElement.dataset.mode === 'xray'
+          ? moshTransitions?.navigation(commit, { destination, trigger, fromHash })
+          : null;
+        if (!transition) transition = document.startViewTransition(commit);
+        transition.ready?.catch(() => {});
         transition.finished.then(() => artwork?.cleanup(), () => artwork?.cleanup());
         transition.updateCallbackDone.catch(() => { if (currentRevision === revision) location.assign(location.href); });
       } catch {

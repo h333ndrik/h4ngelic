@@ -1,0 +1,381 @@
+{
+  "recordedAt": "2026-10-25T14:45:15.370Z",
+  "branch": "feat/interaction-datamosh",
+  "rollback": "7e5fdc3",
+  "nodeTests": {
+    "passed": 190,
+    "failed": 0
+  },
+  "normal": [
+    {
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "captures": 10,
+      "errors": []
+    },
+    {
+      "profile": "touch-390",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "captures": 10,
+      "errors": []
+    },
+    {
+      "profile": "touch-320",
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "captures": 10,
+      "errors": []
+    }
+  ],
+  "end": [
+    {
+      "profile": "desktop",
+      "errors": []
+    },
+    {
+      "profile": "touch-390",
+      "errors": []
+    },
+    {
+      "profile": "touch-320",
+      "errors": []
+    },
+    {
+      "profile": "reduced",
+      "errors": []
+    }
+  ],
+  "material": [
+    {
+      "width": 1000,
+      "idleChangedPixels": 17852,
+      "pointer": {
+        "radius25": {
+          "pixels": 1202,
+          "outside": 0
+        },
+        "radius45": {
+          "pixels": 4232,
+          "outside": 0
+        }
+      },
+      "reproduction": {
+        "seed": 6831,
+        "mismatch": 0
+      }
+    },
+    {
+      "width": 390,
+      "idleChangedPixels": 1332,
+      "reproduction": {
+        "seed": 6831,
+        "mismatch": 0
+      }
+    },
+    {
+      "width": 320,
+      "idleChangedPixels": 1713,
+      "reproduction": {
+        "seed": 6831,
+        "mismatch": 0
+      }
+    },
+    {
+      "profile": "calibration-320"
+    }
+  ],
+  "interaction": {
+    "profiles": [
+      "desktop",
+      "touch-390",
+      "touch-320",
+      "reduced",
+      "pixels"
+    ],
+    "pixels": {
+      "brightBefore": 1788,
+      "brightAfter": 1521,
+      "movedBrightInside": 916,
+      "changedInside": 2865,
+      "outsidePixels": 44892,
+      "changedOutside": 0,
+      "unexpectedChroma": 0
+    },
+    "maximumTreeRssBytes": 938524672
+  },
+  "legacy": {
+    "completedAt": "2026-10-25T14:15:52.485Z",
+    "passed": true,
+    "suites": [
+      {
+        "file": "navigation-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "artwork-transitions-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "gallery-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "corruption-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "xray-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "mode-snapshot-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "mode-snapshot-modal-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "mode-audio-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "ref09-mode-cancel-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "ref09-icons-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "scroll-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "hover-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "microinteractions-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "wordmark-corruption-browser.mjs",
+        "code": 0
+      },
+      {
+        "file": "browser.mjs",
+        "code": 0
+      }
+    ],
+    "scope": "15 integration suites before the mobile addition; final mobile, Easter and xray suites repeated after it."
+  },
+  "modalRestoration": {
+    "changedChannels": 83,
+    "maximumDelta": 1,
+    "meanDelta": 0.0004836829836829837
+  },
+  "mobile": {
+    "passed": true,
+    "profiles": [
+      {
+        "profile": "390",
+        "width": 390,
+        "motion": {
+          "duration": 1279,
+          "scroll": 321
+        },
+        "marks": 5,
+        "errors": []
+      },
+      {
+        "profile": "320",
+        "width": 320,
+        "motion": {
+          "duration": 782.0999999940395,
+          "scroll": 321
+        },
+        "marks": 4,
+        "errors": []
+      },
+      {
+        "profile": "reduced",
+        "width": 320,
+        "motion": {
+          "duration": 887.5999999940395,
+          "scroll": 321
+        },
+        "marks": 3,
+        "errors": []
+      },
+      {
+        "profile": "desktop",
+        "errors": []
+      }
+    ],
+    "phase2Implemented": false
+  },
+  "offline": {
+    "method": "Exact exported HTML bytes executed with network rejected; managed browser blocks file:// navigation.",
+    "profiles": [
+      {
+        "width": 1440,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0
+      },
+      {
+        "width": 390,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0
+      },
+      {
+        "width": 320,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0
+      }
+    ],
+    "nativeModeEvents": [
+      {
+        "mode": "xray",
+        "captured": true,
+        "duration": 908.8938947580755,
+        "variant": 726452881
+      },
+      {
+        "mode": "normal",
+        "captured": true,
+        "duration": 842.7728571277112,
+        "variant": 2510215193
+      },
+      {
+        "mode": "xray",
+        "captured": true,
+        "duration": 726.5777215640992,
+        "variant": 2073609739
+      },
+      {
+        "mode": "normal",
+        "captured": true,
+        "duration": 901.8323262035847,
+        "variant": 1578114500
+      }
+    ],
+    "retainedMaps": 0,
+    "directWorkWebGL": 0
+  },
+  "delivery": {
+    "packagedAt": "2026-10-25T14:41:09.392353+00:00",
+    "file": "docs/previews/portfolio-preview.zip",
+    "standaloneFile": "docs/previews/h4ngelic-preview.html",
+    "zipBytes": 3769778,
+    "htmlBytes": 5454634,
+    "htmlSha256": "687e002333e96a51ef9858272b86a8da9d4dd2f799ceba74c87705fb6b2c4f94",
+    "offlineCheckedAt": "2026-10-25T14:40:59.837Z",
+    "members": [
+      "h4ngelic-preview.html",
+      "BITTE-LESEN.txt",
+      "other-side-enter.wav",
+      "other-side-leave.wav"
+    ]
+  },
+  "performance": {
+    "generatedAt": "2026-10-25T14:43:03.297Z",
+    "chromeFlags": [
+      "--headless=new",
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader"
+    ],
+    "medians": {
+      "home-mobile": {
+        "runs": 3,
+        "performanceScore": 68,
+        "fcpMs": 1504.8195,
+        "lcpMs": 2405.7834000000003,
+        "totalBlockingTimeMs": 2994,
+        "cumulativeLayoutShift": 0.002925375626280309,
+        "speedIndexMs": 2307.1840997862864,
+        "totalTransferredBytes": 374914,
+        "transferredScriptBytes": 194843,
+        "uncompressedScriptBytes": 723768,
+        "requestCount": 10
+      },
+      "work-mobile": {
+        "runs": 1,
+        "performanceScore": 100,
+        "fcpMs": 1056.8968,
+        "lcpMs": 1360.3452,
+        "totalBlockingTimeMs": 0,
+        "cumulativeLayoutShift": 0,
+        "speedIndexMs": 1056.8968,
+        "totalTransferredBytes": 58196,
+        "transferredScriptBytes": 41752,
+        "uncompressedScriptBytes": 124773,
+        "requestCount": 5
+      }
+    },
+    "runs": [
+      {
+        "target": "home-mobile",
+        "run": 1,
+        "performanceScore": 71,
+        "fcpMs": 1059.5654,
+        "lcpMs": 1392.0654,
+        "totalBlockingTimeMs": 2785.7173000000003,
+        "cumulativeLayoutShift": 0.002925375626280309,
+        "transferredScriptBytes": 194843,
+        "requestCount": 10,
+        "lighthouseVersion": "13.5.0",
+        "warnings": []
+      },
+      {
+        "target": "home-mobile",
+        "run": 2,
+        "performanceScore": 68,
+        "fcpMs": 1506.5503749999998,
+        "lcpMs": 2407.86045,
+        "totalBlockingTimeMs": 2994,
+        "cumulativeLayoutShift": 0.002925375626280309,
+        "transferredScriptBytes": 194843,
+        "requestCount": 10,
+        "lighthouseVersion": "13.5.0",
+        "warnings": []
+      },
+      {
+        "target": "home-mobile",
+        "run": 3,
+        "performanceScore": 68,
+        "fcpMs": 1504.8195,
+        "lcpMs": 2405.7834000000003,
+        "totalBlockingTimeMs": 3041,
+        "cumulativeLayoutShift": 0.002925375626280309,
+        "transferredScriptBytes": 194843,
+        "requestCount": 10,
+        "lighthouseVersion": "13.5.0",
+        "warnings": []
+      },
+      {
+        "target": "work-mobile",
+        "run": 1,
+        "performanceScore": 100,
+        "fcpMs": 1056.8968,
+        "lcpMs": 1360.3452,
+        "totalBlockingTimeMs": 0,
+        "cumulativeLayoutShift": 0,
+        "transferredScriptBytes": 41752,
+        "requestCount": 5,
+        "lighthouseVersion": "13.5.0",
+        "warnings": []
+      }
+    ]
+  }
+}

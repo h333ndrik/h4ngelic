@@ -25,7 +25,9 @@
   margin: auto;
   padding: 18px 22px;
   border: 1px solid #ffffff35;
-  background: #303033;
+  background-color: var(--normal-background);
+  background-image: var(--normal-background-image);
+  background-attachment: fixed;
   color: #f0efeb;
   opacity: 0;
   transform: none;

@@ -95,6 +95,9 @@ body { position: relative; }
 }
 .ink-film { opacity: var(--ink-texture-opacity, .54); }
 .ink-channel { opacity: .52; }
+.ink-mark[data-touch-ink] { filter: drop-shadow(0 0 1px color-mix(in srgb, currentColor 30%, transparent)); }
+.ink-mark[data-touch-ink] .ink-film { opacity: .22; }
+[data-mode='xray'] .ink-mark[data-touch-ink] .ink-film { opacity: .85; }
 .ink-tear {
   animation: ink-fracture var(--ink-fracture-duration, 480ms) cubic-bezier(.18,.74,.3,1) var(--ink-tear-delay, 0ms) both;
 }

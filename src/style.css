@@ -1,15 +1,24 @@
 @import './cursor.css';
 
 :root {
+  --normal-background: #242424;
+  --normal-background-top: #282828;
+  --normal-background-bottom: #202020;
+  --normal-background-image: linear-gradient(180deg, var(--normal-background-top) 0%, var(--normal-background) 50%, var(--normal-background-bottom) 100%);
   color-scheme: dark;
   font-family: Arial, Helvetica, sans-serif;
-  background: #303033;
+  background-color: var(--normal-background);
+  background-image: var(--normal-background-image);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: #f0efeb;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background-color: inherit; }
+/* One viewport-anchored field stays continuous through every transparent section. */
+body { margin: 0; background: transparent; }
+html[data-mode='xray'] { --normal-background-image: none; }
 button { font: inherit; }
 a { color: inherit; text-decoration: none; }
 a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outline-offset: 6px; }
@@ -43,7 +52,7 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 .arrow::after { content: ''; position: absolute; width: 64%; height: 64%; top: 7%; right: 10%; border-top: var(--ui-arrow-stroke, 1.25px) solid; border-right: var(--ui-arrow-stroke, 1.25px) solid; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* Editorial sections share one grid and keep the original charcoal canvas. */
+/* Editorial sections share one grid and the continuous page background. */
 .content-section { padding: clamp(64px, 9vw, 150px) 35px; }
 .section-label, .page-kicker { font-size: 12px; font-weight: 400; letter-spacing: .08em; margin: 0 0 44px; color: #bbbcb9; }
 .selected-work { padding-top: 90px; padding-bottom: 100px; }

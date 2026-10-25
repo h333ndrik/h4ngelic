@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { assertNormalTheme } from './helpers/normal-theme.mjs';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const out = new URL('../artifacts/ref09-phase1/', import.meta.url);
@@ -24,8 +25,7 @@ async function reverse(page, key = '3') {
 }
 async function normalGray(page) {
   await state(page, 'normal');
-  await page.waitForFunction(() => getComputedStyle(document.body).backgroundColor === 'rgb(48, 48, 51)');
-  assert.equal(await page.locator('html').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(48, 48, 51)');
+  await assertNormalTheme(page);
 }
 async function hintState(page) {
   return page.locator('[data-other-side-hint]').evaluate(element => {

@@ -154,7 +154,11 @@ async function checkTouchScroll(page, context) {
   }
   await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await page.waitForFunction((before) => scrollY > before + 20, startScroll);
-  assert.equal(await page.locator('[data-ink-mark]').count(), 0, 'A native touch-scroll gesture must cancel the pending imprint.');
+  const traces = await page.locator('[data-ink-mark][data-touch-ink]').count();
+  assert.ok(traces > 0 && traces <= 2, 'Native panning creates sparse live-finger traces while canceling its old click candidate.');
+  assert.equal(await page.locator('[data-ink-mark]:not([data-touch-ink])').count(), 0, 'A scroll must not also produce a duplicate click imprint.');
+  await page.waitForTimeout(400);
+  assert.equal(await page.locator('[data-ink-mark][data-touch-ink]').count(), traces, 'Post-lift inertia cannot manufacture additional traces.');
   await touch.detach();
   await page.locator('[data-easter-scroll-fixture]').evaluate((element) => element.remove());
 }
@@ -211,8 +215,9 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   assert.equal(Number(await message.evaluate((element) => getComputedStyle(element).opacity)), 1, 'Keyboard focus keeps the secret legible.');
   await button.evaluate((element) => element.blur());
   const space = page.locator('[data-footer-secret-space]');
-  const proportion = await space.evaluate((element) => element.getBoundingClientRect().height / innerHeight);
-  assert.ok(proportion >= .29 && proportion <= .31, 'Homepage reserves approximately30vh for the quiet secret area.');
+  const endSpace = await space.evaluate((element) => ({ height: element.getBoundingClientRect().height,
+    expected: Math.max(440, Math.min(innerHeight * .82, 960)) }));
+  assert.ok(Math.abs(endSpace.height - endSpace.expected) < 1, 'The final h4 reveal retains its spacious responsive end section.');
   const hint = page.locator('[data-other-side-hint]');
   await hint.scrollIntoViewIfNeeded();
   assert.equal((await hint.textContent()).trim(), 'HOLD 4 TO SEE THE OTHER SIDE.');
@@ -228,7 +233,7 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   const spaceBox = await space.boundingBox();
   assert.ok(hintBox.width >= 44 && hintBox.height >= 44);
   assert.ok(Math.abs(hintBox.x + hintBox.width / 2 - width / 2) < .6);
-  assert.ok(Math.abs((hintBox.y + hintBox.height / 2 - spaceBox.y) / spaceBox.height - .4) < .01, 'Instruction sits somewhat above the midpoint of the reserved area.');
+  assert.ok(Math.abs((hintBox.y + hintBox.height / 2 - spaceBox.y) / spaceBox.height - .48) < .01, 'Instruction stays centered over the final h4 reveal.');
   const counter = page.locator('[data-visit-counter-hotspot]');
   await counter.scrollIntoViewIfNeeded();
   assert.equal((await counter.textContent()).trim(), 'VISIT 001');

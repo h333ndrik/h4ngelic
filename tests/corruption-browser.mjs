@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { livingDecayMaterialAssets } from '../src/data/livingDecaySettings.js';
 
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const output = new URL('../artifacts/control-corruption/', import.meta.url);
@@ -20,7 +21,7 @@ const reports = [];
 
 async function setup(options = {}) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, ...options });
-  await context.addInitScript(() => {
+  await context.addInitScript((materialPaths) => {
     window.__corruptionProbe = { imageDraws: 0, filmDraws: 0, historyDraws: 0, fills: 0, sources: [] };
     const draw = CanvasRenderingContext2D.prototype.drawImage;
     CanvasRenderingContext2D.prototype.drawImage = function (source, ...args) {
@@ -28,7 +29,7 @@ async function setup(options = {}) {
         const probe = window.__corruptionProbe;
         if (source instanceof HTMLImageElement) {
           probe.imageDraws++;
-          if (/corrupted-film/.test(source.currentSrc || source.src)) probe.filmDraws++;
+          if (materialPaths.includes(new URL(source.currentSrc || source.src, location.href).pathname)) probe.filmDraws++;
           if (probe.sources.length < 12 && !probe.sources.includes(source.currentSrc || source.src)) probe.sources.push(source.currentSrc || source.src);
         } else if (source instanceof HTMLCanvasElement) {
           if (source.hasAttribute('data-corruption-ambient')) {
@@ -44,7 +45,7 @@ async function setup(options = {}) {
       if (this.canvas.hasAttribute('data-corruption-region')) window.__corruptionProbe.fills++;
       return fill.apply(this, args);
     };
-  });
+  }, Object.values(livingDecayMaterialAssets));
   const page = await context.newPage();
   const errors = [];
   const requests = [];
@@ -161,7 +162,7 @@ try {
     const { context, page, errors, requests } = await setup();
     try {
     assert.equal(await page.locator('.corruption-background,[data-corruption-region]').count(), 0, 'Normal browsing must not initialize effect surfaces.');
-    assert.ok(!requests.some(url => /corrupted-film(?:-mobile)?\.webp/.test(url)), 'The film texture is noncritical and must wait for user discovery.');
+    assert.ok(!requests.some(url => Object.values(livingDecayMaterialAssets).includes(new URL(url).pathname)), 'The Living Decay material is noncritical and must wait for user discovery.');
     assert.ok(!requests.some(url => /\/src\/main\.js|\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture/.test(url)), 'Direct Work must not download the hero.');
     const originalText = await page.locator('.page-heading,.archive-empty,.work-filters').allTextContents();
     await changeMode(page, 'xray');
@@ -198,7 +199,8 @@ try {
     assert.deepEqual(await page.locator('.page-heading,.archive-empty,.work-filters').allTextContents(), originalText, 'Live semantic UI remains intact.');
     await page.screenshot({ path: new URL('background-damage.png', output).pathname });
     const drawing = await page.evaluate(() => window.__corruptionProbe);
-    assert.ok(drawing.filmDraws > 0 && drawing.sources.some(url => /corrupted-film|canvas:corruption-ambient/.test(url)), 'Displaced blocks must draw from the actual film bitmap or its current animated composite.');
+    assert.ok(drawing.filmDraws > 0 && drawing.sources.some(url => url === 'canvas:corruption-ambient'
+      || Object.values(livingDecayMaterialAssets).includes(new URL(url, baseURL).pathname)), 'Displaced blocks must draw from the current Living Decay material or its actual animated composite.');
     assert.ok(drawing.historyDraws > 0, 'Fast motion must reuse actual preceding damaged pixels.');
     assert.equal(drawing.fills, 0, 'The distortion may not substitute solid-color square particles.');
     await stableIdle(page);
@@ -216,6 +218,10 @@ try {
     await page.waitForFunction(() => window.__fixtureOpened === true);
     const dialog = page.locator('.artwork-dialog[open]');
     await dialog.locator('img').evaluate(image => image.decode());
+    // Opening this fixture is a real click, so it now also starts the native
+    // click snapshot. Chromium retargets pointer input to the captured root
+    // during that animation. Exercise the live dialog image after it settles.
+    await page.waitForFunction(() => !document.documentElement.hasAttribute('data-mode-snapshot'));
     const dialogImage = await dialog.locator('img').boundingBox();
     const modalPixels = await stroke(page, { x: dialogImage.x + dialogImage.width * .2, y: dialogImage.y + dialogImage.height * .4 },
       { x: dialogImage.x + dialogImage.width * .7, y: dialogImage.y + dialogImage.height * .45 }, 30, '.artwork-dialog[open] .artwork-viewer-stage [data-corruption-region]');
@@ -274,7 +280,7 @@ try {
       assert.ok(state.painted > 20, `Touch movement must also displace actual surface pixels: ${JSON.stringify({state, runtime: await page.evaluate(() => ({ snapshot: window.__H4_CORRUPTION__?.snapshot(), url:location.href, mode:document.documentElement.dataset.mode, background:document.querySelector('.corruption-background')?.className, hidden:document.hidden })), errors})}.`);
       assert.ok(state.regions <= 2 && state.boxes.every(box => box.width <= 360 && box.height <= 300));
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mobile damage must not expand the document width.');
-      assert.ok(requests.some(url => /corrupted-film-mobile\.webp/.test(url)), 'Constrained touch profiles use the smaller texture.');
+      assert.ok(requests.some(url => new URL(url).pathname === livingDecayMaterialAssets.mobile), 'Constrained touch profiles use the smaller Living Decay source.');
       console.log(`START corruption ${width}px touch: screenshot`);
       await page.screenshot({ path: new URL(`mobile-${width}.png`, output).pathname });
       console.log(`START corruption ${width}px touch: recovery`);
