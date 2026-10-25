@@ -34,9 +34,9 @@ export function createFiniteHoverMotion({ doc = document, publish, maximumHz = 1
   const active = () => !disposed && !navigating && focused && !doc.hidden && reduced.matches === false && fine.matches
     && doc.documentElement.dataset.mode === 'xray' && (typeof doc.hasFocus !== 'function' || doc.hasFocus());
   const now = () => view.performance.now();
-  const listen = (target, type, handler) => {
-    target.addEventListener(type, handler, true);
-    removers.push(() => target.removeEventListener(type, handler, true));
+  const listen = (target, type, handler, capture = false) => {
+    target.addEventListener(type, handler, capture);
+    removers.push(() => target.removeEventListener(type, handler, capture));
   };
   const matrixOf = style => {
     try {
@@ -174,12 +174,20 @@ export function createFiniteHoverMotion({ doc = document, publish, maximumHz = 1
     } else schedule();
   }
 
-  for (const type of ['transitionrun', 'transitionstart', 'transitionend', 'transitioncancel']) listen(doc, type, actualTransition);
+  for (const type of ['transitionrun', 'transitionstart', 'transitionend', 'transitioncancel']) listen(doc, type, actualTransition, true);
   listen(doc, 'h4:navigationstart', () => { navigating = true; reset(); });
   listen(doc, 'h4:pagechange', () => { navigating = false; reset(); });
   for (const type of ['h4:modechange', 'visibilitychange']) listen(doc, type, reset);
-  listen(view, 'blur', () => { focused = false; reset(); });
-  listen(view, 'focus', () => { focused = true; reset(); });
+  listen(view, 'blur', event => {
+    if (event.target !== view) return;
+    focused = false;
+    reset();
+  });
+  listen(view, 'focus', event => {
+    if (event.target !== view) return;
+    focused = true;
+    reset();
+  });
   listen(view, 'resize', reset);
   listen(reduced, 'change', reset);
   listen(fine, 'change', reset);

@@ -98,6 +98,18 @@ function fixture({ mode = 'xray', reduced = false, fine = true } = {}) {
       Object.assign(this, Object.fromEntries(['a', 'b', 'c', 'd', 'e', 'f'].map((key, index) => [key, values[index]])));
     }
   }
+  const viewListeners = [];
+  const originalViewAdd = view.addEventListener.bind(view);
+  const originalViewRemove = view.removeEventListener.bind(view);
+  view.addEventListener = (type, callback, options) => {
+    viewListeners.push({ type, callback, capture: typeof options === 'boolean' ? options : Boolean(options?.capture) });
+    originalViewAdd(type, callback, options);
+  };
+  view.removeEventListener = (type, callback, options) => {
+    const index = viewListeners.findIndex(record => record.type === type && record.callback === callback);
+    if (index >= 0) viewListeners.splice(index, 1);
+    originalViewRemove(type, callback, options);
+  };
   view.DOMMatrix = view.DOMMatrixReadOnly = Matrix;
   const doc = Object.assign(new EventTarget(), { defaultView: view, hidden: false,
     documentElement: { dataset: { mode } }, hasFocus: () => true });
@@ -119,6 +131,14 @@ function fixture({ mode = 'xray', reduced = false, fine = true } = {}) {
   return { doc, view, target, visual, controller, batches, media, step, advance, send,
     setTransform(value) { transform = value; },
     setRect(value) { rect = value; },
+    get windowListeners() { return viewListeners; },
+    descendantFocus(type) {
+      // Element focus/blur do not bubble. They reach Window only when it has
+      // installed a capture listener, as happens in the browser propagation path.
+      const event = new Event(type);
+      Object.defineProperty(event, 'target', { value: visual });
+      for (const record of [...viewListeners]) if (record.type === type && record.capture) record.callback(event);
+    },
     transition(type, propertyName = 'transform', target = visual) {
       const event = new Event(type);
       Object.defineProperties(event, { target: { value: target }, propertyName: { value: propertyName } });
@@ -320,4 +340,26 @@ test('a delayed end pose is immutable until bounded admission and non-transform 
   assert.equal(f.batches.length, count, 'Reset invalidates old visual contexts so late native events cannot revive them.');
   assert.equal(f.pending, 0);
   f.controller.dispose();
+});
+
+test('element focus and blur cannot suspend the window hover observer through capture propagation', () => {
+  const f = fixture();
+  assert.ok(f.windowListeners.filter(record => ['focus', 'blur'].includes(record.type)).every(record => !record.capture),
+    'Only transition events use capture; Window lifecycle listeners must not intercept element focus.');
+  f.controller.track({ target: f.target, visual: f.visual }, 400);
+  f.descendantFocus('focus');
+  f.descendantFocus('blur');
+  assert.equal(f.controller.snapshot().active, true, 'Releasing a focused page element does not blur the window.');
+  assert.equal(f.controller.snapshot().tracked, 1);
+  f.setTransform('matrix(1.2, 0, 0, 1.2, 0, 0)');
+  f.advance(450);
+  close(f.batches.at(-1).samples[0].width, 240, 'Hover growth still publishes after an element loses focus.');
+  f.send('blur', f.view);
+  assert.equal(f.controller.snapshot().active, false, 'A real Window blur still suspends observation.');
+  f.descendantFocus('focus');
+  assert.equal(f.controller.snapshot().active, false, 'Focusing a descendant cannot manufacture a Window focus.');
+  f.send('focus', f.view);
+  assert.equal(f.controller.snapshot().active, true);
+  f.controller.dispose();
+  assert.equal(f.windowListeners.length, 0);
 });
