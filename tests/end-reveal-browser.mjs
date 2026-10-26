@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import sharp from 'sharp';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const output = new URL('../artifacts/end-reveal/', import.meta.url);
@@ -22,6 +23,10 @@ const reveal = page => page.locator('[data-end-reveal]').evaluate(element => {
     active: element.hasAttribute('data-end-reveal-active'), hintZ: getComputedStyle(hint).zIndex,
     hintOpacity: Number(getComputedStyle(hint.querySelector('[data-secret-message]')).opacity),
     hintColor: getComputedStyle(hint).color, animation: getComputedStyle(mark.querySelector('.end-reveal-material'), '::before').animationName,
+    reliefDepth: Number(element.querySelector('[data-end-relief-depth]').getAttribute('surfaceScale')),
+    reliefBlur: Number(element.querySelector('[data-end-relief-blur]').getAttribute('stdDeviation')),
+    lightX: Number(element.querySelector('[data-end-relief-light]').getAttribute('x')),
+    lightY: Number(element.querySelector('[data-end-relief-light]').getAttribute('y')),
     markBox: { left: markBox.left, right: markBox.right, top: markBox.top, bottom: markBox.bottom },
     hintBox: { left: hintBox.left, right: hintBox.right, top: hintBox.top, bottom: hintBox.bottom },
     width: innerWidth, viewport: innerHeight };
@@ -79,6 +84,30 @@ try {
       assert.ok(final.markBox.top >= final.top - 1 && final.markBox.bottom <= final.top + final.height + 1);
       assert.ok(final.hintBox.left >= 0 && final.hintBox.right <= final.width);
       assert.equal(final.hintZ, '3');
+      assert.ok(final.reliefDepth > 18 && final.reliefBlur > 2,
+        'The end-state is an actual alpha-derived relief with nonzero material depth.');
+      let cursorLighting = null;
+      if (!profile.hasTouch && profile.reducedMotion !== 'reduce') {
+        const mark = page.locator('.end-reveal-mark');
+        await page.mouse.move(final.width * .2, final.top + final.height * .25);
+        await page.waitForFunction(() => Number(document.querySelector('[data-end-relief-light]').getAttribute('x')) < 10);
+        const leftLight = await reveal(page);
+        const beforeLight = await sharp(await mark.screenshot()).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+        await page.mouse.move(final.width * .8, final.top + final.height * .7);
+        await page.waitForFunction(() => Number(document.querySelector('[data-end-relief-light]').getAttribute('x')) > 210);
+        const rightLight = await reveal(page);
+        const afterLight = await sharp(await mark.screenshot()).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+        assert.equal(beforeLight.info.width, afterLight.info.width);
+        let changedPixels = 0;
+        for (let index = 0; index < beforeLight.data.length; index += 4) {
+          if (Math.abs(beforeLight.data[index] - afterLight.data[index])
+            + Math.abs(beforeLight.data[index + 1] - afterLight.data[index + 1])
+            + Math.abs(beforeLight.data[index + 2] - afterLight.data[index + 2]) > 2) changedPixels++;
+        }
+        assert.ok(changedPixels > 50, `Pointer changes actual rendered relief pixels (${changedPixels}).`);
+        assert.equal(rightLight.reliefDepth, leftLight.reliefDepth, 'Pointer changes the light, not the scroll depth.');
+        cursorLighting = { leftLight, rightLight, changedPixels };
+      }
       await page.locator('[data-other-side-hint]').focus();
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity) >= .99);
       await page.screenshot({ path: new URL(`${name}-normal.png`, output).pathname });
@@ -104,6 +133,9 @@ try {
       });
       for (let index = 0; index < 3; index++) await page.keyboard.press('3');
       await state(page, 'normal');
+      // Native snapshots suspend RAF while their commit runs. The local relief
+      // consumes its queued visibility/layout measurement on the next frame.
+      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('.end-reveal-mark')).opacity) >= .99);
       const restored = await reveal(page);
       assert.equal(restored.mask, final.mask);
       assert.equal(restored.material, 'none');
@@ -115,7 +147,7 @@ try {
       await page.goto(url('/about'), { waitUntil: 'networkidle' });
       assert.equal(await page.locator('[data-end-reveal]').count(), 0);
       assert.deepEqual(errors, []);
-      reports.push({ profile: name, initial, contact, final, other, restored, errors });
+      reports.push({ profile: name, initial, contact, final, cursorLighting, other, restored, errors });
       console.log(`PASS end reveal ${name}: final section only, exact SVG, scroll progress, foreground CTA, 4/333, hidden pause, route scope.`);
     } finally { await context.close(); }
   }

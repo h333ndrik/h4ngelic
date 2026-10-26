@@ -101,7 +101,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
   let flow = { x: 0, y: 0, strength: 0 };
   let codec = [];
   let memory = createImageMemoryField({ width: canvas.width, height: canvas.height, seed: currentSeed,
-    maxCells: quality.maximumCells || 1400 });
+    maxCells: quality.maximumCells || 1400, persistent: true });
   let parallax = { x: 0, y: 0 };
   let previousPointer = null;
   let advectedBlocks = 0, recoveredBlocks = 0, carriedSurfaces = 0;
@@ -146,7 +146,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     motion = { x: 0, y: 0, strength: 0, time: 0 };
     flow = { x: 0, y: 0, strength: 0 };
     memory = createImageMemoryField({ width: canvas.width, height: canvas.height, cellSize: controls.blockSize,
-      seed: currentSeed, maxCells: quality.maximumCells || 1400 });
+      seed: currentSeed, maxCells: quality.maximumCells || 1400, persistent: true });
     parallax = { x: 0, y: 0 }; previousPointer = null;
     regenerations++;
     canvas.dataset.livingSeed = String(currentSeed);
@@ -411,14 +411,30 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
 
   function resize(size = { width: view.innerWidth, height: view.innerHeight }) {
     if (disposed) return;
-    viewport = { width: Math.max(1, finite(size.width, 1)), height: Math.max(1, finite(size.height, 1)) };
-    const dimensions = ambientFilmSize(viewport.width, viewport.height, quality);
+    const nextViewport = { width: Math.max(1, finite(size.width, 1)), height: Math.max(1, finite(size.height, 1)) };
+    const dimensions = ambientFilmSize(nextViewport.width, nextViewport.height, quality);
+    if (viewport.width === nextViewport.width && viewport.height === nextViewport.height
+      && canvas.width === dimensions.width && canvas.height === dimensions.height) return;
+    // Reuse the existing scratch canvas for a bounded resize copy. Mobile
+    // browser chrome/resizing must not replace the damaged world with source.
+    const retain = validSource;
+    if (retain) {
+      sample.width = history.width; sample.height = history.height;
+      sample.getContext('2d').drawImage(history, 0, 0);
+    }
+    viewport = nextViewport;
     canvas.width = history.width = dimensions.width;
     canvas.height = history.height = dimensions.height;
     canvas.style.width = `${viewport.width}px`;
     canvas.style.height = `${viewport.height}px`;
-    validSource = prepared = false;
-    memory.resize(dimensions.width, dimensions.height, controls.blockSize);
+    prepared = false;
+    if (retain) {
+      context.globalAlpha = historyContext.globalAlpha = 1;
+      context.drawImage(sample, 0, 0, dimensions.width, dimensions.height);
+      historyContext.drawImage(sample, 0, 0, dimensions.width, dimensions.height);
+      sample.width = sample.height = 1;
+    }
+    memory.resize(dimensions.width, dimensions.height, controls.blockSize, retain);
     sync();
   }
 
@@ -426,7 +442,7 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
     if (disposed) return;
     controls = next;
     if (detail.changed.includes('seed') && next.seed !== null && next.seed !== currentSeed) { resetComposition(next.seed); return; }
-    if (detail.changed.includes('blockSize')) memory.resize(canvas.width, canvas.height, controls.blockSize);
+    if (detail.changed.includes('blockSize')) memory.resize(canvas.width, canvas.height, controls.blockSize, true);
     if (detail.changed.some(key => ['organicDecay', 'colorVariation', 'voidCoverage', 'bleachCoverage', 'blockSize'].includes(key))) {
       prepared = false;
       composition = createLivingComposition(currentSeed, controls);

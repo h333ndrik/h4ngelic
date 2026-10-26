@@ -1,0 +1,13 @@
+.flash-placement { margin-block: 1.5rem 3rem; }
+.flash-placement-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem 2rem; }
+.flash-placement-controls button { color: inherit; background: none; border: 0; padding: .65rem 0; font: inherit; cursor: pointer; }
+.flash-placement-controls [aria-pressed="true"] { text-decoration: underline; text-underline-offset: .25em; }
+.flash-placement-controls button:focus-visible, .flash-placement-view canvas:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
+.flash-placement-controls button:disabled { opacity: .6; cursor: progress; }
+.flash-placement-view { width: 100%; height: min(72svh, 760px); min-height: 280px; margin-top: 1rem; }
+.flash-placement-view[hidden], .flash-placement-help[hidden], .flash-placement-controls [hidden] { display: none; }
+.flash-placement-view canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.flash-placement-view canvas:active { cursor: grabbing; }
+.flash-placement-help, .flash-placement-status { margin-block: .75rem; font-size: .8rem; line-height: 1.6; color: #aaa; }
+.flash-placement-status:empty { display: none; }
+@media (max-width: 400px) { .flash-placement-view { height: 60svh; min-height: 260px; } }

@@ -1,7 +1,7 @@
 import { seoContent } from './data/seoContent.js';
 import { siteContent } from './data/siteContent.js';
 import { contentURL, escapeHTML } from './content-utils.js';
-import { publishedProjects, projectURL, categoryURL } from './routes.js';
+import { publishedProjects, projectURL, categoryURL, matchesArchive } from './routes.js';
 
 const cleanText = (value) => typeof value === 'string' ? value.trim() : '';
 
@@ -143,7 +143,7 @@ export function getPageMetadata(route, options = {}) {
   }
   const contentReady = route.kind === 'home' || route.kind === 'about'
     || (route.kind === 'artwork' && isIndexableProject(route.project))
-    || (route.kind === 'work' && projects.some((project) => isIndexableProject(project) && (route.category === 'all' || project.category === route.category)));
+    || (route.kind === 'work' && projects.some((project) => isIndexableProject(project) && matchesArchive(project, route.category)));
   const indexable = config.indexing && Boolean(contentReady);
   const canonicalURL = route.kind !== 'not-found' && config.productionURL ? `${config.productionURL}${route.canonicalPath}` : '';
   const image = imageMetadata(route.project?.seo?.image || realImages(route.project)[0] || seoContent.openGraphImage, config.productionURL);

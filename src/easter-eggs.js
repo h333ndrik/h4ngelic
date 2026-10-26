@@ -2,6 +2,7 @@ import './easter-eggs.css';
 import { easterSettings, visitorMessage, nextVisit, canRememberVisits } from './data/easterSettings.js';
 import { createInkImprint } from './ink-imprint.js';
 import { createTouchInkSampler } from './touch-ink.js';
+import { isExposedHeroBackground } from './hero-background-ink.js';
 
 const interactive = 'a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable="true"],[role="button"],[role="link"],[role="checkbox"],[role="switch"],[role="radio"],[role="tab"],[role="menuitem"],[role="combobox"],[role="slider"],[role="spinbutton"],[contenteditable]:not([contenteditable="false"]),[tabindex]:not([tabindex="-1"]),[aria-disabled="true"],.is-unconfigured,[data-no-ink]';
 /** Local count/last activity only. A host can opt out or require a consent gate. */
@@ -185,11 +186,14 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     layer.append(mark);
   }
 
-  function ignore(target) { return !(target instanceof view.Element) || Boolean(target.closest(interactive)); }
+  function ignore(target, event) {
+    if (event && isExposedHeroBackground(event)) return false;
+    return !(target instanceof view.Element) || Boolean(target.closest(interactive));
+  }
 
   function pointerDown(event) {
     activity();
-    if (!settings.ink.enabled || !event.isPrimary || event.button !== 0 || ignore(event.target)) { candidate = null; return; }
+    if (!settings.ink.enabled || !event.isPrimary || event.button !== 0 || ignore(event.target, event)) { candidate = null; return; }
     candidate = { id: event.pointerId, x: event.clientX, y: event.clientY, started: performance.now(), scrollX: view.scrollX, scrollY: view.scrollY };
   }
 
@@ -202,7 +206,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     if (!candidate || event.pointerId !== candidate.id) return;
     const down = candidate;
     candidate = null;
-    if (ignore(event.target) || Math.hypot(event.clientX - down.x, event.clientY - down.y) > settings.ink.maximumPointerTravel
+    if (ignore(event.target, event) || Math.hypot(event.clientX - down.x, event.clientY - down.y) > settings.ink.maximumPointerTravel
       || Math.abs(view.scrollX - down.scrollX) + Math.abs(view.scrollY - down.scrollY) > 2
       || pageDocument.getSelection()?.isCollapsed === false) return;
     imprint(event, performance.now() - down.started, { touch: event.pointerType === 'touch' && Boolean(touchSettings?.enabled) });

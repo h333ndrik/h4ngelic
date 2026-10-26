@@ -119,7 +119,7 @@ export function initXRay({ root = document } = {}) {
       button.setAttribute('aria-label', mode === 'xray' ? 'hold for one second to return to normal mode' : 'hold for one second to enter the other side');
       button.setAttribute('aria-keyshortcuts', mode === 'xray' ? '3' : '4');
     }
-    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'PRESS 3 THREE TIMES TO REVERSE.' : 'HOLD 4 TO SEE THE OTHER SIDE.';
+    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'PRESS 3 THREE TIMES TO REVERSE.' : 'PRESS 4 TO SEE THE OTHER SIDE';
     for (const button of doc.querySelectorAll('[data-mode-mute]')) {
       button.textContent = audio.muted ? 'sound off' : 'sound on';
       button.setAttribute('aria-pressed', String(audio.muted));
@@ -272,7 +272,7 @@ export function initXRay({ root = document } = {}) {
     }
     for (const button of doc.querySelectorAll('[data-xray-toggle]')) button.setAttribute('aria-pressed', 'false');
     for (const button of doc.querySelectorAll('[data-mode-hold]')) button.setAttribute('aria-pressed', 'false');
-    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = 'HOLD 4 TO SEE THE OTHER SIDE.';
+    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = 'PRESS 4 TO SEE THE OTHER SIDE';
     for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = '';
     const theme = doc.querySelector('meta[name="theme-color"]');
     if (theme) theme.content = normalThemeColor;

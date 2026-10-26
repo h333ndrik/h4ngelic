@@ -1,0 +1,44 @@
+/* The original three-column editorial strip now exposes the agreed children.
+ * Both rows share exactly the same column tracks, including narrow-screen scroll. */
+.category-sublinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 0 clamp(12px, 2vw, 32px);
+  min-width: 0;
+  padding: 0 clamp(4px, 1.2vw, 20px) 12px;
+}
+.category-sublinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  min-height: 44px;
+  font-size: clamp(12px, 1.3vw, 18px);
+  line-height: 1.25;
+  color: #b9b9b4;
+}
+.category-sublinks a:hover, .category-sublinks a:focus-visible { color: #f0efeb; }
+.category-sublinks .arrow { font-size: .9em; }
+.work-subfilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 30px;
+  padding: 12px 0;
+}
+.archive-category { min-width: 0; }
+.archive-category + .archive-category { margin-top: clamp(70px, 12vw, 180px); }
+.archive-category-heading {
+  margin: clamp(50px, 8vw, 110px) 0 0;
+  font-size: clamp(24px, 4vw, 62px);
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -.04em;
+}
+.archive-category-heading a { display: inline-flex; align-items: center; gap: .4em; min-height: 44px; }
+.archive-category-heading .arrow { font-size: .65em; }
+.work-page .page-heading { font-size: clamp(40px, 11vw, 168px); overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .category-sublinks { padding-bottom: 5px; gap: 0 10px; }
+  .category-sublinks a { min-height: 44px; }
+  .category-sublinks .arrow { display: none; }
+}

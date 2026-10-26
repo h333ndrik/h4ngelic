@@ -10,9 +10,21 @@ export const siteContent = {
   location: 'berlin, de',
 
   categories: [
-    { id: 'tattoos', label: 'tattoos' },
-    { id: 'jewellery', label: 'jewellery' },
-    { id: 'paintings', label: 'paintings' },
+    { id: 'tattoos', label: 'tattoos', group: 'tattoos', presentation: 'drift' },
+    { id: 'flashes', label: 'flashes', group: 'tattoos', presentation: 'drift' },
+    { id: 'jewellery', label: 'jewellery', presentation: 'existing' },
+    { id: 'analog-photography', label: 'analog photography', group: 'more', presentation: 'drift' },
+    { id: 'digital-artworks', label: 'digital artworks', group: 'more', presentation: 'ink' },
+    // Keep existing painting links and content valid without adding another main rubric.
+    { id: 'paintings', label: 'paintings', legacy: true, presentation: 'existing' },
+  ],
+
+  // The frontpage remains exactly three horizontal rubrics. Children stay shared
+  // with the work archive; changing worlds never mounts a different content tree.
+  workGroups: [
+    { id: 'tattoos', label: 'tattoos', children: ['tattoos', 'flashes'] },
+    { id: 'jewellery', label: 'jewellery', children: ['jewellery'] },
+    { id: 'more', label: 'more', children: ['analog-photography', 'digital-artworks'] },
   ],
 
   home: {

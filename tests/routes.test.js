@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { artworks } from '../src/data/artworks.js';
-import { resolveRoute, routeDefinitions, projectURL } from '../src/routes.js';
+import { resolveRoute, routeDefinitions, projectURL, matchesArchive } from '../src/routes.js';
 import { renderArtworkPage } from '../src/pages.js';
 
 test('canonical categories preserve legacy query links and distinguish actual missing routes', () => {
@@ -14,6 +14,28 @@ test('canonical categories preserve legacy query links and distinguish actual mi
   assert.equal(resolveRoute('/work?category=unknown').category, 'all');
   for (const path of ['/work/missing', '/work/tattoos/missing', '/about/missing']) assert.equal(resolveRoute(path).kind, 'not-found');
   assert.equal(resolveRoute('/about/').redirectPath, '/about');
+});
+
+test('new leaf archives and More group resolve while paintings and existing URLs remain valid', () => {
+  for (const category of ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks', 'paintings', 'more']) {
+    const route = resolveRoute(`/work/${category}`);
+    assert.equal(route.kind, 'work');
+    assert.equal(route.category, category);
+    assert.ok(routeDefinitions().some((entry) => entry.canonicalPath === route.canonicalPath));
+  }
+  assert.equal(resolveRoute('/work?category=more').redirectPath, '/work/more');
+  assert.equal(projectURL({ id: 'wrong-parent', category: 'more' }), '');
+  assert.equal(resolveRoute('/work/more/missing-artwork').kind, 'not-found');
+  assert.equal(matchesArchive({ category: 'analog-photography' }, 'more'), true);
+  assert.equal(matchesArchive({ category: 'digital-artworks' }, 'more'), true);
+  assert.equal(matchesArchive({ category: 'tattoos' }, 'more'), false);
+  assert.equal(matchesArchive({ category: 'flashes' }, 'tattoos'), false);
+  // A parent heading does not conflate finished tattoos with available flashes.
+  assert.equal(matchesArchive({ category: 'flashes' }, 'flashes'), true);
+  const original = resolveRoute('/work/digital-artworks/green-black-original');
+  assert.equal(original.kind, 'artwork', 'The supplied original now has its real canonical detail route.');
+  assert.equal(original.project, artworks.find(project => project.id === 'green-black-original'));
+  assert.ok(routeDefinitions().some(route => route.canonicalPath === original.canonicalPath));
 });
 
 test('only genuine published artwork can have a detail URL and duplicate URLs fail the build', () => {

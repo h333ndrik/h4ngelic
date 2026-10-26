@@ -12,7 +12,7 @@ const browser = await chromium.launch({
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
 
-const categories = ['tattoos', 'jewellery', 'paintings'];
+const categories = ['tattoos', 'jewellery', 'more'];
 const errorsFor = (page) => {
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));

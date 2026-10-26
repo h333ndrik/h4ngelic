@@ -3,15 +3,16 @@ import { chromium } from 'playwright';
 
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 // Browser-only module response: the supplied reflection texture exercises the
-// architecture without publishing it as an artwork or changing the empty archive.
+// unchanged jewellery route presentation without publishing it as an artwork.
+// Tattoo spatial archive behavior is verified by horizontal-drift-browser.mjs.
 const project = {
-  id: 'transition-browser-fixture', category: 'tattoos', title: 'transition fixture',
+  id: 'transition-browser-fixture', category: 'jewellery', title: 'transition fixture',
   images: [
     { src: '/assets/tattoo-texture.webp', alt: 'provided texture first view', width: 1024, height: 1448 },
     { src: '/assets/tattoo-texture.webp?view=2', alt: 'provided texture second view', width: 1024, height: 1448 },
   ],
 };
-const detailPath = `/work/tattoos/${project.id}`;
+const detailPath = `/work/jewellery/${project.id}`;
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
 
 async function setup(options = {}, disableViewTransitions = false) {
@@ -44,7 +45,7 @@ async function setup(options = {}, disableViewTransitions = false) {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto(new URL('/work/tattoos', baseURL).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/work/jewellery', baseURL).href, { waitUntil: 'networkidle' });
   assert.equal(await page.locator('[data-artwork-link]').count(), 2, 'The temporary module fixture must reach the real archive renderer.');
   return { context, page, errors };
 }

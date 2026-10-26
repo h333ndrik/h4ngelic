@@ -18,14 +18,17 @@ Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Kompo
 | Beschädigungs-/Glow-/Smear-Stärke, Recovery und Qualitätsgrenzen | `src/data/corruptionSettings.js` |
 | Metallisch-kristalline Ein-/Austrittsklänge | `src/data/modeAudioSettings.js` |
 | Gemeinsame Hover-Vergrößerung, Glow und Pfeilabstände | `src/data/uiEffectSettings.js` |
+| Geliefertes grün-schwarzes Digitaloriginal und Ink-Reveal-Parameter | `src/data/digitalArtworkSettings.js` |
+| Optionales Flash-Modell und UV-/Materialprüfung | `docs/MANNEQUIN-WORKFLOW.md` |
 
-## Ein Tattoo, Schmuckstück oder Gemälde hinzufügen
+## Ein Tattoo, Flash, Schmuckstück oder anderes Werk hinzufügen
 
 1. Lege deine Bilddateien unter `public/images/` ab. Den Ordner kannst du beim ersten Projekt anlegen. Verwende kurze Dateinamen ohne Leerzeichen, zum Beispiel `projektname-01.webp`. WebP, AVIF, JPEG und PNG sind möglich. Verwende statische Bilder und bewahre deine Druckoriginale separat auf.
-2. Öffne `src/data/artworks.js`. Ersetze die leere Liste `[]` durch deine Einträge. Das folgende Beispiel zeigt die Struktur; es wird erst mit deinen tatsächlichen Bildern und Angaben zum Projekt.
+2. Öffne `src/data/artworks.js`. Füge deine Einträge hinter dem vorhandenen `featuredDigitalArtwork` ein. Bewahre seinen Import. Das folgende Beispiel zeigt die Struktur; verwende deine tatsächlichen Bilder und Angaben zum Projekt.
 
 ```js
 export const artworks = [
+  featuredDigitalArtwork, // vorhandener Import des gelieferten Digitaloriginals
   {
     id: 'dein-projektname',
     category: 'tattoos',
@@ -53,8 +56,8 @@ export const artworks = [
 ];
 ```
 
-3. Wähle `tattoos`, `jewellery` oder `paintings` als Kategorie. Für Schmuck oder Malerei wird nur dieser Wert geändert; der Aufbau bleibt gleich. Jedes Projekt benötigt eine eigene `id` und mindestens ein vorhandenes Bild. Titel, Jahr, Beschreibung, Bildunterschrift und `details` sind optional. Die Bildmaße werden automatisch ermittelt; wenn du `width` und `height` selbst angibst, müssen sie den angezeigten, gegebenenfalls nach EXIF gedrehten Maßen entsprechen.
-4. Füge weitere Projekte mit Komma getrennt in dieselbe Liste ein. Die Reihenfolge der Einträge ist die Reihenfolge im Archiv. Mit `published: false` bleibt ein Entwurf verborgen. Mehrere Bilder erscheinen gemeinsam innerhalb des Projekts, mit der ersten Aufnahme als großem Hauptbild. Ein Archivbild verlinkt auf die echte Projektdetailseite. Unterstützte Browser übernehmen das gewählte Bild dabei in einen gemeinsamen Übergang; ohne diese Fähigkeit bleibt der normale Link verwendbar. Auf der Detailseite öffnet ein Bild den Viewer; Pfeiltasten wechseln zwischen Aufnahmen desselben Projekts, Escape schließt ihn. Rücknavigation bewahrt die Archivposition, soweit sie im selben Dokument verfügbar ist. Die Übergänge aktivieren sich aus den echten Bilddaten automatisch; dafür werden keine Animationsangaben im Datensatz benötigt. Details stehen in [ARTWORK-TRANSITIONS.md](ARTWORK-TRANSITIONS.md).
+3. Wähle `tattoos` (fertige Tattoos), `flashes`, `jewellery`, `analog-photography` oder `digital-artworks`. Bestehende `paintings`-Einträge und URLs bleiben unterstützt; `more` ist eine Rubrik, keine Projektkategorie. Jedes Projekt benötigt eine eigene `id` und mindestens ein vorhandenes Bild. Titel, Jahr, Beschreibung, Bildunterschrift und `details` sind optional. Die Bildmaße werden automatisch ermittelt; wenn du `width` und `height` selbst angibst, müssen sie den angezeigten, gegebenenfalls nach EXIF gedrehten Maßen entsprechen.
+4. Füge weitere Projekte mit Komma getrennt in dieselbe Liste ein. Die Reihenfolge der Einträge ist die Reihenfolge im Archiv. Mit `published: false` bleibt ein Entwurf verborgen. Tattoos, Flashes und Analog Photography verwenden automatisch denselben Horizontal-Drift-Archivtyp: Vertikales Scrollen bewegt die Bilder horizontal, Klick vergrößert das Original, Escape schließt und bewahrt die Position. Der separate Titellink führt weiterhin zur echten Projektdetailseite. Jewellery und vorhandene Paintings behalten die bisherige Darstellung. Digital Artworks erscheinen direkt beim Abwärtsscrollen durch eine organische Maske; ein erster Klick ist nicht nötig. Auf der Detailseite öffnet ein Bild den Viewer; Pfeiltasten wechseln zwischen Aufnahmen desselben Projekts. Details stehen in [ARTWORK-TRANSITIONS.md](ARTWORK-TRANSITIONS.md).
 5. Starte `npm run dev` und prüfe `/work` sowie den jeweiligen Filter. Der Start erzeugt automatisch passende WebP-Dateien. Wenn der Entwicklungsserver bereits läuft und du Bilder oder Einträge ergänzt, führe `npm run images:optimize` erneut aus oder starte den Server neu. `npm run build` erzeugt die Varianten ebenfalls automatisch und prüft den Produktionsbuild. `npm test` prüft unter anderem Datenanzeige, Bildverarbeitung und Animation; `npm run test:portfolio` und `npm run test:gallery` prüfen Navigation und Viewer bei laufendem Entwicklungsserver.
 
 Solange keine veröffentlichten Einträge mit Bildern vorhanden sind, zeigt das Archiv ausschließlich „archive in progress.“. Das bereits gelieferte Poster bleibt im 3D-Reveal und wird nicht automatisch zum Portfolioeintrag. Du kannst es später bewusst als Projekt mit deinen Angaben aufnehmen.
@@ -94,9 +97,13 @@ Lasse fehlende Werte leer. Es werden keine Adressen erfunden: nicht konfiguriert
 
 ## Kategorien und Seiten
 
-Die drei Kategorien stehen zentral in `siteContent.categories` und liefern Bezeichnungen, Startseitenlinks und Work-Filter. Die Startseite zeigt sie in einer horizontalen Zeile; auf sehr schmalen Bildschirmen bleibt die Zeile horizontal scrollbar und per Tastatur erreichbar.
+`siteContent.workGroups` definiert die drei Hauptrubriken **tattoos / jewellery / more**. `siteContent.categories` definiert ihre Blattkategorien und die Darstellung (`drift`, `ink`, `existing`). Tattoos enthält Tattoos und Flashes; More enthält Analog Photography und Digital Artworks. Die Startseite behält eine horizontale Zeile mit den drei Hauptrubriken; ihre Unterlinks teilen dieselben Spalten. Auf sehr schmalen Bildschirmen bleibt die Zeile horizontal scrollbar und per Tastatur erreichbar.
 
-Die Produktionsseiten verwenden echte URLs: `/`, `/work`, `/work/tattoos`, `/work/jewellery`, `/work/paintings` und `/about`. Der Kontaktlink führt nach `/#contact`. Alte Kategorie-Querylinks werden weiterhin aufgelöst. Ein veröffentlichtes Projekt mit `id: 'dein-projektname'` und `category: 'tattoos'` erhält automatisch `/work/tattoos/dein-projektname`. Verwende eindeutige IDs aus Kleinbuchstaben, Zahlen und Bindestrichen; ändere sie nach Veröffentlichung nur mit einer passenden Weiterleitung.
+Die Seiten verwenden echte URLs: `/`, `/work`, `/work/tattoos`, `/work/flashes`, `/work/jewellery`, `/work/more`, `/work/analog-photography`, `/work/digital-artworks`, `/about` und weiterhin `/work/paintings`. More vereint seine beiden Unterarchive; Tattoos und Flashes bleiben getrennte Filter. Der Kontaktlink führt nach `/#contact`. Alte Kategorie-Querylinks werden weiterhin aufgelöst. Ein veröffentlichtes Projekt mit `id: 'dein-projektname'` und `category: 'tattoos'` erhält automatisch `/work/tattoos/dein-projektname`. Verwende eindeutige IDs aus Kleinbuchstaben, Zahlen und Bindestrichen; ändere sie nach Veröffentlichung nur mit einer passenden Weiterleitung.
+
+### Das gelieferte grün-schwarze Digitaloriginal
+
+Die JPG-Datei aus deiner ZIP ist unverändert unter `public/images/digital-artworks/green-black-original.jpg` gespeichert (1440×1920). `featuredDigitalArtwork` in `src/data/digitalArtworkSettings.js` ist bereits veröffentlicht und in `artworks` eingebunden. Automatisch erzeugte WebP-Größen decken 320, 640, 960 und 1440px ab. Das Werk erscheint unter More → Digital Artworks mit reversibler Scroll-Ink-Maske; der vollständige Endzustand zeigt das unverfärbte responsive Bild. Titel, Beschreibung und Jahr bleiben offen, bis du sie selbst angibst. [Originalnachweis und Verhalten](DIGITAL-ARTWORK-ASSET.md).
 
 `npm run build` schreibt eigene HTML-Dateien für diese Seiten. Der Hoster muss die jeweiligen Verzeichnis-Indexdateien und für unbekannte Ziele eine echte 404 ausliefern. Eine pauschale Weiterleitung aller unbekannten Pfade zur Homepage ist nicht mehr vorgesehen. Details stehen in [SEO.md](SEO.md). Es wurden keine Hosting- oder DNS-Einstellungen verändert und nichts deployt.
 
@@ -117,7 +124,7 @@ Die sechs Besuchstexte stehen in `src/data/easterSettings.js`. Sie erscheinen na
 
 Die neu angeforderte lokale Speicherung ist aktiv: `visits.enabled: true`, `requireConsent: false`, `showNumber: true`. Gespeichert werden nur `count` und `lastSeen`. Ein normaler Seitenwechsel oder unmittelbares Neuladen ist kein neuer Besuch; standardmäßig trennt eine halbe Stunde Inaktivität die Besuche. `enabled: false` deaktiviert Speicherzugriffe, `showNumber: false` entfernt den separaten versteckten Footer-Zähler. Für eine vorhandene Host-Consent-Anbindung kann `requireConsent: true` mit Callback verwendet werden. Fehler beim Speicherzugriff lassen die Begrüßung weiterhin funktionieren. Details: [EASTER-EGGS.md](EASTER-EGGS.md).
 
-Die versteckte Anweisung unter Kontakt lautet in Normal Mode `HOLD 4 TO SEE THE OTHER SIDE.` und im alternativen Zustand `HOLD 4 TO REVERSE.`. Der separate Zähler steht ganz unten als `VISIT 001`. Beide Anweisungsvarianten nutzen dieselbe Position; der Zähler steht nicht neben der Begrüßung oben.
+Die versteckte Anweisung unter Kontakt lautet in Normal Mode `PRESS 4 TO SEE THE OTHER SIDE` und im alternativen Zustand `PRESS 3 THREE TIMES TO REVERSE.`. Die 4 wird weiterhin mindestens eine Sekunde gehalten. Der separate Zähler steht ganz unten als `VISIT 001`. Beide Anweisungsvarianten nutzen dieselbe Position; der Zähler steht nicht neben der Begrüßung oben.
 
 ## Visuelle Intensität und Klang anpassen
 
@@ -139,6 +146,6 @@ In `src/data/corruptionSettings.js` lassen sich einzelne Beiträge ändern:
 
 `src/data/xraySettings.js` enthält die Palette, neunwertige nicht-monotone Farbkurven, Sättigung, Kanalabstand und `shortcutHoldMs: 1000`. Die sechs Besuchstexte oder echte Projektbilder müssen dafür nicht in Komponenten eingetragen werden. `src/data/uiEffectSettings.js` steuert Hover-Skalen und Pfeilform/-abstände gemeinsam; große Labels werden automatisch auf den vorhandenen Platz begrenzt.
 
-`src/data/modeAudioSettings.js` steuert `enabled`, `volume`, `durationSeconds`, Grundton, inharmonische Teiltöne, Ausklang und Ein-/Austrittsverlauf. Die Standardklänge dauern 0,7 Sekunden, werden lokal im Browser erzeugt und über den Footer stummgeschaltet. Ein Audiofehler verhindert keinen Moduswechsel. `npm run sounds:export` erzeugt Review-WAVs aus denselben Einstellungen. Die Website benötigt diese Dateien nicht zur Laufzeit.
+`src/data/modeAudioSettings.js` steuert `enabled`, `volume`, `durationSeconds`, Grundton, inharmonische Teiltöne, Ausklang und Ein-/Austrittsverlauf. Die Standardklänge dauern 0,7 Sekunden, werden lokal im Browser erzeugt und über den bestehenden oberen Sound-Schalter stummgeschaltet. Ein Audiofehler verhindert keinen Moduswechsel. `npm run sounds:export` erzeugt Review-WAVs aus denselben Einstellungen. Die Website benötigt diese Dateien nicht zur Laufzeit.
 
 Nach Änderungen an Daten/Assets prüfst du den Entwicklungsserver und erzeugst einen neuen Build bzw. Offline-Export. Die normalen Inhaltsdateien bleiben unabhängig von Effekt-Parametern. [XRAY.md](XRAY.md) erläutert die technische Umsetzung; der tatsächlich geprüfte aktuelle Stand steht in [CONTROL-CORRUPTION.md](CONTROL-CORRUPTION.md).

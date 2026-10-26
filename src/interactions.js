@@ -2,8 +2,9 @@ import './interactions.css';
 import { uiEffectSettings, boundedHoverScale, uiEffectProperties } from './data/uiEffectSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 import { createFiniteHoverMotion } from './finite-hover-motion.js';
+import { activateRubric, rubricSelector } from './rubric-activation.js';
 
-const magneticSelector = '.category-link, .contact-link[href], .hero-nav a, .page-nav a, .text-link';
+const magneticSelector = `${rubricSelector}, .contact-link[href]`;
 const interactiveSelector = 'a[href], button, [role="button"]';
 const excludedSelector = '.secret-hotspot, [data-secret-hotspot], [data-mode-hold], .skip-link, [data-no-hover], [aria-disabled="true"], :disabled';
 
@@ -30,6 +31,7 @@ export function initInteractions(root = document, { revealSections = true, setti
   let active = null;
   let frame = 0;
   let disposed = false;
+  let clearSelection = () => {};
 
   for (const [name, value] of Object.entries(uiEffectProperties(settings))) {
     originalProperties.set(name, owner.documentElement.style.getPropertyValue(name));
@@ -211,6 +213,13 @@ export function initInteractions(root = document, { revealSections = true, setti
     const target = event.target.closest?.('[data-ui-interactive]');
     if (target) trackHover(target, settings.hover.releaseMs);
   });
+  listen(root, 'click', event => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+    const target = event.target.closest?.(rubricSelector);
+    if (!target || target.matches(excludedSelector) || target.closest('[inert]')) return;
+    clearSelection();
+    clearSelection = activateRubric(target, { reduced: reduced.matches });
+  });
   listen(reduced, 'change', () => {
     resetMagnet();
     if (reduced.matches) {
@@ -222,6 +231,7 @@ export function initInteractions(root = document, { revealSections = true, setti
 
   return function dispose() {
     disposed = true;
+    clearSelection();
     resetMagnet();
     hoverMotion.dispose();
     motionPublisher.reset();

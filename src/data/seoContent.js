@@ -45,6 +45,22 @@ export const seoContent = {
       title: 'jewellery — h4ngelic, berlin',
       description: 'Jewellery by h4ngelic, the creative identity of independent Berlin artist h333ndrik.',
     },
+    flashes: {
+      title: 'tattoo flashes — h4ngelic, berlin',
+      description: 'Tattoo flash artwork by h4ngelic, the creative identity of independent Berlin artist h333ndrik.',
+    },
+    more: {
+      title: 'more — analog photography & digital artworks — h4ngelic',
+      description: 'Analog photography and digital artwork by independent Berlin artist h333ndrik, working as h4ngelic.',
+    },
+    'analog-photography': {
+      title: 'analog photography — h4ngelic',
+      description: 'Analog photography by h4ngelic, the creative identity of independent Berlin artist h333ndrik.',
+    },
+    'digital-artworks': {
+      title: 'digital artworks — h4ngelic',
+      description: 'Digital artworks by h4ngelic, the creative identity of independent Berlin artist h333ndrik.',
+    },
     paintings: {
       title: 'paintings — h4ngelic, berlin',
       description: 'Painting and experimental visual art by h4ngelic, the creative identity of independent Berlin artist h333ndrik.',

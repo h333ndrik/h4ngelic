@@ -14,7 +14,7 @@ const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
-const categories = ['tattoos', 'jewellery', 'paintings'];
+const categories = ['tattoos', 'jewellery', 'more'];
 const frames = (page) => page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 const snapshot = (page) => page.evaluate(() => window.__H4_TEST__.snapshot());
 const errorsFor = (page) => {
@@ -84,7 +84,7 @@ async function normalPresentation(page) {
   await page.locator('html[data-xray-ready][data-mode="normal"]').waitFor();
   await assertNormalTheme(page);
   assert.equal(await page.locator('[data-other-side-hint][data-mode-hold]').count(), 1, 'The activated mode has its subtle footer hold control.');
-  assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+  assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 4 TO SEE THE OTHER SIDE');
   assert.equal(await page.locator('.footer-identity > [data-visit-counter-hotspot]').count(), 1, 'The hidden count is centered in the footer identity row, separate from the header greeting.');
   assert.equal(await page.locator('[data-controls] [data-mode-mute]').count(), 1);
   assert.equal(await page.locator('.page-footer [data-mode-mute]').count(), 0);
@@ -256,17 +256,26 @@ try {
       artworks.push({ id: 'master-browser-fixture', slug: 'master-browser-fixture', category: 'tattoos', title: 'temporary browser fixture', description: 'Supplied reflection artwork used only in a browser test.', year: 2026,
         images: [{ src: '/assets/tattoo-texture.webp', alt: 'supplied artwork first test view', width: 1024, height: 1448 }, { src: '/assets/tattoo-texture.webp?detail=1', alt: 'supplied artwork second test view', width: 1024, height: 1448 }] });
     });
-    await page.locator('#selected-work a[href="/work/tattoos"]').click();
+    await page.locator('#selected-work .category-link[href="/work/tattoos"]').click();
     await pageKind(page, 'work');
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    const imageLink = page.locator('.project-image a[href="/work/tattoos/master-browser-fixture"]').first();
-    const archiveImages = page.locator('#project-master-browser-fixture .project-image');
-    assert.equal(await archiveImages.locator('button,[data-artwork-open]').count(), 0, 'Archive photos use real detail links rather than opening a route-less viewer.');
-    assert.deepEqual(await archiveImages.locator('a[data-artwork-link]').evaluateAll((links) => links.map((link) => link.getAttribute('href'))), ['/work/tattoos/master-browser-fixture', '/work/tattoos/master-browser-fixture#image-2']);
-    await imageLink.locator('img').evaluate((image) => image.decode());
-    await imageLink.scrollIntoViewIfNeeded();
+    const imageButton = page.locator('[data-horizontal-drift="tattoos"] .drift-artwork').first();
+    const archiveImages = page.locator('.drift-item[data-project-url="/work/tattoos/master-browser-fixture"] .project-image');
+    assert.equal(await archiveImages.locator('button[data-artwork-open]').count(), 2, 'The spatial archive retains both actual photographs in its focused viewer.');
+    await imageButton.locator('img').evaluate((image) => image.decode());
+    await imageButton.scrollIntoViewIfNeeded();
+    const focusedY = await page.evaluate(() => scrollY);
+    await imageButton.click(); await waitViewer(page, 1);
+    assert.equal(new URL(page.url()).pathname, '/work/tattoos', 'Spatial enlargement keeps its archive and position mounted.');
+    await page.keyboard.press('ArrowRight'); await waitViewer(page, 2);
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => !document.querySelector('.artwork-dialog').open);
+    assert.ok(Math.abs(await page.evaluate(() => scrollY) - focusedY) < 2, 'Closing spatial enlargement restores the exact archive scroll position.');
+    assert.equal(await imageButton.evaluate(button => button === document.activeElement), true);
+    const detailLink = page.locator('.drift-meta h2 a[href="/work/tattoos/master-browser-fixture"]');
+    await detailLink.scrollIntoViewIfNeeded();
     const galleryY = await page.evaluate(() => scrollY);
-    await imageLink.click();
+    await detailLink.click();
     await pageKind(page, 'artwork');
     assert.equal(new URL(page.url()).pathname, '/work/tattoos/master-browser-fixture');
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://h4ngelic.com/work/tattoos/master-browser-fixture');

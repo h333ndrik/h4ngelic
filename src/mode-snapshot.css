@@ -47,27 +47,28 @@ html[data-mode-snapshot]::view-transition-new(h4-mode-instruction) { opacity: 1;
 /* Keep the old captured frame through the strongest smear. The entering and
    reverse curves recover in different orders within the same bounded duration. */
 @keyframes h4-snapshot-break {
-  0%, 44% { opacity: 1; }
-  66% { opacity: .94; }
-  82% { opacity: .56; }
+  0%, 22% { opacity: 1; }
+  44% { opacity: .88; }
+  66% { opacity: .76; }
+  82% { opacity: .5; }
   100% { opacity: 0; }
 }
 @keyframes h4-snapshot-emerge {
-  0%, 24% { opacity: 0; }
-  48% { opacity: .16; }
-  70% { opacity: .68; }
+  0%, 16% { opacity: 0; }
+  42% { opacity: .55; }
+  70% { opacity: .92; }
   94%, 100% { opacity: 1; }
 }
 @keyframes h4-snapshot-reassemble-old {
   0%, 20% { opacity: 1; }
-  52% { opacity: .92; }
-  76% { opacity: .38; }
+  44% { opacity: .82; }
+  70% { opacity: .48; }
   94%, 100% { opacity: 0; }
 }
 @keyframes h4-snapshot-reassemble-new {
   0%, 10% { opacity: 0; }
-  38% { opacity: .18; }
-  64% { opacity: .72; }
+  34% { opacity: .46; }
+  64% { opacity: .88; }
   88%, 100% { opacity: 1; }
 }
 @keyframes h4-mosh-navigate-old {

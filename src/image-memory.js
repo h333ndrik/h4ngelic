@@ -11,10 +11,11 @@ const random = (seed, salt) => {
  * Input vectors are real signed displacement over deltaMs, not random jitter.
  * History lives in the caller's bounded ping-pong canvases, not in these cells.
  */
-export function createImageMemoryField({ width = 1, height = 1, cellSize = 28, seed = 0, maxCells = 1400 } = {}) {
+export function createImageMemoryField({ width = 1, height = 1, cellSize = 28, seed = 0, maxCells = 1400, persistent = false } = {}) {
   let cells = [], columns = 0, rows = 0, size = 1, accepted = 0, sampledAt = 0;
   let inputKinds = {};
-  function resize(nextWidth = width, nextHeight = height, nextSize = cellSize) {
+  function resize(nextWidth = width, nextHeight = height, nextSize = cellSize, preserve = false) {
+    const previous = preserve && persistent ? { cells, columns, size, width, height } : null;
     width = Math.max(1, finite(nextWidth, 1)); height = Math.max(1, finite(nextHeight, 1));
     size = Math.max(6, finite(nextSize, 28), Math.sqrt(width * height / Math.max(1, maxCells - 100)));
     columns = Math.ceil(width / size); rows = Math.ceil(height / size);
@@ -22,12 +23,23 @@ export function createImageMemoryField({ width = 1, height = 1, cellSize = 28, s
     cells = Array.from({ length: columns * rows }, (_, index) => {
       const x = index % columns * size, y = Math.floor(index / columns) * size;
       return { x, y, width: Math.min(size, width - x), height: Math.min(size, height - y),
-        vx: 0, vy: 0, energy: 0, holdUntil: 0, touched: false,
+        vx: 0, vy: 0, energy: 0, holdUntil: 0, touched: false, scarX: 0, scarY: 0,
         rate: .24 + random(seed, index + 1) * 1.45,
         drag: .68 + random(seed, index + 7001) * .65,
         hold: .2 + random(seed, index + 9001) * .8,
         color: random(seed, index + 11001) };
     });
+    if (previous?.cells.length) for (const cell of cells) {
+      const column = Math.min(previous.columns - 1, Math.floor((cell.x + cell.width / 2) / width * previous.width / previous.size));
+      const row = Math.min(Math.ceil(previous.height / previous.size) - 1, Math.floor((cell.y + cell.height / 2) / height * previous.height / previous.size));
+      const old = previous.cells[row * previous.columns + column];
+      if (!old) continue;
+      const scaleX = width / previous.width, scaleY = height / previous.height;
+      const limit = Math.min(58, size * 1.8);
+      Object.assign(cell, { vx: old.vx * scaleX, vy: old.vy * scaleY, energy: old.energy,
+        holdUntil: old.holdUntil, touched: old.touched,
+        scarX: clamp(old.scarX * scaleX, -limit, limit), scarY: clamp(old.scarY * scaleY, -limit, limit) });
+    }
   }
   function impulse(input = {}) {
     if (![input.x, input.y, input.dx, input.dy].every(Number.isFinite) || !(input.strength > 0)) return false;
@@ -48,6 +60,15 @@ export function createImageMemoryField({ width = 1, height = 1, cellSize = 28, s
       cell.vy = cell.vy * vy < 0 ? vy * strength * weight : cell.vy * (1 - weight) + vy * strength * weight;
       cell.energy = Math.max(cell.energy, clamp(weight * (.24 + Math.hypot(vx, vy) * .38), 0, 1));
       cell.holdUntil = Math.max(cell.holdUntil, time + 180 + cell.hold * 1050 * strength);
+      // Only genuine displacement writes a scar. It is not another palette or
+      // random overlay: eventual reconstruction samples the same material at
+      // this retained, signed address instead of exposing its clean keyframe.
+      // Idle flow moves history but cannot steadily push every scar to a cap.
+      if (persistent && input.kind !== 'idle') {
+        const limit = Math.min(58, size * 1.8);
+        cell.scarX = clamp(cell.scarX + input.dx * weight * cell.drag * .18, -limit, limit);
+        cell.scarY = clamp(cell.scarY + input.dy * weight * cell.drag * .18, -limit, limit);
+      }
       cell.touched = changed = true;
     }
     if (changed) { accepted++; inputKinds[input.kind || 'motion'] = (inputKinds[input.kind || 'motion'] || 0) + 1; }
@@ -69,6 +90,7 @@ export function createImageMemoryField({ width = 1, height = 1, cellSize = 28, s
       const recovery = 1 - Math.pow(1 - clamp(residual, 0, .95), dt / (1000 / 60));
       const result = { x: cell.x, y: cell.y, width: cell.width, height: cell.height,
         offsetX, offsetY, energy: cell.energy, recovery,
+        sourceOffsetX: cell.scarX, sourceOffsetY: cell.scarY,
         bleed: cell.color < .22 && motion > .02 ? cell.energy * colorBleeding * .2 : 0,
         negative: held && cell.color > .94 && motion > .04 ? cell.energy * negativeExposure * .24 : 0 };
       const drag = Math.exp(-dt / (held ? 480 + cell.drag * 480 : 220));
@@ -80,12 +102,14 @@ export function createImageMemoryField({ width = 1, height = 1, cellSize = 28, s
   }
   resize();
   return { impulse, step, resize,
-    clear() { for (const cell of cells) { cell.vx = cell.vy = cell.energy = cell.holdUntil = 0; cell.touched = false; } },
+    clear() { for (const cell of cells) { cell.vx = cell.vy = cell.energy = cell.holdUntil = cell.scarX = cell.scarY = 0; cell.touched = false; } },
     snapshot() { return { cells: cells.length, columns, rows, cellSize: size, accepted, byKind: { ...inputKinds },
       energy: cells.reduce((sum, cell) => sum + cell.energy, 0) / Math.max(1, cells.length),
       maxEnergy: Math.max(0, ...cells.map(cell => cell.energy)),
       movingCells: cells.filter(cell => Math.hypot(cell.vx, cell.vy) > .001).length,
-      heldCells: cells.filter(cell => sampledAt < cell.holdUntil).length }; },
+      heldCells: cells.filter(cell => sampledAt < cell.holdUntil).length,
+      persistent, scarredCells: cells.filter(cell => Math.hypot(cell.scarX, cell.scarY) > .25).length,
+      maximumScar: Math.max(0, ...cells.map(cell => Math.hypot(cell.scarX, cell.scarY))) }; },
   };
 }
 
@@ -123,9 +147,12 @@ export function paintImageMemory({ context, history, historyContext, source, wid
     }
     if (cell.recovery > 0) {
       context.globalAlpha = clamp(cell.recovery, 0, 1);
-      context.drawImage(source, sourceRect.x + cell.x / width * sourceRect.width,
-        sourceRect.y + cell.y / height * sourceRect.height,
-        sw / width * sourceRect.width, sh / height * sourceRect.height,
+      const sourceWidth = sw / width * sourceRect.width, sourceHeight = sh / height * sourceRect.height;
+      context.drawImage(source, clamp(sourceRect.x + (cell.x - finite(cell.sourceOffsetX)) / width * sourceRect.width,
+        0, Math.max(0, source.width - sourceWidth)),
+        clamp(sourceRect.y + (cell.y - finite(cell.sourceOffsetY)) / height * sourceRect.height,
+          0, Math.max(0, source.height - sourceHeight)),
+        sourceWidth, sourceHeight,
         cell.x, cell.y, sw, sh);
       recovered++;
     }

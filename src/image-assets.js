@@ -1,4 +1,5 @@
 import manifest from './data/imageManifest.json' with { type: 'json' };
+import { previewImageURL } from './preview-assets.js';
 
 export function getImageAsset(image = {}, { sizes = '(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)' } = {}) {
   const optimized = manifest[image.src];
@@ -8,12 +9,12 @@ export function getImageAsset(image = {}, { sizes = '(max-width: 600px) calc(100
   const width = positive(image.width) || positive(optimized?.width) || 4;
   const height = positive(image.height) || positive(optimized?.height) || 5;
   return {
-    src: preview?.src || image.src || '',
-    srcset: variants.map((variant) => `${variant.src} ${variant.width}w`).join(', '),
+    src: previewImageURL(preview?.src || image.src || ''),
+    srcset: variants.map((variant) => `${previewImageURL(variant.src)} ${variant.width}w`).join(', '),
     sizes,
     width,
     height,
-    fullSrc: fullVariants.at(-1)?.src || image.fullSrc || variants.at(-1)?.src || image.src || '',
+    fullSrc: previewImageURL(fullVariants.at(-1)?.src || image.fullSrc || variants.at(-1)?.src || image.src || ''),
   };
 }
 

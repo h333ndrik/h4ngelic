@@ -111,7 +111,7 @@ test('Normal mode is inert; delegated Xray hover measures once and keeps target 
   assert.equal(f.impulses[0].strength, settings.hover.strength);
   assert.deepEqual([f.impulses[0].x, f.impulses[0].y, f.impulses[0].width, f.impulses[0].height], [80, 110, 200, 40]);
   assert.deepEqual(f.impulses[0].rect, link.box, 'Snapshot bounds reuse the same geometry read.');
-  assert.equal(f.captures.length, 1, 'Hover may snapshot an internal link before navigation.');
+  assert.equal(f.captures.length, 0, 'Rubric hover keeps luminous text clean while the field still receives its motion.');
   f.hover(child, { relatedTarget: link });
   f.hover(child);
   assert.equal(link.reads, 1, 'Child boundary crossings and cooldowns do not read layout.');
@@ -124,7 +124,7 @@ test('Normal mode is inert; delegated Xray hover measures once and keeps target 
 
 test('native snapshot hit-testing cannot retrigger a stationary physical hover after cooldown', () => {
   const f = fixture();
-  const target = f.element('a', { href: '/about', class: 'text-link' });
+  const target = f.element('a', { href: '/about' });
   const overlay = f.element('div');
   f.hover(target);
   for (let index = 0; index < 4; index++) {
@@ -141,7 +141,7 @@ test('native snapshot hit-testing cannot retrigger a stationary physical hover a
 
 test('a real outside departure releases the hover latch and permits return to the same coordinates', () => {
   const f = fixture();
-  const target = f.element('a', { href: '/about', class: 'text-link' });
+  const target = f.element('a', { href: '/about' });
   f.hover(target);
   f.send('pointerout', target, { pointerType: 'mouse', clientX: 1, clientY: 1, relatedTarget: f.html });
   assert.equal(f.controller.snapshot().hoverLatched, false);

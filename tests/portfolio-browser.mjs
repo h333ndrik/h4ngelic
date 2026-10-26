@@ -10,7 +10,8 @@ const browser = await chromium.launch({
   headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
-const categories = ['tattoos', 'jewellery', 'paintings'];
+const categories = ['tattoos', 'jewellery', 'more'];
+const leaves = ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks', 'paintings'];
 const route = (path) => new URL(path, baseURL).href;
 
 function errorsFor(page) {
@@ -41,7 +42,7 @@ async function checkHorizontalCategories(page, width) {
   }
   assert.ok(rectangles.every(Boolean));
   assert.ok(Math.max(...rectangles.map((r) => r.y)) - Math.min(...rectangles.map((r) => r.y)) < 2, `Categories must share one horizontal row at ${width}px.`);
-  assert.ok(rectangles[0].x < rectangles[1].x && rectangles[1].x < rectangles[2].x, 'Category order must be tattoos, jewellery, paintings.');
+  assert.ok(rectangles[0].x < rectangles[1].x && rectangles[1].x < rectangles[2].x, 'Main rubric order must be tattoos, jewellery, more.');
   assert.ok(Math.max(...rectangles.map((r) => r.width)) - Math.min(...rectangles.map((r) => r.width)) < 2, 'Categories must occupy equal columns.');
   const dimensions = await page.evaluate(() => ({ page: document.documentElement.scrollWidth, viewport: innerWidth }));
   assert.ok(dimensions.page <= dimensions.viewport + 1, `The page must not overflow horizontally at ${width}px.`);
@@ -58,11 +59,21 @@ async function checkHorizontalCategories(page, width) {
 
 async function assertFilter(page, category) {
   const expected = category || 'all';
-  const active = page.locator('.work-filters .filter-link[aria-current="page"]');
+  const active = page.locator('.filter-link[aria-current="page"]');
   assert.equal(await active.count(), 1, 'Exactly one archive filter must be active.');
-  assert.equal((await active.textContent()).trim(), expected);
-  assert.equal(await page.locator('.archive-empty').textContent(), 'archive in progress.');
-  assert.equal(await page.locator('.project-grid img').count(), 0, 'The empty archive must not invent artwork.');
+  assert.equal((await active.textContent()).trim(), expected.replaceAll('-', ' '));
+  const containsOriginal = ['all', 'more', 'digital-artworks'].includes(expected);
+  const expectedEmpty = expected === 'all' ? 4 : expected === 'digital-artworks' ? 0 : 1;
+  assert.deepEqual(await page.locator('.archive-empty').allTextContents(), Array(expectedEmpty).fill('archive in progress.'));
+  assert.equal(await page.locator('.portfolio-archive img').count(), containsOriginal ? 1 : 0,
+    'Only the one supplied original appears; all remaining archives avoid invented artwork.');
+  if (containsOriginal) {
+    const original = page.locator('.digital-ink-open img');
+    assert.equal(await original.getAttribute('width'), '1440');
+    assert.equal(await original.getAttribute('height'), '1920');
+    assert.match(await original.getAttribute('src'), /green-black-original/);
+    assert.equal(await page.locator('[data-project-url="/work/digital-artworks/green-black-original"]').count(), 1);
+  }
   assert.equal(await page.locator('#logo-canvas').isVisible(), false, 'Interior pages must not render the homepage WebGL canvas.');
 }
 
@@ -86,7 +97,7 @@ try {
   // Click every homepage category, including direct query reloads and back.
   for (const category of categories) {
     await readyHome(page);
-    await page.locator(`#selected-work a[href="/work/${category}"]`).click();
+    await page.locator(`#selected-work .category-link[href="/work/${category}"]`).click();
     await page.waitForURL((url) => url.pathname === `/work/${category}`);
     await assertFilter(page, category);
     await page.reload({ waitUntil: 'networkidle' });
@@ -104,7 +115,7 @@ try {
   }
 
   await page.goto(route('/work?category=tattoos'), { waitUntil: 'networkidle' });
-  for (const category of ['jewellery', 'paintings', 'all']) {
+  for (const category of ['jewellery', 'more', 'all']) {
     const href = category === 'all' ? '/work' : `/work/${category}`;
     await page.locator(`.work-filters a[href="${href}"]`).click();
     await page.waitForURL((url) => url.pathname === (category === 'all' ? '/work' : `/work/${category}`));
@@ -113,6 +124,13 @@ try {
   await page.screenshot({ path: new URL('work.png', artifacts).pathname, fullPage: true });
   await page.goto(route('/work?category=unknown'), { waitUntil: 'networkidle' });
   await assertFilter(page, null);
+  // Every actual leaf remains directly addressable, including old painting
+  // bookmarks. Subcategories are not silently collapsed into their parent.
+  for (const category of leaves) {
+    await page.goto(route(`/work?category=${category}`), { waitUntil: 'networkidle' });
+    await page.waitForURL((url) => url.pathname === `/work/${category}`);
+    await assertFilter(page, category);
+  }
 
   await page.goto(route('/about'), { waitUntil: 'networkidle' });
   await page.locator('.about-copy').waitFor();
@@ -155,9 +173,12 @@ try {
   await mobilePage.screenshot({ path: new URL('mobile-homepage-full.png', artifacts).pathname, fullPage: true });
   await mobilePage.setViewportSize({ width: 320, height: 740 });
   await checkHorizontalCategories(mobilePage, 320);
-  await mobilePage.locator('#selected-work a[href="/work/paintings"]').click();
-  await mobilePage.waitForURL((url) => url.pathname === '/work/paintings');
-  await assertFilter(mobilePage, 'paintings');
+  await mobilePage.locator('#selected-work .category-link[href="/work/more"]').click();
+  await mobilePage.waitForURL((url) => url.pathname === '/work/more');
+  await assertFilter(mobilePage, 'more');
+  await mobilePage.locator('.work-subfilters a[href="/work/digital-artworks"]').click();
+  await mobilePage.waitForURL((url) => url.pathname === '/work/digital-artworks');
+  await assertFilter(mobilePage, 'digital-artworks');
   assert.ok(await mobilePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
   await mobilePage.locator('.page-nav a[href="/#contact"]').click();
   await mobilePage.waitForURL((url) => url.hash === '#contact');

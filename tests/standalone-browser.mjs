@@ -74,7 +74,7 @@ try {
       assert.equal(await page.locator('[data-end-reveal]').count(), 1);
       assert.equal(await page.locator('.end-reveal-mark').evaluate(mark => Number(getComputedStyle(mark).opacity)), 0, 'End mark must remain invisible at the hero.');
       assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' '), 'art on skin & beyond');
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 4 TO SEE THE OTHER SIDE');
       assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1);
       const identity = await identityGeometry(page);
       assert.equal(identity.counterInRow, true, 'The visit counter belongs to the existing identity row.');
@@ -145,6 +145,25 @@ try {
         'Work does not acquire a visible duplicate sound control.');
       if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true');
 
+      await page.locator('a[href="#/work/flashes"]').click();
+      await page.waitForFunction(() => document.querySelector('.work-page h1')?.textContent === 'flashes');
+      assert.equal(await page.locator('.filter-link[aria-current="page"]').textContent(), 'flashes');
+      await page.locator('.work-filters a[href="#/work/more"]').click();
+      await page.waitForFunction(() => document.querySelector('.work-page h1')?.textContent === 'more');
+      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['analog-photography', 'digital-artworks']);
+      await page.locator('a[href="#/work/digital-artworks"]').first().click();
+      await page.waitForFunction(() => document.querySelector('.work-page h1')?.textContent === 'digital artworks');
+      assert.equal(await page.locator('.filter-link[aria-current="page"]').textContent(), 'digital artworks');
+      assert.equal(await page.locator('.portfolio-archive img').count(), 1, 'The exact supplied digital original is present in the offline export.');
+      const original = page.locator('.digital-ink-open img');
+      await original.evaluate(image => image.decode());
+      assert.match(await original.getAttribute('src'), /^data:image\//, 'Offline artwork uses an embedded image.');
+      assert.equal(await original.getAttribute('width'), '1440');
+      assert.equal(await original.getAttribute('height'), '1920');
+      assert.ok(await original.evaluate(image => image.naturalWidth > 0 && Math.abs(image.naturalWidth / image.naturalHeight - .75) < .001));
+      assert.equal(await page.locator('[data-project-url="/work/digital-artworks/green-black-original"]').count(), 1);
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'New archive navigation keeps the current visual world.');
+
       await page.locator('a[href="#/about"]:visible').first().click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'about');
       assert.match(await page.locator('main').textContent(), /independent artist based in berlin\./);
@@ -154,7 +173,7 @@ try {
       assert.ok(await page.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 3 THREE TIMES TO REVERSE.');
       await reverseWith3(page);
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 4 TO SEE THE OTHER SIDE');
       const filters = await page.locator('#logo-canvas,.project-image img').evaluateAll(images => images.map(image => getComputedStyle(image).filter));
       assert.ok(filters.every(filter => filter === 'none'));
       await page.evaluate(() => { location.hash = '#/'; });

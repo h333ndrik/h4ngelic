@@ -1,3 +1,5 @@
+import { featuredDigitalArtwork } from './digitalArtworkSettings.js';
+
 /**
  * The portfolio archive. Add real projects here when they are ready to show.
  * Place image files in public/images/ and reference them as /images/filename.
@@ -5,10 +7,13 @@
  *
  * Each project accepts:
  * - id: a unique, lowercase slug.
- * - category: 'tattoos', 'jewellery' or 'paintings'.
+ * - category: 'tattoos', 'flashes', 'jewellery', 'analog-photography' or 'digital-artworks'.
+ *   Legacy 'paintings' projects remain supported. Use leaf categories, never 'more'.
  * - title, description, year: optional project information.
  * - images: [{ src, alt, caption?, width?, height? }]. Supply useful alt text.
  * - details: optional additional information, e.g. { materials: 'silver' }.
+ * - mannequin: optional { model: '/models/validated-mannequin.glb', ...placement }
+ *   for flashes only; see docs/MANNEQUIN-WORKFLOW.md before publishing a model.
  * - published: set false to keep a draft out of every gallery.
  *
  * Copyable example (replace every example value with your actual project):
@@ -26,4 +31,6 @@
  *   published: true,
  * },
  */
-export const artworks = [];
+// The actual green/black original is shared by the archive and detail route.
+// Add further real projects below; no reference texture is a portfolio entry.
+export const artworks = [featuredDigitalArtwork];

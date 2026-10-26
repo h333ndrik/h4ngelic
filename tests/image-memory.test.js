@@ -138,3 +138,65 @@ test('bounded cells and sample time prevent oversized buffers and explosive stal
   assert.ok(stopped.every(cell => cell.offsetX === 0 && cell.offsetY === 0));
   assert.equal(field.snapshot().energy, 0);
 });
+
+test('persistent material reconstructs into motion-written scars after a minute, rather than its clean keyframe', () => {
+  const source = bars();
+  const history = bars();
+  const output = bitmap(64, 8);
+  const clean = source.canvas.data.map(pixel => [...pixel]);
+  const field = createImageMemoryField({ width: 64, height: 8, cellSize: 8, seed: 361, persistent: true });
+  field.impulse({ kind: 'scroll', x: 32, y: 4, dx: 50, dy: 0, deltaMs: 100,
+    radius: 100, strength: 1, time: 0 });
+  for (let frame = 1; frame <= 360; frame++) {
+    const sampled = field.step({ time: frame * 180, deltaMs: 180, colorBleeding: 0, negativeExposure: 0 });
+    paintImageMemory({ context: output.context, history: history.canvas, historyContext: history.context,
+      source: source.canvas, width: 64, height: 8, cells: sampled });
+  }
+  const difference = output.canvas.data.reduce((sum, pixel, index) =>
+    sum + pixel.slice(0, 3).reduce((total, value, channel) => total + Math.abs(value - clean[index][channel]), 0), 0);
+  assert.ok(difference > 1000, 'Actual pixel feedback must remain distinct from its unchanged clean image after 64.8s idle.');
+  assert.ok(redCenter(output.canvas) > redCenter(source.canvas) + 3,
+    'Surviving source information stays displaced in the direction written by real scrolling.');
+  assert.ok(field.snapshot().scarredCells >= 6);
+  assert.equal(field.snapshot().movingCells, 0, 'Retained damage does not require inventing fresh pointer motion.');
+  assert.ok(field.snapshot().maximumScar <= Math.hypot(58, 58));
+  const settled = field.step({ time: 70000, deltaMs: 180 });
+  assert.ok(settled.every(cell => cell.sourceOffsetX > 0 && cell.sourceOffsetY === 0));
+  assert.ok(settled.every(cell => cell.bleed === 0 && cell.negative === 0),
+    'Idle reconstruction changes sampling addresses, never adds new colors or exposure.');
+});
+
+test('scars survive bounded resizing and idle flow without accumulation, and explicit disposal/reset can clear them', () => {
+  const field = createImageMemoryField({ width: 240, height: 120, cellSize: 12, seed: 18, persistent: true });
+  field.impulse({ kind: 'navigation', x: 120, y: 60, dx: 50, dy: -30, deltaMs: 80,
+    radius: 300, strength: 1, time: 0 });
+  const before = field.snapshot();
+  field.resize(320, 180, 14, true);
+  assert.ok(field.snapshot().scarredCells > 0);
+  assert.ok(field.snapshot().maximumScar > before.maximumScar, 'The same normalized scars follow a larger backing store.');
+  const resized = field.step({ time: 1000, deltaMs: 100 }).map(cell => [cell.sourceOffsetX, cell.sourceOffsetY]);
+  for (let frame = 0; frame < 50; frame++) field.impulse({ kind: 'idle', x: 160, y: 90,
+    dx: 20, dy: 10, deltaMs: 100, radius: 300, strength: .5, time: 1100 + frame * 100 });
+  assert.deepEqual(field.step({ time: 6200, deltaMs: 100 }).map(cell => [cell.sourceOffsetX, cell.sourceOffsetY]), resized,
+    'Slow breathing moves previous output but cannot drive permanent scars toward the bounds forever.');
+  field.clear();
+  assert.equal(field.snapshot().scarredCells, 0);
+  assert.equal(field.snapshot().maximumScar, 0);
+  assert.ok(field.step({ time: 6400, deltaMs: 100 }).every(cell => cell.sourceOffsetX === 0 && cell.sourceOffsetY === 0));
+});
+
+test('retained sampling scars obey the new cell-size bound after switching to finer compression blocks', () => {
+  const field = createImageMemoryField({ width: 240, height: 120, cellSize: 64, seed: 22, persistent: true });
+  field.impulse({ kind: 'scroll', x: 120, y: 60, dx: 1000, dy: -1000, deltaMs: 80,
+    radius: 1000, strength: 3, time: 0 });
+  assert.ok(field.snapshot().maximumScar > 60, 'The coarse field initially carries a genuinely large retained displacement.');
+  for (const [width, height, cellSize] of [[240, 120, 6], [320, 180, 8], [180, 90, 6]]) {
+    field.resize(width, height, cellSize, true);
+    const state = field.snapshot();
+    const limit = Math.min(58, state.cellSize * 1.8);
+    assert.ok(state.scarredCells > 0, 'Changing block size preserves the damaged world instead of clearing it.');
+    assert.ok(field.step({ time: 100, deltaMs: 100 }).every(cell =>
+      Math.abs(cell.sourceOffsetX) <= limit && Math.abs(cell.sourceOffsetY) <= limit),
+    'All resized sampling addresses must satisfy the current per-cell displacement budget.');
+  }
+});

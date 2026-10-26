@@ -289,3 +289,38 @@ test('an explicit new-gesture pointer reset cannot bridge old history after quic
   assert.ok(film.snapshot().memory.accepted > accepted, 'The next actual local movement still contributes.');
   film.dispose();
 });
+
+test('global material keeps scars and its existing palette through idle, navigation and viewport resizing', () => {
+  const original = getLivingDecaySettings();
+  configureLivingDecay({ idleIntensity: .45 });
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 482 });
+  film.setActive(true);
+  film.impulse({ kind: 'mode', x: 720, y: 500, strength: 1, direction: 'entering', time: env.view.performance.now() });
+  const initial = film.snapshot();
+  assert.equal(initial.memory.persistent, true);
+  assert.ok(initial.memory.scarredCells > initial.memory.cells * .7);
+  for (let frame = 0; frame < 180; frame++) env.advance(400);
+  const idle = film.snapshot();
+  assert.equal(idle.memory.scarredCells, initial.memory.scarredCells);
+  assert.equal(idle.memory.maximumScar, initial.memory.maximumScar);
+  assert.ok(idle.advectedBlocks > initial.advectedBlocks, 'The retained history still moves at the existing slow idle cadence.');
+  assert.ok(idle.memory.byKind.idle > 0);
+  env.doc.dispatchEvent(new Event('h4:pagechange'));
+  film.setActive(true);
+  assert.equal(film.snapshot().seed, initial.seed);
+  assert.equal(film.snapshot().memory.scarredCells, initial.memory.scarredCells);
+  const frames = film.snapshot().frames;
+  film.resize({ width: 1440, height: 1000 });
+  assert.equal(film.snapshot().frames, frames, 'A redundant size notification cannot repaint or clear the feedback.');
+  film.resize({ width: 390, height: 844 });
+  const resized = film.snapshot();
+  assert.equal(resized.seed, initial.seed);
+  assert.ok(resized.memory.scarredCells > 0);
+  assert.deepEqual(resized.settings, initial.settings, 'No brightness, color, white balance or palette control changed.');
+  assert.equal(resized.regenerations, 0);
+  assert.ok(env.queued <= 1);
+  film.setActive(false);
+  assert.equal(env.queued, 0, 'Normal Side owns no active feedback work.');
+  film.dispose(); configureLivingDecay(original);
+});

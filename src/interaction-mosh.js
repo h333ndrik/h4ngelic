@@ -1,4 +1,5 @@
 import { interactionMoshSettings } from './data/interactionMoshSettings.js';
+import { rubricSelector } from './rubric-activation.js';
 
 const finite = (value, fallback = 0) => Number.isFinite(value) ? value : fallback;
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
@@ -101,6 +102,9 @@ export function initInteractionMosh({ doc = document, onSnapshot, settings = int
   function requestSnapshot(detail) {
     // Event consumers may synchronously change mode or start navigation.
     if (!detail || !active() || typeof onSnapshot !== 'function') return;
+    // Rubrics illuminate cleanly. Their real hover motion still carries image
+    // fragments through the shared field; do not glitch the legible label.
+    if (detail.kind === 'hover' && detail.target?.matches(rubricSelector)) return;
     snapshotRequests++;
     try {
       const result = onSnapshot(detail);

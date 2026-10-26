@@ -13,6 +13,7 @@ import { createHeroDepth } from './hero-depth.js';
 import { sampleHero } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 import { createHeroInk, isHeroInkClick } from './hero-ink.js';
+import { registerHeroInkHitTest, rememberHeroInkHit } from './hero-background-ink.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
@@ -236,8 +237,11 @@ async function initialize() {
     pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
     raycaster.setFromCamera(pointer, camera);
     raycaster.ray.intersectPlane(plane, planePoint);
-    return raycaster.intersectObject(wordmark, false)[0];
+    return rememberHeroInkHit(event, raycaster.intersectObject(wordmark, false)[0]);
   }
+
+  const stopBackgroundHitTest = registerHeroInkHitTest(canvas,
+    event => stage.classList.contains('is-ready') ? locate(event) : null);
 
   function pointerMove(event) {
     if (dragPointer !== null && event.pointerId !== dragPointer) return;
@@ -270,7 +274,7 @@ async function initialize() {
   }
 
   function pointerDown(event) {
-    if (!event.isPrimary || event.button !== 0) return;
+    if (!running || !stageIsVisible || !event.isPrimary || event.button !== 0) return;
     inkCandidate = null;
     pendingPointer = null;
     const hit = locate(event);
@@ -432,6 +436,7 @@ async function initialize() {
     document.removeEventListener('h4:pagechange', cancelInkGesture);
     window.removeEventListener('blur', cancelInkGesture);
     heroInk.dispose();
+    stopBackgroundHitTest();
     observer.disconnect();
     visibilityObserver.disconnect();
     document.removeEventListener('visibilitychange', syncRendering);
