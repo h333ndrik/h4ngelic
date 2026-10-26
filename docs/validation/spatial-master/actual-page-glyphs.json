@@ -1,0 +1,116 @@
+{
+  "measuredAt": "2026-10-26T09:54:37.340Z",
+  "reports": [
+    {
+      "profile": "native-desktop",
+      "brightBefore": 5724,
+      "brightAfter": 5864,
+      "movedOutsideMask": 4598,
+      "unexpectedColors": 0,
+      "metadata": {
+        "callbacks": [
+          {
+            "captured": true,
+            "duration": 1000,
+            "variant": 1947,
+            "kind": "mode",
+            "strength": 1
+          }
+        ],
+        "filter": "url(\"#h4-mode-snapshot-3-old\")",
+        "source": "SourceGraphic",
+        "controller": {
+          "active": true,
+          "prepared": false,
+          "nativeCount": 1,
+          "current": {
+            "kind": "mode",
+            "strength": 1,
+            "variant": 1947,
+            "duration": 1000,
+            "frames": 3,
+            "native": true
+          },
+          "last": null
+        }
+      },
+      "realtime": {
+        "elapsedMs": 1396,
+        "calls": [
+          {
+            "captured": true,
+            "duration": 750,
+            "variant": 2231,
+            "kind": "mode",
+            "strength": 1
+          }
+        ],
+        "flag": false,
+        "snapshot": {
+          "active": false,
+          "prepared": false,
+          "nativeCount": 2,
+          "current": null,
+          "last": {
+            "kind": "mode",
+            "strength": 1,
+            "variant": 2231,
+            "duration": 750,
+            "frames": 5,
+            "native": true,
+            "skipped": false
+          }
+        }
+      },
+      "fallback": {
+        "calls": [
+          {
+            "captured": false
+          }
+        ],
+        "handle": null,
+        "active": false,
+        "flag": false
+      },
+      "interruption": {
+        "calls": [
+          {
+            "captured": false,
+            "duration": 800,
+            "variant": 13,
+            "kind": "mode",
+            "strength": 1
+          }
+        ],
+        "invalid": false,
+        "flag": false,
+        "snapshot": {
+          "active": false,
+          "prepared": false,
+          "nativeCount": 1,
+          "current": null,
+          "last": {
+            "kind": "mode",
+            "strength": 1,
+            "variant": 13,
+            "duration": 800,
+            "frames": 1,
+            "native": true,
+            "skipped": true
+          }
+        }
+      }
+    },
+    {
+      "profile": "reduced-motion",
+      "calls": [
+        {
+          "captured": false
+        }
+      ],
+      "prepared": null,
+      "handle": null,
+      "nodes": 0
+    }
+  ]
+}

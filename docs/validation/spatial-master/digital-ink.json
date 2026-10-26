@@ -1,0 +1,408 @@
+{
+  "passed": true,
+  "checkedAt": "2026-10-26T09:43:13.506Z",
+  "base": "http://127.0.0.1:5173",
+  "note": "The seeded mask is exact in Node. Browser GPU/CPU readback can resample sparse contour edges; require under .25 mean alpha levels and under .5% pixels changing by more than 2 levels. No byte-identity claim.",
+  "results": [
+    {
+      "width": 1000,
+      "original": {
+        "source": "http://127.0.0.1:5173/images/optimized/green-black-original-16cca95e4acb-960.webp",
+        "naturalWidth": 820,
+        "naturalHeight": 1093,
+        "alt": "green-and-black digital artwork with fine vertical ripples, broad white and grey brushstrokes, and a signature at the lower left.",
+        "count": 1
+      },
+      "originalFirst": {
+        "visible": 60712,
+        "hash": 3624006892,
+        "width": 930,
+        "height": 608,
+        "progress": 0.31957,
+        "scroll": 703,
+        "sectionTop": -198,
+        "sectionHeight": 1720
+      },
+      "originalLater": {
+        "visible": 258025,
+        "hash": 2345808736,
+        "width": 930,
+        "height": 608,
+        "progress": 0.71957,
+        "scroll": 1071,
+        "sectionTop": -566,
+        "sectionHeight": 1720
+      },
+      "originalReverse": {
+        "visible": 60293,
+        "hash": 2380387441,
+        "width": 930,
+        "height": 608,
+        "progress": 0.31957,
+        "repeatDelta": {
+          "maximum": 1,
+          "mean": 0.0007410158460667798,
+          "changedFraction": 0
+        },
+        "scroll": 703,
+        "sectionTop": -198,
+        "sectionHeight": 1720
+      },
+      "originalFidelity": {
+        "meanChannelDifference": 1.2831123518775007,
+        "maximumDifference": 41,
+        "fullState": {
+          "visibility": "visible",
+          "imageFilter": "none",
+          "parentFilter": "none",
+          "parentTransform": "matrix(1, 0, 0, 1, 0, 0)",
+          "canvasDisplay": "none",
+          "bounds": {
+            "x": 272,
+            "y": 96,
+            "width": 456,
+            "height": 608
+          }
+        }
+      },
+      "otherSide": {
+        "sameNode": true,
+        "progress": 0.61957,
+        "events": [
+          {
+            "kind": "section",
+            "points": [
+              {
+                "id": "ink-edge-0",
+                "x": 300.61176470588236,
+                "y": 96
+              },
+              {
+                "id": "ink-edge-1",
+                "x": 357.83529411764704,
+                "y": 622.9333333333334
+              },
+              {
+                "id": "ink-edge-2",
+                "x": 415.05882352941177,
+                "y": 646.7764705882353
+              },
+              {
+                "id": "ink-edge-3",
+                "x": 472.28235294117644,
+                "y": 630.086274509804
+              },
+              {
+                "id": "ink-edge-4",
+                "x": 527.7176470588236,
+                "y": 124.61176470588235
+              },
+              {
+                "id": "ink-edge-5",
+                "x": 584.9411764705883,
+                "y": 193.75686274509803
+              },
+              {
+                "id": "ink-edge-6",
+                "x": 642.164705882353,
+                "y": 510.8705882352941
+              },
+              {
+                "id": "ink-edge-7",
+                "x": 699.3882352941176,
+                "y": 575.2470588235294
+              }
+            ]
+          },
+          {
+            "kind": "section",
+            "points": [
+              {
+                "id": "ink-edge-0",
+                "x": 300.61176470588236,
+                "y": 489.4117647058824
+              },
+              {
+                "id": "ink-edge-1",
+                "x": 357.83529411764704,
+                "y": 701.6156862745098
+              },
+              {
+                "id": "ink-edge-2",
+                "x": 415.05882352941177,
+                "y": 188.98823529411766
+              },
+              {
+                "id": "ink-edge-3",
+                "x": 472.28235294117644,
+                "y": 343.9686274509804
+              },
+              {
+                "id": "ink-edge-4",
+                "x": 527.7176470588236,
+                "y": 591.9372549019608
+              },
+              {
+                "id": "ink-edge-5",
+                "x": 584.9411764705883,
+                "y": 673.0039215686274
+              },
+              {
+                "id": "ink-edge-6",
+                "x": 642.164705882353,
+                "y": 661.0823529411765
+              },
+              {
+                "id": "ink-edge-7",
+                "x": 699.3882352941176,
+                "y": 620.5490196078432
+              }
+            ]
+          }
+        ]
+      },
+      "initial": {
+        "progress": 0.05,
+        "sum": 154,
+        "visible": 40,
+        "hash": 551155381
+      },
+      "first": {
+        "progress": 0.31957,
+        "sum": 12673245,
+        "visible": 60300,
+        "hash": 1180600770
+      },
+      "later": {
+        "progress": 0.71957,
+        "sum": 64103779,
+        "visible": 257147,
+        "hash": 4162063760
+      },
+      "reverse": {
+        "progress": 0.31957,
+        "sum": 12673245,
+        "visible": 60300,
+        "hash": 1180600770,
+        "repeatDelta": {
+          "mean": 0,
+          "maximum": 0,
+          "changedFraction": 0
+        }
+      },
+      "complete": {
+        "canvas": "none",
+        "image": "visible",
+        "width": 1000
+      },
+      "reduced": {
+        "visibility": "visible",
+        "position": "static"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "original": {
+        "source": "http://127.0.0.1:5173/images/optimized/green-black-original-16cca95e4acb-640.webp",
+        "naturalWidth": 350,
+        "naturalHeight": 466,
+        "alt": "green-and-black digital artwork with fine vertical ripples, broad white and grey brushstrokes, and a signature at the lower left.",
+        "count": 1
+      },
+      "originalFirst": {
+        "visible": 35043,
+        "hash": 1851772837,
+        "width": 346,
+        "height": 461,
+        "progress": 0.31967,
+        "scroll": 578,
+        "sectionTop": -198.09375,
+        "sectionHeight": 1720
+      },
+      "originalLater": {
+        "visible": 148101,
+        "hash": 2219444345,
+        "width": 346,
+        "height": 461,
+        "progress": 0.71967,
+        "scroll": 946,
+        "sectionTop": -566.09375,
+        "sectionHeight": 1720
+      },
+      "originalReverse": {
+        "visible": 35043,
+        "hash": 2366326951,
+        "width": 346,
+        "height": 461,
+        "progress": 0.31967,
+        "repeatDelta": {
+          "maximum": 39,
+          "mean": 0.029779444033453287,
+          "changedFraction": 0.0007962082931049616
+        },
+        "scroll": 578,
+        "sectionTop": -198.09375,
+        "sectionHeight": 1720
+      },
+      "originalFidelity": {
+        "meanChannelDifference": 1.818150539248805,
+        "maximumDifference": 30,
+        "fullState": {
+          "visibility": "visible",
+          "imageFilter": "none",
+          "parentFilter": "none",
+          "parentTransform": "none",
+          "canvasDisplay": "none",
+          "bounds": {
+            "x": 22,
+            "y": 169.328125,
+            "width": 345.984375,
+            "height": 461.140625
+          }
+        }
+      },
+      "initial": {
+        "progress": 0.05,
+        "sum": 85,
+        "visible": 28,
+        "hash": 1263067002
+      },
+      "first": {
+        "progress": 0.31957,
+        "sum": 9207314,
+        "visible": 44481,
+        "hash": 2056108075
+      },
+      "later": {
+        "progress": 0.71957,
+        "sum": 46847637,
+        "visible": 188247,
+        "hash": 3105934976
+      },
+      "reverse": {
+        "progress": 0.31957,
+        "sum": 9207314,
+        "visible": 44481,
+        "hash": 2056108075,
+        "repeatDelta": {
+          "mean": 0,
+          "maximum": 0,
+          "changedFraction": 0
+        }
+      },
+      "complete": {
+        "canvas": "none",
+        "image": "visible",
+        "width": 390
+      },
+      "reduced": {
+        "visibility": "visible",
+        "position": "static"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "original": {
+        "source": "http://127.0.0.1:5173/images/optimized/green-black-original-16cca95e4acb-320.webp",
+        "naturalWidth": 279,
+        "naturalHeight": 373,
+        "alt": "green-and-black digital artwork with fine vertical ripples, broad white and grey brushstrokes, and a signature at the lower left.",
+        "count": 1
+      },
+      "originalFirst": {
+        "visible": 22339,
+        "hash": 3566262265,
+        "width": 276,
+        "height": 368,
+        "progress": 0.31957,
+        "scroll": 627,
+        "sectionTop": -198,
+        "sectionHeight": 1720
+      },
+      "originalLater": {
+        "visible": 94230,
+        "hash": 1838336225,
+        "width": 276,
+        "height": 368,
+        "progress": 0.71957,
+        "scroll": 995,
+        "sectionTop": -566,
+        "sectionHeight": 1720
+      },
+      "originalReverse": {
+        "visible": 22339,
+        "hash": 3941703414,
+        "width": 276,
+        "height": 368,
+        "progress": 0.31957,
+        "repeatDelta": {
+          "maximum": 60,
+          "mean": 0.1497026622558286,
+          "changedFraction": 0.0027370825456836797
+        },
+        "scroll": 627,
+        "sectionTop": -198,
+        "sectionHeight": 1720
+      },
+      "originalFidelity": {
+        "meanChannelDifference": 1.5153960959899455,
+        "maximumDifference": 27,
+        "fullState": {
+          "visibility": "visible",
+          "imageFilter": "none",
+          "parentFilter": "none",
+          "parentTransform": "none",
+          "canvasDisplay": "none",
+          "bounds": {
+            "x": 22,
+            "y": 216,
+            "width": 275.984375,
+            "height": 368.28125
+          }
+        }
+      },
+      "initial": {
+        "progress": 0.05,
+        "sum": 58,
+        "visible": 20,
+        "hash": 4145384817
+      },
+      "first": {
+        "progress": 0.31957,
+        "sum": 6194726,
+        "visible": 29906,
+        "hash": 2379640913
+      },
+      "later": {
+        "progress": 0.71957,
+        "sum": 31495484,
+        "visible": 126755,
+        "hash": 3280999123
+      },
+      "reverse": {
+        "progress": 0.31957,
+        "sum": 6190902,
+        "visible": 29906,
+        "hash": 3733201777,
+        "repeatDelta": {
+          "mean": 0.027985948477751755,
+          "maximum": 38,
+          "changedFraction": 0.000856264637002342
+        }
+      },
+      "complete": {
+        "canvas": "none",
+        "image": "visible",
+        "width": 320,
+        "overflow": []
+      },
+      "reduced": {
+        "visibility": "visible",
+        "position": "static"
+      },
+      "errors": []
+    }
+  ]
+}

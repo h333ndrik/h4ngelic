@@ -19,6 +19,13 @@
   pointer-events: none;
   user-select: none;
   z-index: 2;
+  outline: 1px solid transparent;
+  outline-offset: 2px;
+  animation: artwork-flight-light 540ms ease-out both;
+}
+@keyframes artwork-flight-light {
+  0%, 100% { outline-color: #ffffff00; box-shadow: 0 0 0 0 #ffffff00; }
+  22% { outline-color: #fffffff2; box-shadow: 0 0 18px 1px #ffffff2b; }
 }
 .artwork-dialog[data-artwork-flight] { overflow: visible; }
 .artwork-dialog[data-artwork-flight='opening'] { opacity: 1; transition: none; }

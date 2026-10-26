@@ -28,6 +28,25 @@ html[data-mode='xray'] [data-ui-interactive] {
     drop-shadow(0 0 calc(22px * var(--ui-other-glow-strength, 1.15) * var(--corruption-glow-strength, 1)) rgb(185 139 225 / .24));
 }
 
+/* Selection is brief and belongs to the existing label, never its hit area. */
+[data-ui-selected] .interaction-visual {
+  outline: 1px solid rgb(255 255 255 / .85);
+  outline-offset: .12em;
+  filter: var(--ui-hover-glow);
+  --ui-active-scale: var(--ui-target-scale, 1.08);
+}
+@keyframes h4-rubric-selected {
+  0% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 7px #ffffff88); }
+  38% { transform: scale(1.055); opacity: 1; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 10px #ffffff99); }
+  100% { transform: scale(1.08); opacity: 0; filter: drop-shadow(0 0 5px #ffffff33); }
+}
+::view-transition-group(h4-rubric-selection) { animation-duration: 220ms; }
+::view-transition-old(h4-rubric-selection) {
+  animation: h4-rubric-selected 220ms cubic-bezier(.2,.7,.3,1) both;
+  transform-origin: center;
+}
+::view-transition-new(h4-rubric-selection) { animation: none; }
+
 @media (hover: hover) and (pointer: fine) {
   [data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual {
     --ui-active-scale: var(--ui-target-scale, var(--ui-hover-scale, 1.22));
@@ -66,6 +85,7 @@ html[data-mode='xray'] [data-ui-interactive] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(h4-rubric-selection), ::view-transition-old(h4-rubric-selection), ::view-transition-new(h4-rubric-selection) { animation: none; }
   .content-section.reveal-pending { opacity: 1; transform: none; transition: none; }
   [data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual { transition: none; }
   [data-ui-interactive]:is(:hover, :focus-visible) .arrow { transform: none; }

@@ -43,7 +43,7 @@ test('the homepage keeps its hidden instruction separate from the identity-row c
   assert.match(html, /data-footer-secret-space/);
   assert.doesNotMatch(html, /data-visit-message/, 'The returning message stays in the header.');
   assert.match(html, /data-other-side-hint data-secret-hotspot data-mode-hold/);
-  assert.match(html, />HOLD 4 TO SEE THE OTHER SIDE\.<\/span>/);
+  assert.match(html, />PRESS 4 TO SEE THE OTHER SIDE<\/span>/);
   assert.match(html, /data-visit-counter-hotspot/);
   assert.match(html, />VISIT 001<\/span>/);
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));

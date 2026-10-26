@@ -9,11 +9,28 @@ test('homepage categories retain their exact horizontal-strip order and canonica
   const markup = renderHomepageSections();
   const selected = markup.split('</section>')[0];
   assert.deepEqual([...selected.matchAll(/class="category-link" href="([^"]+)"/g)].map((match) => match[1]), [
-    '/work/tattoos', '/work/jewellery', '/work/paintings',
+    '/work/tattoos', '/work/jewellery', '/work/more',
   ]);
   assert.doesNotMatch(selected, /<img|<figure|placeholder/i);
   assert.match(markup, /id="contact"/);
   assert.match(markup, /href="\/about"/);
+});
+
+test('the main rubrics expose the agreed children and only the supplied digital original is published', () => {
+  const homepage = renderHomepageSections().split('</section>')[0];
+  assert.equal((homepage.match(/class="category-link"/g) || []).length, 3);
+  for (const category of ['tattoos', 'flashes', 'analog-photography', 'digital-artworks']) {
+    assert.ok(homepage.includes(`href="/work/${category}"`));
+  }
+  assert.doesNotMatch(homepage, /href="\/work\/paintings"/);
+  const more = renderWorkPage('more');
+  assert.match(more, /data-archive-category="analog-photography"/);
+  assert.match(more, /data-archive-category="digital-artworks"/);
+  assert.doesNotMatch(more, /data-horizontal-drift=/, 'Empty analog photography has no invented carousel.');
+  assert.equal((more.match(/<img /g) || []).length, 1, 'More contains the one genuinely supplied digital original.');
+  assert.match(more, /data-project-url="\/work\/digital-artworks\/green-black-original"/);
+  assert.match(more, /width="1440" height="1920"/);
+  assert.equal((more.match(/archive in progress\./g) || []).length, 1, 'Analog photography remains an honest empty archive.');
 });
 
 test('unconfigured contact destinations never become dead or invented links', () => {
@@ -43,7 +60,14 @@ test('category query selects one archive filter and unknown filters safely selec
   for (const category of siteContent.categories) {
     const markup = renderWorkPage(category.id);
     assert.ok(markup.includes(`href="/work/${category.id}" aria-current="page">${category.label}</a>`));
-    assert.match(markup, /archive in progress\./);
+    if (category.id === 'digital-artworks') {
+      assert.doesNotMatch(markup, /archive in progress\./);
+      assert.match(markup, /data-digital-ink/);
+      assert.equal((markup.match(/<img /g) || []).length, 1);
+    } else {
+      assert.match(markup, /archive in progress\./);
+      assert.doesNotMatch(markup, /<img /, 'Categories without supplied artwork stay empty.');
+    }
   }
   assert.equal(normalizeCategory('unexpected'), 'all');
   assert.match(renderWorkPage('unexpected'), /href="\/work" aria-current="page">all<\/a>/);
@@ -61,7 +85,7 @@ test('real project entries support multiple images, optional metadata and catego
   artworks.push(project, { ...project, id: 'draft-fixture', title: 'private draft title', published: false });
   try {
     const tattoos = renderWorkPage('tattoos');
-    assert.equal((tattoos.match(/class="project-image"/g) || []).length, 2);
+    assert.equal((tattoos.match(/class="project-image(?: |")/g) || []).length, 2);
     assert.match(tattoos, /test description/);
     assert.match(tattoos, /<dt>materials<\/dt><dd>test material<\/dd>/);
     assert.match(tattoos, /width="600" height="800"/);

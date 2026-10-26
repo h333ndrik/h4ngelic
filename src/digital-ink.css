@@ -1,0 +1,34 @@
+.digital-ink-archive { min-width: 0; }
+.digital-ink-project { display: block; }
+.digital-ink-section { min-width: 0; margin: 0; height: var(--digital-ink-scroll-height, 215svh); }
+.digital-ink-sticky { display: grid; place-items: center; position: sticky; top: 12svh; height: 76svh; }
+.digital-ink-figure { margin: 0; width: min(100%, 1100px); }
+.digital-ink-open { position: relative; width: 100%; max-height: 76svh; aspect-ratio: auto; overflow: visible; }
+.digital-ink-open img { display: block; width: auto; height: auto; max-width: 100%; max-height: 76svh; margin-inline: auto; object-fit: contain; }
+.digital-ink-canvas { display: none; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.digital-ink-section.is-ink-enhanced { height: var(--digital-ink-scroll-height, 215svh); }
+.is-ink-enhanced .digital-ink-sticky { position: sticky; top: 12svh; height: 76svh; }
+.digital-ink-section.is-ink-fallback { height: auto; }
+.is-ink-fallback .digital-ink-sticky { position: static; height: auto; }
+.is-ink-enhanced .digital-ink-open img { visibility: hidden; }
+.is-ink-enhanced .digital-ink-canvas { display: block; }
+.is-ink-enhanced.is-ink-complete .digital-ink-open img { visibility: visible; }
+.is-ink-enhanced.is-ink-complete .digital-ink-canvas { display: none; }
+.is-ink-enhanced .digital-ink-open:focus-visible img { visibility: visible; }
+.is-ink-enhanced .digital-ink-open:focus-visible .digital-ink-canvas { display: none; }
+.digital-ink-figure figcaption { margin-top: 14px; font-size: 12px; color: #c5c5bf; }
+.digital-ink-meta { margin: 22px 0 9svh; }
+.digital-ink-meta h2 a { max-width: 100%; }
+.digital-ink-meta h2 .interaction-visual {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: reduce) {
+  .digital-ink-section, .digital-ink-section.is-ink-enhanced { height: auto; }
+  .digital-ink-sticky, .is-ink-enhanced .digital-ink-sticky { position: static; height: auto; }
+  .is-ink-enhanced .digital-ink-open img { visibility: visible; }
+  .is-ink-enhanced .digital-ink-canvas { display: none; }
+}

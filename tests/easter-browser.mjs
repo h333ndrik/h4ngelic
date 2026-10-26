@@ -220,7 +220,7 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   assert.ok(Math.abs(endSpace.height - endSpace.expected) < 1, 'The final h4 reveal retains its spacious responsive end section.');
   const hint = page.locator('[data-other-side-hint]');
   await hint.scrollIntoViewIfNeeded();
-  assert.equal((await hint.textContent()).trim(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+  assert.equal((await hint.textContent()).trim(), 'PRESS 4 TO SEE THE OTHER SIDE');
   await revealCycle(page, hint, { touch });
   assert.notEqual(await page.locator('html').getAttribute('data-mode'), 'xray', 'Discovering the hint through hover or a short tap does not activate the mode.');
   await page.keyboard.press('Tab');

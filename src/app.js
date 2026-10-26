@@ -1,5 +1,9 @@
 import './style.css';
 import './homepage.css';
+import './archive-structure.css';
+import './horizontal-drift.css';
+import './digital-ink.css';
+import './flash-mannequin.css';
 import { siteContent } from './data/siteContent.js';
 import { renderRoutePage } from './pages.js';
 import { resolveRoute } from './routes.js';
@@ -28,8 +32,12 @@ let stopGallery = () => {};
 let stopMotion = () => {};
 let stopImageReveals = () => {};
 let stopEndReveal = () => {};
+let stopDrift = () => {};
+let stopDigitalInk = () => {};
+let stopMannequins = () => {};
 let heroObserver = null;
 let moshTransitions = null;
+let renderRevision = 0;
 
 function ensureHero() {
   if (!hero) {
@@ -87,12 +95,17 @@ function scrollToTarget(url, { reset = false, restoreScroll } = {}) {
   }
 }
 
-function render({ reset = false, restoreScroll } = {}) {
+async function render({ reset = false, restoreScroll } = {}) {
+  const revision = ++renderRevision;
   stopInteractions();
   stopGallery();
   stopMotion();
   stopImageReveals();
   stopEndReveal();
+  stopDrift();
+  stopDigitalInk();
+  stopMannequins();
+  stopDrift = stopDigitalInk = stopMannequins = () => {};
   heroObserver?.disconnect();
   const url = currentURL();
   const route = resolveRoute(url);
@@ -115,6 +128,25 @@ function render({ reset = false, restoreScroll } = {}) {
       link.setAttribute('href', `#${link.getAttribute('href')}`);
     }
   }
+  // Empty archives pay no runtime cost for future galleries or models. CSS
+  // remains in the entry so the prerendered image dimensions/sticky sections
+  // are already reserved before these optional enhancements finish loading.
+  const enhancements = [];
+  if (content.querySelector('[data-horizontal-drift]')) enhancements.push(
+    import('./horizontal-drift.js').then(({ initHorizontalDrift }) => {
+      if (revision === renderRevision) stopDrift = initHorizontalDrift(content);
+    }));
+  if (content.querySelector('[data-digital-ink]')) enhancements.push(
+    import('./digital-ink.js').then(({ initDigitalInk }) => {
+      if (revision === renderRevision) stopDigitalInk = initDigitalInk(content);
+    }));
+  if ((import.meta.env.DEV || typeof __H4_HAS_MANNEQUINS__ === 'undefined' || __H4_HAS_MANNEQUINS__)
+    && content.querySelector('[data-flash-mannequin]')) enhancements.push(
+    import('./flash-mannequin.js').then(({ initFlashMannequins }) => {
+      if (revision === renderRevision) stopMannequins = initFlashMannequins(content);
+    }));
+  await Promise.allSettled(enhancements);
+  if (revision !== renderRevision) return;
   return scrollToTarget(url, { reset, restoreScroll });
 }
 
@@ -148,10 +180,10 @@ if (standalone) {
   addEventListener('hashchange', () => {
     const revision = ++hashRevision;
     document.dispatchEvent(new CustomEvent('h4:navigationstart'));
-    const commit = () => {
+    const commit = async () => {
       if (revision !== hashRevision) return;
-      render({ reset: true });
-      document.dispatchEvent(new CustomEvent('h4:pagechange'));
+      await render({ reset: true });
+      if (revision === hashRevision) document.dispatchEvent(new CustomEvent('h4:pagechange'));
     };
     if (!moshTransitions?.navigation(commit, { standalone: true })) commit();
   });

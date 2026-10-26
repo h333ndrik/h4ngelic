@@ -555,3 +555,32 @@ test('zero navigation corruption leaves the render and standard transition with 
     assert.equal(service.snapshot().navigations, 0);
   } finally { service.dispose(); configureLivingDecay(original); }
 });
+
+test('major transitions echo actual captured pixels with normalized brightness and release both directions', async () => {
+  const directions = [];
+  for (const mode of ['xray', 'normal']) {
+    const f = fixture(), controller = f.create();
+    const handle = controller.run(() => {}, { mode, variant: 271, duration: 950 });
+    await f.transitions[0].invokeUpdate(); await handle.ready;
+    f.advance(475);
+    const filters = f.doc.body.querySelectorAll('filter');
+    assert.equal(filters.length, 2);
+    for (const filter of filters) {
+      const echo = filter.querySelector('[data-snapshot-echo]');
+      const feedback = filter.querySelector('[data-snapshot-feedback]');
+      assert.equal(echo.getAttribute('in'), 'history', 'Only displaced real page pixels supply the echo.');
+      assert.ok(Math.abs(Number(echo.getAttribute('dx'))) > 1);
+      const primary = Number(feedback.getAttribute('k2')), held = Number(feedback.getAttribute('k3'));
+      assert.ok(held > .1 && held <= .34);
+      assert.ok(Math.abs(primary + held - 1) < 1e-9, 'Frame overlap cannot add white or increase exposure.');
+    }
+    directions.push(Number(filters[0].querySelector('[data-snapshot-echo]').getAttribute('dx')));
+    await f.transitions[0].complete(); await handle.finished;
+    assert.ok(filters.every(filter => filter.querySelector('[data-snapshot-echo]').getAttribute('dx') === '0'));
+    assert.ok(filters.every(filter => filter.querySelector('[data-snapshot-feedback]').getAttribute('k3') === '0'));
+    assert.equal(f.tasks.size, 0);
+    assert.equal(handle.duration, 950);
+    controller.dispose();
+  }
+  assert.ok(directions[0] > 0 && directions[1] < 0, 'Return reconstructs in a distinct signed direction.');
+});

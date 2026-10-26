@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { sampleEndReveal } from '../src/data/endRevealSettings.js';
+import { sampleEndReveal, sampleEndLighting } from '../src/data/endRevealSettings.js';
 import { renderFooter } from '../src/footer.js';
 
 test('end mark is absent until the final section enters the last viewport', () => {
@@ -19,9 +19,34 @@ test('scroll reveal progresses smoothly and reverses without exceeding its bound
     assert.ok(sample.opacity >= previous && sample.opacity <= 1);
     assert.ok(sample.shift >= 0 && sample.shift <= 48);
     assert.ok(sample.scale >= .96 && sample.scale <= 1);
+    assert.ok(sample.depth >= 0 && sample.depth <= 19);
+    assert.ok(sample.edge >= 0 && sample.edge <= 1.65);
     previous = sample.opacity;
   }
   assert.equal(sampleEndReveal({ top: 900, height: 820, viewportHeight: 1000 }).opacity, 0);
+});
+
+test('scroll changes relief depth, edge separation and directional lighting, not only alpha', () => {
+  const early = sampleEndReveal({ top: 700, height: 820, viewportHeight: 1000 });
+  const late = sampleEndReveal({ top: 200, height: 820, viewportHeight: 1000 });
+  assert.ok(late.depth > early.depth);
+  assert.ok(late.blur > early.blur);
+  assert.ok(late.edge > early.edge);
+  assert.ok(late.lightY > early.lightY);
+  assert.deepEqual(sampleEndReveal({ top: 700, height: 820, viewportHeight: 1000 }), early,
+    'Reverse scrolling produces the identical material pose, with no elapsed-time state.');
+});
+
+test('pointer light is local, bounded and disabled under reduced motion', () => {
+  const left = sampleEndLighting({ x: 0, y: 0, progress: .8 });
+  const right = sampleEndLighting({ x: 1, y: 1, progress: .8 });
+  assert.ok(right.x > left.x && right.y > left.y);
+  assert.equal(right.z, left.z);
+  assert.deepEqual(sampleEndLighting({ x: -500, y: 500, progress: .8 }),
+    sampleEndLighting({ x: 0, y: 1, progress: .8 }));
+  assert.deepEqual(sampleEndLighting({ x: 0, y: 1, progress: .8, reduced: true }),
+    sampleEndLighting({ x: .5, y: .5, progress: .8 }));
+  assert.ok(Object.values(sampleEndLighting({ x: NaN, y: Infinity, progress: NaN })).every(Number.isFinite));
 });
 
 test('reduced motion retains the local reveal without spatial animation', () => {
@@ -46,6 +71,9 @@ test('exact existing monogram is decorative, homepage-only, behind the original 
   assert.match(html, /class="end-reveal-mark" aria-hidden="true"/);
   assert.ok(html.indexOf('end-reveal-mark') < html.indexOf('data-other-side-hint'));
   assert.match(html, /data-mode-hold/);
+  assert.match(html, /PRESS 4 TO SEE THE OTHER SIDE/);
+  assert.match(html, /<image href="\/assets\/h4-monogram\.svg"[^>]+filter="url\(#h4-end-relief\)"/);
+  assert.match(html, /feDiffuseLighting[^>]+data-end-relief-depth/);
   assert.doesNotMatch(renderFooter(), /end-reveal/);
   const css = await readFile(new URL('../src/end-reveal.css', import.meta.url), 'utf8');
   assert.match(css, /mask: url\('\/assets\/h4-monogram\.svg'\)/);
@@ -84,7 +112,7 @@ test('queued observer and animation callbacks cannot revive a disposed final sec
     },
   });
   const doc = Object.assign(new EventTarget(), { defaultView: view, hidden: false });
-  const section = {
+  const section = Object.assign(new EventTarget(), {
     ownerDocument: doc, dataset: {},
     style: { setProperty: (name, value) => styles.set(name, value), removeProperty: name => styles.delete(name) },
     getBoundingClientRect: () => ({ top: 1400, height: 820 }),
@@ -93,7 +121,7 @@ test('queued observer and animation callbacks cannot revive a disposed final sec
       attributes.delete(name);
       delete this.dataset[name.slice(5).replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())];
     },
-  };
+  });
   const stop = initEndReveal({ querySelector: () => section, nodeType: 1 });
   observers[0].callback([{ isIntersecting: true }]);
   assert.equal(attributes.has('data-end-reveal-active'), true);

@@ -2,14 +2,16 @@ import { siteContent } from './data/siteContent.js';
 import { artworks } from './data/artworks.js';
 import { contentURL, emailURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
-import { categoryURL, projectURL } from './routes.js';
+import { categoryURL, projectURL, categoryById, groupById, matchesArchive } from './routes.js';
 import { renderFooter } from './footer.js';
+import { renderHorizontalDrift } from './horizontal-drift-content.js';
+import { renderDigitalInk } from './digital-ink-content.js';
+import { renderFlashMannequin } from './flash-mannequin-content.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
-const categoryById = (id) => siteContent.categories.find((category) => category.id === id);
 
 export function normalizeCategory(category) {
-  return categoryById(category) ? category : 'all';
+  return categoryById(category) || groupById(category) ? category : 'all';
 }
 
 function header(page) {
@@ -43,7 +45,8 @@ export function renderHomepageSections() {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
     <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
     <div class="category-strip" role="navigation" aria-label="Selected work categories" tabindex="0">
-      ${siteContent.categories.map((category) => `<a class="category-link" href="${categoryURL(category.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(category.label)}</span>${arrow}</span></span></a>`).join('')}
+      ${siteContent.workGroups.map((group) => `<a class="category-link" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`).join('')}
+      ${siteContent.workGroups.map((group) => `<div class="category-sublinks" aria-label="${escape(group.label)} subcategories">${group.children.length > 1 ? group.children.map((id) => `<a href="${categoryURL(id)}">${escape(categoryById(id).label)} ${arrow}</a>`).join('') : ''}</div>`).join('')}
     </div>
   </div></section>
   <section class="content-section about-preview" aria-labelledby="about-preview-title" data-motion="about"><div class="section-pin">
@@ -101,18 +104,42 @@ export function renderProject(project) {
 
 export function renderWorkPage(category = 'all') {
   const selected = normalizeCategory(category);
+  const selectedCategory = categoryById(selected);
+  const parent = groupById(selectedCategory?.group || selected);
+  const archiveLabel = selectedCategory?.label || groupById(selected)?.label || 'all artwork';
   const projects = artworks.filter((project) => project.published !== false && categoryById(project.category)
-    && (selected === 'all' || project.category === selected)).map(renderProject).filter(Boolean);
-  const filters = [{ id: 'all', label: 'all' }, ...siteContent.categories];
+    && matchesArchive(project, selected));
+  const visibleCategories = selectedCategory ? [selectedCategory] : selected === 'all'
+    ? siteContent.categories.filter((entry) => !entry.legacy || projects.some((project) => project.category === entry.id))
+    : (groupById(selected)?.children || []).map(categoryById);
+  const filters = [{ id: 'all', label: 'all' }, ...siteContent.workGroups,
+    ...(selectedCategory?.legacy ? [selectedCategory] : [])];
+  const content = visibleCategories.map((entry) => {
+    const items = projects.filter((project) => project.category === entry.id);
+    const contents = entry.presentation === 'drift' ? renderHorizontalDrift(items, { category: entry.id, label: entry.label })
+      : entry.presentation === 'ink' ? renderDigitalInk(items)
+        : items.map(renderProject).filter(Boolean).join('');
+    const inner = contents || '<p class="archive-empty">archive in progress.</p>';
+    return `<section class="archive-category" id="${escape(entry.id)}" aria-labelledby="archive-${escape(entry.id)}-title" data-archive-category="${escape(entry.id)}">
+      ${visibleCategories.length > 1 ? `<h2 class="archive-category-heading" id="archive-${escape(entry.id)}-title"><a href="${categoryURL(entry.id)}">${escape(entry.label)} ${arrow}</a></h2>` : `<h2 class="sr-only" id="archive-${escape(entry.id)}-title">${escape(entry.label)}</h2>`}
+      ${entry.presentation === 'existing' && contents ? `<div class="project-grid">${inner}</div>` : inner}
+    </section>`;
+  }).join('');
   return `${header('work')}
   <div class="page-shell work-page">
     <p class="page-kicker">portfolio archive</p>
-    <h1 class="page-heading">work</h1>
+    <h1 class="page-heading">${selected === 'all' ? 'work' : escape(archiveLabel)}</h1>
     <nav class="work-filters" aria-label="Filter artwork by category">
-      ${filters.map((filter) => `<a class="filter-link${selected === filter.id ? ' is-active' : ''}" href="${filter.id === 'all' ? '/work' : categoryURL(filter.id)}"${selected === filter.id ? ' aria-current="page"' : ''}>${escape(filter.label)}</a>`).join('')}
+      ${filters.map((filter) => {
+        const active = selected === filter.id || parent?.id === filter.id;
+        const current = selected === filter.id ? selectedCategory && parent?.children.length > 1 ? 'location' : 'page'
+          : parent?.id === filter.id ? 'location' : '';
+        return `<a class="filter-link${active ? ' is-active' : ''}" href="${filter.id === 'all' ? '/work' : categoryURL(filter.id)}"${current ? ` aria-current="${current}"` : ''}>${escape(filter.label)}</a>`;
+      }).join('')}
     </nav>
-    <section class="portfolio-archive" aria-label="${selected === 'all' ? 'All artwork' : escape(categoryById(selected).label)}">
-      ${projects.length ? `<div class="project-grid">${projects.join('')}</div>` : '<p class="archive-empty">archive in progress.</p>'}
+    ${parent?.children.length > 1 ? `<nav class="work-subfilters" aria-label="${escape(parent.label)} subcategories">${parent.children.map((id) => `<a class="filter-link${selected === id ? ' is-active' : ''}" href="${categoryURL(id)}"${selected === id ? ' aria-current="page"' : ''}>${escape(categoryById(id).label)}</a>`).join('')}</nav>` : ''}
+    <section class="portfolio-archive" aria-label="${selected === 'all' ? 'All artwork' : escape(archiveLabel)}">
+      ${content || '<p class="archive-empty">archive in progress.</p>'}
     </section>
   </div>
   ${footer()}`;
@@ -164,6 +191,7 @@ export function renderArtworkPage(project) {
       <article class="project artwork-detail" data-project-url="${escape(projectURL(project))}">
         <h1 class="page-heading">${escape(project.title || category.label)}</h1>
         <div class="project-images">${project.images.map((image, index) => imageMarkup(image, { critical: index === 0, imageIndex: index, figureId: `image-${index + 1}` })).join('')}</div>
+        ${renderFlashMannequin(project)}
         <div class="project-meta">
           <p class="project-index">${escape(category.label)}${project.year ? ` / ${escape(project.year)}` : ''}</p>
           ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}

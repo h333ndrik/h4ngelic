@@ -1,4 +1,5 @@
 import './artwork-transitions.css';
+import { createVisualMotionPublisher } from './motion-mosh.js';
 
 const transitionName = 'h4-artwork';
 const visible = (rect) => rect.width > 1 && rect.height > 1 && rect.right > 0 && rect.bottom > 0 && rect.left < innerWidth && rect.top < innerHeight;
@@ -116,10 +117,26 @@ export function animateArtworkFlight({ from, to, host, direction = 'opening', fr
     { transform: `translate(${start.left - end.left}px, ${start.top - end.top}px) scale(${scale})` },
     { transform: 'translate(0, 0) scale(1)' },
   ], { duration: 360, easing: 'cubic-bezier(.2,.7,.25,1)', fill: 'both' });
+  const publisher = createVisualMotionPublisher({ doc: host.ownerDocument });
+  let motionFrame = 0;
+  const publish = time => {
+    motionFrame = 0;
+    if (!copy.isConnected) return;
+    if (publisher.ready(time)) {
+      const bounds = copy.getBoundingClientRect();
+      publisher.publish([{ kind: 'section', target: copy,
+        x: bounds.x + bounds.width / 2, y: bounds.y + bounds.height / 2,
+        width: bounds.width, height: bounds.height, opacity: 1 }], time);
+    }
+    if (animation.playState === 'running') motionFrame = requestAnimationFrame(publish);
+  };
+  if (host.ownerDocument.documentElement.dataset.mode === 'xray') publish(performance.now());
   let disposed = false;
   const cleanup = () => {
     if (disposed) return;
     disposed = true;
+    if (motionFrame) cancelAnimationFrame(motionFrame);
+    publisher.reset();
     animation.cancel();
     copy.remove();
     delete host.dataset.artworkFlight;

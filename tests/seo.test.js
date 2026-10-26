@@ -24,10 +24,17 @@ test('preview remains non-indexable; production requires a real HTTPS origin', (
   assert.throws(() => getSEOConfig({ deployment: 'staging' }));
 });
 
-test('real route metadata is unique, canonical and excludes empty archives', () => {
-  const pages = routeDefinitions().map((route) => getPageMetadata(route, production));
+test('canonical archive metadata is unique and incomplete supplied detail remains non-indexable', () => {
+  const routes = routeDefinitions();
+  const pages = routes.map((route) => getPageMetadata(route, production));
   assert.equal(new Set(pages.map((page) => page.title)).size, pages.length);
-  assert.equal(new Set(pages.map((page) => page.description)).size, pages.length);
+  const describedPages = routes.filter(route => route.kind !== 'artwork').map(route => getPageMetadata(route, production));
+  assert.equal(new Set(describedPages.map(page => page.description)).size, describedPages.length);
+  const original = getPageMetadata(resolveRoute('/work/digital-artworks/green-black-original'), production);
+  assert.equal(original.indexable, false, 'The artist has not supplied a title or description; publishing the actual image must not invent them.');
+  assert.equal(original.canonicalURL, 'https://h4ngelic.com/work/digital-artworks/green-black-original');
+  assert.equal(original.description, getPageMetadata(resolveRoute('/work/digital-artworks'), production).description,
+    'An incomplete noindex detail uses the truthful existing category description.');
   assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/about']);
   assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/work/tattoos');
   const missing = getPageMetadata(resolveRoute('/no-such-page'), production);
@@ -52,6 +59,16 @@ test('only complete supplied projects make an archive and detail indexable', () 
   for (const incomplete of [{ ...project, published: false }, { ...project, description: '' }, { ...project, images: [] }, { ...project, images: [{ src: '/images/line-study.webp', alt: '' }] }]) {
     assert.equal(getPageMetadata({ ...detail, project: incomplete }, production).indexable, false);
   }
+});
+
+test('More indexing follows its genuine leaf artwork while missing originals stay unpublished', () => {
+  const project = { id: 'supplied-digital-work', category: 'digital-artworks', title: 'supplied title',
+    description: 'Actual artist description.', images: [{ src: '/images/actual-original.webp', alt: 'Actual artwork.' }] };
+  const options = { ...production, projects: [project] };
+  assert.equal(getPageMetadata(resolveRoute('/work/more'), options).indexable, true);
+  assert.equal(getPageMetadata(resolveRoute('/work/analog-photography'), options).indexable, false);
+  assert.equal(getPageMetadata(resolveRoute('/work/digital-artworks'), options).indexable, true);
+  assert.equal(getPageMetadata(resolveRoute('/work/more'), production).indexable, false);
 });
 
 test('structured data attributes the artist without invented business details or profiles', () => {

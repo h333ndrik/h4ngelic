@@ -1,0 +1,363 @@
+{
+  "passed": true,
+  "reports": [
+    {
+      "width": 1000,
+      "splash": [
+        {
+          "x": 2,
+          "y": 1,
+          "mark": {
+            "x": 2,
+            "y": 1,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 142,
+            "largestChroma": 85
+          }
+        },
+        {
+          "x": 997,
+          "y": 1,
+          "mark": {
+            "x": 997,
+            "y": 1,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 66,
+            "largestChroma": 76
+          }
+        },
+        {
+          "x": 150,
+          "y": 3,
+          "mark": {
+            "x": 150,
+            "y": 3,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 328,
+            "largestChroma": 96
+          }
+        },
+        {
+          "x": 10,
+          "y": 380,
+          "mark": {
+            "x": 10,
+            "y": 380,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 712,
+            "largestChroma": 101
+          }
+        },
+        {
+          "x": 989,
+          "y": 433,
+          "mark": {
+            "x": 989,
+            "y": 433,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 280,
+            "largestChroma": 90
+          }
+        },
+        {
+          "x": 11,
+          "y": 608,
+          "mark": {
+            "x": 11,
+            "y": 608,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 304,
+            "largestChroma": 138
+          }
+        }
+      ],
+      "meshPaint": true,
+      "controls": true,
+      "bounds": [
+        {
+          "x": 35,
+          "y": 262.796875,
+          "width": 310,
+          "height": 178.234375
+        },
+        {
+          "x": 345,
+          "y": 262.796875,
+          "width": 310,
+          "height": 178.234375
+        },
+        {
+          "x": 655,
+          "y": 262.796875,
+          "width": 310,
+          "height": 178.234375
+        }
+      ],
+      "children": [
+        "tattoos",
+        "flashes",
+        "analog photography",
+        "digital artworks"
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "splash": [
+        {
+          "x": 2,
+          "y": 1,
+          "mark": {
+            "x": 2,
+            "y": 1,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 306,
+            "largestChroma": 132
+          }
+        },
+        {
+          "x": 387,
+          "y": 1,
+          "mark": {
+            "x": 387,
+            "y": 1,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 150,
+            "largestChroma": 114
+          }
+        },
+        {
+          "x": 58,
+          "y": 3,
+          "mark": {
+            "x": 58,
+            "y": 3,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 153,
+            "largestChroma": 115
+          }
+        },
+        {
+          "x": 10,
+          "y": 422,
+          "mark": {
+            "x": 10,
+            "y": 422,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 619,
+            "largestChroma": 104
+          }
+        },
+        {
+          "x": 379,
+          "y": 481,
+          "mark": {
+            "x": 379,
+            "y": 481,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 542,
+            "largestChroma": 126
+          }
+        },
+        {
+          "x": 11,
+          "y": 675,
+          "mark": {
+            "x": 11,
+            "y": 675,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 747,
+            "largestChroma": 118
+          }
+        }
+      ],
+      "meshPaint": true,
+      "controls": true,
+      "bounds": [
+        {
+          "x": 22,
+          "y": 332.546875,
+          "width": 115.328125,
+          "height": 86.703125
+        },
+        {
+          "x": 137.328125,
+          "y": 332.546875,
+          "width": 115.328125,
+          "height": 86.703125
+        },
+        {
+          "x": 252.65625,
+          "y": 332.546875,
+          "width": 115.34375,
+          "height": 86.703125
+        }
+      ],
+      "children": [
+        "tattoos",
+        "flashes",
+        "analog photography",
+        "digital artworks"
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "splash": [
+        {
+          "x": 2,
+          "y": 1,
+          "mark": {
+            "x": 2,
+            "y": 1,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 248,
+            "largestChroma": 127
+          }
+        },
+        {
+          "x": 317,
+          "y": 1,
+          "mark": {
+            "x": 317,
+            "y": 1,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 114,
+            "largestChroma": 89
+          }
+        },
+        {
+          "x": 48,
+          "y": 3,
+          "mark": {
+            "x": 48,
+            "y": 3,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 249,
+            "largestChroma": 135
+          }
+        },
+        {
+          "x": 10,
+          "y": 422,
+          "mark": {
+            "x": 10,
+            "y": 422,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 741,
+            "largestChroma": 117
+          }
+        },
+        {
+          "x": 309,
+          "y": 481,
+          "mark": {
+            "x": 309,
+            "y": 481,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 639,
+            "largestChroma": 138
+          }
+        },
+        {
+          "x": 11,
+          "y": 675,
+          "mark": {
+            "x": 11,
+            "y": 675,
+            "opacity": 0.7,
+            "pointerEvents": "none"
+          },
+          "raster": {
+            "pixels": 788,
+            "largestChroma": 117
+          }
+        }
+      ],
+      "meshPaint": true,
+      "controls": true,
+      "bounds": [
+        {
+          "x": 22,
+          "y": 333.09375,
+          "width": 110,
+          "height": 84.15625
+        },
+        {
+          "x": 132,
+          "y": 333.09375,
+          "width": 110,
+          "height": 84.15625
+        },
+        {
+          "x": 242,
+          "y": 333.09375,
+          "width": 110,
+          "height": 84.15625
+        }
+      ],
+      "children": [
+        "tattoos",
+        "flashes",
+        "analog photography",
+        "digital artworks"
+      ],
+      "errors": []
+    },
+    {
+      "profile": "no-webgl",
+      "topBackgroundInk": true
+    }
+  ]
+}

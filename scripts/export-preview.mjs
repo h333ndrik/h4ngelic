@@ -47,6 +47,8 @@ for (const path of new Set([
 ])) {
   assets.set(path, await dataURL(`public${path}`, path.endsWith('.svg') ? 'image/svg+xml' : 'image/png'));
 }
+const defaultPaths = new Set(assets.keys());
+const portfolioAssets = new Map();
 const portfolioImages = artworks.filter((project) => project.published !== false)
   .flatMap((project) => project.images || []).flatMap((image) => [image.src, image.fullSrc]);
 if (siteContent.about.portrait?.src) portfolioImages.push(siteContent.about.portrait.src);
@@ -62,20 +64,28 @@ for (const imagePath of new Set(portfolioImages)) {
   if (!localFile.startsWith(`${publicDirectory}${sep}`)) throw new Error(`Preview image must stay inside public/: ${imagePath}`);
   const type = imageTypes[extname(localFile).toLowerCase()];
   if (!type) throw new Error(`Unsupported preview image format: ${imagePath}`);
-  assets.set(imagePath, `data:${type};base64,${(await readFile(localFile)).toString('base64')}`);
+  const inline = `data:${type};base64,${(await readFile(localFile)).toString('base64')}`;
+  assets.set(imagePath, inline);
+  portfolioAssets.set(imagePath, inline);
 }
-const embed = (text) => {
-  for (const [path, inline] of [...assets].sort(([a], [b]) => b.length - a.length)) text = text.replaceAll(path, inline);
+const embed = (text, { script = false } = {}) => {
+  for (const [path, inline] of [...assets].sort(([a], [b]) => b.length - a.length)) {
+    if (script && portfolioAssets.has(path) && !defaultPaths.has(path)) continue;
+    text = text.replaceAll(path, inline);
+  }
   return text;
 };
 const scriptPath = html.match(/<script\b[^>]*src="([^"]+)"[^>]*><\/script>/)?.[1];
 const stylePath = html.match(/<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/)?.[1];
 if (!scriptPath || !stylePath) throw new Error('Expected one Vite JS and CSS output.');
-const javascript = embed(await readFile(new URL(scriptPath.slice(1), previewBuild), 'utf8'));
+const javascript = embed(await readFile(new URL(scriptPath.slice(1), previewBuild), 'utf8'), { script: true });
 const css = embed(await readFile(new URL(stylePath.slice(1), previewBuild), 'utf8'));
+// Embed document before inserting JS, preserving logical portfolio paths.
+html = embed(html);
+const previewImages = JSON.stringify(Object.fromEntries(portfolioAssets)).replaceAll('<', '\\u003c');
+html = html.replace('</head>', `<script>globalThis.__H4_PREVIEW_IMAGES__=${previewImages};</script></head>`);
 html = html.replace(/<script\b[^>]*src="[^"]+"[^>]*><\/script>/, () => `<script type="module">${javascript.replaceAll('</script', '<\\/script')}</script>`);
 html = html.replace(/<link\b[^>]*rel="stylesheet"[^>]*>/, () => `<style>${css}</style>`);
-html = embed(html);
 await mkdir(new URL('artifacts/', root), { recursive: true });
 const output = new URL('artifacts/h4ngelic-preview.html', root);
 await writeFile(output, html);

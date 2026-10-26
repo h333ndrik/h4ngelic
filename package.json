@@ -45,7 +45,12 @@
     "test:standalone": "node tests/standalone-browser.mjs && node tests/standalone-native-browser.mjs",
     "test:mobile": "node tests/mobile-interactions-browser.mjs",
     "test:color-memory": "node tests/color-memory-browser.mjs",
-    "test:hero-ink": "node tests/hero-ink-browser.mjs"
+    "test:hero-ink": "node tests/hero-ink-browser.mjs",
+    "test:hero-background": "node tests/hero-background-browser.mjs",
+    "test:drift": "node tests/horizontal-drift-browser.mjs",
+    "test:digital-ink": "node tests/digital-ink-browser.mjs",
+    "test:persistent-memory": "node tests/persistent-memory-browser.mjs",
+    "test:mannequin": "node tests/flash-mannequin-browser.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

@@ -3,15 +3,15 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
 
-// The supplied artwork exists only in this browser fixture; the public archive
-// remains empty. Hide the underlying main after opening the real native viewer
+// This reflection-artwork project exists only in the browser fixture; the
+// public Jewellery archive remains empty. Hide main after opening the real viewer
 // so bright image pixels can only originate in the currently visible dialog.
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const width = Number(process.env.H4_MODAL_WIDTH) === 320 ? 320 : 390;
 const destination = new URL('../artifacts/mode-snapshot-modal/', import.meta.url);
 const limitBytes = (Number(process.env.H4_MAX_RSS_MB) || 2048) * 1048576;
 const report = { viewport: { width, height: 700 }, limitBytes, maximumTreeRssBytes: 0, aborted: null };
-const fixture = { id: 'modal-pixel-probe', category: 'tattoos', title: 'browser-only supplied artwork', images: [
+const fixture = { id: 'modal-pixel-probe', category: 'jewellery', title: 'browser-only supplied artwork', images: [
   { src: '/assets/tattoo-texture-640.webp', alt: 'supplied artwork used only in browser fixture', width: 640, height: 905 },
 ] };
 await mkdir(destination, { recursive: true });
@@ -66,7 +66,9 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   // Enter through the real category route: the dev server correctly returns a
   // static 404 for a fixture-only detail URL that does not exist on the server.
-  await page.goto(new URL('/work/tattoos', baseURL).href, { waitUntil: 'networkidle', timeout: 10000 });
+  await page.goto(new URL('/work/jewellery', baseURL).href, { waitUntil: 'networkidle', timeout: 10000 });
+  // Jewellery keeps the existing real image-link route presentation. Tattoo
+  // spatial archives are covered separately by horizontal-drift-browser.mjs.
   await page.locator('[data-artwork-link]').first().click({ timeout: 3000 });
   await page.waitForFunction(() => document.documentElement.dataset.page === 'artwork', null, { timeout: 3000 });
   await page.waitForFunction(() => !document.getAnimations().some(animation => animation.effect?.pseudoElement?.startsWith('::view-transition-')), null, { timeout: 3000 });

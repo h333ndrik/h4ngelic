@@ -280,7 +280,7 @@ async function mobile(width, reduced = false) {
     await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
     assert.equal(await control.count(), 1);
     assert.equal(await control.isVisible(), true);
-    assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.', 'Phase 2 message has not been introduced.');
+    assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 4 TO SEE THE OTHER SIDE', 'Phase 2 message has not been introduced.');
     assert.equal(await page.getByText('TAP HERE 4 TIMES.', { exact: true }).count(), 0);
     assert.equal(await page.getByText('TAP HERE 3 TIMES TO REVERSE.', { exact: true }).count(), 0);
     assert.deepEqual(errors, []);

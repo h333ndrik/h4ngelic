@@ -1,13 +1,19 @@
 import { defineConfig } from 'vite';
-import { resolveRoute } from './src/routes.js';
+import { resolveRoute, publishedProjects } from './src/routes.js';
 import { renderRoutePage } from './src/pages.js';
 import { getPageMetadata, renderHead, seoEnvironment } from './src/seo.js';
 import { buildRobots, buildSitemap } from './scripts/prerender.mjs';
+import { flashMannequinConfig } from './src/flash-mannequin-content.js';
 
 const config = seoEnvironment(process.env);
 
 export default defineConfig({
-  define: { __H4_SEO_CONFIG__: JSON.stringify(config) },
+  define: {
+    __H4_SEO_CONFIG__: JSON.stringify(config),
+    // An absent optional model must not enlarge the hero's shared Three chunk.
+    // Publishing a validated Flash placement enables this on the next build.
+    __H4_HAS_MANNEQUINS__: JSON.stringify(publishedProjects().some(project => Boolean(flashMannequinConfig(project)))),
+  },
   plugins: [{
     name: 'h4ngelic-document-routes',
     configureServer(server) {

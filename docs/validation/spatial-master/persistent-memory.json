@@ -1,0 +1,360 @@
+{
+  "checkedAt": "2026-10-26T00:29:55.784Z",
+  "passed": true,
+  "note": "Actual trusted mode/navigation/pointer input and 15s real idle on Chromium/SwiftShader; scar diagnostics are numeric sampling addresses, and pixel deltas are read from the displayed Canvas2D.",
+  "reports": [
+    {
+      "width": 1000,
+      "passed": true,
+      "idleMs": 15014,
+      "seed": 2437426188,
+      "newSeed": 1152611841,
+      "initial": {
+        "cells": 1008,
+        "columns": 36,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 19,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 12
+        },
+        "energy": 0.5384521478818736,
+        "maxEnergy": 0.5641722314595635,
+        "movingCells": 1002,
+        "heldCells": 193,
+        "persistent": true,
+        "scarredCells": 1008,
+        "maximumScar": 36.66368919213592
+      },
+      "afterInput": {
+        "cells": 1008,
+        "columns": 36,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 59,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 52
+        },
+        "energy": 0.2940532554910816,
+        "maxEnergy": 0.3986243839170513,
+        "movingCells": 188,
+        "heldCells": 193,
+        "persistent": true,
+        "scarredCells": 1008,
+        "maximumScar": 36.66368919213592
+      },
+      "idle": {
+        "cells": 1008,
+        "columns": 36,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 563,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 556
+        },
+        "energy": 0.006639392092382036,
+        "maxEnergy": 0.05341341454328836,
+        "movingCells": 169,
+        "heldCells": 193,
+        "persistent": true,
+        "scarredCells": 1008,
+        "maximumScar": 36.66368919213592
+      },
+      "pixels": {
+        "changed": 536524,
+        "pixels": 760000,
+        "meanChannelDelta": 13.949739912280702
+      },
+      "navigated": {
+        "cells": 1008,
+        "columns": 36,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 609,
+        "byKind": {
+          "mode": 6,
+          "section": 2,
+          "idle": 592,
+          "navigation": 6,
+          "hover": 2,
+          "click": 1
+        },
+        "energy": 0.05537785123489962,
+        "maxEnergy": 0.5587352980748017,
+        "movingCells": 370,
+        "heldCells": 210,
+        "persistent": true,
+        "scarredCells": 1008,
+        "maximumScar": 52.55152879895486
+      },
+      "resized": {
+        "cells": 1008,
+        "columns": 36,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 609,
+        "byKind": {
+          "mode": 6,
+          "section": 2,
+          "idle": 592,
+          "navigation": 6,
+          "hover": 2,
+          "click": 1
+        },
+        "energy": 0.05537785123489962,
+        "maxEnergy": 0.5587352980748017,
+        "movingCells": 370,
+        "heldCells": 210,
+        "persistent": true,
+        "scarredCells": 1008,
+        "maximumScar": 52.55152879895486
+      },
+      "errors": [],
+      "webgl": 0
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "idleMs": 15005,
+      "seed": 1470842491,
+      "newSeed": 3644024110,
+      "initial": {
+        "cells": 364,
+        "columns": 13,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 23,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 16
+        },
+        "energy": 0.3511019614552838,
+        "maxEnergy": 0.37079177301242766,
+        "movingCells": 364,
+        "heldCells": 34,
+        "persistent": true,
+        "scarredCells": 343,
+        "maximumScar": 21.49515072316368
+      },
+      "afterInput": {
+        "cells": 364,
+        "columns": 13,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 133,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 124,
+          "cursor": 2
+        },
+        "energy": 0.1472386519561899,
+        "maxEnergy": 0.23036399532424537,
+        "movingCells": 35,
+        "heldCells": 34,
+        "persistent": true,
+        "scarredCells": 343,
+        "maximumScar": 21.49515072316368
+      },
+      "idle": {
+        "cells": 364,
+        "columns": 13,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 781,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 772,
+          "cursor": 2
+        },
+        "energy": 0.004955173241212545,
+        "maxEnergy": 0.05418061694863368,
+        "movingCells": 30,
+        "heldCells": 34,
+        "persistent": true,
+        "scarredCells": 343,
+        "maximumScar": 21.49515072316368
+      },
+      "pixels": {
+        "changed": 111489,
+        "pixels": 272640,
+        "meanChannelDelta": 5.768106905320813
+      },
+      "navigated": {
+        "cells": 364,
+        "columns": 13,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 806,
+        "byKind": {
+          "mode": 6,
+          "section": 2,
+          "idle": 788,
+          "cursor": 2,
+          "navigation": 6,
+          "focus": 1,
+          "click": 1
+        },
+        "energy": 0.09313571389842779,
+        "maxEnergy": 0.5293671701843795,
+        "movingCells": 180,
+        "heldCells": 34,
+        "persistent": true,
+        "scarredCells": 343,
+        "maximumScar": 27.03669804926553
+      },
+      "resized": {
+        "cells": 364,
+        "columns": 13,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 806,
+        "byKind": {
+          "mode": 6,
+          "section": 2,
+          "idle": 788,
+          "cursor": 2,
+          "navigation": 6,
+          "focus": 1,
+          "click": 1
+        },
+        "energy": 0.09313571389842779,
+        "maxEnergy": 0.5293671701843795,
+        "movingCells": 180,
+        "heldCells": 34,
+        "persistent": true,
+        "scarredCells": 343,
+        "maximumScar": 27.03669804926553
+      },
+      "errors": [],
+      "webgl": 0
+    },
+    {
+      "width": 320,
+      "passed": true,
+      "idleMs": 15007,
+      "seed": 3516045980,
+      "newSeed": 2470911332,
+      "initial": {
+        "cells": 308,
+        "columns": 11,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 27,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 20
+        },
+        "energy": 0.32363226370731873,
+        "maxEnergy": 0.34500379525810604,
+        "movingCells": 302,
+        "heldCells": 35,
+        "persistent": true,
+        "scarredCells": 281,
+        "maximumScar": 20.169576469703614
+      },
+      "afterInput": {
+        "cells": 308,
+        "columns": 11,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 130,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 120,
+          "cursor": 3
+        },
+        "energy": 0.14600283332869837,
+        "maxEnergy": 0.22353665782513518,
+        "movingCells": 31,
+        "heldCells": 28,
+        "persistent": true,
+        "scarredCells": 281,
+        "maximumScar": 20.169576469703614
+      },
+      "idle": {
+        "cells": 308,
+        "columns": 11,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 714,
+        "byKind": {
+          "mode": 6,
+          "section": 1,
+          "idle": 704,
+          "cursor": 3
+        },
+        "energy": 0.0048364063207866495,
+        "maxEnergy": 0.054985871376765125,
+        "movingCells": 27,
+        "heldCells": 28,
+        "persistent": true,
+        "scarredCells": 281,
+        "maximumScar": 20.169576469703614
+      },
+      "pixels": {
+        "changed": 113073,
+        "pixels": 223488,
+        "meanChannelDelta": 6.071253639270714
+      },
+      "navigated": {
+        "cells": 308,
+        "columns": 11,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 739,
+        "byKind": {
+          "mode": 6,
+          "section": 2,
+          "idle": 720,
+          "cursor": 3,
+          "navigation": 6,
+          "focus": 1,
+          "click": 1
+        },
+        "energy": 0.10920992897598845,
+        "maxEnergy": 0.5307949206035326,
+        "movingCells": 147,
+        "heldCells": 44,
+        "persistent": true,
+        "scarredCells": 281,
+        "maximumScar": 27.882211527527726
+      },
+      "resized": {
+        "cells": 308,
+        "columns": 11,
+        "rows": 28,
+        "cellSize": 28,
+        "accepted": 739,
+        "byKind": {
+          "mode": 6,
+          "section": 2,
+          "idle": 720,
+          "cursor": 3,
+          "navigation": 6,
+          "focus": 1,
+          "click": 1
+        },
+        "energy": 0.10920992897598845,
+        "maxEnergy": 0.5307949206035326,
+        "movingCells": 147,
+        "heldCells": 44,
+        "persistent": true,
+        "scarredCells": 281,
+        "maximumScar": 27.882211527527726
+      },
+      "errors": [],
+      "webgl": 0
+    }
+  ]
+}

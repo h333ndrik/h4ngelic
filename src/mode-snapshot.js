@@ -89,8 +89,8 @@ function displacementMap(width, height, seed, phase, settings, mobile, kind, rec
   const cellHeight = area.height / rows;
   const scale = Math.max(1, settings.displacementPx * (mobile ? .65 : 1));
   const reversing = direction === 'leaving';
-  const probability = reversing ? [.98, .94, .8, .65, .42, .18][phase] : [.38, .62, .86, .98, .8, .48][phase];
-  const travel = reversing ? [.76, 1, .78, .58, .32, .12][phase] : [.18, .46, .8, 1, .76, .38][phase];
+  const probability = reversing ? [.99, .98, .87, .7, .48, .18][phase] : [.48, .76, .96, 1, .9, .58][phase];
+  const travel = reversing ? [.82, 1, .86, .63, .36, .12][phase] : [.22, .55, .88, 1, .84, .4][phase];
   const rectangles = [];
   const gradients = [];
   for (let row = 0; row < rows; row++) {
@@ -100,7 +100,7 @@ function displacementMap(width, height, seed, phase, settings, mobile, kind, rec
       const offset = sign * scale * (.12 + random() * .34) * travel;
       const vertical = .5 + (random() - .5) * .3 * travel;
       const smear = random() > .4;
-      const span = 1.4 + random() * 2.6;
+      const span = local ? 1.4 + random() * 2.6 : 2.1 + random() * 3.8;
       const tall = random() > .76;
       // Stable cells recover at different phases. Their held source regions
       // survive together instead of becoming newly randomized every frame.
@@ -132,7 +132,9 @@ function filterMarkup(id) {
     <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" data-snapshot-map result="uv"/>
     <feDisplacementMap in="SourceGraphic" in2="uv" scale="0" xChannelSelector="R" yChannelSelector="G" result="broken" data-snapshot-displacement/>
     <feOffset in="broken" dx="0" dy="0" data-snapshot-advection result="history"/>
-    <feComponentTransfer in="history" result="chemical">
+    <feOffset in="history" dx="0" dy="0" data-snapshot-echo result="held-frame"/>
+    <feComposite in="history" in2="held-frame" operator="arithmetic" k1="0" k2="1" k3="0" k4="0" data-snapshot-feedback result="carried-frame"/>
+    <feComponentTransfer in="carried-frame" result="chemical">
       <feFuncR type="table" tableValues="0 .125 .25 .375 .5 .625 .75 .875 1" data-snapshot-channel="0"/>
       <feFuncG type="table" tableValues="0 .125 .25 .375 .5 .625 .75 .875 1" data-snapshot-channel="1"/>
       <feFuncB type="table" tableValues="0 .125 .25 .375 .5 .625 .75 .875 1" data-snapshot-channel="2"/>
@@ -208,6 +210,8 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
         map: element.querySelector('[data-snapshot-map]'),
         mask: element.querySelector('[data-snapshot-mask]'),
         advection: element.querySelector('[data-snapshot-advection]'),
+        echo: element.querySelector('[data-snapshot-echo]'),
+        feedback: element.querySelector('[data-snapshot-feedback]'),
         displacement: element.querySelector('[data-snapshot-displacement]'),
         channels: [...element.querySelectorAll('[data-snapshot-channel]')],
         offsets: [...element.querySelectorAll('[data-snapshot-offset]')],
@@ -256,9 +260,10 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     for (const filter of filters) {
       filter.map.removeAttribute('href'); filter.mask.removeAttribute('href');
       filter.displacement.setAttribute('scale', '0');
-      for (const offset of [...filter.offsets, filter.advection]) {
+      for (const offset of [...filter.offsets, filter.advection, filter.echo]) {
         offset.setAttribute('dx', '0'); offset.setAttribute('dy', '0');
       }
+      filter.feedback.setAttribute('k2', '1'); filter.feedback.setAttribute('k3', '0');
       for (const channel of filter.channels) channel.setAttribute('tableValues', '0 .125 .25 .375 .5 .625 .75 .875 1');
     }
     last = { kind: record.kind, strength: record.strength, variant: record.variant, duration: record.duration, frames: record.frames, native: record.native, skipped: record.skipped };
@@ -344,7 +349,7 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
         : progress < .08 ? .65 + progress / .08 * .35 : Math.pow(1 - progress, .58);
       const pulse = .94 + .06 * Math.sin(progress * Math.PI * (entering ? 2 : 1));
       const gain = clamp(envelope * pulse, 0, 1) * amount;
-      const displacement = config.displacementPx * (plan.mobile ? .65 : 1) * (kind === 'mode' ? 1.5 : local ? .65 : .9);
+      const displacement = config.displacementPx * (plan.mobile ? .65 : 1) * (kind === 'mode' ? 1.85 : local ? .65 : .9);
       const drift = Math.sin(progress * Math.PI) * (.35 + .65 * progress) * amount;
       for (let index = 0; index < filters.length; index++) {
         const filter = filters[index];
@@ -353,6 +358,14 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
         filter.displacement.setAttribute('scale', String(displacement * imageGain * (index ? -.83 : 1)));
         filter.advection.setAttribute('dx', String(travelX * drift * (index ? -.28 : 1)));
         filter.advection.setAttribute('dy', String(travelY * drift * (index ? -.28 : 1)));
+        // The retained outgoing page and incoming page carry differently
+        // displaced copies of their own real pixels. Weighted arithmetic keeps
+        // brightness unchanged; this adds frame drag, never a white/glow layer.
+        const echo = kind === 'mode' ? imageGain * (index ? .22 : .34) : 0;
+        filter.echo.setAttribute('dx', String(travelX * drift * (index ? -.62 : .54)));
+        filter.echo.setAttribute('dy', String(travelY * drift * (entering ? .38 : -.64)));
+        filter.feedback.setAttribute('k2', String(1 - echo));
+        filter.feedback.setAttribute('k3', String(echo));
         for (const offset of filter.offsets) {
           const sign = Number(offset.dataset.snapshotOffset) * (entering ? 1 : -1);
           offset.setAttribute('dx', String(config.channelOffsetPx * imageGain * sign * (kind === 'mode' ? 1.6 : 1)));

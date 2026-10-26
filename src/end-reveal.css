@@ -9,6 +9,9 @@
   --end-reveal-opacity: 0;
   --end-reveal-y: 48px;
   --end-reveal-scale: .96;
+  --end-relief-depth: 0px;
+  --end-relief-edge-x: 0px;
+  --end-relief-edge-y: 0px;
 }
 .end-reveal-mark {
   position: absolute;
@@ -30,9 +33,24 @@
 }
 .end-reveal-mark::before {
   content: '';
-  background: linear-gradient(136deg, #42423b80 4%, #33333042 35%, #15151585 72%, #37373248);
-  filter: drop-shadow(-1px -1px 0 #5d5d5438) drop-shadow(1px 2px 0 #09090965);
-  opacity: .72;
+  /* A neutral impression, not a filled brand overlay. The silhouette's edge
+     separation grows with local scroll depth; the page remains continuous. */
+  background: linear-gradient(140deg, #ffffff04, #00000009 68%, #ffffff02);
+  filter: drop-shadow(calc(0px - var(--end-relief-depth) + var(--end-relief-edge-x)) calc(0px - var(--end-relief-depth) + var(--end-relief-edge-y)) .5px #ffffff15)
+    drop-shadow(calc(var(--end-relief-depth) + var(--end-relief-edge-x)) calc(var(--end-relief-depth) + var(--end-relief-edge-y)) 1px #00000085);
+  opacity: .9;
+}
+.end-reveal-relief {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  /* Source alpha is the exact monogram. Lighting is mapped into the existing
+     charcoal range inside the SVG, avoiding a pale, filled logo or reliance
+     on blending through the section's isolated transparent backdrop. */
+  opacity: .85;
 }
 .end-reveal-material {
   opacity: 0;
@@ -53,6 +71,7 @@ html[data-mode='xray'] .end-reveal-material {
 }
 html[data-mode='xray'] .end-reveal-material::before { background-image: url('/assets/living-decay-material.webp'); }
 html[data-mode='xray'] .end-reveal-mark::before { opacity: .15; }
+html[data-mode='xray'] .end-reveal-relief { opacity: 0; }
 html[data-mode='xray'] .end-reveal[data-end-reveal-active] .end-reveal-material::before {
   animation: h4-end-material 13s ease-in-out infinite alternate;
 }

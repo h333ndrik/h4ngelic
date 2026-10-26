@@ -12,9 +12,9 @@ const browser = await chromium.launch({
 });
 
 async function fixture(page) {
-  // The production archive deliberately stays empty. Only this temporary test
+  // This tattoo archive stays empty. Only this temporary test
   // view uses two views of the actual supplied texture to exercise the viewer.
-  await page.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/work/tattoos', baseURL).href, { waitUntil: 'networkidle' });
   await page.evaluate(async () => {
     const { renderArtworkPage } = await import('/src/pages.js');
     const { initGallery } = await import('/src/gallery.js');

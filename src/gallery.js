@@ -47,6 +47,9 @@ export function initGallery(root = document) {
   let pageLocked = false;
   let flight = null;
   let closing = false;
+  let driftSection = null;
+  let driftItem = null;
+  let savedScroll = null;
 
   const listen = (element, type, handler, options) => {
     element.addEventListener(type, handler, options);
@@ -130,7 +133,17 @@ export function initGallery(root = document) {
     pageLocked = false;
     document.body.style.overflow = savedOverflow;
     document.body.style.paddingRight = savedPadding;
+    if (driftSection) {
+      driftSection.classList.remove('is-artwork-focused');
+      driftSection.removeAttribute('data-drift-paused');
+      driftSection.setAttribute('data-drift-focus-restore', '');
+      driftItem?.classList.remove('is-drift-selected');
+      opener?.classList.remove('is-artwork-selected');
+      if (savedScroll) scrollTo({ left: savedScroll[0], top: savedScroll[1], behavior: 'instant' });
+    }
     if (opener?.isConnected) opener.focus({ preventScroll: true });
+    driftSection?.removeAttribute('data-drift-focus-restore');
+    driftSection = driftItem = savedScroll = null;
   }
 
   function finishClose() {
@@ -151,8 +164,10 @@ export function initGallery(root = document) {
     const currentRect = flight?.currentRect();
     cancelFlight();
     const image = stage.querySelector('.artwork-viewer-image');
-    const movement = image && images[displayed] ? animateArtworkFlight({
-      from: image, to: images[displayed], host: dialog, direction: 'closing', fromRect: currentRect,
+    const destination = driftSection && !images[displayed]?.getClientRects().length
+      ? opener?.querySelector('img') : images[displayed];
+    const movement = image && destination ? animateArtworkFlight({
+      from: image, to: destination, host: dialog, direction: 'closing', fromRect: currentRect,
     }) : null;
     if (movement) {
       flight = movement;
@@ -181,6 +196,18 @@ export function initGallery(root = document) {
     title.textContent = project.querySelector('h1, h2')?.textContent || 'artwork';
     const openingFrom = trigger.querySelector('img');
     const openingRect = artworkRect(openingFrom);
+    driftSection = trigger.closest('[data-horizontal-drift]');
+    driftItem = trigger.closest('[data-drift-item]');
+    if (driftSection) {
+      savedScroll = [scrollX, scrollY];
+      driftSection.setAttribute('data-drift-paused', '');
+      driftSection.classList.add('is-artwork-focused');
+      driftItem?.classList.add('is-drift-selected');
+      trigger.classList.remove('is-artwork-selected');
+      // The original rect was captured before the selection glow and before
+      // neighbouring planes recede. Closing targets that unchanged plane.
+      trigger.classList.add('is-artwork-selected');
+    }
     savedOverflow = document.body.style.overflow;
     savedPadding = document.body.style.paddingRight;
     const scrollbar = innerWidth - document.documentElement.clientWidth;
