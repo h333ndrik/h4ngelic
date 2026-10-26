@@ -38,22 +38,28 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(new URL('/?test=1', base).href, { waitUntil: 'networkidle' });
     await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-    const points = [[2, 1], [width - 3, 1], [Math.floor(width * .35), 3],
+    // Keep the upper interior sample clear of the genuine visitor-message
+    // button: mobile browsers can enlarge nearby semantic touch targets.
+    const points = [[2, 1], [width - 3, 1], [Math.floor(width * .15), 3],
       [10, Math.floor(height * .5)], [width - 11, Math.floor(height * .57)], [11, Math.floor(height * .8)]];
     const splash = [];
     for (const [x, y] of points) {
       await page.evaluate(() => { window.__previousHeroBackgroundMark = document.querySelector('[data-ink-mark]:last-child'); });
       const beforeMesh = await page.evaluate(() => window.__H4_TEST__.snapshot().heroInk.created);
       if (mobile) await page.touchscreen.tap(x, y); else await page.mouse.click(x, y);
-      await page.waitForFunction(() => {
+      await page.waitForFunction(({ x, y }) => {
         const mark = document.querySelector('[data-ink-mark]:last-child');
-        return mark && mark !== window.__previousHeroBackgroundMark;
-      });
+        return mark && mark !== window.__previousHeroBackgroundMark
+          && Math.abs(parseFloat(mark.style.left) - x - scrollX) < 1
+          && Math.abs(parseFloat(mark.style.top) - y - scrollY) < 1;
+      }, { x, y });
       const mark = await page.locator('[data-ink-mark]').last().evaluate(mark => ({
         x: parseFloat(mark.style.left), y: parseFloat(mark.style.top),
         opacity: Number(getComputedStyle(mark).opacity), pointerEvents: getComputedStyle(mark).pointerEvents,
       }));
-      assert.ok(Math.abs(mark.x - x) < 1 && Math.abs(mark.y - y) < 1, 'Ink follows the real input at viewport edges.');
+      const scroll = await page.evaluate(() => ({ x: scrollX, y: scrollY }));
+      assert.ok(Math.abs(mark.x - x - scroll.x) < 1 && Math.abs(mark.y - y - scroll.y) < 1,
+        `Ink follows real input in document coordinates: ${JSON.stringify({ width, x, y, mark, scroll })}`);
       assert.equal(mark.pointerEvents, 'none');
       assert.equal(await page.evaluate(() => window.__H4_TEST__.snapshot().heroInk.created), beforeMesh);
       // A random white pigment may have little chroma; geometry/opacity plus
@@ -63,16 +69,19 @@ try {
     }
     assert.ok(splash.some(sample => sample.raster.pixels > 5), 'Real rendered pigment must be visible, including clipped edge splashes.');
     const flatBefore = await page.locator('[data-ink-mark]').count();
+    await page.evaluate(() => { window.__heroFlatMarks = new Set(document.querySelectorAll('[data-ink-mark]')); });
     const hit = await page.evaluate(() => window.__H4_TEST__.hitPoint());
     assert.ok(hit);
     const meshBefore = await page.evaluate(() => window.__H4_TEST__.snapshot().heroInk.created);
     if (mobile) await page.touchscreen.tap(hit.x, hit.y); else await page.mouse.click(hit.x, hit.y);
     await page.waitForFunction(count => window.__H4_TEST__.snapshot().heroInk.created > count, meshBefore);
-    assert.equal(await page.locator('[data-ink-mark]').count(), flatBefore, 'Mesh paint has priority and never duplicates a flat splash.');
+    assert.ok(await page.evaluate(() => [...document.querySelectorAll('[data-ink-mark]')].every(mark => window.__heroFlatMarks.has(mark))),
+      'Mesh paint has priority and never duplicates a flat splash, even while older marks expire.');
     await page.locator('#speed-control').focus();
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('#speed-control').getAttribute('aria-pressed'), 'true');
-    assert.equal(await page.locator('[data-ink-mark]').count(), flatBefore, 'Controls stay functional and do not paint.');
+    assert.ok(await page.evaluate(() => [...document.querySelectorAll('[data-ink-mark]')].every(mark => window.__heroFlatMarks.has(mark))),
+      'Controls stay functional and do not paint.');
     await page.screenshot({ path: new URL(`hero-background-${width}.png`, destination).pathname });
 
     const strip = page.locator('.category-strip');

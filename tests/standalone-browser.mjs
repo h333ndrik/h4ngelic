@@ -160,7 +160,9 @@ try {
       assert.match(await original.getAttribute('src'), /^data:image\//, 'Offline artwork uses an embedded image.');
       assert.equal(await original.getAttribute('width'), '1440');
       assert.equal(await original.getAttribute('height'), '1920');
-      assert.ok(await original.evaluate(image => image.naturalWidth > 0 && Math.abs(image.naturalWidth / image.naturalHeight - .75) < .001));
+      assert.ok(await original.evaluate(image => image.naturalWidth > 0
+        && Math.abs(image.naturalWidth * 4 - image.naturalHeight * 3) <= 4),
+      'Responsive image density rounds intrinsic CSS dimensions by at most one pixel.');
       assert.equal(await page.locator('[data-project-url="/work/digital-artworks/green-black-original"]').count(), 1);
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'New archive navigation keeps the current visual world.');
 

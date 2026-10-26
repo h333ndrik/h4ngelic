@@ -26,7 +26,7 @@ These are native browser snapshot filters with a bounded lifetime. They do not m
 
 ## Verification
 
-`node --test tests/image-memory.test.js tests/ambient-film.test.js tests/mode-snapshot.test.js` passes 43 focused tests. These include an independent pixel-compositing oracle over 64.8 simulated seconds: real prior image information remains displaced from an unchanged source after motion has stopped. Tests also verify unchanged color controls, idle evolution, navigation/resize retention, bounded resources, normalized snapshot echo weights, distinct signed reverse displacement and exact lifecycle cleanup.
+`node --test tests/image-memory.test.js tests/ambient-film.test.js tests/mode-snapshot.test.js` passes 44 focused tests. These include an independent pixel-compositing oracle over 64.8 simulated seconds: real prior image information remains displaced from an unchanged source after motion has stopped. Tests also verify unchanged color controls, idle evolution, navigation/resize retention, bounded resources, normalized snapshot echo weights, distinct signed reverse displacement and exact lifecycle cleanup. Changing coarse compression blocks to finer ones preserves the damaged world while enforcing the new, smaller displacement budget.
 
 The real browser harness is `tests/persistent-memory-browser.mjs`. With a running development server:
 
@@ -34,4 +34,16 @@ The real browser harness is `tests/persistent-memory-browser.mjs`. With a runnin
 H4_BASE_URL=http://127.0.0.1:5173 node tests/persistent-memory-browser.mjs
 ```
 
-It uses actual mode gestures, pointer input, internal navigation, viewport resizing and 15 seconds of real idle at 1000/390/320px. It reads displayed Canvas2D pixels and reports retained numeric scars, continued idle evolution, unchanged controls, new fresh-entry seeds, clean Normal rendering suspension and no interior Three.js loading. Results are written to `artifacts/persistent-memory/results.json` when run; this document does not claim an unexecuted browser result.
+The browser run passed at 1000/390/320px using actual mode gestures, pointer input, internal navigation, viewport resizing and 15 seconds of real idle. It read pixels from the displayed Canvas2D, with these measured results:
+
+| Viewport | Real idle interval | Changed pixels | Retained scar cells before / after idle |
+| --- | ---: | ---: | ---: |
+| 1000px | 15.014s | 536,524 of 760,000 | 1008 / 1008 |
+| 390px | 15.005s | 111,489 of 272,640 | 343 / 343 |
+| 320px | 15.007s | 113,073 of 223,488 | 281 / 281 |
+
+Maximum retained displacement also stayed exactly unchanged through each idle interval. Existing material controls remained identical; internal navigation and resizing preserved the seed and damaged state. Returning to Normal stopped ambient frames, and fresh entry produced a different seed. All three cold interior profiles loaded no hero/Three.js and created zero WebGL contexts, with no runtime errors. Actual desktop and 320px idle screenshots were visually inspected: the damaged material remains visible behind readable typography.
+
+The pixel deltas demonstrate continued evolution; the retained addresses and independent minute-long compositing oracle establish that this evolution does not reconstruct the whole clean source. They are not physical-phone FPS measurements. Raw evidence is in `artifacts/persistent-memory/results.json` and the corresponding `idle-*.png` screenshots. Browser tooling here uses Chromium/SwiftShader.
+
+The existing native snapshot pixel suites also pass against the stronger capture graph. Actual bright glyph information moved 4,598 pixels outside its original mask with zero unexpected chroma and exact live-DOM restoration. In the real artwork dialog, 9,817 actual image pixels moved outside their old mask and 32,707 pixels changed; the grayscale source retained zero unexpected chroma. On release, only 25 channels differed by one 8-bit level (mean .000145688), within the existing strict raster rounding bound. The displaced image screenshot was inspected. Both suites retain once-only callbacks, interruption and reduced-motion/unsupported fallbacks. A separate unpaused reverse snapshot configured to 750ms completed in 1,158ms including software rendering and native setup; the public world switch remains configured to 950ms. Evidence: `artifacts/mode-snapshot/results.json` and `artifacts/mode-snapshot-modal/results.json`.

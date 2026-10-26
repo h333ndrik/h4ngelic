@@ -2,9 +2,19 @@
 
 The normal flat Flash image remains the primary artwork. An explicit **3d placement** button on a Flash detail page may open a second view; **flat artwork** returns to the original images. Closing the viewer or leaving the route releases its WebGL resources. No model, Three.js module or WebGL context is requested by this feature until that button is selected. Automatic rotation stops offscreen, when the document is hidden and under reduced motion; manual dragging and arrow keys remain available.
 
+The production build computes `__H4_HAS_MANNEQUINS__` automatically from
+published Flash projects with image entries and a valid `mannequin`
+configuration. When none exist, the optional loader path is removed during
+compilation, so an unused GLTFLoader does not enlarge the hero's shared Three
+bundle. Publishing a validated placement in `src/data/artworks.js` and running
+a new build enables it automatically; no separate user-managed feature flag
+is needed. Development keeps the markup-based initializer available for
+clearly labelled browser fixtures. The build-gate check verifies both the
+current absent-loader output and a positive enabled-loader compile.
+
 ## Actual asset status
 
-No original mannequin FBX, GLB, OBJ or USDZ is present in this checkout or the available uploaded attachments. The current attachments contain SVG brand/artwork files and video references. Therefore:
+No original mannequin FBX, GLB, OBJ or USDZ is present in this checkout or the available uploaded attachments. The available assets contain SVG brand/artwork files, video references and the supplied Digital Artwork JPEG, but no original human model or placement asset. Therefore:
 
 - No UV inspection or repair has been performed on an original mannequin.
 - No female mannequin model has been fabricated or substituted.

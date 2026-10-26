@@ -15,7 +15,11 @@ const cursor = target => target.evaluate(element => getComputedStyle(element).cu
 async function state(page, expected) {
   await page.waitForFunction(value => document.documentElement.dataset.mode === value
     && document.documentElement.hasAttribute('data-xray-ready')
-    && !document.documentElement.hasAttribute('data-xray-transition'), expected, { timeout: 15000 });
+    && !document.documentElement.hasAttribute('data-xray-transition')
+    && !document.documentElement.hasAttribute('data-mode-snapshot'), expected, { timeout: 15000 }).catch(async error => {
+      console.log('ICON MODE DIAGNOSTIC', JSON.stringify(await page.evaluate(() => ({ mode: document.documentElement.dataset.mode, hidden: document.hidden, focused: document.hasFocus(), active: document.activeElement?.outerHTML?.slice(0,300), trace: window.__iconFlow, attributes: Object.fromEntries([...document.documentElement.attributes].map(a=>[a.name,a.value])) }))));
+      throw error;
+    });
 }
 async function enter(page) {
   await page.keyboard.down('4');
@@ -35,6 +39,11 @@ try {
     const context = await browser.newContext({ deviceScaleFactor: 1, ...options });
     await context.addInitScript(() => {
       window.__iconWarm = [];
+      window.__iconFlow = [];
+      for (const type of ['keydown','keyup','h4:pagechange','h4:modechange','blur','focus']) document.addEventListener(type, event => {
+        if ((type==='keydown'||type==='keyup') && !['3','4'].includes(event.key)) return;
+        window.__iconFlow.push({ type, key:event.key, repeat:event.repeat, prevented:event.defaultPrevented, mode:document.documentElement.dataset.mode, time:performance.now(), target:event.target?.nodeName });
+      });
       const Native = window.Image;
       const src = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
       window.Image = class extends Native {
@@ -90,6 +99,7 @@ try {
       });
       await target.click(); await page.waitForURL(value => value.pathname === '/about');
       await page.waitForFunction(() => window.__iconPageChanged && document.documentElement.dataset.page === 'about');
+      await page.evaluate(async () => { await document.activeViewTransition?.finished.catch(() => {}); });
       assert.deepEqual(await icons(page), settings.favicon.other, 'Enhanced navigation retains favicon mode.');
       await reverse(page);
       assert.deepEqual(await icons(page), settings.favicon.normal, '333 must restore the exact original SVG href and both PNG fallbacks.');

@@ -140,7 +140,8 @@ async function render({ reset = false, restoreScroll } = {}) {
     import('./digital-ink.js').then(({ initDigitalInk }) => {
       if (revision === renderRevision) stopDigitalInk = initDigitalInk(content);
     }));
-  if (content.querySelector('[data-flash-mannequin]')) enhancements.push(
+  if ((import.meta.env.DEV || typeof __H4_HAS_MANNEQUINS__ === 'undefined' || __H4_HAS_MANNEQUINS__)
+    && content.querySelector('[data-flash-mannequin]')) enhancements.push(
     import('./flash-mannequin.js').then(({ initFlashMannequins }) => {
       if (revision === renderRevision) stopMannequins = initFlashMannequins(content);
     }));

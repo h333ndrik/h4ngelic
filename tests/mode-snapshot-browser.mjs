@@ -45,13 +45,16 @@ try {
     }
   });
   await page.waitForTimeout(90);
-  const shifted = await page.screenshot({ clip, path: new URL('displaced-actual-typography.png', destination).pathname });
   const metadata = await page.evaluate(() => ({
     callbacks: window.__snapshotProbe.callbacks,
     filter: getComputedStyle(document.documentElement, '::view-transition-old(root)').filter,
     source: document.querySelector('.mode-snapshot-definitions feDisplacementMap')?.getAttribute('in'),
     controller: window.__snapshotProbe.controller.snapshot(),
   }));
+  // Read active metadata before potentially slow GPU/PNG readback. The real
+  // bounded-lifetime guard can clean up while that readback finishes; the
+  // following bitmap displacement assertions still require captured pixels.
+  const shifted = await page.screenshot({ clip, path: new URL('displaced-actual-typography.png', destination).pathname });
   await page.evaluate(async () => { window.__snapshotProbe.controller.skip(); await window.__snapshotProbe.handle.finished; });
   const [beforePixels, afterPixels] = await Promise.all([original, shifted].map(image => sharp(image).removeAlpha().raw().toBuffer()));
   let brightBefore = 0, brightAfter = 0, movedOutsideMask = 0, unexpectedColors = 0;

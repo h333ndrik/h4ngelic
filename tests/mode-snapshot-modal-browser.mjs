@@ -3,8 +3,8 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
 
-// The supplied artwork exists only in this browser fixture; the public archive
-// remains empty. Hide the underlying main after opening the real native viewer
+// This reflection-artwork project exists only in the browser fixture; the
+// public Jewellery archive remains empty. Hide main after opening the real viewer
 // so bright image pixels can only originate in the currently visible dialog.
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const width = Number(process.env.H4_MODAL_WIDTH) === 320 ? 320 : 390;

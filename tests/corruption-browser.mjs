@@ -174,6 +174,7 @@ async function addPhotographFixtures(page) {
     document.querySelector('.page-shell').append(section);
     const dialog = document.createElement('dialog');
     dialog.className = 'artwork-dialog';
+    dialog.dataset.corruptionDialogFixture = '';
     dialog.style.cssText = 'opacity:1;';
     dialog.innerHTML = `<button type="button" data-test-close>close test view</button><div class="artwork-viewer-stage"><img class="artwork-viewer-image" src="/assets/tattoo-texture.webp" width="1024" height="1448" alt="provided reflection artwork test dialog"></div>`;
     document.body.append(dialog);
@@ -284,7 +285,7 @@ try {
 
     await page.evaluate(() => {
       document.querySelector('[data-corruption-test-fixture]').remove();
-      document.querySelector('.artwork-dialog').remove();
+      document.querySelector('[data-corruption-dialog-fixture]').remove();
       scrollTo({ top: 0, behavior: 'instant' });
     });
     await stroke(page, { x: 450, y: 600 }, { x: 750, y: 600 });

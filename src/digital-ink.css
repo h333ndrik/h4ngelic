@@ -18,6 +18,14 @@
 .is-ink-enhanced .digital-ink-open:focus-visible .digital-ink-canvas { display: none; }
 .digital-ink-figure figcaption { margin-top: 14px; font-size: 12px; color: #c5c5bf; }
 .digital-ink-meta { margin: 22px 0 9svh; }
+.digital-ink-meta h2 a { max-width: 100%; }
+.digital-ink-meta h2 .interaction-visual {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 @media (prefers-reduced-motion: reduce) {
   .digital-ink-section, .digital-ink-section.is-ink-enhanced { height: auto; }
   .digital-ink-sticky, .is-ink-enhanced .digital-ink-sticky { position: static; height: auto; }

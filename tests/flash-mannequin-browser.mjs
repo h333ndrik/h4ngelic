@@ -142,6 +142,7 @@ try {
       await page.waitForFunction(() => window.__placementGL.at(-1)?.draws > 0);
       assert.equal(await page.locator('.project-images').isVisible(), false);
       const initial = await pixels(page, `${name}-initial`);
+      const loadedResources = (await stats(page)).at(-1);
       assert.ok(initial.magenta > 100 && initial.neutral > 1000, JSON.stringify(initial));
       assert.equal(initial.red, 0, 'Only the configured body changes from red to neutral; the magenta texture remains intact.');
       const paused = await stats(page); await page.waitForTimeout(250);
@@ -184,7 +185,12 @@ try {
       await page.locator('[data-mannequin-toggle]').click();
       await page.waitForFunction(() => window.__placementGL.every(item => item.gl.isContextLost()));
       const cleanup = await stats(page);
-      assert.ok(cleanup.every(item => item.buffers === 0 && item.textures === 0 && item.lost), JSON.stringify(cleanup));
+      // Three keeps five renderer-owned fallback texture handles until the
+      // context is lost. They are no longer live GPU allocations after loss;
+      // distinguish those handles from the actual model texture's deletion.
+      assert.ok(cleanup.every(item => item.buffers === 0 && item.lost), JSON.stringify(cleanup));
+      assert.ok(cleanup.at(-1).textures < loadedResources.textures,
+        `The actual model texture must be explicitly deleted: ${JSON.stringify({ loadedResources, cleanup })}`);
       assert.equal(await page.locator('.project-images').isVisible(), true);
       // A real pending network response after an explicit close must not mount
       // a scene or allocate another context when its eventual bytes arrive.
@@ -200,7 +206,8 @@ try {
       await page.evaluate(() => window.__stopPlacement());
       assert.deepEqual(errors, []);
       reports.push({ name, passed: true, fixture: 'test-only textured box and plane, not supplied mannequin', initial, rotated, restored,
-        reducedMotionDraws: paused.at(-1).draws, cleanup, errors });
+        reducedMotionDraws: paused.at(-1).draws, loadedResources, cleanup,
+        contextLossReleasesRendererDefaults: true, errors });
     } finally { await context.close(); }
   }
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), reports }, null, 2));

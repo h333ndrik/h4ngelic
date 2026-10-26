@@ -52,6 +52,11 @@ npm run test:interaction-mosh # Rapid clicks, local pixels, navigation and reduc
 npm run test:mobile      # Real 4/3 taps, native-scroll ink and desktop preservation
 npm run test:color-memory # Actual old-color carry, signed motion, hover and mobile history
 npm run test:hero-ink    # Real rotating surface paint, touch, occlusion and GPU cleanup
+npm run test:hero-background # Top/side/bottom ink, real mesh priority, mobile/fallback
+npm run test:drift       # Native scroll/touch, spatial enlargement, exact return
+npm run test:digital-ink # Supplied original, organic scroll mask, reverse/reduced
+npm run test:persistent-memory # Real idle history, route/resize continuity
+npm run test:mannequin  # Clearly synthetic model fixture, materials and cleanup
 npm run test:standalone  # Exact exported HTML with every HTTP request blocked
 npm run sounds:export    # Review WAVs from the same runtime PCM/settings
 npm run images:optimize  # Generate responsive WebP files and image dimensions

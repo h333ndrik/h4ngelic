@@ -72,11 +72,121 @@ No human model, UV repair or Procreate round trip has been fabricated.
 
 ## Verification record
 
-The production build and automated checks are run against the feature branch.
-Browser evidence distinguishes the actual supplied original and real homepage
-from clearly labelled test-only gallery/model fixtures. No test fixture is
-published as portfolio content. Measured current results and final artifact
-hashes are recorded here when validation finishes.
+Browser checks use headless Chromium with SwiftShader. They are integration
+and rendered-pixel checks, not physical-device FPS measurements. Reports below
+are byte-identical copies of completed runs; [source paths, timestamps and
+hashes](validation/spatial-master/evidence-manifest.json) identify each artifact.
+No test fixture is published as portfolio content.
+
+| Completed check | Actual result | Evidence |
+| --- | --- | --- |
+| Hero coverage, 1000 / 390 / 320px | Six real background points per width, including y=1px at both top corners; mesh paint retains priority, controls work, no runtime errors. No-WebGL fallback also accepts top-background ink. | [Report](validation/spatial-master/hero-background.json) |
+| Persistent material, 1000 / 390 / 320px | Real idle intervals 15.014 / 15.005 / 15.007s. Retained damaged-cell counts 1008 / 343 / 281 remain unchanged while 536,524 / 111,489 / 113,073 displayed pixels continue evolving. | [Report](validation/spatial-master/persistent-memory.json) |
+| World continuity and loading | Internal navigation and actual viewport resize preserve the world; fresh entry changes seed; Normal stops the field. The tested cold interior routes create zero WebGL contexts and load no hero/Three.js. | [Report](validation/spatial-master/persistent-memory.json) |
+| Actual-page typography capture | 4,598 bright glyph pixels move outside their original mask, zero unexpected colors, exact original restoration. Unsupported/reduced-motion paths and interruption cleanup pass. | [Report](validation/spatial-master/actual-page-glyphs.json) |
+| Actual-page image capture | A browser-only grayscale fixture has 9,817 pixels displaced beyond its old mask and 32,707 changed pixels, with zero unexpected chroma. Restoration differs in 25 channels by at most one 8-bit level (mean .000145688). | [Report](validation/spatial-master/actual-page-image.json) |
+| Digital Ink Reveal, 1000 / 390 / 320px | The actual original grows through normal scroll and reverses at the same scroll progression. Full reveal shows the responsive original `<img>` with no image/parent filter and no canvas; reduced motion shows it statically. All profiles report zero runtime errors; 320px metadata has no overflow. | [Report](validation/spatial-master/digital-ink.json) |
+| Horizontal Drift, 1000 / 390 / 320px | Native wheel forward/reverse, horizontal input, real mobile horizontal drag and vertical page pan, image/detail flights, Escape, keyboard controls and boundary release pass. Closing restores the exact recorded scroll and track position at all three widths; desktop world switching keeps the same archive node and pose. | [Test-fixture report](validation/spatial-master/horizontal-drift.json) |
+| Optional model viewer, desktop / 390px touch | A test-only textured box/plane confirms explicit lazy loading, separate neutral body and retained texture, real mouse/touch rotation, reset, reduced-motion/visibility/offscreen suspension and stale-load cleanup. No human asset or UV/Procreate compatibility is represented by this fixture. | [Test-fixture report](validation/spatial-master/optional-model-fixture.json) |
+| Exact h4 relief, desktop 1440×1000 | Absent at hero/Contact; scroll reaches relief depth 19; pointer lighting changes 48,604 rendered pixels. Entry/reverse preserve the mark and foreground instruction, with zero runtime errors. | [Report](validation/spatial-master/end-relief-desktop.json) |
+
+The unpaused native reverse probe configured to 750ms finished in 1396ms in
+this software-GPU environment, including capture setup. This is separate from
+the unchanged public 950ms mode choreography. The modal capture test
+observed a maximum sampled process-tree RSS of 1,028,067,328 bytes, below
+its 2GiB test guard. These values are neither
+a phone-speed estimate nor an FPS result.
+
+The relief report above covers the new **desktop** lighting implementation.
+Older mobile/mask-only captures and the historical `runtime-results.json`
+probe are deliberately excluded from this update's evidence. The final relief/responsive-route checks, exact offline export and production
+measurements are appended only after their current runs complete.
+
+The final automated suite passes **267/267 Node tests**, and the production
+build prerenders **11 routes plus 404** with preview `noindex` intact. All
+**15 existing browser regression suites pass serially**: navigation,
+archive/detail flights, gallery, corruption, public mode switching, native
+captures, audio/mute, interrupted switching, exact icons, scroll, hover,
+microinteractions, real wordmark material and physical hero interaction.
+[Complete run](validation/spatial-master/interaction-regressions.json).
+The report retains three resolved attempts: a stopped Vite server, snapshot
+metadata sampled after an expensive PNG readback, and icon re-entry before
+native navigation had finished. Restarting the server, sampling metadata
+before readback and waiting for completed navigation resolved them without
+changing product timing or mode behavior.
+
+The optional mannequin's build flag is computed from published, validated
+Flash placements. With the current model-free content, the production build
+contains neither GLTFLoader nor a separate shared Three.js chunk. A positive
+compile with that flag enabled retains the loader, so adding a real validated
+placement and rebuilding activates the path without a manual feature toggle.
+[Build-gate check](validation/spatial-master/mannequin-build-gate.json).
+The current lazy hero bundle is 610.36kB (158.03kB gzip), rather than the
+736.43kB shared Three chunk plus 34kB hero entry produced when the unused
+optional loader forced shared code. These are build sizes, not FPS or a
+measured end-user speed improvement; the existing large-chunk advisory remains.
+
+The seeded Digital mask is exact in the independent Node oracle. Actual
+browser readback is not byte-identical: reverse alpha mean differences were
+.000741 / .029779 / .149703 levels on a 0–255 scale, with maxima 1 / 39 / 60
+at 1000 / 390 / 320px. Only 0 / .0796 / .2737% of sampled pixels changed by
+more than two levels; scroll progression returned to the same values. These
+are recorded contour-raster differences, not a claim of exact mobile pixels.
+At full reveal, comparison with a clean rendered image reference measured
+mean RGB differences of 1.2831 / 1.8182 / 1.5154 levels (maxima 41 / 30 / 27).
+The source image, aspect ratio and unfiltered DOM end state are verified;
+these screenshot comparisons do not establish byte-for-byte raster identity.
+The desktop Other Side check retains the same artwork node and publishes
+eight actual mask-boundary points into the shared motion field.
+
+| Original during scroll | Original fully revealed |
+| --- | --- |
+| ![The supplied original emerging through the actual scroll mask](previews/spatial-master/digital-original-first-desktop.webp) | ![The completed original image without the mask canvas](previews/spatial-master/digital-original-complete-desktop.webp) |
+
+[390px original](previews/spatial-master/digital-original-complete-390.webp) ·
+[320px original](previews/spatial-master/digital-original-complete-320.webp).
+These images contain the artist's supplied work; separate synthetic mask
+oracles remain test-only inputs.
+
+The Drift test archive has 1606 / 1619 / 1429px of horizontal travel.
+Recorded before/after viewer-close document scroll is identical: 531 / 396 /
+445px; the existing track transforms are also identical. The 390/320px cases
+use real CDP touch gestures, with both horizontal drag and native vertical
+pan moving the archive. Two implementation bugs found by those inputs were
+fixed: implicit capture transfer prematurely ended touch drags, and a short
+mobile footer left the final part of an archive unreachable. The component
+now preserves capture ownership and reserves the full horizontal travel.
+
+The model fixture retains 7,400 / 3,072 magenta texture pixels over a neutral
+body, with zero original red-body pixels. Actual drag moves the texture
+centroid by 21.32 / 13.87px; reset restores its initial position. Close returns
+all eight geometry buffers to zero and explicitly deletes the model texture
+(6 → 5 tracked texture handles), then loses the context. The five remaining
+tracked handles belong to Three.js fallback textures and are released by the
+driver on context loss; this is not a claim of zero JavaScript handles.
+The real model asset and authored placement remain required.
+
+The [desktop Drift](previews/spatial-master/drift-fixture-desktop.webp),
+[390px Drift](previews/spatial-master/drift-fixture-390.webp) and
+[320px Drift](previews/spatial-master/drift-fixture-320.webp) screenshots use
+repeated views of supplied reflection artwork **only as a test archive**.
+The [desktop model](previews/spatial-master/optional-model-fixture-desktop.webp)
+and [touch model](previews/spatial-master/optional-model-fixture-390.webp)
+screenshots show a **synthetic box/plane test**, not a supplied human figure.
+Neither fixture is added to the live portfolio.
+
+| Horizontal homepage strip | Quiet final relief |
+| --- | --- |
+| ![Three horizontal main categories and aligned child links](previews/spatial-master/archive-strip-desktop.webp) | ![Exact h4 impression on the charcoal surface](previews/spatial-master/end-relief-normal.webp) |
+
+| Damaged image material after real idle | Top and side background ink at 320px |
+| --- | --- |
+| ![Persistent damaged field, with semantic text intact](previews/spatial-master/persistent-idle-desktop.webp) | ![Real mobile splashes around the unchanged chrome wordmark](previews/spatial-master/hero-background-320.webp) |
+
+Screenshots are optimized WebP copies of actual browser PNG captures; pixel
+assertions used the originals. The relief capture shows the existing keyboard
+focus outline on its CTA. Gallery/model fixtures, when used, are explicitly
+labelled test inputs and do not establish a completed human-model/UV pipeline.
 
 ## Preview and reproduction
 
