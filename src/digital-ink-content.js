@@ -2,6 +2,7 @@ import { contentURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
 import { projectURL } from './routes.js';
 import { digitalInkSettings } from './data/digitalArtworkSettings.js';
+import { artworkImages } from './artwork-content.js';
 
 /** Kept CSS/DOM-free for prerendering and editable-content validation. */
 export function renderDigitalInk(projects = []) {
@@ -9,7 +10,7 @@ export function renderDigitalInk(projects = []) {
     && Array.isArray(project.images) && project.images.some(image => contentURL(image?.src)));
   if (!entries.length) return '<p class="archive-empty" data-digital-asset-slot="green-black-original">archive in progress.</p>';
   return `<div class="digital-ink-archive">${entries.map((project, projectIndex) => {
-    const images = project.images.filter(image => contentURL(image?.src));
+    const images = artworkImages(project).filter(image => contentURL(image?.src));
     const href = projectURL(project);
     const details = project.details && typeof project.details === 'object'
       ? Object.entries(project.details).filter(([, value]) => value !== '' && value !== null && value !== undefined)

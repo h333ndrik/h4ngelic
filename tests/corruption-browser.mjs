@@ -297,7 +297,8 @@ try {
     await page.evaluate(() => { delete document.hidden; document.dispatchEvent(new Event('visibilitychange')); });
     await stroke(page, { x: 450, y: 600 }, { x: 750, y: 600 });
     const beforeNavigation = await page.evaluate(() => window.__H4_CORRUPTION__.snapshot().ambient);
-    await page.locator('.page-nav a[href="/about"]').click();
+    await page.locator('[data-global-index] summary').click();
+    await page.locator('[data-index-page="about"]').click();
     await page.waitForFunction(() => document.documentElement.dataset.page === 'about');
     const afterNavigation = await page.evaluate(() => window.__H4_CORRUPTION__.snapshot().ambient);
     assert.equal(await page.locator('[data-corruption-region]').count(), 0, 'Page replacement discards obsolete photo ROI nodes.');

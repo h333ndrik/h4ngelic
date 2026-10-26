@@ -56,7 +56,7 @@ export function initScrollChoreography(root = document) {
 
   function prepareEchoes() {
     for (const section of sections) {
-      if (section.kind === 'about') continue;
+      if (section.kind === 'about' || section.kind === 'contact') continue;
       for (const item of section.items) {
         if (echoes.has(item)) continue;
         const label = item.querySelector('.category-magnet > span');
@@ -98,7 +98,7 @@ export function initScrollChoreography(root = document) {
     const mobile = width <= motionSettings.mobileBreakpoint;
     // Only layout changes write/read geometry. Ordinary scroll uses this cache.
     for (const section of sections) {
-      if (section.kind === 'about') continue;
+      if (section.kind === 'about' || section.kind === 'contact') continue;
       const key = mobile ? `mobile${section.kind[0].toUpperCase()}${section.kind.slice(1)}` : section.kind;
       section.run = height * motionSettings.pin[key];
       section.element.setAttribute('data-motion-pin', '');
@@ -114,7 +114,7 @@ export function initScrollChoreography(root = document) {
       // layout pass. Undo our known translation around the unchanged center;
       // ordinary scroll frames never read element geometry or computed style.
       const pin = section.pin.getBoundingClientRect();
-      section.pinTravel = section.kind === 'about' ? 0 : Math.max(0, section.element.offsetHeight - section.pin.offsetHeight);
+        section.pinTravel = ['about', 'contact'].includes(section.kind) ? 0 : Math.max(0, section.element.offsetHeight - section.pin.offsetHeight);
       section.pinOffset = pin.top - (section.top - offset + clamp(offset - section.top, 0, section.pinTravel));
       section.pinLeft = pin.left + scrollX;
       section.motionLayout = [section.heading, ...section.items].filter(Boolean).map(element => {
@@ -151,15 +151,17 @@ export function initScrollChoreography(root = document) {
     }
     for (const section of sections) {
       const focused = section === focusSection;
-      const progress = section.kind === 'about'
+      const progress = section.kind === 'contact'
+        ? progressBetween(position, section.top - height * .68, section.top - height * .10)
+        : section.kind === 'about'
         ? progressBetween(position, section.top - height * motionSettings.about.approach, section.top - height * motionSettings.about.finish)
         : pinnedProgress(position, section.top, height, section.run);
       const lastEnd = motionSettings.fly.start + motionSettings.fly.duration + Math.max(0, section.items.length - 1) * motionSettings.fly.stagger;
-      const state = focused ? 'focus' : progress < 0 ? 'before' : progress >= (section.kind === 'about' ? 1 : lastEnd) ? 'settled' : 'active';
+      const state = focused ? 'focus' : progress < 0 ? 'before' : progress >= (['about', 'contact'].includes(section.kind) ? 1 : lastEnd) ? 'settled' : 'active';
       if (state !== section.lastState) { section.element.dataset.motionState = state; section.lastState = state; }
       const recordedProgress = progress.toFixed(4);
       if (recordedProgress !== section.lastProgress) { section.element.dataset.motionProgress = recordedProgress; section.lastProgress = recordedProgress; }
-      const heading = focused ? { y: 0, opacity: 1 } : section.kind === 'about'
+      const heading = focused ? { y: 0, opacity: 1 } : ['about', 'contact'].includes(section.kind)
         ? sampleHeading(progress, 0, motionSettings.about.headingEnd)
         : sampleHeading(progress);
       setValue(section.heading, '--heading-y', `${heading.y.toFixed(3)}%`);
@@ -167,6 +169,7 @@ export function initScrollChoreography(root = document) {
       if (section.heading) poses.set(section.heading, heading);
       section.items.forEach((item, index) => {
         if (focused) return applyItem(item, { x: 0, rotation: 0, opacity: 1 });
+        if (section.kind === 'contact') return applyItem(item, sampleFlyIn(progressBetween(progress, .16, 1), { distance: Math.min(130, width * .16) }));
         if (section.kind !== 'about') return applyItem(item, sampleKineticItem(progress, index, width), kineticItemProgress(progress, index));
         const link = item.dataset.motionItem === 'link';
         const settings = motionSettings.about;

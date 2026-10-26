@@ -24,7 +24,7 @@ test('preview remains non-indexable; production requires a real HTTPS origin', (
   assert.throws(() => getSEOConfig({ deployment: 'staging' }));
 });
 
-test('canonical archive metadata is unique and incomplete supplied detail remains non-indexable', () => {
+test('metadata stays descriptive while connected archive aliases consolidate on Work and incomplete artwork stays noindex', () => {
   const routes = routeDefinitions();
   const pages = routes.map((route) => getPageMetadata(route, production));
   assert.equal(new Set(pages.map((page) => page.title)).size, pages.length);
@@ -35,8 +35,8 @@ test('canonical archive metadata is unique and incomplete supplied detail remain
   assert.equal(original.canonicalURL, 'https://h4ngelic.com/work/digital-artworks/green-black-original');
   assert.equal(original.description, getPageMetadata(resolveRoute('/work/digital-artworks'), production).description,
     'An incomplete noindex detail uses the truthful existing category description.');
-  assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/about']);
-  assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/work/tattoos');
+  assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/about', '/contact']);
+  assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/work');
   const missing = getPageMetadata(resolveRoute('/no-such-page'), production);
   assert.equal(missing.status, 404);
   assert.equal(missing.indexable, false);
@@ -44,10 +44,12 @@ test('canonical archive metadata is unique and incomplete supplied detail remain
   assert.equal(missing.structuredData, null);
 });
 
-test('only complete supplied projects make an archive and detail indexable', () => {
+test('only complete supplied projects make canonical Work and genuine details indexable', () => {
   const project = { id: 'line-study', category: 'tattoos', title: 'line study', description: 'A supplied description.', year: 2026, images: [{ src: '/images/line-study.webp', alt: 'Blackwork lines on an arm', width: 800, height: 1000 }] };
-  const archive = resolveRoute('/work/tattoos');
+  const archive = resolveRoute('/work');
   assert.equal(getPageMetadata(archive, { ...production, projects: [project] }).indexable, true);
+  assert.equal(getPageMetadata(resolveRoute('/work/tattoos'), { ...production, projects: [project] }).indexable, false,
+    'Legacy category documents duplicate the connected archive and must not acquire a second indexed identity.');
   assert.equal(getPageMetadata(resolveRoute('/work/paintings'), { ...production, projects: [project] }).indexable, false);
   const detail = { kind: 'artwork', category: 'tattoos', project, path: '/work/tattoos/line-study', canonicalPath: '/work/tattoos/line-study' };
   const metadata = getPageMetadata(detail, production);
@@ -58,27 +60,38 @@ test('only complete supplied projects make an archive and detail indexable', () 
   assert.equal(artwork.dateCreated, '2026');
   for (const incomplete of [{ ...project, published: false }, { ...project, description: '' }, { ...project, images: [] }, { ...project, images: [{ src: '/images/line-study.webp', alt: '' }] }]) {
     assert.equal(getPageMetadata({ ...detail, project: incomplete }, production).indexable, false);
+    assert.equal(getPageMetadata(archive, { ...production, projects: [incomplete] }).indexable, false);
   }
 });
 
-test('More indexing follows its genuine leaf artwork while missing originals stay unpublished', () => {
+test('genuine leaf work contributes to the one Work index while every category alias remains noindex', () => {
   const project = { id: 'supplied-digital-work', category: 'digital-artworks', title: 'supplied title',
     description: 'Actual artist description.', images: [{ src: '/images/actual-original.webp', alt: 'Actual artwork.' }] };
   const options = { ...production, projects: [project] };
-  assert.equal(getPageMetadata(resolveRoute('/work/more'), options).indexable, true);
-  assert.equal(getPageMetadata(resolveRoute('/work/analog-photography'), options).indexable, false);
-  assert.equal(getPageMetadata(resolveRoute('/work/digital-artworks'), options).indexable, true);
-  assert.equal(getPageMetadata(resolveRoute('/work/more'), production).indexable, false);
+  assert.equal(getPageMetadata(resolveRoute('/work'), options).indexable, true);
+  for (const route of routeDefinitions().filter(route => route.kind === 'work' && route.category !== 'all')) {
+    for (const configuration of [options, production]) {
+      const metadata = getPageMetadata(route, configuration);
+      assert.equal(metadata.indexable, false, route.path);
+      assert.equal(metadata.robots, 'noindex, follow', route.path);
+      assert.equal(metadata.canonicalURL, 'https://h4ngelic.com/work', route.path);
+      assert.equal(metadata.openGraph.url, metadata.canonicalURL, route.path);
+    }
+  }
+  const pages = routeDefinitions().map(route => getPageMetadata(route, options));
+  const xml = buildSitemap(pages);
+  assert.equal((xml.match(/<loc>https:\/\/h4ngelic.com\/work<\/loc>/g) || []).length, 1);
+  assert.doesNotMatch(xml, /\/work\/(?:tattoos|flashes|jewellery|more|digital-artworks|analog-photography|paintings)<\/loc>/);
 });
 
-test('structured data attributes the artist without invented business details or profiles', () => {
+test('structured data uses the confirmed artist and Instagram without inventing business details', () => {
   const metadata = getPageMetadata(resolveRoute('/about'), production);
   const graph = metadata.structuredData['@graph'];
   const person = graph.find((node) => node['@type'] === 'Person');
-  assert.equal(person.name, 'h333ndrik');
+  assert.equal(person.name, 'Hendrik');
   assert.equal(person.alternateName, 'h4ngelic');
   assert.equal(person.workLocation.name, 'Berlin');
-  assert.equal(person.sameAs, undefined);
+  assert.deepEqual(person.sameAs, ['https://www.instagram.com/h4ngelic/']);
   assert.equal(person.address, undefined);
   assert.equal(graph.some((node) => node['@type'] === 'LocalBusiness'), false);
   assert.equal(metadata.openGraph.image, undefined);
@@ -108,15 +121,36 @@ test('prerender emits readable semantic pages while interior hero stays inert', 
   const active = about.replace(/<template\b[\s\S]*?<\/template>/g, '');
   assert.doesNotMatch(active, /logo-canvas/);
   assert.equal((active.match(/<h1\b/g) || []).length, 1);
-  assert.match(active, /creative identity of h333ndrik/);
+  assert.match(active, /hi, i&#39;m hendrik\./);
+  assert.match(active, /i like making things, breaking things apart, and finding new ways to connect them\./);
   assert.match(active, /data-prerendered="\/about"/);
   assert.throws(() => prerenderHTML('<html></html>', resolveRoute('/')));
+});
+
+test('dedicated Contact is crawlable HTML with the real inquiry form and canonical public URL', () => {
+  const route = resolveRoute('/contact');
+  assert.equal(route.kind, 'contact');
+  const metadata = getPageMetadata(route, production);
+  assert.equal(metadata.indexable, true);
+  assert.equal(metadata.canonicalURL, 'https://h4ngelic.com/contact');
+  assert.equal(metadata.structuredData['@graph'].some(node => node['@type'] === 'ContactPage'), true);
+  assert.equal(getPageMetadata(route).indexable, false, 'A preview must not become indexable simply because Contact now exists.');
+  const markup = prerenderHTML(shell, route, metadata);
+  const active = markup.replace(/<template\b[\s\S]*?<\/template>/g, '');
+  assert.doesNotMatch(active, /logo-canvas/);
+  assert.equal((active.match(/<h1\b/g) || []).length, 1);
+  assert.match(active, /03 \/ CONTACT/);
+  assert.match(active, /<form[^>]+action="\/api\/inquiry"[^>]+method="post"/);
+  assert.match(active, /name="name"[^>]+required/);
+  assert.match(active, /type="email"[^>]+required/);
+  assert.match(active, /mailto:h4ngelic@gmail\.com/);
 });
 
 test('sitemap only includes indexable canonical pages and robots preserves existing policy', () => {
   const pages = routeDefinitions().map((route) => getPageMetadata(route, production));
   const xml = buildSitemap(pages);
   assert.match(xml, /https:\/\/h4ngelic.com\/about/);
+  assert.match(xml, /https:\/\/h4ngelic.com\/contact/);
   assert.doesNotMatch(xml, /\/work/);
   assert.doesNotMatch(buildSitemap(routeDefinitions().map((route) => getPageMetadata(route))), /<url>/);
   assert.equal(buildRobots(getSEOConfig()), 'User-agent: *\nDisallow: /\n');
@@ -155,6 +189,14 @@ test('production output and preview HTTP preserve canonical redirects, strict 40
   const work = await fetch(`${base}/work/tattoos`);
   assert.equal(work.status, 200);
   assert.equal(work.headers.get('x-robots-tag'), 'noindex, follow');
+  const aliasHTML = await work.text();
+  assert.match(aliasHTML, /rel="canonical" href="https:\/\/h4ngelic.com\/work"/);
+  assert.match(aliasHTML, /data-connected-work/);
+  assert.match(aliasHTML, /data-archive-category="digital-artworks"/);
+  const contact = await fetch(`${base}/contact`);
+  assert.equal(contact.status, 200);
+  assert.equal(contact.headers.get('x-robots-tag'), 'index, follow');
+  assert.match(await contact.text(), /data-inquiry-form/);
   for (const path of ['/does-not-exist', '/work/tattoos/fake-project', '/404.html']) {
     const response = await fetch(`${base}${path}`);
     assert.equal(response.status, 404, path);

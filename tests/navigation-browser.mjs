@@ -108,8 +108,20 @@ async function assertContactReadable(page) {
     const style = getComputedStyle(item);
     return { x: new DOMMatrixReadOnly(style.transform).m41, opacity: Number(style.opacity) };
   }));
-  assert.equal(states.length, 3);
-  assert.ok(states.every(({ x, opacity }) => Math.abs(x) < .1 && opacity > .99), `All Contact labels must be readable immediately after history restoration: ${JSON.stringify(states)}`);
+  assert.equal(states.length, 1, 'Contact now has one shared form entrance, not three obsolete links.');
+  assert.ok(states.every(({ x, opacity }) => Math.abs(x) < .1 && opacity > .99), `The inquiry form must be readable immediately after history restoration: ${JSON.stringify(states)}`);
+  assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
+  assert.equal(await page.locator('#contact input[name="name"]').isVisible(), true);
+}
+
+async function indexNavigate(page, name, { touch = false } = {}) {
+  const index = page.locator('[data-global-index]');
+  if (!await index.evaluate(element => element.open)) {
+    if (touch) await index.locator('summary').tap(); else await index.locator('summary').click();
+  }
+  const link = index.locator(`[data-index-page="${name}"]`);
+  if (touch) await link.tap(); else await link.click();
+  await page.waitForFunction(() => !document.querySelector('[data-global-index]').open);
 }
 
 async function readyHero(page) {
@@ -219,7 +231,7 @@ try {
     async function activate(path, kind) {
       // Activating an ordinary anchor programmatically preserves the outgoing
       // scroll position; locator.click would first scroll its header into view.
-      await page.locator(`.page-nav a[href="${path}"]`).evaluate((link) => link.click());
+      await page.locator(`[data-global-index] a[href="${path}"]`).evaluate((link) => link.click());
       await pageKind(page, kind, path);
       await page.waitForFunction(() => scrollY < 2);
       await finishedTransition(page);
@@ -243,10 +255,14 @@ try {
       await assertTransitionCommit(page, path, top, 'page-content');
     }
 
-    // Contact is readable through a focus override even at the beginning of
-    // its scroll timeline. Returning through history must retain that focus,
-    // rather than restoring the position with all three labels offscreen.
-    await page.locator('.page-nav a[href="/#contact"]').evaluate((link) => link.click());
+    // The global INDEX now links to dedicated /contact. Previously published
+    // /#contact links must still restore the homepage form and its focus.
+    // A temporary ordinary anchor exercises that legacy URL through the real
+    // navigation handler without scrolling the outgoing document first.
+    await page.evaluate(() => {
+      const link = document.createElement('a'); link.href = '/#contact';
+      document.body.append(link); link.click(); link.remove();
+    });
     await pageKind(page, 'home', '/#contact');
     await finishedTransition(page);
     await assertContactReadable(page);
@@ -280,7 +296,7 @@ try {
     await page.goto(routeURL('/work'), { waitUntil: 'domcontentloaded' });
     await pageKind(page, 'work', '/work');
     const token = (await probe(page)).documentToken;
-    await page.locator('.page-nav a[href="/about"]').tap();
+    await indexNavigate(page, 'about', { touch: true });
     await pageKind(page, 'about', '/about');
     await assertSameDocument(page, token);
     assert.match(await page.title(), /about/);
@@ -288,6 +304,11 @@ try {
     assert.equal(await page.locator('#page-content').evaluate((element) => element === document.activeElement), true);
     await page.goBack();
     await pageKind(page, 'work', '/work');
+    await indexNavigate(page, 'contact', { touch: true });
+    await pageKind(page, 'contact', '/contact');
+    assert.equal(await page.locator('[data-inquiry-form]').count(), 1);
+    assert.equal(await page.locator('[data-chapter-counter]').isVisible(), false);
+    assert.equal(await page.locator('[data-global-index] [aria-current="page"]').getAttribute('data-index-page'), 'contact');
     assert.equal((await probe(page)).contexts, 0);
     assert.deepEqual(requests.filter((url) => heroScript(url) || sceneAsset(url)), []);
     assert.deepEqual(errors, []);

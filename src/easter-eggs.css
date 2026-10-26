@@ -16,7 +16,10 @@
   font-size: clamp(10px, 2.75vw, 12px);
 }
 .footer-identity > .footer-brand { grid-column: 1; justify-self: start; white-space: nowrap; }
-.footer-identity > .footer-location { grid-column: 3; justify-self: end; white-space: nowrap; }
+.footer-identity > .footer-details { grid-column: 3; justify-self: end; }
+.footer-details { display: flex; align-items: center; gap: clamp(12px, 2vw, 30px); white-space: nowrap; }
+.footer-instagram { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+.footer-instagram:focus-visible { outline-offset: 3px; }
 .footer-identity > .footer-visit-hotspot { grid-column: 2; justify-self: center; margin: 0; font-size: inherit; letter-spacing: inherit; white-space: nowrap; }
 .footer-contact-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
@@ -53,7 +56,9 @@
 .secret-message { opacity: 0; transition: opacity 600ms ease-out; pointer-events: none; }
 .secret-message.is-discovered { opacity: .35; }
 .secret-hotspot:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
-.secret-hotspot:focus-visible .secret-message { opacity: 1; transition: none; }
+.secret-hotspot:not(.footer-secret):focus-visible .secret-message { opacity: 1; transition: none; }
+.visitor-hotspot .secret-message.is-discovered { opacity: .48; }
+.footer-secret .secret-message.is-discovered { opacity: .35; }
 .footer-secret-space { position: relative; min-height: 30svh; }
 .footer-secret {
   position: absolute;
@@ -66,10 +71,10 @@
   -webkit-touch-callout: none;
   user-select: none;
   z-index: 3;
+  font-size: clamp(15px, 1.5vw, 21px);
 }
-html[data-mode='xray'] .footer-secret { font-size: clamp(20px, 1.7vw, 24px); color: #fff; }
+html[data-mode='xray'] .footer-secret { color: #fff; }
 html[data-mode='xray'] .footer-secret .secret-message {
-  opacity: 1 !important;
   text-shadow: 0 1px 2px #080216, 0 0 6px #080216, 0 0 12px #8011ff, 0 0 24px #8011ff88;
 }
 
@@ -142,6 +147,8 @@ body { position: relative; }
   .ink-tear { animation: none; }
 }
 
-@media (max-width: 600px) {
-  html[data-mode='xray'] .footer-secret { font-size: 18px; }
+@media (max-width: 360px) {
+  .footer-details { flex-direction: column; gap: 0; align-items: flex-end; }
+  .footer-instagram { min-height: 30px; }
+  .footer-identity { font-size: 10px; }
 }

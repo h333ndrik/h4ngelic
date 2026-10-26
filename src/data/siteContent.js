@@ -5,6 +5,7 @@
  */
 export const siteContent = {
   name: 'h4ngelic',
+  artistName: 'Hendrik',
   artistAlias: 'h333ndrik',
   copyrightYear: 2026,
   location: 'berlin, de',
@@ -31,16 +32,20 @@ export const siteContent = {
     selectedWorkLabel: '01 / SELECTED WORKS',
     aboutLabel: '02 / ABOUT',
     contactLabel: '03 / CONTACT',
-    aboutPreview: 'tattooing, jewellery, painting and everything in between.',
+    tagline: 'mixed media',
+    aboutPreview: 'mixed media. ink, metal and everything in between.',
     moreAboutLabel: 'MORE ABOUT',
   },
 
   about: {
-    intro: 'tattooing, jewellery, painting and everything in between.',
+    intro: "hi, i'm hendrik.",
     location: 'independent artist based in berlin.',
     paragraphs: [
-      'h4ngelic is the creative identity of h333ndrik, an independent artist based in berlin.',
-      'working across experimental, figurative blackwork tattooing, jewellery, painting and experimental visual art.',
+      'i like making things, breaking things apart, and finding new ways to connect them.',
+      'fragments, ornaments, tangled shapes, things that seem unfinished but somehow belong together.',
+      "sometimes it's ink, sometimes it's metal, sometimes it's something else entirely.",
+      'i see the body as an extension of my work, not just a surface for it. something that moves, changes, and becomes part of the composition.',
+      "i'd rather see where they go.",
     ],
     // Optional: { src: '/images/portrait.webp', alt: 'Your portrait description' }
     portrait: null,
@@ -49,8 +54,8 @@ export const siteContent = {
   },
 
   contact: {
-    instagramURL: '',
-    email: '',
+    instagramURL: 'https://www.instagram.com/h4ngelic/',
+    email: 'h4ngelic@gmail.com',
     bookingURL: '',
   },
 };

@@ -12,7 +12,8 @@ const browser = await chromium.launch({
 async function waitMode(page, mode) {
   await page.waitForFunction((expected) => document.documentElement.hasAttribute('data-xray-ready')
     && document.documentElement.dataset.mode === expected
-    && !document.documentElement.hasAttribute('data-xray-transition'), mode, { timeout: 15000 });
+    && !document.documentElement.hasAttribute('data-xray-transition')
+    && !document.documentElement.hasAttribute('data-mode-snapshot'), mode, { timeout: 15000 });
 }
 
 async function normalPresentation(page) {
@@ -23,7 +24,7 @@ async function normalPresentation(page) {
   await assertNormalTheme(page);
   const media = await page.locator('#logo-canvas,.project-image img,.about-portrait img').evaluateAll((items) => items.map((item) => getComputedStyle(item).filter));
   assert.ok(media.every((filter) => filter === 'none'), 'Normal Mode restores clean media without negative-image filters.');
-  if (await page.locator('[data-xray-hint-text]').count()) assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 4 TO SEE THE OTHER SIDE');
+  if (await page.locator('[data-xray-hint-text]').count()) assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
 }
 
 async function reverseKeys(page, key = '3') {
@@ -72,7 +73,17 @@ try {
       assert.deepEqual(await page.evaluate(() => window.__modeChanges), ['xray'], 'A continuous hold and native repeats toggle exactly once.');
       await page.keyboard.up('4');
 
-      await page.locator('.page-nav a[href="/about"]').click();
+      await page.keyboard.down('4');
+      await page.waitForTimeout(250);
+      await reverseKeys(page);
+      await page.waitForTimeout(1100);
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal', 'A completed 333 return cancels an overlapping pending 4 hold.');
+      await page.keyboard.up('4');
+      await page.keyboard.down('4');
+      try { await waitMode(page, 'xray'); } finally { await page.keyboard.up('4'); }
+
+      await page.locator('[data-global-index] summary').click();
+      await page.locator('[data-index-page="about"]').click();
       await page.waitForURL((url) => url.pathname === '/about');
       await page.locator('.about-copy').waitFor();
       await waitMode(page, 'xray');
@@ -92,22 +103,26 @@ try {
       }
       const hint = page.locator('[data-other-side-hint][data-mode-hold]');
       const text = page.locator('[data-xray-hint-text]');
-      assert.equal(await text.textContent(), 'PRESS 3 THREE TIMES TO REVERSE.');
+      assert.equal(await text.textContent(), 'HOLD 4 TO REVERSE.');
       await hint.scrollIntoViewIfNeeded();
       await page.mouse.move(1, 1);
       await hint.evaluate(element => element.blur());
-      await page.waitForTimeout(2700);
+      await page.waitForTimeout(3400);
       const reverseStyle = await hint.evaluate(element => ({
         opacity: Number(getComputedStyle(element.querySelector('[data-secret-message]')).opacity),
         size: parseFloat(getComputedStyle(element).fontSize), color: getComputedStyle(element).color,
       }));
-      assert.equal(reverseStyle.opacity, 1, 'The reverse instruction remains visible without hover after the normal secret expiry.');
+      assert.equal(reverseStyle.opacity, 0, 'The reverse instruction is also hidden after its discovery timer expires.');
       assert.equal(reverseStyle.color, 'rgb(255, 255, 255)');
       assert.ok(reverseStyle.size >= (options.hasTouch ? 18 : 20) && reverseStyle.size <= 24.1);
+      await hint.hover();
+      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-secret-message][data-xray-hint]')).opacity) >= .34);
+      assert.ok(await hint.evaluate(element => Number(getComputedStyle(element.querySelector('[data-secret-message]')).opacity)) <= .43, 'The revealed hint remains faint.');
       await page.keyboard.down('4');
-      await page.waitForTimeout(1100);
-      await page.keyboard.up('4');
-      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'A fresh 4 hold cannot invoke the removed legacy reverse shortcut.');
+      try { await waitMode(page, 'normal'); } finally { await page.keyboard.up('4'); }
+      await normalPresentation(page);
+      await page.keyboard.down('4');
+      try { await waitMode(page, 'xray'); } finally { await page.keyboard.up('4'); }
       const placement = await page.locator('[data-footer-secret-space]').evaluate((space) => {
         const area = space.getBoundingClientRect();
         const control = space.querySelector('[data-other-side-hint]').getBoundingClientRect();
@@ -139,7 +154,7 @@ try {
       await normalPresentation(page);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mode controls and effects cannot cause horizontal page overflow.');
       assert.deepEqual(errors, []);
-      console.log(`PASS public realities (${label}): short-hold cancellation, repeat latch, keyboard/numpad entry and distinct 333 return, mode-preserving navigation, upper sound control, persistent reverse instruction${options.hasTouch ? ', real touch hold' : ''} and clean Normal restoration.`);
+      console.log(`PASS public realities (${label}): short-hold cancellation, repeat latch, keyboard/numpad entry, one-second 4 return and released 333 return, INDEX navigation, upper sound control, faint timed reverse hint${options.hasTouch ? ', real touch hold' : ''} and clean Normal restoration.`);
     } finally { await context.close(); }
   }
 } finally { await browser.close(); }

@@ -1,6 +1,7 @@
 import { contentURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
 import { projectURL } from './routes.js';
+import { artworkImages } from './artwork-content.js';
 
 export const horizontalDriftCategories = Object.freeze(['tattoos', 'flashes', 'analog-photography']);
 
@@ -42,7 +43,7 @@ export function renderHorizontalDrift(projects = [], { category = '', label = ca
       <p class="drift-instruction" id="${instruction}">scroll to drift <span aria-hidden="true">·</span> select to explore<span class="sr-only">. Use left and right arrow keys while the archive is focused. Drag horizontally on touch screens.</span></p>
       <div class="drift-track">
         ${entries.map((project, index) => {
-          const images = project.images.filter(image => contentURL(image?.src));
+          const images = artworkImages(project).filter(image => contentURL(image?.src));
           const asset = getImageAsset(images[0]);
           const pose = driftPlacement(index);
           const href = projectURL(project);

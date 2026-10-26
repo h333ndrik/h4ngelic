@@ -79,7 +79,7 @@ function structuredData(route, metadata, config) {
     name: seoContent.identity.name, alternateName: seoContent.identity.alternateName,
     description: seoContent.identity.description, url: `${origin}/about`,
     workLocation: { '@type': 'Place', name: seoContent.identity.location },
-    knowsAbout: ['Experimental blackwork tattooing', 'Figurative tattooing', 'Jewellery', 'Painting', 'Visual art'],
+    knowsAbout: ['Tattooing', 'Jewellery', 'Painting', 'Mixed media', 'Visual art'],
     ...(profiles.length ? { sameAs: profiles } : {}),
   };
   const website = {
@@ -87,7 +87,7 @@ function structuredData(route, metadata, config) {
     inLanguage: seoContent.language, creator: { '@id': personID },
   };
   const page = {
-    '@type': route.kind === 'about' ? 'AboutPage' : route.kind === 'work' ? 'CollectionPage' : 'WebPage',
+    '@type': route.kind === 'about' ? 'AboutPage' : route.kind === 'contact' ? 'ContactPage' : route.kind === 'work' ? 'CollectionPage' : 'WebPage',
     '@id': pageID, url: metadata.canonicalURL, name: metadata.title, description: metadata.description,
     inLanguage: seoContent.language, isPartOf: { '@id': siteID }, about: { '@id': personID },
   };
@@ -98,6 +98,7 @@ function structuredData(route, metadata, config) {
     crumbs.push({ name: route.category, path: categoryURL(route.category) });
   }
   if (route.kind === 'about') crumbs.push({ name: 'about', path: '/about' });
+  if (route.kind === 'contact') crumbs.push({ name: 'contact', path: '/contact' });
   if (route.kind === 'artwork') crumbs.push({ name: cleanText(route.project.title) || route.category, path: route.canonicalPath });
   if (crumbs.length > 1) {
     page.breadcrumb = { '@id': `${metadata.canonicalURL}#breadcrumbs` };
@@ -141,11 +142,14 @@ export function getPageMetadata(route, options = {}) {
       description: cleanText(route.project.seo?.description) || cleanText(route.project.description) || seoContent.categories[route.category]?.description,
     };
   }
-  const contentReady = route.kind === 'home' || route.kind === 'about'
+  const contentReady = route.kind === 'home' || route.kind === 'about' || route.kind === 'contact'
     || (route.kind === 'artwork' && isIndexableProject(route.project))
     || (route.kind === 'work' && projects.some((project) => isIndexableProject(project) && matchesArchive(project, route.category)));
-  const indexable = config.indexing && Boolean(contentReady);
-  const canonicalURL = route.kind !== 'not-found' && config.productionURL ? `${config.productionURL}${route.canonicalPath}` : '';
+  // Legacy category documents now contain the same connected archive. Retain
+  // their working URLs, but consolidate search indexing on the Work document.
+  const archiveAlias = route.kind === 'work' && route.category !== 'all';
+  const indexable = config.indexing && Boolean(contentReady) && !archiveAlias;
+  const canonicalURL = route.kind !== 'not-found' && config.productionURL ? `${config.productionURL}${archiveAlias ? '/work' : route.canonicalPath}` : '';
   const image = imageMetadata(route.project?.seo?.image || realImages(route.project)[0] || seoContent.openGraphImage, config.productionURL);
   const metadata = {
     path: route.canonicalPath, status: route.kind === 'not-found' ? 404 : 200,

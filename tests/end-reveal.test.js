@@ -71,7 +71,7 @@ test('exact existing monogram is decorative, homepage-only, behind the original 
   assert.match(html, /class="end-reveal-mark" aria-hidden="true"/);
   assert.ok(html.indexOf('end-reveal-mark') < html.indexOf('data-other-side-hint'));
   assert.match(html, /data-mode-hold/);
-  assert.match(html, /PRESS 4 TO SEE THE OTHER SIDE/);
+  assert.match(html, /HOLD 4 TO SEE THE OTHER SIDE\./);
   assert.match(html, /<image href="\/assets\/h4-monogram\.svg"[^>]+filter="url\(#h4-end-relief\)"/);
   assert.match(html, /feDiffuseLighting[^>]+data-end-relief-depth/);
   assert.doesNotMatch(renderFooter(), /end-reveal/);

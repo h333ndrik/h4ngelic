@@ -1,76 +1,177 @@
 {
   "preparedAt": "2026-10-26T09:36:31.220Z",
-  "note": "Reports are byte-identical copies of completed browser evidence. Screenshots are optimized WebP copies; original PNGs supplied pixel assertions. File modification times are recorded separately from report timestamps. End-relief evidence is desktop-only; old mobile/mask-only screenshots and the old runtime-results probe are excluded.",
+  "note": "JSON reports are byte-identical copies of the listed source artifacts at collection; timestamps inside reports and filesystem modification times are separate. Full four-profile relief, exact old HTML offline results, one-run-per-route Lighthouse baseline and both passing and failed native offline observations are included. Earlier screenshots remain their individually hashed captures. Current source artifacts may have been replaced by later runs; copied bytes are authoritative.",
   "reports": [
     {
       "source": "artifacts/persistent-memory/results.json",
       "destination": "docs/validation/spatial-master/persistent-memory.json",
       "bytes": 8875,
       "sha256": "2e09b776bb38341dbc47859f460cbe969a3ff1378fb563eb437ec604b1c63a9e",
-      "artifactModifiedAt": "2026-10-26T00:29:55.784Z"
+      "artifactModifiedAt": "2026-10-26T00:29:55.784Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
     },
     {
       "source": "artifacts/spatial-master/hero-background-results.json",
       "destination": "docs/validation/spatial-master/hero-background.json",
       "bytes": 7327,
       "sha256": "929bd059e80e04525cc162d0b35e39a8a953feaaac95b07717bc599c89551fb3",
-      "artifactModifiedAt": "2026-10-26T00:35:14.097Z"
+      "artifactModifiedAt": "2026-10-26T00:35:14.097Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
     },
     {
       "source": "artifacts/end-reveal/results.json",
       "destination": "docs/validation/spatial-master/end-relief-desktop.json",
       "bytes": 5573,
       "sha256": "b17b1321c6b6129b662631770e51a3253252e65a008445911c49c2bda6dd5f45",
-      "artifactModifiedAt": "2026-10-25T23:07:56.043Z"
+      "artifactModifiedAt": "2026-10-25T23:07:56.043Z",
+      "sourceMatchesCopiedBytesAtAggregation": false,
+      "note": "Earlier desktop-only copy preserved. Source path was later overwritten by the full four-profile run; use pre-v6-end-relief-all-profiles.json for the final pre-V6 relief check."
     },
     {
       "source": "artifacts/digital-ink-results.json",
       "destination": "docs/validation/spatial-master/digital-ink.json",
       "bytes": 10861,
       "sha256": "2d58b5b02034146ad762ee8ecbbe82c7ea5d6c98d63f5e97202e8d5d64e04dca",
-      "artifactModifiedAt": "2026-10-26T09:43:13.505Z"
+      "artifactModifiedAt": "2026-10-26T09:43:13.505Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
     },
     {
       "source": "artifacts/spatial-archives/horizontal-drift-results.json",
       "destination": "docs/validation/spatial-master/horizontal-drift.json",
       "bytes": 4967,
       "sha256": "3d5b109b65425b70b8b003ff3aef08b923f3f2e895e87aac6b007d9d88dee577",
-      "artifactModifiedAt": "2026-10-26T09:44:24.945Z"
+      "artifactModifiedAt": "2026-10-26T09:44:24.945Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
     },
     {
       "source": "artifacts/flash-mannequin/results.json",
       "destination": "docs/validation/spatial-master/optional-model-fixture.json",
       "bytes": 2118,
       "sha256": "0b1bf8217c377bc8ad3715b6990fdeb6706c06fd4f7ec7413958b6a066b781ff",
-      "artifactModifiedAt": "2026-10-26T09:45:01.736Z"
+      "artifactModifiedAt": "2026-10-26T09:45:01.736Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
     },
     {
       "source": "artifacts/mode-snapshot/results.json",
       "destination": "docs/validation/spatial-master/actual-page-glyphs.json",
       "bytes": 2547,
       "sha256": "b02952db04c032c7e4fe3dcd23306ae9cd57d658ab31db2b4ce48f001c930497",
-      "artifactModifiedAt": "2026-10-26T09:54:37.336Z"
+      "artifactModifiedAt": "2026-10-26T09:54:37.336Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
     },
     {
       "source": "artifacts/mode-snapshot-modal/results.json",
       "destination": "docs/validation/spatial-master/actual-page-image.json",
       "bytes": 900,
       "sha256": "6f163ee9aa12a3147abb39a2b016eb2b3e26f119801235764731a1c0f6bf240c",
-      "artifactModifiedAt": "2026-10-26T09:54:44.364Z"
+      "artifactModifiedAt": "2026-10-26T09:54:44.364Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
     },
     {
       "source": "artifacts/interaction-regression-results.json",
       "destination": "docs/validation/spatial-master/interaction-regressions.json",
       "bytes": 2860,
       "sha256": "3991a8951e43c1c69938bdfb962b7c217f3d4fa67a775ee6ed844472cb008706",
-      "artifactModifiedAt": "2026-10-26T10:03:45.483Z"
+      "artifactModifiedAt": "2026-10-26T10:03:45.483Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
     },
     {
       "source": "artifacts/mannequin-build-gate.json",
       "destination": "docs/validation/spatial-master/mannequin-build-gate.json",
       "bytes": 151,
       "sha256": "8f6de57191de9920dcf003907a1dea358f975849c6fe9ce3fc2d415a932da065",
-      "artifactModifiedAt": "2026-10-26T10:06:23.418Z"
+      "artifactModifiedAt": "2026-10-26T10:06:23.418Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/end-reveal/results.json",
+      "destination": "docs/validation/spatial-master/pre-v6-end-relief-all-profiles.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 17363,
+      "sha256": "3dacf1f7ccc7e685e9bfef72380102d71629ae8d0bfa3c7dbc797df053f2a4dd",
+      "artifactModifiedAt": "2026-10-26T10:09:19.592245Z",
+      "reportTimestamp": "not recorded; artifactModifiedAt is filesystem metadata, not asserted run start/end",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/control-offline-results.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-three-widths.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 2280,
+      "sha256": "afb20288418ae5420d5d1f8862069c21558a0389d8d91e158c944fc678376220",
+      "artifactModifiedAt": "2026-10-26T10:11:06.100107Z",
+      "checkedAt": "2026-10-26T10:11:06.048Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/spatial-master/offline-package.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-package.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 345,
+      "sha256": "f46d15dc73c8b187df651e5a38d8061fea9e41b3b0ae912bda24ffbd11d324a8",
+      "artifactModifiedAt": "2026-10-26T10:12:07.488385Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/performance/spatial-master-final-summary.json",
+      "destination": "docs/validation/spatial-master/pre-v6-lighthouse-summary.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 6554,
+      "sha256": "71b492614c97f661a5cd037584267947b69908d10404181ff4fffaa4e5ea8c14",
+      "artifactModifiedAt": "2026-10-26T14:57:45.359635Z",
+      "generatedAt": "2026-10-26T14:57:45.359Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/performance/spatial-master-final-home-mobile-1.json",
+      "destination": "docs/validation/spatial-master/pre-v6-lighthouse-home-mobile-1.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 242369,
+      "sha256": "c3bdad6c38c7c621ceedd9be4a4f78423ea65590cd006c38996ef684779d1161",
+      "artifactModifiedAt": "2026-10-26T14:57:39.629804Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/performance/spatial-master-final-work-mobile-1.json",
+      "destination": "docs/validation/spatial-master/pre-v6-lighthouse-work-mobile-1.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 234058,
+      "sha256": "efbdef371eee2abac3e160d3df9cf4f821323e07462234ae212fb2705ee2d9f3",
+      "artifactModifiedAt": "2026-10-26T14:57:45.353752Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/living-offline-native-swiftshader-results.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-native-swiftshader-pass.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 988,
+      "sha256": "f1b101d5f599323187c8fe9cbde23e11f578220e1f78e4b2d33115b205d21d1b",
+      "artifactModifiedAt": "2026-10-26T14:55:51.003001Z",
+      "checkedAt": "2026-10-26T14:54:19.427Z",
+      "rendering": "Chromium ANGLE SwiftShader",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/living-offline-native-cpu-results.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-native-cpu-pass.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 943,
+      "sha256": "de8f5e017ded51cf553bd9e5b2c9809333f43f3688b94d1e7c1d3c1bb99d3877",
+      "artifactModifiedAt": "2026-10-26T14:55:50.999001Z",
+      "checkedAt": "2026-10-26T14:55:01.440Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/living-offline-native-failure.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-native-swiftshader-repeat-failure.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 12698,
+      "sha256": "17dc01025b23520138918eddaca3b02e33cb6c020a0883c9d04d09c61fc6ae40",
+      "artifactModifiedAt": "2026-10-26T14:59:04.753026Z",
+      "checkedAt": "2026-10-26T14:59:04.745Z",
+      "status": "failed-repeat",
+      "rendering": "Chromium ANGLE SwiftShader",
+      "sourceMatchesCopiedBytesAtAggregation": true
     }
   ],
   "screenshots": [
@@ -285,5 +386,6 @@
       "artifactModifiedAt": "2026-10-26T09:54:43.340Z"
     }
   ],
-  "updatedAt": "2026-10-26T10:10:51.850Z"
+  "updatedAt": "2026-10-26T15:08:02.954355Z",
+  "scope": "Historical pre-V6 spatial archives feature at source checkpoint b9142dc; none of these reports validates V6."
 }

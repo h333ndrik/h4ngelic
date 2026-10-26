@@ -170,7 +170,8 @@ async function mobile(width, reduced = false) {
 
     // Two partial taps are tied to this page interaction and cannot cross a route.
     await taps(page, cdp, 2);
-    await page.locator('.page-nav a[href="/about"]').tap();
+    await page.locator('[data-global-index] > summary').tap();
+    await page.locator('[data-index-page="about"]').tap();
     await page.waitForURL(value => value.pathname === '/about');
     await settled(page, 'normal');
     assert.equal(Number(await control.getAttribute('data-mobile-taps')), 0);
@@ -188,7 +189,8 @@ async function mobile(width, reduced = false) {
       assert.deepEqual(repeated.audio.map(event => event.mode), repeated.modes.map(event => event.mode));
     }
 
-    await page.locator('.page-nav a[href="/work"]').tap();
+    await page.locator('[data-global-index] > summary').tap();
+    await page.locator('[data-index-page="work"]').tap();
     await page.waitForURL(value => value.pathname === '/work');
     await settled(page, 'normal');
     await addBlankScrollSurface(page);
@@ -280,7 +282,7 @@ async function mobile(width, reduced = false) {
     await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
     assert.equal(await control.count(), 1);
     assert.equal(await control.isVisible(), true);
-    assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 4 TO SEE THE OTHER SIDE', 'Phase 2 message has not been introduced.');
+    assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.', 'Phase 2 message has not been introduced.');
     assert.equal(await page.getByText('TAP HERE 4 TIMES.', { exact: true }).count(), 0);
     assert.equal(await page.getByText('TAP HERE 3 TIMES TO REVERSE.', { exact: true }).count(), 0);
     assert.deepEqual(errors, []);

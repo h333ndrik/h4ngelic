@@ -4,6 +4,8 @@ import './archive-structure.css';
 import './horizontal-drift.css';
 import './digital-ink.css';
 import './flash-mannequin.css';
+import './inquiry.css';
+import './v6-polish.css';
 import { siteContent } from './data/siteContent.js';
 import { renderRoutePage } from './pages.js';
 import { resolveRoute } from './routes.js';
@@ -22,6 +24,9 @@ import { initInteractionMosh } from './interaction-mosh.js';
 import { initMoshTransitions } from './mosh-transitions.js';
 import { initEndReveal } from './end-reveal.js';
 import { initMotionMosh } from './motion-mosh.js';
+import { initGlobalNavigation } from './global-navigation.js';
+import { initInquiry } from './inquiry.js';
+import { initConnectedWork } from './connected-work.js';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -38,6 +43,10 @@ let stopMannequins = () => {};
 let heroObserver = null;
 let moshTransitions = null;
 let renderRevision = 0;
+let renderedKind = '';
+let stopInquiry = () => {};
+let stopConnectedWork = () => {};
+const globalNavigation = initGlobalNavigation(document);
 
 function ensureHero() {
   if (!hero) {
@@ -47,7 +56,10 @@ function ensureHero() {
     template.remove();
     hero = document.querySelector('.hero');
   }
-  document.getElementById('page-title').textContent = `${siteContent.name} © ${siteContent.copyrightYear}`;
+  const brand = document.querySelector('#page-title .hero-brand');
+  if (brand) brand.textContent = siteContent.name;
+  const tagline = hero.querySelector('.identity');
+  if (tagline) tagline.textContent = siteContent.home.tagline;
   document.querySelector('.edition').textContent = siteContent.location;
 }
 
@@ -82,13 +94,19 @@ function scrollToTarget(url, { reset = false, restoreScroll } = {}) {
   let target = null;
   if (url.hash) {
     try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { /* Ignore malformed fragments. */ }
+  } else {
+    const route = resolveRoute(url);
+    if (route.kind === 'work' && route.category !== 'all') target = document.getElementById(route.category);
   }
   if (restoreScroll) {
     scrollTo({ left: restoreScroll[0], top: restoreScroll[1], behavior: 'instant' });
     if (reset) (target || content).focus({ preventScroll: true });
-  } else if (url.hash) {
+  } else if (target) {
+    // Focus settles the existing scroll choreography immediately on a direct
+    // jump; ordinary scrolling remains reversible after focus moves away.
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
     target?.scrollIntoView({ behavior: 'instant', block: 'start' });
-    target?.focus({ preventScroll: true });
   } else if (reset) {
     scrollTo({ top: 0, behavior: 'instant' });
     content.focus({ preventScroll: true });
@@ -96,7 +114,19 @@ function scrollToTarget(url, { reset = false, restoreScroll } = {}) {
 }
 
 async function render({ reset = false, restoreScroll } = {}) {
+  const url = currentURL();
+  const route = resolveRoute(url);
+  // Anchors in Home/Work navigate the existing document. Retain canvas state,
+  // gallery positions and input values instead of remounting the page.
+  if (renderedKind === route.kind && ['home', 'work'].includes(route.kind)) {
+    const metadataOptions = typeof __H4_SEO_CONFIG__ === 'undefined' ? {} : __H4_SEO_CONFIG__;
+    applyMetadata(getPageMetadata(route, metadataOptions));
+    scrollToTarget(url, { reset, restoreScroll });
+    globalNavigation.refresh();
+    return;
+  }
   const revision = ++renderRevision;
+  renderedKind = '';
   stopInteractions();
   stopGallery();
   stopMotion();
@@ -105,10 +135,10 @@ async function render({ reset = false, restoreScroll } = {}) {
   stopDrift();
   stopDigitalInk();
   stopMannequins();
+  stopInquiry();
+  stopConnectedWork();
   stopDrift = stopDigitalInk = stopMannequins = () => {};
   heroObserver?.disconnect();
-  const url = currentURL();
-  const route = resolveRoute(url);
   if (!standalone && route.redirectPath) history.replaceState(history.state, '', route.redirectPath);
   if (hero) hero.hidden = route.kind !== 'home';
   document.documentElement.dataset.page = route.kind;
@@ -122,6 +152,8 @@ async function render({ reset = false, restoreScroll } = {}) {
   stopMotion = initScrollChoreography(content);
   stopEndReveal = initEndReveal(content);
   stopImageReveals = initImageReveals(content);
+  stopInquiry = initInquiry(content);
+  stopConnectedWork = initConnectedWork(content);
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {
@@ -147,7 +179,9 @@ async function render({ reset = false, restoreScroll } = {}) {
     }));
   await Promise.allSettled(enhancements);
   if (revision !== renderRevision) return;
-  return scrollToTarget(url, { reset, restoreScroll });
+  renderedKind = route.kind;
+  scrollToTarget(url, { reset, restoreScroll });
+  globalNavigation.refresh();
 }
 
 render();
@@ -163,6 +197,11 @@ if (featureFlags.otherSideEnabled) {
   if (import.meta.env.DEV && new URLSearchParams(location.search).get('fx') === '1') {
     import('./dev/living-decay-panel.js').then(({ initLivingDecayPanel }) => {
       initLivingDecayPanel({ doc: document, getController: () => corruptionLifecycle.getController?.() });
+    });
+  }
+  if (import.meta.env.DEV && new URLSearchParams(location.search).get('playground') === '1') {
+    import('./dev/other-side-playground.js').then(({ initOtherSidePlayground }) => {
+      window.__H4_PLAYGROUND__ = initOtherSidePlayground({ doc: document, getController: () => corruptionLifecycle.getController?.() });
     });
   }
   moshTransitions = initMoshTransitions({ doc: document });

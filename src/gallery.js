@@ -1,5 +1,6 @@
 import './gallery.css';
 import { animateArtworkFlight, artworkRect } from './artwork-transitions.js';
+import { inquiryArtwork } from './inquiry-content.js';
 
 /** Native modal artwork viewer. No scene, animation library or scroll handler. */
 export function initGallery(root = document) {
@@ -12,6 +13,7 @@ export function initGallery(root = document) {
   dialog.setAttribute('aria-labelledby', 'artwork-viewer-title');
   dialog.innerHTML = `<div class="artwork-viewer-header">
       <h2 class="sr-only" id="artwork-viewer-title">artwork</h2>
+      <a class="artwork-inquire text-link" href="/contact" data-inquiry-link>inquire <i class="arrow" aria-hidden="true"></i></a>
       <button class="artwork-close" type="button" autofocus aria-label="close artwork viewer">close</button>
     </div>
     <figure class="artwork-viewer-figure">
@@ -189,6 +191,9 @@ export function initGallery(root = document) {
     closing = false;
     opener = trigger;
     const project = trigger.closest('.project') || root;
+    const identity = project.dataset?.projectUrl?.split('/').at(-1);
+    const inquiryPath = inquiryArtwork(identity) ? `/contact?artwork=${encodeURIComponent(identity)}` : '/contact';
+    dialog.querySelector('[data-inquiry-link]').setAttribute('href', document.documentElement.dataset.preview === 'standalone' ? `#${inquiryPath}` : inquiryPath);
     images = [...project.querySelectorAll('[data-artwork-open] img')];
     selected = images.indexOf(trigger.querySelector('img'));
     if (selected < 0) return;

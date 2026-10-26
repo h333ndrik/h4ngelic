@@ -64,7 +64,8 @@ try {
       assert.deepEqual(await page.evaluate(() => window.__iconWarm.filter(href => /h4ngelic-(?:cursor-other|favicon-other)/.test(href))), []);
 
       const touch = Boolean(options.hasTouch), reduced = options.reducedMotion === 'reduce';
-      const target = page.locator('.page-nav a[href="/about"]');
+      await page.locator('[data-global-index] summary').click();
+      const target = page.locator('[data-index-page="about"]');
       if (!touch) {
         assert.equal(await cursor(page.locator('body')), expected(settings.cursor.normal.base, '9 2', 'auto'));
         await target.hover();

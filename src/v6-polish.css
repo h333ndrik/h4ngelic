@@ -1,0 +1,28 @@
+/* V6 keeps the existing glow/magnet system. These are bounded typographic
+   refinements; no extra renderer, image layer or animation loop is added. */
+.about-preview .text-link { text-decoration: none; }
+.visitor-hotspot { font-size: clamp(16px, 1.2vw, 19px); }
+.kinetic-heading-text {
+  width: fit-content;
+  max-width: 100%;
+  transform-origin: 0 50%;
+  /* Independent scale composes with the existing scroll translation. */
+  scale: 1;
+}
+/* Enough horizontal room is retained for the long SELECTED WORKS line.
+   Small screens keep the same hit geometry and avoid expanded text clipping. */
+@media (hover: hover) and (pointer: fine) and (min-width: 1000px) {
+  [data-scroll-choreography] [data-motion-state='settled'] .kinetic-heading,
+  [data-scroll-choreography] [data-motion-state='focus'] .kinetic-heading { overflow: visible; }
+  .kinetic-heading > .kinetic-heading-text {
+    transition: scale 260ms cubic-bezier(.2,.8,.25,1.12), filter 260ms ease-out;
+  }
+  .kinetic-heading:hover .kinetic-heading-text {
+    scale: 1.2;
+    filter: drop-shadow(0 0 2px #ffffffaa) drop-shadow(0 0 8px #ffffff55);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-heading > .kinetic-heading-text { transition: none; }
+  .kinetic-heading:hover .kinetic-heading-text { scale: 1; }
+}

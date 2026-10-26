@@ -12,14 +12,17 @@ const browser = await chromium.launch({
 });
 
 async function fixture(page) {
-  // This tattoo archive stays empty. Only this temporary test
-  // view uses two views of the actual supplied texture to exercise the viewer.
-  await page.goto(new URL('/work/tattoos', baseURL).href, { waitUntil: 'networkidle' });
+  // Every connected Work context now includes the real Digital artwork and
+  // its existing viewer. Start on About, which has no viewer, then mount this
+  // isolated two-image fixture so the test never creates duplicate dialogs or
+  // pretends the supplied reflection texture is a published tattoo project.
+  await page.goto(new URL('/about', baseURL).href, { waitUntil: 'networkidle' });
+  assert.equal(await page.locator('.artwork-dialog').count(), 0);
   await page.evaluate(async () => {
     const { renderArtworkPage } = await import('/src/pages.js');
     const { initGallery } = await import('/src/gallery.js');
     const { initImageReveals } = await import('/src/image-reveals.js');
-    const archive = document.querySelector('.portfolio-archive');
+    const archive = document.querySelector('#page-content');
     archive.innerHTML = renderArtworkPage({
       id: 'gallery-test-fixture', category: 'tattoos', title: 'test fixture',
       images: [

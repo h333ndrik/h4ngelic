@@ -4,6 +4,7 @@ import { renderRoutePage } from './src/pages.js';
 import { getPageMetadata, renderHead, seoEnvironment } from './src/seo.js';
 import { buildRobots, buildSitemap } from './scripts/prerender.mjs';
 import { flashMannequinConfig } from './src/flash-mannequin-content.js';
+import { createInquiryHandler } from './server/inquiry.mjs';
 
 const config = seoEnvironment(process.env);
 
@@ -17,8 +18,10 @@ export default defineConfig({
   plugins: [{
     name: 'h4ngelic-document-routes',
     configureServer(server) {
+      const inquiry = createInquiryHandler();
       server.middlewares.use((request, response, next) => {
         const url = new URL(request.url, 'http://dev.invalid');
+        if (url.pathname === '/api/inquiry') { void inquiry(request, response); return; }
         if (url.pathname === '/robots.txt' || url.pathname === '/sitemap.xml') {
           response.setHeader('Content-Type', url.pathname.endsWith('.xml') ? 'application/xml; charset=utf-8' : 'text/plain; charset=utf-8');
           response.end(url.pathname.endsWith('.xml') ? buildSitemap([]) : buildRobots({ deployment: 'preview' })); return;

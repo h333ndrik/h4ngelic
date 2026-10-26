@@ -84,7 +84,7 @@ try {
   const page = await desktop.newPage();
   const errors = collectErrors(page);
   await readyHome(page);
-  assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'art on skin & beyond', 'The existing tagline PR copy must be retained.');
+  assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'mixed media', 'V6 supplies the approved replacement tagline.');
   if (await page.locator('#pause-control').getAttribute('aria-pressed') === 'false') await page.locator('#pause-control').click();
 
   const firstSection = page.locator('#selected-work');
@@ -216,11 +216,11 @@ try {
     const mobileMagnet = mobilePage.locator('#selected-work .category-magnet').first();
     assert.ok(Math.hypot(...Object.values(await translation(mobileMagnet))) < .05, 'Touch devices must not receive magnetic movement.');
     assert.doesNotMatch(await mobileMagnet.evaluate((element) => getComputedStyle(element).cursor), /h4ngelic-cursor/);
-    const footer = await mobilePage.evaluate(() => ({
-      tagline: document.querySelector('.identity').getBoundingClientRect().right,
-      navigation: document.querySelector('.hero-nav').getBoundingClientRect().left,
-    }));
-    assert.ok(footer.tagline < footer.navigation, `The coordinated tagline and navigation must not overlap at ${width}px.`);
+    const footer = await mobilePage.evaluate(() => {
+      const tagline = document.querySelector('.identity').getBoundingClientRect(), navigation = document.querySelector('.hero-nav').getBoundingClientRect();
+      return { separated: tagline.right < navigation.left || tagline.top >= navigation.bottom || tagline.bottom <= navigation.top };
+    });
+    assert.ok(footer.separated, `The coordinated tagline and navigation must not overlap at ${width}px.`);
   }
   assert.deepEqual(mobileErrors, []);
   await mobile.close();

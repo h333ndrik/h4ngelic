@@ -13,7 +13,8 @@ const url = path => new URL(path, base).href;
 async function state(page, expected) {
   await page.waitForFunction(value => document.documentElement.dataset.mode === value
     && document.documentElement.hasAttribute('data-xray-ready')
-    && !document.documentElement.hasAttribute('data-xray-transition'), expected, { timeout: 10000 });
+    && !document.documentElement.hasAttribute('data-xray-transition')
+    && !document.documentElement.hasAttribute('data-mode-snapshot'), expected, { timeout: 15000 });
 }
 async function enter(page, key = '4') {
   await page.keyboard.down(key);
@@ -72,12 +73,14 @@ try {
     const activation = await page.evaluate(() => window.__ref09);
     assert.equal(activation.changes.length, 1);
     assert.ok(activation.changes[0].time - activation.starts[1] >= 999, 'A real continuous hold cannot activate before one second.');
-    await page.keyboard.down('4'); await page.waitForTimeout(1100); await page.keyboard.up('4');
-    assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'The old hold-4 reverse is removed.');
-    await page.waitForTimeout(2200);
+    await page.keyboard.down('4');
+    try { await state(page, 'normal'); } finally { await page.keyboard.up('4'); }
+    await enter(page);
+    await page.mouse.move(2, 2);
+    await page.waitForTimeout(3400);
     const visible = await hintState(page);
-    assert.equal(visible.text, 'PRESS 3 THREE TIMES TO REVERSE.');
-    assert.equal(visible.opacity, 1, 'Reverse instruction remains visible without hovering after the secret timer expires.');
+    assert.equal(visible.text, 'HOLD 4 TO REVERSE.');
+    assert.equal(visible.opacity, 0, 'Reverse instruction is hidden again after its discovery timer.');
     assert.ok(visible.font >= 20 && visible.font <= 24);
     assert.equal(visible.color, 'rgb(255, 255, 255)');
     assert.ok(Math.abs(visible.x - visible.width / 2) < 1 && visible.y > .25 && visible.y < .5);
@@ -104,6 +107,9 @@ try {
     await page.locator('#test-input').focus(); await page.keyboard.type('333');
     assert.equal(await page.locator('#test-input').inputValue(), '333');
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
+    await page.keyboard.down('4'); await page.waitForTimeout(1100); await page.keyboard.up('4');
+    assert.equal(await page.locator('#test-input').inputValue(), '3334');
+    assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'The V6 reverse hold must not intercept a form field.');
     await page.locator('#test-editable').focus(); await page.keyboard.type('333');
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
     await page.evaluate(() => { document.activeElement.blur(); document.querySelector('#test-input').remove(); document.querySelector('#test-editable').remove(); });
@@ -126,7 +132,7 @@ try {
     }
     assert.deepEqual(errors, []);
     reports.push({ profile: 'desktop', errors, activationMs: activation.changes[0].time - activation.starts[1], instruction: visible });
-    console.log('PASS Phase1 desktop: real one-second entry, 4 cannot reverse, released 333/window/repeat/numpad, editing/blur/navigation guards, protected persistent white instruction and exact established gray.');
+    console.log('PASS V6 desktop: real one-second 4 toggles both directions once per hold, released 333/window/repeat/numpad, editing/blur/navigation guards, timed faint reverse hint and exact established gray.');
     await context.close();
   }
   for (const width of [390, 320]) {
@@ -147,7 +153,8 @@ try {
     await touchHold('normal', true); await page.waitForTimeout(400); await normalGray(page);
     await touchHold('xray');
     const visible = await hintState(page);
-    assert.equal(visible.text, 'PRESS 3 THREE TIMES TO REVERSE.'); assert.equal(visible.opacity, 1);
+    assert.equal(visible.text, 'HOLD 4 TO REVERSE.');
+    assert.ok(visible.opacity >= 0 && visible.opacity <= .43, 'A touch hold does not turn the faint hint into a permanent white label.');
     assert.ok(visible.font >= 18 && visible.within);
     await page.screenshot({ path: new URL(`mobile-${width}-reverse.png`, out).pathname });
     if (width === 390) await touchHold('normal'); else await reverse(page, 'Numpad3');
@@ -156,7 +163,7 @@ try {
     assert.deepEqual(errors, []);
     reports.push({ profile: `touch-${width}`, errors, instruction: visible });
     await touch.detach(); await context.close();
-    console.log(`PASS Phase1 touch ${width}: native short/full holds, discreet exit, readable persistent instruction, reduced motion and no overflow.`);
+    console.log(`PASS V6 touch ${width}: native short/full holds, discreet exit, faint instruction, reduced motion and no overflow.`);
   }
   await writeFile(new URL('results.json', out), JSON.stringify({ testedAt: new Date().toISOString(), base, reports }, null, 2) + '\n');
 } finally { await browser.close(); }

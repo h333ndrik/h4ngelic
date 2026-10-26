@@ -276,10 +276,12 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     if (!message || disposed) return;
     clearHintTimer(message);
     message.classList.add('is-discovered');
+    const hideAfter = settings.hint.visibleMs
+      + (hotspot.hasAttribute('data-other-side-hint') || reduced.matches ? 0 : settings.hint.fadeMs);
     const hide = setTimeout(() => {
       message.classList.remove('is-discovered');
       hintTimers.delete(message);
-    }, settings.hint.visibleMs + (reduced.matches ? 0 : settings.hint.fadeMs));
+    }, hideAfter);
     hintTimers.set(message, [hide]);
   }
 
@@ -313,6 +315,10 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     revealSecret(hotspot);
   }, { passive: true });
   listen(root, 'click', (event) => {
+    const hotspot = secretTarget(event);
+    if (hotspot) revealSecret(hotspot);
+  });
+  listen(root, 'focusin', (event) => {
     const hotspot = secretTarget(event);
     if (hotspot) revealSecret(hotspot);
   });

@@ -14,7 +14,13 @@ const reports = [];
 
 async function waitMode(page, mode) {
   await page.waitForFunction(expected => document.documentElement.dataset.mode === expected
-    && !document.documentElement.hasAttribute('data-xray-transition'), mode, { timeout: 10000 });
+    && !document.documentElement.hasAttribute('data-xray-transition')
+    && !document.documentElement.hasAttribute('data-mode-snapshot'), mode, { timeout: 10000 });
+}
+
+async function indexNavigate(page, name) {
+  await page.locator('[data-global-index] > summary').click();
+  await page.locator(`[data-index-page="${name}"]`).click();
 }
 
 async function enterWith4(page) {
@@ -37,7 +43,7 @@ async function identityGeometry(page) {
     };
     const counter = row.querySelector('[data-visit-counter-hotspot]');
     return { row: box(row), counter: box(counter), counterInRow: counter.parentElement === row,
-      brand: box(row.querySelector('.footer-brand')), location: box(row.querySelector('.footer-location')) };
+      brand: box(row.querySelector('.footer-brand')), location: box(row.querySelector('.footer-details')) };
   });
 }
 
@@ -73,8 +79,8 @@ try {
       await waitMode(page, 'normal');
       assert.equal(await page.locator('[data-end-reveal]').count(), 1);
       assert.equal(await page.locator('.end-reveal-mark').evaluate(mark => Number(getComputedStyle(mark).opacity)), 0, 'End mark must remain invisible at the hero.');
-      assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' '), 'art on skin & beyond');
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 4 TO SEE THE OTHER SIDE');
+      assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' '), 'mixed media');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
       assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1);
       const identity = await identityGeometry(page);
       assert.equal(identity.counterInRow, true, 'The visit counter belongs to the existing identity row.');
@@ -107,13 +113,13 @@ try {
       await page.locator('.corruption-background').waitFor({ state: 'attached', timeout: 20000 });
       assert.match(await page.locator('.corruption-background').evaluate(element => element.style.backgroundImage), /data:image\/webp/,
         'The damaged film must also be embedded in the standalone file.');
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 3 THREE TIMES TO REVERSE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
       await page.waitForTimeout(1100);
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Hold completion/release cannot toggle twice.');
       await page.keyboard.down('4');
-      await page.waitForTimeout(1100);
-      await page.keyboard.up('4');
-      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'A fresh 4 hold cannot reverse the mode.');
+      try { await waitMode(page, 'normal'); } finally { await page.keyboard.up('4'); }
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal', 'V6 allows a fresh one-second 4 hold to reverse.');
+      await enterWith4(page);
       await page.evaluate(() => document.activeElement?.blur());
       await page.mouse.move(2, 2);
       await page.waitForTimeout(2700);
@@ -121,9 +127,9 @@ try {
         opacity: Number(getComputedStyle(element.querySelector('[data-secret-message]')).opacity),
         color: getComputedStyle(element).color, fontSize: parseFloat(getComputedStyle(element).fontSize),
       }));
-      assert.equal(reverseHint.opacity, 1, 'The reverse instruction remains visible after discovery expires.');
+      assert.ok(reverseHint.opacity < .01, 'The reverse hint fades away in both realities after discovery expires.');
       assert.equal(reverseHint.color, 'rgb(255, 255, 255)');
-      assert.ok(reverseHint.fontSize >= (mobile ? 18 : 20) && reverseHint.fontSize <= 24);
+      assert.ok(reverseHint.fontSize >= 15 && reverseHint.fontSize <= 21);
 
       const mute = page.locator('[data-controls] [data-mode-mute]');
       assert.equal(await mute.count(), 1);
@@ -137,23 +143,22 @@ try {
       }
       await page.locator('#selected-work a').first().click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
-      assert.equal((await page.locator('.filter-link[aria-current="page"]').textContent()).trim(), 'tattoos');
+      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="location"]')?.textContent.trim() === 'tattoos');
       assert.equal(await page.locator('#logo-canvas').isVisible(), false);
-      assert.equal(await page.locator('.archive-empty').textContent(), 'archive in progress.');
+      assert.equal(await page.locator('[data-archive-category="tattoos"] .archive-empty').textContent(), 'archive in progress.');
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
       assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0,
         'Work does not acquire a visible duplicate sound control.');
       if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true');
 
-      await page.locator('a[href="#/work/flashes"]').click();
-      await page.waitForFunction(() => document.querySelector('.work-page h1')?.textContent === 'flashes');
-      assert.equal(await page.locator('.filter-link[aria-current="page"]').textContent(), 'flashes');
-      await page.locator('.work-filters a[href="#/work/more"]').click();
-      await page.waitForFunction(() => document.querySelector('.work-page h1')?.textContent === 'more');
-      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['analog-photography', 'digital-artworks']);
-      await page.locator('a[href="#/work/digital-artworks"]').first().click();
-      await page.waitForFunction(() => document.querySelector('.work-page h1')?.textContent === 'digital artworks');
-      assert.equal(await page.locator('.filter-link[aria-current="page"]').textContent(), 'digital artworks');
+      await page.locator('.work-subfilters a[href="#/work#flashes"]').click();
+      await page.waitForFunction(() => location.hash === '#/work#flashes' && document.querySelector('#flashes').getBoundingClientRect().top < innerHeight);
+      assert.equal(await page.locator('.work-page h1').textContent(), 'work', 'Anchor navigation keeps the connected Work document.');
+      await page.locator('.work-filters a[href="#/work#more"]').click();
+      await page.waitForFunction(() => location.hash === '#/work#more' && document.querySelector('#more').getBoundingClientRect().top < innerHeight);
+      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks']);
+      await page.locator('.work-subfilters a[href="#/work#digital-artworks"]').click();
+      await page.waitForFunction(() => location.hash === '#/work#digital-artworks' && document.querySelector('#digital-artworks').getBoundingClientRect().top < innerHeight);
       assert.equal(await page.locator('.portfolio-archive img').count(), 1, 'The exact supplied digital original is present in the offline export.');
       const original = page.locator('.digital-ink-open img');
       await original.evaluate(image => image.decode());
@@ -166,16 +171,21 @@ try {
       assert.equal(await page.locator('[data-project-url="/work/digital-artworks/green-black-original"]').count(), 1);
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'New archive navigation keeps the current visual world.');
 
-      await page.locator('a[href="#/about"]:visible').first().click();
+      await indexNavigate(page, 'about');
       await page.waitForFunction(() => document.documentElement.dataset.page === 'about');
       assert.match(await page.locator('main').textContent(), /independent artist based in berlin\./);
       assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0);
-      await page.locator('a[href="#/#contact"]:visible').first().click();
+      await indexNavigate(page, 'contact');
+      await page.waitForFunction(() => document.documentElement.dataset.page === 'contact');
+      assert.equal(await page.locator('[data-inquiry-form]').count(), 1, 'The direct Contact page contains the shared form.');
+      await indexNavigate(page, 'home');
+      await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
+      await page.locator('.hero-nav a[href="#/#contact"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
       assert.ok(await page.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 3 THREE TIMES TO REVERSE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
       await reverseWith3(page);
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'PRESS 4 TO SEE THE OTHER SIDE');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
       const filters = await page.locator('#logo-canvas,.project-image img').evaluateAll(images => images.map(image => getComputedStyle(image).filter));
       assert.ok(filters.every(filter => filter === 'none'));
       await page.evaluate(() => { location.hash = '#/'; });
@@ -189,13 +199,13 @@ try {
       reports.push({ width, mobile, externalHttpRequests: requests.length, runtimeErrors: errors.length,
         identityCenterError: identity.counter.centerX - identity.row.centerX, reverseHint,
         verified: ['WebGL hero', 'short hold cancellation', mobile ? 'native touch hold' : 'one-second 4 hold',
-          '4 cannot reverse', 'released 333 return', 'persistent reverse hint', 'embedded film', 'upper hero mute',
-          'centered identity row', 'category filter', 'About', 'Contact', 'visitor', 'horizontal bounds'] });
-      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, 333 return, persistent white reverse hint, upper hero mute, centered identity row, navigation, zero HTTP requests/runtime errors.`);
+          'one-second 4 reverse', 'released 333 return', 'temporary faint hint', 'embedded film', 'upper hero mute',
+          'centered identity row', 'connected Work anchors', 'About', 'Contact inquiry', 'visitor', 'horizontal bounds'] });
+      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, 4/333 return, temporary faint hint, upper hero mute, centered identity row, connected Work, Contact, zero HTTP requests/runtime errors.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL('../artifacts/control-offline-results.json', import.meta.url), JSON.stringify({
-    contract: 'living-decay-final', checkedAt: new Date().toISOString(), html: htmlPath.pathname, htmlBytes: Buffer.byteLength(html),
+    contract: 'v6-navigation-inquiry', checkedAt: new Date().toISOString(), html: htmlPath.pathname, htmlBytes: Buffer.byteLength(html),
     htmlSha256: createHash('sha256').update(html).digest('hex'), reports,
   }, null, 2) + '\n');
 } finally { await browser.close(); }

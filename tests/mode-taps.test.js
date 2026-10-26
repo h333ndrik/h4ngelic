@@ -6,7 +6,7 @@ function fixture(initialMode = 'normal') {
   let time = 0, timerId = 0, mode = initialMode, enabled = true;
   const tasks = new Map(), changes = [], progress = [], preparations = [];
   const view = Object.assign(new EventTarget(), {
-    performance: { now: () => time },
+    performance: { now: () => time, timeOrigin: 1700000000000 },
     setTimeout(callback, delay) { tasks.set(++timerId, { callback, at: time + delay }); return timerId; },
     clearTimeout(id) { tasks.delete(id); },
   });
@@ -24,7 +24,7 @@ function fixture(initialMode = 'normal') {
     onProgress: (target, count, total) => progress.push({ target, count, total }) });
   const send = (type, properties = {}, dispatchTarget = doc) => {
     const event = new Event(type, { cancelable: true });
-    for (const [name, value] of Object.entries({ target: button, ...properties })) Object.defineProperty(event, name, { value });
+    for (const [name, value] of Object.entries({ target: button, timeStamp: time, ...properties })) Object.defineProperty(event, name, { value });
     dispatchTarget.dispatchEvent(event);
     return event;
   };
@@ -44,7 +44,16 @@ function fixture(initialMode = 'normal') {
   const accessible = properties => send('click', { detail: 0, button: 0, ...properties });
   return { doc, view, button, makeButton, send, pointer, tick, click, tap, accessible, dispose,
     changes, progress, preparations, setMode(value) { mode = value; }, setEnabled(value) { enabled = value; },
+    get now() { return time; },
     get pending() { return tasks.size; } };
+}
+
+function recordedTap(f, physicalClick, delivered, { epoch = false, pointerId = 7 } = {}) {
+  f.tick(delivered - f.now);
+  const stamp = value => epoch ? f.view.performance.timeOrigin + value : value;
+  f.pointer('pointerdown', { timeStamp: stamp(physicalClick - 30), pointerId });
+  f.pointer('pointerup', { timeStamp: stamp(physicalClick), pointerId });
+  f.click({ timeStamp: stamp(physicalClick) });
 }
 
 test('four deliberate normal taps complete once, with progressive feedback and a final transition lock', () => {
@@ -196,4 +205,119 @@ test('disposal clears timers, progress and event bindings without later callback
   assert.equal(f.progress.length, size);
   assert.deepEqual(f.changes, []);
   assert.equal(f.dispose.snapshot().count, 0);
+});
+
+test('queued physical taps within two seconds still complete after handler delivery and UI expiry', () => {
+  for (const epoch of [false, true]) {
+    for (const initialMode of ['normal', 'xray']) {
+      const f = fixture(initialMode);
+      const physical = initialMode === 'xray' ? [100, 900, 2091] : [100, 500, 1100, 2091];
+      const delivered = initialMode === 'xray' ? [100, 1500, 2700] : [100, 700, 1700, 3200];
+      for (let index = 0; index < physical.length - 1; index++) recordedTap(f, physical[index], delivered[index], { epoch });
+      f.tick(2100 - f.now);
+      assert.equal(f.dispose.snapshot().count, 0, 'Visible progress clears at the original physical deadline.');
+      assert.equal(f.dispose.snapshot().retained, true, 'At most one bounded partial record remains for queued input.');
+      const last = physical.length - 1;
+      recordedTap(f, physical[last], delivered[last], { epoch });
+      assert.deepEqual(f.changes, [initialMode === 'xray' ? 'normal' : 'xray']);
+      assert.equal(f.preparations.length, 1, 'A queued completion resumes the original prepared gesture.');
+      assert.equal(f.dispose.snapshot().retained, false);
+      assert.equal(f.pending, 0);
+      f.dispose();
+    }
+  }
+});
+
+test('delivery grace never extends the physical two-second window or replays older accepted input', () => {
+  for (const lastPhysical of [2100, 2101, 2700, 850]) {
+    const f = fixture('xray');
+    recordedTap(f, 100, 100);
+    recordedTap(f, 900, 1500);
+    f.tick(2200 - f.now);
+    recordedTap(f, lastPhysical, 2800);
+    assert.deepEqual(f.changes, [], `Physical ${lastPhysical}ms cannot finish the original window.`);
+    assert.equal(f.dispose.snapshot().count, 1, 'An out-of-window input only begins a new sequence.');
+    assert.equal(f.preparations.length, 2);
+    f.dispose();
+  }
+});
+
+test('physical hold duration stays capped at 450ms even when handlers are dispatched together or far apart', () => {
+  for (const duration of [449, 450, 451, 1500]) {
+    const f = fixture();
+    f.tick(2000);
+    f.pointer('pointerdown', { timeStamp: 100 });
+    f.pointer('pointerup', { timeStamp: 100 + duration });
+    f.click({ timeStamp: 100 + duration });
+    assert.equal(f.dispose.snapshot().count, duration <= 450 ? 1 : 0);
+    f.dispose();
+  }
+  const f = fixture();
+  f.tick(100); f.pointer('pointerdown', { timeStamp: 100 });
+  f.tick(1900); f.pointer('pointerup', { timeStamp: 130 }); f.click({ timeStamp: 130 });
+  assert.equal(f.dispose.snapshot().count, 1, 'A 30ms physical tap does not become a 1900ms hold because of delivery delay.');
+  f.dispose();
+});
+
+test('UI expiry between pointerup and its queued compatibility click preserves the completed physical gesture', () => {
+  const f = fixture('xray');
+  recordedTap(f, 100, 100);
+  recordedTap(f, 900, 1500);
+  f.tick(2060 - f.now); f.pointer('pointerdown', { timeStamp: 2060 });
+  f.tick(30); f.pointer('pointerup', { timeStamp: 2090 });
+  f.tick(110);
+  assert.equal(f.dispose.snapshot().count, 0);
+  assert.equal(f.dispose.snapshot().retained, true);
+  f.click({ timeStamp: 2090 });
+  assert.deepEqual(f.changes, ['normal']);
+  f.dispose();
+});
+
+test('native keyboard and assistive clicks also use their physical timestamps after delayed dispatch', () => {
+  const f = fixture('xray');
+  f.tick(100); f.accessible({ timeStamp: 100 });
+  f.tick(1400); f.accessible({ timeStamp: 900 });
+  f.tick(1200); f.accessible({ timeStamp: 2091 });
+  assert.deepEqual(f.changes, ['normal']);
+  assert.equal(f.preparations.length, 1);
+  f.dispose();
+});
+
+test('hard cancellations discard retained history and reject physically older queued taps', () => {
+  for (const cause of ['h4:navigationstart', 'h4:pagechange', 'h4:modechange', 'blur', 'hidden', 'scroll', 'explicit']) {
+    const f = fixture('xray');
+    recordedTap(f, 100, 100);
+    recordedTap(f, 900, 1500);
+    f.tick(2200 - f.now);
+    assert.equal(f.dispose.snapshot().retained, true);
+    if (cause === 'hidden') { f.doc.hidden = true; f.send('visibilitychange'); f.doc.hidden = false; }
+    else if (cause === 'explicit') f.dispose.cancel();
+    else f.send(cause, {}, ['blur', 'scroll'].includes(cause) ? f.view : f.doc);
+    assert.equal(f.dispose.snapshot().retained, false, cause);
+    recordedTap(f, 1991, 2600);
+    assert.equal(f.dispose.snapshot().count, 0, cause);
+    assert.deepEqual(f.changes, [], cause);
+    recordedTap(f, 2700, 2700);
+    assert.equal(f.dispose.snapshot().count, 1, 'A genuinely new gesture is still usable.');
+    f.dispose();
+  }
+});
+
+test('retained partial state expires after the bounded delivery grace and invalid or stale gestures cannot complete', () => {
+  const f = fixture('xray');
+  recordedTap(f, 100, 100); recordedTap(f, 900, 1500);
+  f.tick(2100 - f.now);
+  assert.equal(f.dispose.snapshot().retained, true);
+  f.tick(5000);
+  assert.equal(f.dispose.snapshot().retained, false);
+  assert.equal(f.pending, 0);
+  recordedTap(f, 2091, 7200);
+  assert.deepEqual(f.changes, []);
+  assert.equal(f.dispose.snapshot().count, 0, 'Input delayed beyond five seconds is not silently treated as fresh.');
+  f.tick(100);
+  f.pointer('pointerdown', { timeStamp: 7250 });
+  f.pointer('pointerup', { timeStamp: 7100 });
+  f.click({ timeStamp: 7100 });
+  assert.equal(f.dispose.snapshot().count, 0, 'A physical release cannot precede its press.');
+  f.dispose();
 });

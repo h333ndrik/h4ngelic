@@ -1,0 +1,13 @@
+{
+  "htmlBytes": 7737644,
+  "htmlSHA256": "cc3530e00fcf48203ce4fa4fc43ac83a8b1479bf73525fa1c871495b070f74c0",
+  "originalImageSHA256": "df0781e4f572ba9e644c3471fbb6060e228c34f02acf32d01f4b0e1dce68132f",
+  "embeddedImages": 5,
+  "zipBytes": 5266777,
+  "zipContainsIdenticalHTML": true,
+  "offlineWidthsPassed": [
+    1440,
+    390,
+    320
+  ]
+}

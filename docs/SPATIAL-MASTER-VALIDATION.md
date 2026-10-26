@@ -5,6 +5,11 @@ Feature branch: `feat/spatial-archives-hidden-relief`, based on PR #14 at
 motion, cursor assets and sound settings are retained. No merge or production
 deployment is part of this update.
 
+This is the **historical pre-V6** report for the source checkpoint `b9142dc`
+and review [PR #15](https://github.com/h333ndrik/h4ngelic/pull/15). The V6
+navigation/inquiry changes have a separate [working record](V6-IMPLEMENTATION.md).
+Neither the checks nor the measurements below validate V6.
+
 ## Result and editable content
 
 The homepage keeps its three horizontal editorial columns: **tattoos /
@@ -88,7 +93,7 @@ No test fixture is published as portfolio content.
 | Digital Ink Reveal, 1000 / 390 / 320px | The actual original grows through normal scroll and reverses at the same scroll progression. Full reveal shows the responsive original `<img>` with no image/parent filter and no canvas; reduced motion shows it statically. All profiles report zero runtime errors; 320px metadata has no overflow. | [Report](validation/spatial-master/digital-ink.json) |
 | Horizontal Drift, 1000 / 390 / 320px | Native wheel forward/reverse, horizontal input, real mobile horizontal drag and vertical page pan, image/detail flights, Escape, keyboard controls and boundary release pass. Closing restores the exact recorded scroll and track position at all three widths; desktop world switching keeps the same archive node and pose. | [Test-fixture report](validation/spatial-master/horizontal-drift.json) |
 | Optional model viewer, desktop / 390px touch | A test-only textured box/plane confirms explicit lazy loading, separate neutral body and retained texture, real mouse/touch rotation, reset, reduced-motion/visibility/offscreen suspension and stale-load cleanup. No human asset or UV/Procreate compatibility is represented by this fixture. | [Test-fixture report](validation/spatial-master/optional-model-fixture.json) |
-| Exact h4 relief, desktop 1440×1000 | Absent at hero/Contact; scroll reaches relief depth 19; pointer lighting changes 48,604 rendered pixels. Entry/reverse preserve the mark and foreground instruction, with zero runtime errors. | [Report](validation/spatial-master/end-relief-desktop.json) |
+| Exact h4 relief, desktop 1440×1000, touch 390 / 320px and reduced-motion 1000×800 | All four profiles hide the mark before the final area and reach relief depth 19 at the end; entry/reverse retain the silhouette and foreground instruction. Desktop pointer lighting changes 57,643 rendered pixels. Reduced motion has no material animation. Every profile reports zero runtime errors. | [Full final pre-V6 report](validation/spatial-master/pre-v6-end-relief-all-profiles.json) |
 
 The unpaused native reverse probe configured to 750ms finished in 1396ms in
 this software-GPU environment, including capture setup. This is separate from
@@ -97,10 +102,11 @@ observed a maximum sampled process-tree RSS of 1,028,067,328 bytes, below
 its 2GiB test guard. These values are neither
 a phone-speed estimate nor an FPS result.
 
-The relief report above covers the new **desktop** lighting implementation.
+The final relief report above supersedes the earlier desktop-only report;
+the earlier individually hashed screenshot pair remains a separate capture.
 Older mobile/mask-only captures and the historical `runtime-results.json`
-probe are deliberately excluded from this update's evidence. The final relief/responsive-route checks, exact offline export and production
-measurements are appended only after their current runs complete.
+probe are excluded. Report timestamps, when absent, are not inferred from
+filesystem modification times.
 
 The final automated suite passes **267/267 Node tests**, and the production
 build prerenders **11 routes plus 404** with preview `noindex` intact. All
@@ -189,6 +195,57 @@ focus outline on its CTA. Gallery/model fixtures, when used, are explicitly
 labelled test inputs and do not establish a completed human-model/UV pipeline.
 
 ## Preview and reproduction
+
+The downloadable **pre-V6** HTML is 7,737,644 bytes with SHA-256
+`cc3530e00fcf48203ce4fa4fc43ac83a8b1479bf73525fa1c871495b070f74c0`.
+The [three-width offline report](validation/spatial-master/pre-v6-offline-three-widths.json),
+recorded at `2026-10-26T10:11:06.048Z`, covers 1440, 390 and 320px with zero
+HTTP requests and runtime errors. Its historical `living-decay-final` contract
+label does not change the recorded HTML hash. It checks the pre-V6 behavior
+(including `4` entering and `333` reversing, and the old reverse hint), not the
+new V6 toggle/hint specification. The [package proof](validation/spatial-master/pre-v6-offline-package.json)
+records all five embedded original/derivative images and a 5,266,777-byte ZIP
+containing identical HTML. The original JPEG hash is independently retained.
+
+The exact HTML also completed the 390px non-reduced native captured-page
+sequence in a [SwiftShader run](validation/spatial-master/pre-v6-offline-native-swiftshader-pass.json)
+at `2026-10-26T14:54:19.427Z`, with all four mode changes captured, zero
+retained maps, zero interior WebGL contexts and no HTTP requests/errors.
+A [separate recorded rendering run](validation/spatial-master/pre-v6-offline-native-cpu-pass.json)
+also completed. However, a [subsequent SwiftShader repeat failed](validation/spatial-master/pre-v6-offline-native-swiftshader-repeat-failure.json)
+at `2026-10-26T14:59:04.745Z`: native touch handling was delayed beyond the
+unchanged two-second tap window, so the sequence correctly reset. The trace
+includes trusted pointer/click events and actual handler times. One passing
+run does not establish repeatable performance under this software-rendering
+overload; neither product timers nor event timestamps were falsified to pass.
+The managed browser blocks `file://`, so offline checks execute the exact
+exported bytes in an isolated document with HTTP rejected rather than claiming
+a successful file-protocol navigation.
+
+## Historical performance baseline for V6
+
+The [recorded Lighthouse summary](validation/spatial-master/pre-v6-lighthouse-summary.json)
+was generated at `2026-10-26T14:57:45.359Z` against the **pre-V6 production
+build** on the local strict preview server. It contains **one mobile run per
+route**, not a three-run median or desktop measurement. Lighthouse 13.5.0 and
+Headless Chromium 154 used ANGLE SwiftShader, a 412×823 emulated viewport at
+DPR 1.75, simulated mobile network throttling and a 4× CPU slowdown.
+
+| Route | Performance | LCP | TBT | CLS | Transferred bytes |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Home | 70 | 1,446.60ms | 3,480ms | .0029254 | 391,207 |
+| Work | 99 | 1,808.50ms | 39ms | 0 | 307,896 |
+
+Full [Home](validation/spatial-master/pre-v6-lighthouse-home-mobile-1.json)
+and [Work](validation/spatial-master/pre-v6-lighthouse-work-mobile-1.json)
+reports are retained. Home's high blocking time is a real limitation of this
+run, not evidence of a smooth physical phone. TBT is not INP; these lab runs
+do not measure real-visitor p75 Core Web Vitals, desktop performance or an
+improvement attributable to V6. Work requested the entry and Digital Ink
+chunks and no hero/Three.js entry. All copies and their timestamps/hashes
+are listed in the evidence manifest.
+
+## Reproduction of the pre-V6 feature
 
 ```sh
 npm ci

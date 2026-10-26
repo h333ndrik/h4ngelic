@@ -1,0 +1,706 @@
+[
+  {
+    "profile": "desktop",
+    "initial": {
+      "top": 4975.65625,
+      "height": 820,
+      "progress": 0,
+      "opacity": 0,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": false,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 0,
+      "reliefBlur": 0.6,
+      "lightX": 110,
+      "lightY": -130,
+      "markBox": {
+        "left": 518.4000244140625,
+        "right": 921.5999755859375,
+        "top": 5095.685546875,
+        "bottom": 5755.220703125
+      },
+      "hintBox": {
+        "left": 594.3984375,
+        "right": 845.6015625,
+        "top": 5347.25,
+        "bottom": 5391.25
+      },
+      "width": 1440,
+      "viewport": 1000
+    },
+    "contact": {
+      "top": 1579.65625,
+      "height": 820,
+      "progress": 0,
+      "opacity": 0,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": false,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 0,
+      "reliefBlur": 0.6,
+      "lightX": 110,
+      "lightY": -130,
+      "markBox": {
+        "left": 518.4000244140625,
+        "right": 921.5999755859375,
+        "top": 1699.6856689453125,
+        "bottom": 2359.220703125
+      },
+      "hintBox": {
+        "left": 594.3984375,
+        "right": 845.6015625,
+        "top": 1951.25,
+        "bottom": 1995.25
+      },
+      "width": 1440,
+      "viewport": 1000
+    },
+    "final": {
+      "top": 79.65625,
+      "height": 820,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 510,
+        "right": 930,
+        "top": 137.9453125,
+        "bottom": 824.9609375
+      },
+      "hintBox": {
+        "left": 594.3984375,
+        "right": 845.6015625,
+        "top": 451.25,
+        "bottom": 495.25
+      },
+      "width": 1440,
+      "viewport": 1000
+    },
+    "cursorLighting": {
+      "leftLight": {
+        "top": 79.65625,
+        "height": 820,
+        "progress": 1,
+        "opacity": 1,
+        "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+        "material": "none",
+        "active": true,
+        "hintZ": "3",
+        "hintOpacity": 0,
+        "hintColor": "rgb(240, 239, 235)",
+        "animation": "none",
+        "reliefDepth": 19,
+        "reliefBlur": 2.1,
+        "lightX": -22,
+        "lightY": 130,
+        "markBox": {
+          "left": 510,
+          "right": 930,
+          "top": 137.9453125,
+          "bottom": 824.9609375
+        },
+        "hintBox": {
+          "left": 594.3984375,
+          "right": 845.6015625,
+          "top": 451.25,
+          "bottom": 495.25
+        },
+        "width": 1440,
+        "viewport": 1000
+      },
+      "rightLight": {
+        "top": 79.65625,
+        "height": 820,
+        "progress": 1,
+        "opacity": 1,
+        "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+        "material": "none",
+        "active": true,
+        "hintZ": "3",
+        "hintOpacity": 0,
+        "hintColor": "rgb(240, 239, 235)",
+        "animation": "none",
+        "reliefDepth": 19,
+        "reliefBlur": 2.1,
+        "lightX": 242,
+        "lightY": 292,
+        "markBox": {
+          "left": 510,
+          "right": 930,
+          "top": 137.9453125,
+          "bottom": 824.9609375
+        },
+        "hintBox": {
+          "left": 594.3984375,
+          "right": 845.6015625,
+          "top": 451.25,
+          "bottom": 495.25
+        },
+        "width": 1440,
+        "viewport": 1000
+      },
+      "changedPixels": 57643
+    },
+    "other": {
+      "top": 79.65625,
+      "height": 820,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "url(\"http://127.0.0.1:5173/assets/living-decay-material.webp\")",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 1,
+      "hintColor": "rgb(255, 255, 255)",
+      "animation": "h4-end-material",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 510,
+        "right": 930,
+        "top": 137.9453125,
+        "bottom": 824.9609375
+      },
+      "hintBox": {
+        "left": 487.2734375,
+        "right": 952.7265625,
+        "top": 451.25,
+        "bottom": 495.25
+      },
+      "width": 1440,
+      "viewport": 1000
+    },
+    "restored": {
+      "top": 79.65625,
+      "height": 820,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 1,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 510,
+        "right": 930,
+        "top": 137.9453125,
+        "bottom": 824.9609375
+      },
+      "hintBox": {
+        "left": 594.3984375,
+        "right": 845.6015625,
+        "top": 451.25,
+        "bottom": 495.25
+      },
+      "width": 1440,
+      "viewport": 1000
+    },
+    "errors": []
+  },
+  {
+    "profile": "touch-390",
+    "initial": {
+      "top": 3686.015625,
+      "height": 692.078125,
+      "progress": 0,
+      "opacity": 0,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": false,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 0,
+      "reliefBlur": 0.6,
+      "lightX": 110,
+      "lightY": -130,
+      "markBox": {
+        "left": 63.96000671386719,
+        "right": 326.0399627685547,
+        "top": 3858.77490234375,
+        "bottom": 4287.47509765625
+      },
+      "hintBox": {
+        "left": 87.34375,
+        "right": 302.65625,
+        "top": 3996.203125,
+        "bottom": 4040.203125
+      },
+      "width": 390,
+      "viewport": 844
+    },
+    "contact": {
+      "top": 1215.015625,
+      "height": 692.078125,
+      "progress": 0,
+      "opacity": 0,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": false,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 0,
+      "reliefBlur": 0.6,
+      "lightX": 110,
+      "lightY": -130,
+      "markBox": {
+        "left": 63.96000671386719,
+        "right": 326.0399627685547,
+        "top": 1387.7750244140625,
+        "bottom": 1816.4749755859375
+      },
+      "hintBox": {
+        "left": 87.34375,
+        "right": 302.65625,
+        "top": 1525.203125,
+        "bottom": 1569.203125
+      },
+      "width": 390,
+      "viewport": 844
+    },
+    "final": {
+      "top": 64.015625,
+      "height": 692.078125,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 58.5,
+        "right": 331.5,
+        "top": 179.84375,
+        "bottom": 626.40625
+      },
+      "hintBox": {
+        "left": 87.34375,
+        "right": 302.65625,
+        "top": 374.203125,
+        "bottom": 418.203125
+      },
+      "width": 390,
+      "viewport": 844
+    },
+    "cursorLighting": null,
+    "other": {
+      "top": 64.015625,
+      "height": 692.078125,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "url(\"http://127.0.0.1:5173/assets/living-decay-material-mobile.webp\")",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 1,
+      "hintColor": "rgb(255, 255, 255)",
+      "animation": "h4-end-material",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 58.5,
+        "right": 331.5,
+        "top": 179.84375,
+        "bottom": 626.40625
+      },
+      "hintBox": {
+        "left": 22,
+        "right": 368,
+        "top": 371.015625,
+        "bottom": 421.390625
+      },
+      "width": 390,
+      "viewport": 844
+    },
+    "restored": {
+      "top": 64.015625,
+      "height": 692.078125,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 1,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 58.5,
+        "right": 331.5,
+        "top": 179.84375,
+        "bottom": 626.40625
+      },
+      "hintBox": {
+        "left": 87.34375,
+        "right": 302.65625,
+        "top": 374.203125,
+        "bottom": 418.203125
+      },
+      "width": 390,
+      "viewport": 844
+    },
+    "errors": []
+  },
+  {
+    "profile": "touch-320",
+    "initial": {
+      "top": 3755.015625,
+      "height": 692.078125,
+      "progress": 0,
+      "opacity": 0,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": false,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 0,
+      "reliefBlur": 0.6,
+      "lightX": 110,
+      "lightY": -130,
+      "markBox": {
+        "left": 52.480003356933594,
+        "right": 267.51998138427734,
+        "top": 3966.25,
+        "bottom": 4318
+      },
+      "hintBox": {
+        "left": 52.34375,
+        "right": 267.65625,
+        "top": 4065.203125,
+        "bottom": 4109.203125
+      },
+      "width": 320,
+      "viewport": 844
+    },
+    "contact": {
+      "top": 1215.015625,
+      "height": 692.078125,
+      "progress": 0,
+      "opacity": 0,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": false,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 0,
+      "reliefBlur": 0.6,
+      "lightX": 110,
+      "lightY": -130,
+      "markBox": {
+        "left": 52.480003356933594,
+        "right": 267.51998138427734,
+        "top": 1426.25,
+        "bottom": 1778
+      },
+      "hintBox": {
+        "left": 52.34375,
+        "right": 267.65625,
+        "top": 1525.203125,
+        "bottom": 1569.203125
+      },
+      "width": 320,
+      "viewport": 844
+    },
+    "final": {
+      "top": 64.015625,
+      "height": 692.078125,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 48,
+        "right": 272,
+        "top": 219.921875,
+        "bottom": 586.328125
+      },
+      "hintBox": {
+        "left": 52.34375,
+        "right": 267.65625,
+        "top": 374.203125,
+        "bottom": 418.203125
+      },
+      "width": 320,
+      "viewport": 844
+    },
+    "cursorLighting": null,
+    "other": {
+      "top": 64.015625,
+      "height": 692.078125,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "url(\"http://127.0.0.1:5173/assets/living-decay-material-mobile.webp\")",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 1,
+      "hintColor": "rgb(255, 255, 255)",
+      "animation": "h4-end-material",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 48,
+        "right": 272,
+        "top": 219.921875,
+        "bottom": 586.328125
+      },
+      "hintBox": {
+        "left": 22,
+        "right": 298,
+        "top": 371.015625,
+        "bottom": 421.390625
+      },
+      "width": 320,
+      "viewport": 844
+    },
+    "restored": {
+      "top": 64.015625,
+      "height": 692.078125,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 1,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 48,
+        "right": 272,
+        "top": 219.921875,
+        "bottom": 586.328125
+      },
+      "hintBox": {
+        "left": 52.34375,
+        "right": 267.65625,
+        "top": 374.203125,
+        "bottom": 418.203125
+      },
+      "width": 320,
+      "viewport": 844
+    },
+    "errors": []
+  },
+  {
+    "profile": "reduced",
+    "initial": {
+      "top": 2412.359375,
+      "height": 656,
+      "progress": 0,
+      "opacity": 0,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": false,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 0,
+      "reliefBlur": 0.6,
+      "lightX": 110,
+      "lightY": -130,
+      "markBox": {
+        "left": 332,
+        "right": 668,
+        "top": 2458.9921875,
+        "bottom": 3008.6015625
+      },
+      "hintBox": {
+        "left": 374.3984375,
+        "right": 625.6015625,
+        "top": 2705.234375,
+        "bottom": 2749.234375
+      },
+      "width": 1000,
+      "viewport": 800
+    },
+    "contact": {
+      "top": 523.359375,
+      "height": 656,
+      "progress": 0,
+      "opacity": 0,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": false,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 0,
+      "reliefBlur": 0.6,
+      "lightX": 110,
+      "lightY": -130,
+      "markBox": {
+        "left": 332,
+        "right": 668,
+        "top": 569.9921875,
+        "bottom": 1119.6015625
+      },
+      "hintBox": {
+        "left": 374.3984375,
+        "right": 625.6015625,
+        "top": 816.234375,
+        "bottom": 860.234375
+      },
+      "width": 1000,
+      "viewport": 800
+    },
+    "final": {
+      "top": 44.359375,
+      "height": 656,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 0,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 332,
+        "right": 668,
+        "top": 90.9921875,
+        "bottom": 640.6015625
+      },
+      "hintBox": {
+        "left": 374.3984375,
+        "right": 625.6015625,
+        "top": 337.234375,
+        "bottom": 381.234375
+      },
+      "width": 1000,
+      "viewport": 800
+    },
+    "cursorLighting": null,
+    "other": {
+      "top": 44.359375,
+      "height": 656,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "url(\"http://127.0.0.1:5173/assets/living-decay-material.webp\")",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 1,
+      "hintColor": "rgb(255, 255, 255)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 332,
+        "right": 668,
+        "top": 90.9921875,
+        "bottom": 640.6015625
+      },
+      "hintBox": {
+        "left": 306.0546875,
+        "right": 693.9453125,
+        "top": 337.234375,
+        "bottom": 381.234375
+      },
+      "width": 1000,
+      "viewport": 800
+    },
+    "restored": {
+      "top": 44.359375,
+      "height": 656,
+      "progress": 1,
+      "opacity": 1,
+      "mask": "url(\"http://127.0.0.1:5173/assets/h4-monogram.svg\")",
+      "material": "none",
+      "active": true,
+      "hintZ": "3",
+      "hintOpacity": 1,
+      "hintColor": "rgb(240, 239, 235)",
+      "animation": "none",
+      "reliefDepth": 19,
+      "reliefBlur": 2.1,
+      "lightX": 110,
+      "lightY": 220,
+      "markBox": {
+        "left": 332,
+        "right": 668,
+        "top": 90.9921875,
+        "bottom": 640.6015625
+      },
+      "hintBox": {
+        "left": 374.3984375,
+        "right": 625.6015625,
+        "top": 337.234375,
+        "bottom": 381.234375
+      },
+      "width": 1000,
+      "viewport": 800
+    },
+    "errors": []
+  }
+]

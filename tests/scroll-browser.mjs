@@ -89,7 +89,7 @@ try {
   const page = await context.newPage();
   const errors = errorsFor(page);
   await readyHome(page);
-  assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'art on skin & beyond');
+  assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'mixed media');
   assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01 / SELECTED WORKS', '02 / ABOUT', '03 / CONTACT']);
   assert.equal(await page.locator('#page-content > .content-section').count(), 3, 'The homepage contains exactly three major sections.');
   const headingStyles = await page.locator('.kinetic-heading').evaluateAll((headings) => headings.map((heading) => {
@@ -106,15 +106,18 @@ try {
     return { border: ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth'].map((name) => parseFloat(style[name])), background: style.backgroundColor, shadow: style.boxShadow };
   }));
   assert.ok(surfaces.every((style) => style.border.every((value) => value === 0) && style.background === 'rgba(0, 0, 0, 0)' && style.shadow === 'none'), 'Homepage sections and typographic links must share one uninterrupted surface, without dividing lines or panels.');
-  assert.equal(await page.locator('.motion-echo').count(), 12, 'Six flying links have at most two decorative echoes each.');
+  assert.equal(await page.locator('.motion-echo').count(), 6, 'Only the three Work rubrics have two decorative echoes each.');
+  assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
+  assert.equal(await page.locator('#contact .motion-echo,#selected-work .category-sublinks').count(), 0,
+    'The form is never duplicated as a trail and the homepage has no subcategory labels.');
   assert.ok(await page.locator('.motion-echo').evaluateAll((echoes) => echoes.every((echo) => echo.getAttribute('aria-hidden') === 'true' && echo.textContent === '' && getComputedStyle(echo).pointerEvents === 'none')));
 
 
-  for (const selector of ['#selected-work', '#contact']) {
+  for (const selector of ['#selected-work']) {
     await scrollProgress(page, selector, 0);
     const initial = await itemStates(page, selector);
     assert.equal(initial.length, 3);
-    assert.ok(initial.every((item) => item.left >= 1440), 'All category/contact labels start fully beyond the right viewport edge.');
+    assert.ok(initial.every((item) => item.left >= 1440), 'All Work labels start fully beyond the right viewport edge.');
     assert.ok(initial.every((item) => item.x >= 1440), 'The fly-in covers a substantial viewport-width distance.');
     const entry = await page.locator(selector).boundingBox();
     assert.ok(Math.abs(entry.y - 850) < 2, 'The entrance starts when the section reaches the lower 85% viewport threshold.');
@@ -135,7 +138,7 @@ try {
     await scrollProgress(page, selector, 1);
     const settled = await itemStates(page, selector);
     assert.ok(settled.every((item) => Math.abs(item.x) < .1 && Math.abs(item.y) < .1 && item.opacity > .99), 'Links must finish fully visible in exact final positions.');
-    await horizontal(page, `${selector} ${selector === '#contact' ? '.contact-link' : '.category-link'}`, 1440);
+    await horizontal(page, `${selector} .category-link`, 1440);
     assert.ok((await echoState()).every((echo) => echo.opacity === 0), 'Settled labels must be crisp without a persistent echo.');
     await scrollProgress(page, selector, .48);
     closeStates(await itemStates(page, selector), midway, 'Reverse scrolling must reproduce the same intermediate state');
@@ -179,6 +182,37 @@ try {
   await frames(page);
   closeStates(await itemStates(page, '[data-motion="about"]'), aboutMiddle, 'The calmer About sequence must also reverse');
 
+  const contactRange = await page.locator('#contact').evaluate(section => {
+    const top = section.getBoundingClientRect().top + scrollY;
+    return { start: top - innerHeight * .68, end: top - innerHeight * .10 };
+  });
+  assert.equal(await page.locator('#contact[data-motion-pin]').count(), 0, 'The inquiry remains in native vertical flow.');
+  await page.evaluate(top => scrollTo({ top, behavior: 'instant' }), contactRange.start);
+  await frames(page);
+  const contactStart = await itemStates(page, '#contact');
+  assert.equal(contactStart.length, 1);
+  assert.ok(contactStart[0].opacity < .01 && contactStart[0].x > 100,
+    'The one form starts with its later, bounded entrance rather than a viewport-wide row fly-in.');
+  await page.evaluate(top => scrollTo({ top, behavior: 'instant' }), (contactRange.start + contactRange.end) / 2);
+  await frames(page);
+  const contactMiddle = await itemStates(page, '#contact');
+  assert.ok(contactMiddle[0].x < contactStart[0].x && contactMiddle[0].opacity > .9);
+  await page.evaluate(top => scrollTo({ top, behavior: 'instant' }), contactRange.end);
+  await frames(page);
+  assert.ok((await itemStates(page, '#contact')).every(item => Math.abs(item.x) < .1 && item.opacity > .99));
+  await page.evaluate(top => scrollTo({ top, behavior: 'instant' }), (contactRange.start + contactRange.end) / 2);
+  await frames(page);
+  closeStates(await itemStates(page, '#contact'), contactMiddle, 'The contact form scrub reverses exactly');
+  await page.waitForTimeout(180);
+  closeStates(await itemStates(page, '#contact'), contactMiddle, 'Stopping scroll stops the contact entrance');
+  const contactWheelStart = await page.evaluate(() => scrollY);
+  await page.mouse.wheel(0, 60);
+  await page.waitForFunction(before => scrollY > before + 20, contactWheelStart);
+  await page.locator('#contact input[name="name"]').focus();
+  assert.ok((await itemStates(page, '#contact')).every(item => Math.abs(item.x) < .1 && item.opacity > .99),
+    'Keyboard access reveals the whole form immediately.');
+  await page.evaluate(() => document.activeElement?.blur());
+
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
   await frames(page);
   const heroStart = await transform(page.locator('#stage'));
@@ -215,7 +249,7 @@ try {
     const responsiveErrors = errorsFor(responsivePage);
     await readyHome(responsivePage);
     if (width < 600) {
-      for (const selector of ['#selected-work', '#contact']) {
+      for (const selector of ['#selected-work']) {
         await scrollProgress(responsivePage, selector, 0);
         const start = await itemStates(responsivePage, selector);
         assert.ok(start.every((item) => item.left >= width), `Mobile labels begin outside the viewport at ${width}px.`);
@@ -231,16 +265,19 @@ try {
       await frames(responsivePage);
     }
     await horizontal(responsivePage, '#selected-work .category-link', width);
-    await horizontal(responsivePage, '#contact .contact-link', width);
-    assert.deepEqual(await responsivePage.locator('#selected-work .category-link').evaluateAll((links) => links.map((link) => new URL(link.href).pathname)), categories.map((category) => `/work/${category}`));
+    assert.equal(await responsivePage.locator('#contact [data-inquiry-form]').count(), 1);
+    const formFields = await responsivePage.locator('#contact .inquiry-fields').boundingBox();
+    assert.ok(formFields.x >= 0 && formFields.x + formFields.width <= width + 1,
+      `The inquiry fits its ${width}px viewport.`);
+    assert.deepEqual(await responsivePage.locator('#selected-work .category-link').evaluateAll((links) => links.map((link) => new URL(link.href).pathname + new URL(link.href).hash)), categories.map((category) => `/work#${category}`));
     await responsivePage.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-    const layout = await responsivePage.evaluate(() => ({
-      tagline: document.querySelector('.identity').getBoundingClientRect().right,
-      navigation: document.querySelector('.hero-nav').getBoundingClientRect().left,
-      pageWidth: document.documentElement.scrollWidth,
-    }));
+    const layout = await responsivePage.evaluate(() => {
+      const tagline = document.querySelector('.identity').getBoundingClientRect(), navigation = document.querySelector('.hero-nav').getBoundingClientRect();
+      return { separated: tagline.right < navigation.left || tagline.top >= navigation.bottom || tagline.bottom <= navigation.top,
+        pageWidth: document.documentElement.scrollWidth };
+    });
     assert.ok(layout.pageWidth <= width + 1);
-    assert.ok(layout.tagline < layout.navigation, `Tagline and navigation must not collide at ${width}px.`);
+    assert.ok(layout.separated, `Tagline and navigation must not collide at ${width}px.`);
     if (width === 390) {
       const contact = responsivePage.locator('#contact');
       await contact.scrollIntoViewIfNeeded();

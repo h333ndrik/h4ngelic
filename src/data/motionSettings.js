@@ -9,7 +9,7 @@ export const motionSettings = Object.freeze({
   pin: Object.freeze({ work: .68, contact: .58, mobileWork: .48, mobileContact: .44 }),
   fly: Object.freeze({ start: .025, stagger: .14, duration: .66, distanceVw: 1.35, rotation: 6.5, overshoot: 12, overshootAt: .78, accelerationRamp: .12 }),
   heading: Object.freeze({ start: 0, end: .27, rise: 112 }),
-  about: Object.freeze({ approach: .88, finish: .08, headingEnd: .28, copyStart: .045, copyEnd: .84, linkStart: .18, linkEnd: 1, copyDistanceVw: 1.12, linkDistanceVw: 1.04 }),
+  about: Object.freeze({ approach: .76, finish: .08, headingEnd: .28, copyStart: .10, copyEnd: .90, linkStart: .23, linkEnd: 1, copyDistanceVw: 1.12, linkDistanceVw: 1.04 }),
   trail: Object.freeze({ layers: 2, distanceVw: .045, maximumDistance: 64, mobileMaximumDistance: 26, opacity: .22, secondaryOpacity: .13, fadeIn: .08, fadeOutStart: .38, fadeOutEnd: .82 }),
   hero: Object.freeze({ start: .02, end: .90, scale: .97 }),
 });

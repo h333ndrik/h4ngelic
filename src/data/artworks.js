@@ -14,6 +14,10 @@ import { featuredDigitalArtwork } from './digitalArtworkSettings.js';
  * - details: optional additional information, e.g. { materials: 'silver' }.
  * - mannequin: optional { model: '/models/validated-mannequin.glb', ...placement }
  *   for flashes only; see docs/MANNEQUIN-WORKFLOW.md before publishing a model.
+ * - order: optional numeric display order; otherwise keep authored array order.
+ * - featured: optional homepage/editorial selection metadata (the homepage
+ *   intentionally presents categories, never unsolicited image cards).
+ * - cover: optional image src to present first; defaults to the first image.
  * - published: set false to keep a draft out of every gallery.
  *
  * Copyable example (replace every example value with your actual project):

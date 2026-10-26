@@ -117,7 +117,8 @@ try {
   const touch = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const touchPage = await touch.newPage();
   await touchPage.goto(route('/about'), { waitUntil: 'networkidle' });
-  const navigation = touchPage.locator('.page-nav a').first();
+  await touchPage.locator('[data-global-index] > summary').tap();
+  const navigation = touchPage.locator('[data-index-page="work"]');
   await navigation.focus();
   assert.equal((await sample(navigation)).scale, 1, 'Touch profiles must not retain mouse hover magnification.');
   assert.equal((await sample(navigation)).glow, 'none');

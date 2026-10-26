@@ -149,9 +149,10 @@ try {
     await clean(page);
     assert.equal(await page.locator('.artwork-dialog').count(), 0);
     assert.equal(await page.evaluate(() => document.body.style.overflow), '');
+    await page.locator('[data-global-index] summary').click();
     await page.evaluate(() => {
       document.querySelector('[data-artwork-link]').click();
-      document.querySelector('.page-nav a[href="/about"]').click();
+      document.querySelector('[data-index-page="about"]').click();
     });
     await settled(page, 'about');
     await clean(page);

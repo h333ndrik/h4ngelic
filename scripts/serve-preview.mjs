@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { gzipSync } from 'node:zlib';
 import { resolveRoute } from '../src/routes.js';
+import { createInquiryHandler } from '../server/inquiry.mjs';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const mimeTypes = {
@@ -15,7 +16,7 @@ const mimeTypes = {
 };
 
 /** Serve the output as real documents, with strict route status and cached gzip. */
-export async function createPreviewServer({ root = resolve(projectRoot, 'dist') } = {}) {
+export async function createPreviewServer({ root = resolve(projectRoot, 'dist'), inquiryHandler = createInquiryHandler() } = {}) {
   const directory = await realpath(resolve(root));
   const manifest = JSON.parse(await readFile(resolve(directory, 'route-manifest.json'), 'utf8'));
   if (manifest.version !== 1 || !Array.isArray(manifest.routes)) throw new Error('Rebuild first: invalid route-manifest.json.');
@@ -47,6 +48,9 @@ export async function createPreviewServer({ root = resolve(projectRoot, 'dist') 
     try {
       response.setHeader('X-Content-Type-Options', 'nosniff');
       response.setHeader('Cache-Control', 'no-cache');
+      if (new URL(request.url, 'http://preview.invalid').pathname === '/api/inquiry') {
+        await inquiryHandler(request, response); return;
+      }
       if (!['GET', 'HEAD'].includes(request.method)) {
         response.writeHead(405, { Allow: 'GET, HEAD' }); response.end('Method not allowed'); return;
       }

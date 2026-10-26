@@ -43,7 +43,7 @@ test('the homepage keeps its hidden instruction separate from the identity-row c
   assert.match(html, /data-footer-secret-space/);
   assert.doesNotMatch(html, /data-visit-message/, 'The returning message stays in the header.');
   assert.match(html, /data-other-side-hint data-secret-hotspot data-mode-hold/);
-  assert.match(html, />PRESS 4 TO SEE THE OTHER SIDE<\/span>/);
+  assert.match(html, />HOLD 4 TO SEE THE OTHER SIDE\.<\/span>/);
   assert.match(html, /data-visit-counter-hotspot/);
   assert.match(html, />VISIT 001<\/span>/);
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
@@ -51,7 +51,9 @@ test('the homepage keeps its hidden instruction separate from the identity-row c
   assert.doesNotMatch(html, /data-mode-mute/, 'The sound control belongs to the upper hero controls, without a footer duplicate.');
   assert.match(html, /data-mode-status role="status" aria-live="polite"/);
   assert.doesNotMatch(html, /data-xray-toggle/, 'A simple touch tap must not bypass the hold control.');
-  assert.doesNotMatch(html, /instagram|book a tat|mailto:/, 'The homepage contact links are not duplicated in the footer.');
+  assert.match(html, /class="footer-instagram" href="https:\/\/www\.instagram\.com\/h4ngelic\/"/,
+    'The confirmed Instagram profile shares the metadata row.');
+  assert.doesNotMatch(html, /book a tat|mailto:/, 'The inquiry form is not duplicated with extra contact links.');
   assert.doesNotMatch(renderFooter(), /data-footer-secret-space/, 'The large quiet area is homepage-specific.');
 });
 

@@ -31,7 +31,7 @@ async function waitForNoMarks(page) {
 }
 
 async function blankPoint(page) {
-  const blank = page.locator('.archive-empty');
+  const blank = page.locator('[data-archive-category="tattoos"] .archive-empty');
   await blank.scrollIntoViewIfNeeded();
   const box = await blank.boundingBox();
   assert.ok(box && box.width > 80 && box.height > 60, 'The actual empty archive must provide a blank, noninteractive area.');
@@ -165,14 +165,15 @@ async function checkTouchScroll(page, context) {
 
 async function revealCycle(page, button, { touch }) {
   const message = button.locator('[data-secret-message]');
+  const peak = await button.getAttribute('data-visitor-hotspot') !== null ? .48 : .35;
   await page.mouse.move(1, 1);
   await button.evaluate((element) => element.blur());
   await page.waitForFunction((element) => Number(getComputedStyle(element).opacity) < .01, await message.elementHandle(), { timeout: 4200 });
   if (touch) await button.tap(); else await button.hover();
-  await page.waitForFunction((element) => {
+  await page.waitForFunction(({ element, peak }) => {
     const opacity = Number(getComputedStyle(element).opacity);
-    return opacity > .33 && opacity <= .36;
-  }, await message.elementHandle());
+    return opacity >= peak - .01 && opacity <= peak + .01;
+  }, { element: await message.elementHandle(), peak });
   await page.waitForFunction((element) => Number(getComputedStyle(element).opacity) < .01, await message.elementHandle(), { timeout: 4200 });
   if (!touch) assert.equal(await button.evaluate((element) => element.matches(':hover')), true, 'Secrets expire even while the pointer stays inside.');
   await page.mouse.move(1, 1);
@@ -187,7 +188,7 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   await page.evaluate(() => { document.activeElement?.blur(); scrollTo({ top: 0, behavior: 'instant' }); });
   const button = page.locator('[data-visitor-hotspot]');
   const message = button.locator('[data-visit-message]');
-  const labels = await page.locator('.masthead h1, .masthead .edition').evaluateAll((elements) => elements.map((element) => {
+  const labels = await page.evaluate(() => [document.querySelector('.masthead h1'), document.querySelector('.global-index > summary')].map((element) => {
     const rect = element.getBoundingClientRect(); return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
   }));
   const box = await button.boundingBox();
@@ -199,17 +200,19 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   const copy = await message.boundingBox();
   assert.ok(Math.abs(copy.x + copy.width / 2 - width / 2) < .6, 'Visitor copy itself remains exactly centered.');
   assert.ok(box.width >= 44 && box.height >= 44, 'Secret target remains usable by touch.');
-  assert.equal(await message.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize)), touch ? 14 : 16, 'The returning message is deliberately larger while preserving its location.');
+  const messageSize = await message.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
+  assert.ok(touch ? messageSize === 14 : messageSize >= 16 && messageSize <= 19,
+    'The returning message is deliberately larger while preserving its location.');
   assert.equal(Number(await message.evaluate((element) => getComputedStyle(element).opacity)), 0);
   if (touch) {
     assert.ok(copy.y >= labels[0].y + labels[0].height, 'Mobile visitor copy uses its own visual row, without covering the original labels.');
     assert.ok(copy.y + copy.height < (await page.locator('.controls').boundingBox()).y, 'Visitor copy must not collide with the hero controls.');
   }
   await revealCycle(page, button, { touch });
-  assert.deepEqual(await page.locator('.masthead h1, .masthead .edition').evaluateAll((elements) => elements.map((element) => {
+  assert.deepEqual(await page.evaluate(() => [document.querySelector('.masthead h1'), document.querySelector('.global-index > summary')].map((element) => {
     const rect = element.getBoundingClientRect(); return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
   })), labels, 'Revealing a secret must not shift original header labels.');
-  await page.locator('.skip-link').focus();
+  await page.locator('.hero-brand').focus();
   await page.keyboard.press('Tab');
   assert.equal(await button.evaluate((element) => element === document.activeElement), true);
   assert.equal(Number(await message.evaluate((element) => getComputedStyle(element).opacity)), 1, 'Keyboard focus keeps the secret legible.');
@@ -220,13 +223,18 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   assert.ok(Math.abs(endSpace.height - endSpace.expected) < 1, 'The final h4 reveal retains its spacious responsive end section.');
   const hint = page.locator('[data-other-side-hint]');
   await hint.scrollIntoViewIfNeeded();
-  assert.equal((await hint.textContent()).trim(), 'PRESS 4 TO SEE THE OTHER SIDE');
+  assert.equal((await hint.textContent()).trim(), 'HOLD 4 TO SEE THE OTHER SIDE.');
   await revealCycle(page, hint, { touch });
   assert.notEqual(await page.locator('html').getAttribute('data-mode'), 'xray', 'Discovering the hint through hover or a short tap does not activate the mode.');
   await page.keyboard.press('Tab');
   await hint.focus();
-  assert.equal(Number(await hint.locator('[data-secret-message]').evaluate((element) => getComputedStyle(element).opacity)), 1);
+  await page.waitForFunction(() => {
+    const opacity = Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity);
+    return opacity >= .34 && opacity <= .36;
+  });
   assert.equal(await hint.evaluate((element) => element.matches(':focus-visible')), true);
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity) < .01,
+    null, { timeout: 3200 });
   await hint.evaluate((element) => element.blur());
   const hintBox = await hint.boundingBox();
   const hintDocumentY = hintBox.y + await page.evaluate(() => scrollY);
@@ -246,7 +254,7 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
     const bounds = identity.getBoundingClientRect();
     const count = element.getBoundingClientRect();
     const left = identity.querySelector('.footer-brand').getBoundingClientRect();
-    const right = identity.querySelector('.footer-location').getBoundingClientRect();
+    const right = identity.querySelector('.footer-details').getBoundingClientRect();
     return { parentIsIdentity: element.parentElement === identity,
       centerError: Math.abs(count.x + count.width / 2 - bounds.x - bounds.width / 2),
       leftGap: count.left - left.right, rightGap: right.left - count.right,
@@ -401,7 +409,8 @@ try {
     await assertLocalVisit(page);
     await page.reload({ waitUntil: 'networkidle' });
     await assertLocalVisit(page);
-    await page.evaluate(() => document.querySelector('.page-nav a[href="/work"]').click());
+    await page.locator('[data-global-index] > summary').click();
+    await page.locator('[data-index-page="work"]').click();
     await page.locator('.work-page').waitFor();
     await assertLocalVisit(page);
     if (!touch) await checkSeparatedReturn();

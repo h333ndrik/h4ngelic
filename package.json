@@ -50,7 +50,11 @@
     "test:drift": "node tests/horizontal-drift-browser.mjs",
     "test:digital-ink": "node tests/digital-ink-browser.mjs",
     "test:persistent-memory": "node tests/persistent-memory-browser.mjs",
-    "test:mannequin": "node tests/flash-mannequin-browser.mjs"
+    "test:mannequin": "node tests/flash-mannequin-browser.mjs",
+    "inquiry:serve": "node server/inquiry.mjs",
+    "test:inquiry-http": "node tests/inquiry-http.mjs",
+    "test:v6": "node tests/v6-browser.mjs",
+    "test:playground": "node tests/playground-browser.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

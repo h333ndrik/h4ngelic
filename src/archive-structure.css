@@ -37,6 +37,20 @@
 .archive-category-heading a { display: inline-flex; align-items: center; gap: .4em; min-height: 44px; }
 .archive-category-heading .arrow { font-size: .65em; }
 .work-page .page-heading { font-size: clamp(40px, 11vw, 168px); overflow-wrap: anywhere; }
+.work-group { scroll-margin-top: 90px; }
+.work-group + .work-group, .archive-category + .work-group, .work-group + .archive-category { margin-top: clamp(90px, 14vw, 210px); }
+.work-group-heading { margin: clamp(50px, 8vw, 110px) 0 12px; font-size: clamp(48px, 9vw, 138px); font-weight: 400; line-height: 1.05; letter-spacing: -.055em; }
+.work-group-heading a { display: inline-flex; align-items: center; gap: .3em; }
+.work-group-heading .arrow { font-size: .55em; }
+.archive-category { scroll-margin-top: 90px; }
+.work-filters { position: sticky; top: 0; z-index: 4; background: #242424f5; padding-right: 95px; }
+html[data-mode='xray'] .work-filters { background: #242424b8; }
+.contact-page { max-width: 1100px; margin-inline: auto; padding-inline: 35px; }
+.contact-page .page-heading { font-size: clamp(40px, 8vw, 112px); }
+@media (max-width: 600px) {
+  .work-filters { gap: 0 17px; padding-right: 0; top: 64px; }
+  .contact-page { margin-inline: 0; padding-inline: 22px; }
+}
 @media (max-width: 600px) {
   .category-sublinks { padding-bottom: 5px; gap: 0 10px; }
   .category-sublinks a { min-height: 44px; }

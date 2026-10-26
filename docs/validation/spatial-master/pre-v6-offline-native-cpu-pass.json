@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-10-26T14:55:01.440Z",
+  "method": "Exact exported HTML bytes executed with network rejected; managed browser blocks file:// navigation.",
+  "width": 390,
+  "reducedMotion": false,
+  "events": [
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 950,
+      "variant": 2094752176
+    },
+    {
+      "mode": "normal",
+      "captured": true,
+      "duration": 950,
+      "variant": 2217936162
+    },
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 950,
+      "variant": 1493438819
+    },
+    {
+      "mode": "normal",
+      "captured": true,
+      "duration": 950,
+      "variant": 1780519143
+    }
+  ],
+  "viewTransitionSupported": true,
+  "retainedMaps": 0,
+  "webglContexts": 0,
+  "gray": "rgb(36, 36, 36)",
+  "body": "rgba(0, 0, 0, 0)",
+  "gradient": "linear-gradient(rgb(40, 40, 40) 0%, rgb(36, 36, 36) 50%, rgb(32, 32, 32) 100%)",
+  "runtimeErrors": [],
+  "externalHTTP": []
+}

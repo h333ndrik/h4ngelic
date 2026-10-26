@@ -1,0 +1,93 @@
+{
+  "contract": "living-decay-final",
+  "checkedAt": "2026-10-26T10:11:06.048Z",
+  "html": "/workspace/h4ngelic/artifacts/h4ngelic-preview.html",
+  "htmlBytes": 7737644,
+  "htmlSha256": "cc3530e00fcf48203ce4fa4fc43ac83a8b1479bf73525fa1c871495b070f74c0",
+  "reports": [
+    {
+      "width": 1440,
+      "mobile": false,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "identityCenterError": 0,
+      "reverseHint": {
+        "opacity": 1,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 24
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "one-second 4 hold",
+        "4 cannot reverse",
+        "released 333 return",
+        "persistent reverse hint",
+        "embedded film",
+        "upper hero mute",
+        "centered identity row",
+        "category filter",
+        "About",
+        "Contact",
+        "visitor",
+        "horizontal bounds"
+      ]
+    },
+    {
+      "width": 390,
+      "mobile": true,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "identityCenterError": -0.0078125,
+      "reverseHint": {
+        "opacity": 1,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 18
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "native touch hold",
+        "4 cannot reverse",
+        "released 333 return",
+        "persistent reverse hint",
+        "embedded film",
+        "upper hero mute",
+        "centered identity row",
+        "category filter",
+        "About",
+        "Contact",
+        "visitor",
+        "horizontal bounds"
+      ]
+    },
+    {
+      "width": 320,
+      "mobile": true,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "identityCenterError": 0,
+      "reverseHint": {
+        "opacity": 1,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 18
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "native touch hold",
+        "4 cannot reverse",
+        "released 333 return",
+        "persistent reverse hint",
+        "embedded film",
+        "upper hero mute",
+        "centered identity row",
+        "category filter",
+        "About",
+        "Contact",
+        "visitor",
+        "horizontal bounds"
+      ]
+    }
+  ]
+}

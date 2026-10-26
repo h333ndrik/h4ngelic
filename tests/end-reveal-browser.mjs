@@ -109,18 +109,31 @@ try {
         cursorLighting = { leftLight, rightLight, changedPixels };
       }
       await page.locator('[data-other-side-hint]').focus();
-      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity) >= .99);
+      await page.waitForFunction(() => {
+        const opacity = Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity);
+        return opacity >= .34 && opacity <= .36;
+      });
       await page.screenshot({ path: new URL(`${name}-normal.png`, output).pathname });
 
       await page.keyboard.down('4');
       try { await state(page, 'xray'); } finally { await page.keyboard.up('4'); }
+      await page.locator('[data-other-side-hint]').evaluate(element => element.blur());
+      await page.locator('[data-other-side-hint]').focus();
+      await page.waitForFunction(() => {
+        const opacity = Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity);
+        return opacity >= .34 && opacity <= .36;
+      });
       const other = await reveal(page);
       assert.match(other.material, /living-decay-material(?:-mobile)?\.webp/);
       assert.equal(other.mask, final.mask, 'The same exact silhouette survives the mode switch.');
-      assert.equal(other.hintOpacity, 1);
+      assert.ok(other.hintOpacity >= .34 && other.hintOpacity <= .36,
+        'V6 preserves the faint foreground hint rather than a permanent Other Side label.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
       assert.equal(other.hintColor, 'rgb(255, 255, 255)');
       assert.equal(other.animation, profile.reducedMotion === 'reduce' ? 'none' : 'h4-end-material');
       await page.screenshot({ path: new URL(`${name}-other.png`, output).pathname });
+      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-xray-hint]')).opacity) < .01,
+        null, { timeout: 3200 });
       await page.evaluate(() => {
         Object.defineProperty(document, 'hidden', { configurable: true, value: true });
         document.dispatchEvent(new Event('visibilitychange'));

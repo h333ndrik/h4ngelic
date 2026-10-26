@@ -6,7 +6,7 @@ const production = process.env.H4_EXPECT_DEPLOYMENT === 'production';
 const origin = process.env.H4_CANONICAL_ORIGIN || 'https://h4ngelic.com';
 const archiveIDs = ['tattoos', 'flashes', 'jewellery', 'more', 'analog-photography', 'digital-artworks', 'paintings'];
 const originalPath = '/work/digital-artworks/green-black-original';
-const paths = ['/', '/work', ...archiveIDs.map(id => `/work/${id}`), '/about', originalPath];
+const paths = ['/', '/work', ...archiveIDs.map(id => `/work/${id}`), '/about', '/contact', originalPath];
 const route = (path) => new URL(path, baseURL).href;
 
 for (const category of archiveIDs) {
@@ -29,7 +29,7 @@ assert.match(sitemap.headers.get('content-type'), /xml/);
 const sitemapXML = await sitemap.text();
 assert.match(sitemapXML, /<urlset\b/);
 const locations = [...sitemapXML.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-assert.deepEqual(locations.sort(), production ? [`${origin}/`, `${origin}/about`].sort() : [], 'Only canonical, indexable published pages belong in the sitemap; empty archives and previews are excluded.');
+assert.deepEqual(locations.sort(), production ? [`${origin}/`, `${origin}/about`, `${origin}/contact`].sort() : [], 'Only canonical, indexable published pages belong in the sitemap; duplicate archive contexts, incomplete artwork and previews are excluded.');
 const robots = await fetch(route('/robots.txt'));
 assert.equal(robots.status, 200);
 const robotsText = await robots.text();
@@ -70,26 +70,27 @@ try {
     if (path !== originalPath) descriptions.push(metadata.description);
     assert.ok(metadata.title.length > 10);
     assert.ok(metadata.description.length > 25);
-    assert.equal(metadata.canonical, `${origin}${path}`);
+    const archiveAlias = path.startsWith('/work/') && path !== originalPath;
+    assert.equal(metadata.canonical, `${origin}${archiveAlias ? '/work' : path}`);
     assert.equal(metadata.ogTitle, metadata.title);
     assert.equal(metadata.ogDescription, metadata.description);
     assert.equal(metadata.ogURL, metadata.canonical);
     assert.equal(metadata.rendered, path, 'The response must contain its route-specific prerendered content.');
-    const shouldIndex = production && (path === '/' || path === '/about');
+    const shouldIndex = production && ['/', '/about', '/contact'].includes(path);
     assert.match(metadata.robots, shouldIndex ? /^index,\s*follow$/ : /^noindex,\s*follow$/);
     const person = metadata.data.find((node) => [node['@type']].flat().includes('Person'));
     assert.ok(person, 'The artist identity must be readable in structured data.');
-    assert.equal(person.name, 'h333ndrik');
+    assert.equal(person.name, 'Hendrik');
     assert.ok([person.alternateName].flat().includes('h4ngelic'));
+    assert.deepEqual(person.sameAs, ['https://www.instagram.com/h4ngelic/']);
     assert.equal(await page.locator('main').count(), 1);
     assert.ok((await page.locator('h1').count()) >= 1);
     if (path === '/') {
       assert.equal(await page.locator('.hero').count(), 1);
-      assert.equal(await page.locator('#selected-work .category-link[href="/work/tattoos"]').count(), 1);
+      assert.equal(await page.locator('#selected-work .category-link[href="/work#tattoos"]').count(), 1);
       assert.deepEqual(await page.locator('#selected-work .category-link').allTextContents(), ['tattoos', 'jewellery', 'more']);
-      for (const child of ['tattoos', 'flashes', 'analog-photography', 'digital-artworks']) {
-        assert.equal(await page.locator(`#selected-work .category-sublinks a[href="/work/${child}"]`).count(), 1);
-      }
+      assert.equal(await page.locator('#selected-work .category-sublinks').count(), 0);
+      assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
       assert.match(metadata.text, /selected works?/i);
       assert.equal(await page.locator('.fallback').isVisible(), true, 'The no-JS homepage retains the accessible static wordmark.');
     } else {
@@ -103,33 +104,43 @@ try {
         assert.ok(metadata.data.some(node => node['@type'] === 'VisualArtwork'), 'The supplied image has genuine artwork structured data.');
       } else if (path.startsWith('/work')) {
         const category = path.split('/')[2] || 'all';
-        const containsOriginal = ['all', 'more', 'digital-artworks'].includes(category);
-        const expectedEmpty = category === 'all' ? 4 : category === 'digital-artworks' ? 0 : 1;
+        const expectedEmpty = category === 'paintings' ? 5 : 4;
         assert.deepEqual(await page.locator('.archive-empty').allTextContents(), Array(expectedEmpty).fill('archive in progress.'));
-        assert.equal(await page.locator('.portfolio-archive img').count(), containsOriginal ? 1 : 0,
-          'Only the genuinely supplied original appears in prerendered archives.');
+        assert.equal(await page.locator('.portfolio-archive img').count(), 1,
+          'Connected Work retains the one genuine original in every category context.');
         assert.equal(await page.locator('.project-image').count(), 0, 'Empty categories must not invent gallery entries.');
-        if (containsOriginal) {
-          assert.match(await page.locator('.digital-ink-open img').getAttribute('src'), /green-black-original/);
-          assert.equal(await page.locator('.digital-ink-open img').getAttribute('width'), '1440');
-          assert.equal(await page.locator('.digital-ink-open img').getAttribute('height'), '1920');
-          assert.equal(await page.locator('.digital-ink-open img').isVisible(), true,
-            'Without JavaScript, the actual original stays visible and needs no reveal interaction.');
-        }
-        assert.equal((await page.locator('.filter-link[aria-current="page"]').textContent()).trim(), category.replaceAll('-', ' '));
+        assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)),
+          ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks', ...(category === 'paintings' ? ['paintings'] : [])]);
+        assert.match(await page.locator('.digital-ink-open img').getAttribute('src'), /green-black-original/);
+        assert.equal(await page.locator('.digital-ink-open img').getAttribute('width'), '1440');
+        assert.equal(await page.locator('.digital-ink-open img').getAttribute('height'), '1920');
+        assert.equal(await page.locator('.digital-ink-open img').isVisible(), true,
+          'Without JavaScript, the actual original stays visible and needs no reveal interaction.');
+        assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
+          ['/work', '/work#tattoos', '/work#jewellery', '/work#more']);
+        assert.equal(await page.locator('.work-page .page-heading').innerText(), 'work');
+        assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);
+      } else if (path === '/contact') {
+        assert.equal(await page.locator('[data-inquiry-form]').count(), 1);
+        assert.equal(await page.locator('input[name="name"][required]').count(), 1);
+        assert.equal(await page.locator('input[name="email"][type="email"][required]').count(), 1);
+        assert.equal(await page.locator('input[type="file"][multiple]').count(), 1);
+        assert.match(metadata.text, /for tattoos, jewellery or other projects\./);
+        assert.match(metadata.text, /h4ngelic@gmail\.com/);
+        assert.ok(metadata.data.some(node => node['@type'] === 'ContactPage'));
       } else {
-        assert.match(metadata.text, /h333ndrik/);
+        assert.match(metadata.text, /hi, i'm hendrik\./);
         assert.match(metadata.text, /berlin/);
       }
     }
   }
-  assert.equal(new Set(titles).size, paths.length, 'Every canonical page needs its own title.');
-  assert.equal(new Set(descriptions).size, paths.length - 1, 'Every archive, Home and About keeps its own useful description.');
+  assert.equal(new Set(titles).size, paths.length, 'Every direct page/context needs its own useful title.');
+  assert.equal(new Set(descriptions).size, paths.length - 1, 'Every archive, Home, About and Contact keeps its own useful description.');
   await context.close();
   console.log(`PASS SEO HTTP/no-JS (${production ? 'production' : 'preview'}): ${paths.length} semantic direct routes, unique metadata, confirmed canonicals, structured artist identity, legacy redirects, strict 404s, sitemap and robots.`);
 
   const live = await browser.newContext({ viewport: { width: 390, height: 844 } });
-  for (const path of ['/work/tattoos', '/work/more', '/work/digital-artworks', originalPath, '/about']) {
+  for (const path of ['/work/tattoos', '/work/more', '/work/digital-artworks', originalPath, '/about', '/contact']) {
     const livePage = await live.newPage();
     const errors = [];
     const requests = [];
@@ -137,8 +148,8 @@ try {
     livePage.on('request', (request) => requests.push(request.url()));
     await livePage.goto(route(path), { waitUntil: 'networkidle' });
     assert.deepEqual(errors, []);
-    assert.ok(!requests.some((url) => /\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans-Bold/.test(url)), 'Direct Work/About cannot download the 3D scene, font or reflection texture.');
-    const expected = path === originalPath ? 'artwork' : path.startsWith('/work') ? 'work' : 'about';
+    assert.ok(!requests.some((url) => /\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans-Bold/.test(url)), 'Direct Work/About/Contact cannot download the 3D scene, font or reflection texture.');
+    const expected = path === originalPath ? 'artwork' : path.startsWith('/work') ? 'work' : path.slice(1);
     assert.equal(await livePage.locator('html').getAttribute('data-page'), expected);
     await livePage.reload({ waitUntil: 'networkidle' });
     assert.deepEqual(errors, []);
