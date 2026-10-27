@@ -75,6 +75,31 @@ try {
       page.on('pageerror', error => errors.push(error.message));
       await page.route(/^https?:/, route => { requests.push(route.request().url()); return route.abort(); });
       await page.setContent(html, { waitUntil: 'load' });
+      await page.evaluate(() => {
+        window.__offlineMemoryHandoffs = [];
+        let preparedPixels = null;
+        document.addEventListener('h4:memoryhandoff', event => {
+          const canvas = document.querySelector('[data-corruption-ambient]');
+          const snapshot = event.detail.snapshot;
+          const pixels = canvas?.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+          if (event.detail.phase === 'prepared') preparedPixels = pixels?.slice();
+          const matchesPrepared = event.detail.phase === 'released'
+            ? Boolean(preparedPixels && pixels?.length === preparedPixels.length && pixels.every((value, index) => value === preparedPixels[index])) : null;
+          if (event.detail.phase === 'released') preparedPixels = null;
+          let hash = 2166136261, opaque = true;
+          const colors = new Set();
+          for (let index = 0; pixels && index < pixels.length; index += 4) {
+            colors.add((pixels[index] << 16) | (pixels[index + 1] << 8) | pixels[index + 2]);
+            opaque &&= pixels[index + 3] === 255;
+            for (let channel = 0; channel < 4; channel++) hash = Math.imul(hash ^ pixels[index + channel], 16777619) >>> 0;
+          }
+          window.__offlineMemoryHandoffs.push({ phase: event.detail.phase, token: event.detail.token,
+            pixelHash: hash, colors: colors.size, opaque, matchesPrepared,
+            snapshot: snapshot && { buffers: snapshot.buffers, recoverySource: snapshot.recoverySource,
+              cleanSourceRetained: snapshot.cleanSourceRetained, sourceInitializations: snapshot.sourceInitializations,
+              transition: snapshot.transition, queued: snapshot.queued, frames: snapshot.frames } });
+        });
+      });
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await waitMode(page, 'normal');
       assert.equal(await page.locator('[data-end-reveal]').count(), 1);
@@ -111,8 +136,35 @@ try {
       } else await enterWith4(page);
 
       await page.locator('.corruption-background').waitFor({ state: 'attached', timeout: 20000 });
-      assert.match(await page.locator('.corruption-background').evaluate(element => element.style.backgroundImage), /data:image\/webp/,
-        'The damaged film must also be embedded in the standalone file.');
+      const memoryHandoff = await page.evaluate(() => {
+        const background = document.querySelector('.corruption-background');
+        const canvas = background.querySelector('[data-corruption-ambient]');
+        return { ready: document.documentElement.hasAttribute('data-memory-mosh-ready'),
+          canvasCount: background.querySelectorAll('canvas').length, hidden: canvas.hidden,
+          width: canvas.width, height: canvas.height, opacity: getComputedStyle(background).opacity,
+          backgroundImage: getComputedStyle(background).backgroundImage,
+          distressHidden: [...document.querySelectorAll('.xray-distress')].every(element => getComputedStyle(element).display === 'none'),
+          events: window.__offlineMemoryHandoffs };
+      });
+      assert.equal(memoryHandoff.ready, true);
+      assert.equal(memoryHandoff.canvasCount, 1);
+      assert.equal(memoryHandoff.hidden, false);
+      assert.ok(memoryHandoff.width > 1 && memoryHandoff.height > 1);
+      assert.equal(memoryHandoff.opacity, '1');
+      assert.equal(memoryHandoff.backgroundImage, 'none', 'No pristine CSS source may sit beneath retained memory.');
+      assert.equal(memoryHandoff.distressHidden, true);
+      assert.deepEqual(memoryHandoff.events.map(event => event.phase), ['prepared', 'released']);
+      const [prepared, released] = memoryHandoff.events;
+      assert.deepEqual(prepared.token, released.token);
+      assert.equal(released.matchesPrepared, true, 'Every prepared pixel must survive the offline handoff unchanged.');
+      assert.equal(prepared.pixelHash, released.pixelHash, 'Offline activation must retain the exact prepared pixels.');
+      assert.ok(released.colors > 4 && released.opaque, 'Embedded material must seed a nonblank opaque damaged frame.');
+      assert.equal(released.snapshot.buffers, 2);
+      assert.equal(released.snapshot.recoverySource, 'history');
+      assert.equal(released.snapshot.cleanSourceRetained, false);
+      assert.equal(released.snapshot.sourceInitializations, 1);
+      assert.equal(released.snapshot.queued, false, 'Reduced-motion offline memory stays static.');
+      assert.equal(released.snapshot.transition.claimedFrame, prepared.snapshot.frames);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
       await page.waitForTimeout(1100);
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Hold completion/release cannot toggle twice.');
@@ -181,7 +233,8 @@ try {
       await indexNavigate(page, 'home');
       await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
       await page.locator('.hero-nav a[href="#/#contact"]').click();
-      await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
+      await page.waitForFunction(() => document.documentElement.dataset.page === 'home'
+        && location.hash === '#/#contact' && document.querySelector('#contact').getBoundingClientRect().top < innerHeight);
       assert.ok(await page.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
       await reverseWith3(page);
@@ -197,9 +250,10 @@ try {
       assert.deepEqual(errors, []);
       assert.deepEqual(requests, [], 'Standalone mode, texture, sound and navigation must require no HTTP requests.');
       reports.push({ width, mobile, externalHttpRequests: requests.length, runtimeErrors: errors.length,
-        identityCenterError: identity.counter.centerX - identity.row.centerX, reverseHint,
+        identityCenterError: identity.counter.centerX - identity.row.centerX, reverseHint, memoryHandoff,
         verified: ['WebGL hero', 'short hold cancellation', mobile ? 'native touch hold' : 'one-second 4 hold',
-          'one-second 4 reverse', 'released 333 return', 'temporary faint hint', 'embedded film', 'upper hero mute',
+          'one-second 4 reverse', 'released 333 return', 'temporary faint hint', 'embedded film',
+          'retained transition pixels', 'two bounded memory buffers', 'no pristine CSS source', 'upper hero mute',
           'centered identity row', 'connected Work anchors', 'About', 'Contact inquiry', 'visitor', 'horizontal bounds'] });
       console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, 4/333 return, temporary faint hint, upper hero mute, centered identity row, connected Work, Contact, zero HTTP requests/runtime errors.`);
     } finally { await context.close(); }

@@ -219,6 +219,10 @@ async function desktop() {
     await stamp(page);
     await page.locator('.hero-nav a[href="/work"]').click();
     await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
+    // render() commits the route attribute before awaiting its enhancements;
+    // lifecycle cleanup follows h4:pagechange once that async commit finishes.
+    await page.waitForFunction(() => window.__H4_TEST__.snapshot().heroInk.count === 0
+      && window.__H4_TEST__.snapshot().heroInk.pending === 0);
     assert.equal((await ink(page)).count, 0, 'Leaving the homepage releases obsolete surface paint.');
     assert.deepEqual(errors, []);
     reports.push({ profile: 'desktop', front: front.mark, angled: angled.mark, frames, hidden, projectedTravel: travel,

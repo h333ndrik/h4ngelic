@@ -30,6 +30,22 @@ try {
   await page.evaluate(() => {
     window.__offlineModeEvents = [];
     window.__offlineTapTrace = [];
+    window.__offlineMemoryHandoffs = [];
+    let preparedPixels = null;
+    document.addEventListener('h4:memoryhandoff', event => {
+      const canvas = document.querySelector('[data-corruption-ambient]');
+      const snapshot = event.detail.snapshot;
+      const pixels = canvas?.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+      if (event.detail.phase === 'prepared') preparedPixels = pixels?.slice();
+      const matchesPrepared = event.detail.phase === 'released'
+        ? Boolean(preparedPixels && pixels?.length === preparedPixels.length && pixels.every((value, index) => value === preparedPixels[index])) : null;
+      if (event.detail.phase === 'released') preparedPixels = null;
+      window.__offlineMemoryHandoffs.push({ phase: event.detail.phase, token: event.detail.token,
+        matchesPrepared, pixels: pixels?.length || 0,
+        snapshot: snapshot && { buffers: snapshot.buffers, recoverySource: snapshot.recoverySource,
+          cleanSourceRetained: snapshot.cleanSourceRetained, sourceInitializations: snapshot.sourceInitializations,
+          transition: snapshot.transition, frames: snapshot.frames } });
+    });
     document.addEventListener('h4:modechange', event => window.__offlineModeEvents.push(event.detail));
     for (const type of ['pointerdown', 'pointerup', 'pointercancel', 'touchstart', 'touchend', 'mousedown', 'mouseup', 'click', 'scroll']) document.addEventListener(type, event => {
       if (type !== 'scroll' && !event.target.closest?.('[data-mobile-mode]')) return;
@@ -95,6 +111,7 @@ try {
   await cdp.detach();
   const result = await page.evaluate(() => ({ events: window.__offlineModeEvents,
     touchTrace: window.__offlineTapTrace,
+    memoryHandoffs: window.__offlineMemoryHandoffs,
     viewTransitionSupported: typeof document.startViewTransition === 'function',
     retainedMaps: document.querySelectorAll('.mode-snapshot-definitions feImage[href]').length,
     webglContexts: window.__offlineWebGL,
@@ -102,6 +119,18 @@ try {
   assert.equal(result.viewTransitionSupported, true);
   assert.deepEqual(result.events.map(event => event.mode), ['xray', 'normal', 'xray', 'normal']);
   assert.ok(result.events.every(event => event.captured), 'The actual offline file must use native captured page transitions.');
+  assert.deepEqual(result.memoryHandoffs.map(event => event.phase), ['prepared', 'released', 'prepared', 'released']);
+  for (let entry = 0; entry < 2; entry++) {
+    const prepared = result.memoryHandoffs[entry * 2], released = result.memoryHandoffs[entry * 2 + 1];
+    assert.deepEqual(prepared.token, released.token);
+    assert.ok(released.pixels > 4 && released.matchesPrepared,
+      'Native offline captures must release the exact prepared memory pixels without a pristine reset.');
+    assert.equal(released.snapshot.buffers, 2);
+    assert.equal(released.snapshot.recoverySource, 'history');
+    assert.equal(released.snapshot.cleanSourceRetained, false);
+    assert.equal(released.snapshot.sourceInitializations, entry + 1);
+    assert.equal(released.snapshot.transition.claimedFrame, prepared.snapshot.frames);
+  }
   assert.equal(result.retainedMaps, 0);
   assert.equal(result.webglContexts, 0, 'Direct offline Work must not initialize a hero scene.');
   assert.equal(result.gray, 'rgb(36, 36, 36)');

@@ -114,7 +114,8 @@ try {
       }));
       assert.equal(reverseStyle.opacity, 0, 'The reverse instruction is also hidden after its discovery timer expires.');
       assert.equal(reverseStyle.color, 'rgb(255, 255, 255)');
-      assert.ok(reverseStyle.size >= (options.hasTouch ? 18 : 20) && reverseStyle.size <= 24.1);
+      assert.ok(reverseStyle.size >= 15 && reverseStyle.size <= 24.1,
+        'Retain the V6 responsive instruction, including its compact 15px size.');
       await hint.hover();
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-secret-message][data-xray-hint]')).opacity) >= .34);
       assert.ok(await hint.evaluate(element => Number(getComputedStyle(element.querySelector('[data-secret-message]')).opacity)) <= .43, 'The revealed hint remains faint.');
