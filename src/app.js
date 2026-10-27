@@ -191,7 +191,7 @@ if (featureFlags.otherSideEnabled) {
   // Input handling is needed from startup. Bundle it with the entry stylesheet
   // instead of delaying first paint with an immediately requested CSS chunk.
   // Film, pixel rendering, damaged material and Web Audio stay gesture-driven.
-  initXRay();
+  initXRay({ memory: corruptionLifecycle });
   initModeIcons();
   const motionMosh = initMotionMosh({ doc: document });
   if (import.meta.env.DEV && new URLSearchParams(location.search).get('fx') === '1') {
@@ -205,8 +205,7 @@ if (featureFlags.otherSideEnabled) {
     });
   }
   moshTransitions = initMoshTransitions({ doc: document });
-  const interactionMosh = initInteractionMosh({ doc: document,
-    onSnapshot: detail => moshTransitions.interaction(detail) });
+  const interactionMosh = initInteractionMosh({ doc: document });
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_INTERACTION_MOSH__ = { snapshot: () => ({
       events: interactionMosh.snapshot(), transitions: moshTransitions.snapshot(),

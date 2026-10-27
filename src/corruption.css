@@ -12,6 +12,10 @@
   overflow: clip;
 }
 html[data-mode='xray'] .corruption-background { opacity: var(--corruption-film-opacity, .94); visibility: visible; transition-delay: 0s; }
+/* The retained transition frame owns the entire background, with no clean
+   texture or fading layer underneath it. Its canvas remains static in reduce. */
+html[data-memory-mosh-ready][data-mode='xray'] .corruption-background { opacity: 1; transition: none; }
+html[data-memory-mosh-ready] .xray-distress { display: none; }
 body > .corruption-background ~ main { position: relative; z-index: 1; }
 .corruption-photo-surface { position: relative; }
 .corruption-region { position: absolute; pointer-events: none; z-index: 2; }
