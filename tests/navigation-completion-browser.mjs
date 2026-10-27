@@ -81,6 +81,8 @@ try {
       await chapter.click();
       await page.waitForFunction(() => scrollY <= 2 && document.querySelector('[data-chapter-counter]').dataset.chapter === '1');
       assert.equal(await index.isVisible(), false);
+      await page.mouse.move(1, 1);
+      await page.waitForFunction(() => !document.querySelector('[data-chapter-counter]').matches(':hover'));
       assert.ok(Math.abs((await counterBox(page)).top - home.top) < 1, 'The counter returns to its normal bottom position.');
 
       await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });

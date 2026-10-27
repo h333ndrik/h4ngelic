@@ -40,7 +40,11 @@ async function home(page) {
   await atIndex(page, 0);
 }
 async function showSection(page) {
-  await section(page).evaluate(element => scrollTo({ top: element.getBoundingClientRect().top + scrollY - 80, behavior: 'instant' }));
+  await section(page).evaluate(element => {
+    const navigation = document.querySelector('.work-filters');
+    const clearance = navigation ? (parseFloat(getComputedStyle(navigation).top) || 0) + navigation.offsetHeight + 16 : 80;
+    scrollTo({ top: element.getBoundingClientRect().top + scrollY - Math.max(80, clearance), behavior: 'instant' });
+  });
 }
 try {
   for (const width of (process.env.H4_DRIFT_WIDTHS || '1000,390,320').split(',').map(Number)) {
@@ -82,6 +86,8 @@ try {
     await showSection(page);
     await atIndex(page, 0);
     const initial = await state(page);
+    assert.ok(await viewport(page).evaluate(element => element.scrollHeight <= element.clientHeight + 1),
+      'The screen-reader announcement must not create an invisible vertical scroll range.');
     assert.ok(initial.travel > width);
     assert.equal(initial.inlineHeight, '', 'A carousel must not reserve a tall vertical scroll timeline.');
     assert.notEqual(initial.sticky, 'sticky');
@@ -127,6 +133,29 @@ try {
     await showSection(page);
     await home(page);
     if (width >= 600) {
+      const partial = await section(page).evaluate(element => {
+        const port = element.querySelector('.drift-viewport').getBoundingClientRect();
+        for (const item of [...element.querySelectorAll('[data-drift-item]')].slice(1)) {
+          const image = item.querySelector('[data-artwork-open]').getBoundingClientRect();
+          const left = Math.max(port.left, image.left), right = Math.min(port.right, image.right);
+          if (right - left > 18 && image.right > port.right + 5) return {
+            x: left + Math.min(25, (right - left) / 2), y: image.top + Math.min(100, image.height / 2),
+          };
+        }
+        return null;
+      });
+      assert.ok(partial, 'The fixture exposes a real partially visible adjacent work.');
+      const partialStart = (await state(page)).left;
+      await page.mouse.move(partial.x, partial.y);
+      await page.mouse.down();
+      assert.ok(Math.abs((await state(page)).left - partialStart) < 1,
+        'Pointer focus on a partially visible work must not recenter the carousel before its drag.');
+      await page.mouse.move(partial.x - 60, partial.y, { steps: 4 });
+      await page.waitForFunction(start => document.querySelector('[data-horizontal-drift="tattoos"] .drift-viewport').scrollLeft > start + 20, partialStart);
+      assert.ok((await state(page)).left < partialStart + 85, 'Dragging an adjacent work continues from the actual image position.');
+      await page.mouse.up();
+      assert.equal(await page.locator('.artwork-dialog[open]').count(), 0);
+      await home(page);
       const button = section(page).locator('[data-drift-item]').first().locator('[data-artwork-open]').first();
       box = await button.boundingBox();
       await page.mouse.move(box.x + box.width / 2, box.y + Math.min(140, box.height / 2));

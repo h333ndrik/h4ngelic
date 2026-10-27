@@ -88,7 +88,9 @@ html[data-page='home'] .masthead .edition { display: block; }
   font-variant-numeric: tabular-nums;
   letter-spacing: .06em;
   touch-action: manipulation;
-  transition: transform 180ms ease-out;
+  /* Form avoidance moves the real hit area immediately, so an input is never
+     covered while the counter eases toward an otherwise safe destination. */
+  transition: none;
 }
 .chapter-digit-window { display: block; overflow: clip; line-height: 1.4; }
 .chapter-digit { display: block; }

@@ -67,6 +67,7 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
 .contact-page .page-heading { font-size: clamp(40px, 8vw, 112px); }
 @media (max-width: 600px) {
   .work-filters { gap: 0 17px; padding-right: 0; top: 64px; }
+  .work-group, .archive-category { scroll-margin-top: 150px; }
   .contact-page { margin-inline: 0; padding-inline: 22px; }
 }
 @media (max-width: 600px) {

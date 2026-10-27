@@ -10,9 +10,10 @@
 .drift-controls button:disabled { opacity: .28; cursor: default; }
 .drift-controls button:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
 .drift-count { min-width: 45px; text-align: center; font-size: 12px; letter-spacing: .05em; font-variant-numeric: tabular-nums; color: #bdbcb8; }
-.drift-viewport { position: relative; max-width: 100%; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: #858580 transparent; touch-action: pan-x pan-y pinch-zoom; }
+.drift-status { top: 0; left: 0; margin: 0; }
+.drift-viewport { position: relative; max-width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior: auto; scrollbar-width: thin; scrollbar-color: #858580 transparent; touch-action: pan-x pan-y pinch-zoom; }
 .drift-track { position: relative; display: flex; align-items: flex-start; gap: clamp(32px, 6vw, 96px); width: max-content; min-width: 100%; box-sizing: border-box; padding: 30px var(--drift-trailing, 22px) 22px var(--drift-leading, 22px); }
-.drift-item { flex: 0 0 auto; width: min(76vw, calc(62svh * var(--drift-ratio, .8)), 760px); min-width: min(160px, 70vw); scroll-snap-align: center; }
+.drift-item { flex: 0 0 auto; width: min(76vw, calc(62svh * var(--drift-ratio, .8)), 760px); min-width: min(160px, 70vw); }
 .drift-images { display: block; }
 .drift-item .project-image { overflow: visible; }
 .drift-detail-image[hidden] { display: none; }
@@ -24,7 +25,6 @@
 .drift-meta .project-index { margin: 3px 0 0; font-size: 11px; }
 .drift-description { margin: 8px 0 0; font-size: 12px; line-height: 1.5; max-width: 34em; }
 .horizontal-drift.is-drift-dragging { cursor: grabbing; user-select: none; }
-.horizontal-drift.is-drift-dragging .drift-viewport { scroll-snap-type: none; }
 .horizontal-drift.is-empty .drift-track { min-height: 128px; align-items: center; padding-inline: 0; }
 .horizontal-drift.is-empty .archive-empty { margin: 0; padding: 28px 0; font-size: clamp(18px, 2.3vw, 28px); }
 .drift-artwork.is-artwork-selected { animation: drift-selection-light 360ms ease-out; }

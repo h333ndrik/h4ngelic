@@ -39,8 +39,8 @@ export function initHorizontalDrift(root = document) {
       const first = state.items[0], last = state.items.at(-1);
       // Centering edge space lets the first and last image align exactly like
       // every middle image. It also reserves room for their shared hover glow.
-      property(state.track, '--drift-leading', `${first ? Math.max(22, (width - first.offsetWidth) / 2) : 0}px`);
-      property(state.track, '--drift-trailing', `${last ? Math.max(22, (width - last.offsetWidth) / 2) : 0}px`);
+      property(state.track, '--drift-leading', `${first ? Math.max(0, (width - first.offsetWidth) / 2) : 0}px`);
+      property(state.track, '--drift-trailing', `${last ? Math.max(0, (width - last.offsetWidth) / 2) : 0}px`);
       state.travel = Math.max(0, state.viewport.scrollWidth - width);
       state.targets = carouselPositions(state.items.map(item => ({ left: item.offsetLeft, width: item.offsetWidth })), width, state.travel);
       if (changed && !state.section.hasAttribute('data-drift-paused')) {
@@ -191,7 +191,8 @@ export function initHorizontalDrift(root = document) {
     listen(state.section, 'focusin', event => {
       const item = event.target.closest('[data-drift-item]');
       if (!item || !state.section.contains(item) || state.section.hasAttribute('data-drift-focus-restore')
-        || state.section.hasAttribute('data-drift-paused')) return;
+        || state.section.hasAttribute('data-drift-paused') || state.drag
+        || !event.target.matches(':focus-visible')) return;
       if (dirty) measure();
       goTo(state, state.items.indexOf(item), { smooth: false });
     });

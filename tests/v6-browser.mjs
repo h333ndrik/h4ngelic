@@ -80,7 +80,7 @@ try {
     await page.evaluate(() => { window.__v6WorkNode = document.querySelector('[data-connected-work]'); });
     await page.locator('.work-filters a[href="/work#more"]').click();
     await page.waitForURL('**/work#more');
-    await page.waitForFunction(() => Math.abs(document.getElementById('more').getBoundingClientRect().top - 90) < 4);
+    await page.waitForFunction(() => Math.abs(document.getElementById('more').getBoundingClientRect().top - (innerWidth <= 600 ? 150 : 90)) < 4);
     assert.equal(await page.evaluate(() => window.__v6WorkNode === document.querySelector('[data-connected-work]')), true);
     await page.locator('.work-subfilters a[href="/work#digital-artworks"]').click();
     await page.waitForURL('**/work#digital-artworks');
