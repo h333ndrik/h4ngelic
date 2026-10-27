@@ -1,6 +1,7 @@
 > Weiterentwicklung: zuerst [AGENTS.md](AGENTS.md), [PROJECT_PLAN.md](PROJECT_PLAN.md),
 > [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) und [NEXT_SESSION.md](NEXT_SESSION.md)
-> lesen. Der aktuelle Master-Stand ersetzt ältere UI-Beschreibungen.
+> lesen. [Aktueller geprüfter Stand und Messwerte](docs/MASTER-FOUNDATION.md).
+> Der aktuelle Master-Stand ersetzt ältere UI-Beschreibungen.
 
 # h4ngelic
 

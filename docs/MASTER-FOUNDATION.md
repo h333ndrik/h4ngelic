@@ -2,6 +2,7 @@
 
 Source checkpoint: `57e2e794da7d1ee181616d5f2a45d783eaaf5a95` on
 `feat/master-foundation`, built on the existing website-completion branch.
+[Review PR #18](https://github.com/h333ndrik/h4ngelic/pull/18) builds on PR #17.
 All available implementation work is complete; five real tattoo photographs
 and live mail configuration are still external blockers.
 

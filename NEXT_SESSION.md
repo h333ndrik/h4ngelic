@@ -7,11 +7,12 @@ Updated 2026-10-27. Read AGENTS.md, PROJECT_PLAN.md and PROJECT_PROGRESS.md firs
 - **Last verified task:** all available implementation, 337 Node tests, five serial
   integration suites, focused UI/hero checks, production routes/build, exact
   offline HTML, single-run Lighthouse and byte-identical ZIP/original verification.
-- **Current incomplete task:** final delivery commit/push/review PR is being
-  recorded. Inspect `git status --short --branch`, recent commits and the actual
-  GitHub PR before doing anything else. Do not assume a push happened.
-- **Next exact action:** finish delivery if still pending. After delivery, resume
-  only when genuine photos, mail configuration or a new clear request arrive.
+- **Delivery:** commit `706c9ee` pushed; [PR #18](https://github.com/h333ndrik/h4ngelic/pull/18) is OPEN,
+  based on `feat/website-completion` / PR #17. Uploaded HTML blob/size match local.
+  This final documentation checkpoint follows the artifact commit. Verify actual
+  Git status/log before modifying anything; no merge or production deployment.
+- **Next exact action:** review PR #18. For implementation, resume only when
+  genuine photos, mail configuration or a new clear request arrive.
   There is no remaining unblocked foundation implementation.
 - **External blockers:** five genuine tattoo photographs; Flash/Analog photographs;
   configured Resend key, verified sender and hosted `/api/inquiry` service. Follow

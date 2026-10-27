@@ -1,0 +1,15 @@
+{
+  "verifiedAtUTC": "2026-10-27T21:26:54.963596+00:00",
+  "sourceCommit": "57e2e794da7d1ee181616d5f2a45d783eaaf5a95",
+  "artifactCommit": "706c9eea49c5ef98da52a297facc822320aadb4a",
+  "branch": "feat/master-foundation",
+  "prNumber": 18,
+  "prURL": "https://github.com/h333ndrik/h4ngelic/pull/18",
+  "prState": "OPEN",
+  "prBase": "feat/website-completion",
+  "githubHTMLBytes": 7752573,
+  "githubHTMLGitBlob": "43e6e5618dc004913421bf1cee0b560f206ac8a1",
+  "matchesLocalGitBlob": true,
+  "merged": false,
+  "productionDeployment": false
+}

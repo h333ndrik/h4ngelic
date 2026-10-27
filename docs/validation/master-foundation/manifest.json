@@ -246,5 +246,32 @@
       "bytes": 78252,
       "sha256": "cf3444a1147c63dace24d47679ecf6f9e701e23d45125a7a2c1436fea869f888"
     }
+  ],
+  "delivery": {
+    "verifiedAtUTC": "2026-10-27T21:26:54.963596+00:00",
+    "sourceCommit": "57e2e794da7d1ee181616d5f2a45d783eaaf5a95",
+    "artifactCommit": "706c9eea49c5ef98da52a297facc822320aadb4a",
+    "branch": "feat/master-foundation",
+    "prNumber": 18,
+    "prURL": "https://github.com/h333ndrik/h4ngelic/pull/18",
+    "prState": "OPEN",
+    "prBase": "feat/website-completion",
+    "githubHTMLBytes": 7752573,
+    "githubHTMLGitBlob": "43e6e5618dc004913421bf1cee0b560f206ac8a1",
+    "matchesLocalGitBlob": true,
+    "merged": false,
+    "productionDeployment": false
+  },
+  "additionalEvidence": [
+    {
+      "file": "baseline-carousel.txt",
+      "bytes": 603,
+      "sha256": "72c0559e31829c9f410cfd24605b6ba4ab41f87032fc1cb5e62b5aa387bd8967"
+    },
+    {
+      "file": "delivery-verification.json",
+      "bytes": 540,
+      "sha256": "8d266b4a1b1aa00429a9fba4f363b6059cf67baacb77943159094c0be25682d9"
+    }
   ]
 }

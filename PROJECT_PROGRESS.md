@@ -40,8 +40,13 @@ unchanged; production contains no carousel fixture IDs.
 
 ## IN PROGRESS
 
-Final delivery: commit evidence/current HTML, push the feature branch and open the
-review PR. Check actual Git/PR state before assuming delivery completed.
+None unblocked. Available implementation and delivery are complete.
+
+Delivery commit `706c9ee` is pushed. [PR #18](https://github.com/h333ndrik/h4ngelic/pull/18) is open against
+`feat/website-completion` (PR #17). GitHub API confirms the uploaded HTML is
+7,752,573 bytes and matches local Git blob `43e6e5618dc004913421bf1cee0b560f206ac8a1`.
+This checkpoint update follows that delivery commit; inspect actual Git status
+before future work. No merge or production deployment occurred.
 
 ## TODO
 
