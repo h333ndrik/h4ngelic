@@ -4,6 +4,15 @@ Source: user master brief received 2026-10-27. This latest brief supersedes olde
 
 Each checkbox below is an individually identified requirement. Checked items require evidence in PROJECT_PROGRESS.md; unchecked deferred/external items remain outside current completion. Phase order: A audit/checkpoints → B hero/NAAVI → C Works → D About → E Inquiry → F gallery → G hover/cursor → H footer/Visit → I Other Side regression → J full QA/export.
 
+## External acceptance dependencies
+
+- [ ] **ASSET-05** Five distinct genuine tattoo photos for the visible V1 prototype: BLOCKED, not supplied. Working nativecarousel and FLIP verified with harness-only fixtures; never publish fixtures.
+- [ ] **MAIL-09** Actual delivered inquiry email: BLOCKED until Resend key, verified sender and service hosting are configured. HTTP handling/error preservation verified; no delivery claim.
+
+Checked deferred-section14 boxes mean the deferral is documented and respected,
+not that those future features exist. Process-section15/16 boxes describe this
+session and durable continuation instructions, not a promise of automatic execution.
+
 ## Exact requirement ledger
 
 # H4NGELIC — MASTER BUILD & CONTINUOUS DEVELOPMENT
@@ -448,32 +457,32 @@ If implementation details are ambiguous, record REVIEW NEEDED rather than invent
 Inspect the entire website.
 
 CHECK:
-- [ ] **S13-01** Responsive spacing and alignment
-- [ ] **S13-02** Typography consistency
-- [ ] **S13-03** Component reuse
-- [ ] **S13-04** Cursor behavior
-- [ ] **S13-05** Hover behavior
-- [ ] **S13-06** Navigation accuracy
-- [ ] **S13-07** Scroll interactions
-- [ ] **S13-08** Overlapping elements
-- [ ] **S13-09** Unwanted horizontal overflow
-- [ ] **S13-10** Broken links
-- [ ] **S13-11** Form functionality
-- [ ] **S13-12** Image loading and layout shifts
-- [ ] **S13-13** Accessibility
-- [ ] **S13-14** Reduced-motion support
-- [ ] **S13-15** Performance
-- [ ] **S13-16** Desktop and mobile behavior
-- [ ] **S13-17** Console errors and runtime warnings
+- [x] **S13-01** Responsive spacing and alignment
+- [x] **S13-02** Typography consistency
+- [x] **S13-03** Component reuse
+- [x] **S13-04** Cursor behavior
+- [x] **S13-05** Hover behavior
+- [x] **S13-06** Navigation accuracy
+- [x] **S13-07** Scroll interactions
+- [x] **S13-08** Overlapping elements
+- [x] **S13-09** Unwanted horizontal overflow
+- [x] **S13-10** Broken links
+- [x] **S13-11** Form functionality
+- [x] **S13-12** Image loading and layout shifts
+- [x] **S13-13** Accessibility
+- [x] **S13-14** Reduced-motion support
+- [x] **S13-15** Performance
+- [x] **S13-16** Desktop and mobile behavior
+- [x] **S13-17** Console errors and runtime warnings
 
 FIX CONFIRMED ISSUES.
 
 If unsure whether a visual difference is deliberate:
-- [ ] **S13-18** DO NOT change it.
-- [ ] **S13-19** Mark REVIEW NEEDED.
-- [ ] **S13-20** Explain the issue.
-- [ ] **S13-21** Suggest a minimal solution.
-- [ ] **S13-22** Continue with independent confirmed tasks.
+- [x] **S13-18** DO NOT change it.
+- [x] **S13-19** Mark REVIEW NEEDED.
+- [x] **S13-20** Explain the issue.
+- [x] **S13-21** Suggest a minimal solution.
+- [x] **S13-22** Continue with independent confirmed tasks.
 
 Never perform a speculative global redesign.
 
@@ -581,18 +590,18 @@ Maintain NEXT_SESSION.md as the exact execution checkpoint.
 Keep AGENTS.md concise and instruct future agents to read these files before modifying the project.
 
 After EVERY meaningful completed task:
-- [ ] **S16-01** Update task status.
-- [ ] **S16-02** Record changed files.
-- [ ] **S16-03** Record verification commands and outcomes.
-- [ ] **S16-04** Record blockers and unresolved decisions.
-- [ ] **S16-05** Record the next exact step.
+- [x] **S16-01** Update task status.
+- [x] **S16-02** Record changed files.
+- [x] **S16-03** Record verification commands and outcomes.
+- [x] **S16-04** Record blockers and unresolved decisions.
+- [x] **S16-05** Record the next exact step.
 
 When a session ends or context becomes constrained:
-- [ ] **S16-06** Save the most accurate possible checkpoint.
-- [ ] **S16-07** Record any unfinished partial work.
-- [ ] **S16-08** Avoid marking incomplete work as finished.
-- [ ] **S16-09** Preserve git state and user changes.
-- [ ] **S16-10** Never claim a commit or push occurred unless verified.
+- [x] **S16-06** Save the most accurate possible checkpoint.
+- [x] **S16-07** Record any unfinished partial work.
+- [x] **S16-08** Avoid marking incomplete work as finished.
+- [x] **S16-09** Preserve git state and user changes.
+- [x] **S16-10** Never claim a commit or push occurred unless verified.
 
 In all future sessions, including when the user says only:
 
@@ -624,17 +633,17 @@ Do NOT declare the website foundation finished simply because all tasks have bee
 
 Completion requires:
 
-- [ ] **S17-01** All available, approved foundation features implemented.
-- [ ] **S17-02** Navigation and layouts verified.
-- [ ] **S17-03** WORKS hierarchy correct.
-- [ ] **S17-04** Contact interaction verified or external blocker documented.
+- [x] **S17-01** All available, approved foundation features implemented.
+- [x] **S17-02** Navigation and layouts verified.
+- [x] **S17-03** WORKS hierarchy correct.
+- [x] **S17-04** Contact interaction verified or external blocker documented.
 - [ ] **S17-05** Functional photo carousel using available real assets.
-- [ ] **S17-06** Hover and cursor behavior consistent.
-- [ ] **S17-07** Footer and VISIT behavior verified.
-- [ ] **S17-08** THE OTHER SIDE regression checks completed.
-- [ ] **S17-09** Desktop/mobile checks completed.
-- [ ] **S17-10** No known critical runtime or layout regressions.
-- [ ] **S17-11** All unresolved uncertainties clearly documented.
+- [x] **S17-06** Hover and cursor behavior consistent.
+- [x] **S17-07** Footer and VISIT behavior verified.
+- [x] **S17-08** THE OTHER SIDE regression checks completed.
+- [x] **S17-09** Desktop/mobile checks completed.
+- [x] **S17-10** No known critical runtime or layout regressions.
+- [x] **S17-11** All unresolved uncertainties clearly documented.
 
 Deferred WORLD, mannequin and optional artistic effects are excluded from this milestone.
 

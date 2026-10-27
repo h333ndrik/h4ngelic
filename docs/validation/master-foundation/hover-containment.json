@@ -1,0 +1,126 @@
+{
+  "checkedAt": "2026-10-27T20:42:17.255Z",
+  "reports": [
+    {
+      "width": 1614,
+      "archive": {
+        "samples": 7,
+        "minimumLeft": 35,
+        "maximumRight": 551.0825805664062,
+        "scale": 1.025
+      },
+      "edge": {
+        "samples": 24,
+        "minimumLeft": 1565.84375,
+        "maximumRight": 1612,
+        "scale": 1
+      },
+      "clipped": {
+        "samples": 21,
+        "minimumLeft": 114.171875,
+        "maximumRight": 182,
+        "scale": 1
+      },
+      "wrapped": {
+        "samples": 8,
+        "minimumLeft": 22,
+        "maximumRight": 579.2156372070312,
+        "scale": 1.025
+      },
+      "resize": null,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "archive": {
+        "samples": 8,
+        "minimumLeft": 35,
+        "maximumRight": 514.4117431640625,
+        "scale": 1.025
+      },
+      "edge": {
+        "samples": 18,
+        "minimumLeft": 1391.84375,
+        "maximumRight": 1438,
+        "scale": 1
+      },
+      "clipped": {
+        "samples": 19,
+        "minimumLeft": 114.171875,
+        "maximumRight": 182,
+        "scale": 1
+      },
+      "wrapped": {
+        "samples": 8,
+        "minimumLeft": 22,
+        "maximumRight": 579.2156372070312,
+        "scale": 1.025
+      },
+      "resize": null,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "archive": {
+        "samples": 18,
+        "minimumLeft": 22,
+        "maximumRight": 221.77890014648438,
+        "scale": 1.025
+      },
+      "edge": {
+        "samples": 17,
+        "minimumLeft": 341.84375,
+        "maximumRight": 388,
+        "scale": 1
+      },
+      "clipped": {
+        "samples": 28,
+        "minimumLeft": 114.171875,
+        "maximumRight": 182,
+        "scale": 1
+      },
+      "wrapped": {
+        "samples": 7,
+        "minimumLeft": 22,
+        "maximumRight": 376.6499938964844,
+        "scale": 1.025
+      },
+      "resize": {
+        "from": 390,
+        "to": 320,
+        "samples": 16,
+        "maximumRight": 310
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "archive": {
+        "samples": 27,
+        "minimumLeft": 22,
+        "maximumRight": 221.77890014648438,
+        "scale": 1.025
+      },
+      "edge": {
+        "samples": 30,
+        "minimumLeft": 271.84375,
+        "maximumRight": 318,
+        "scale": 1
+      },
+      "clipped": {
+        "samples": 30,
+        "minimumLeft": 114.171875,
+        "maximumRight": 182,
+        "scale": 1
+      },
+      "wrapped": {
+        "samples": 9,
+        "minimumLeft": 22,
+        "maximumRight": 304.8999938964844,
+        "scale": 1.025
+      },
+      "resize": null,
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-10-27T21:07:43.059Z",
+  "width": 1440,
+  "actualAnimation": {
+    "before": {
+      "started": 1,
+      "currentTime": 0,
+      "playState": "running",
+      "duration": 280
+    },
+    "after": {
+      "canceled": true,
+      "playState": "idle",
+      "reduced": true,
+      "running": 0
+    }
+  },
+  "expandedOriginal": {
+    "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+    "width": 1440,
+    "height": 1920,
+    "fine": true
+  },
+  "errors": []
+}

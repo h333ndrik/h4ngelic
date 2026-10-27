@@ -1,0 +1,330 @@
+{
+  "contract": "v6-navigation-inquiry",
+  "checkedAt": "2026-10-27T21:15:54.995Z",
+  "html": "/workspace/h4ngelic/artifacts/h4ngelic-preview.html",
+  "htmlBytes": 7752573,
+  "htmlSha256": "fc7ee432d42a310414104ab33fc1ffb8b8ef374ee2f61616b8c549ceb1762394",
+  "reports": [
+    {
+      "width": 1440,
+      "mobile": false,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "identityCounterGap": 12,
+      "reverseHint": {
+        "opacity": 0,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 21
+      },
+      "memoryHandoff": {
+        "ready": true,
+        "canvasCount": 1,
+        "hidden": false,
+        "width": 504,
+        "height": 350,
+        "opacity": "1",
+        "backgroundImage": "none",
+        "distressHidden": true,
+        "events": [
+          {
+            "phase": "prepared",
+            "token": {
+              "id": 1,
+              "variant": 1434480961,
+              "seed": 470465430,
+              "width": 504,
+              "height": 350,
+              "frame": 7
+            },
+            "pixelHash": 373474228,
+            "colors": 74595,
+            "opaque": true,
+            "matchesPrepared": null,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 1434480961,
+                "frozen": true,
+                "frame": 7,
+                "claimedFrame": null,
+                "completedToken": null,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          },
+          {
+            "phase": "released",
+            "token": {
+              "id": 1,
+              "variant": 1434480961,
+              "seed": 470465430,
+              "width": 504,
+              "height": 350,
+              "frame": 7
+            },
+            "pixelHash": 373474228,
+            "colors": 74595,
+            "opaque": true,
+            "matchesPrepared": true,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 1434480961,
+                "frozen": false,
+                "frame": 7,
+                "claimedFrame": 7,
+                "completedToken": 1,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          }
+        ]
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "one-second 4 hold",
+        "one-second 4 reverse",
+        "released 333 return",
+        "temporary faint hint",
+        "embedded film",
+        "retained transition pixels",
+        "two bounded memory buffers",
+        "no pristine CSS source",
+        "lower hero mute",
+        "copyright-adjacent VISIT",
+        "connected Work anchors",
+        "About",
+        "Contact inquiry",
+        "visitor",
+        "horizontal bounds"
+      ]
+    },
+    {
+      "width": 390,
+      "mobile": true,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "identityCounterGap": 10,
+      "reverseHint": {
+        "opacity": 0,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 15
+      },
+      "memoryHandoff": {
+        "ready": true,
+        "canvasCount": 1,
+        "hidden": false,
+        "width": 156,
+        "height": 338,
+        "opacity": "1",
+        "backgroundImage": "none",
+        "distressHidden": true,
+        "events": [
+          {
+            "phase": "prepared",
+            "token": {
+              "id": 1,
+              "variant": 2868924042,
+              "seed": 1823724164,
+              "width": 156,
+              "height": 338,
+              "frame": 7
+            },
+            "pixelHash": 2147781598,
+            "colors": 845,
+            "opaque": true,
+            "matchesPrepared": null,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 2868924042,
+                "frozen": true,
+                "frame": 7,
+                "claimedFrame": null,
+                "completedToken": null,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          },
+          {
+            "phase": "released",
+            "token": {
+              "id": 1,
+              "variant": 2868924042,
+              "seed": 1823724164,
+              "width": 156,
+              "height": 338,
+              "frame": 7
+            },
+            "pixelHash": 2147781598,
+            "colors": 845,
+            "opaque": true,
+            "matchesPrepared": true,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 2868924042,
+                "frozen": false,
+                "frame": 7,
+                "claimedFrame": 7,
+                "completedToken": 1,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          }
+        ]
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "native touch hold",
+        "one-second 4 reverse",
+        "released 333 return",
+        "temporary faint hint",
+        "embedded film",
+        "retained transition pixels",
+        "two bounded memory buffers",
+        "no pristine CSS source",
+        "lower hero mute",
+        "copyright-adjacent VISIT",
+        "connected Work anchors",
+        "About",
+        "Contact inquiry",
+        "visitor",
+        "horizontal bounds"
+      ]
+    },
+    {
+      "width": 320,
+      "mobile": true,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "identityCounterGap": 10,
+      "reverseHint": {
+        "opacity": 0,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 15
+      },
+      "memoryHandoff": {
+        "ready": true,
+        "canvasCount": 1,
+        "hidden": false,
+        "width": 128,
+        "height": 338,
+        "opacity": "1",
+        "backgroundImage": "none",
+        "distressHidden": true,
+        "events": [
+          {
+            "phase": "prepared",
+            "token": {
+              "id": 1,
+              "variant": 651601669,
+              "seed": 3545389908,
+              "width": 128,
+              "height": 338,
+              "frame": 7
+            },
+            "pixelHash": 2767633056,
+            "colors": 7749,
+            "opaque": true,
+            "matchesPrepared": null,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 651601669,
+                "frozen": true,
+                "frame": 7,
+                "claimedFrame": null,
+                "completedToken": null,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          },
+          {
+            "phase": "released",
+            "token": {
+              "id": 1,
+              "variant": 651601669,
+              "seed": 3545389908,
+              "width": 128,
+              "height": 338,
+              "frame": 7
+            },
+            "pixelHash": 2767633056,
+            "colors": 7749,
+            "opaque": true,
+            "matchesPrepared": true,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 651601669,
+                "frozen": false,
+                "frame": 7,
+                "claimedFrame": 7,
+                "completedToken": 1,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          }
+        ]
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "native touch hold",
+        "one-second 4 reverse",
+        "released 333 return",
+        "temporary faint hint",
+        "embedded film",
+        "retained transition pixels",
+        "two bounded memory buffers",
+        "no pristine CSS source",
+        "lower hero mute",
+        "copyright-adjacent VISIT",
+        "connected Work anchors",
+        "About",
+        "Contact inquiry",
+        "visitor",
+        "horizontal bounds"
+      ]
+    }
+  ]
+}
