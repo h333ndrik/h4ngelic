@@ -1,5 +1,5 @@
 import './interactions.css';
-import { uiEffectSettings, boundedHoverScale, uiEffectProperties } from './data/uiEffectSettings.js';
+import { uiEffectSettings, boundedHoverScale, fitHoverFrame, uiEffectProperties } from './data/uiEffectSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 import { createFiniteHoverMotion } from './finite-hover-motion.js';
 import { activateRubric, rubricSelector } from './rubric-activation.js';
@@ -21,6 +21,8 @@ export function initInteractions(root = document, { revealSections = true, setti
   const targets = new Map();
   const states = new Map();
   const wrappers = new Map();
+  const headings = new Map();
+  const refitting = new Set();
   const originalProperties = new Map();
   const motionPublisher = createVisualMotionPublisher({ doc: owner });
   const hoverMotion = createFiniteHoverMotion({ doc: owner,
@@ -30,6 +32,7 @@ export function initInteractions(root = document, { revealSections = true, setti
   let contentObserver = null;
   let active = null;
   let frame = 0;
+  let fitRelease = 0;
   let disposed = false;
   let clearSelection = () => {};
 
@@ -85,7 +88,9 @@ export function initInteractions(root = document, { revealSections = true, setti
     if (!width || !height) return;
     const normalize = (value) => Math.max(-1, Math.min(1, value));
     const horizontalScroll = (active.scroller?.scrollLeft || 0) - scrollerLeft;
-    const dx = normalize((active.pointerX + scrollX - x + horizontalScroll - width / 2) / (width / 2)) * settings.magnetDistance;
+    const requestedX = normalize((active.pointerX + scrollX - x + horizontalScroll - width / 2) / (width / 2)) * settings.magnetDistance;
+    const dx = Math.max(active.fit?.minimumTranslation ?? -settings.magnetDistance,
+      Math.min(active.fit?.maximumTranslation ?? settings.magnetDistance, requestedX));
     const dy = normalize((active.pointerY + scrollY - y - height / 2) / (height / 2)) * settings.magnetDistance;
     const magnetX = `${dx.toFixed(2)}px`;
     const magnetY = `${dy.toFixed(2)}px`;
@@ -119,16 +124,83 @@ export function initInteractions(root = document, { revealSections = true, setti
     }
   }
 
+  function horizontalBounds(element) {
+    let left = 0, right = owner.documentElement.clientWidth || innerWidth;
+    // Measure only at entry/focus/resize. A scrollport or clipped pin may be
+    // narrower than the viewport and must retain the entire enlarged label.
+    for (let parent = element.parentElement, depth = 0; parent && depth < 16; parent = parent.parentElement, depth++) {
+      if (!/^(auto|scroll|hidden|clip)$/.test(getComputedStyle(parent).overflowX)) continue;
+      const rect = parent.getBoundingClientRect();
+      const edge = rect.left + parent.clientLeft;
+      left = Math.max(left, edge);
+      right = Math.min(right, edge + parent.clientWidth);
+    }
+    return { boundsLeft: left, boundsRight: right };
+  }
+
   function fitVisual(target) {
     const wrapper = targets.get(target)?.wrapper;
     if (!wrapper) return;
-    let scale = target.matches('.artwork-open') ? settings.hover.imageScale : settings.hover.scale;
+    let preferred = target.matches('.artwork-open') ? settings.hover.imageScale : settings.hover.scale;
     if (target.matches('.category-link, .contact-link')) {
       const style = getComputedStyle(target);
       const available = target.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-      scale = boundedHoverScale(wrapper.scrollWidth, available, settings.hover.largeScale, settings.magnetDistance + 2);
+      preferred = boundedHoverScale(wrapper.scrollWidth, available, settings.hover.largeScale, settings.magnetDistance + 2);
     }
-    target.style.setProperty('--ui-target-scale', String(scale));
+    const style = getComputedStyle(wrapper);
+    const matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
+    const currentScale = Math.hypot(matrix.m11, matrix.m12) || 1;
+    const rect = wrapper.getBoundingClientRect();
+    const originX = parseFloat(style.transformOrigin) || 0;
+    const width = Math.max(wrapper.scrollWidth, rect.width / currentScale);
+    const left = rect.left - matrix.m41 + (currentScale - 1) * originX;
+    const bounds = horizontalBounds(wrapper);
+    const fit = fitHoverFrame({ left,
+      width, ...bounds, preferred,
+      origin: width ? originX / width : 0,
+      translation: target.matches(magneticSelector) ? settings.magnetDistance : 0 });
+    target.style.setProperty('--ui-target-scale', String(fit.scale));
+    const enlargedRight = left + originX + (width - originX) * fit.scale;
+    const arrowRoom = (bounds.boundsRight - enlargedRight - fit.maximumTranslation) / fit.scale;
+    target.style.setProperty('--ui-fit-arrow-movement', `${Math.max(0, Math.min(settings.arrow.movementPx, arrowRoom))}px`);
+    const state = states.get(target);
+    if (state) {
+      state.fit = fit;
+      const current = parseFloat(wrapper.style.getPropertyValue('--magnet-x')) || 0;
+      if (current) wrapper.style.setProperty('--magnet-x', `${Math.max(fit.minimumTranslation, Math.min(fit.maximumTranslation, current))}px`);
+    }
+  }
+
+  function fitHeading(heading) {
+    const visual = heading.querySelector('.kinetic-heading-text');
+    if (!visual) return;
+    const width = visual.offsetWidth;
+    const fit = fitHoverFrame({ left: visual.getBoundingClientRect().left, width,
+      ...horizontalBounds(visual), preferred: settings.hover.largeScale });
+    heading.style.setProperty('--heading-hover-scale', String(fit.scale));
+  }
+
+  function fitImmediately(element, fit) {
+    // A smaller viewport must not spend another hover duration outside its new
+    // boundary while animating down from the old scale. This one resize frame
+    // resolves the fitted pose immediately, then restores ordinary animation.
+    const visual = headings.has(element) ? element.querySelector('.kinetic-heading-text') : targets.get(element)?.wrapper;
+    if (!visual) return;
+    visual.setAttribute('data-ui-refitting', '');
+    refitting.add(visual);
+    fit(element);
+    getComputedStyle(visual).transform;
+    if (!fitRelease) fitRelease = requestAnimationFrame(() => {
+      fitRelease = 0;
+      for (const item of refitting) item.removeAttribute('data-ui-refitting');
+      refitting.clear();
+    });
+  }
+
+  function fitActiveVisuals() {
+    for (const state of states.values()) state.bounds = null;
+    for (const target of targets.keys()) if (target.matches(':hover, :focus-visible')) fitImmediately(target, fitVisual);
+    for (const heading of headings.keys()) if (heading.matches(':hover, :focus-within')) fitImmediately(heading, fitHeading);
   }
 
   function enhance(target) {
@@ -158,12 +230,13 @@ export function initInteractions(root = document, { revealSections = true, setti
       if (state) { state.wrapper = wrapper; state.bounds = null; }
       return;
     }
-    targets.set(target, { wrapper, attribute: target.getAttribute('data-ui-interactive'), scale: target.style.getPropertyValue('--ui-target-scale') });
+    targets.set(target, { wrapper, attribute: target.getAttribute('data-ui-interactive'), scale: target.style.getPropertyValue('--ui-target-scale'),
+      arrowMovement: target.style.getPropertyValue('--ui-fit-arrow-movement') });
     target.setAttribute('data-ui-interactive', '');
     listen(target, 'pointerenter', (event) => {
       if (event.pointerType !== 'mouse' || !fine.matches || reduced.matches) return;
-      trackHover(target);
       fitVisual(target);
+      trackHover(target);
     }, { passive: true });
     listen(target, 'pointerleave', event => {
       if (event.pointerType === 'mouse') trackHover(target, settings.hover.releaseMs);
@@ -187,10 +260,19 @@ export function initInteractions(root = document, { revealSections = true, setti
   if ('ResizeObserver' in window) {
     resizeObserver = new ResizeObserver((entries) => {
       for (const state of states.values()) state.bounds = null;
-      for (const { target } of entries) if (target.matches(':hover, :focus-visible')) fitVisual(target);
+      for (const { target } of entries) {
+        if (target.matches('.kinetic-heading:hover')) fitImmediately(target, fitHeading);
+        else if (target.matches(':hover, :focus-visible')) fitImmediately(target, fitVisual);
+      }
     });
   }
   for (const target of root.querySelectorAll(interactiveSelector)) enhance(target);
+  for (const heading of root.querySelectorAll('.kinetic-heading')) {
+    headings.set(heading, heading.style.getPropertyValue('--heading-hover-scale'));
+    listen(heading, 'pointerenter', () => { if (fine.matches && !reduced.matches) fitHeading(heading); }, { passive: true });
+    resizeObserver?.observe(heading);
+  }
+  listen(owner.defaultView, 'resize', fitActiveVisuals, { passive: true });
   // Hero controls replace textContent; gallery controls are created later.
   // Observe only child changes, not animation styles or pointer attributes.
   contentObserver = new MutationObserver((records) => {
@@ -207,7 +289,7 @@ export function initInteractions(root = document, { revealSections = true, setti
     reveal(event.target.closest?.('.content-section'), true);
     resetMagnet();
     const target = event.target.closest?.('[data-ui-interactive]');
-    if (target) { trackHover(target); fitVisual(target); }
+    if (target) { fitVisual(target); trackHover(target); }
   });
   listen(root, 'focusout', event => {
     const target = event.target.closest?.('[data-ui-interactive]');
@@ -233,6 +315,9 @@ export function initInteractions(root = document, { revealSections = true, setti
     disposed = true;
     clearSelection();
     resetMagnet();
+    cancelAnimationFrame(fitRelease);
+    for (const item of refitting) item.removeAttribute('data-ui-refitting');
+    refitting.clear();
     hoverMotion.dispose();
     motionPublisher.reset();
     observer?.disconnect();
@@ -244,6 +329,8 @@ export function initInteractions(root = document, { revealSections = true, setti
       else target.setAttribute('data-ui-interactive', previous.attribute);
       if (previous.scale) target.style.setProperty('--ui-target-scale', previous.scale);
       else target.style.removeProperty('--ui-target-scale');
+      if (previous.arrowMovement) target.style.setProperty('--ui-fit-arrow-movement', previous.arrowMovement);
+      else target.style.removeProperty('--ui-fit-arrow-movement');
     }
     for (const [wrapper, { created }] of wrappers) {
       if (created && wrapper.parentNode) wrapper.replaceWith(...wrapper.childNodes);
@@ -252,6 +339,10 @@ export function initInteractions(root = document, { revealSections = true, setti
     for (const [name, previous] of originalProperties) {
       if (previous) owner.documentElement.style.setProperty(name, previous);
       else owner.documentElement.style.removeProperty(name);
+    }
+    for (const [heading, previous] of headings) {
+      if (previous) heading.style.setProperty('--heading-hover-scale', previous);
+      else heading.style.removeProperty('--heading-hover-scale');
     }
     // Cleanup also makes the page usable if enhancements are later replaced.
     for (const section of sections) section.classList.remove('reveal-pending', 'is-revealed', 'reveal-instant');

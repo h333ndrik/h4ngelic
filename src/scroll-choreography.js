@@ -1,5 +1,5 @@
 import './scroll-choreography.css';
-import { motionSettings, progressBetween, pinnedProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn, sampleHeading, sampleHero, sampleKineticItem } from './data/motionSettings.js';
+import { motionSettings, progressBetween, pinnedProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn, sampleHeading, sampleHero, sampleKineticItem, sampleAboutItem } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
@@ -171,10 +171,7 @@ export function initScrollChoreography(root = document) {
         if (focused) return applyItem(item, { x: 0, rotation: 0, opacity: 1 });
         if (section.kind === 'contact') return applyItem(item, sampleFlyIn(progressBetween(progress, .16, 1), { distance: Math.min(130, width * .16) }));
         if (section.kind !== 'about') return applyItem(item, sampleKineticItem(progress, index, width), kineticItemProgress(progress, index));
-        const link = item.dataset.motionItem === 'link';
-        const settings = motionSettings.about;
-        const local = progressBetween(progress, link ? settings.linkStart : settings.copyStart, link ? settings.linkEnd : settings.copyEnd);
-        applyItem(item, sampleFlyIn(local, { distance: width * (link ? settings.linkDistanceVw : settings.copyDistanceVw) }));
+        applyItem(item, sampleAboutItem(progress, item.dataset.motionItem, width));
       });
       if (motionSamples && section.motionLayout) {
         const pinY = section.top - position + clamp(position - section.top, 0, section.pinTravel) + section.pinOffset;

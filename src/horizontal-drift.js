@@ -1,11 +1,12 @@
 import './horizontal-drift.css';
 import { createVisualMotionPublisher } from './motion-mosh.js';
+import { carouselPositions, carouselIndex, shiftedWheelDelta } from './horizontal-carousel-state.js';
 
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 
-/** Native page scroll provides wheel momentum, vertical touch panning and
- * boundary release. Only genuinely horizontal input needs translation. There
- * is no wheel trap or duplicate carousel scene/animation library. */
+/** One native horizontal scroller per archive. The document never becomes a
+ * horizontal timeline: wheel/touch vertical movement remains ordinary page
+ * scrolling, while native swipe, trackpad, controls and mouse drag browse art. */
 export function initHorizontalDrift(root = document) {
   const sections = [...root.querySelectorAll('[data-horizontal-drift]')];
   if (!sections.length) return () => {};
@@ -17,29 +18,50 @@ export function initHorizontalDrift(root = document) {
   let frame = 0, disposed = false, dirty = true;
   const states = sections.map(section => ({ section, viewport: section.querySelector('.drift-viewport'),
     track: section.querySelector('.drift-track'), items: [...section.querySelectorAll('[data-drift-item]')],
-    start: 0, travel: 0, current: 0, target: 0, near: false, drag: null, inertia: null, suppressClickUntil: 0 }));
+    previous: section.querySelector('[data-drift-previous]'), next: section.querySelector('[data-drift-next]'),
+    counter: section.querySelector('[data-drift-count]'), status: section.querySelector('.drift-status'),
+    travel: 0, width: 0, index: 0, targets: [], near: false, drag: null, pending: null,
+    announcement: 0, suppressClickUntil: 0 }));
   const listen = (target, type, handler, options) => {
+    if (!target) return;
     target.addEventListener(type, handler, options);
     removers.push(() => target.removeEventListener(type, handler, options));
   };
+  const property = (element, name, value) => {
+    if (element.style.getPropertyValue(name) !== value) element.style.setProperty(name, value);
+  };
   function measure() {
     for (const state of states) {
-      state.section.classList.add('is-drift-enhanced');
-      // The scroll track must reserve a full usable viewport, even when its
-      // artwork stage is intentionally shorter. Otherwise a short mobile
-      // footer can put the document's maximum scroll before the last image.
-      const height = Math.max(state.viewport.getBoundingClientRect().height, view.innerHeight - 12);
-      state.travel = Math.max(0, state.track.scrollWidth - state.viewport.clientWidth);
-      state.section.style.height = `${Math.ceil(height + state.travel)}px`;
-      state.start = state.section.getBoundingClientRect().top + view.scrollY - 12;
+      const width = state.viewport.clientWidth;
+      const changed = state.width > 0 && state.width !== width;
+      const beforeIndex = state.index;
+      state.width = width;
+      const first = state.items[0], last = state.items.at(-1);
+      // Centering edge space lets the first and last image align exactly like
+      // every middle image. It also reserves room for their shared hover glow.
+      property(state.track, '--drift-leading', `${first ? Math.max(22, (width - first.offsetWidth) / 2) : 0}px`);
+      property(state.track, '--drift-trailing', `${last ? Math.max(22, (width - last.offsetWidth) / 2) : 0}px`);
+      state.travel = Math.max(0, state.viewport.scrollWidth - width);
+      state.targets = carouselPositions(state.items.map(item => ({ left: item.offsetLeft, width: item.offsetWidth })), width, state.travel);
+      if (changed && !state.section.hasAttribute('data-drift-paused')) {
+        state.viewport.scrollLeft = state.targets[beforeIndex] || 0;
+      }
       state.section.dataset.driftTravel = state.travel.toFixed(2);
     }
     dirty = false;
   }
+  function announce(state) {
+    view.clearTimeout(state.announcement);
+    state.announcement = view.setTimeout(() => {
+      state.announcement = 0;
+      if (!disposed && state.status) state.status.textContent = state.items.length
+        ? `artwork ${state.index + 1} of ${state.items.length}` : 'archive in progress.';
+    }, 140);
+  }
   function samples() {
     const result = [];
     for (const state of states) {
-      if (!state.near) continue;
+      if (!state.near || state.section.hasAttribute('data-drift-paused')) continue;
       for (const item of state.items) {
         const target = item.querySelector('.drift-artwork');
         const bounds = target?.getBoundingClientRect();
@@ -55,38 +77,32 @@ export function initHorizontalDrift(root = document) {
     frame = 0;
     if (disposed || doc.hidden) return;
     if (dirty) measure();
-    let moving = false;
     for (const state of states) {
-      if (state.section.hasAttribute('data-drift-paused')) continue;
-      if (state.inertia && !reduced.matches) {
-        const elapsed = clamp(time - state.inertia.time, 0, 32);
-        const next = clamp(view.scrollY + state.inertia.velocity * elapsed, state.start, state.start + state.travel);
-        view.scrollTo({ top: next, behavior: 'instant' });
-        state.inertia.velocity *= Math.exp(-elapsed / 170);
-        state.inertia.time = time;
-        if (Math.abs(state.inertia.velocity) < .025 || next <= state.start || next >= state.start + state.travel) state.inertia = null;
-        else moving = true;
+      if (state.pending !== null && !state.section.hasAttribute('data-drift-paused')) {
+        state.viewport.scrollLeft = clamp(state.pending, 0, state.travel);
+        state.pending = null;
       }
-      state.target = clamp(view.scrollY - state.start, 0, state.travel);
-      const delta = state.target - state.current;
-      // Large jumps (anchors/history/keyboard) are direct; ordinary wheel
-      // movement gets a finite damping tail. Nothing animates while idle.
-      state.current = reduced.matches || Math.abs(delta) < .2 || Math.abs(delta) > view.innerWidth * 2
-        ? state.target : state.current + delta * .22;
-      moving ||= Math.abs(state.current - state.target) > .2;
-      state.track.style.transform = `translate3d(${-state.current.toFixed(3)}px,0,0)`;
-      state.section.dataset.driftPosition = state.current.toFixed(3);
+      const current = clamp(state.viewport.scrollLeft, 0, state.travel);
+      const index = carouselIndex(current, state.targets);
+      if (state.index !== index) { state.index = index; announce(state); }
+      state.section.dataset.driftPosition = current.toFixed(3);
+      state.section.dataset.carouselIndex = String(Math.max(0, index));
+      if (state.counter) state.counter.textContent = `${index < 0 ? 0 : index + 1} / ${state.items.length}`;
+      if (state.previous) state.previous.disabled = state.travel <= 1 || current <= .5;
+      if (state.next) state.next.disabled = state.travel <= 1 || current >= state.travel - .5;
     }
     if (publisher.ready(time)) publisher.publish(samples(), time);
-    if (moving) schedule();
   }
   function schedule(remeasure = false) {
     dirty ||= remeasure;
     if (!frame && !disposed && !doc.hidden) frame = view.requestAnimationFrame(update);
   }
-  function setPosition(state, position, { smooth = false } = {}) {
+  function goTo(state, index, { smooth = true } = {}) {
+    if (state.section.hasAttribute('data-drift-paused') || !state.items.length) return;
     if (dirty) measure();
-    view.scrollTo({ top: state.start + clamp(position, 0, state.travel), behavior: smooth && !reduced.matches ? 'smooth' : 'instant' });
+    const destination = clamp(index, 0, state.items.length - 1);
+    state.viewport.scrollTo({ left: state.targets[destination], behavior: smooth && !reduced.matches ? 'smooth' : 'instant' });
+    announce(state);
     schedule();
   }
   const observer = new view.IntersectionObserver(entries => {
@@ -98,69 +114,73 @@ export function initHorizontalDrift(root = document) {
   }, { rootMargin: '100px 0px' });
   const resize = new view.ResizeObserver(() => schedule(true));
   for (const state of states) {
+    state.section.classList.add('is-drift-enhanced');
     observer.observe(state.section);
     resize.observe(state.viewport);
     resize.observe(state.track);
+    listen(state.previous, 'click', () => goTo(state, state.index - 1));
+    listen(state.next, 'click', () => goTo(state, state.index + 1));
+    listen(state.viewport, 'scroll', () => { schedule(); announce(state); }, { passive: true });
     listen(state.viewport, 'wheel', event => {
-      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY) || event.ctrlKey || doc.querySelector('dialog[open]')) return;
+      if (state.section.hasAttribute('data-drift-paused') || doc.querySelector('dialog[open]')) return;
       if (dirty) measure();
-      const current = clamp(view.scrollY - state.start, 0, state.travel);
-      const delta = event.deltaX * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? state.viewport.clientWidth : 1);
-      if (state.travel <= 0 || delta < 0 && current <= 0 || delta > 0 && current >= state.travel) return;
+      const delta = shiftedWheelDelta(event, state.viewport.scrollLeft, state.travel, state.width);
+      // Native horizontal trackpad movement requires no JS cancellation. Only
+      // explicit Shift+vertical-wheel gestures need translation.
+      if (!delta) return;
       event.preventDefault();
-      setPosition(state, current + delta);
+      state.viewport.scrollLeft = clamp(state.viewport.scrollLeft + delta, 0, state.travel);
+      schedule();
     }, { passive: false });
     listen(state.section, 'keydown', event => {
-      if (event.target !== state.section || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      if (event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey
+        || event.target.closest('input, textarea, select') || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)
+        || state.section.hasAttribute('data-drift-paused') || !state.items.length) return;
       event.preventDefault();
-      const position = event.key === 'Home' ? 0 : event.key === 'End' ? state.travel
-        : state.target + (event.key === 'ArrowLeft' ? -1 : 1) * state.viewport.clientWidth * .7;
-      setPosition(state, position, { smooth: true });
-      const status = state.section.querySelector('.drift-status');
-      if (status) status.textContent = `${Math.round(clamp(position / Math.max(1, state.travel), 0, 1) * 100)} percent through archive`;
+      const index = event.key === 'Home' ? 0 : event.key === 'End' ? state.items.length - 1
+        : state.index + (event.key === 'ArrowLeft' ? -1 : 1);
+      goTo(state, index);
     });
     listen(state.viewport, 'pointerdown', event => {
-      if (event.isPrimary === false || event.button !== 0 || event.target.closest('a')) return;
-      state.inertia = null;
-      state.drag = { id: event.pointerId, x: event.clientX, y: event.clientY,
-        scroll: view.scrollY, active: false, previousX: event.clientX, time: view.performance.now(), velocity: 0 };
+      if (event.isPrimary === false || event.button !== 0 || event.target.closest('a')
+        || state.section.hasAttribute('data-drift-paused')) return;
+      state.drag = { id: event.pointerId, type: event.pointerType, x: event.clientX, y: event.clientY,
+        start: state.viewport.scrollLeft, active: false, moved: false };
     }, { passive: true });
     listen(state.viewport, 'pointermove', event => {
       const drag = state.drag;
       if (!drag || drag.id !== event.pointerId || state.travel <= 0) return;
       const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) >= 8) drag.moved = true;
+      // Let the browser own touch axis locking, horizontal momentum and native
+      // vertical panning. Only mouse/pen need a custom horizontal drag.
+      if (drag.type === 'touch') return;
       if (!drag.active) {
-        if (Math.max(Math.abs(dx), Math.abs(dy)) < 8) return;
+        if (!drag.moved) return;
         if (Math.abs(dy) >= Math.abs(dx)) { state.drag = null; return; }
         drag.active = true;
-        state.viewport.setPointerCapture?.(event.pointerId);
         state.section.classList.add('is-drift-dragging');
+        state.viewport.setPointerCapture?.(event.pointerId);
       }
       if (event.cancelable) event.preventDefault();
-      const now = view.performance.now();
-      drag.velocity = clamp((drag.previousX - event.clientX) / clamp(now - drag.time, 8, 100), -3, 3);
-      drag.previousX = event.clientX;
-      drag.time = now;
-      const proposed = drag.scroll - dx;
-      view.scrollTo({ top: clamp(proposed, state.start, state.start + state.travel), behavior: 'instant' });
-      state.suppressClickUntil = view.performance.now() + 400;
+      state.pending = drag.start - dx;
+      state.suppressClickUntil = view.performance.now() + 350;
       schedule();
     }, { passive: false });
-    const release = event => {
-      // Touch starts with implicit capture on the image/button. Transferring
-      // it to the viewport emits a bubbling lostpointercapture from that
-      // child; that is not the end of our newly captured horizontal drag.
+    function release(event) {
       if (event.type === 'lostpointercapture' && event.target !== state.viewport) return;
-      if (!state.drag || state.drag.id !== event.pointerId) return;
-      const id = state.drag.id;
-      if (event.type === 'pointerup' && state.drag.active && !reduced.matches && view.performance.now() - state.drag.time < 100 && Math.abs(state.drag.velocity) > .08) {
-        state.inertia = { velocity: state.drag.velocity, time: view.performance.now() };
-        schedule();
-      }
+      const drag = state.drag;
+      if (!drag || event.pointerId !== drag.id) return;
       state.drag = null;
+      if (drag.moved) state.suppressClickUntil = view.performance.now() + 350;
+      if (drag.active && state.pending !== null) {
+        state.viewport.scrollLeft = clamp(state.pending, 0, state.travel);
+        state.pending = null;
+      }
       state.section.classList.remove('is-drift-dragging');
-      if (state.viewport.hasPointerCapture?.(id)) state.viewport.releasePointerCapture(id);
-    };
+      if (state.viewport.hasPointerCapture?.(drag.id)) state.viewport.releasePointerCapture(drag.id);
+      if (drag.active) goTo(state, carouselIndex(state.viewport.scrollLeft, state.targets));
+    }
     listen(state.viewport, 'pointerup', release);
     listen(state.viewport, 'pointercancel', release);
     listen(state.viewport, 'lostpointercapture', release);
@@ -168,27 +188,35 @@ export function initHorizontalDrift(root = document) {
       if (view.performance.now() > state.suppressClickUntil) return;
       event.preventDefault(); event.stopImmediatePropagation();
     }, true);
-    // A keyboard tab into an offscreen image moves the same native scroll
-    // position, rather than creating an inaccessible clipped focus target.
     listen(state.section, 'focusin', event => {
       const item = event.target.closest('[data-drift-item]');
-      if (!item || !state.section.contains(item) || state.section.hasAttribute('data-drift-focus-restore')) return;
+      if (!item || !state.section.contains(item) || state.section.hasAttribute('data-drift-focus-restore')
+        || state.section.hasAttribute('data-drift-paused')) return;
       if (dirty) measure();
-      const visible = item.getBoundingClientRect();
-      const window = state.viewport.getBoundingClientRect();
-      if (visible.right > window.left + 16 && visible.left < window.right - 16) return;
-      const destination = item.offsetLeft + item.offsetWidth / 2 - state.viewport.clientWidth / 2;
-      setPosition(state, destination);
+      goTo(state, state.items.indexOf(item), { smooth: false });
     });
     listen(state.viewport, 'dragstart', event => event.preventDefault());
   }
   listen(view, 'scroll', () => { if (states.some(state => state.near)) schedule(); }, { passive: true });
-  listen(view, 'wheel', () => { for (const state of states) state.inertia = null; }, { passive: true });
   listen(view, 'resize', () => schedule(true), { passive: true });
-  listen(reduced, 'change', () => schedule(true));
+  listen(view, 'blur', () => {
+    for (const state of states) {
+      const drag = state.drag;
+      state.drag = null; state.pending = null;
+      state.section.classList.remove('is-drift-dragging');
+      if (drag && state.viewport.hasPointerCapture?.(drag.id)) state.viewport.releasePointerCapture(drag.id);
+    }
+  });
+  listen(reduced, 'change', () => {
+    for (const state of states) if (reduced.matches) state.viewport.scrollTo({ left: state.viewport.scrollLeft, behavior: 'instant' });
+    schedule(true);
+  });
   listen(doc, 'visibilitychange', () => {
-    if (doc.hidden) { if (frame) view.cancelAnimationFrame(frame); frame = 0; publisher.reset(); for (const state of states) state.inertia = null; }
-    else schedule(true);
+    if (doc.hidden) {
+      if (frame) view.cancelAnimationFrame(frame);
+      frame = 0; publisher.reset();
+      for (const state of states) { view.clearTimeout(state.announcement); state.announcement = 0; }
+    } else schedule(true);
   });
   update(view.performance.now());
   return () => {
@@ -198,10 +226,10 @@ export function initHorizontalDrift(root = document) {
     for (const remove of removers) remove();
     for (const state of states) {
       if (state.drag && state.viewport.hasPointerCapture?.(state.drag.id)) state.viewport.releasePointerCapture(state.drag.id);
+      view.clearTimeout(state.announcement);
       state.section.classList.remove('is-drift-enhanced', 'is-drift-dragging');
-      state.section.style.removeProperty('height');
-      state.track.style.removeProperty('transform');
-      delete state.section.dataset.driftPosition; delete state.section.dataset.driftTravel;
+      state.track.style.removeProperty('--drift-leading'); state.track.style.removeProperty('--drift-trailing');
+      delete state.section.dataset.driftPosition; delete state.section.dataset.driftTravel; delete state.section.dataset.carouselIndex;
     }
   };
 }

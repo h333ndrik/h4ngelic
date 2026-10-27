@@ -84,7 +84,7 @@ try {
     assert.equal(await page.evaluate(() => window.__v6WorkNode === document.querySelector('[data-connected-work]')), true);
     await page.locator('.work-subfilters a[href="/work#digital-artworks"]').click();
     await page.waitForURL('**/work#digital-artworks');
-    const image = page.locator('[data-digital-ink] img');
+    const image = page.locator('[data-archive-category="digital-artworks"] .project-image img');
     await image.evaluate(node => node.decode());
     await image.click();
     const dialog = page.locator('dialog.artwork-dialog');
@@ -123,10 +123,7 @@ try {
     assert.equal(await page.locator('[data-chapter-counter]').getAttribute('data-chapter-total'), '4');
     await page.locator('[data-chapter-counter]').click();
     await page.waitForFunction(() => document.querySelector('[data-chapter-counter]').dataset.chapter === '2');
-    await summary.click();
-    const bounds = await index.locator('nav').boundingBox();
-    assert.ok(bounds.x >= 0 && bounds.x + bounds.width <= width + 1);
-    await page.keyboard.press('Escape');
+    assert.equal(await index.isVisible(), false, 'Home retains its own navigation and does not show INDEX.');
     await page.evaluate(() => document.getElementById('contact').focus({ preventScroll: true }));
     await page.evaluate(() => document.getElementById('contact').scrollIntoView());
     await page.waitForFunction(() => document.querySelector('[data-chapter-counter]').dataset.chapter === '4');

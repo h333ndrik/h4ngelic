@@ -108,13 +108,13 @@ try {
         assert.deepEqual(await page.locator('.archive-empty').allTextContents(), Array(expectedEmpty).fill('archive in progress.'));
         assert.equal(await page.locator('.portfolio-archive img').count(), 1,
           'Connected Work retains the one genuine original in every category context.');
-        assert.equal(await page.locator('.project-image').count(), 0, 'Empty categories must not invent gallery entries.');
+        assert.equal(await page.locator('.portfolio-archive .project-image').count(), 1, 'Only the supplied original has an image figure; empty categories do not invent artwork.');
         assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)),
           ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks', ...(category === 'paintings' ? ['paintings'] : [])]);
-        assert.match(await page.locator('.digital-ink-open img').getAttribute('src'), /green-black-original/);
-        assert.equal(await page.locator('.digital-ink-open img').getAttribute('width'), '1440');
-        assert.equal(await page.locator('.digital-ink-open img').getAttribute('height'), '1920');
-        assert.equal(await page.locator('.digital-ink-open img').isVisible(), true,
+        assert.match(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('src'), /green-black-original/);
+        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('width'), '1440');
+        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('height'), '1920');
+        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').isVisible(), true,
           'Without JavaScript, the actual original stays visible and needs no reveal interaction.');
         assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
           ['/work', '/work#tattoos', '/work#jewellery', '/work#more']);

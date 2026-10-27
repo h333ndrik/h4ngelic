@@ -1,46 +1,53 @@
-/* A native vertical document carries one horizontal spatial composition.
- * Without JavaScript this remains a usable horizontal image archive. */
-.horizontal-drift { position: relative; margin-top: 38px; min-width: 0; }
+/* Ordinary document flow surrounds a native horizontal archive. No pinned
+   section, vertical scroll reservation or additional rendering surface. */
+.horizontal-drift { position: relative; margin-top: 30px; min-width: 0; max-width: 100%; }
 .horizontal-drift:focus-visible { outline: 1px solid #f0efeb80; outline-offset: 6px; }
-.drift-viewport { position: relative; height: min(78svh, 900px); min-height: 330px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: #858580 transparent; perspective: 1500px; }
-.horizontal-drift.is-drift-enhanced .drift-viewport { position: sticky; top: 12px; overflow: hidden; touch-action: pan-y pinch-zoom; }
-.drift-track { display: flex; align-items: center; gap: clamp(48px, 11vw, 190px); width: max-content; min-width: 100%; height: 100%; box-sizing: border-box; padding-inline: clamp(26px, 8vw, 140px); transform-style: preserve-3d; }
-.horizontal-drift.is-drift-enhanced .drift-track { will-change: transform; }
-.drift-item { flex: 0 0 auto; width: min(70vw, calc(51svh * var(--drift-ratio, .8)), 760px); min-width: min(180px, 70vw); transform: translate3d(0, var(--drift-y, 0px), var(--drift-z, 0px)) rotateY(var(--drift-angle, 0deg)); transform-style: preserve-3d; }
-.drift-images { display: block; transform-style: preserve-3d; }
+.drift-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid #ffffff24; min-height: 56px; }
+.drift-instruction { margin: 0; color: #b5b4b0; font-size: 12px; line-height: 1.5; }
+.drift-instruction > span[aria-hidden] { margin-inline: 5px; }
+.drift-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
+.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 0; padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; cursor: pointer; }
+.drift-controls button:disabled { opacity: .28; cursor: default; }
+.drift-controls button:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
+.drift-count { min-width: 45px; text-align: center; font-size: 12px; letter-spacing: .05em; font-variant-numeric: tabular-nums; color: #bdbcb8; }
+.drift-viewport { position: relative; max-width: 100%; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: #858580 transparent; touch-action: pan-x pan-y pinch-zoom; }
+.drift-track { position: relative; display: flex; align-items: flex-start; gap: clamp(32px, 6vw, 96px); width: max-content; min-width: 100%; box-sizing: border-box; padding: 30px var(--drift-trailing, 22px) 22px var(--drift-leading, 22px); }
+.drift-item { flex: 0 0 auto; width: min(76vw, calc(62svh * var(--drift-ratio, .8)), 760px); min-width: min(160px, 70vw); scroll-snap-align: center; }
+.drift-images { display: block; }
 .drift-item .project-image { overflow: visible; }
 .drift-detail-image[hidden] { display: none; }
-.drift-artwork { position: relative; transform: translateZ(0); transition: transform 440ms cubic-bezier(.2,.7,.25,1), box-shadow 320ms ease; outline: 1px solid transparent; outline-offset: 2px; }
+.drift-artwork { position: relative; outline: 1px solid transparent; outline-offset: 2px; transition: box-shadow 240ms ease, outline-color 240ms ease; }
 .drift-item .artwork-open img { object-fit: contain; }
 .drift-meta { margin-top: 18px; color: #c5c5bf; }
 .drift-meta h2 { margin: 0; font-size: 13px; line-height: 1.5; font-weight: 400; }
 .drift-meta h2 a { text-decoration: none; }
 .drift-meta .project-index { margin: 3px 0 0; font-size: 11px; }
 .drift-description { margin: 8px 0 0; font-size: 12px; line-height: 1.5; max-width: 34em; }
-.drift-instruction { position: absolute; inset: 0 0 auto; margin: 0; padding-block: 5px; color: #aaa9a4; font-size: 11px; letter-spacing: .02em; pointer-events: none; z-index: 1; }
-.drift-instruction > span[aria-hidden] { margin-inline: 7px; }
 .horizontal-drift.is-drift-dragging { cursor: grabbing; user-select: none; }
-.horizontal-drift.is-artwork-focused .drift-item:not(.is-drift-selected) .drift-artwork { transform: translateZ(-55px) scale(.97); }
-.drift-artwork.is-artwork-selected { animation: drift-selection-light 620ms ease-out; }
+.horizontal-drift.is-drift-dragging .drift-viewport { scroll-snap-type: none; }
+.horizontal-drift.is-empty .drift-track { min-height: 128px; align-items: center; padding-inline: 0; }
+.horizontal-drift.is-empty .archive-empty { margin: 0; padding: 28px 0; font-size: clamp(18px, 2.3vw, 28px); }
+.drift-artwork.is-artwork-selected { animation: drift-selection-light 360ms ease-out; }
 @keyframes drift-selection-light {
   0% { outline-color: #ffffff00; box-shadow: 0 0 0 0 #ffffff00; }
-  20% { outline-color: #fffffff2; box-shadow: 0 0 17px 1px #ffffff28; }
+  35% { outline-color: #fffffff2; box-shadow: 0 0 17px 1px #ffffff28; }
   100% { outline-color: #ffffff00; box-shadow: 0 0 26px 0 #ffffff00; }
 }
 @media (hover: hover) and (pointer: fine) {
-  .drift-item:hover .drift-artwork, .drift-item:focus-within .drift-artwork { transform: translateZ(48px) rotateY(calc(var(--drift-angle) * -1)) scale(1.035); }
-  /* The outer image plane supplies the spatial hover; the generic UI image
-   * zoom must not crop the photographic content a second time. */
-  .drift-artwork[data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual { transform: none; }
+  /* The existing UI system owns the image zoom/glow and bounds its wrapper.
+     Do not add a second perspective or scaling transform to the image plane. */
+  .drift-controls button:hover:not(:disabled) { text-shadow: 0 0 3px #fff, 0 0 12px #ffffff99; }
 }
 @media (max-width: 600px) {
-  .horizontal-drift { margin-top: 28px; }
-  .drift-viewport { height: 74svh; min-height: 340px; perspective: 1150px; }
-  .drift-track { gap: 42px; padding-inline: 18px; }
-  .drift-item { width: min(76vw, calc(48svh * var(--drift-ratio, .8))); min-width: min(150px, 76vw); }
+  .horizontal-drift { margin-top: 22px; }
+  .drift-toolbar { gap: 8px; }
+  .drift-instruction { font-size: 10px; max-width: 16ch; }
+  .drift-controls { gap: 0; }
+  .drift-count { min-width: 40px; }
+  .drift-track { gap: 28px; padding-block: 25px 18px; }
+  .drift-item { width: min(76vw, calc(62svh * var(--drift-ratio, .8))); }
   .drift-meta { margin-top: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .drift-viewport { perspective: none; }
-  .drift-item, .drift-artwork, .drift-item:hover .drift-artwork, .drift-item:focus-within .drift-artwork, .horizontal-drift.is-artwork-focused .drift-item:not(.is-drift-selected) .drift-artwork { transform: none; transition: none; animation: none; }
+  .drift-artwork { transition: none; animation: none !important; }
 }

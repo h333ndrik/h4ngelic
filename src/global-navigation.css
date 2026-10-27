@@ -10,6 +10,9 @@
   letter-spacing: .045em;
   --index-panel-top: 146px;
 }
+/* Home keeps its original sculptural hero and contextual links. This rule
+   also applies to prerendered HTML before any navigation JavaScript runs. */
+html[data-page='home'] .global-index { display: none; }
 .global-index summary {
   display: flex;
   align-items: center;
@@ -57,6 +60,7 @@
 .global-index-links a:focus-visible { outline: 1px solid currentColor; outline-offset: 1px; }
 .hero-brand { display: inline-flex; min-height: 44px; align-items: center; pointer-events: auto; margin-top: -7px; }
 .masthead .edition { display: none; }
+html[data-page='home'] .masthead .edition { display: block; }
 /* The INDEX owns the upper-right page navigation; hero context stays intact. */
 .page-header { min-height: 88px; padding-right: 145px; }
 .page-header .page-nav { display: none; }
@@ -65,7 +69,7 @@
   bottom: max(12px, env(safe-area-inset-bottom));
   left: 50%;
   z-index: 9;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(var(--chapter-dodge-y, 0px));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -89,7 +93,7 @@
 .chapter-digit-window { display: block; overflow: clip; line-height: 1.4; }
 .chapter-digit { display: block; }
 .chapter-counter:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
-.chapter-counter.is-over-form { visibility: hidden; pointer-events: none; }
+html:not([data-page='home']) .chapter-counter { display: none; }
 .page-footer.exhibition-footer-home { padding-bottom: max(80px, calc(env(safe-area-inset-bottom) + 68px)); }
 @keyframes index-arrive {
   from { opacity: 0; transform: translateY(-5px); }
@@ -98,7 +102,7 @@
 @media (hover: hover) and (pointer: fine) {
   .global-index summary:hover { transform: scale(1.06); text-shadow: 0 0 2px #fff, 0 0 9px #ffffff90; }
   .global-index-links a:hover { color: #fff; text-shadow: 0 0 8px #ffffff70; }
-  .chapter-counter:hover { transform: translateX(-50%) scale(1.08); }
+  .chapter-counter:hover { transform: translateX(-50%) translateY(var(--chapter-dodge-y, 0px)) scale(1.08); }
 }
 @media (max-width: 600px) {
   .global-index { top: 16px; right: 22px; font-size: 12px; --index-panel-top: 146px; }

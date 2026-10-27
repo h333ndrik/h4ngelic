@@ -30,29 +30,35 @@ function imageMarkup(image, index, { hidden = false } = {}) {
   </figure>`;
 }
 
-/** Shared archive markup. No renderer, stylesheet or made-up artwork enters
- * prerendering; genuinely empty archives remain a quiet textual state. */
+/** Every agreed archive has the same native horizontal shell. Empty archives
+ * show their real state instead of fabricated imagery or placeholder cards. */
 export function renderHorizontalDrift(projects = [], { category = '', label = category } = {}) {
   if (!horizontalDriftCategories.includes(category)) return '';
   const entries = projects.filter(project => project.published !== false && project.category === category
     && Array.isArray(project.images) && project.images.some(image => contentURL(image?.src)));
-  if (!entries.length) return '<p class="archive-empty">archive in progress.</p>';
   const instruction = `drift-instruction-${category}`;
-  return `<section class="horizontal-drift" data-horizontal-drift="${escape(category)}" role="region" aria-label="${escape(label)} artwork archive" aria-describedby="${instruction}" tabindex="0">
-    <div class="drift-viewport">
-      <p class="drift-instruction" id="${instruction}">scroll to drift <span aria-hidden="true">·</span> select to explore<span class="sr-only">. Use left and right arrow keys while the archive is focused. Drag horizontally on touch screens.</span></p>
+  const viewport = `drift-viewport-${category}`;
+  return `<section class="horizontal-drift${entries.length ? '' : ' is-empty'}" data-horizontal-drift="${escape(category)}" data-carousel-total="${entries.length}" role="region" aria-roledescription="carousel" aria-label="${escape(label)} artwork archive" aria-describedby="${instruction}" tabindex="0">
+    <div class="drift-toolbar">
+      <p class="drift-instruction${entries.length ? '' : ' sr-only'}" id="${instruction}">${entries.length ? 'drag or shift + scroll <span aria-hidden="true">·</span> select to explore' : 'this carousel will contain published artworks.'}<span class="sr-only"> Use left and right arrow keys to browse. Swipe horizontally on touch screens. Vertical scrolling continues through the page.</span></p>
+      <div class="drift-controls" aria-label="${escape(label)} carousel navigation">
+        <button class="drift-previous" type="button" data-drift-previous aria-controls="${viewport}" aria-label="previous ${escape(label)} artwork" disabled><span aria-hidden="true">←</span></button>
+        <output class="drift-count" data-drift-count aria-hidden="true">${entries.length ? '1' : '0'} / ${entries.length}</output>
+        <button class="drift-next" type="button" data-drift-next aria-controls="${viewport}" aria-label="next ${escape(label)} artwork" disabled><span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+    <div class="drift-viewport" id="${viewport}">
       <div class="drift-track">
         ${entries.map((project, index) => {
           const images = artworkImages(project).filter(image => contentURL(image?.src));
           const asset = getImageAsset(images[0]);
-          const pose = driftPlacement(index);
           const href = projectURL(project);
           const details = Object.entries(project.details || {}).filter(([, value]) => value !== '' && value != null);
-          return `<article class="project drift-item" data-drift-item${href ? ` data-project-url="${escape(href)}"` : ''} style="--drift-ratio:${asset.width / asset.height};--drift-y:${pose.y}px;--drift-z:${pose.z}px;--drift-angle:${pose.angle}deg">
+          return `<article class="project drift-item" data-drift-item aria-roledescription="slide" aria-label="${index + 1} of ${entries.length}"${href ? ` data-project-url="${escape(href)}"` : ''} style="--drift-ratio:${asset.width / asset.height}">
             <div class="project-images drift-images">${images.map((image, imageIndex) => imageMarkup(image, imageIndex, { hidden: imageIndex > 0 })).join('')}</div>
             <div class="project-meta drift-meta">${project.title ? `<h2>${href ? `<a href="${escape(href)}">${escape(project.title)}</a>` : escape(project.title)}</h2>` : ''}${project.year ? `<p class="project-index">${escape(project.year)}</p>` : ''}${project.description ? `<p class="project-description drift-description">${escape(project.description)}</p>` : ''}${details.length ? `<dl class="project-details">${details.map(([key, value]) => `<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>` : ''}</div>
           </article>`;
-        }).join('')}
+        }).join('')}${entries.length ? '' : '<p class="archive-empty">archive in progress.</p>'}
       </div>
       <p class="sr-only drift-status" role="status" aria-live="polite"></p>
     </div>

@@ -1,5 +1,5 @@
 import './global-navigation.css';
-import { activeChapter, primaryIndexPage } from './global-navigation-state.js';
+import { activeChapter, primaryIndexPage, hasFinalChapterStop, clearChapterTop } from './global-navigation-state.js';
 
 /** Persistent navigation around the existing page renderer. Native details and
  * anchors remain usable in prerendered HTML without this enhancement. */
@@ -8,6 +8,7 @@ export function initGlobalNavigation(doc = document) {
   const index = doc.querySelector('[data-global-index]');
   if (!view || !index) return Object.assign(() => {}, { refresh: () => {} });
   const summary = index.querySelector('summary');
+  const originalIndexHidden = index.hidden;
   const links = [...index.querySelectorAll('[data-index-page]')];
   const reduced = view.matchMedia('(prefers-reduced-motion: reduce)');
   const removers = [];
@@ -19,8 +20,12 @@ export function initGlobalNavigation(doc = document) {
   let current = -1;
   let digitAnimation = null;
   let resizeObserver = null;
-  let formObserver = null;
-  const formIntersections = new Set();
+  let finalStop = null;
+  let finalTop = Infinity;
+  let maximumScroll = 0;
+  let formRectangles = [];
+  let counterGeometry = null;
+  let counterShift = 0;
   const chapter = doc.createElement('button');
   chapter.type = 'button';
   chapter.className = 'chapter-counter';
@@ -46,35 +51,56 @@ export function initGlobalNavigation(doc = document) {
     removers.push(() => target.removeEventListener(event, callback, options));
   };
 
-  function protectForm() {
-    const blocked = formIntersections.size > 0 || Boolean(doc.activeElement?.closest?.('[data-inquiry-form]'));
-    chapter.classList.toggle('is-over-form', blocked);
-    chapter.tabIndex = blocked ? -1 : 0;
-    if (blocked) chapter.setAttribute('aria-hidden', 'true');
-    else chapter.removeAttribute('aria-hidden');
+  function measureCounter() {
+    const bottom = parseFloat(view.getComputedStyle(chapter).bottom) || 12;
+    const width = Math.max(100, chapter.offsetWidth * 1.08);
+    const height = Math.max(48, chapter.offsetHeight * 1.08);
+    counterGeometry = { top: view.innerHeight - bottom - chapter.offsetHeight,
+      left: (view.innerWidth - width) / 2, right: (view.innerWidth + width) / 2,
+      height, actualHeight: chapter.offsetHeight, bottom };
+    formRectangles = [...doc.querySelectorAll('[data-inquiry-form] input:not([type="hidden"]), [data-inquiry-form] textarea, [data-inquiry-form] button, .inquiry-file-label')]
+      .filter(control => !control.closest('.inquiry-honey'))
+      .map(control => {
+        const box = control.getBoundingClientRect();
+        // The Contact entrance only translates horizontally. Cache its natural
+        // footprint so the navigation is safe before that entrance has settled.
+        const moving = control.closest('[data-motion-item="form"]');
+        const entranceX = parseFloat(moving?.style.getPropertyValue('--kinetic-x')) || 0;
+        return { left: box.left - entranceX, right: box.right - entranceX,
+          top: box.top + view.scrollY, bottom: box.bottom + view.scrollY, width: box.width, height: box.height };
+      }).filter(box => box.width > 2 && box.height > 2);
   }
 
-  function observeFormControls() {
-    formObserver?.disconnect(); formIntersections.clear(); protectForm();
-    if (!chapters.length || !('IntersectionObserver' in view)) return;
-    // A small observer region matches the fixed counter. Fade it only while
-    // an actual form control passes underneath; it cannot steal a submit tap.
-    const side = Math.max(0, (doc.documentElement.clientWidth - 100) / 2);
-    formObserver = new view.IntersectionObserver(entries => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) formIntersections.add(entry.target);
-        else formIntersections.delete(entry.target);
-      }
-      protectForm();
-    }, { rootMargin: `${-Math.max(0, view.innerHeight - 72)}px ${-side}px 0px ${-side}px`, threshold: 0 });
-    for (const control of doc.querySelectorAll('[data-inquiry-form] input:not([type="hidden"]), [data-inquiry-form] textarea, [data-inquiry-form] button, .inquiry-file-label')) formObserver.observe(control);
+  function positionCounter() {
+    if (!counterGeometry) return;
+    const viewportTop = view.visualViewport?.offsetTop || 0;
+    const viewportBottom = viewportTop + (view.visualViewport?.height || view.innerHeight);
+    const preferredTop = Math.min(counterGeometry.top, viewportBottom - counterGeometry.bottom - counterGeometry.actualHeight);
+    const obstacles = formRectangles.filter(box => box.right > counterGeometry.left - 6 && box.left < counterGeometry.right + 6)
+      .map(box => ({ top: box.top - view.scrollY, bottom: box.bottom - view.scrollY }));
+    const top = clearChapterTop({ preferredTop, previousTop: counterGeometry.top + counterShift,
+      height: counterGeometry.height, viewportTop, viewportBottom, obstacles });
+    const shift = Math.round((top - counterGeometry.top) * 100) / 100;
+    if (shift !== counterShift) {
+      counterShift = shift;
+      chapter.style.setProperty('--chapter-dodge-y', `${shift}px`);
+    }
+    chapter.classList.toggle('is-over-form', Math.abs(top - preferredTop) > 1);
+  }
+
+  function nextDestination() {
+    if (finalStop && hasFinalChapterStop({ current, count: chapters.length, scrollTop: view.scrollY, finalTop, maximumScroll })) {
+      return { element: finalStop, label: 'the final h4 reveal', key: 'final' };
+    }
+    const next = chapters[(current + 1) % chapters.length];
+    return next && { ...next, key: (current + 1) % chapters.length === 0 ? 'home' : String((current + 1) % chapters.length + 1) };
   }
 
   function close({ focus = false } = {}) {
     if (!index.open) return;
     index.open = false;
     summary.setAttribute('aria-expanded', 'false');
-    if (focus) summary.focus({ preventScroll: true });
+    if (focus && !index.hidden) summary.focus({ preventScroll: true });
   }
 
   function positionIndex() {
@@ -91,14 +117,17 @@ export function initGlobalNavigation(doc = document) {
   }
 
   function paintChapter(next) {
-    if (next < 0 || next === current) return;
+    if (next < 0) return;
     const previous = current;
     current = next;
+    const nextChapter = nextDestination();
+    const label = `chapter ${current + 1} of ${chapters.length}, ${chapters[current].label}. go to ${nextChapter.label}`;
+    if (chapter.getAttribute('aria-label') !== label) chapter.setAttribute('aria-label', label);
+    if (chapter.dataset.chapterTarget !== nextChapter.key) chapter.dataset.chapterTarget = nextChapter.key;
+    if (next === previous) return;
     digitAnimation?.cancel();
     digits.textContent = String(current + 1).padStart(2, '0');
     total.textContent = ` / ${String(chapters.length).padStart(2, '0')}`;
-    const nextChapter = chapters[(current + 1) % chapters.length];
-    chapter.setAttribute('aria-label', `chapter ${current + 1} of ${chapters.length}, ${chapters[current].label}. go to ${nextChapter.label}`);
     chapter.dataset.chapter = String(current + 1);
     chapter.dataset.chapterTotal = String(chapters.length);
     if (previous >= 0 && !reduced.matches && typeof digits.animate === 'function') {
@@ -115,9 +144,13 @@ export function initGlobalNavigation(doc = document) {
     if (dirty) {
       const scrollTop = view.scrollY;
       tops = chapters.map(({ element }) => element.getBoundingClientRect().top + scrollTop);
+      finalTop = finalStop ? finalStop.getBoundingClientRect().top + scrollTop : Infinity;
+      maximumScroll = Math.max(0, doc.documentElement.scrollHeight - view.innerHeight);
+      measureCounter();
       dirty = false;
     }
     paintChapter(activeChapter(tops, view.scrollY, view.innerHeight));
+    positionCounter();
     positionIndex();
   }
 
@@ -130,12 +163,14 @@ export function initGlobalNavigation(doc = document) {
     if (disposed) return;
     close();
     const primary = primaryIndexPage(doc.documentElement.dataset.page);
+    index.hidden = primary === 'home';
     for (const link of links) {
       if (link.dataset.indexPage === primary) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     }
     resizeObserver?.disconnect();
     chapters = [];
+    finalStop = null;
     if (primary === 'home') {
       const hero = doc.querySelector('.hero:not([hidden])');
       if (hero) chapters.push({ element: hero, label: 'home' });
@@ -147,9 +182,17 @@ export function initGlobalNavigation(doc = document) {
         if (!element.hasAttribute('tabindex')) element.setAttribute('tabindex', '-1');
         resizeObserver?.observe(element);
       }
+      // The quiet h4 ending remains part of Contact (chapter 4). Give it a
+      // reachable next stop before wrapping the chapter navigation to Home.
+      finalStop = doc.querySelector('[data-footer-secret-space]');
+      if (finalStop) {
+        if (!finalStop.hasAttribute('tabindex')) finalStop.setAttribute('tabindex', '-1');
+        resizeObserver?.observe(finalStop);
+      }
+      for (const form of doc.querySelectorAll('[data-inquiry-form]')) resizeObserver?.observe(form);
     }
     chapter.hidden = chapters.length < 2;
-    observeFormControls();
+    formRectangles = [];
     current = -1;
     dirty = true;
     if (chapters.length) update();
@@ -174,12 +217,13 @@ export function initGlobalNavigation(doc = document) {
   }, { passive: true });
   listen(doc, 'focusin', event => {
     if (index.open && !index.contains(event.target)) close();
-    protectForm();
+    schedule(true);
   });
-  listen(doc, 'focusout', () => view.queueMicrotask(protectForm));
+  listen(doc, 'focusout', () => schedule(true));
   listen(chapter, 'click', () => {
     if (!chapters.length) return;
-    const target = chapters[(current + 1) % chapters.length].element;
+    const target = nextDestination()?.element;
+    if (!target) return;
     // Focus gives the existing choreography its immediate, fully readable pose;
     // native scrolling remains free in either direction after this direct jump.
     target.focus({ preventScroll: true });
@@ -188,7 +232,11 @@ export function initGlobalNavigation(doc = document) {
   listen(doc, 'h4:pagechange', refresh);
   listen(doc, 'h4:navigationstart', close);
   listen(view, 'scroll', () => schedule(), { passive: true });
-  listen(view, 'resize', () => { schedule(true); observeFormControls(); }, { passive: true });
+  listen(view, 'resize', () => schedule(true), { passive: true });
+  if (view.visualViewport) {
+    listen(view.visualViewport, 'resize', () => schedule(true), { passive: true });
+    listen(view.visualViewport, 'scroll', () => schedule(), { passive: true });
+  }
   listen(doc, 'visibilitychange', () => {
     if (doc.hidden) {
       if (frame) view.cancelAnimationFrame(frame);
@@ -207,9 +255,9 @@ export function initGlobalNavigation(doc = document) {
     if (frame) view.cancelAnimationFrame(frame);
     digitAnimation?.cancel();
     resizeObserver?.disconnect();
-    formObserver?.disconnect(); formIntersections.clear();
     for (const remove of removers) remove();
     chapter.remove();
+    index.hidden = originalIndexHidden;
     index.style.removeProperty('--index-panel-top');
     summary.removeAttribute('aria-expanded');
   }, { refresh });

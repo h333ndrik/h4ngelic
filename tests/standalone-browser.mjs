@@ -212,7 +212,7 @@ try {
       await page.locator('.work-subfilters a[href="#/work#digital-artworks"]').click();
       await page.waitForFunction(() => location.hash === '#/work#digital-artworks' && document.querySelector('#digital-artworks').getBoundingClientRect().top < innerHeight);
       assert.equal(await page.locator('.portfolio-archive img').count(), 1, 'The exact supplied digital original is present in the offline export.');
-      const original = page.locator('.digital-ink-open img');
+      const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
       await original.evaluate(image => image.decode());
       assert.match(await original.getAttribute('src'), /^data:image\//, 'Offline artwork uses an embedded image.');
       assert.equal(await original.getAttribute('width'), '1440');

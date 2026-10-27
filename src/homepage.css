@@ -27,13 +27,11 @@
 }
 .about-preview { display: block; border: 0; background: transparent; }
 .about-preview > .section-pin {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  gap: 0 40px;
+  display: block;
+  text-align: left;
 }
-.about-preview .kinetic-heading { grid-column: 1 / -1; }
-.about-preview-copy { grid-column: 2; margin-bottom: 36px; }
-.about-preview .text-link { grid-column: 2; justify-self: start; font-size: clamp(28px, 3.8vw, 56px); line-height: 1.15; letter-spacing: -.03em; min-height: 56px; text-underline-offset: .15em; }
+.about-preview-copy { grid-column: auto; margin: 0 0 36px; text-align: left; }
+.about-preview .text-link { grid-column: auto; justify-self: start; font-size: clamp(28px, 3.8vw, 56px); line-height: 1.15; letter-spacing: -.03em; min-height: 56px; text-underline-offset: .15em; }
 .contact-section { padding-top: 110px; padding-bottom: 110px; border: 0; background: transparent; }
 .contact-links {
   display: grid;

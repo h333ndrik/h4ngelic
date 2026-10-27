@@ -23,7 +23,7 @@ await build({
   },
 });
 let html = (await readFile(new URL('index.html', previewBuild), 'utf8'))
-  .replace('<html lang="en">', '<html lang="en" data-preview="standalone">');
+  .replace(/<html\b([^>]*)>/i, '<html$1 data-preview="standalone">');
 const dataURL = async (file, type) => `data:${type};base64,${(await readFile(new URL(file, root))).toString('base64')}`;
 const assets = new Map([
   ['/fonts/wordmark.typeface.json', await dataURL('public/fonts/wordmark.typeface.json', 'application/json')],

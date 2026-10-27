@@ -26,6 +26,10 @@ export function prerenderHTML(shell, route, metadata = getPageMetadata(route)) {
   let html = replaceBlock(shell, 'hero', heroMarkup);
   html = replaceBlock(html, 'content', `<div id="page-content" tabindex="-1" data-prerendered="${escapeHTML(route.canonicalPath)}">${renderRoutePage(route)}</div>`);
   html = replaceBlock(html, 'seo', `\n${renderHead(metadata)}\n`);
+  // Navigation visibility is correct before hydration and without JavaScript.
+  // The source shell defaults to Home for the downloadable preview.
+  html = html.replace(/<html\b([^>]*)>/i, (_, attributes) =>
+    `<html${attributes.replace(/\sdata-page=(?:"[^"]*"|'[^']*')/i, '')} data-page="${escapeHTML(route.kind)}">`);
   return html;
 }
 

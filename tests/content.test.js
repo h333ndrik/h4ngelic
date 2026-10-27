@@ -27,7 +27,7 @@ test('Work retains all real groups and children for every category deep link wit
     assert.match(markup, /data-connected-work/);
     assert.deepEqual([...markup.matchAll(/data-archive-category="([^"]+)"/g)].map(match => match[1]),
       ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks']);
-    assert.doesNotMatch(markup, /data-horizontal-drift=/, 'Empty leaves have no invented carousel.');
+    assert.equal((markup.match(/data-horizontal-drift=/g) || []).length, 3, 'The three intended archives retain their empty carousel structure.');
     assert.equal((markup.match(/<img /g) || []).length, 1, 'Every context retains the one genuine digital original.');
     assert.match(markup, /data-project-url="\/work\/digital-artworks\/green-black-original"/);
     assert.match(markup, /width="1440" height="1920"/);
@@ -88,7 +88,7 @@ test('legacy category contexts preserve connected Work and unknown categories sa
     assert.match(markup, /href="\/work#tattoos"/);
     assert.match(markup, /href="\/work#jewellery"/);
     assert.match(markup, /href="\/work#more"/);
-    assert.match(markup, /data-digital-ink/);
+    assert.doesNotMatch(markup, /data-digital-ink|digital-ink-canvas/, 'Digital work is immediately visible without an ink reveal.');
     assert.equal((markup.match(/<img /g) || []).length, 1);
     if (category.legacy) assert.ok(markup.includes(`data-archive-category="${category.id}"`));
   }
@@ -108,7 +108,8 @@ test('real project entries support multiple images, optional metadata and catego
   artworks.push(project, { ...project, id: 'draft-fixture', title: 'private draft title', published: false });
   try {
     const tattoos = renderWorkPage('tattoos');
-    assert.equal((tattoos.match(/class="project-image(?: |")/g) || []).length, 2);
+    const fixture = tattoos.split('data-project-url="/work/tattoos/renderer-fixture"')[1].split('</article>')[0];
+    assert.equal((fixture.match(/class="project-image(?: |")/g) || []).length, 2);
     assert.match(tattoos, /test description/);
     assert.match(tattoos, /<dt>materials<\/dt><dd>test material<\/dd>/);
     assert.match(tattoos, /width="600" height="800"/);
@@ -145,7 +146,7 @@ test('artwork opening controls preserve image dimensions and lazy loading', () =
   assert.match(unknownSize, /width="[\d.]+" height="[\d.]+"/);
 });
 
-test('published artwork images link to their real detail URL and matching photograph fragment', () => {
+test('published artwork images keep real detail URLs and progressively open in-place lightboxes', () => {
   const project = { id: 'real-url-fixture', category: 'tattoos', title: 'artwork', images: [
     { src: '/images/one.webp', alt: 'whole artwork', width: 600, height: 800 },
     { src: '/images/two.webp', alt: 'artwork detail', width: 600, height: 800 },
@@ -153,7 +154,7 @@ test('published artwork images link to their real detail URL and matching photog
   const archive = renderProject(project);
   assert.match(archive, /<a class="artwork-open" href="\/work\/tattoos\/real-url-fixture" data-artwork-link/);
   assert.match(archive, /href="\/work\/tattoos\/real-url-fixture#image-2" data-artwork-link/);
-  assert.doesNotMatch(archive, /data-artwork-open/);
+  assert.equal((archive.match(/data-artwork-open/g) || []).length, 2, 'JavaScript opens an image in place while no-JS retains real detail links.');
   const detail = renderArtworkPage(project);
   assert.equal((detail.match(/type="button" data-artwork-open/g) || []).length, 2);
   assert.match(detail, /id="image-2" tabindex="-1"/);
