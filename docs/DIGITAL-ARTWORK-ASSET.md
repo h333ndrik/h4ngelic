@@ -29,4 +29,4 @@ An inquiry from a real artwork can carry its ID into the shared Contact form. Th
 
 ## Verification status
 
-This document records the requested presentation and current content mapping. The previous ink-reveal tests and reference comparison describe the former effect; they do not validate the ordinary gallery or the new carousel/navigation changes. Current build, browser and offline results belong in the final verification report after those checks complete.
+This document records the current content mapping. The previous ink-reveal tests and reference comparison describe the former effect. Completed build, ordinary-gallery, carousel/navigation and offline checks are recorded in [the website refinement report](WEBSITE-COMPLETION.md).
