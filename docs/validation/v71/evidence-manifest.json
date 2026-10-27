@@ -1,0 +1,114 @@
+{
+  "createdAt": "2026-10-27T04:03:31.268561+00:00",
+  "copies": "Byte-identical copies of completed local runs.",
+  "sourceBranch": "feat/v71-memory-mosh",
+  "implementationCommit": "3b0c330af259e85001766db3d2ef95442de1bd89",
+  "baselineCommit": "959bf20de9481b156494dba5975bea41c0de1e70",
+  "limits": "Native full-page captures stay browser-owned; handoff equality measures the shared background canvas at preparation, native update callback and release. Lab timing samples are not field INP, physical-device FPS or statistically repeated results.",
+  "reports": [
+    {
+      "file": "memory-browser-results.json",
+      "source": "artifacts/v71/memory-browser-results.json",
+      "bytes": 161378,
+      "sha256": "8ea533e5670441dbd4286a99e229d4dfa0f5a9b9636deb54ec8c24ed2635dab9",
+      "recordedAt": "2026-10-27T03:57:23.950Z",
+      "sourceCommit": "3b0c330af259e85001766db3d2ef95442de1bd89",
+      "scope": "V7.1 background handoff and persistence"
+    },
+    {
+      "file": "before-measurements.json",
+      "source": "artifacts/v71/before-measurements.json",
+      "bytes": 59598,
+      "sha256": "f2ae29e269185d1fe509442d2e0f253b26fd1a61c59ff7684d458b627c46ea2f",
+      "recordedAt": "2026-10-27T03:43:29.164Z",
+      "sourceCommit": "959bf20de9481b156494dba5975bea41c0de1e70",
+      "scope": "Pre-P0 V6 baseline; one case per width"
+    },
+    {
+      "file": "after-final-measurements.json",
+      "source": "artifacts/v71/after-final-measurements.json",
+      "bytes": 97262,
+      "sha256": "26576493e1c2e30c3642d8e1731ff4ad989432f3a7fc5d8a418d5ca3b4da5515",
+      "recordedAt": "2026-10-27T03:58:39.604Z",
+      "sourceCommit": "3b0c330af259e85001766db3d2ef95442de1bd89",
+      "scope": "V7.1 after measurement; one case per width"
+    },
+    {
+      "file": "extended-final-measurements.json",
+      "source": "artifacts/v71/extended-final-measurements.json",
+      "bytes": 129432,
+      "sha256": "ee7f4f34d686288869cfb64bf2e903b3c6fa30f15a7c001ccb840a04d6bfbca1",
+      "recordedAt": "2026-10-27T04:01:55.376Z",
+      "sourceCommit": "3b0c330af259e85001766db3d2ef95442de1bd89",
+      "scope": "V7.1 390px two-minute idle after scripted interaction; eight bounded-resource samples"
+    },
+    {
+      "file": "regressions.json",
+      "source": "artifacts/v71/regressions.json",
+      "bytes": 2019,
+      "sha256": "ae5e40fe603bbbab86b33ee603317b5f9fe3db73ae959ca86baee22638f7a518",
+      "recordedAt": "2026-10-27T10:20:15.315Z",
+      "sourceCommit": "3e5ec5d6534e19f1932ebddbdc8109e5f6157733",
+      "scope": "Seven existing browser suites; resumed history retained; initial two on3b0c330, remaining on3e5ec5d."
+    },
+    {
+      "file": "standalone-results.json",
+      "source": "artifacts/control-offline-results.json",
+      "bytes": 9081,
+      "sha256": "fb9cb2a6618c8d60c463501712b3a802490f19825fe03cbd115e0c7112c5b6d8",
+      "recordedAt": "2026-10-27T10:23:21.094Z",
+      "sourceCommit": "3e5ec5d6534e19f1932ebddbdc8109e5f6157733",
+      "scope": "Exact final exported HTML;1440/390/320px reduced-motion offline navigation and pixel continuity."
+    },
+    {
+      "file": "standalone-native-results.json",
+      "source": "artifacts/living-offline-native-results.json",
+      "bytes": 15792,
+      "sha256": "c98d7587d7c75aa9f8ffd5091514857670b4e03967c20dc14c77b6286c23089b",
+      "recordedAt": "2026-10-27T10:23:34.984Z",
+      "sourceCommit": "3e5ec5d6534e19f1932ebddbdc8109e5f6157733",
+      "scope": "Exact final exported HTML;390px trusted native touch and captured mode changes, zero HTTP/interior WebGL."
+    },
+    {
+      "file": "offline-package.json",
+      "source": "artifacts/v71/offline-package.json",
+      "bytes": 555,
+      "sha256": "e32778b8b21c9b70ec789cdb292ee7e7ac53969ffb08e734f6ab9b8e1c7b5f26",
+      "recordedAt": "2026-10-27T10:23:59.276641+00:00",
+      "sourceCommit": "3e5ec5d6534e19f1932ebddbdc8109e5f6157733",
+      "scope": "ZIP member byte-identical to tested HTML; embedded supplied original byte-identical to public original."
+    },
+    {
+      "file": "node-tests.txt",
+      "bytes": 120,
+      "sha256": "b47225a06bf0fa313dbaa630ed1fa4515a42a5bde8ec5516dc6c9024be90e741",
+      "sourceCommit": "3e5ec5d6534e19f1932ebddbdc8109e5f6157733",
+      "scope": "Final verification output"
+    },
+    {
+      "file": "production-export.txt",
+      "bytes": 2530,
+      "sha256": "7af8bf506a1d4c478dcb77f46f058084cb63f79d48fd647455e12c15fd6701ca",
+      "sourceCommit": "3e5ec5d6534e19f1932ebddbdc8109e5f6157733",
+      "scope": "Final verification output"
+    },
+    {
+      "file": "memory-work-desktop.webp",
+      "bytes": 34102,
+      "sha256": "b0d114a42c50413656863ddd3b61482951280089fef15203aff111da78e1331b",
+      "sourceCommit": "3b0c330af259e85001766db3d2ef95442de1bd89",
+      "scope": "Compressed visual example; raw pixel equality lives in browser reports."
+    },
+    {
+      "file": "memory-work-mobile-2min.webp",
+      "bytes": 17224,
+      "sha256": "7ece578abae129c532114bb9023ca7d4fe3e512d8d2f8d84ec9cbe4072c5ef57",
+      "sourceCommit": "3b0c330af259e85001766db3d2ef95442de1bd89",
+      "scope": "Compressed visual example; raw pixel equality lives in browser reports."
+    }
+  ],
+  "pending": [],
+  "finalizedAt": "2026-10-27T10:25:11.811046+00:00",
+  "finalSourceCommit": "3e5ec5d6534e19f1932ebddbdc8109e5f6157733",
+  "review": "Stop after P0 for artist review. No merge or production deployment."
+}

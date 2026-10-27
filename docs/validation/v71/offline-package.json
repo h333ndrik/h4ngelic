@@ -1,0 +1,14 @@
+{
+  "packagedAt": "2026-10-27T10:23:59.276641+00:00",
+  "htmlBytes": 7754218,
+  "htmlSha256": "5ed35ce1dddefc2ab24e084d18fc2a04ef0d318c7d6da1937d3de504cf0ddae8",
+  "zipBytes": 5271536,
+  "zipSha256": "4cb6e0e4e486fea08dfd80b811c3cf52a89207a56e23c543d697c8942a6002a3",
+  "zipHTMLMatchesExport": true,
+  "offlineReports": [
+    "artifacts/control-offline-results.json",
+    "artifacts/living-offline-native-results.json"
+  ],
+  "originalArtworkUnchanged": true,
+  "originalArtworkSHA256": "df0781e4f572ba9e644c3471fbb6060e228c34f02acf32d01f4b0e1dce68132f"
+}

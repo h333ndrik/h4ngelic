@@ -1,0 +1,104 @@
+{
+  "startedAt": "2026-10-27T04:02:47.869Z",
+  "base": "http://127.0.0.1:55173",
+  "tests": [
+    "ref09-mode-cancel-browser.mjs",
+    "mode-audio-browser.mjs",
+    "hover-browser.mjs",
+    "xray-browser.mjs",
+    "hero-ink-browser.mjs",
+    "browser.mjs",
+    "v6-browser.mjs"
+  ],
+  "completed": [
+    {
+      "file": "ref09-mode-cancel-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 6078
+    },
+    {
+      "file": "mode-audio-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 19674
+    },
+    {
+      "file": "hover-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 28139
+    },
+    {
+      "file": "xray-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 114216
+    },
+    {
+      "file": "hero-ink-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 52346
+    },
+    {
+      "file": "browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 37393
+    },
+    {
+      "file": "v6-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 39558
+    }
+  ],
+  "passed": true,
+  "resumedAt": "2026-10-27T10:18:06.015Z",
+  "previousFailures": [
+    {
+      "file": "hover-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 8296
+    },
+    {
+      "file": "hover-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 21217
+    },
+    {
+      "file": "hover-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 22972
+    },
+    {
+      "file": "xray-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 79584
+    },
+    {
+      "file": "xray-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 110418
+    },
+    {
+      "file": "hero-ink-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 32872
+    },
+    {
+      "file": "hero-ink-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 42391
+    }
+  ],
+  "finishedAt": "2026-10-27T10:20:15.315Z"
+}

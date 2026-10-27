@@ -125,7 +125,7 @@ export function historyCellSample(cell, width, height, maximum = 64, ratio = 1) 
  * History is updated only after every read; even a new source cannot replace
  * old colors wholesale. Identity cells retain exactly the existing pixels.
  */
-export function paintImageMemory({ context, history, historyContext, source, width, height, cells,
+export function paintImageMemory({ context, history, historyContext, source, width, height, cells, reconstruct = true,
   sourceRect = { x: 0, y: 0, width: source.width, height: source.height } }) {
   context.globalCompositeOperation = 'copy'; context.globalAlpha = 1;
   context.drawImage(history, 0, 0, width, height);
@@ -145,7 +145,7 @@ export function paintImageMemory({ context, history, historyContext, source, wid
         context.filter = 'none';
       }
     }
-    if (cell.recovery > 0) {
+    if (reconstruct && cell.recovery > 0) {
       context.globalAlpha = clamp(cell.recovery, 0, 1);
       const sourceWidth = sw / width * sourceRect.width, sourceHeight = sh / height * sourceRect.height;
       context.drawImage(source, clamp(sourceRect.x + (cell.x - finite(cell.sourceOffsetX)) / width * sourceRect.width,

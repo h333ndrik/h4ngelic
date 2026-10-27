@@ -54,7 +54,7 @@
   overflow: visible;
 }
 
-[data-scroll-choreography] [data-motion='about'] > .section-pin {
+[data-scroll-choreography] :is([data-motion='about'], [data-motion='contact']) > .section-pin {
   overflow: clip;
   overflow-clip-margin: 8px;
 }

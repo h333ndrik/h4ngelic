@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ambientFilmSize, chemicalPatch, chemicalColorTables, createAmbientFilm } from '../src/ambient-film.js';
+import { ambientFilmSize, chemicalPatch, chemicalColorTables, createAmbientFilm, coverMemoryRect } from '../src/ambient-film.js';
 import { ambientFilmSettings } from '../src/data/ambientFilmSettings.js';
 import { configureLivingDecay, getLivingDecaySettings } from '../src/data/livingDecaySettings.js';
 
@@ -50,7 +50,8 @@ function environment() {
   const frames = new Map();
   const reduced = new EventTarget();
   reduced.matches = false;
-  const context = { drawImage() { draws++; } };
+  const sources = [];
+  const context = { drawImage(source) { draws++; sources.push(source); } };
   for (const method of ['fillRect', 'beginPath', 'moveTo', 'lineTo', 'quadraticCurveTo', 'closePath', 'ellipse', 'save', 'restore', 'translate', 'rotate', 'clip']) context[method] = () => {};
   const canvases = [];
   const doc = new EventTarget();
@@ -76,7 +77,7 @@ function environment() {
     for (const [id, timer] of [...timers]) if (timer.due <= clock) { timers.delete(id); timer.callback(); }
     for (const [id, callback] of [...frames]) { frames.delete(id); callback(clock); }
   };
-  return { image, container, view, doc, reduced, advance, canvases, get draws() { return draws; }, get queued() { return timers.size + frames.size; } };
+  return { image, container, view, doc, reduced, advance, canvases, sources, get draws() { return draws; }, get queued() { return timers.size + frames.size; } };
 }
 
 test('ambient scheduler runs only in active visible motion and releases all resources', () => {
@@ -86,12 +87,12 @@ test('ambient scheduler runs only in active visible motion and releases all reso
   assert.equal(env.queued, 0);
   assert.equal(film.source, env.image);
   film.setActive(true);
-  assert.equal(film.snapshot().frames, 1);
+  assert.equal(film.snapshot().frames, 7, 'One fresh seed plus six transition feedback passes are prepared before display.');
   assert.equal(film.source, film.canvas);
   assert.equal(film.sourceIsViewport, true);
   assert.ok(env.queued > 0);
   env.advance();
-  assert.equal(film.snapshot().frames, 2);
+  assert.equal(film.snapshot().frames, 8);
   const elapsed = film.snapshot().elapsed;
   const draws = env.draws;
   env.doc.hidden = true;
@@ -99,7 +100,7 @@ test('ambient scheduler runs only in active visible motion and releases all reso
   env.advance(10000);
   assert.equal(env.queued, 0);
   assert.equal(env.draws, draws);
-  assert.equal(film.source, env.image);
+  assert.equal(film.source, film.canvas, 'Hidden-tab pause must not substitute the original image.');
   env.doc.hidden = false;
   env.doc.dispatchEvent(new Event('visibilitychange'));
   assert.equal(film.snapshot().elapsed, elapsed, 'A hidden interval must not advance material time.');
@@ -109,7 +110,7 @@ test('ambient scheduler runs only in active visible motion and releases all reso
   env.advance();
   assert.equal(film.snapshot().frames, reducedFrames);
   assert.equal(env.queued, 0);
-  assert.equal(film.canvas.hidden, true);
+  assert.equal(film.canvas.hidden, false, 'Reduced motion retains the static damaged frame.');
   env.reduced.matches = false;
   env.reduced.dispatchEvent(new Event('change'));
   assert.ok(env.queued > 0);
@@ -222,20 +223,23 @@ test('calibration input cannot bypass the ambient cadence or reset material time
   assert.equal(film.snapshot().frames, before.frames, 'Material changes wait for the existing scheduled paint.');
   env.advance(150);
   assert.equal(film.snapshot().frames, before.frames + 1);
+  env.advance(100);
   assert.ok(film.snapshot().elapsed > before.elapsed);
   film.dispose();
   configureLivingDecay(original);
 });
 
-test('real scroll deltas move the source, inertia cannot fabricate travel, and navigation keeps image memory', () => {
+test('real scroll deltas accumulate into bounded history input without moving a clean source', () => {
   const original = getLivingDecaySettings();
   configureLivingDecay({ idleIntensity: 0, parallaxStrength: .4 });
   const env = environment();
   const film = createAmbientFilm({ ...env, seed: 152 });
   film.setActive(true);
   film.setMotion({ x: 0, y: -1, strength: 1, deltaY: 100, deltaMs: 100, time: env.view.performance.now() });
-  assert.equal(film.snapshot().parallax.y, 40, 'Native scroll displacement has the configured .4 starting gain.');
-  assert.ok(film.snapshot().parallax.offsetY > 35 && film.snapshot().parallax.offsetY < 40);
+  assert.equal(film.snapshot().parallax.y, 100);
+  assert.equal(film.snapshot().pending.scroll, true);
+  assert.equal(film.snapshot().parallax.historyOnly, true);
+  assert.equal(film.snapshot().parallax.offsetY, 0, 'No clean source rectangle travels beneath feedback.');
   const beforeTail = film.snapshot();
   film.setMotion({ x: 0, y: -.5, strength: .5, deltaY: 0, deltaMs: 80, time: env.view.performance.now() });
   assert.deepEqual(film.snapshot().parallax, beforeTail.parallax, 'An inertia velocity does not move the real source.');
@@ -248,10 +252,12 @@ test('real scroll deltas move the source, inertia cannot fabricate travel, and n
   assert.equal(film.snapshot().seed, 152);
   for (let index = 0; index < 20; index++) film.setMotion({ x: 0, y: -2, strength: 1, deltaY: 500, time: env.view.performance.now() });
   const longScroll = film.snapshot();
-  assert.ok(longScroll.parallax.y > env.view.innerHeight, 'Raw source travel keeps accumulating without resetting history.');
-  assert.ok(longScroll.parallax.offsetY < env.view.innerHeight * .205, 'The continuous source remains inside finite overscan.');
+  assert.ok(longScroll.parallax.y > env.view.innerHeight, 'Actual scroll travel stays diagnostic; image memory is retained.');
+  assert.equal(longScroll.pending.scroll, true, 'Twenty updates coalesce into one bounded scroll input.');
+  assert.equal(longScroll.parallax.offsetY, 0);
   film.setMotion({ x: 0, y: 1, strength: 1, deltaY: -100, time: env.view.performance.now() });
-  assert.ok(film.snapshot().parallax.offsetY < longScroll.parallax.offsetY, 'Reverse scrolling moves back through the same source field.');
+  assert.ok(film.snapshot().parallax.y < longScroll.parallax.y, 'Reversing supplies the opposite physical delta.');
+  assert.equal(film.snapshot().recoverySource, 'history');
   film.dispose(); configureLivingDecay(original);
 });
 
@@ -297,7 +303,10 @@ test('global material keeps scars and its existing palette through idle, navigat
   const film = createAmbientFilm({ ...env, seed: 482 });
   film.setActive(true);
   film.impulse({ kind: 'mode', x: 720, y: 500, strength: 1, direction: 'entering', time: env.view.performance.now() });
+  const beforeConsume = film.snapshot();
+  env.advance(100);
   const initial = film.snapshot();
+  assert.ok(initial.consumedInputs > beforeConsume.consumedInputs, 'Queued rupture is consumed only by a scheduled paint.');
   assert.equal(initial.memory.persistent, true);
   assert.ok(initial.memory.scarredCells > initial.memory.cells * .7);
   for (let frame = 0; frame < 180; frame++) env.advance(400);
@@ -323,4 +332,102 @@ test('global material keeps scars and its existing palette through idle, navigat
   film.setActive(false);
   assert.equal(env.queued, 0, 'Normal Side owns no active feedback work.');
   film.dispose(); configureLivingDecay(original);
+});
+
+test('the exact damaged transition buffers are claimed and released without another paint', () => {
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 744 });
+  const token = film.prepareTransition({ variant: 12345 });
+  assert.equal(token.seed, 744);
+  assert.equal(film.prepareTransition({ variant: 12345 }), token);
+  assert.equal(film.snapshot().transition.passes, 6);
+  assert.equal(film.snapshot().transition.frozen, true);
+  assert.equal(film.snapshot().sourceInitializations, 1);
+  assert.equal(film.snapshot().buffers, 2);
+  assert.equal(env.canvases.length, 2, 'Preparation reuses the two buffers, including temporary source readback.');
+  const draws = env.draws, frames = film.snapshot().frames;
+  env.advance(500);
+  assert.equal(env.draws, draws);
+  film.setActive(true);
+  assert.equal(film.canvas.hidden, false);
+  assert.equal(film.snapshot().transition.claimedFrame, token.frame);
+  assert.equal(film.snapshot().frames, frames);
+  assert.equal(env.draws, draws);
+  assert.equal(env.queued, 0);
+  assert.equal(film.finishTransition(token), true);
+  assert.equal(film.snapshot().transition.frozen, false);
+  assert.equal(env.draws, draws, 'The handoff itself must not replace the captured final bitmap.');
+  assert.equal(env.queued, 1);
+  env.advance(100);
+  assert.ok(env.draws > draws);
+  assert.equal(film.snapshot().sourceInitializations, 1);
+  film.setActive(false);
+  const next = film.prepareTransition({ variant: 23456 });
+  assert.notEqual(next.seed, token.seed);
+  assert.notEqual(next.id, token.id);
+  film.setActive(true);
+  assert.equal(film.finishTransition(token), false, 'An obsolete capture callback cannot release a new frozen world.');
+  assert.equal(film.snapshot().transition.frozen, true);
+  assert.equal(film.finishTransition(next), true);
+  film.dispose();
+});
+
+test('idle, input, tuning, navigation and resize never draw the clean sentinel source again', () => {
+  const original = getLivingDecaySettings();
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 818 });
+  const token = film.prepareTransition({ variant: 50 });
+  film.setActive(true); film.finishTransition(token);
+  env.sources.length = 0;
+  for (let index = 0; index < 40; index++) {
+    film.impulse({ kind: 'click', x: 400, y: 300, strength: 1 });
+    film.setMotion({ x: 0, y: -1, strength: 1, deltaY: 20, time: env.view.performance.now() });
+    env.advance(100);
+  }
+  film.configure({ voidCoverage: .5, organicDecay: .9 });
+  env.doc.dispatchEvent(new Event('h4:pagechange'));
+  film.resize({ width: 390, height: 844 });
+  for (let index = 0; index < 180; index++) env.advance(400);
+  assert.equal(env.sources.includes(env.image), false, 'Even recovery may only sample the previous damaged output.');
+  assert.equal(film.snapshot().sourceInitializations, 1);
+  assert.equal(film.snapshot().recoverySource, 'history');
+  assert.equal(film.snapshot().cleanSourceRetained, false);
+  assert.equal(film.snapshot().material.width, 0);
+  assert.equal(film.snapshot().resizeCopies, 1);
+  assert.equal(env.canvases.length, 2);
+  film.dispose(); configureLivingDecay(original);
+});
+
+test('input bursts coalesce without a field walk or render on the event path', () => {
+  const env = environment();
+  const film = createAmbientFilm({ ...env, seed: 900 });
+  film.setActive(true);
+  const before = film.snapshot();
+  for (let index = 0; index < 1000; index++) {
+    film.impulse({ kind: 'click', x: 200 + index % 300, y: 300, strength: 1 });
+    film.stroke({ x: 200 + index % 500, y: 200, time: 1000 + index * .01 });
+    film.setMotion({ x: 0, y: -1, strength: 1, deltaY: 2, time: 1000 });
+  }
+  const queued = film.snapshot();
+  assert.equal(queued.frames, before.frames);
+  assert.equal(queued.memory.accepted, before.memory.accepted);
+  assert.equal(queued.pending.impulses, 8);
+  assert.equal(queued.pending.pointer, true);
+  assert.equal(queued.pending.scroll, true);
+  assert.ok(queued.droppedInputs > 0);
+  assert.equal(env.queued, 1);
+  env.advance(100);
+  const consumed = film.snapshot();
+  assert.ok(consumed.memory.accepted > before.memory.accepted);
+  assert.equal(consumed.pending.impulses, 0);
+  assert.equal(consumed.pending.pointer, false);
+  assert.equal(consumed.pending.scroll, false);
+  assert.equal(env.canvases.length, 2);
+  film.dispose();
+});
+
+test('resize sampling center-covers previous memory rather than stretching its aspect', () => {
+  assert.deepEqual(coverMemoryRect(400, 200, 200, 400), { x: 150, y: 0, width: 100, height: 200 });
+  assert.deepEqual(coverMemoryRect(200, 400, 400, 200), { x: 0, y: 150, width: 200, height: 100 });
+  assert.deepEqual(coverMemoryRect(400, 200, 800, 400), { x: 0, y: 0, width: 400, height: 200 });
 });

@@ -129,7 +129,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   }
 
   function imprint(event, heldMs, { touch = false } = {}) {
-    if (disposed || !settings.ink.enabled) return;
+    if (disposed || !settings.ink.enabled || pageDocument.documentElement.dataset.mode === 'xray') return;
     const random = Math.random();
     const size = settings.ink.minimumSize + random * (settings.ink.maximumSize - settings.ink.minimumSize);
     const lifetimeSettings = touch ? touchSettings : settings.ink;
@@ -193,6 +193,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
 
   function pointerDown(event) {
     activity();
+    if (pageDocument.documentElement.dataset.mode === 'xray') { candidate = null; return; }
     if (!settings.ink.enabled || !event.isPrimary || event.button !== 0 || ignore(event.target, event)) { candidate = null; return; }
     candidate = { id: event.pointerId, x: event.clientX, y: event.clientY, started: performance.now(), scrollX: view.scrollX, scrollY: view.scrollY };
   }
@@ -237,6 +238,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
 
   function touchStart(event) {
     clearTouch();
+    if (pageDocument.documentElement.dataset.mode === 'xray') return;
     if (!settings.ink.enabled || !touchSettings?.enabled || event.touches.length !== 1 || pageDocument.hidden) return;
     const target = event.target;
     const heroCanvas = target instanceof view.Element && target.matches('#logo-canvas');
@@ -332,6 +334,8 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   listen(root, 'h4:navigationstart', clearTouch);
   listen(root, 'h4:modechange', () => {
     clearTouch();
+    candidate = null;
+    if (pageDocument.documentElement.dataset.mode === 'xray') { clearMarks(); return; }
     const bounds = protectedBounds();
     // The larger Other Side hint can intersect a mark that was safe before it.
     for (const [mark, record] of marks) if (intersectsHint(record, bounds)) forgetMark(mark);

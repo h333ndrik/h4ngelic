@@ -38,7 +38,7 @@ function filterMarkup(id, separated) {
  * It stores no persistent state. The return value is a disposer with optional
  * .setMode(mode), .toggle() and .refresh() methods for integration and tests.
  */
-export function initXRay({ root = document } = {}) {
+export function initXRay({ root = document, memory = null } = {}) {
   const doc = root.nodeType === 9 ? root : root.ownerDocument;
   if (controllers.has(doc)) return controllers.get(doc);
   const html = doc.documentElement;
@@ -47,7 +47,7 @@ export function initXRay({ root = document } = {}) {
   const reduced = view.matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = view.matchMedia('(pointer: coarse)');
   const removers = [];
-  const previousAttributes = new Map(['data-mode', 'data-xray-quality', 'data-xray-ready', 'data-xray-transition', 'data-mode-holding'].map((name) => [name, html.getAttribute(name)]));
+  const previousAttributes = new Map(['data-mode', 'data-xray-quality', 'data-xray-ready', 'data-xray-transition', 'data-mode-holding', 'data-memory-mosh-preparing'].map((name) => [name, html.getAttribute(name)]));
   const previousProperties = new Map();
   const audio = createModeAudio({ view });
   const snapshot = createModeSnapshotTransition({ doc, settings: corruptionSettings.transition });
@@ -58,6 +58,9 @@ export function initXRay({ root = document } = {}) {
   let frame = 0;
   let destroyed = false;
   let stopMobile;
+  let memoryToken = null;
+  let preparingEntry = false;
+  let nativeMemoryPending = false;
 
   const defs = doc.createElementNS(svgNamespace, 'svg');
   defs.setAttribute('data-xray-filters', '');
@@ -137,6 +140,13 @@ export function initXRay({ root = document } = {}) {
     treat(target);
     html.removeAttribute('data-xray-transition');
     frame = 0;
+    if (!nativeMemoryPending) releaseMemory();
+  }
+
+  function releaseMemory(token = memoryToken) {
+    if (!token) return;
+    if (token === memoryToken) memoryToken = null;
+    memory?.finishTransition?.(token);
   }
 
   function applyMode(next, { captured = false, duration, variant } = {}) {
@@ -145,7 +155,7 @@ export function initXRay({ root = document } = {}) {
     frame = 0;
     mode = next;
     pendingMode = null;
-    if (mode === 'xray' && !overlay.style.backgroundImage) overlay.style.backgroundImage = 'url("/assets/xray-distress.webp")';
+    if (mode === 'xray' && !html.hasAttribute('data-memory-mosh-ready') && !overlay.style.backgroundImage) overlay.style.backgroundImage = 'url("/assets/xray-distress.webp")';
     const target = mode === 'xray' ? 1 : 0;
     html.dataset.mode = mode;
     refresh();
@@ -182,15 +192,86 @@ export function initXRay({ root = document } = {}) {
     frame = view.requestAnimationFrame(step);
   }
 
+  function beginTransition(next, request, options = {}) {
+    nativeMemoryPending = false;
+    const token = memoryToken;
+    let transition;
+    try {
+      transition = snapshot.run(detail => {
+        // A superseded native callback must never resurrect an old mode.
+        if (!destroyed && request === generation) return applyMode(next, detail);
+      }, { mode: next, duration: getLivingDecaySettings().modeTransitionMs, ...options });
+    } catch (error) {
+      pendingMode = null;
+      releaseMemory(token);
+      refresh();
+      console.warn('The mode capture could not start; the current reality is retained.', error);
+      return;
+    }
+    if (transition) {
+      nativeMemoryPending = transition.native !== false;
+      const complete = () => {
+        if (!destroyed && request === generation) {
+          nativeMemoryPending = false;
+          // Native snapshot cleanup completes before the same frozen history
+          // is released to the ordinary ambient scheduler.
+          finish(mode === 'xray' ? 1 : 0);
+        } else releaseMemory(token);
+      };
+      void transition.finished.then(complete, complete);
+    }
+  }
+
+  function cancelPendingEntry() {
+    if (!preparingEntry) return;
+    generation++;
+    preparingEntry = false;
+    pendingMode = null;
+    html.removeAttribute('data-memory-mosh-preparing');
+    html.removeAttribute('data-mode-holding');
+    refresh();
+  }
+
   function setMode(next) {
     if (destroyed || !['normal', 'xray'].includes(next) || next === (pendingMode || mode)) return;
-    snapshot.skip();
+    // Invalidate the old callback before skip() can commit it synchronously.
     const request = ++generation;
+    snapshot.skip();
+    releaseMemory();
+    preparingEntry = false;
+    html.removeAttribute('data-memory-mosh-preparing');
     pendingMode = next;
-    const transition = snapshot.run(detail => applyMode(next, detail), { mode: next, duration: getLivingDecaySettings().modeTransitionMs });
-    if (transition) void transition.finished.then(() => {
-      if (!destroyed && request === generation) finish(mode === 'xray' ? 1 : 0);
-    });
+    if (next === 'normal' && mode === 'normal') {
+      pendingMode = null; nativeMemoryPending = false; finish(0); refresh(); return;
+    }
+    if (next === 'xray' && memory?.prepareTransition) {
+      const variant = view.crypto?.getRandomValues
+        ? view.crypto.getRandomValues(new Uint32Array(1))[0] : Math.floor(Math.random() * 0x100000000);
+      preparingEntry = true;
+      html.setAttribute('data-memory-mosh-preparing', '');
+      for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = 'preparing the other side.';
+      void (async () => {
+        let token = null;
+        try { token = await memory.prepareTransition({ variant, duration: getLivingDecaySettings().modeTransitionMs }); }
+        catch (error) { console.warn('The damaged image could not be prepared; normal mode is retained.', error); }
+        if (destroyed || request !== generation || doc.hidden) {
+          releaseMemory(token);
+          if (!destroyed && request === generation) cancelPendingEntry();
+          return;
+        }
+        preparingEntry = false;
+        html.removeAttribute('data-memory-mosh-preparing');
+        if (!token) {
+          pendingMode = null; html.removeAttribute('data-mode-holding'); refresh();
+          for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = 'the other side could not be prepared. please try again.';
+          return;
+        }
+        memoryToken = token;
+        beginTransition(next, request, { variant });
+      })();
+      return;
+    }
+    beginTransition(next, request);
   }
 
   const toggle = () => setMode((pendingMode || mode) === 'xray' ? 'normal' : 'xray');
@@ -248,7 +329,9 @@ export function initXRay({ root = document } = {}) {
     view.cancelAnimationFrame(frame);
     finish(mode === 'xray' ? 1 : 0);
   });
-  listen(doc, 'visibilitychange', () => { if (doc.hidden) audio.stop(); });
+  listen(doc, 'visibilitychange', () => { if (doc.hidden) { audio.stop(); cancelPendingEntry(); } });
+  listen(doc, 'h4:navigationstart', cancelPendingEntry);
+  listen(view, 'blur', cancelPendingEntry);
   updateQuality();
   html.dataset.mode = 'normal';
   html.dataset.xrayReady = '';
@@ -257,8 +340,11 @@ export function initXRay({ root = document } = {}) {
   function dispose() {
     if (destroyed) return;
     destroyed = true;
+    generation++;
+    preparingEntry = false;
     view.cancelAnimationFrame(frame);
     snapshot.dispose();
+    releaseMemory();
     audio.dispose();
     for (const remove of removers) remove();
     defs.remove();

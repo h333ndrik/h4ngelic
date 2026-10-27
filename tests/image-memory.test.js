@@ -2,6 +2,19 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createImageMemoryField, paintImageMemory } from '../src/image-memory.js';
 
+test('transport-only memory cannot reintroduce a clean sentinel or average idle damage away', () => {
+  const output = bitmap(8, 4, (x, y) => (x + y) % 2 ? [180, 0, 255, 255] : [170, 255, 0, 255]);
+  const history = bitmap(8, 4, (x, y) => (x + y) % 2 ? [180, 0, 255, 255] : [170, 255, 0, 255]);
+  const pristine = bitmap(8, 4, () => [0, 255, 255, 255]);
+  const damaged = output.canvas.data.map(pixel => [...pixel]);
+  const cells = [{ x: 0, y: 0, width: 8, height: 4, offsetX: 0, offsetY: 0, recovery: 1, bleed: 0, negative: 0 }];
+  for (let index = 0; index < 100; index++) paintImageMemory({ context: output.context,
+    history: history.canvas, historyContext: history.context, source: pristine.canvas,
+    width: 8, height: 4, cells, reconstruct: false });
+  assert.deepEqual(output.canvas.data, damaged);
+  assert.equal(output.context.reads.some(read => read.source === pristine.canvas), false);
+});
+
 // An independent nearest-neighbour Canvas2D oracle. It implements image copy
 // and alpha composition, not the production field/displacement formulas.
 function bitmap(width, height, color = () => [0, 0, 0, 255]) {
