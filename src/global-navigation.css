@@ -1,75 +1,10 @@
-/* A small native disclosure remains usable in the statically rendered page. */
-.global-index {
-  position: fixed;
-  top: 19px;
-  right: 35px;
-  z-index: 12;
-  color: #f0efeb;
-  font-size: 13px;
-  line-height: 1.4;
-  letter-spacing: .045em;
-  --index-panel-top: 146px;
-}
-/* Home keeps its original sculptural hero and contextual links. This rule
-   also applies to prerendered HTML before any navigation JavaScript runs. */
-html[data-page='home'] .global-index { display: none; }
-.global-index summary {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 44px;
-  list-style: none;
-  user-select: none;
-  text-shadow: 0 1px 4px #101010;
-  transition: transform 180ms ease-out, text-shadow 180ms ease-out;
-}
-.global-index summary::-webkit-details-marker { display: none; }
-.global-index summary::marker { content: ''; }
-.global-index summary:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
-.index-sign { display: inline-block; font-size: 19px; line-height: 1; transition: transform 180ms ease-out; }
-.global-index[open] .index-sign { transform: rotate(45deg); }
-.global-index-links {
-  position: absolute;
-  top: var(--index-panel-top);
-  right: 0;
-  display: grid;
-  gap: 1px;
-  width: 190px;
-  max-width: calc(100vw - 44px);
-  max-height: calc(100svh - var(--index-panel-top) - 72px);
-  overflow-y: auto;
-  padding: 10px 14px;
-  border: 1px solid #ffffff25;
-  background: #282828f7;
-  box-shadow: 0 8px 22px #00000026;
-}
-.global-index[open] .global-index-links { animation: index-arrive 180ms ease-out; }
-.global-index-links a {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  color: #bdbdb9;
-  white-space: nowrap;
-  transition: color 180ms ease-out, text-shadow 180ms ease-out;
-}
-.global-index-links .interaction-visual { gap: 10px; transform-origin: 0 50%; }
-.global-index-links .index-number { display: inline-block; margin-right: 10px; color: #8b8b88; }
-.global-index-links .interaction-visual .index-number { margin-right: 0; }
-.global-index-links a[aria-current='page'] { color: #fff; }
-.global-index-links a[aria-current='page'] .index-number { color: inherit; }
-.global-index-links a:focus-visible { outline: 1px solid currentColor; outline-offset: 1px; }
-.hero-brand { display: inline-flex; min-height: 44px; align-items: center; pointer-events: auto; margin-top: -7px; }
-.masthead .edition { display: none; }
-html[data-page='home'] .masthead .edition { display: block; }
-/* The INDEX owns the upper-right page navigation; hero context stays intact. */
-.page-header { min-height: 88px; padding-right: 145px; }
-.page-header .page-nav { display: none; }
+/* NAAVI is one shared, route-aware link. No header index or expanding menu. */
 .chapter-counter {
   position: fixed;
   bottom: max(12px, env(safe-area-inset-bottom));
   left: 50%;
   z-index: 9;
-  transform: translateX(-50%) translateY(var(--chapter-dodge-y, 0px));
+  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -87,33 +22,19 @@ html[data-page='home'] .masthead .edition { display: block; }
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
   letter-spacing: .06em;
+  text-decoration: none;
   touch-action: manipulation;
-  /* Form avoidance moves the real hit area immediately, so an input is never
-     covered while the counter eases toward an otherwise safe destination. */
-  transition: none;
 }
+.chapter-counter .interaction-visual { justify-content: center; }
 .chapter-digit-window { display: block; overflow: clip; line-height: 1.4; }
 .chapter-digit { display: block; }
 .chapter-counter:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
-html:not([data-page='home']) .chapter-counter { display: none; }
-.page-footer.exhibition-footer-home { padding-bottom: max(80px, calc(env(safe-area-inset-bottom) + 68px)); }
-@keyframes index-arrive {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@media (hover: hover) and (pointer: fine) {
-  .global-index summary:hover { transform: scale(1.06); text-shadow: 0 0 2px #fff, 0 0 9px #ffffff90; }
-  .global-index-links a:hover { color: #fff; text-shadow: 0 0 8px #ffffff70; }
-  .chapter-counter:hover { transform: translateX(-50%) translateY(var(--chapter-dodge-y, 0px)) scale(1.08); }
-}
+.hero-brand { display: inline-flex; min-height: 44px; align-items: center; pointer-events: auto; margin-top: -7px; }
+.page-header { min-height: 88px; }
+.page-header .page-nav { display: none; }
+.page-footer { padding-bottom: max(88px, calc(env(safe-area-inset-bottom) + 76px)); }
+[data-inquiry-form] input, [data-inquiry-form] textarea, [data-inquiry-form] button { scroll-margin-bottom: 88px; }
 @media (max-width: 600px) {
-  .global-index { top: 16px; right: 22px; font-size: 12px; --index-panel-top: 146px; }
-  .global-index-links { width: 176px; }
-  .page-header { min-height: 80px; padding-right: 125px; }
-  .hero-nav { bottom: 86px; }
-  .hero-bottom { bottom: 30px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .global-index summary, .index-sign, .global-index-links a, .chapter-counter { transition: none; }
-  .global-index[open] .global-index-links { animation: none; }
+  .page-header { min-height: 80px; }
+  .chapter-counter { min-width: 84px; }
 }

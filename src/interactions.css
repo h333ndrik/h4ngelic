@@ -8,7 +8,7 @@
   transform: translate3d(var(--magnet-x, 0px), var(--magnet-y, 0px), 0) scale(var(--ui-active-scale, 1));
   transform-origin: 0 50%;
   filter: none;
-  transition: transform var(--ui-release-duration, 340ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1.12)), filter var(--ui-release-duration, 340ms) ease-out;
+  transition: transform var(--ui-release-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)), filter var(--ui-release-duration, 300ms) ease-out;
 }
 
 .category-link .interaction-visual, .contact-link .interaction-visual { transform-origin: 0 50%; }
@@ -24,18 +24,19 @@
   overflow-wrap: anywhere;
 }
 
-/* One bounded surface glows at a time. Never filter the page, live canvas or
-   invisible secret hotspots. Text, arrows and photographs share this response. */
+/* Ordinary hover is deliberately quiet in both realities. The shared strength
+   is 20% of the former white glow; corruption rendering has separate settings.
+   Never filter the page, live canvas or invisible secret hotspots. */
 [data-ui-interactive] {
-  --ui-hover-glow: drop-shadow(0 0 2px rgb(255 255 255 / calc(.95 * var(--ui-glow-strength, 1))))
-    drop-shadow(0 0 7px rgb(255 255 255 / calc(.62 * var(--ui-glow-strength, 1))))
-    drop-shadow(0 0 16px rgb(255 255 255 / calc(.38 * var(--ui-glow-strength, 1))));
+  --ui-hover-glow: drop-shadow(0 0 1px rgb(255 255 255 / calc(.95 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 3px rgb(255 255 255 / calc(.62 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 6px rgb(255 255 255 / calc(.38 * var(--ui-glow-strength, .2))));
 }
 html[data-mode='xray'] [data-ui-interactive] {
-  --ui-hover-glow: drop-shadow(0 0 2px rgb(255 255 255 / .98))
-    drop-shadow(0 0 7px rgb(255 255 255 / .75))
-    drop-shadow(0 0 16px rgb(255 255 255 / .48))
-    drop-shadow(0 0 calc(22px * var(--ui-other-glow-strength, 1.15) * var(--corruption-glow-strength, 1)) rgb(185 139 225 / .24));
+  --ui-hover-glow: drop-shadow(0 0 1px rgb(255 255 255 / calc(.98 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 3px rgb(255 255 255 / calc(.75 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 6px rgb(255 255 255 / calc(.48 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 calc(6px * var(--ui-other-glow-strength, 1.15)) rgb(185 139 225 / calc(.24 * var(--ui-glow-strength, .2))));
 }
 
 /* Selection is brief and belongs to the existing label, never its hit area. */
@@ -43,28 +44,28 @@ html[data-mode='xray'] [data-ui-interactive] {
   outline: 1px solid rgb(255 255 255 / .85);
   outline-offset: .12em;
   filter: var(--ui-hover-glow);
-  --ui-active-scale: var(--ui-target-scale, 1.08);
+  --ui-active-scale: var(--ui-target-scale, 1.025);
 }
 @keyframes h4-rubric-selected {
-  0% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 7px #ffffff88); }
-  38% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 10px #ffffff99); }
-  100% { transform: scale(1); opacity: 0; filter: drop-shadow(0 0 5px #ffffff33); }
+  0% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 1px #ffffff33) drop-shadow(0 0 3px #ffffff1b); }
+  38% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 1px #ffffff33) drop-shadow(0 0 4px #ffffff1f); }
+  100% { transform: scale(1); opacity: 0; filter: drop-shadow(0 0 2px #ffffff0a); }
 }
-::view-transition-group(h4-rubric-selection) { animation-duration: 220ms; }
+::view-transition-group(h4-rubric-selection) { animation-duration: 300ms; }
 ::view-transition-old(h4-rubric-selection) {
-  animation: h4-rubric-selected 220ms cubic-bezier(.2,.7,.3,1) both;
+  animation: h4-rubric-selected 300ms cubic-bezier(.2,.7,.3,1) both;
   transform-origin: center;
 }
 ::view-transition-new(h4-rubric-selection) { animation: none; }
 
 @media (hover: hover) and (pointer: fine) {
   [data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual {
-    --ui-active-scale: var(--ui-target-scale, var(--ui-hover-scale, 1.22));
+    --ui-active-scale: var(--ui-target-scale, var(--ui-hover-scale, 1.025));
     filter: var(--ui-hover-glow);
-    transition-duration: var(--ui-hover-duration, 260ms);
+    transition-duration: var(--ui-hover-duration, 300ms);
   }
   .artwork-open[data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual {
-    --ui-active-scale: var(--ui-target-scale, var(--ui-image-scale, 1.22));
+    --ui-active-scale: var(--ui-target-scale, var(--ui-image-scale, 1.015));
   }
   [data-ui-interactive]:is(:hover, :focus-visible) .arrow {
     transform: translate(var(--ui-fit-arrow-movement, var(--ui-arrow-movement, 2px)), calc(-1 * var(--ui-fit-arrow-movement, var(--ui-arrow-movement, 2px))));

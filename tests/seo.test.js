@@ -142,7 +142,7 @@ test('dedicated Contact is crawlable HTML with the real inquiry form and canonic
   assert.match(active, /03 \/ CONTACT/);
   assert.match(active, /<form[^>]+action="\/api\/inquiry"[^>]+method="post"/);
   assert.match(active, /name="name"[^>]+required/);
-  assert.match(active, /type="email"[^>]+required/);
+  assert.match(active, /type="text"[^>]+required[^>]+data-inquiry-contact/);
   assert.match(active, /mailto:h4ngelic@gmail\.com/);
 });
 

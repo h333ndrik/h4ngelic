@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
 import { renderInquiryForm, inquiryArtwork } from '../src/inquiry-content.js';
-import { validateInquiryFiles } from '../src/inquiry-validation.js';
+import { validateInquiryFiles, validateInquiryContact } from '../src/inquiry-validation.js';
 import { createInquiryHandler, detectAttachmentType, parseInquiryMultipart, readInquiryConfig, validateInquiryFields } from '../server/inquiry.mjs';
 
 const origin = 'https://h4ngelic.com';
@@ -35,13 +35,26 @@ test('inquiry renders semantic native form with real email fallback and no fabri
   const html = renderInquiryForm({ context: '<script>', id: '"><img>' });
   assert.match(html, /method="post" enctype="multipart\/form-data"/);
   assert.match(html, /name="name"[^>]*required/);
-  assert.match(html, /type="email"[^>]*required/);
+  assert.match(html, /HOW TO REACH YOU/);
+  assert.match(html, /name="email" type="text"[^>]*placeholder="email, instagram, phone number\.\.\."[^>]*required/);
+  assert.doesNotMatch(html, /YOUR EMAIL|type="email"/);
   assert.match(html, /name="attachments"[^>]*multiple/);
   assert.match(html, /mailto:h4ngelic@gmail.com/);
   assert.match(html, /id="inquiry-name"/);
   assert.doesNotMatch(html, /<script>|<img>/);
   assert.equal(inquiryArtwork('not-a-real-project'), undefined);
   assert.match(renderInquiryForm({ context: 'green-black-original' }), /regarding green black original/);
+});
+
+test('contact validation accepts free-text reply channels and rejects blank, oversized or control-bearing text', () => {
+  for (const contact of ['visitor@example.com', '@h4ngelic', '+49 170 1234567', 'instagram: visitor', 'name <visitor@example.com>']) {
+    assert.equal(validateInquiryContact(contact), '', contact);
+    assert.equal(validateInquiryFields({ ...fields, email: ` ${contact} ` }, now()).email, contact);
+  }
+  for (const contact of ['', '  ', null, undefined, 'x'.repeat(255), '@visitor\nBcc: evil@example.com', 'phone\u0000hidden']) {
+    assert.match(validateInquiryContact(contact), /how to reach you/);
+    assert.throws(() => validateInquiryFields({ ...fields, email: contact }, now()), /how to reach you/);
+  }
 });
 
 test('client checks attachment count, total size, per-file size and allowed types', () => {
@@ -124,7 +137,6 @@ test('server independently validates required fields, header injection, honeypot
   assert.equal(validateInquiryFields({ ...fields, message: '' }, now()).message, '');
   assert.equal(validateInquiryFields({ ...fields, started: '' }, now()).name, fields.name, 'native no-JS submissions remain valid');
   for (const change of [{ name: '' }, { name: '\r\nBcc: attacker' }, { email: 'visitor@example.com\r\nBcc:x' }, { website: 'bot' }, { started: String(now() - 10) }, { started: 'NaN' }, { artwork: 'fake-project' }, { message: 'x'.repeat(8001) }]) assert.throws(() => validateInquiryFields({ ...fields, ...change }, now()));
-  for (const email of ['a,b@example.com', 'name <visitor@example.com>', '.visitor@example.com', 'visitor..name@example.com', 'visitor@-example.com']) assert.throws(() => validateInquiryFields({ ...fields, email }, now()));
   assert.equal(validateInquiryFields({ ...fields, artwork: 'green-black-original' }, now()).artwork, 'green-black-original');
 });
 
@@ -172,6 +184,20 @@ test('provider rejection, missing acceptance ID and transport failure never clai
     const result = await request(createInquiryHandler({ config, now, fetchImpl }));
     assert.equal(result.status, 502); assert.equal(result.body.accepted, undefined);
     assert.doesNotMatch(JSON.stringify(result.body), /private provider/);
+  }
+});
+
+test('non-email reply channels appear in message text but never become an invalid reply-to header', async () => {
+  for (const contact of ['@visitor', '+49 170 1234567', 'name <visitor@example.com>', 'a,b@example.com']) {
+    let payload;
+    const handler = createInquiryHandler({ config, now, fetchImpl: async (_url, options) => {
+      payload = JSON.parse(options.body);
+      return { ok: true, json: async () => ({ id: 'mock-provider-id' }) };
+    } });
+    assert.equal((await request(handler, { values: { ...fields, email: contact } })).status, 202);
+    assert.equal(Object.hasOwn(payload, 'reply_to'), false, contact);
+    assert.ok(payload.text.includes(`how to reach you: ${contact}`));
+    assert.deepEqual(payload.to, ['h4ngelic@gmail.com']);
   }
 });
 

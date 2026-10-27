@@ -86,6 +86,7 @@ try {
   await page.locator('#speed-control').click();
   assert.equal(await page.locator('#speed-control').getAttribute('aria-pressed'), 'true');
   assert.equal(await page.locator('#speed-control').textContent(), 'Fast');
+  assert.ok(await page.evaluate(() => scrollY < 2), 'Bottom hero controls must not scroll the sculpture out of view.');
   await page.screenshot({ path: new URL('desktop.png', artifacts).pathname, fullPage: true });
 
   // Enter the canvas first, then cross a raycast-confirmed face without pressing
@@ -95,9 +96,14 @@ try {
     await page.mouse.move(1, 1);
     const hit = await page.evaluate(() => window.__H4_TEST__.hitPoint());
     assert.ok(hit, 'The paused wordmark must have a visible surface to push.');
+    let frameBefore = (await snapshot(page)).frameCount;
     await page.mouse.move(hit.x - 28, hit.y + 6);
-    await page.waitForTimeout(25);
+    await page.waitForFunction(frame => window.__H4_TEST__.snapshot().frameCount > frame, frameBefore);
+    frameBefore = (await snapshot(page)).frameCount;
     await page.mouse.move(hit.x, hit.y);
+    // main.js intentionally coalesces pointermove into RAF. Observe its actual
+    // processed frame instead of reading a pre-impulse snapshot on SwiftShader.
+    await page.waitForFunction(frame => window.__H4_TEST__.snapshot().frameCount > frame, frameBefore);
     pushed = await snapshot(page);
     if (magnitude(pushed.velocity) > 0.001) break;
   }

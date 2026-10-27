@@ -84,7 +84,7 @@ try {
   const page = await desktop.newPage();
   const errors = collectErrors(page);
   await readyHome(page);
-  assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'mixed media', 'V6 supplies the approved replacement tagline.');
+  assert.equal(await page.locator('.identity').count(), 0, 'The current master brief removes the redundant lower-left tagline.');
   if (await page.locator('#pause-control').getAttribute('aria-pressed') === 'false') await page.locator('#pause-control').click();
 
   const firstSection = page.locator('#selected-work');
@@ -120,11 +120,11 @@ try {
   await page.waitForFunction(() => {
     const visual = document.querySelector('#selected-work .category-magnet');
     const matrix = new DOMMatrixReadOnly(getComputedStyle(visual).transform);
-    return matrix.m11 >= 1.18;
+    return matrix.m11 >= 1.019;
   });
   const luminous = await magnet.evaluate((element) => ({ transform: new DOMMatrixReadOnly(getComputedStyle(element).transform).m11, filter: getComputedStyle(element).filter }));
-  assert.ok(luminous.transform <= 1.25, 'The large category label magnifies strongly within its reserved hit area.');
-  assert.ok((luminous.filter.match(/drop-shadow/g) || []).length >= 3 && luminous.filter.includes('255, 255, 255'), 'Normal hover produces an intense bounded white glow.');
+  assert.ok(luminous.transform <= 1.021, 'The large category label keeps restrained 2% feedback within its reserved hit area.');
+  assert.ok((luminous.filter.match(/drop-shadow/g) || []).length >= 3 && luminous.filter.includes('255, 255, 255'), 'Normal hover retains a subtle bounded white glow.');
   const after = await link.boundingBox();
   for (const property of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[property] - after[property]) < .25, 'Only the label/arrow wrapper may move, preserving the clickable area.');
   const hoverCursor = await nativeCursor(page, magnet);
@@ -199,7 +199,7 @@ try {
   await page.waitForFunction((frame) => window.__H4_TEST__.snapshot().frameCount > frame, hidden.frameCount, { timeout: 10000 });
   assert.deepEqual(errors, []);
   await desktop.close();
-  console.log('PASS microinteractions desktop: strong luminous hover with stable hit areas, restrained magnet, reversible choreography, keyboard/reduced motion, exact native cursor feedback and offscreen/hidden-state WebGL pause.');
+  console.log('PASS microinteractions desktop: restrained luminous hover with stable hit areas, restrained magnet, reversible choreography, keyboard/reduced motion, exact native cursor feedback and offscreen/hidden-state WebGL pause.');
 
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
   const mobilePage = await mobile.newPage();

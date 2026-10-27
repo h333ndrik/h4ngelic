@@ -9,10 +9,10 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
   const hint = otherSideEnabled ? `<button class="footer-secret secret-hotspot" type="button" data-other-side-hint data-secret-hotspot data-mode-hold aria-label="hold for one second to enter the other side" aria-keyshortcuts="4" aria-describedby="footer-other-side-message">
       <span class="secret-message" data-secret-message data-xray-hint id="footer-other-side-message"><span data-xray-hint-text>HOLD 4 TO SEE THE OTHER SIDE.</span></span>
     </button>` : '';
-  const counter = home && easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="reveal local visit count" aria-describedby="footer-visit-count">
+  const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count" aria-describedby="footer-visit-count">
       <span class="secret-message" data-secret-message data-visit-number id="footer-visit-count">VISIT 001</span>
     </button>` : '';
-  return `${home ? `<div class="footer-secret-space end-reveal" data-footer-secret-space data-end-reveal>
+  return `${home ? `<div class="footer-secret-space end-reveal" id="final-secret" data-footer-secret-space data-end-reveal>
     <div class="end-reveal-mark" aria-hidden="true">
       <svg class="end-reveal-relief" viewBox="0 0 615 1006" focusable="false">
         <defs><filter id="h4-end-relief" x="-8%" y="-5%" width="116%" height="110%" color-interpolation-filters="sRGB">
@@ -32,7 +32,7 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
     <div class="footer-identity">
       <span class="footer-brand">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>
       ${counter}
-      <span class="footer-details">${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram <i class="arrow" aria-hidden="true"></i></a>` : ''}<span class="footer-location">${escape(siteContent.location)}</span></span>
+      <span class="footer-details">${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram${home ? ' <i class="arrow" aria-hidden="true"></i>' : ''}</a>` : ''}<span class="footer-location">${escape(siteContent.location)}</span></span>
     </div>
     ${otherSideEnabled ? '<span class="sr-only" data-mode-status role="status" aria-live="polite"></span>' : ''}
   </footer>`;

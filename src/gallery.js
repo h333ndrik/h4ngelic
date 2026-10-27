@@ -13,7 +13,7 @@ export function initGallery(root = document) {
   dialog.setAttribute('aria-labelledby', 'artwork-viewer-title');
   dialog.innerHTML = `<div class="artwork-viewer-header">
       <h2 class="sr-only" id="artwork-viewer-title">artwork</h2>
-      <a class="artwork-inquire text-link" href="/contact" data-inquiry-link>inquire <i class="arrow" aria-hidden="true"></i></a>
+      <a class="artwork-inquire text-link" href="/contact" data-inquiry-link>inquire</a>
       <button class="artwork-close" type="button" autofocus aria-label="close artwork viewer">close</button>
     </div>
     <figure class="artwork-viewer-figure">
@@ -53,6 +53,9 @@ export function initGallery(root = document) {
   let driftItem = null;
   let savedScroll = null;
   let savedDriftScroll = null;
+  let outsidePress = null;
+  let openingImage = null;
+  let openingVisibility = '';
 
   const listen = (element, type, handler, options) => {
     element.addEventListener(type, handler, options);
@@ -100,6 +103,7 @@ export function initGallery(root = document) {
         if (closed || request !== ticket || !dialog.open) return;
       }
       stage.replaceChildren(image);
+      if (!openingFrom && openingImage?.isConnected) openingImage.style.visibility = 'hidden';
       displayed = images.indexOf(thumbnail);
       caption.textContent = thumbnail.closest('figure')?.querySelector('figcaption')?.textContent || '';
       stage.classList.remove('has-image-error');
@@ -113,6 +117,9 @@ export function initGallery(root = document) {
           if (flight === movement) flight = null;
           if (closed || request !== ticket || !dialog.open) return;
         }
+        // The original keeps its layout slot while the photograph is enlarged;
+        // avoid showing a second copy behind the centered shared element.
+        if (!closing && openingImage?.isConnected) openingImage.style.visibility = 'hidden';
       } else if (reducedMotion.matches) stage.classList.remove('is-switching');
       else requestAnimationFrame(() => requestAnimationFrame(() => {
         if (!closed && request === ticket) stage.classList.remove('is-switching');
@@ -136,15 +143,17 @@ export function initGallery(root = document) {
     pageLocked = false;
     document.body.style.overflow = savedOverflow;
     document.body.style.paddingRight = savedPadding;
+    if (openingImage) openingImage.style.visibility = openingVisibility;
+    openingImage = null;
     if (driftSection) {
       driftSection.classList.remove('is-artwork-focused');
       driftSection.removeAttribute('data-drift-paused');
       driftSection.setAttribute('data-drift-focus-restore', '');
       driftItem?.classList.remove('is-drift-selected');
       opener?.classList.remove('is-artwork-selected');
-      if (savedScroll) scrollTo({ left: savedScroll[0], top: savedScroll[1], behavior: 'instant' });
       if (savedDriftScroll !== null) driftSection.querySelector('.drift-viewport')?.scrollTo({ left: savedDriftScroll, behavior: 'instant' });
     }
+    if (savedScroll) scrollTo({ left: savedScroll[0], top: savedScroll[1], behavior: 'instant' });
     if (opener?.isConnected) opener.focus({ preventScroll: true });
     driftSection?.removeAttribute('data-drift-focus-restore');
     driftSection = driftItem = savedScroll = savedDriftScroll = null;
@@ -155,6 +164,7 @@ export function initGallery(root = document) {
     if (!dialog.open) return;
     cancelFlight();
     closing = false;
+    outsidePress = null;
     dialog.classList.remove('is-open');
     dialog.close();
     stage.replaceChildren();
@@ -168,8 +178,10 @@ export function initGallery(root = document) {
     const currentRect = flight?.currentRect();
     cancelFlight();
     const image = stage.querySelector('.artwork-viewer-image');
-    const destination = driftSection && !images[displayed]?.getClientRects().length
-      ? opener?.querySelector('img') : images[displayed];
+    // A carousel project can include hidden detail photographs. Return to its
+    // actual opening photograph, rather than to a hidden or offscreen detail.
+    // Ordinary multi-image pages can still return to the matching visible view.
+    const destination = driftSection ? opener?.querySelector('img') : images[displayed];
     const movement = image && destination ? animateArtworkFlight({
       from: image, to: destination, host: dialog, direction: 'closing', fromRect: currentRect,
     }) : null;
@@ -203,10 +215,12 @@ export function initGallery(root = document) {
     title.textContent = project.querySelector('h1, h2')?.textContent || 'artwork';
     const openingFrom = trigger.querySelector('img');
     const openingRect = artworkRect(openingFrom);
+    openingImage = openingFrom;
+    openingVisibility = openingFrom.style.visibility;
+    savedScroll = [scrollX, scrollY];
     driftSection = trigger.closest('[data-horizontal-drift]');
     driftItem = trigger.closest('[data-drift-item]');
     if (driftSection) {
-      savedScroll = [scrollX, scrollY];
       savedDriftScroll = driftSection.querySelector('.drift-viewport')?.scrollLeft ?? null;
       driftSection.setAttribute('data-drift-paused', '');
       driftSection.classList.add('is-artwork-focused');
@@ -247,10 +261,24 @@ export function initGallery(root = document) {
   listen(previousButton, 'click', () => showImage(selected - 1));
   listen(nextButton, 'click', () => showImage(selected + 1));
   listen(dialog, 'cancel', (event) => { event.preventDefault(); requestClose(); });
+  listen(dialog, 'pointerdown', (event) => {
+    // Track the start of a background gesture so selecting caption text or
+    // dragging across the photograph cannot accidentally dismiss the viewer.
+    outsidePress = event.button === 0 ? { x: event.clientX, y: event.clientY, target: event.target } : null;
+  }, { passive: true });
   listen(dialog, 'click', (event) => {
-    if (event.target !== dialog) return;
-    const box = dialog.getBoundingClientRect();
-    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) requestClose();
+    const target = event.target;
+    const press = outsidePress;
+    outsidePress = null;
+    if (target.closest?.('a, button') || target.closest?.('.artwork-viewer-caption')) return;
+    if (target.matches?.('.artwork-viewer-image')) {
+      requestClose();
+      return;
+    }
+    // The dialog itself is transparent: its stage/figure blank space is also
+    // visibly outside the photograph, not only the narrow native backdrop.
+    const background = target === dialog || target === stage || target.matches?.('.artwork-viewer-figure');
+    if (background && (!press || (press.target === target && Math.hypot(event.clientX - press.x, event.clientY - press.y) < 8))) requestClose();
   });
   listen(dialog, 'keydown', (event) => {
     if (event.key === 'ArrowLeft' && images.length > 1) { event.preventDefault(); showImage(selected - 1); }

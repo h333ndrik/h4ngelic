@@ -1,7 +1,20 @@
+> Current master-foundation update: the contact field is **HOW TO REACH YOU**,
+> required free text with placeholder `email, instagram, phone number...`.
+> Email addresses, Instagram handles and telephone numbers are accepted. The
+> legacy multipart key `email` remains compatible; the mail adapter includes
+> `reply_to` only when that value is a valid email address. All contact text
+> appears in the message body. The 700ms IntersectionObserver entrance runs
+> once, bypassed for reduced motion and keyboard focus.
+>
+> Delivery is blocked until `RESEND_API_KEY`, a verified `INQUIRY_FROM` sender
+> and a same-origin deployed `/api/inquiry` backend exist. HTTP/provider-mock
+> tests verify handling, **not delivery of real mail**. A downloaded HTML cannot
+> submit mail. Errors preserve entered text and attachments.
+
 # Inquiry form and delivery
 
 The homepage Contact section and `/contact` share the same native form and
-progressive enhancement. Name and a valid email address are required; the
+progressive enhancement. Name and a free-text contact channel are required; the
 message is optional. An inquiry opened from a real artwork can carry its
 published ID. No invented portfolio entries are accepted as context.
 
@@ -16,7 +29,7 @@ published ID. No invented portfolio entries are accepted as context.
 - `server/inquiry.mjs` is a standalone native Node HTTP handler. It accepts
   multipart POST requests at `/api/inquiry`, sends via Resend's fixed HTTPS
   endpoint, and fixes the destination to **h4ngelic@gmail.com**. The sender's
-  validated address becomes `reply_to`.
+  contact channel becomes `reply_to` only when it is a valid email address; social handles and phone numbers remain in the message body.
 - Success is shown only after the provider returns an accepted message ID.
   This proves provider acceptance, not inbox delivery. Missing configuration
   returns 503, provider failures return 502, and the form preserves the inquiry

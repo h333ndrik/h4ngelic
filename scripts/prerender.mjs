@@ -6,6 +6,7 @@ import { routeDefinitions, resolveRoute } from '../src/routes.js';
 import { renderRoutePage } from '../src/pages.js';
 import { getPageMetadata, renderHead, seoEnvironment } from '../src/seo.js';
 import { escapeHTML } from '../src/content-utils.js';
+import { renderNAAVI } from '../src/naavi-content.js';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 
@@ -25,6 +26,7 @@ export function prerenderHTML(shell, route, metadata = getPageMetadata(route)) {
     : `<template id="hero-template">${hero}</template>`;
   let html = replaceBlock(shell, 'hero', heroMarkup);
   html = replaceBlock(html, 'content', `<div id="page-content" tabindex="-1" data-prerendered="${escapeHTML(route.canonicalPath)}">${renderRoutePage(route)}</div>`);
+  if (html.includes('<!--naavi:start-->')) html = replaceBlock(html, 'naavi', renderNAAVI(route));
   html = replaceBlock(html, 'seo', `\n${renderHead(metadata)}\n`);
   // Navigation visibility is correct before hydration and without JavaScript.
   // The source shell defaults to Home for the downloadable preview.

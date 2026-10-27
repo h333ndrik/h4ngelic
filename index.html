@@ -14,21 +14,11 @@
   </head>
   <body>
     <a class="skip-link" href="#page-content">skip to content</a>
-    <details class="global-index" data-global-index data-no-ink data-corruption-protected>
-      <summary aria-controls="global-index-links">INDEX <span class="index-sign" aria-hidden="true">+</span></summary>
-      <nav class="global-index-links" id="global-index-links" aria-label="Index">
-        <a href="/" data-index-page="home"><span class="index-number">00 /</span> HOME</a>
-        <a href="/work" data-index-page="work"><span class="index-number">01 /</span> WORK</a>
-        <a href="/about" data-index-page="about"><span class="index-number">02 /</span> ABOUT</a>
-        <a href="/contact" data-index-page="contact"><span class="index-number">03 /</span> CONTACT</a>
-      </nav>
-    </details>
     <main>
       <!--hero:start-->
       <section class="hero" id="home-hero" aria-labelledby="page-title" hidden>
         <header class="masthead">
           <h1 id="page-title"><a class="hero-brand" href="/">h4ngelic</a></h1>
-          <span class="edition">berlin, de</span>
           <button class="visitor-hotspot secret-hotspot" type="button" data-visitor-hotspot data-secret-hotspot aria-label="reveal visitor message" aria-describedby="header-visitor-message">
             <span class="secret-message" data-secret-message data-visit-message id="header-visitor-message">nice to meet you.</span>
           </button>
@@ -38,7 +28,6 @@
           <canvas id="logo-canvas" aria-label="Interactive chrome h4ngelic wordmark. Drag to move and spin it. Scroll normally to move the page."></canvas>
         </div>
         <div class="hero-bottom">
-          <p class="identity">mixed media</p>
           <p id="interaction-hint" class="sr-only">Move to push. Grab to spin.</p>
         </div>
         <div class="controls" data-controls role="group" aria-label="Wordmark animation and sound">
@@ -57,6 +46,7 @@
       <!--hero:end-->
       <!--content:start--><div id="page-content" tabindex="-1"></div><!--content:end-->
     </main>
+    <!--naavi:start--><a class="chapter-counter naavi" data-naavi data-chapter-counter data-no-ink data-corruption-protected href="/#selected-work" aria-label="NAAVI: 00 / 04, home. go to works" data-chapter="0" data-chapter-total="4"><span class="chapter-digit-window" aria-hidden="true"><span class="chapter-digit">00</span></span><span class="chapter-total" aria-hidden="true"> / 04</span></a><!--naavi:end-->
     <script type="module" src="/src/app.js"></script>
   </body>
 </html>

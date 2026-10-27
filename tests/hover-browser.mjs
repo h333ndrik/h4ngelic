@@ -41,12 +41,17 @@ try {
   await link.hover();
   await page.waitForFunction((element) => {
     const matrix = new DOMMatrixReadOnly(getComputedStyle(element.querySelector('.interaction-visual')).transform);
-    return matrix.m11 >= 1.19;
+    return matrix.m11 >= 1.019;
   }, await link.elementHandle());
   await page.waitForTimeout(300);
   const hovered = await sample(link);
-  assert.ok(hovered.scale >= 1.19 && hovered.scale <= 1.205, 'A roomy category should visibly magnify to 120%.');
-  assert.notEqual(hovered.glow, 'none', 'Normal hover must produce a strong localized luminous treatment.');
+  assert.ok(hovered.scale >= 1.019 && hovered.scale <= 1.021, 'A roomy category uses the restrained 2% feedback.');
+  assert.notEqual(hovered.glow, 'none', 'Normal hover retains a restrained localized glow.');
+  const ordinary = await link.locator('.interaction-visual').evaluate(element => ({ duration: getComputedStyle(element).transitionDuration, filter: getComputedStyle(element).filter }));
+  assert.ok(ordinary.duration.split(',').every(value => Math.abs(parseFloat(value) - .3) < .001), 'Hover and release share 300ms timing.');
+  const alphas = [...ordinary.filter.matchAll(/rgba\([^)]*,\s*([\d.]+)\)/g)].map(match => Number(match[1]));
+  assert.ok(alphas.length >= 3 && alphas.every(alpha => alpha <= .2), 'White hover layers retain at most 20% opacity.');
+  assert.match(await link.evaluate(element => getComputedStyle(element).cursor), /h4ngelic-cursor-hover\.svg/, 'Navigation uses the standard h4 hover cursor.');
   for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[key] - hovered[key]) < .25, 'Magnification must not move or resize the real link target.');
   await page.mouse.move(1, 1);
   await page.waitForTimeout(380);
@@ -61,7 +66,7 @@ try {
   assert.ok(arrow.gap >= 7 && arrow.gap <= 18.1, 'The arrow must sit close to its own word rather than at the column edge.');
   assert.ok(Math.abs(arrow.ratio - .72) < .01);
   assert.ok(Math.abs(arrow.stroke - 1.25) < .1);
-  assert.ok(Number(await page.locator('.about-preview .text-link').evaluate((element) => parseFloat(getComputedStyle(element).fontSize))) >= 30, 'More About needs a prominent readable size.');
+  assert.ok(Number(await page.locator('.about-preview .text-link').evaluate((element) => parseFloat(getComputedStyle(element).fontSize))) >= 18, 'The smaller More About link remains readable.');
 
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
   const speed = page.locator('#speed-control');
@@ -69,9 +74,9 @@ try {
   await speed.hover();
   await page.waitForFunction((element) => {
     const visual = element.querySelector('.interaction-visual');
-    return visual && new DOMMatrixReadOnly(getComputedStyle(visual).transform).m11 >= 1.21;
+    return visual && new DOMMatrixReadOnly(getComputedStyle(visual).transform).m11 >= 1.024;
   }, await speed.elementHandle());
-  assert.ok((await sample(speed)).scale >= 1.21, 'Compact controls should use the full 122% label scale.');
+  assert.ok((await sample(speed)).scale >= 1.024 && (await sample(speed)).scale <= 1.026, 'Compact controls keep feedback below 3%.');
   for (let index = 0; index < 3; index++) {
     await speed.click();
     await page.waitForFunction((element) => element.querySelectorAll(':scope > .interaction-visual').length === 1, await speed.elementHandle());
@@ -90,7 +95,7 @@ try {
   await settle(page);
   await link.hover();
   await page.waitForTimeout(300);
-  assert.notEqual((await sample(link)).glow, hovered.glow, 'The Other Side uses the stronger multi-color luminous response.');
+  assert.notEqual((await sample(link)).glow, hovered.glow, 'The Other Side keeps its own subdued colored hover response.');
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForFunction((element) => getComputedStyle(element.querySelector('.interaction-visual')).transform === 'none', await link.elementHandle());
@@ -106,19 +111,18 @@ try {
     for (const target of await page.locator('#selected-work .category-link').all()) {
       await target.hover();
       await page.waitForTimeout(300);
-      assert.ok((await sample(target)).scale <= 1.205, 'Small columns must cap the preferred enlargement.');
+      assert.ok((await sample(target)).scale <= 1.026, 'Small columns must cap the preferred enlargement.');
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Hover must not create page overflow at ${width}px.`);
     }
   }
   assert.deepEqual(errors, []);
   await context.close();
-  console.log('PASS hover desktop: strong localized glow, 120/122% inner scale, stable targets, arrow geometry/gaps, live control labels, secrets excluded, Other Side response, reduced motion and 390/320px containment.');
+  console.log('PASS hover desktop: restrained localized glow, 102/102.5% inner scale, stable targets, arrow geometry/gaps, live control labels, secrets excluded, Other Side response, reduced motion and 390/320px containment.');
 
   const touch = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const touchPage = await touch.newPage();
   await touchPage.goto(route('/about'), { waitUntil: 'networkidle' });
-  await touchPage.locator('[data-global-index] > summary').tap();
-  const navigation = touchPage.locator('[data-index-page="work"]');
+  const navigation = touchPage.locator('[data-naavi]');
   await navigation.focus();
   assert.equal((await sample(navigation)).scale, 1, 'Touch profiles must not retain mouse hover magnification.');
   assert.equal((await sample(navigation)).glow, 'none');

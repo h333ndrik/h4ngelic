@@ -39,7 +39,7 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 .hero-bottom { position: absolute; inset: auto 35px 40px; display: flex; align-items: end; gap: 20px; z-index: 1; pointer-events: none; }
 .identity { margin: 0; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .06em; line-height: 1.5; }
 .controls { position: absolute; top: 93px; right: 25px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; align-items: center; max-width: calc(100% - 50px); pointer-events: auto; }
-.controls button { background: transparent; border: 2px solid #a4a7af; color: #f6f5f3; padding: 16px 21px; min-height: 54px; border-radius: 99px; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .025em; transition: border-color .15s, background .15s; }
+.controls button { background: transparent; border: 2px solid #a4a7af; color: #f6f5f3; padding: 16px 21px; min-height: 54px; border-radius: 99px; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .025em; transition: border-color 300ms ease-out, background 300ms ease-out; }
 .controls button:hover:not(:disabled) { background: #ffffff0b; border-color: #e6e5e1; }
 .controls button:focus-visible { outline: 2px solid white; outline-offset: 5px; }
 .controls button:disabled { opacity: .4; }
@@ -47,7 +47,7 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 .hero-nav { position: absolute; right: 28px; bottom: 42px; display: flex; gap: 26px; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .06em; z-index: 1; }
 .hero-nav a { opacity: .75; }
 .hero-nav a:hover { opacity: 1; }
-.arrow { display: inline-block; position: relative; width: var(--ui-arrow-size, .72em); height: var(--ui-arrow-size, .72em); flex: 0 0 var(--ui-arrow-size, .72em); vertical-align: -.025em; transition: transform 180ms ease-out; }
+.arrow { display: inline-block; position: relative; width: var(--ui-arrow-size, .72em); height: var(--ui-arrow-size, .72em); flex: 0 0 var(--ui-arrow-size, .72em); vertical-align: -.025em; transition: transform 300ms cubic-bezier(.2,.8,.25,1); }
 .arrow::before { content: ''; position: absolute; width: 116%; height: var(--ui-arrow-stroke, 1.25px); top: 90%; left: 7%; background: currentColor; transform: rotate(-45deg); transform-origin: 0 50%; }
 .arrow::after { content: ''; position: absolute; width: 64%; height: 64%; top: 7%; right: 10%; border-top: var(--ui-arrow-stroke, 1.25px) solid; border-right: var(--ui-arrow-stroke, 1.25px) solid; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -72,7 +72,7 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 .contact-links { display: flex; flex-wrap: wrap; gap: 20px 70px; font-size: 18px; }
 .contact-link.is-unconfigured { color: #a5a6a2; }
 .contact-link:not(.is-unconfigured):hover { text-decoration: underline; text-underline-offset: 6px; }
-.page-footer { display: flex; justify-content: space-between; gap: 20px; margin: 0 35px; padding: 28px 0; border-top: 1px solid #ffffff25; font-size: 12px; line-height: 1.5; letter-spacing: .06em; color: #b3b3af; }
+.page-footer { display: flex; justify-content: space-between; gap: 20px; margin: 0 35px; padding: 28px 0; border: 0; font-size: 12px; line-height: 1.5; letter-spacing: .06em; color: #b3b3af; }
 .page-header { padding: 22px 35px; display: flex; align-items: center; justify-content: space-between; gap: 25px; }
 .brand-link { display: inline-flex; align-items: center; min-height: 44px; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .06em; }
 .page-nav { display: flex; align-items: center; gap: 26px; font-size: clamp(14px, 1.32vw, 20px); letter-spacing: .035em; }

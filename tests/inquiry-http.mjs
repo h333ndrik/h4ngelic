@@ -30,9 +30,9 @@ try {
   const serviceURL = `http://127.0.0.1:${service.address().port}`;
   config.allowedOrigins[0] = serviceURL;
   const original = Buffer.from('%PDF-1.7\nmock test reference; no real personal information.');
-  const form = (bytes = original) => {
+  const form = (bytes = original, contact = 'visitor@example.com') => {
     const body = new FormData();
-    body.set('name', 'loopback test visitor'); body.set('email', 'visitor@example.com');
+    body.set('name', 'loopback test visitor'); body.set('email', contact);
     body.set('message', 'test-only inquiry'); body.set('website', '');
     body.set('started', String(Date.now() - 2000)); body.set('artwork', 'green-black-original');
     body.append('attachments', new Blob([bytes], { type: 'application/pdf' }), 'référence.pdf');
@@ -60,12 +60,24 @@ try {
   const unconfigured = await send(form());
   assert.equal(unconfigured.status, 503); assert.equal((await unconfigured.json()).accepted, undefined);
   assert.equal(received.length, 2);
+  providerFails = false;
+  handler = createInquiryHandler({ config, fetchImpl: (_url, options) => fetch(providerURL, options) });
+  for (const contact of ['@loopback-visitor', '+49 170 1234567']) {
+    const response = await send(form(original, contact));
+    assert.equal(response.status, 202);
+    assert.equal((await response.json()).accepted, true);
+    assert.equal(Object.hasOwn(received.at(-1), 'reply_to'), false);
+    assert.ok(received.at(-1).text.includes(`how to reach you: ${contact}`));
+  }
+  assert.equal(received.length, 4);
   const report = {
     checkedAt: new Date().toISOString(),
     method: 'Native loopback HTTP with browser-compatible FormData and local mock email-provider HTTP service. No external requests or real email delivery.',
     status: { accepted: accepted.status, crossOrigin: forbidden.status, providerFailure: failed.status, spoofedAttachment: spoofed.status, rateLimit: limited.status, unconfigured: unconfigured.status },
     fixedRecipient: received[0].to[0],
     replyTo: received[0].reply_to,
+    freeTextContactChannelsAccepted: ['@loopback-visitor', '+49 170 1234567'],
+    nonEmailReplyToOmitted: true,
     unicodeFilename: received[0].attachments[0].filename,
     attachmentSHA256: createHash('sha256').update(original).digest('hex'),
     bytesPreserved: true,

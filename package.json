@@ -56,7 +56,10 @@
     "test:v6": "node tests/v6-browser.mjs",
     "test:playground": "node tests/playground-browser.mjs",
     "test:memory-mosh": "node tests/memory-mosh-browser.mjs",
-    "measure:memory-mosh": "node scripts/measure-memory-mosh.mjs"
+    "measure:memory-mosh": "node scripts/measure-memory-mosh.mjs",
+    "test:naavi": "node tests/master-naavi-browser.mjs",
+    "test:foundation": "node scripts/check-master-foundation.mjs",
+    "preview:package": "python3 scripts/package-preview.py"
   },
   "dependencies": {
     "three": "0.186.1"

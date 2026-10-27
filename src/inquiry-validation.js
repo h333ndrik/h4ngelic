@@ -1,5 +1,12 @@
 import { inquirySettings as settings } from './data/inquirySettings.js';
 
+/** The existing multipart field name stays compatible with the mail adapter,
+ * but a reply channel can be an email, social handle, telephone or other text. */
+export function validateInquiryContact(value) {
+  return typeof value !== 'string' || !value.trim() || value.trim().length > 254 || /[\x00-\x1f\x7f]/.test(value)
+    ? 'please enter how to reach you.' : '';
+}
+
 /** Client-side convenience checks; the server independently inspects bytes. */
 export function validateInquiryFiles(files) {
   if (files.length > settings.maximumFiles) return 'please choose up to 5 files.';

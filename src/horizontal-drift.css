@@ -2,11 +2,11 @@
    section, vertical scroll reservation or additional rendering surface. */
 .horizontal-drift { position: relative; margin-top: 30px; min-width: 0; max-width: 100%; }
 .horizontal-drift:focus-visible { outline: 1px solid #f0efeb80; outline-offset: 6px; }
-.drift-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid #ffffff24; min-height: 56px; }
+.drift-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; }
 .drift-instruction { margin: 0; color: #b5b4b0; font-size: 12px; line-height: 1.5; }
 .drift-instruction > span[aria-hidden] { margin-inline: 5px; }
 .drift-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
-.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 0; padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; cursor: pointer; }
+.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 0; padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; cursor: pointer; transition: text-shadow 300ms cubic-bezier(.2,.8,.25,1); }
 .drift-controls button:disabled { opacity: .28; cursor: default; }
 .drift-controls button:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
 .drift-count { min-width: 45px; text-align: center; font-size: 12px; letter-spacing: .05em; font-variant-numeric: tabular-nums; color: #bdbcb8; }
@@ -36,7 +36,7 @@
 @media (hover: hover) and (pointer: fine) {
   /* The existing UI system owns the image zoom/glow and bounds its wrapper.
      Do not add a second perspective or scaling transform to the image plane. */
-  .drift-controls button:hover:not(:disabled) { text-shadow: 0 0 3px #fff, 0 0 12px #ffffff99; }
+  .drift-controls button:hover:not(:disabled) { text-shadow: 0 0 1px #fff3, 0 0 3px #ffffff1f; }
 }
 @media (max-width: 600px) {
   .horizontal-drift { margin-top: 22px; }
@@ -49,5 +49,5 @@
   .drift-meta { margin-top: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .drift-artwork { transition: none; animation: none !important; }
+  .drift-artwork, .drift-controls button { transition: none; animation: none !important; }
 }

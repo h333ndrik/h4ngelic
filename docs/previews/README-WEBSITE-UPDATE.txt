@@ -1,7 +1,7 @@
 H4NGELIC — WEBSITE UPDATE
 
 Öffnen
-1. Auf GitHub im Branch feat/website-completion die Datei
+1. Auf GitHub im Branch feat/master-foundation die Datei
    docs/previews/h4ngelic-preview.html öffnen.
 2. „Download raw file“ wählen und die gespeicherte HTML-Datei auf einem
    Computer in einem aktuellen Browser öffnen. Die GitHub-Codeansicht
@@ -9,9 +9,14 @@ H4NGELIC — WEBSITE UPDATE
 3. Bei portfolio-preview.zip zuerst entpacken, dann die HTML-Datei öffnen.
 
 In dieser Version prüfen
-- Die Startseite zeigt kein INDEX. Auf den Unterseiten bleibt INDEX erhalten.
-- Die Kapitel-Navigation führt durch Contact bis zum finalen h4 und zurück.
-- About-Text und MORE ABOUT stehen links unter ihrer Überschrift.
+- Keine Berlin-Kopfzeile oder mixed-media-Fußzeile im Hero; kleine Steuerung unten links.
+- WORKS: on skin / flashes / leeres3dmodel; jewellery; more mitdigitalvoranalog.
+- HOW TO REACH YOU akzeptiert E-Mail, Instagram oder Telefonnummer.
+- VISIT steht auf allen Seiten neben h4ngelic und zählt Routenwechsel nicht erneut.
+- Klick aufs vergrößerte Foto oder daneben schließt die Bildansicht mit Rückkehr.
+- Kein INDEX-Dropdown: eine gemeinsame NAAVI steht auf allen Seiten unten mittig.
+- NAAVI: Home00 bis04/04, Work01 bis03/03, About01/01; danach zurückHome.
+- About ist ein natürlich fließender Absatz mit kleinem Einzug und kleinerem MORE ABOUT.
 - Lange Rubriken und Pfeile bleiben auch beim Hover innerhalb der Seitenränder.
 - Digital Artworks zeigt das Original sofort, ohne Ink-Reveal oder Scrollmaske.
 - Die Work-Leiste lässt in Welt 4 das beschädigte Material durchscheinen.

@@ -6,7 +6,7 @@ test('About copy and link use bounded entrances and settle into the same left-al
   for (const width of [320, 390, 1440]) {
     for (const role of ['copy', 'link']) {
       const start = sampleAboutItem(0, role, width);
-      assert.ok(start.x > 0 && start.x <= 130, 'About uses a controlled local entrance rather than a viewport-wide flight.');
+      assert.ok(start.x > 0 && start.x <= (role === 'link' ? 28 : 36), 'About uses a controlled local entrance rather than a viewport-wide flight.');
       assert.equal(start.opacity, 0);
       assert.equal(start.rotation, 0, 'Large paragraph text stays readable as it arrives.');
       assert.deepEqual(sampleAboutItem(1, role, width), { x: 0, rotation: 0, opacity: 1 });
