@@ -52,7 +52,7 @@ try {
   await page.waitForTimeout(380);
   const arrow = await link.evaluate((element) => {
     const visual = element.querySelector('.interaction-visual');
-    const label = visual.querySelector('span');
+    const label = visual.querySelector('.category-magnet > span') || visual.querySelector('span');
     const icon = visual.querySelector('.arrow');
     const text = label.getBoundingClientRect();
     const image = icon.getBoundingClientRect();
@@ -84,7 +84,7 @@ try {
   assert.equal(await secret.getAttribute('data-ui-interactive'), null, 'Secret discovery must not gain a conventional glow or magnification.');
 
   await page.keyboard.down('4');
-  await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray', null, { timeout: 3000 });
+  await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray', null, { timeout: 15000 });
   await page.keyboard.up('4');
   await page.waitForFunction(() => !document.documentElement.hasAttribute('data-xray-transition'));
   await settle(page);

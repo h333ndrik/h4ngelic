@@ -80,6 +80,11 @@ export function createAmbientFilm({ image, container, settings = ambientFilmSett
   const context = canvas.getContext('2d', { alpha: false, desynchronized: true });
   const history = doc.createElement('canvas');
   const historyContext = history.getContext('2d', { alpha: false });
+  if (!context || !historyContext) {
+    // Fail before subscriptions or timers retain a half-created renderer.
+    canvas.width = canvas.height = history.width = history.height = 1;
+    throw new Error('Canvas 2D is unavailable for the memory field.');
+  }
   // Preserve compressed pixel edges instead of repeatedly interpolating them
   // into a washed-out blur. This affects only the two background buffers.
   context && (context.imageSmoothingEnabled = false);

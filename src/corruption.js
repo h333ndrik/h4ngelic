@@ -20,8 +20,14 @@ export async function createCorruption({ image, settings = corruptionSettings } 
   const background = doc.createElement('div');
   background.className = 'corruption-background'; background.setAttribute('aria-hidden', 'true');
   doc.body.prepend(background);
-  const ambient = createAmbientFilm({ image: source, container: background,
-    settings: settings.ambient || corruptionSettings.ambient, profile, view, doc });
+  let ambient;
+  try {
+    ambient = createAmbientFilm({ image: source, container: background,
+      settings: settings.ambient || corruptionSettings.ambient, profile, view, doc });
+  } catch (error) {
+    background.remove();
+    throw error;
+  }
   let active = false, disposed = false, receivedImpulses = 0, sharedInputs = 0;
   let lastPointer = null, clickCandidate = null, completedClick = null;
   let viewport = { width: view.innerWidth, height: view.innerHeight };
