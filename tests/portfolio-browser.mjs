@@ -209,8 +209,8 @@ try {
   await mobilePage.waitForURL((url) => url.pathname === '/contact');
   await mobilePage.waitForFunction(() => document.getElementById('contact').getBoundingClientRect().top < innerHeight);
   assert.deepEqual(mobileErrors, []);
-  await mobile.close();
   assert.equal(await mobilePage.locator('[data-inquiry-form]').count(), 1);
+  await mobile.close();
   console.log('PASS portfolio mobile: horizontal categories at 390/320px, scrollable keyboard access, connected anchor jumps and INDEX Contact, no page overflow.');
   console.log(`Screenshots saved in ${artifacts.pathname}`);
 } finally {

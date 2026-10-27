@@ -86,6 +86,8 @@ try {
     assert.equal(await page.locator('main').count(), 1);
     assert.ok((await page.locator('h1').count()) >= 1);
     if (path === '/') {
+      assert.equal(await page.locator('[data-global-index]').isVisible(), false,
+        'The prerendered homepage has no INDEX even without JavaScript.');
       assert.equal(await page.locator('.hero').count(), 1);
       assert.equal(await page.locator('#selected-work .category-link[href="/work#tattoos"]').count(), 1);
       assert.deepEqual(await page.locator('#selected-work .category-link').allTextContents(), ['tattoos', 'jewellery', 'more']);
@@ -94,6 +96,8 @@ try {
       assert.match(metadata.text, /selected works?/i);
       assert.equal(await page.locator('.fallback').isVisible(), true, 'The no-JS homepage retains the accessible static wordmark.');
     } else {
+      assert.equal(await page.locator('[data-global-index]').isVisible(), true,
+        'Interior pages retain their native INDEX without JavaScript.');
       assert.equal(await page.locator('.hero').count(), 0, 'Interior HTML must not expose a competing hero or download its font/scene.');
       if (path === originalPath) {
         assert.equal(await page.locator('.artwork-detail .project-image img').count(), 1);
