@@ -68,7 +68,7 @@ async function assertConnectedWork(page, category) {
   const expectedEmpty = expected === 'paintings' ? 5 : 4;
   assert.deepEqual(await page.locator('.archive-empty').allTextContents(), Array(expectedEmpty).fill('archive in progress.'));
   assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)),
-    ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks', ...(expected === 'paintings' ? ['paintings'] : [])]);
+    ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography', ...(expected === 'paintings' ? ['paintings'] : [])]);
   assert.equal(await page.locator('.portfolio-archive img').count(), 1,
     'The one original stays mounted in every connected context; empty leaves never invent artwork.');
   const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
@@ -76,7 +76,7 @@ async function assertConnectedWork(page, category) {
   assert.equal(await original.getAttribute('height'), '1920');
   assert.match(await original.getAttribute('src'), /green-black-original/);
   assert.equal(await page.locator('[data-project-url="/work/digital-artworks/green-black-original"]').count(), 1);
-  assert.equal(await page.locator('.work-page .page-heading').innerText(), 'work');
+  assert.equal(await page.locator('.work-page .page-heading').innerText(), '01 / WORKS');
   const duplicateIDs = await page.locator('[data-connected-work] [id]').evaluateAll(nodes => {
     const ids = nodes.map(node => node.id); return ids.filter((id, index) => ids.indexOf(id) !== index);
   });
@@ -89,13 +89,15 @@ async function assertConnectedWork(page, category) {
   assert.equal(await page.locator('#logo-canvas').isVisible(), false, 'Interior pages must not render the homepage WebGL canvas.');
 }
 
-async function indexNavigate(page, name, { touch = false } = {}) {
-  const index = page.locator('[data-global-index]');
-  if (!await index.evaluate(element => element.open)) {
-    if (touch) await index.locator('summary').tap(); else await index.locator('summary').click();
+async function navigateToContact(page, { touch = false } = {}) {
+  const activate = async target => touch ? target.tap() : target.click();
+  if (await page.locator('html').getAttribute('data-page') !== 'about') {
+    await activate(page.locator('.brand-link'));
+    await page.locator('html[data-page="home"]').waitFor();
+    await activate(page.locator('.hero-nav a[href="/about"]'));
+    await page.locator('html[data-page="about"]').waitFor();
   }
-  const link = index.locator(`[data-index-page="${name}"]`);
-  if (touch) await link.tap(); else await link.click();
+  await activate(page.locator('.about-copy a[href="/contact"]'));
 }
 
 try {
@@ -160,7 +162,7 @@ try {
   assert.ok(await page.locator('.about-copy').getByText('independent artist based in berlin.', { exact: true }).count());
   assert.equal(await page.locator('#logo-canvas').isVisible(), false);
   await page.screenshot({ path: new URL('about.png', artifacts).pathname, fullPage: true });
-  await indexNavigate(page, 'contact');
+  await navigateToContact(page);
   await page.waitForURL((url) => url.pathname === '/contact');
   await page.locator('#contact').waitFor();
   await page.waitForFunction(() => document.getElementById('contact').getBoundingClientRect().top < innerHeight);
@@ -201,17 +203,17 @@ try {
   await mobilePage.locator('#selected-work .category-link[href="/work#more"]').tap();
   await mobilePage.waitForURL((url) => url.pathname === '/work' && url.hash === '#more');
   await assertConnectedWork(mobilePage, 'more');
-  await mobilePage.locator('.work-subfilters a[href="/work#digital-artworks"]').tap();
+  await mobilePage.locator('.archive-category-heading a[href="/work#digital-artworks"]').tap();
   await mobilePage.waitForURL((url) => url.pathname === '/work' && url.hash === '#digital-artworks');
   await assertConnectedWork(mobilePage, 'digital-artworks');
   assert.ok(await mobilePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-  await indexNavigate(mobilePage, 'contact', { touch: true });
+  await navigateToContact(mobilePage, { touch: true });
   await mobilePage.waitForURL((url) => url.pathname === '/contact');
   await mobilePage.waitForFunction(() => document.getElementById('contact').getBoundingClientRect().top < innerHeight);
   assert.deepEqual(mobileErrors, []);
   assert.equal(await mobilePage.locator('[data-inquiry-form]').count(), 1);
   await mobile.close();
-  console.log('PASS portfolio mobile: horizontal categories at 390/320px, scrollable keyboard access, connected anchor jumps and INDEX Contact, no page overflow.');
+  console.log('PASS portfolio mobile: horizontal categories at 390/320px, scrollable keyboard access, connected anchor jumps and visible About/Contact navigation, no page overflow.');
   console.log(`Screenshots saved in ${artifacts.pathname}`);
 } finally {
   await browser.close();

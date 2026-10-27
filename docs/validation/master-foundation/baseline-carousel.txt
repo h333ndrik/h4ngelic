@@ -1,0 +1,16 @@
+START native carousel 1000px
+PASS native carousel 1000px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, drag, detail return and bounds.
+START native carousel 390px
+PASS native carousel 390px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, native swipe/pan, detail return and bounds.
+START native carousel 320px
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.waitForFunction: Timeout 30000ms exceeded.
+    at /tmp/h4-master-baseline/tests/horizontal-drift-browser.mjs:221:16 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,55 @@
+
+> h4ngelic@0.1.0 preview:export
+> npm run build && node scripts/export-preview.mjs
+
+
+> h4ngelic@0.1.0 prebuild
+> npm run images:optimize
+
+
+> h4ngelic@0.1.0 images:optimize
+> node scripts/optimize-images.mjs
+
+/images/digital-artworks/green-black-original.jpg: 1440×1920 → 320, 640, 960, 1440px WebP
+Prepared 1 local portfolio/portrait images. Originals preserved.
+
+> h4ngelic@0.1.0 build
+> vite build && node scripts/prerender.mjs
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 110 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             3.53 kB │ gzip:   1.27 kB
+dist/assets/corruption-BLAceHgE.css         1.32 kB │ gzip:   0.57 kB
+dist/assets/index-Bv531uXU.css             58.41 kB │ gzip:  12.03 kB
+dist/assets/wordmark-xray-CcTubV-X.js       4.37 kB │ gzip:   1.67 kB
+dist/assets/horizontal-drift-CXghPSbw.js    7.44 kB │ gzip:   2.73 kB
+dist/assets/corruption-CIrksj_3.js         24.87 kB │ gzip:  10.13 kB
+dist/assets/index-DUgwFoRL.js             172.58 kB │ gzip:  57.21 kB
+dist/assets/main-KwYgGF8J.js              610.36 kB │ gzip: 158.03 kB
+
+✓ built in 438ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+Prerendered 12 routes + 404 (preview; 0 indexable).
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 110 modules transformed.
+rendering chunks...
+computing gzip size...
+artifacts/.preview-build/index.html                   3.53 kB │ gzip:   1.27 kB
+artifacts/.preview-build/assets/index-DOaGedVY.css   59.74 kB │ gzip:  12.29 kB
+artifacts/.preview-build/assets/index-DxumV9xW.js   821.68 kB │ gzip: 229.00 kB
+
+✓ built in 338ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+Exported self-contained interactive preview: /workspace/h4ngelic/artifacts/h4ngelic-preview.html

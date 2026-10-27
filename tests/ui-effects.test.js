@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { boundedHoverScale, fitHoverFrame } from '../src/data/uiEffectSettings.js';
+import { boundedHoverScale, fitHoverFrame, uiEffectSettings, uiEffectProperties } from '../src/data/uiEffectSettings.js';
 
 test('large hover labels use their preferred scale only when their column has room', () => {
   assert.equal(boundedHoverScale(200, 400, 1.2), 1.2);
@@ -47,4 +47,21 @@ test('partly offscreen and unmeasurable visuals are never enlarged or displaced 
     { left: 0, width: 0, boundsRight: 320 }, { left: 20, width: 80, boundsRight: NaN }]) {
     assert.deepEqual(fitHoverFrame(geometry), { scale: 1, minimumTranslation: 0, maximumTranslation: 0 });
   }
+});
+
+// The production defaults exercise the same edge fitting as deliberately large
+// stress-test scales above, without allowing hover to zoom the page or label.
+test('restrained production hover stays inside every supported screen and clipping edge', () => {
+  for (const viewport of [320, 390, 1440, 1614]) {
+    for (const origin of [0, .5, 1]) {
+      const fit = fitHoverFrame({ left: viewport - 102, width: 100, boundsRight: viewport, origin, translation: uiEffectSettings.magnetDistance });
+      const anchor = viewport - 102 + origin * 100;
+      assert.ok(fit.scale >= 1 && fit.scale <= 1.03);
+      assert.ok(anchor - origin * 100 * fit.scale + fit.minimumTranslation >= 0);
+      assert.ok(anchor + (1 - origin) * 100 * fit.scale + fit.maximumTranslation <= viewport + 1e-8);
+    }
+  }
+  const properties = uiEffectProperties();
+  assert.equal(properties['--ui-hover-duration'], properties['--ui-release-duration']);
+  assert.equal(properties['--ui-glow-strength'], '0.2');
 });

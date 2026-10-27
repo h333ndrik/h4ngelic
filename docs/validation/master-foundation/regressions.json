@@ -1,0 +1,54 @@
+{
+  "startedAt": "2026-10-27T20:49:00.961Z",
+  "base": "http://127.0.0.1:55173",
+  "tests": [
+    "gallery-browser.mjs",
+    "horizontal-drift-browser.mjs",
+    "v6-browser.mjs",
+    "portfolio-browser.mjs",
+    "memory-mosh-browser.mjs"
+  ],
+  "completed": [
+    {
+      "file": "gallery-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 14470
+    },
+    {
+      "file": "horizontal-drift-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 34807
+    },
+    {
+      "file": "v6-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 39267
+    },
+    {
+      "file": "portfolio-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 57606
+    },
+    {
+      "file": "memory-mosh-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 94863
+    }
+  ],
+  "passed": true,
+  "resumedAt": "2026-10-27T21:02:47.359Z",
+  "previousFailures": [
+    {
+      "file": "horizontal-drift-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 62014
+    }
+  ],
+  "finishedAt": "2026-10-27T21:06:33.910Z"
+}

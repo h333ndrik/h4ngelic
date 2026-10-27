@@ -1,0 +1,68 @@
+{
+  "checkedAt": "2026-10-27T21:04:01.300Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reducedMotion": true,
+      "sharedNaavi": true,
+      "realHomeStops": 5,
+      "homeDenominator": 4,
+      "connectedArchives": 5,
+      "beforeHomeWebGL": 0,
+      "mockProviderOnly": true,
+      "uploadRemovalAndErrorRetry": true,
+      "artworkContext": true,
+      "holdToggleAndFormExclusion": true,
+      "workNodesRetained": true,
+      "layout": {
+        "width": 1440,
+        "doc": 1440,
+        "formOpacity": "1",
+        "chapter": "3"
+      },
+      "runtimeErrors": []
+    },
+    {
+      "width": 390,
+      "reducedMotion": true,
+      "sharedNaavi": true,
+      "realHomeStops": 5,
+      "homeDenominator": 4,
+      "connectedArchives": 5,
+      "beforeHomeWebGL": 0,
+      "mockProviderOnly": true,
+      "uploadRemovalAndErrorRetry": true,
+      "artworkContext": true,
+      "holdToggleAndFormExclusion": true,
+      "workNodesRetained": true,
+      "layout": {
+        "width": 390,
+        "doc": 390,
+        "formOpacity": "1",
+        "chapter": "3"
+      },
+      "runtimeErrors": []
+    },
+    {
+      "width": 320,
+      "reducedMotion": true,
+      "sharedNaavi": true,
+      "realHomeStops": 5,
+      "homeDenominator": 4,
+      "connectedArchives": 5,
+      "beforeHomeWebGL": 0,
+      "mockProviderOnly": true,
+      "uploadRemovalAndErrorRetry": true,
+      "artworkContext": true,
+      "holdToggleAndFormExclusion": true,
+      "workNodesRetained": true,
+      "layout": {
+        "width": 320,
+        "doc": 320,
+        "formOpacity": "1",
+        "chapter": "3"
+      },
+      "runtimeErrors": []
+    }
+  ]
+}

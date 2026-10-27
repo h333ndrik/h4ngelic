@@ -61,7 +61,6 @@ function ensureHero() {
   if (brand) brand.textContent = siteContent.name;
   const tagline = hero.querySelector('.identity');
   if (tagline) tagline.textContent = siteContent.home.tagline;
-  document.querySelector('.edition').textContent = siteContent.location;
 }
 
 function prepareHero() {

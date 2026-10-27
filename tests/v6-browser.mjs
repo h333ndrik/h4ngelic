@@ -30,15 +30,13 @@ try {
     });
     await page.goto(`${base}/contact`, { waitUntil: 'networkidle' });
     await page.locator('html[data-page="contact"][data-xray-ready]').waitFor();
-    const index = page.locator('[data-global-index]');
-    const summary = index.locator('summary');
-    await summary.click();
-    assert.deepEqual(await index.locator('a').evaluateAll(links => links.map(link => link.getAttribute('href'))), ['/', '/work', '/about', '/contact']);
-    assert.equal(await index.locator('[aria-current="page"]').getAttribute('data-index-page'), 'contact');
-    await page.keyboard.press('Escape');
-    assert.equal(await index.getAttribute('open'), null);
-    assert.equal(await summary.evaluate(node => node === document.activeElement), true);
-    assert.equal(await page.locator('[data-chapter-counter]').isVisible(), false);
+    const naavi = page.locator('[data-naavi]');
+    assert.equal(await naavi.count(), 1);
+    assert.equal(await naavi.isVisible(), true);
+    assert.equal(await page.locator('[data-global-index], details.global-index').count(), 0);
+    assert.equal(await naavi.getAttribute('data-chapter'), '1');
+    assert.equal(await naavi.getAttribute('data-chapter-total'), '1');
+    assert.equal(await naavi.getAttribute('href'), '/');
     const form = page.locator('[data-inquiry-form]');
     await form.locator('[name=name]').fill('Browser fixture');
     await form.locator('[name=email]').fill('browser@example.test');
@@ -73,16 +71,17 @@ try {
     assert.equal(await form.locator('.inquiry-file-row').count(), 0);
     await page.unroute('**/api/inquiry');
 
-    await summary.click(); await index.locator('[data-index-page="work"]').click();
+    // Start a genuinely cold Work route: form route already verified above.
+    await page.goto(`${base}/work`, { waitUntil: 'networkidle' });
     await page.locator('[data-connected-work]').waitFor();
     assert.equal(await page.locator('[data-archive-category]').count(), 5);
     assert.equal(await page.locator('.archive-empty').count(), 4);
     await page.evaluate(() => { window.__v6WorkNode = document.querySelector('[data-connected-work]'); });
     await page.locator('.work-filters a[href="/work#more"]').click();
     await page.waitForURL('**/work#more');
-    await page.waitForFunction(() => Math.abs(document.getElementById('more').getBoundingClientRect().top - (innerWidth <= 600 ? 150 : 90)) < 4);
+    await page.waitForFunction(() => Math.abs(document.getElementById('more').getBoundingClientRect().top - 90) < 4);
     assert.equal(await page.evaluate(() => window.__v6WorkNode === document.querySelector('[data-connected-work]')), true);
-    await page.locator('.work-subfilters a[href="/work#digital-artworks"]').click();
+    await page.locator('.archive-category-heading a[href="/work#digital-artworks"]').click();
     await page.waitForURL('**/work#digital-artworks');
     const image = page.locator('[data-archive-category="digital-artworks"] .project-image img');
     await image.evaluate(node => node.decode());
@@ -107,7 +106,11 @@ try {
     await page.keyboard.down('4');
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray');
     await page.keyboard.up('4');
-    await summary.click(); await index.locator('[data-index-page="about"]').click();
+    // Use the visible HOME destination and original frontpage About link;
+    // this preserves the mode through actual client-side route changes.
+    await naavi.click();
+    await page.locator('html[data-page="home"]').waitFor();
+    await page.locator('.hero-nav a[href="/about"]').click();
     await page.locator('html[data-page="about"]').waitFor();
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
     await page.keyboard.down('4');
@@ -117,25 +120,25 @@ try {
     await page.locator('html[data-page="home"]').waitFor();
     await page.locator('#stage.is-ready, #stage.is-fallback').waitFor({ timeout: 60000 });
     await page.locator('[data-chapter-counter]:not([hidden])').waitFor();
-    assert.equal(await page.locator('.identity').innerText(), 'mixed media');
+    assert.equal(await page.locator('.identity, .masthead .edition').count(), 0);
     assert.equal(await page.locator('.category-link').count(), 3);
     assert.equal(await page.locator('.category-sublinks').count(), 0);
     assert.equal(await page.locator('[data-chapter-counter]').getAttribute('data-chapter-total'), '4');
     await page.locator('[data-chapter-counter]').click();
-    await page.waitForFunction(() => document.querySelector('[data-chapter-counter]').dataset.chapter === '2');
-    assert.equal(await index.isVisible(), false, 'Home retains its own navigation and does not show INDEX.');
+    await page.waitForFunction(() => document.querySelector('[data-chapter-counter]').dataset.chapter === '1');
+    assert.equal(await page.locator('[data-global-index]').count(), 0, 'NAAVI has no duplicate header INDEX.');
     await page.evaluate(() => document.getElementById('contact').focus({ preventScroll: true }));
     await page.evaluate(() => document.getElementById('contact').scrollIntoView());
-    await page.waitForFunction(() => document.querySelector('[data-chapter-counter]').dataset.chapter === '4');
+    await page.waitForFunction(() => document.querySelector('[data-chapter-counter]').dataset.chapter === '3');
     const layout = await page.evaluate(() => ({ width: innerWidth, doc: document.documentElement.scrollWidth,
       formOpacity: getComputedStyle(document.querySelector('.inquiry-enter')).opacity,
       chapter: document.querySelector('[data-chapter-counter]').dataset.chapter }));
     assert.equal(layout.doc, width, `No page overflow at ${width}px`);
     assert.equal(layout.formOpacity, '1');
-    assert.equal(layout.chapter, '4');
+    assert.equal(layout.chapter, '3');
     await page.screenshot({ path: new URL(`contact-${width}.png`, out).pathname, timeout: 60000 });
     assert.deepEqual(errors, []);
-    reports.push({ width, reducedMotion: true, indexEntries: 4, realHomeChapters: 4, connectedArchives: 5,
+    reports.push({ width, reducedMotion: true, sharedNaavi: true, realHomeStops: 5, homeDenominator: 4, connectedArchives: 5,
       beforeHomeWebGL: 0, mockProviderOnly: true, uploadRemovalAndErrorRetry: true, artworkContext: true,
       holdToggleAndFormExclusion: true, workNodesRetained: true, layout, runtimeErrors: errors });
     console.log(`PASS V6 ${width}px`);

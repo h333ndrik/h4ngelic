@@ -1,5 +1,5 @@
-/* V6 keeps the existing glow/magnet system. These are bounded typographic
-   refinements; no extra renderer, image layer or animation loop is added. */
+/* Bounded typographic feedback composes with the existing scroll movement.
+   Ordinary hover stays quiet; the mode's corruption renderer is independent. */
 .about-preview .text-link { text-decoration: none; }
 .visitor-hotspot { font-size: clamp(16px, 1.2vw, 19px); }
 .kinetic-heading-text {
@@ -9,17 +9,17 @@
   /* Independent scale composes with the existing scroll translation. */
   scale: 1;
 }
-/* Enough horizontal room is retained for the long SELECTED WORKS line.
+/* Enough horizontal room is retained for the editorial heading line.
    Small screens keep the same hit geometry and avoid expanded text clipping. */
 @media (hover: hover) and (pointer: fine) and (min-width: 1000px) {
   [data-scroll-choreography] [data-motion-state='settled'] .kinetic-heading,
   [data-scroll-choreography] [data-motion-state='focus'] .kinetic-heading { overflow: visible; }
   .kinetic-heading > .kinetic-heading-text {
-    transition: scale 260ms var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)), filter 260ms ease-out;
+    transition: scale var(--ui-hover-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)), filter var(--ui-hover-duration, 300ms) ease-out;
   }
   .kinetic-heading:hover .kinetic-heading-text {
     scale: var(--heading-hover-scale, 1);
-    filter: drop-shadow(0 0 2px #ffffffaa) drop-shadow(0 0 8px #ffffff55);
+    filter: drop-shadow(0 0 1px rgb(255 255 255 / calc(.67 * var(--ui-glow-strength, .2)))) drop-shadow(0 0 4px rgb(255 255 255 / calc(.33 * var(--ui-glow-strength, .2))));
   }
 }
 @media (prefers-reduced-motion: reduce) {

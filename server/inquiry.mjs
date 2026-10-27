@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { inquirySettings as limits } from '../src/data/inquirySettings.js';
 import { inquiryArtwork } from '../src/inquiry-content.js';
+import { validateInquiryContact } from '../src/inquiry-validation.js';
 
 const RECIPIENT = 'h4ngelic@gmail.com';
 const MAX_BODY = limits.maximumTotalBytes + 64 * 1024;
@@ -127,7 +128,8 @@ export function validateInquiryFields(fields, now = Date.now()) {
   const email = (fields.email || '').trim();
   const message = (fields.message || '').trim();
   if (!name || name.length > limits.maximumNameLength || /[\x00-\x1f\x7f]/.test(fields.name || '')) throw new InquiryError(400, 'please enter your name.');
-  if (!address(email) || /[\x00-\x1f\x7f]/.test(fields.email || '')) throw new InquiryError(400, 'please enter a valid email address.');
+  const contactError = validateInquiryContact(fields.email);
+  if (contactError) throw new InquiryError(400, contactError);
   if (message.length > limits.maximumMessageLength || /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(message)) throw new InquiryError(400, 'please keep the message below 8000 characters.');
   if (fields.website) throw new InquiryError(400, 'the inquiry could not be accepted.');
   if (fields.started) {
@@ -193,10 +195,10 @@ export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl =
       const parsed = parseInquiryMultipart(Buffer.concat(chunks, bytes), req.headers['content-type']);
       const fields = validateInquiryFields(parsed.fields, now());
       const requestId = randomUUID();
-      const text = [`name: ${fields.name}`, `email: ${fields.email}`, ...(fields.artwork ? [`artwork: ${fields.artworkTitle}`, `https://h4ngelic.com/work/${inquiryArtwork(fields.artwork).category}/${fields.artwork}`] : []), '', fields.message || '(no message supplied)'].join('\n');
+      const text = [`name: ${fields.name}`, `how to reach you: ${fields.email}`, ...(fields.artwork ? [`artwork: ${fields.artworkTitle}`, `https://h4ngelic.com/work/${inquiryArtwork(fields.artwork).category}/${fields.artwork}`] : []), '', fields.message || '(no message supplied)'].join('\n');
       let response;
       try {
-        response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], reply_to: fields.email, subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
+        response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], ...(address(fields.email) ? { reply_to: fields.email } : {}), subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
       } catch { throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.'); }
       const result = await response.json().catch(() => null);
       if (!response.ok || typeof result?.id !== 'string' || !result.id) throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.');

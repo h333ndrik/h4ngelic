@@ -1,264 +1,123 @@
 import './global-navigation.css';
-import { activeChapter, primaryIndexPage, hasFinalChapterStop, clearChapterTop } from './global-navigation-state.js';
+import { resolveRoute } from './routes.js';
+import { activeChapter } from './global-navigation-state.js';
+import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from './naavi-content.js';
 
-/** Persistent navigation around the existing page renderer. Native details and
- * anchors remain usable in prerendered HTML without this enhancement. */
+/** Persistent shared NAAVI. Geometry is cached on layout changes; ordinary
+ * scrolling schedules one paint, with no frame loop or scroll measurements. */
 export function initGlobalNavigation(doc = document) {
   const view = doc.defaultView;
-  const index = doc.querySelector('[data-global-index]');
-  if (!view || !index) return Object.assign(() => {}, { refresh: () => {} });
-  const summary = index.querySelector('summary');
-  const originalIndexHidden = index.hidden;
-  const links = [...index.querySelectorAll('[data-index-page]')];
+  if (!view) return Object.assign(() => {}, { refresh: () => {} });
+  let link = doc.querySelector('[data-naavi]');
+  if (!link) {
+    doc.body.insertAdjacentHTML('beforeend', renderNAAVI({ kind: doc.documentElement.dataset.page || 'home' }));
+    link = doc.querySelector('[data-naavi]');
+  }
   const reduced = view.matchMedia('(prefers-reduced-motion: reduce)');
-  const removers = [];
-  let disposed = false;
-  let frame = 0;
-  let dirty = true;
-  let chapters = [];
-  let tops = [];
-  let current = -1;
-  let digitAnimation = null;
-  let resizeObserver = null;
-  let finalStop = null;
-  let finalTop = Infinity;
-  let maximumScroll = 0;
-  let formRectangles = [];
-  let counterGeometry = null;
-  let counterShift = 0;
-  const chapter = doc.createElement('button');
-  chapter.type = 'button';
-  chapter.className = 'chapter-counter';
-  chapter.hidden = true;
-  chapter.setAttribute('data-chapter-counter', '');
-  chapter.setAttribute('data-no-ink', '');
-  chapter.setAttribute('data-no-hover', '');
-  chapter.setAttribute('data-corruption-protected', '');
-  const currentWrap = doc.createElement('span');
-  currentWrap.className = 'chapter-digit-window';
-  currentWrap.setAttribute('aria-hidden', 'true');
-  const digits = doc.createElement('span');
-  digits.className = 'chapter-digit';
-  currentWrap.append(digits);
-  const total = doc.createElement('span');
-  total.className = 'chapter-total';
-  total.setAttribute('aria-hidden', 'true');
-  chapter.append(currentWrap, total);
-  doc.body.append(chapter);
-
-  const listen = (target, event, callback, options) => {
-    target.addEventListener(event, callback, options);
-    removers.push(() => target.removeEventListener(event, callback, options));
+  const listeners = [];
+  let stops = [], measured = [], frame = 0, dirty = true, disposed = false;
+  let current = -1, digitAnimation, routeKind = '', initialIndex = 0, resizeObserver;
+  const listen = (target, name, handler, options) => {
+    target.addEventListener(name, handler, options);
+    listeners.push(() => target.removeEventListener(name, handler, options));
   };
+  const href = value => doc.documentElement.dataset.preview === 'standalone' ? `#${value}` : value;
 
-  function measureCounter() {
-    const bottom = parseFloat(view.getComputedStyle(chapter).bottom) || 12;
-    const width = Math.max(100, chapter.offsetWidth * 1.08);
-    const height = Math.max(48, chapter.offsetHeight * 1.08);
-    counterGeometry = { top: view.innerHeight - bottom - chapter.offsetHeight,
-      left: (view.innerWidth - width) / 2, right: (view.innerWidth + width) / 2,
-      height, actualHeight: chapter.offsetHeight, bottom };
-    formRectangles = [...doc.querySelectorAll('[data-inquiry-form] input:not([type="hidden"]), [data-inquiry-form] textarea, [data-inquiry-form] button, .inquiry-file-label')]
-      .filter(control => !control.closest('.inquiry-honey'))
-      .map(control => {
-        const box = control.getBoundingClientRect();
-        // The Contact entrance only translates horizontally. Cache its natural
-        // footprint so the navigation is safe before that entrance has settled.
-        const moving = control.closest('[data-motion-item="form"]');
-        const entranceX = parseFloat(moving?.style.getPropertyValue('--kinetic-x')) || 0;
-        return { left: box.left - entranceX, right: box.right - entranceX,
-          top: box.top + view.scrollY, bottom: box.bottom + view.scrollY, width: box.width, height: box.height };
-      }).filter(box => box.width > 2 && box.height > 2);
-  }
-
-  function positionCounter() {
-    if (!counterGeometry) return;
-    const viewportTop = view.visualViewport?.offsetTop || 0;
-    const viewportBottom = viewportTop + (view.visualViewport?.height || view.innerHeight);
-    const preferredTop = Math.min(counterGeometry.top, viewportBottom - counterGeometry.bottom - counterGeometry.actualHeight);
-    const obstacles = formRectangles.filter(box => box.right > counterGeometry.left - 6 && box.left < counterGeometry.right + 6)
-      .map(box => ({ top: box.top - view.scrollY, bottom: box.bottom - view.scrollY }));
-    const top = clearChapterTop({ preferredTop, previousTop: counterGeometry.top + counterShift,
-      height: counterGeometry.height, viewportTop, viewportBottom, obstacles });
-    const shift = Math.round((top - counterGeometry.top) * 100) / 100;
-    if (shift !== counterShift) {
-      counterShift = shift;
-      chapter.style.setProperty('--chapter-dodge-y', `${shift}px`);
+  function paint(index) {
+    const state = naaviState(stops, index);
+    const destination = href(state.destination.href);
+    if (link.getAttribute('href') !== destination) link.setAttribute('href', destination);
+    if (link.getAttribute('aria-label') !== state.label) link.setAttribute('aria-label', state.label);
+    link.dataset.chapterTarget = state.destination.id || 'home';
+    link.dataset.chapter = String(state.current);
+    link.dataset.chapterTotal = String(state.total);
+    const digit = link.querySelector('.chapter-digit');
+    const total = link.querySelector('.chapter-total');
+    const currentText = String(state.current).padStart(2, '0');
+    const totalText = ` / ${String(state.total).padStart(2, '0')}`;
+    if (digit && digit.textContent !== currentText) digit.textContent = currentText;
+    if (total && total.textContent !== totalText) total.textContent = totalText;
+    if (index !== current && current >= 0 && !reduced.matches && digit?.animate) {
+      digitAnimation?.cancel();
+      digitAnimation = digit.animate([{ transform: `translateY(${index > current ? '80%' : '-80%'})`, opacity: 0 },
+        { transform: 'translateY(0)', opacity: 1 }], { duration: 280, easing: 'cubic-bezier(.2,.8,.25,1)' });
     }
-    chapter.classList.toggle('is-over-form', Math.abs(top - preferredTop) > 1);
+    current = index;
   }
-
-  function nextDestination() {
-    if (finalStop && hasFinalChapterStop({ current, count: chapters.length, scrollTop: view.scrollY, finalTop, maximumScroll })) {
-      return { element: finalStop, label: 'the final h4 reveal', key: 'final' };
-    }
-    const next = chapters[(current + 1) % chapters.length];
-    return next && { ...next, key: (current + 1) % chapters.length === 0 ? 'home' : String((current + 1) % chapters.length + 1) };
-  }
-
-  function close({ focus = false } = {}) {
-    if (!index.open) return;
-    index.open = false;
-    summary.setAttribute('aria-expanded', 'false');
-    if (focus && !index.hidden) summary.focus({ preventScroll: true });
-  }
-
-  function positionIndex() {
-    if (!index.open) return;
-    const controls = doc.querySelector('.hero:not([hidden]) [data-controls]');
-    const summaryBox = summary.getBoundingClientRect();
-    const controlBox = controls?.getBoundingClientRect();
-    // The menu starts below the actual upper controls on Home, including when
-    // those controls wrap on a narrow screen. Other pages use the compact gap.
-    const top = controlBox && controlBox.bottom > summaryBox.bottom && controlBox.top < view.innerHeight
-      ? Math.max(summaryBox.height + 10, controlBox.bottom - summaryBox.top + 12)
-      : summaryBox.height + 10;
-    index.style.setProperty('--index-panel-top', `${Math.round(top)}px`);
-  }
-
-  function paintChapter(next) {
-    if (next < 0) return;
-    const previous = current;
-    current = next;
-    const nextChapter = nextDestination();
-    const label = `chapter ${current + 1} of ${chapters.length}, ${chapters[current].label}. go to ${nextChapter.label}`;
-    if (chapter.getAttribute('aria-label') !== label) chapter.setAttribute('aria-label', label);
-    if (chapter.dataset.chapterTarget !== nextChapter.key) chapter.dataset.chapterTarget = nextChapter.key;
-    if (next === previous) return;
-    digitAnimation?.cancel();
-    digits.textContent = String(current + 1).padStart(2, '0');
-    total.textContent = ` / ${String(chapters.length).padStart(2, '0')}`;
-    chapter.dataset.chapter = String(current + 1);
-    chapter.dataset.chapterTotal = String(chapters.length);
-    if (previous >= 0 && !reduced.matches && typeof digits.animate === 'function') {
-      digitAnimation = digits.animate([
-        { transform: `translateY(${next > previous ? '90%' : '-90%'})`, opacity: 0 },
-        { transform: 'translateY(0)', opacity: 1 },
-      ], { duration: 180, easing: 'cubic-bezier(.2,.7,.3,1)' });
-    }
-  }
-
   function update() {
     frame = 0;
-    if (disposed || doc.hidden || !chapters.length) return;
+    if (disposed || doc.hidden || !stops.length) return;
     if (dirty) {
-      const scrollTop = view.scrollY;
-      tops = chapters.map(({ element }) => element.getBoundingClientRect().top + scrollTop);
-      finalTop = finalStop ? finalStop.getBoundingClientRect().top + scrollTop : Infinity;
-      maximumScroll = Math.max(0, doc.documentElement.scrollHeight - view.innerHeight);
-      measureCounter();
+      const maximum = Math.max(0, doc.documentElement.scrollHeight - view.innerHeight);
+      measured = stops.map((stop, index) => ({ index, element: stop.element,
+        top: stop.element ? Math.min(maximum, stop.element.getBoundingClientRect().top + view.scrollY) : Infinity }))
+        .filter(stop => Number.isFinite(stop.top));
       dirty = false;
     }
-    paintChapter(activeChapter(tops, view.scrollY, view.innerHeight));
-    positionCounter();
-    positionIndex();
+    const active = measured.length ? activeChapter(measured.map(stop => stop.top), view.scrollY, view.innerHeight) : -1;
+    paint(active < 0 ? initialIndex : measured[active].index);
   }
-
   function schedule(remeasure = false) {
     dirty ||= remeasure;
-    if (!frame && !doc.hidden && !disposed) frame = view.requestAnimationFrame(update);
+    if (!frame && !disposed && !doc.hidden) frame = view.requestAnimationFrame(update);
   }
-
   function refresh() {
-    if (disposed) return;
-    close();
-    const primary = primaryIndexPage(doc.documentElement.dataset.page);
-    index.hidden = primary === 'home';
-    for (const link of links) {
-      if (link.dataset.indexPage === primary) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    }
+    routeKind = doc.documentElement.dataset.page || 'home';
+    const standalone = doc.documentElement.dataset.preview === 'standalone';
+    const url = standalone ? new URL(view.location.hash.slice(1) || '/', 'https://preview.invalid') : new URL(view.location.href);
+    initialIndex = initialNaaviIndex(resolveRoute(url));
     resizeObserver?.disconnect();
-    chapters = [];
-    finalStop = null;
-    if (primary === 'home') {
-      const hero = doc.querySelector('.hero:not([hidden])');
-      if (hero) chapters.push({ element: hero, label: 'home' });
-      for (const element of doc.querySelectorAll('#page-content > .content-section[data-motion]')) {
-        const heading = element.querySelector('.kinetic-heading')?.textContent || element.dataset.motion;
-        chapters.push({ element, label: heading.trim().replace(/^\d+\s*\/\s*/, '').toLowerCase() });
-      }
-      for (const { element } of chapters) {
+    const isWork = routeKind === 'work';
+    stops = naaviStops(routeKind).map(stop => {
+      // Only the current page's actual sections participate in scroll state.
+      const element = routeKind === 'home' ? doc.querySelector(stop.selector || `#${stop.id}`)
+        : isWork && stop.id ? doc.getElementById(stop.id) : null;
+      if (element) {
         if (!element.hasAttribute('tabindex')) element.setAttribute('tabindex', '-1');
         resizeObserver?.observe(element);
       }
-      // The quiet h4 ending remains part of Contact (chapter 4). Give it a
-      // reachable next stop before wrapping the chapter navigation to Home.
-      finalStop = doc.querySelector('[data-footer-secret-space]');
-      if (finalStop) {
-        if (!finalStop.hasAttribute('tabindex')) finalStop.setAttribute('tabindex', '-1');
-        resizeObserver?.observe(finalStop);
-      }
-      for (const form of doc.querySelectorAll('[data-inquiry-form]')) resizeObserver?.observe(form);
-    }
-    chapter.hidden = chapters.length < 2;
-    formRectangles = [];
+      return { ...stop, element };
+    });
+    if (doc.getElementById('page-content')) resizeObserver?.observe(doc.getElementById('page-content'));
     current = -1;
     dirty = true;
-    if (chapters.length) update();
+    update();
   }
-
-  if ('ResizeObserver' in view) resizeObserver = new view.ResizeObserver(() => schedule(true));
-  listen(index, 'toggle', () => {
-    summary.setAttribute('aria-expanded', String(index.open));
-    positionIndex();
-  });
-  listen(index, 'click', event => {
-    if (event.target.closest?.('a[href]')) close();
-  });
-  listen(doc, 'keydown', event => {
-    if (event.key === 'Escape' && index.open) {
-      event.preventDefault();
-      close({ focus: true });
-    }
-  });
-  listen(doc, 'pointerdown', event => {
-    if (index.open && !index.contains(event.target)) close();
-  }, { passive: true });
-  listen(doc, 'focusin', event => {
-    if (index.open && !index.contains(event.target)) close();
-    schedule(true);
-  });
-  listen(doc, 'focusout', () => schedule(true));
-  listen(chapter, 'click', () => {
-    if (!chapters.length) return;
-    const target = nextDestination()?.element;
-    if (!target) return;
-    // Focus gives the existing choreography its immediate, fully readable pose;
-    // native scrolling remains free in either direction after this direct jump.
+  listen(link, 'click', event => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const state = naaviState(stops, current);
+    const target = stops.find(stop => stop.id === state.destination.id && stop.href === state.destination.href)?.element;
+    if (!target) return; // The normal route enhancer handles cross-route HOME.
+    event.preventDefault();
     target.focus({ preventScroll: true });
-    target.scrollIntoView({ block: 'start', behavior: reduced.matches ? 'instant' : 'smooth' });
+    target.scrollIntoView({ behavior: reduced.matches ? 'instant' : 'smooth', block: 'start' });
+    schedule();
   });
-  listen(doc, 'h4:pagechange', refresh);
-  listen(doc, 'h4:navigationstart', close);
-  listen(view, 'scroll', () => schedule(), { passive: true });
-  listen(view, 'resize', () => schedule(true), { passive: true });
-  if (view.visualViewport) {
-    listen(view.visualViewport, 'resize', () => schedule(true), { passive: true });
-    listen(view.visualViewport, 'scroll', () => schedule(), { passive: true });
-  }
-  listen(doc, 'visibilitychange', () => {
-    if (doc.hidden) {
-      if (frame) view.cancelAnimationFrame(frame);
-      frame = 0;
-      digitAnimation?.cancel();
-    } else schedule(true);
+  // Fixed navigation remains bottom-centred. Keep focused inputs above its
+  // reserved dock rather than moving the navigation over neighbouring fields.
+  listen(doc, 'focusin', event => {
+    const control = event.target;
+    if (!control.matches?.('[data-inquiry-form] input:not([type=hidden]), [data-inquiry-form] textarea, [data-inquiry-form] button')) return;
+    const box = control.getBoundingClientRect();
+    const bottom = (view.visualViewport?.height || view.innerHeight) + (view.visualViewport?.offsetTop || 0) - 76;
+    if (box.bottom > bottom && box.top < bottom + 76) view.scrollBy({ top: box.bottom - bottom + 12, behavior: 'instant' });
   });
+  if ('ResizeObserver' in view) resizeObserver = new view.ResizeObserver(() => schedule(true));
   listen(reduced, 'change', () => {
     if (reduced.matches) digitAnimation?.cancel();
-    schedule(true);
+    schedule();
   });
-  summary.setAttribute('aria-expanded', String(index.open));
+  listen(doc, 'h4:pagechange', refresh);
+  listen(view, 'scroll', () => schedule(), { passive: true });
+  listen(view, 'resize', () => schedule(true), { passive: true });
+  if (view.visualViewport) listen(view.visualViewport, 'resize', () => schedule(true), { passive: true });
+  listen(doc, 'visibilitychange', () => { if (!doc.hidden) schedule(true); });
   refresh();
   return Object.assign(() => {
     disposed = true;
     if (frame) view.cancelAnimationFrame(frame);
     digitAnimation?.cancel();
     resizeObserver?.disconnect();
-    for (const remove of removers) remove();
-    chapter.remove();
-    index.hidden = originalIndexHidden;
-    index.style.removeProperty('--index-panel-top');
-    summary.removeAttribute('aria-expanded');
+    listeners.forEach(remove => remove());
   }, { refresh });
 }

@@ -86,18 +86,20 @@ try {
     assert.equal(await page.locator('main').count(), 1);
     assert.ok((await page.locator('h1').count()) >= 1);
     if (path === '/') {
-      assert.equal(await page.locator('[data-global-index]').isVisible(), false,
-        'The prerendered homepage has no INDEX even without JavaScript.');
+      assert.equal(await page.locator('[data-global-index]').count(), 0);
+      assert.equal(await page.locator('[data-naavi]').isVisible(), true, 'The single NAAVI remains usable without JavaScript.');
+      assert.equal(await page.locator('[data-naavi]').getAttribute('href'), '/#selected-work');
       assert.equal(await page.locator('.hero').count(), 1);
       assert.equal(await page.locator('#selected-work .category-link[href="/work#tattoos"]').count(), 1);
       assert.deepEqual(await page.locator('#selected-work .category-link').allTextContents(), ['tattoos', 'jewellery', 'more']);
       assert.equal(await page.locator('#selected-work .category-sublinks').count(), 0);
       assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
-      assert.match(metadata.text, /selected works?/i);
+      assert.match(metadata.text, /01 \/ WORKS/);
       assert.equal(await page.locator('.fallback').isVisible(), true, 'The no-JS homepage retains the accessible static wordmark.');
     } else {
-      assert.equal(await page.locator('[data-global-index]').isVisible(), true,
-        'Interior pages retain their native INDEX without JavaScript.');
+      assert.equal(await page.locator('[data-global-index]').count(), 0);
+      assert.equal(await page.locator('[data-naavi]').isVisible(), true, 'Every prerendered route retains shared NAAVI.');
+      assert.equal(await page.locator('[data-naavi]').count(), 1);
       assert.equal(await page.locator('.hero').count(), 0, 'Interior HTML must not expose a competing hero or download its font/scene.');
       if (path === originalPath) {
         assert.equal(await page.locator('.artwork-detail .project-image img').count(), 1);
@@ -114,7 +116,7 @@ try {
           'Connected Work retains the one genuine original in every category context.');
         assert.equal(await page.locator('.portfolio-archive .project-image').count(), 1, 'Only the supplied original has an image figure; empty categories do not invent artwork.');
         assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)),
-          ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks', ...(category === 'paintings' ? ['paintings'] : [])]);
+          ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography', ...(category === 'paintings' ? ['paintings'] : [])]);
         assert.match(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('src'), /green-black-original/);
         assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('width'), '1440');
         assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('height'), '1920');
@@ -122,12 +124,12 @@ try {
           'Without JavaScript, the actual original stays visible and needs no reveal interaction.');
         assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
           ['/work', '/work#tattoos', '/work#jewellery', '/work#more']);
-        assert.equal(await page.locator('.work-page .page-heading').innerText(), 'work');
+        assert.equal(await page.locator('.work-page .page-heading').innerText(), '01 / WORKS');
         assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);
       } else if (path === '/contact') {
         assert.equal(await page.locator('[data-inquiry-form]').count(), 1);
         assert.equal(await page.locator('input[name="name"][required]').count(), 1);
-        assert.equal(await page.locator('input[name="email"][type="email"][required]').count(), 1);
+        assert.equal(await page.locator('input[name="email"][type="text"][required][data-inquiry-contact]').count(), 1);
         assert.equal(await page.locator('input[type="file"][multiple]').count(), 1);
         assert.match(metadata.text, /for tattoos, jewellery or other projects\./);
         assert.match(metadata.text, /h4ngelic@gmail\.com/);

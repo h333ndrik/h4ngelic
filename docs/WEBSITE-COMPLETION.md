@@ -1,3 +1,8 @@
+> Historical milestone before the newer master-foundation brief. Current
+> behavior and verification are maintained in [PROJECT_PROGRESS.md](../PROJECT_PROGRESS.md).
+> In particular, NAAVI replaces INDEX, the Berlin hero label is removed, and
+> About has a small inset with restrained hover instead of the older treatments below.
+
 # Website refinement: navigation, galleries and About
 
 Review branch: `feat/website-completion`, source checkpoint `8559880`.

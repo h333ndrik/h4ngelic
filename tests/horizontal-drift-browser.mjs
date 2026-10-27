@@ -180,12 +180,20 @@ try {
       box = await viewport(page).boundingBox();
       const before = await page.evaluate(() => scrollY);
       const point = { x: box.x + box.width / 2, y: box.y + Math.min(290, box.height * .65) };
-      await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] });
-      for (let index = 1; index <= 8; index++) {
-        await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: point.x, y: point.y - index * 20 }] });
-        await page.waitForTimeout(24);
+      // Finish complete native gestures. Mixed CDP touch/mouse tests can
+      // retain a prior axis latch for one gesture, including on the unchanged
+      // baseline. A bounded second real swipe checks that scrolling is free;
+      // production still uses no manual vertical-scroll forwarding.
+      for (let attempt = 0; attempt < 2; attempt++) {
+        await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] });
+        for (let index = 1; index <= 8; index++) {
+          await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: point.x, y: point.y - index * 20 }] });
+          await page.waitForTimeout(24);
+        }
+        await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+        await page.waitForTimeout(350);
+        if (await page.evaluate(before => scrollY > before + 30, before)) break;
       }
-      await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
       await page.waitForFunction(before => scrollY > before + 30, before);
       await cdp.detach();
     }
@@ -217,7 +225,15 @@ try {
     box = await viewport(page).boundingBox();
     await page.mouse.move(box.x + box.width / 2, box.y + Math.min(150, box.height / 2));
     const boundaryBefore = await page.evaluate(() => scrollY);
-    await page.mouse.wheel(0, 170);
+    // Two separate genuine wheel gestures bound the check, rather than
+    // compensating for Chromium's synthetic axis latch in product code.
+    const wheelDeltas = [];
+    for (let attempt = 0; attempt < 2; attempt++) {
+      await page.mouse.wheel(0, 170);
+      await page.waitForTimeout(350);
+      wheelDeltas.push(await page.evaluate(before => scrollY - before, boundaryBefore));
+      if (wheelDeltas.at(-1) > 30) break;
+    }
     await page.waitForFunction(before => scrollY > before + 30, boundaryBefore);
     const boundary = await state(page);
     assert.ok(boundary.maximum <= boundary.viewport + 1, 'The carousel must not widen the website.');
@@ -225,7 +241,7 @@ try {
     await page.evaluate(() => window.__stopCarouselFixture());
     assert.equal(await section(page).evaluate(element => element.classList.contains('is-drift-enhanced')), false);
     assert.deepEqual(errors, []);
-    results.push({ width, initial, next, end, trackpad, shiftedWheel, vertical, drag, beforeViewer, afterViewer, boundary, errors });
+    results.push({ width, initial, next, end, trackpad, shiftedWheel, vertical, drag, beforeViewer, afterViewer, boundary, wheelDeltas, errors });
     await writeFile(new URL('results.json', artifacts), JSON.stringify({ passed: false, results }, null, 2));
     console.log(`PASS native carousel ${width}px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, ${width < 600 ? 'native swipe/pan' : 'drag'}, detail return and bounds.`);
     await context.close();

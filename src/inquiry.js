@@ -1,7 +1,8 @@
 import './inquiry.css';
 import { inquirySettings as settings } from './data/inquirySettings.js';
 import { inquiryArtwork } from './inquiry-content.js';
-import { validateInquiryFiles } from './inquiry-validation.js';
+import { validateInquiryFiles, validateInquiryContact } from './inquiry-validation.js';
+import { initInquiryEntrance } from './inquiry-entrance.js';
 export { validateInquiryFiles } from './inquiry-validation.js';
 
 /** Progressive enhancement only: ordinary labels, input validation and native
@@ -11,6 +12,8 @@ export function initInquiry(root = document) {
   const view = doc.defaultView;
   const disposers = [];
   for (const form of root.querySelectorAll('[data-inquiry-form]')) {
+    const entrance = initInquiryEntrance(form.closest('[data-inquiry]') || form);
+    const contact = form.querySelector('[data-inquiry-contact]');
     const input = form.querySelector('[type=file]');
     const list = form.querySelector('[data-inquiry-files]');
     const error = form.querySelector('[data-inquiry-file-error]');
@@ -35,6 +38,7 @@ export function initInquiry(root = document) {
     }
     const setStatus = (text, state = '') => { status.textContent = text; status.dataset.state = state; };
     const clearURLs = () => { for (const url of objectURLs) view.URL.revokeObjectURL(url); objectURLs = []; };
+    const validateContact = () => contact?.setCustomValidity(validateInquiryContact(contact.value));
     function renderFiles(focusIndex) {
       clearURLs();
       list.replaceChildren();
@@ -71,6 +75,7 @@ export function initInquiry(root = document) {
     }
     async function send(event) {
       event.preventDefault();
+      validateContact();
       if (controller || !form.reportValidity()) return;
       if (offline) {
         setStatus('sending is unavailable in this downloaded preview. please email your inquiry instead.', 'error');
@@ -117,8 +122,9 @@ export function initInquiry(root = document) {
       }
     }
     input.addEventListener('change', change);
+    contact?.addEventListener('input', validateContact);
     form.addEventListener('submit', send);
-    disposers.push(() => { disposed = true; controller?.abort(); input.removeEventListener('change', change); form.removeEventListener('submit', send); clearURLs(); });
+    disposers.push(() => { disposed = true; controller?.abort(); entrance(); input.removeEventListener('change', change); contact?.removeEventListener('input', validateContact); form.removeEventListener('submit', send); clearURLs(); });
   }
   return () => { for (const dispose of disposers) dispose(); };
 }

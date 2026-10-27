@@ -72,12 +72,27 @@ try {
       return value === 'none' ? 0 : new DOMMatrixReadOnly(value).m22;
     });
     assert.ok(Math.abs(coverScale) < .001, 'Keyboard focus must remove the image mask.');
+    const original = await opener.boundingBox();
+    const originalScroll = await page.evaluate(() => scrollY);
     await page.keyboard.press('Enter');
+    if (width !== 320) {
+      await page.waitForFunction(() => document.querySelector('[data-artwork-flight="opening"]'));
+      const flight = await page.locator('[data-artwork-flight-copy]').evaluate(image => {
+        const box = image.getBoundingClientRect();
+        return { ratio: box.width / box.height, natural: image.naturalWidth / image.naturalHeight };
+      });
+      assert.ok(Math.abs(flight.ratio - flight.natural) < .005, 'The moving shared photograph must preserve its aspect ratio.');
+    }
     await displayed(page, 1);
     const dialog = page.locator('.artwork-dialog');
     const box = await dialog.boundingBox();
     assert.ok(box.x >= 0 && box.x + box.width <= width + 1, `Modal must fit ${width}px viewport.`);
+    const scrim = await dialog.evaluate(element => ({ background: getComputedStyle(element).backgroundColor, backdrop: getComputedStyle(element, '::backdrop').backgroundColor, border: getComputedStyle(element).borderTopWidth }));
+    assert.equal(scrim.background, 'rgba(0, 0, 0, 0)', 'The viewer must keep the surrounding website visible through its surface.');
+    assert.equal(scrim.border, '0px', 'The enlarged photograph must not become a decorative bordered card.');
+    assert.match(scrim.backdrop, /0\.38\)/, 'The page must remain visible beneath the restrained backdrop.');
     assert.equal(await page.locator('.artwork-viewer-caption').textContent(), 'first view');
+    assert.equal(await opener.locator('img').evaluate(image => getComputedStyle(image).visibility), 'hidden', 'The original layout slot must remain without duplicating the enlarged photograph behind it.');
     assert.equal(await page.locator('.artwork-close').evaluate((button) => button === document.activeElement), true, 'Opening must focus the close control inside the native modal.');
     for (const button of await dialog.locator('button').all()) {
       const rect = await button.boundingBox();
@@ -105,6 +120,23 @@ try {
     await page.waitForFunction(() => !document.querySelector('.artwork-dialog').open);
     assert.equal(await opener.evaluate((button) => button === document.activeElement), true, 'Closing must restore focus to the original artwork.');
     assert.equal(await page.evaluate(() => document.body.style.overflow), '', 'Closing must restore page scrolling.');
+    assert.notEqual(await opener.locator('img').evaluate(image => getComputedStyle(image).visibility), 'hidden', 'Closing must restore the original photograph visibility.');
+    const returned = await opener.boundingBox();
+    for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(original[key] - returned[key]) < 1, 'Closing must return to the same original photograph location.');
+    assert.ok(Math.abs(originalScroll - await page.evaluate(() => scrollY)) < 1, 'Closing must preserve the document scroll position.');
+
+    await opener.click();
+    await displayed(page, 1);
+    await page.locator('.artwork-viewer-image').click();
+    await page.waitForFunction(() => !document.querySelector('.artwork-dialog').open);
+    assert.equal(await opener.evaluate(element => element === document.activeElement), true, 'Clicking the enlarged photograph again must close it and restore focus.');
+
+    await opener.click();
+    await displayed(page, 1);
+    // The stage's letterboxing is visibly outside the photograph, even though
+    // it is inside the transparent native dialog rectangle.
+    await page.locator('.artwork-viewer-stage').evaluate(stage => stage.click());
+    await page.waitForFunction(() => !document.querySelector('.artwork-dialog').open);
 
     await page.locator('[data-artwork-open]').last().click();
     await displayed(page, 2);
@@ -113,7 +145,7 @@ try {
     await page.evaluate(() => window.__galleryCleanup());
     assert.equal(await page.locator('.artwork-dialog').count(), 0, 'Route cleanup must remove the viewer.');
     assert.deepEqual(errors, []);
-    console.log(`PASS gallery ${width}px: reserved layout, accessible opening, decoded image transitions, rapid navigation, keyboard/Escape, outside close and focus/scroll cleanup.`);
+    console.log(`PASS gallery ${width}px: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.`);
     await context.close();
   }
 } finally {

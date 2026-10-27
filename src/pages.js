@@ -19,9 +19,9 @@ function header(page) {
   return `<header class="page-header">
     <a class="brand-link" href="/">${escape(siteContent.name)}</a>
     <nav class="page-nav" aria-label="Portfolio">
-      <a href="/work"${page === 'work' ? ' aria-current="page"' : ''}>work ${arrow}</a>
-      <a href="/about"${page === 'about' ? ' aria-current="page"' : ''}>about ${arrow}</a>
-      <a href="/contact"${page === 'contact' ? ' aria-current="page"' : ''}>contact ${arrow}</a>
+      <a href="/work"${page === 'work' ? ' aria-current="page"' : ''}>works</a>
+      <a href="/about"${page === 'about' ? ' aria-current="page"' : ''}>about</a>
+      <a href="/contact"${page === 'contact' ? ' aria-current="page"' : ''}>contact</a>
     </nav>
   </header>`;
 }
@@ -33,7 +33,7 @@ function footer() {
 export function renderHomepageSections() {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
     <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
-    <div class="category-strip" role="navigation" aria-label="Selected work categories" tabindex="0">
+    <div class="category-strip" role="navigation" aria-label="Works categories" tabindex="0">
       ${siteContent.workGroups.map((group) => `<a class="category-link" href="${workAnchorURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`).join('')}
     </div>
   </div></section>
@@ -44,7 +44,7 @@ export function renderHomepageSections() {
   </div></section>
   <section class="content-section contact-section" id="contact" aria-labelledby="contact-title" tabindex="-1" data-motion="contact"><div class="section-pin">
     <h2 class="kinetic-heading" id="contact-title"><span class="kinetic-heading-text">${escape(siteContent.home.contactLabel)}</span></h2>
-    <div class="inquiry-enter kinetic-item" data-motion-item="form">${renderInquiryForm({ id: 'home-inquiry' })}</div>
+    <div class="inquiry-enter">${renderInquiryForm({ id: 'home-inquiry' })}</div>
   </div></section>
   ${renderFooter({ home: true })}`;
 }
@@ -77,11 +77,11 @@ export function renderProject(project) {
   return `<article class="project"${project.id ? ` id="project-${escape(project.id)}"` : ''}${href ? ` data-project-url="${escape(href)}"` : ''}>
     <div class="project-images">${images}</div>
     <div class="project-meta">
-      ${project.title ? `<h2>${projectURL(project) ? `<a href="${projectURL(project)}">${escape(project.title)} ${arrow}</a>` : escape(project.title)}</h2>` : ''}
+      ${project.title ? `<h2>${projectURL(project) ? `<a href="${projectURL(project)}">${escape(project.title)}</a>` : escape(project.title)}</h2>` : ''}
       <p class="project-index">${escape(label)}${project.year ? ` <span aria-hidden="true">/</span> ${escape(project.year)}` : ''}</p>
       ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}
       ${details ? `<dl class="project-details">${details}</dl>` : ''}
-      ${!project.title && projectURL(project) ? `<a class="text-link" href="${projectURL(project)}">view work ${arrow}</a>` : ''}
+      ${!project.title && projectURL(project) ? `<a class="text-link" href="${projectURL(project)}">view work</a>` : ''}
     </div>
   </article>`;
 }
@@ -91,28 +91,31 @@ export function renderProject(project) {
 export function renderWorkPage(category = 'all') {
   const selected = normalizeCategory(category);
   const projects = orderedArtworks(artworks.filter(project => project.published !== false && categoryById(project.category)));
-  const leaf = (entry, { nested = false, id = entry.id } = {}) => {
+  const collection = entry => {
     const items = projects.filter(project => project.category === entry.id);
     const contents = entry.presentation === 'drift' ? renderHorizontalDrift(items, { category: entry.id, label: entry.label })
       : items.map(renderProject).filter(Boolean).join('');
+    return entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>';
+  };
+  const leaf = (entry, { id = entry.id, nested = true } = {}) => {
     return `<section class="archive-category" id="${escape(id)}" tabindex="-1" aria-labelledby="archive-${escape(entry.id)}-title" data-archive-category="${escape(entry.id)}">
-      <${nested ? 'h3' : 'h2'} class="archive-category-heading" id="archive-${escape(entry.id)}-title"><a href="${workAnchorURL(id)}">${escape(entry.label)} ${arrow}</a></${nested ? 'h3' : 'h2'}>
-      ${entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>'}
+      <${nested ? 'h3' : 'h2'} class="archive-category-heading" id="archive-${escape(entry.id)}-title"><a href="${workAnchorURL(id)}">${escape(entry.archiveLabel || entry.label)}</a></${nested ? 'h3' : 'h2'}>
+      ${collection(entry)}
     </section>`;
   };
   const content = siteContent.workGroups.map(group => {
-    if (group.children.length === 1) return leaf(categoryById(group.children[0]));
-    return `<section class="work-group" id="${escape(group.id)}" tabindex="-1" aria-labelledby="group-${escape(group.id)}-title" data-work-group="${escape(group.id)}">
-      <h2 class="work-group-heading" id="group-${escape(group.id)}-title"><a href="${workAnchorURL(group.id)}">${escape(group.label)} ${arrow}</a></h2>
-      <nav class="work-subfilters" aria-label="${escape(group.label)} sections">${group.children.map(id => `<a class="filter-link" href="${workAnchorURL(id === group.id ? 'finished-tattoos' : id)}">${escape(categoryById(id).label)}</a>`).join('')}</nav>
-      ${group.children.map(id => leaf(categoryById(id), { nested: true, id: id === group.id ? 'finished-tattoos' : id })).join('')}
+    const directCategory = group.children.length === 1 && group.children[0] === group.id;
+    return `<section class="work-group${directCategory ? ' archive-category' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="group-${escape(group.id)}-title" data-work-group="${escape(group.id)}"${directCategory ? ` data-archive-category="${escape(group.id)}"` : ''}>
+      <h2 class="work-group-heading" id="group-${escape(group.id)}-title"><a href="${workAnchorURL(group.id)}">${escape(group.label)}</a></h2>
+      ${directCategory ? collection(categoryById(group.id)) : group.children.map(id => leaf(categoryById(id), { id: id === group.id ? 'finished-tattoos' : id })).join('')}
+      ${group.id === 'tattoos' ? '<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading" id="archive-model-title">3d model</h3></section>' : ''}
     </section>`;
   }).join('');
-  const legacy = siteContent.categories.filter(entry => entry.legacy && (selected === entry.id || projects.some(project => project.category === entry.id))).map(entry => leaf(entry)).join('');
+  const legacy = siteContent.categories.filter(entry => entry.legacy && (selected === entry.id || projects.some(project => project.category === entry.id))).map(entry => leaf(entry, { nested: false })).join('');
   return `${header('work')}
   <div class="page-shell work-page" data-connected-work data-work-context="${escape(selected)}">
-    <h1 class="page-heading">work</h1>
-    <nav class="work-filters" aria-label="Work sections">
+    <h1 class="page-heading">01 / WORKS</h1>
+    <nav class="work-filters" aria-label="Works sections">
       ${[{ id: 'all', label: 'all' }, ...siteContent.workGroups].map(filter => `<a class="filter-link${selected === filter.id ? ' is-active' : ''}" href="${workAnchorURL(filter.id)}"${selected === filter.id ? ' aria-current="location"' : ''}>${escape(filter.label)}</a>`).join('')}
     </nav>
     <div class="portfolio-archive" aria-label="All artwork">${content}${legacy}</div>
@@ -133,7 +136,7 @@ export function renderAboutPage() {
   const portraitResponsive = portrait?.srcset ? ` srcset="${escape(portrait.srcset)}" sizes="${escape(portrait.sizes)}"` : '';
   const references = (about.references || []).map((reference) => {
     const url = contentURL(reference.url);
-    return url ? `<li><a class="text-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(reference.title)} ${arrow}</a></li>` : '';
+    return url ? `<li><a class="text-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(reference.title)}</a></li>` : '';
   }).filter(Boolean).join('');
   return `${header('about')}
   <div class="page-shell about-page">
@@ -143,7 +146,7 @@ export function renderAboutPage() {
         <p class="about-intro">${escape(about.intro)}</p>
         <p class="about-location">${escape(about.location)}</p>
         ${(about.paragraphs || []).map((paragraph) => `<p class="about-paragraph">${escape(paragraph)}</p>`).join('')}
-        <a class="text-link" href="/contact">get in touch ${arrow}</a>
+        <a class="text-link" href="/contact">get in touch</a>
       </div>
       ${portrait ? `<figure class="about-portrait" style="--artwork-ratio: ${portrait.width} / ${portrait.height}"><img src="${escape(portrait.src || portraitURL)}" alt="${escape(about.portrait.alt || '')}" loading="lazy" decoding="async" width="${portrait.width}" height="${portrait.height}"${portraitResponsive} /></figure>` : ''}
     </div>
@@ -157,7 +160,7 @@ export function renderNotFoundPage() {
   <div class="page-shell not-found-page">
     <p class="page-kicker">404</p>
     <h1 class="page-heading">page not found.</h1>
-    <a class="text-link" href="/">back home ${arrow}</a>
+    <a class="text-link" href="/">back home</a>
   </div>
   ${footer()}`;
 }
@@ -177,8 +180,8 @@ export function renderArtworkPage(project) {
           <p class="project-index">${escape(category.label)}${project.year ? ` / ${escape(project.year)}` : ''}</p>
           ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}
           ${details.length ? `<dl class="project-details">${details.map(([key, value]) => `<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>` : ''}
-          <a class="text-link" href="/contact?artwork=${encodeURIComponent(project.id)}">inquire about this work ${arrow}</a>
-          <a class="text-link" href="${workAnchorURL(category.id)}">back to ${escape(category.label)} ${arrow}</a>
+          <a class="text-link" href="/contact?artwork=${encodeURIComponent(project.id)}">inquire about this work</a>
+          <a class="text-link" href="${workAnchorURL(category.id)}">back to ${escape(category.label)}</a>
         </div>
       </article>
     </div>${footer()}`;

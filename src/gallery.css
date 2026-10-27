@@ -24,30 +24,35 @@
   max-height: none;
   margin: auto;
   padding: 18px 22px;
-  border: 1px solid #ffffff35;
-  background-color: var(--normal-background);
-  background-image: var(--normal-background-image);
-  background-attachment: fixed;
+  border: 0;
+  background: transparent;
   color: #f0efeb;
   opacity: 0;
   transform: none;
-  transition: opacity 150ms ease-out;
+  transition: opacity 300ms cubic-bezier(.2,.8,.25,1);
   overflow: hidden;
   overscroll-behavior: contain;
 }
 .artwork-dialog[open] { display: flex; flex-direction: column; }
 .artwork-dialog.is-open { opacity: 1; }
-.artwork-dialog::backdrop { background: rgb(21 21 23 / 88%); transition: background-color 160ms ease-out; }
+.artwork-dialog::backdrop { background: rgb(21 21 23 / 38%); transition: background-color 300ms cubic-bezier(.2,.8,.25,1); }
+/* The same transparent viewer sits over the existing living material. Its
+   normal UI scrim must not replace that material with an opaque purple panel. */
+html[data-mode='xray'] .artwork-dialog.artwork-dialog { background: transparent; border: 0; }
+html[data-mode='xray'] .artwork-dialog.artwork-dialog::backdrop { background: rgb(15 6 21 / 42%); }
+html[data-mode='xray'] .artwork-dialog.artwork-dialog:not(.is-open)::backdrop { background: transparent; }
+html[data-mode='xray'] .artwork-dialog.artwork-dialog[data-artwork-flight='closing']::backdrop { background: transparent; }
 .artwork-dialog:not(.is-open)::backdrop { background: transparent; }
 .artwork-viewer-header { display: flex; justify-content: end; flex: 0 0 auto; }
-.artwork-dialog button { background: transparent; color: inherit; border: 0; padding: 10px 12px; min-width: 45px; min-height: 45px; font: inherit; font-size: 13px; }
+.artwork-viewer-header, .artwork-viewer-navigation { text-shadow: 0 1px 3px #151517, 0 0 8px #151517; }
+.artwork-dialog button { background: transparent; color: inherit; border: 0; padding: 10px 12px; min-width: 45px; min-height: 45px; font: inherit; font-size: 13px; transition: background-color 300ms cubic-bezier(.2,.8,.25,1); }
 .artwork-dialog button:hover { background: #ffffff0a; }
 .artwork-dialog button:focus-visible { outline: 2px solid #f0efeb; outline-offset: -3px; }
 .artwork-viewer-figure { margin: 14px 0 0; min-height: 0; flex: 1; display: flex; flex-direction: column; }
 .artwork-viewer-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .artwork-viewer-stage img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; opacity: 1; transform: scale(1); transition: opacity 130ms ease-out, transform 130ms ease-out; }
 .artwork-viewer-stage.is-switching img { opacity: 0; transform: scale(.992); }
-.artwork-viewer-caption { height: 3em; min-height: 3em; flex: 0 0 3em; overflow: auto; font-size: 12px; line-height: 1.5; color: #c5c5bf; margin-top: 14px; }
+.artwork-viewer-caption { height: 3em; min-height: 3em; flex: 0 0 3em; overflow: auto; font-size: 12px; line-height: 1.5; color: #deded8; margin-top: 14px; text-shadow: 0 1px 3px #151517; }
 .artwork-viewer-navigation { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 44px; flex: 0 0 auto; }
 .artwork-viewer-count { font-size: 12px; line-height: 1.5; margin: 0; color: #b3b3af; }
 .artwork-image-error { color: #b3b3af; font-size: 16px; }
@@ -56,5 +61,6 @@
   .artwork-dialog { width: calc(100vw - 24px); height: calc(100svh - 24px); padding: 10px 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .artwork-dialog, .artwork-viewer-stage img, .artwork-open img { transition: none; transform: none; }
+  .artwork-dialog, .artwork-dialog button, .artwork-viewer-stage img, .artwork-open img { transition: none; transform: none; }
+  .artwork-dialog::backdrop { transition: none; }
 }

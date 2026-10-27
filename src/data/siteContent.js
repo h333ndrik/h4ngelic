@@ -11,7 +11,7 @@ export const siteContent = {
   location: 'berlin, de',
 
   categories: [
-    { id: 'tattoos', label: 'tattoos', group: 'tattoos', presentation: 'drift' },
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'on skin', group: 'tattoos', presentation: 'drift' },
     { id: 'flashes', label: 'flashes', group: 'tattoos', presentation: 'drift' },
     { id: 'jewellery', label: 'jewellery', presentation: 'existing' },
     { id: 'analog-photography', label: 'analog photography', group: 'more', presentation: 'drift' },
@@ -25,11 +25,11 @@ export const siteContent = {
   workGroups: [
     { id: 'tattoos', label: 'tattoos', children: ['tattoos', 'flashes'] },
     { id: 'jewellery', label: 'jewellery', children: ['jewellery'] },
-    { id: 'more', label: 'more', children: ['analog-photography', 'digital-artworks'] },
+    { id: 'more', label: 'more', children: ['digital-artworks', 'analog-photography'] },
   ],
 
   home: {
-    selectedWorkLabel: '01 / SELECTED WORKS',
+    selectedWorkLabel: '01 / WORKS',
     aboutLabel: '02 / ABOUT',
     contactLabel: '03 / CONTACT',
     tagline: 'mixed media',

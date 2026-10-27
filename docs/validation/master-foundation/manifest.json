@@ -1,0 +1,277 @@
+{
+  "createdAtUTC": "2026-10-27T21:19:05.129587+00:00",
+  "sourceCommit": "57e2e794da7d1ee181616d5f2a45d783eaaf5a95",
+  "branch": "feat/master-foundation",
+  "conditions": {
+    "browser": "Headless Chromium 154",
+    "webgl": "ANGLE SwiftShader",
+    "physicalDeviceTests": false,
+    "lighthouseVersion": "13.5.0",
+    "lighthouseRunsPerPage": 1,
+    "lighthousePages": [
+      "home-mobile",
+      "work-mobile"
+    ],
+    "lighthouseThrottling": "Simulated mobile network and 4x CPU slowdown; raw settings retained."
+  },
+  "caveats": [
+    "Reports gathered during the milestone retain original timestamps and previous failures; sourceCommit names the final integrated source checkpoint.",
+    "Layout summary is a resumed three-profile report (800/390/320); earlier 1440/1000/801 passes are not fabricated into that JSON.",
+    "Native touch harness allows a bounded second batch after first-packet behavior reproduced on the unmodified baseline; physical-device gesture review remains pending.",
+    "Managed browser blocks direct file:// navigation; exact exported HTML executes with network rejected instead.",
+    "No five confirmed tattoo photographs and no configured live mail delivery; no fake portfolio content or simulated real delivery claimed."
+  ],
+  "files": [
+    {
+      "file": "naavi.json",
+      "source": "artifacts/master-foundation/naavi.json",
+      "bytes": 16680,
+      "sha256": "1faba0641cf3168fec9219a9a0e60ad4150409186e11fef5860646246a1c42ad"
+    },
+    {
+      "file": "naavi-focus.json",
+      "source": "artifacts/master-foundation/naavi-focus.json",
+      "bytes": 8370,
+      "sha256": "e1ef0981b688d53574e6c89f0e64aa67f2cd9e6ff49f1c0a7bbf3540bda2a9a5"
+    },
+    {
+      "file": "inquiry.json",
+      "source": "artifacts/master-foundation/inquiry.json",
+      "bytes": 2334,
+      "sha256": "2b10f776337c182273b1766ff2d4d753dd39e9149b639928446fe5d923f1788c"
+    },
+    {
+      "file": "hover-containment.json",
+      "source": "artifacts/master-foundation/hover-containment.json",
+      "bytes": 2666,
+      "sha256": "12b5497ea4e15bbce6e20568373b920ada1ad94958556247fd54d5f2240090e6"
+    },
+    {
+      "file": "accessibility.json",
+      "source": "artifacts/master-foundation/accessibility.json",
+      "bytes": 510,
+      "sha256": "ff7d033917cf0c8af24160774c6ff036052d91b6ba49e95835252b03ebf6dde7"
+    },
+    {
+      "file": "regressions.json",
+      "source": "artifacts/master-foundation/regressions.json",
+      "bytes": 1100,
+      "sha256": "87f9c632e3335a2fac1ed277803b7b6d5c902ba5d86a518f67c6b6dbabefc80a"
+    },
+    {
+      "file": "offline-package.json",
+      "source": "artifacts/master-foundation/offline-package.json",
+      "bytes": 656,
+      "sha256": "19e7c214e717110068b0c98ff6e9718124536bb5a00dc10ab42d7da1be4223c4"
+    },
+    {
+      "file": "layout.json",
+      "source": "artifacts/master-foundation/layout/results.json",
+      "bytes": 10155,
+      "sha256": "fa6d0b7f78e88bc9599514acfc428f5429e0e3c7fabb737f96f357691469e64a"
+    },
+    {
+      "file": "about.json",
+      "source": "artifacts/website-completion/about/results.json",
+      "bytes": 11646,
+      "sha256": "953fbf77347af6f282a8b4834a6773874f3002fa2e8a5f757c6d1b922a023a46"
+    },
+    {
+      "file": "native-carousel.json",
+      "source": "artifacts/native-carousel/results.json",
+      "bytes": 8546,
+      "sha256": "b86d5ceda46b0c838f7ad100ed0b077b0573a92d054d5d847cc569642c643a36"
+    },
+    {
+      "file": "forms-and-navigation.json",
+      "source": "artifacts/v6/browser-results.json",
+      "bytes": 1645,
+      "sha256": "7202d129a4e36c7bde77edde9215efca610cee0b5fd2272e85588d914bee8e32"
+    },
+    {
+      "file": "memory-continuity.json",
+      "source": "artifacts/v71/memory-browser-results.json",
+      "bytes": 159553,
+      "sha256": "0ce647dbe9f319f4fc3feae7e5cfc4803f70767f122e7bee3b47f452584930fd"
+    },
+    {
+      "file": "inquiry-http.json",
+      "source": "artifacts/inquiry/http-results.json",
+      "bytes": 789,
+      "sha256": "d8aa09549ff3c625fe812fb810b12580af7f4487606e77c4340515187768b672"
+    },
+    {
+      "file": "standalone.json",
+      "source": "artifacts/control-offline-results.json",
+      "bytes": 9073,
+      "sha256": "bb7df700cdc66ee2e7927f470be4991257749481597159d0eada0bec6ed09b3a"
+    },
+    {
+      "file": "standalone-native.json",
+      "source": "artifacts/living-offline-native-results.json",
+      "bytes": 15838,
+      "sha256": "7bbf30f08f38444d97f1df30763dedba369d976653f0b1933b79e67e63701e54"
+    },
+    {
+      "file": "performance-summary.json",
+      "source": "artifacts/performance/master-foundation-summary.json",
+      "bytes": 6478,
+      "sha256": "24cd7d0e8d4236c44adcd1b38d52d1d38919a842f076fa9b79a3f43319413c77"
+    },
+    {
+      "file": "lighthouse-home-mobile.json",
+      "source": "artifacts/performance/master-foundation-home-mobile-1.json",
+      "bytes": 222242,
+      "sha256": "f01b6ce2232b89d8698cb6ad881e8c1aa18bec1684a72d1a625c7465cd9001bc"
+    },
+    {
+      "file": "lighthouse-work-mobile.json",
+      "source": "artifacts/performance/master-foundation-work-mobile-1.json",
+      "bytes": 229733,
+      "sha256": "7d457a272826c2c0b2fec60e6969adb3785e71affb74fff1451862d0ed37fd67"
+    },
+    {
+      "file": "node-tests.txt",
+      "source": "/tmp/h4-master-node-final.log",
+      "bytes": 34117,
+      "sha256": "a85165429998e8184fdb7ad8326a93686222b2f8a1cdff6c5cdffc9bc20e31d8"
+    },
+    {
+      "file": "production-export.txt",
+      "source": "/tmp/h4-master-export.log",
+      "bytes": 2458,
+      "sha256": "fb3944669dde812d61efe00363ab3c0b2df4d297902562eae2a58fd23da23bdd"
+    },
+    {
+      "file": "production-browser.txt",
+      "source": "/tmp/h4-master-production.log",
+      "bytes": 281,
+      "sha256": "e45c2dbfb87948fb32a84e633d44a18800145a2043ac1f2744ab6385bd199691"
+    },
+    {
+      "file": "hero-browser.txt",
+      "source": "/tmp/h4-master-hero-fixed.log",
+      "bytes": 466,
+      "sha256": "d0f2d0fbac751d8cbe5140f23f5c4f8d81c87ac5ae33a74cb7275e3b4c97ad9f"
+    },
+    {
+      "file": "layout-320.json",
+      "source": "artifacts/master-foundation/layout/results-320.json",
+      "bytes": 2746,
+      "sha256": "1a355b0726a8552bb834c1499ebaf7500f120e5a18378d5c358c5c72c6da8d20"
+    },
+    {
+      "file": "layout-390.json",
+      "source": "artifacts/master-foundation/layout/results-390.json",
+      "bytes": 2737,
+      "sha256": "7827b463ebd40cb7622c65b01a5c393271f5cd6c8b2ab11f03567e7621dd0b08"
+    },
+    {
+      "file": "layout-800.json",
+      "source": "artifacts/master-foundation/layout/results-800.json",
+      "bytes": 2727,
+      "sha256": "52d8aa0b89098a2aa1ac9038311a8daafbab70cb224508bd083e049caad2c770"
+    },
+    {
+      "file": "package-verification.json",
+      "source": "Generated by independent byte verification of tracked files, ZIP members, embedded original and exact offline reports.",
+      "bytes": 982,
+      "sha256": "78f30c6917cb612445d740180cdd7dbf616bf58dafede817d1bc3f5711e6e0d7"
+    },
+    {
+      "file": "README.md",
+      "source": "Evidence interpretation and limitations.",
+      "bytes": 2274,
+      "sha256": "e8c689b27dd379daabff56bb21060ab7f9b042eedb55388eae019ff3398df3c8"
+    }
+  ],
+  "packageVerification": {
+    "verifiedAtUTC": "2026-10-27T21:19:05.118910+00:00",
+    "sourceCommit": "57e2e794da7d1ee181616d5f2a45d783eaaf5a95",
+    "html": {
+      "path": "docs/previews/h4ngelic-preview.html",
+      "bytes": 7752573,
+      "sha256": "fc7ee432d42a310414104ab33fc1ffb8b8ef374ee2f61616b8c549ceb1762394",
+      "matchesExport": true
+    },
+    "zip": {
+      "path": "docs/previews/portfolio-preview.zip",
+      "bytes": 5270750,
+      "sha256": "df0ec75e2df701db9b6d5145e4a2b96c1f155c0c806c2a16d0e94a443080a713",
+      "members": [
+        "h4ngelic-preview.html",
+        "BITTE-LESEN.txt"
+      ],
+      "htmlMemberMatchesTrackedHTML": true
+    },
+    "originalArtwork": {
+      "path": "public/images/digital-artworks/green-black-original.jpg",
+      "bytes": 836625,
+      "sha256": "df0781e4f572ba9e644c3471fbb6060e228c34f02acf32d01f4b0e1dce68132f",
+      "embeddedOriginalMatchesSource": true
+    },
+    "offlineReportHashesMatchHTML": true,
+    "publishedCarouselFixturesAbsent": true
+  },
+  "selfHashExcluded": true,
+  "screenshots": "Fresh production server55383 captures, actual published content only; normal reduced-motion poses. No fixture photographs.",
+  "productionScreenshots": [
+    {
+      "file": "about-preview-1440.jpg",
+      "bytes": 59560,
+      "sha256": "1c949d79409a4e47863ffad87eda936a5fb3869fcfa3e358e6fe0426c8fae77c"
+    },
+    {
+      "file": "about-preview-390.jpg",
+      "bytes": 28424,
+      "sha256": "ed3044d2a9032b311c18b6a8c9cfaf51c5cda17f816582eb47ecd119e8484192"
+    },
+    {
+      "file": "home-1440.jpg",
+      "bytes": 40550,
+      "sha256": "bdadeb000add2fee7cf3f2863577a7cc95d65ee2732875e87c1d78aa8f59295c"
+    },
+    {
+      "file": "home-390.jpg",
+      "bytes": 14190,
+      "sha256": "c7500b8e0c53541de665d8183831ba37a0888f39f4ccc9b8c6303802acf2634c"
+    },
+    {
+      "file": "work-1440.jpg",
+      "bytes": 444344,
+      "sha256": "6810a2479355c6f644c8980a0c7f5e4e9f0535dcfa7a18db68698388dc4b74a5"
+    },
+    {
+      "file": "work-390.jpg",
+      "bytes": 78252,
+      "sha256": "cf3444a1147c63dace24d47679ecf6f9e701e23d45125a7a2c1436fea869f888"
+    }
+  ],
+  "delivery": {
+    "verifiedAtUTC": "2026-10-27T21:26:54.963596+00:00",
+    "sourceCommit": "57e2e794da7d1ee181616d5f2a45d783eaaf5a95",
+    "artifactCommit": "706c9eea49c5ef98da52a297facc822320aadb4a",
+    "branch": "feat/master-foundation",
+    "prNumber": 18,
+    "prURL": "https://github.com/h333ndrik/h4ngelic/pull/18",
+    "prState": "OPEN",
+    "prBase": "feat/website-completion",
+    "githubHTMLBytes": 7752573,
+    "githubHTMLGitBlob": "43e6e5618dc004913421bf1cee0b560f206ac8a1",
+    "matchesLocalGitBlob": true,
+    "merged": false,
+    "productionDeployment": false
+  },
+  "additionalEvidence": [
+    {
+      "file": "baseline-carousel.txt",
+      "bytes": 603,
+      "sha256": "72c0559e31829c9f410cfd24605b6ba4ab41f87032fc1cb5e62b5aa387bd8967"
+    },
+    {
+      "file": "delivery-verification.json",
+      "bytes": 540,
+      "sha256": "8d266b4a1b1aa00429a9fba4f363b6059cf67baacb77943159094c0be25682d9"
+    }
+  ]
+}

@@ -35,25 +35,30 @@
   letter-spacing: -.04em;
 }
 .archive-category-heading a { display: inline-flex; align-items: center; gap: .4em; min-height: 44px; }
-.archive-category-heading .arrow { font-size: .65em; }
+/* Subordinate labels stay visibly quieter than the three large rubrics. */
+.archive-category[data-archive-category='digital-artworks'] > .archive-category-heading {
+  font-size: clamp(20px, 2.6vw, 38px);
+}
+.archive-model { min-height: clamp(120px, 16vw, 240px); }
 .work-page .page-heading { font-size: clamp(40px, 11vw, 168px); overflow-wrap: anywhere; }
 .work-group { scroll-margin-top: 90px; }
 .work-group + .work-group, .archive-category + .work-group, .work-group + .archive-category { margin-top: clamp(90px, 14vw, 210px); }
 .work-group-heading { margin: clamp(50px, 8vw, 110px) 0 12px; font-size: clamp(48px, 9vw, 138px); font-weight: 400; line-height: 1.05; letter-spacing: -.055em; }
 .work-group-heading a { display: inline-flex; align-items: center; gap: .3em; }
-.work-group-heading .arrow { font-size: .55em; }
+/* Whitespace, never category rules, separates the archive. */
+.work-page :is(.work-filters, .work-group, .archive-category, .project-meta) { border: 0; }
 .archive-category { scroll-margin-top: 90px; }
 .archive-category[data-archive-category='digital-artworks'] > .project-grid { grid-template-columns: minmax(0, 1fr); }
 .archive-category[data-archive-category='digital-artworks'] .project-images {
   max-width: min(82vw, 1100px);
   margin-inline: auto;
 }
-.work-filters { position: sticky; top: 0; z-index: 4; background: #242424f5; padding-right: 95px; }
+.work-filters { position: sticky; top: 0; z-index: 4; background: #242424f5; padding-right: 0; border: 0; }
 /* In the Other Side the navigation shares the material underneath it. A
    small violet scrim fades away instead of covering the field with a slab. */
 html[data-mode='xray'] .work-filters {
   background: linear-gradient(90deg, #190b2859, #24103026 55%, #24103000);
-  border-color: #ead8f12e;
+  border: 0;
 }
 html[data-mode='xray'] .work-filters .filter-link {
   color: #eadff1;
@@ -66,8 +71,8 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
 .contact-page { max-width: 1100px; margin-inline: auto; padding-inline: 35px; }
 .contact-page .page-heading { font-size: clamp(40px, 8vw, 112px); }
 @media (max-width: 600px) {
-  .work-filters { gap: 0 17px; padding-right: 0; top: 64px; }
-  .work-group, .archive-category { scroll-margin-top: 150px; }
+  .work-filters { gap: 0 17px; padding-right: 0; top: 0; }
+  .work-group, .archive-category { scroll-margin-top: 90px; }
   .contact-page { margin-inline: 0; padding-inline: 22px; }
 }
 @media (max-width: 600px) {

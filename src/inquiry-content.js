@@ -20,7 +20,7 @@ export function renderInquiryForm({ context = '', id = 'inquiry' } = {}) {
       <p class="inquiry-context" data-inquiry-context${project ? '' : ' hidden'}>${project ? `regarding ${escape(project.title || project.id.replaceAll('-', ' '))}.` : ''}</p>
       <div class="inquiry-fields">
         <label class="inquiry-field" for="${prefix}-name"><span>YOUR NAME</span><input id="${prefix}-name" name="name" autocomplete="name" required maxlength="${inquirySettings.maximumNameLength}" /></label>
-        <label class="inquiry-field" for="${prefix}-email"><span>YOUR EMAIL</span><input id="${prefix}-email" name="email" type="email" autocomplete="email" required maxlength="254" /></label>
+        <label class="inquiry-field" for="${prefix}-email"><span>HOW TO REACH YOU</span><input id="${prefix}-email" name="email" type="text" autocomplete="off" placeholder="email, instagram, phone number..." required maxlength="254" data-inquiry-contact /></label>
         <label class="inquiry-field inquiry-field-message" for="${prefix}-message"><span>WHAT'S ON YOUR MIND?</span><textarea id="${prefix}-message" name="message" rows="3" maxlength="${inquirySettings.maximumMessageLength}"></textarea></label>
       </div>
       <div class="inquiry-honey" aria-hidden="true"><label for="${prefix}-website">Leave this field empty<input id="${prefix}-website" name="website" tabindex="-1" autocomplete="off" /></label></div>

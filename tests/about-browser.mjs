@@ -26,8 +26,9 @@ async function geometry(page) {
 function aligned(layout, width) {
   const edge = width <= 700 ? 22 : 35;
   assert.ok(Math.abs(layout.heading.left - edge) < 1, 'The heading keeps the shared editorial gutter.');
-  assert.ok(Math.abs(layout.copy.left - layout.heading.left) < 1, 'About copy starts at the heading’s left edge.');
-  assert.ok(Math.abs(layout.link.left - layout.heading.left) < 1, 'MORE ABOUT starts at the same left edge.');
+  const inset = Math.max(12, Math.min(48, width * .03));
+  assert.ok(Math.abs(layout.copy.left - layout.heading.left - inset) < 1, 'About copy has the approved small editorial inset.');
+  assert.ok(Math.abs(layout.link.left - layout.copy.left) < 1, 'MORE ABOUT shares the flowing paragraph’s left edge.');
   assert.equal(layout.copy.textAlign, 'left');
   assert.ok(layout.copy.right <= width + 1 && layout.link.right <= width + 1);
   assert.ok(layout.documentWidth <= width + 1, 'The About entrance must not widen the website.');
@@ -63,7 +64,7 @@ try {
         };
         const before = await poseAt(0);
         assert.ok(before.copy.opacity < .01 && before.link.opacity < .01);
-        assert.ok(before.copy.x > 0 && before.copy.x <= 130.1);
+        assert.ok(before.copy.x > 0 && before.copy.x <= 36.1);
         const middle = await poseAt(.5);
         assert.ok(middle.copy.x < before.copy.x && middle.link.x > middle.copy.x, 'The copy leads the link through the shared fly-in.');
         const settled = await poseAt(1); aligned(settled, width);
@@ -81,7 +82,7 @@ try {
       await page.screenshot({ path: new URL(`about-${width}-${reduced ? 'reduced' : 'motion'}.png`, out).pathname });
       assert.deepEqual(errors, []);
       reports.push({ width, reduced, direct, samples, errors });
-      console.log(`PASS About ${width}px reduce=${reduced}: shared left edge, immediate deep link, bounded reversible entrance, readable copy and no overflow.`);
+      console.log(`PASS About ${width}px reduce=${reduced}: shared modest inset, immediate deep link, bounded reversible entrance, readable copy and no overflow.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL('results.json', out), JSON.stringify({ checkedAt: new Date().toISOString(), reports }, null, 2));

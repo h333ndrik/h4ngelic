@@ -3,7 +3,7 @@ import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const destination = new URL('../artifacts/website-completion/', import.meta.url);
+const destination = new URL('../artifacts/master-foundation/', import.meta.url);
 await mkdir(destination, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -49,7 +49,7 @@ async function hoverFrames(page, target, bounds) {
     assert.ok(frame.doc <= frame.viewport + 1, 'Hover never creates horizontal document overflow.');
     for (const property of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(frame[property] - before[property]) < .6, 'Only the visual moves; its real hit area stays fixed.');
   }
-  assert.notEqual(frames.at(-1).glow, 'none', 'The existing luminous feedback remains present.');
+  assert.notEqual(frames.at(-1).glow, 'none', 'Subtle luminous feedback remains present.');
   return { samples: frames.length, minimumLeft: Math.min(...frames.map(frame => frame.left)),
     maximumRight: Math.max(...frames.map(frame => frame.right)), scale: frames.at(-1).targetScale };
 }
@@ -95,7 +95,7 @@ try {
       await page.waitForFunction(() => document.querySelector('.resize-fixture .interaction-visual'));
       await shrinking.locator('.interaction-visual').evaluate(element => { element.style.width = '70px'; });
       await shrinking.hover(); await page.waitForTimeout(300);
-      assert.ok(await shrinking.evaluate(element => Number(getComputedStyle(element).getPropertyValue('--ui-target-scale')) > 1.19));
+      assert.ok(await shrinking.evaluate(element => Number(getComputedStyle(element).getPropertyValue('--ui-target-scale')) > 1.024));
       await page.evaluate(() => {
         window.__resizeContainmentFrames = [];
         const started = performance.now();

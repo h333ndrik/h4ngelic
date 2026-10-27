@@ -1,0 +1,16 @@
+{
+  "sourceCommit": "57e2e794da7d1ee181616d5f2a45d783eaaf5a95",
+  "packagedAt": "2026-10-27T21:24:34.051436+00:00",
+  "htmlBytes": 7752573,
+  "htmlSha256": "fc7ee432d42a310414104ab33fc1ffb8b8ef374ee2f61616b8c549ceb1762394",
+  "zipBytes": 5270642,
+  "zipSha256": "78b50d4e554786fc71940e14b13715ac50ea5a269dce7c2e9c37605660a91105",
+  "zipHTMLMatchesExport": true,
+  "originalArtworkUnchanged": true,
+  "originalArtworkSHA256": "df0781e4f572ba9e644c3471fbb6060e228c34f02acf32d01f4b0e1dce68132f",
+  "testFixtureContentExcluded": true,
+  "offlineReports": [
+    "artifacts/control-offline-results.json",
+    "artifacts/living-offline-native-results.json"
+  ]
+}

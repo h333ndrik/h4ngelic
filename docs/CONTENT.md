@@ -1,3 +1,10 @@
+> Aktueller Stand: [PROJECT_PLAN.md](../PROJECT_PLAN.md) und
+> [PROJECT_PROGRESS.md](../PROJECT_PROGRESS.md). Die Hauptseite heißt WORKS;
+> NAAVI ist die einzige gemeinsame Navigation unten mittig. Die drei
+> Work-Hauptrubriken sind tattoos, jewellery und more. Unter tattoos stehen
+> on skin, flashes und der vorerst leere Abschnitt 3d model; unter more stehen
+> digital artworks vor analog photography. VISIT gilt gemeinsam über alle Routen.
+
 # Inhalte bearbeiten
 
 Die Website verwendet einfache JavaScript-Dateien. Du brauchst weder React-Komponenten noch ein CMS, eine Datenbank oder einen Login zu bearbeiten.

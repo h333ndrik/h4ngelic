@@ -48,7 +48,7 @@ test('the homepage keeps its hidden instruction separate from the identity-row c
   assert.match(html, />VISIT 001<\/span>/);
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
   assert.ok(html.indexOf('data-visit-counter-hotspot') > html.indexOf('footer-identity'));
-  assert.doesNotMatch(html, /data-mode-mute/, 'The sound control belongs to the upper hero controls, without a footer duplicate.');
+  assert.doesNotMatch(html, /data-mode-mute/, 'The sound control belongs to the hero controls, without a footer duplicate.');
   assert.match(html, /data-mode-status role="status" aria-live="polite"/);
   assert.doesNotMatch(html, /data-xray-toggle/, 'A simple touch tap must not bypass the hold control.');
   assert.match(html, /class="footer-instagram" href="https:\/\/www\.instagram\.com\/h4ngelic\/"/,
@@ -61,7 +61,7 @@ test('the shared release gate can still omit all alternate-mode controls indepen
   const html = renderFooter({ home: true, otherSideEnabled: false });
   assert.doesNotMatch(html, /data-other-side-hint|data-mode-hold|data-mode-mute|data-mode-status/);
   assert.match(html, /data-visit-number/);
-  assert.doesNotMatch(renderFooter(), /data-visit-counter-hotspot/, 'The hidden final count belongs to the homepage.');
+  assert.match(renderFooter(), /data-visit-counter-hotspot/, 'The shared local visit count is present on interior routes too.');
 });
 
 test('ink remains temporary for six to twelve seconds with a bounded active count', () => {
