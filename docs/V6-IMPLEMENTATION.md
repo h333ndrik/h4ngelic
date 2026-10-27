@@ -1,5 +1,11 @@
 # V6 implementation: navigation, inquiry and isolated effects
 
+This is the historical V6 acceptance plan. The latest requested Homepage INDEX
+removal, ordinary Digital gallery, native carousels and left-aligned About are
+covered by [the current implementation and validation report](WEBSITE-COMPLETION.md).
+Its evidence supersedes the pending source-validation statuses below; missing
+real portfolio photographs and live mail configuration remain explicit there.
+
 Current feature branch: `feat/v6-navigation-inquiry`.
 Checkpoint before V6: `b9142dc` on `feat/spatial-archives-hidden-relief`.
 This is the working V6 plan and acceptance record. Earlier validation reports

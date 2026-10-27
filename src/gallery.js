@@ -52,6 +52,7 @@ export function initGallery(root = document) {
   let driftSection = null;
   let driftItem = null;
   let savedScroll = null;
+  let savedDriftScroll = null;
 
   const listen = (element, type, handler, options) => {
     element.addEventListener(type, handler, options);
@@ -142,10 +143,11 @@ export function initGallery(root = document) {
       driftItem?.classList.remove('is-drift-selected');
       opener?.classList.remove('is-artwork-selected');
       if (savedScroll) scrollTo({ left: savedScroll[0], top: savedScroll[1], behavior: 'instant' });
+      if (savedDriftScroll !== null) driftSection.querySelector('.drift-viewport')?.scrollTo({ left: savedDriftScroll, behavior: 'instant' });
     }
     if (opener?.isConnected) opener.focus({ preventScroll: true });
     driftSection?.removeAttribute('data-drift-focus-restore');
-    driftSection = driftItem = savedScroll = null;
+    driftSection = driftItem = savedScroll = savedDriftScroll = null;
   }
 
   function finishClose() {
@@ -205,6 +207,7 @@ export function initGallery(root = document) {
     driftItem = trigger.closest('[data-drift-item]');
     if (driftSection) {
       savedScroll = [scrollX, scrollY];
+      savedDriftScroll = driftSection.querySelector('.drift-viewport')?.scrollLeft ?? null;
       driftSection.setAttribute('data-drift-paused', '');
       driftSection.classList.add('is-artwork-focused');
       driftItem?.classList.add('is-drift-selected');
@@ -231,7 +234,15 @@ export function initGallery(root = document) {
     showImage(selected, { openingFrom, openingRect });
   }
 
-  for (const trigger of triggers) listen(trigger, 'click', () => open(trigger));
+  for (const trigger of triggers) listen(trigger, 'click', event => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+    // Published image links remain usable detail URLs without JavaScript.
+    // A normal activation enhances them into the same in-place modal as a
+    // carousel image; modified clicks retain native new-tab behavior.
+    if (typeof dialog.showModal !== 'function') return;
+    event.preventDefault();
+    open(trigger);
+  });
   listen(closeButton, 'click', requestClose);
   listen(previousButton, 'click', () => showImage(selected - 1));
   listen(nextButton, 'click', () => showImage(selected + 1));

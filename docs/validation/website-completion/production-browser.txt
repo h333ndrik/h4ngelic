@@ -1,0 +1,2 @@
+PASS SEO HTTP/no-JS (preview): 12 semantic direct routes, unique metadata, confirmed canonicals, structured artist identity, legacy redirects, strict 404s, sitemap and robots.
+PASS SEO live interiors: direct/refresh routes work without Three.js scene, font or reflection requests.

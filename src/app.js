@@ -2,7 +2,6 @@ import './style.css';
 import './homepage.css';
 import './archive-structure.css';
 import './horizontal-drift.css';
-import './digital-ink.css';
 import './flash-mannequin.css';
 import './inquiry.css';
 import './v6-polish.css';
@@ -38,7 +37,6 @@ let stopMotion = () => {};
 let stopImageReveals = () => {};
 let stopEndReveal = () => {};
 let stopDrift = () => {};
-let stopDigitalInk = () => {};
 let stopMannequins = () => {};
 let heroObserver = null;
 let moshTransitions = null;
@@ -46,6 +44,9 @@ let renderRevision = 0;
 let renderedKind = '';
 let stopInquiry = () => {};
 let stopConnectedWork = () => {};
+// One scroll offset for each real carousel; route changes reuse these small
+// records rather than retaining detached gallery nodes or image resources.
+const carouselPositions = new Map();
 const globalNavigation = initGlobalNavigation(document);
 
 function ensureHero() {
@@ -118,7 +119,10 @@ async function render({ reset = false, restoreScroll } = {}) {
   const route = resolveRoute(url);
   // Anchors in Home/Work navigate the existing document. Retain canvas state,
   // gallery positions and input values instead of remounting the page.
-  if (renderedKind === route.kind && ['home', 'work'].includes(route.kind)) {
+  const workTargetExists = route.kind !== 'work' || route.category === 'all'
+    || document.getElementById(route.category);
+  if (renderedKind === route.kind && ['home', 'work'].includes(route.kind) && workTargetExists) {
+    if (route.kind === 'work') content.querySelector('[data-connected-work]').dataset.workContext = route.category;
     const metadataOptions = typeof __H4_SEO_CONFIG__ === 'undefined' ? {} : __H4_SEO_CONFIG__;
     applyMetadata(getPageMetadata(route, metadataOptions));
     scrollToTarget(url, { reset, restoreScroll });
@@ -126,6 +130,9 @@ async function render({ reset = false, restoreScroll } = {}) {
     return;
   }
   const revision = ++renderRevision;
+  if (renderedKind === 'work') for (const section of content.querySelectorAll('[data-horizontal-drift]')) {
+    carouselPositions.set(section.dataset.horizontalDrift, section.querySelector('.drift-viewport').scrollLeft);
+  }
   renderedKind = '';
   stopInteractions();
   stopGallery();
@@ -133,11 +140,10 @@ async function render({ reset = false, restoreScroll } = {}) {
   stopImageReveals();
   stopEndReveal();
   stopDrift();
-  stopDigitalInk();
   stopMannequins();
   stopInquiry();
   stopConnectedWork();
-  stopDrift = stopDigitalInk = stopMannequins = () => {};
+  stopDrift = stopMannequins = () => {};
   heroObserver?.disconnect();
   if (!standalone && route.redirectPath) history.replaceState(history.state, '', route.redirectPath);
   if (hero) hero.hidden = route.kind !== 'home';
@@ -168,10 +174,6 @@ async function render({ reset = false, restoreScroll } = {}) {
     import('./horizontal-drift.js').then(({ initHorizontalDrift }) => {
       if (revision === renderRevision) stopDrift = initHorizontalDrift(content);
     }));
-  if (content.querySelector('[data-digital-ink]')) enhancements.push(
-    import('./digital-ink.js').then(({ initDigitalInk }) => {
-      if (revision === renderRevision) stopDigitalInk = initDigitalInk(content);
-    }));
   if ((import.meta.env.DEV || typeof __H4_HAS_MANNEQUINS__ === 'undefined' || __H4_HAS_MANNEQUINS__)
     && content.querySelector('[data-flash-mannequin]')) enhancements.push(
     import('./flash-mannequin.js').then(({ initFlashMannequins }) => {
@@ -179,6 +181,10 @@ async function render({ reset = false, restoreScroll } = {}) {
     }));
   await Promise.allSettled(enhancements);
   if (revision !== renderRevision) return;
+  if (route.kind === 'work') for (const section of content.querySelectorAll('[data-horizontal-drift]')) {
+    const left = carouselPositions.get(section.dataset.horizontalDrift);
+    if (Number.isFinite(left)) section.querySelector('.drift-viewport').scrollTo({ left, behavior: 'instant' });
+  }
   renderedKind = route.kind;
   scrollToTarget(url, { reset, restoreScroll });
   globalNavigation.refresh();

@@ -15,7 +15,7 @@ export const siteContent = {
     { id: 'flashes', label: 'flashes', group: 'tattoos', presentation: 'drift' },
     { id: 'jewellery', label: 'jewellery', presentation: 'existing' },
     { id: 'analog-photography', label: 'analog photography', group: 'more', presentation: 'drift' },
-    { id: 'digital-artworks', label: 'digital artworks', group: 'more', presentation: 'ink' },
+    { id: 'digital-artworks', label: 'digital artworks', group: 'more', presentation: 'existing' },
     // Keep existing painting links and content valid without adding another main rubric.
     { id: 'paintings', label: 'paintings', legacy: true, presentation: 'existing' },
   ],

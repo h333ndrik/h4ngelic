@@ -15,10 +15,10 @@
   [data-scroll-choreography] [data-motion-state='settled'] .kinetic-heading,
   [data-scroll-choreography] [data-motion-state='focus'] .kinetic-heading { overflow: visible; }
   .kinetic-heading > .kinetic-heading-text {
-    transition: scale 260ms cubic-bezier(.2,.8,.25,1.12), filter 260ms ease-out;
+    transition: scale 260ms var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)), filter 260ms ease-out;
   }
   .kinetic-heading:hover .kinetic-heading-text {
-    scale: 1.2;
+    scale: var(--heading-hover-scale, 1);
     filter: drop-shadow(0 0 2px #ffffffaa) drop-shadow(0 0 8px #ffffff55);
   }
 }

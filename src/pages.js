@@ -5,7 +5,6 @@ import { getImageAsset } from './image-assets.js';
 import { categoryURL, projectURL, categoryById, groupById, workAnchorURL } from './routes.js';
 import { renderFooter } from './footer.js';
 import { renderHorizontalDrift } from './horizontal-drift-content.js';
-import { renderDigitalInk } from './digital-ink-content.js';
 import { renderFlashMannequin } from './flash-mannequin-content.js';
 import { renderInquiryForm } from './inquiry-content.js';
 import { orderedArtworks, artworkImages } from './artwork-content.js';
@@ -56,7 +55,7 @@ function imageMarkup(image, { critical = false, href = '', imageIndex = 0, figur
   const asset = getImageAsset(image, { sizes: '(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)' });
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
   const element = href ? 'a' : 'button';
-  const action = href ? `href="${escape(href)}" data-artwork-link` : 'type="button" data-artwork-open';
+  const action = href ? `href="${escape(href)}" data-artwork-link data-artwork-open` : 'type="button" data-artwork-open';
   return `<figure class="project-image"${figureId ? ` id="${escape(figureId)}" tabindex="-1"` : ''}>
     <${element} class="artwork-open" ${action} aria-label="open ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
       <img src="${escape(asset.src || source)}" data-full-src="${escape(asset.fullSrc || source)}" data-artwork-image="${imageIndex}" alt="${escape(image.alt || '')}" loading="${critical ? 'eager' : 'lazy'}"${critical ? ' fetchpriority="high"' : ''} decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
@@ -95,8 +94,7 @@ export function renderWorkPage(category = 'all') {
   const leaf = (entry, { nested = false, id = entry.id } = {}) => {
     const items = projects.filter(project => project.category === entry.id);
     const contents = entry.presentation === 'drift' ? renderHorizontalDrift(items, { category: entry.id, label: entry.label })
-      : entry.presentation === 'ink' ? renderDigitalInk(items)
-        : items.map(renderProject).filter(Boolean).join('');
+      : items.map(renderProject).filter(Boolean).join('');
     return `<section class="archive-category" id="${escape(id)}" tabindex="-1" aria-labelledby="archive-${escape(entry.id)}-title" data-archive-category="${escape(entry.id)}">
       <${nested ? 'h3' : 'h2'} class="archive-category-heading" id="archive-${escape(entry.id)}-title"><a href="${workAnchorURL(id)}">${escape(entry.label)} ${arrow}</a></${nested ? 'h3' : 'h2'}>
       ${entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>'}

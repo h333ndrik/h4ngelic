@@ -1,0 +1,110 @@
+{
+  "checkedAt": "2026-10-27T15:50:15.453320+00:00",
+  "sourceBranch": "feat/website-completion",
+  "sourceCommit": "85598805eecffdb351bba3e0365feae85a958eae",
+  "previousReview": "c3f9589",
+  "conditions": "Headless Chromium154/SwiftShader; synthetic carousel projects occur only in the test harness. Exact exported bytes tested with network rejected; direct file navigation is blocked in managed Chrome. No physical-device or new field-performance claim.",
+  "reports": [
+    {
+      "file": "regressions.json",
+      "source": "artifacts/website-completion/regressions.json",
+      "bytes": 1917,
+      "sha256": "d2954dbd938333db52a657ef5537ef92c5791f229c650cf130170aaedb5159c3"
+    },
+    {
+      "file": "hover-containment.json",
+      "source": "artifacts/website-completion/hover-containment.json",
+      "bytes": 2647,
+      "sha256": "1bfc3c9d78abffea0699c3bcad655af80bf4342117e08e487e4ae5dc808f1b1a"
+    },
+    {
+      "file": "about.json",
+      "source": "artifacts/website-completion/about/results.json",
+      "bytes": 11601,
+      "sha256": "c871170b3513b0dfeedb4ac74bf9ced1cd247c0614301315641652cd7e863838"
+    },
+    {
+      "file": "navigation.json",
+      "source": "artifacts/website-completion/navigation.json",
+      "bytes": 5802,
+      "sha256": "331b080cadc7891124a9d6db124fec5ab7b08b8f49a2d3c6b951923534ea7ed9"
+    },
+    {
+      "file": "native-carousel.json",
+      "source": "artifacts/native-carousel/results.json",
+      "bytes": 8403,
+      "sha256": "f0616ed52bd14e7260b07d8bd42d2f200bba5f72b506a9ad99780b7595f3a47a"
+    },
+    {
+      "file": "forms-and-navigation.json",
+      "source": "artifacts/v6/browser-results.json",
+      "bytes": 1564,
+      "sha256": "8a4044d45043af25bb7a75483a987a57b348188827ea9957848f662bf6d54fd5"
+    },
+    {
+      "file": "memory-continuity.json",
+      "source": "artifacts/v71/memory-browser-results.json",
+      "bytes": 160200,
+      "sha256": "def4b65d667d616fed983be7a7391d328b06d2993b4ee37d5883a159d0065323"
+    },
+    {
+      "file": "standalone.json",
+      "source": "artifacts/control-offline-results.json",
+      "bytes": 9073,
+      "sha256": "463b556be53cfd0dc1c8cd9d055ca00e94a33c3eb84a5cf4a1eb0376d0560b80"
+    },
+    {
+      "file": "standalone-native.json",
+      "source": "artifacts/living-offline-native-results.json",
+      "bytes": 15689,
+      "sha256": "6532ed7722ef57cf921a7ffd66dcb4b41a1ca4d7f3f10c13c99d05232d8f93b3"
+    },
+    {
+      "file": "offline-package.json",
+      "source": "artifacts/website-completion/offline-package.json",
+      "bytes": 655,
+      "sha256": "b455f9a78f64384e01813ca71a87731020dac5ccc264853f77c130198999d453"
+    },
+    {
+      "file": "production-export.txt",
+      "source": "/tmp/h4-completion-export.log",
+      "bytes": 2458,
+      "sha256": "379e0ebd56e3e50eedab4cc99c96080ffa25983002bb236869c52415e273b954"
+    },
+    {
+      "file": "production-browser.txt",
+      "source": "/tmp/h4-completion-seo.log",
+      "bytes": 281,
+      "sha256": "e45c2dbfb87948fb32a84e633d44a18800145a2043ac1f2744ab6385bd199691"
+    },
+    {
+      "file": "node-tests.txt",
+      "bytes": 120,
+      "sha256": "63d6bdfd87ee212ac6d3e0b1bbcf31b3d0d0bfc3d15b2fb60fb7031b9bf6b326"
+    },
+    {
+      "file": "about-desktop.webp",
+      "bytes": 18492,
+      "sha256": "e435522f4c76a4275ccc75b332994920a65e4f8314e06b74547c3603eed52802",
+      "scope": "Compressed actual page capture; no synthetic carousel artwork."
+    },
+    {
+      "file": "about-mobile.webp",
+      "bytes": 11500,
+      "sha256": "7b40fbcd360f7c75e5e9e0e21cecddab202a9eb2df97ccc40125dd9efea94372",
+      "scope": "Compressed actual page capture; no synthetic carousel artwork."
+    },
+    {
+      "file": "work-other-side.webp",
+      "bytes": 33746,
+      "sha256": "5c397248bd74e5025287fa6913dfbbffe5c59daf74c62047c26ae76eda6b9528",
+      "scope": "Compressed actual page capture; no synthetic carousel artwork."
+    },
+    {
+      "file": "work-normal.webp",
+      "bytes": 243672,
+      "sha256": "87dc351879fda6ab1e37a2ec44c419e8d642a344c1b4e033ec3cf25eed1c32ed",
+      "scope": "Compressed actual page capture; no synthetic carousel artwork."
+    }
+  ]
+}

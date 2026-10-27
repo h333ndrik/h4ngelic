@@ -71,7 +71,7 @@ async function assertConnectedWork(page, category) {
     ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks', ...(expected === 'paintings' ? ['paintings'] : [])]);
   assert.equal(await page.locator('.portfolio-archive img').count(), 1,
     'The one original stays mounted in every connected context; empty leaves never invent artwork.');
-  const original = page.locator('.digital-ink-open img');
+  const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
   assert.equal(await original.getAttribute('width'), '1440');
   assert.equal(await original.getAttribute('height'), '1920');
   assert.match(await original.getAttribute('src'), /green-black-original/);
@@ -209,8 +209,8 @@ try {
   await mobilePage.waitForURL((url) => url.pathname === '/contact');
   await mobilePage.waitForFunction(() => document.getElementById('contact').getBoundingClientRect().top < innerHeight);
   assert.deepEqual(mobileErrors, []);
-  await mobile.close();
   assert.equal(await mobilePage.locator('[data-inquiry-form]').count(), 1);
+  await mobile.close();
   console.log('PASS portfolio mobile: horizontal categories at 390/320px, scrollable keyboard access, connected anchor jumps and INDEX Contact, no page overflow.');
   console.log(`Screenshots saved in ${artifacts.pathname}`);
 } finally {

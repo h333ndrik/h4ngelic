@@ -9,7 +9,7 @@ export const motionSettings = Object.freeze({
   pin: Object.freeze({ work: .68, contact: .58, mobileWork: .48, mobileContact: .44 }),
   fly: Object.freeze({ start: .025, stagger: .14, duration: .66, distanceVw: 1.35, rotation: 6.5, overshoot: 12, overshootAt: .78, accelerationRamp: .12 }),
   heading: Object.freeze({ start: 0, end: .27, rise: 112 }),
-  about: Object.freeze({ approach: .76, finish: .08, headingEnd: .28, copyStart: .10, copyEnd: .90, linkStart: .23, linkEnd: 1, copyDistanceVw: 1.12, linkDistanceVw: 1.04 }),
+  about: Object.freeze({ approach: .68, finish: .10, headingEnd: .28, copyStart: .16, copyEnd: .90, linkStart: .30, linkEnd: 1, copyDistanceVw: .16, linkDistanceVw: .14, maximumCopyDistance: 130, maximumLinkDistance: 118 }),
   trail: Object.freeze({ layers: 2, distanceVw: .045, maximumDistance: 64, mobileMaximumDistance: 26, opacity: .22, secondaryOpacity: .13, fadeIn: .08, fadeOutStart: .38, fadeOutEnd: .82 }),
   hero: Object.freeze({ start: .02, end: .90, scale: .97 }),
 });
@@ -73,6 +73,16 @@ export function kineticItemProgress(sectionProgress, index, settings = motionSet
 
 export function sampleKineticItem(sectionProgress, index, viewportWidth, settings = motionSettings.fly) {
   return sampleFlyIn(kineticItemProgress(sectionProgress, index, settings), { distance: viewportWidth * settings.distanceVw, rotation: settings.rotation, overshoot: settings.overshoot, overshootAt: settings.overshootAt, accelerationRamp: settings.accelerationRamp });
+}
+
+/** About shares the form's bounded fly-in, with its link arriving just after
+ * the copy. Both scrub through the existing scroll clock and end at rest. */
+export function sampleAboutItem(sectionProgress, role, viewportWidth, settings = motionSettings.about) {
+  const link = role === 'link';
+  const local = progressBetween(sectionProgress, link ? settings.linkStart : settings.copyStart, link ? settings.linkEnd : settings.copyEnd);
+  const distance = Math.min(link ? settings.maximumLinkDistance : settings.maximumCopyDistance,
+    Math.max(0, Number(viewportWidth) || 0) * (link ? settings.linkDistanceVw : settings.copyDistanceVw));
+  return sampleFlyIn(local, { distance });
 }
 
 /** Empty decorative spans use CSS generated text, keeping real DOM text unique.

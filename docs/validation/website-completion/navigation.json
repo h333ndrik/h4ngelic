@@ -1,0 +1,235 @@
+{
+  "checkedAt": "2026-10-27T15:24:50.049Z",
+  "base": "http://127.0.0.1:55173",
+  "staticNoJSChecked": false,
+  "reports": [
+    {
+      "width": 1000,
+      "home": {
+        "top": 788,
+        "bottom": 832,
+        "left": 456,
+        "right": 544,
+        "center": 500,
+        "chapter": "1",
+        "total": "4",
+        "next": "2",
+        "accessible": true
+      },
+      "checks": [
+        {
+          "selector": "input[name=\"name\"]",
+          "counter": {
+            "top": 726.3699951171875,
+            "bottom": 773.8900146484375,
+            "left": 452.4800109863281,
+            "right": 547.52001953125,
+            "center": 500.00001525878906,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "input[name=\"email\"]",
+          "counter": {
+            "top": 728.1300048828125,
+            "bottom": 772.1300048828125,
+            "left": 456,
+            "right": 544,
+            "center": 500,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "textarea[name=\"message\"]",
+          "counter": {
+            "top": 691.219970703125,
+            "bottom": 735.219970703125,
+            "left": 456,
+            "right": 544,
+            "center": 500,
+            "chapter": "4",
+            "total": "4",
+            "next": "final",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "[data-inquiry-submit]",
+          "counter": {
+            "top": 788,
+            "bottom": 832,
+            "left": 456,
+            "right": 544,
+            "center": 500,
+            "chapter": "4",
+            "total": "4",
+            "next": "final",
+            "accessible": true
+          }
+        }
+      ],
+      "chapterCount": 4,
+      "contactReachesFinal": true,
+      "interiorIndex": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 390,
+      "home": {
+        "top": 788,
+        "bottom": 832,
+        "left": 151,
+        "right": 239,
+        "center": 195,
+        "chapter": "1",
+        "total": "4",
+        "next": "2",
+        "accessible": true
+      },
+      "checks": [
+        {
+          "selector": "input[name=\"name\"]",
+          "counter": {
+            "top": 733.719970703125,
+            "bottom": 777.719970703125,
+            "left": 151,
+            "right": 239,
+            "center": 195,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "input[name=\"email\"]",
+          "counter": {
+            "top": 733.719970703125,
+            "bottom": 777.719970703125,
+            "left": 151,
+            "right": 239,
+            "center": 195,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "textarea[name=\"message\"]",
+          "counter": {
+            "top": 691.0899658203125,
+            "bottom": 735.0899658203125,
+            "left": 151,
+            "right": 239,
+            "center": 195,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "[data-inquiry-submit]",
+          "counter": {
+            "top": 721.469970703125,
+            "bottom": 765.469970703125,
+            "left": 151,
+            "right": 239,
+            "center": 195,
+            "chapter": "4",
+            "total": "4",
+            "next": "final",
+            "accessible": true
+          }
+        }
+      ],
+      "chapterCount": 4,
+      "contactReachesFinal": true,
+      "interiorIndex": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 320,
+      "home": {
+        "top": 788,
+        "bottom": 832,
+        "left": 116,
+        "right": 204,
+        "center": 160,
+        "chapter": "1",
+        "total": "4",
+        "next": "2",
+        "accessible": true
+      },
+      "checks": [
+        {
+          "selector": "input[name=\"name\"]",
+          "counter": {
+            "top": 733.219970703125,
+            "bottom": 777.219970703125,
+            "left": 116,
+            "right": 204,
+            "center": 160,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "input[name=\"email\"]",
+          "counter": {
+            "top": 733.219970703125,
+            "bottom": 777.219970703125,
+            "left": 116,
+            "right": 204,
+            "center": 160,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "textarea[name=\"message\"]",
+          "counter": {
+            "top": 690.5899658203125,
+            "bottom": 734.5899658203125,
+            "left": 116,
+            "right": 204,
+            "center": 160,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        },
+        {
+          "selector": "[data-inquiry-submit]",
+          "counter": {
+            "top": 659.5899658203125,
+            "bottom": 703.5899658203125,
+            "left": 116,
+            "right": 204,
+            "center": 160,
+            "chapter": "3",
+            "total": "4",
+            "next": "4",
+            "accessible": true
+          }
+        }
+      ],
+      "chapterCount": 4,
+      "contactReachesFinal": true,
+      "interiorIndex": true,
+      "runtimeErrors": []
+    }
+  ]
+}
