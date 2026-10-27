@@ -80,7 +80,8 @@ try {
       assert.ok(idle.ambient.advectedBlocks > afterInput.ambient.advectedBlocks);
       assert.ok(pixels.changed > 10, 'Real idle history pixels continue evolving, without additional pointer input.');
       await page.screenshot({ path: new URL(`idle-${width}.png`, destination).pathname });
-      await page.locator('.page-nav a[href="/about"]').click();
+      await page.locator('[data-global-index] > summary').click();
+      await page.locator('[data-index-page="about"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'about'
         && !document.documentElement.hasAttribute('data-mode-snapshot'));
       const navigated = await state(page);

@@ -75,7 +75,8 @@ try {
   assert.ok(Math.abs(first.starts[0].time - first.changes[0].time) < 100, 'The cue begins with the actual mode transition.');
 
   assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0, 'Work cannot duplicate the relocated frontpage sound control.');
-  await page.locator('.page-nav a[href="/about"]').click();
+  await page.locator('[data-global-index] > summary').click();
+  await page.locator('[data-index-page="about"]').click();
   await pageKind(page, 'about');
   assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0);
   assert.ok(!requests.some((url) => /\/src\/main\.js|\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans/.test(url)), 'Direct Work/About, including mode sound, must not import the Three.js hero.');

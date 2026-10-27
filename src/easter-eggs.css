@@ -130,6 +130,7 @@ body { position: relative; }
 @media (max-width: 600px) {
   .exhibition-footer { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .secret-hotspot { font-size: 12px; }
+  .footer-secret.secret-hotspot { font-size: 15px; }
   .visitor-hotspot { top: -11px; }
   .visitor-hotspot .secret-message {
     position: absolute;
