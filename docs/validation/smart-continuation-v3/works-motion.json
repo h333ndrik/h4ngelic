@@ -1,0 +1,461 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "width": 1440,
+      "observations": [
+        {
+          "mode": "normal",
+          "group": "tattoos",
+          "samples": [
+            {
+              "x": 23.774,
+              "opacity": 0.6297,
+              "scrollY": 0,
+              "height": 136
+            },
+            {
+              "x": 18.918,
+              "opacity": 0.941,
+              "scrollY": 26,
+              "height": 136
+            },
+            {
+              "x": 4.176,
+              "opacity": 1,
+              "scrollY": 156,
+              "height": 136
+            },
+            {
+              "x": 0.038,
+              "opacity": 1,
+              "scrollY": 313,
+              "height": 136
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 469,
+              "height": 136
+            }
+          ]
+        },
+        {
+          "mode": "normal",
+          "group": "jewellery",
+          "samples": [
+            {
+              "x": 36,
+              "opacity": 0,
+              "scrollY": 1579,
+              "height": 136
+            },
+            {
+              "x": 18.932,
+              "opacity": 0.9401,
+              "scrollY": 1658,
+              "height": 136
+            },
+            {
+              "x": 4.181,
+              "opacity": 1,
+              "scrollY": 1788,
+              "height": 136
+            },
+            {
+              "x": 0.039,
+              "opacity": 1,
+              "scrollY": 1945,
+              "height": 136
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 2101,
+              "height": 136
+            }
+          ]
+        },
+        {
+          "mode": "normal",
+          "group": "more",
+          "samples": [
+            {
+              "x": 36,
+              "opacity": 0.0032,
+              "scrollY": 2312,
+              "height": 136
+            },
+            {
+              "x": 18.975,
+              "opacity": 0.9371,
+              "scrollY": 2390,
+              "height": 136
+            },
+            {
+              "x": 4.133,
+              "opacity": 1,
+              "scrollY": 2521,
+              "height": 136
+            },
+            {
+              "x": 0.039,
+              "opacity": 1,
+              "scrollY": 2677,
+              "height": 136
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 2834,
+              "height": 136
+            }
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 768,
+      "observations": [
+        {
+          "mode": "normal",
+          "group": "tattoos",
+          "samples": [
+            {
+              "x": 6.667,
+              "opacity": 1,
+              "scrollY": 0,
+              "height": 73
+            },
+            {
+              "x": 6.667,
+              "opacity": 1,
+              "scrollY": 0,
+              "height": 73
+            },
+            {
+              "x": 4.145,
+              "opacity": 1,
+              "scrollY": 34,
+              "height": 73
+            },
+            {
+              "x": 0.04,
+              "opacity": 1,
+              "scrollY": 190,
+              "height": 73
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 347,
+              "height": 73
+            }
+          ]
+        },
+        {
+          "mode": "normal",
+          "group": "jewellery",
+          "samples": [
+            {
+              "x": 36,
+              "opacity": 0.0043,
+              "scrollY": 916,
+              "height": 73
+            },
+            {
+              "x": 18.959,
+              "opacity": 0.9382,
+              "scrollY": 994,
+              "height": 73
+            },
+            {
+              "x": 4.19,
+              "opacity": 1,
+              "scrollY": 1124,
+              "height": 73
+            },
+            {
+              "x": 0.039,
+              "opacity": 1,
+              "scrollY": 1281,
+              "height": 73
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 1438,
+              "height": 73
+            }
+          ]
+        },
+        {
+          "mode": "normal",
+          "group": "more",
+          "samples": [
+            {
+              "x": 36,
+              "opacity": 0,
+              "scrollY": 1313,
+              "height": 73
+            },
+            {
+              "x": 19.029,
+              "opacity": 0.9333,
+              "scrollY": 1391,
+              "height": 73
+            },
+            {
+              "x": 4.153,
+              "opacity": 1,
+              "scrollY": 1522,
+              "height": 73
+            },
+            {
+              "x": 0.04,
+              "opacity": 1,
+              "scrollY": 1678,
+              "height": 73
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 1835,
+              "height": 73
+            }
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "observations": [
+        {
+          "mode": "normal",
+          "group": "tattoos",
+          "samples": [
+            {
+              "x": 0.564,
+              "opacity": 1,
+              "scrollY": 0,
+              "height": 50
+            },
+            {
+              "x": 0.564,
+              "opacity": 1,
+              "scrollY": 0,
+              "height": 50
+            },
+            {
+              "x": 0.564,
+              "opacity": 1,
+              "scrollY": 0,
+              "height": 50
+            },
+            {
+              "x": 0.024,
+              "opacity": 1,
+              "scrollY": 79,
+              "height": 50
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 236,
+              "height": 50
+            }
+          ]
+        },
+        {
+          "mode": "normal",
+          "group": "jewellery",
+          "samples": [
+            {
+              "x": 21.45,
+              "opacity": 0,
+              "scrollY": 690,
+              "height": 50
+            },
+            {
+              "x": 11.261,
+              "opacity": 0.9423,
+              "scrollY": 769,
+              "height": 50
+            },
+            {
+              "x": 2.484,
+              "opacity": 1,
+              "scrollY": 899,
+              "height": 50
+            },
+            {
+              "x": 0.023,
+              "opacity": 1,
+              "scrollY": 1056,
+              "height": 50
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 1212,
+              "height": 50
+            }
+          ]
+        },
+        {
+          "mode": "normal",
+          "group": "more",
+          "samples": [
+            {
+              "x": 21.45,
+              "opacity": 0.0037,
+              "scrollY": 1004,
+              "height": 50
+            },
+            {
+              "x": 11.301,
+              "opacity": 0.9376,
+              "scrollY": 1082,
+              "height": 50
+            },
+            {
+              "x": 2.499,
+              "opacity": 1,
+              "scrollY": 1212,
+              "height": 50
+            },
+            {
+              "x": 0.023,
+              "opacity": 1,
+              "scrollY": 1369,
+              "height": 50
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 1526,
+              "height": 50
+            }
+          ]
+        },
+        {
+          "mode": "xray",
+          "group": "tattoos",
+          "samples": [
+            {
+              "x": 0.564,
+              "opacity": 1,
+              "scrollY": 0,
+              "height": 50
+            },
+            {
+              "x": 0.564,
+              "opacity": 1,
+              "scrollY": 0,
+              "height": 50
+            },
+            {
+              "x": 0.564,
+              "opacity": 1,
+              "scrollY": 0,
+              "height": 50
+            },
+            {
+              "x": 0.024,
+              "opacity": 1,
+              "scrollY": 79,
+              "height": 50
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 236,
+              "height": 50
+            }
+          ]
+        },
+        {
+          "mode": "xray",
+          "group": "jewellery",
+          "samples": [
+            {
+              "x": 21.45,
+              "opacity": 0,
+              "scrollY": 690,
+              "height": 50
+            },
+            {
+              "x": 11.261,
+              "opacity": 0.9423,
+              "scrollY": 769,
+              "height": 50
+            },
+            {
+              "x": 2.484,
+              "opacity": 1,
+              "scrollY": 899,
+              "height": 50
+            },
+            {
+              "x": 0.023,
+              "opacity": 1,
+              "scrollY": 1056,
+              "height": 50
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 1212,
+              "height": 50
+            }
+          ]
+        },
+        {
+          "mode": "xray",
+          "group": "more",
+          "samples": [
+            {
+              "x": 21.45,
+              "opacity": 0.0037,
+              "scrollY": 1004,
+              "height": 50
+            },
+            {
+              "x": 11.301,
+              "opacity": 0.9376,
+              "scrollY": 1082,
+              "height": 50
+            },
+            {
+              "x": 2.499,
+              "opacity": 1,
+              "scrollY": 1212,
+              "height": 50
+            },
+            {
+              "x": 0.023,
+              "opacity": 1,
+              "scrollY": 1369,
+              "height": 50
+            },
+            {
+              "x": 0,
+              "opacity": 1,
+              "scrollY": 1526,
+              "height": 50
+            }
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "observations": [],
+      "errors": []
+    }
+  ]
+}

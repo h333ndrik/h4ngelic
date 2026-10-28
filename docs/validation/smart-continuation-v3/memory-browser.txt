@@ -1,0 +1,12 @@
+
+> h4ngelic@0.1.0 test:memory-mosh
+> node tests/memory-mosh-browser.mjs
+
+START memory 1000 reduce=false
+PASS memory 1000 reduce=false
+START memory 390 reduce=false
+PASS memory 390 reduce=false
+START memory 320 reduce=false
+PASS memory 320 reduce=false
+START memory 390 reduce=true
+PASS memory 390 reduce=true

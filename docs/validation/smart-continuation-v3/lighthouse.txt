@@ -1,0 +1,6 @@
+START smart-v3 home-mobile run 1/1
+DONE smart-v3 home-mobile run 1: score=67, FCP=1710ms, LCP=2462ms, TBT=3667ms, CLS=0, JS=217303B, requests=11
+START smart-v3 work-mobile run 1/1
+DONE smart-v3 work-mobile run 1: score=99, FCP=1318ms, LCP=1886ms, TBT=26ms, CLS=0, JS=63164B, requests=7
+SUMMARY {"home-mobile":{"runs":1,"performanceScore":67,"fcpMs":1710.38825,"lcpMs":2461.8659,"totalBlockingTimeMs":3666.999999999999,"cumulativeLayoutShift":0,"speedIndexMs":2306.5932926300657,"totalTransferredBytes":405723,"transferredScriptBytes":217303,"uncompressedScriptBytes":793067,"requestCount":11},"work-mobile":{"runs":1,"performanceScore":99,"fcpMs":1318.257125,"lcpMs":1886.30855,"totalBlockingTimeMs":26,"cumulativeLayoutShift":0,"speedIndexMs":1318.257125,"totalTransferredBytes":322236,"transferredScriptBytes":63164,"uncompressedScriptBytes":190127,"requestCount":7}}
+Reports: /workspace/h4ngelic/artifacts/performance/

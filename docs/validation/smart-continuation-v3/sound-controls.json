@@ -1,0 +1,114 @@
+[
+  {
+    "width": 1440,
+    "reducedMotion": "no-preference",
+    "popup": {
+      "x": 143.46875,
+      "y": 870,
+      "width": 164,
+      "height": 54
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contexts": 0,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "reducedMotion": "reduce",
+    "popup": {
+      "x": 133.390625,
+      "y": 870,
+      "width": 164,
+      "height": 54
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contexts": 0,
+    "errors": []
+  },
+  {
+    "width": 810,
+    "reducedMotion": "no-preference",
+    "popup": {
+      "x": 143.46875,
+      "y": 870,
+      "width": 164,
+      "height": 54
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contexts": 0,
+    "errors": []
+  },
+  {
+    "width": 810,
+    "reducedMotion": "reduce",
+    "popup": {
+      "x": 133.390625,
+      "y": 870,
+      "width": 164,
+      "height": 54
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contexts": 0,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "reducedMotion": "no-preference",
+    "popup": {
+      "x": 117.515625,
+      "y": 626,
+      "width": 164,
+      "height": 50
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contexts": 0,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "reducedMotion": "reduce",
+    "popup": {
+      "x": 108.375,
+      "y": 626,
+      "width": 164,
+      "height": 50
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contexts": 0,
+    "errors": []
+  },
+  {
+    "width": 320,
+    "reducedMotion": "no-preference",
+    "popup": {
+      "x": 117.515625,
+      "y": 626,
+      "width": 164,
+      "height": 50
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contexts": 0,
+    "errors": []
+  },
+  {
+    "width": 320,
+    "reducedMotion": "reduce",
+    "popup": {
+      "x": 108.375,
+      "y": 626,
+      "width": 164,
+      "height": 50
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contexts": 0,
+    "errors": []
+  }
+]

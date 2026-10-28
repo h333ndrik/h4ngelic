@@ -1,0 +1,300 @@
+{
+  "checkedAt": "2026-10-28T16:23:12.348Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "entrance": {
+        "duration": "0.7s, 0.7s",
+        "immediate": false,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 78.1875,
+          "right": 610.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 646.1875,
+          "right": 1178.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 78.1875,
+          "right": 1178.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "grid": {
+        "form": 78.1875,
+        "about": 78.1875
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "immediate": true,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 78.1875,
+          "right": 610.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 646.1875,
+          "right": 1178.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 78.1875,
+          "right": 1178.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "grid": {
+        "form": 78.1875,
+        "about": 78.1875
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "entrance": {
+        "duration": "0.7s, 0.7s",
+        "immediate": false,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "grid": {
+        "form": 34,
+        "about": 34
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "immediate": true,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "grid": {
+        "form": 34,
+        "about": 34
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "entrance": {
+        "duration": "0.7s, 0.7s",
+        "immediate": false,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "grid": {
+        "form": 34,
+        "about": 34
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "immediate": true,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgba(255, 255, 255, 0.03)",
+          "labelBackground": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "grid": {
+        "form": 34,
+        "about": 34
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    }
+  ],
+  "liveEmailVerified": false
+}

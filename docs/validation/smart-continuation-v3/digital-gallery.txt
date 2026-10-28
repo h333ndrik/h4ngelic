@@ -1,0 +1,7 @@
+
+> h4ngelic@0.1.0 test:gallery
+> node tests/gallery-browser.mjs
+
+PASS gallery 1440px: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.
+PASS gallery 390px: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.
+PASS gallery 320px: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.

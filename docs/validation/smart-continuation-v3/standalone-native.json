@@ -1,0 +1,711 @@
+{
+  "checkedAt": "2026-10-28T16:49:06.288Z",
+  "method": "Exact exported HTML bytes executed with network rejected; managed browser blocks file:// navigation.",
+  "htmlSHA256": "caef41859ebbf53f438753fd3b03d69eaaed91217b0944eccade7a7603b8d96d",
+  "htmlBytes": 7768382,
+  "browser": "154.0.8037.57",
+  "rendering": "Chromium ANGLE SwiftShader",
+  "width": 390,
+  "reducedMotion": false,
+  "gestureDurationsMs": [
+    511.29999999701977,
+    231
+  ],
+  "deliveryDurationsMs": [
+    1208.5,
+    285
+  ],
+  "events": [
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 1400,
+      "variant": 2710732895
+    },
+    {
+      "mode": "normal",
+      "captured": true,
+      "duration": 1400,
+      "variant": 2134850484
+    },
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 1400,
+      "variant": 398500490
+    },
+    {
+      "mode": "normal",
+      "captured": true,
+      "duration": 1400,
+      "variant": 2296980866
+    }
+  ],
+  "touchTrace": [
+    {
+      "type": "pointerdown",
+      "at": 8298.90000000596,
+      "stamp": 8127.0999999940395,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 8299.09999999404,
+      "stamp": 8127.0999999940395,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 8299.59999999404,
+      "stamp": 8127.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 8299.70000000298,
+      "stamp": 8127.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 8301.20000000298,
+      "stamp": 8127.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 8303.5,
+      "stamp": 8127.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 8321,
+      "stamp": 8127.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 8450.20000000298,
+      "stamp": 8323.09999999404,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 8450.20000000298,
+      "stamp": 8323.09999999404,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 8450.70000000298,
+      "stamp": 8323.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 8450.79999999702,
+      "stamp": 8323.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 8451.5,
+      "stamp": 8323.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 8451.59999999404,
+      "stamp": 8323.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 8451.79999999702,
+      "stamp": 8323.20000000298,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 8614.40000000596,
+      "stamp": 8453.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 8614.5,
+      "stamp": 8453.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 8614.59999999404,
+      "stamp": 8453.59999999404,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 8614.70000000298,
+      "stamp": 8453.59999999404,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 8635.20000000298,
+      "stamp": 8453.59999999404,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 8635.29999999702,
+      "stamp": 8453.59999999404,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 8635.5,
+      "stamp": 8453.59999999404,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 8899.79999999702,
+      "stamp": 8638.40000000596,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 8899.90000000596,
+      "stamp": 8638.40000000596,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 8900,
+      "stamp": 8638.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 8900.09999999404,
+      "stamp": 8638.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 8919.40000000596,
+      "stamp": 8638.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 8919.40000000596,
+      "stamp": 8638.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 9529.5,
+      "stamp": 8638.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": true,
+      "taps": "4",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 11482.20000000298,
+      "stamp": 11319.90000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 11482.20000000298,
+      "stamp": 11319.90000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 11482.90000000596,
+      "stamp": 11320,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 11482.90000000596,
+      "stamp": 11320,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 11484.29999999702,
+      "stamp": 11320,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 11486.40000000596,
+      "stamp": 11320,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 11513,
+      "stamp": 11320,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 11547.90000000596,
+      "stamp": 11514.40000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 11548,
+      "stamp": 11514.40000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 11548.29999999702,
+      "stamp": 11514.40000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 11548.29999999702,
+      "stamp": 11514.40000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 11549.29999999702,
+      "stamp": 11514.40000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 11549.40000000596,
+      "stamp": 11514.40000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 11549.59999999404,
+      "stamp": 11514.40000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 11781.40000000596,
+      "stamp": 11550.90000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 11781.5,
+      "stamp": 11550.90000000596,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 11781.90000000596,
+      "stamp": 11551,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 11782,
+      "stamp": 11551,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 11782.70000000298,
+      "stamp": 11551,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 11782.90000000596,
+      "stamp": 11551,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 11798,
+      "stamp": 11551,
+      "mode": "xray",
+      "transition": false,
+      "captured": true,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    }
+  ],
+  "memoryHandoffs": [
+    {
+      "phase": "prepared",
+      "token": {
+        "id": 1,
+        "variant": 2710732895,
+        "seed": 744675766,
+        "width": 156,
+        "height": 338,
+        "frame": 7
+      },
+      "matchesPrepared": null,
+      "pixels": 210912,
+      "snapshot": {
+        "buffers": 2,
+        "recoverySource": "history",
+        "cleanSourceRetained": false,
+        "sourceInitializations": 1,
+        "transition": {
+          "token": 1,
+          "variant": 2710732895,
+          "frozen": true,
+          "frame": 7,
+          "claimedFrame": null,
+          "completedToken": null,
+          "passes": 6
+        },
+        "frames": 7
+      }
+    },
+    {
+      "phase": "released",
+      "token": {
+        "id": 1,
+        "variant": 2710732895,
+        "seed": 744675766,
+        "width": 156,
+        "height": 338,
+        "frame": 7
+      },
+      "matchesPrepared": true,
+      "pixels": 210912,
+      "snapshot": {
+        "buffers": 2,
+        "recoverySource": "history",
+        "cleanSourceRetained": false,
+        "sourceInitializations": 1,
+        "transition": {
+          "token": 1,
+          "variant": 2710732895,
+          "frozen": false,
+          "frame": 7,
+          "claimedFrame": 7,
+          "completedToken": 1,
+          "passes": 6
+        },
+        "frames": 7
+      }
+    },
+    {
+      "phase": "prepared",
+      "token": {
+        "id": 2,
+        "variant": 398500490,
+        "seed": 2933561607,
+        "width": 156,
+        "height": 338,
+        "frame": 17
+      },
+      "matchesPrepared": null,
+      "pixels": 210912,
+      "snapshot": {
+        "buffers": 2,
+        "recoverySource": "history",
+        "cleanSourceRetained": false,
+        "sourceInitializations": 2,
+        "transition": {
+          "token": 2,
+          "variant": 398500490,
+          "frozen": true,
+          "frame": 17,
+          "claimedFrame": null,
+          "completedToken": 1,
+          "passes": 12
+        },
+        "frames": 17
+      }
+    },
+    {
+      "phase": "released",
+      "token": {
+        "id": 2,
+        "variant": 398500490,
+        "seed": 2933561607,
+        "width": 156,
+        "height": 338,
+        "frame": 17
+      },
+      "matchesPrepared": true,
+      "pixels": 210912,
+      "snapshot": {
+        "buffers": 2,
+        "recoverySource": "history",
+        "cleanSourceRetained": false,
+        "sourceInitializations": 2,
+        "transition": {
+          "token": 2,
+          "variant": 398500490,
+          "frozen": false,
+          "frame": 17,
+          "claimedFrame": 17,
+          "completedToken": 2,
+          "passes": 12
+        },
+        "frames": 17
+      }
+    }
+  ],
+  "viewTransitionSupported": true,
+  "retainedMaps": 0,
+  "webglContexts": 0,
+  "gray": "rgb(36, 36, 36)",
+  "body": "rgba(0, 0, 0, 0)",
+  "gradient": "linear-gradient(rgb(40, 40, 40) 0%, rgb(36, 36, 36) 50%, rgb(32, 32, 32) 100%)",
+  "runtimeErrors": [],
+  "externalHTTP": []
+}

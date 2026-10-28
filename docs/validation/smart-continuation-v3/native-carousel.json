@@ -1,0 +1,386 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "width": 1000,
+      "initial": {
+        "left": 0,
+        "travel": 2150,
+        "index": 0,
+        "scrollY": 648,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "1 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "next": {
+        "left": 430,
+        "travel": 2150,
+        "index": 1,
+        "scrollY": 648,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "2 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "end": {
+        "left": 2150,
+        "travel": 2150,
+        "index": 5,
+        "scrollY": 648,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "6 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "trackpad": {
+        "left": 500,
+        "travel": 2150,
+        "index": 1,
+        "scrollY": 648,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "2 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "shiftedWheel": {
+        "left": 1100,
+        "travel": 2150,
+        "index": 3,
+        "scrollY": 648,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "4 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "vertical": {
+        "left": 1100,
+        "travel": 2150,
+        "index": 3,
+        "scrollY": 818,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "4 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "drag": {
+        "left": 360,
+        "travel": 2150,
+        "index": 1,
+        "scrollY": 648,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "2 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "beforeViewer": {
+        "left": 860,
+        "travel": 2150,
+        "index": 2,
+        "scrollY": 648,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "3 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "afterViewer": {
+        "left": 860,
+        "travel": 2150,
+        "index": 2,
+        "scrollY": 648,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "3 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "boundary": {
+        "left": 2150,
+        "travel": 2150,
+        "index": 5,
+        "scrollY": 818,
+        "height": 720,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "6 / 6",
+        "maximum": 1000,
+        "viewport": 1000
+      },
+      "wheelDeltas": [
+        170
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "initial": {
+        "left": 0,
+        "travel": 1642,
+        "index": 0,
+        "scrollY": 408,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "1 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "next": {
+        "left": 328,
+        "travel": 1642,
+        "index": 1,
+        "scrollY": 408,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "2 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "end": {
+        "left": 1642,
+        "travel": 1642,
+        "index": 5,
+        "scrollY": 408,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "6 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "trackpad": {
+        "left": 500,
+        "travel": 1642,
+        "index": 2,
+        "scrollY": 408,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "3 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "shiftedWheel": {
+        "left": 1100,
+        "travel": 1642,
+        "index": 3,
+        "scrollY": 408,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "4 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "vertical": {
+        "left": 1100,
+        "travel": 1642,
+        "index": 3,
+        "scrollY": 578,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "4 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "drag": {
+        "left": 204,
+        "travel": 1642,
+        "index": 1,
+        "scrollY": 408,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "2 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "beforeViewer": {
+        "left": 657,
+        "travel": 1642,
+        "index": 2,
+        "scrollY": 408,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "3 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "afterViewer": {
+        "left": 657,
+        "travel": 1642,
+        "index": 2,
+        "scrollY": 408,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "3 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "boundary": {
+        "left": 1642,
+        "travel": 1642,
+        "index": 5,
+        "scrollY": 578,
+        "height": 616,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "6 / 6",
+        "maximum": 390,
+        "viewport": 390
+      },
+      "wheelDeltas": [
+        170
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "initial": {
+        "left": 0,
+        "travel": 1376,
+        "index": 0,
+        "scrollY": 405,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "1 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "next": {
+        "left": 276,
+        "travel": 1376,
+        "index": 1,
+        "scrollY": 405,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "2 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "end": {
+        "left": 1376,
+        "travel": 1376,
+        "index": 5,
+        "scrollY": 405,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "6 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "trackpad": {
+        "left": 501,
+        "travel": 1376,
+        "index": 2,
+        "scrollY": 405,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "3 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "shiftedWheel": {
+        "left": 1101,
+        "travel": 1376,
+        "index": 4,
+        "scrollY": 405,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "5 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "vertical": {
+        "left": 1101,
+        "travel": 1376,
+        "index": 4,
+        "scrollY": 575,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "5 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "drag": {
+        "left": 207,
+        "travel": 1376,
+        "index": 1,
+        "scrollY": 405,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "2 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "beforeViewer": {
+        "left": 551,
+        "travel": 1376,
+        "index": 2,
+        "scrollY": 405,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "3 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "afterViewer": {
+        "left": 551,
+        "travel": 1376,
+        "index": 2,
+        "scrollY": 405,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "3 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "boundary": {
+        "left": 1376,
+        "travel": 1376,
+        "index": 5,
+        "scrollY": 575,
+        "height": 540,
+        "inlineHeight": "",
+        "sticky": "relative",
+        "count": "6 / 6",
+        "maximum": 320,
+        "viewport": 320
+      },
+      "wheelDeltas": [
+        170
+      ],
+      "errors": []
+    }
+  ]
+}
