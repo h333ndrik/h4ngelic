@@ -1,0 +1,200 @@
+{
+  "label": "spatial-master-final",
+  "baseURL": "http://127.0.0.1:45381",
+  "generatedAt": "2026-10-26T14:57:45.359Z",
+  "chromeFlags": [
+    "--headless=new",
+    "--no-sandbox",
+    "--disable-dev-shm-usage",
+    "--use-angle=swiftshader",
+    "--enable-unsafe-swiftshader"
+  ],
+  "results": [
+    {
+      "label": "spatial-master-final",
+      "target": "home-mobile",
+      "run": 1,
+      "report": "spatial-master-final-home-mobile-1.json",
+      "finalURL": "http://127.0.0.1:45381/",
+      "lighthouseVersion": "13.5.0",
+      "hostUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2375.5,
+      "fetchedAt": "2026-10-26T14:57:33.681Z",
+      "settings": {
+        "output": "json",
+        "maxWaitForFcp": 20000,
+        "maxWaitForLoad": 20000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": true,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance"
+        ],
+        "skipAudits": null
+      },
+      "performanceScore": 70,
+      "fcpMs": 1258.0964,
+      "lcpMs": 1446.5964,
+      "totalBlockingTimeMs": 3479.9999999999995,
+      "cumulativeLayoutShift": 0.002925375626280309,
+      "speedIndexMs": 2307.2858858841923,
+      "totalTransferredBytes": 391207,
+      "transferredScriptBytes": 206566,
+      "uncompressedScriptBytes": 760254,
+      "requestCount": 11,
+      "scriptURLs": [
+        "http://127.0.0.1:45381/assets/index-DDixHBBG.js",
+        "http://127.0.0.1:45381/assets/main-BKLzpYVz.js"
+      ],
+      "warnings": []
+    },
+    {
+      "label": "spatial-master-final",
+      "target": "work-mobile",
+      "run": 1,
+      "report": "spatial-master-final-work-mobile-1.json",
+      "finalURL": "http://127.0.0.1:45381/work",
+      "lighthouseVersion": "13.5.0",
+      "hostUserAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "benchmarkIndex": 2473.5,
+      "fetchedAt": "2026-10-26T14:57:41.688Z",
+      "settings": {
+        "output": "json",
+        "maxWaitForFcp": 20000,
+        "maxWaitForLoad": 20000,
+        "pauseAfterFcpMs": 1000,
+        "pauseAfterLoadMs": 1000,
+        "networkQuietThresholdMs": 1000,
+        "cpuQuietThresholdMs": 1000,
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "requestLatencyMs": 562.5,
+          "downloadThroughputKbps": 1474.5600000000002,
+          "uploadThroughputKbps": 675,
+          "cpuSlowdownMultiplier": 4
+        },
+        "throttlingMethod": "simulate",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+        "auditMode": false,
+        "gatherMode": false,
+        "clearStorageTypes": [
+          "file_systems",
+          "shader_cache",
+          "service_workers",
+          "cache_storage"
+        ],
+        "disableStorageReset": false,
+        "debugNavigation": false,
+        "channel": "node",
+        "usePassiveGathering": false,
+        "disableFullPageScreenshot": true,
+        "skipAboutBlank": false,
+        "blankPage": "about:blank",
+        "ignoreStatusCode": false,
+        "locale": "en-US",
+        "blockedUrlPatterns": null,
+        "additionalTraceCategories": null,
+        "extraHeaders": null,
+        "precomputedLanternData": null,
+        "onlyAudits": null,
+        "onlyCategories": [
+          "performance"
+        ],
+        "skipAudits": null
+      },
+      "performanceScore": 99,
+      "fcpMs": 1517.0811250000002,
+      "lcpMs": 1808.49735,
+      "totalBlockingTimeMs": 39,
+      "cumulativeLayoutShift": 0,
+      "speedIndexMs": 1517.0811250000002,
+      "totalTransferredBytes": 307896,
+      "transferredScriptBytes": 52388,
+      "uncompressedScriptBytes": 156105,
+      "requestCount": 7,
+      "scriptURLs": [
+        "http://127.0.0.1:45381/assets/index-DDixHBBG.js",
+        "http://127.0.0.1:45381/assets/digital-ink-BJSawyNE.js"
+      ],
+      "warnings": []
+    }
+  ],
+  "medians": {
+    "home-mobile": {
+      "runs": 1,
+      "performanceScore": 70,
+      "fcpMs": 1258.0964,
+      "lcpMs": 1446.5964,
+      "totalBlockingTimeMs": 3479.9999999999995,
+      "cumulativeLayoutShift": 0.002925375626280309,
+      "speedIndexMs": 2307.2858858841923,
+      "totalTransferredBytes": 391207,
+      "transferredScriptBytes": 206566,
+      "uncompressedScriptBytes": 760254,
+      "requestCount": 11
+    },
+    "work-mobile": {
+      "runs": 1,
+      "performanceScore": 99,
+      "fcpMs": 1517.0811250000002,
+      "lcpMs": 1808.49735,
+      "totalBlockingTimeMs": 39,
+      "cumulativeLayoutShift": 0,
+      "speedIndexMs": 1517.0811250000002,
+      "totalTransferredBytes": 307896,
+      "transferredScriptBytes": 52388,
+      "uncompressedScriptBytes": 156105,
+      "requestCount": 7
+    }
+  }
+}

@@ -1,0 +1,40 @@
+/* NAAVI is one shared, route-aware link. No header index or expanding menu. */
+.chapter-counter {
+  position: fixed;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 9;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 88px;
+  min-height: 44px;
+  padding: 9px 12px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  mix-blend-mode: difference;
+  font-size: 12px;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .06em;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.chapter-counter .interaction-visual { justify-content: center; }
+.chapter-digit-window { display: block; overflow: clip; line-height: 1.4; }
+.chapter-digit { display: block; }
+.chapter-counter:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
+.hero-brand { display: inline-flex; min-height: 44px; align-items: center; pointer-events: auto; margin-top: -7px; }
+.page-header { min-height: 88px; }
+.page-header .page-nav { display: none; }
+.page-footer { padding-bottom: max(88px, calc(env(safe-area-inset-bottom) + 76px)); }
+[data-inquiry-form] input, [data-inquiry-form] textarea, [data-inquiry-form] button { scroll-margin-bottom: 88px; }
+@media (max-width: 600px) {
+  .page-header { min-height: 80px; }
+  .chapter-counter { min-width: 84px; }
+}

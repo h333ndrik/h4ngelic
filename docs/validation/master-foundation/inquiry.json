@@ -1,0 +1,96 @@
+{
+  "checkedAt": "2026-10-27T20:42:11.556Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "entrance": {
+        "duration": "0.7s, 0.7s",
+        "immediate": false,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "immediate": true,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "entrance": {
+        "duration": "0.7s, 0.7s",
+        "immediate": false,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "immediate": true,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "entrance": {
+        "duration": "0.7s, 0.7s",
+        "immediate": false,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "immediate": true,
+        "state": "visible"
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": []
+    }
+  ],
+  "liveEmailVerified": false
+}

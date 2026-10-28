@@ -1,0 +1,308 @@
+{
+  "testedAt": "2026-10-25T21:04:30.790Z",
+  "base": "http://127.0.0.1:5173",
+  "passed": true,
+  "requested": [
+    "390",
+    "320",
+    "reduced",
+    "desktop"
+  ],
+  "reports": [
+    {
+      "profile": "390",
+      "width": 390,
+      "reduced": false,
+      "motion": {
+        "duration": 2864,
+        "scroll": 321
+      },
+      "marks": 9,
+      "sampledMarks": [
+        {
+          "left": 72,
+          "top": 1490,
+          "clientX": 72,
+          "clientY": 622,
+          "scrollX": 0,
+          "scrollY": 868,
+          "lifetime": 7684.629379098698,
+          "time": 23251.699999999255,
+          "primary": "#ff3dbb"
+        },
+        {
+          "left": 74,
+          "top": 1503,
+          "clientX": 74,
+          "clientY": 594,
+          "scrollX": 0,
+          "scrollY": 909,
+          "lifetime": 7348.159320728182,
+          "time": 23535.800000000745,
+          "primary": "#8511ff"
+        },
+        {
+          "left": 74,
+          "top": 1531,
+          "clientX": 74,
+          "clientY": 594,
+          "scrollX": 0,
+          "scrollY": 937,
+          "lifetime": 6525.800859324796,
+          "time": 23717.699999999255,
+          "primary": "#8511ff"
+        },
+        {
+          "left": 70,
+          "top": 1531,
+          "clientX": 70,
+          "clientY": 566,
+          "scrollX": 0,
+          "scrollY": 965,
+          "lifetime": 6042.029169280826,
+          "time": 23912.800000000745,
+          "primary": "#ff3dbb"
+        },
+        {
+          "left": 70,
+          "top": 1531,
+          "clientX": 70,
+          "clientY": 482,
+          "scrollX": 0,
+          "scrollY": 1049,
+          "lifetime": 6680.98120316461,
+          "time": 24117.900000002235,
+          "primary": "#8511ff"
+        },
+        {
+          "left": 70,
+          "top": 1503,
+          "clientX": 70,
+          "clientY": 398,
+          "scrollX": 0,
+          "scrollY": 1105,
+          "lifetime": 9929.15992381589,
+          "time": 24302.10000000149,
+          "primary": "#bcff16"
+        },
+        {
+          "left": 72,
+          "top": 1503,
+          "clientX": 72,
+          "clientY": 370,
+          "scrollX": 0,
+          "scrollY": 1133,
+          "lifetime": 8309.88777289811,
+          "time": 24604.400000002235,
+          "primary": "#2266ff"
+        },
+        {
+          "left": 74,
+          "top": 1503,
+          "clientX": 74,
+          "clientY": 342,
+          "scrollX": 0,
+          "scrollY": 1161,
+          "lifetime": 6874.862591474605,
+          "time": 24985.60000000149,
+          "primary": "#2266ff"
+        },
+        {
+          "left": 70,
+          "top": 1503,
+          "clientX": 70,
+          "clientY": 314,
+          "scrollX": 0,
+          "scrollY": 1189,
+          "lifetime": 8254.544933864978,
+          "time": 25341.5,
+          "primary": "#2266ff"
+        }
+      ],
+      "repeatedModes": [
+        {
+          "mode": "xray",
+          "captured": true,
+          "duration": 950,
+          "variant": 3417424945,
+          "time": 5103.199999999255
+        },
+        {
+          "mode": "normal",
+          "captured": true,
+          "duration": 950,
+          "variant": 4249746063,
+          "time": 12155.5
+        },
+        {
+          "mode": "xray",
+          "captured": true,
+          "duration": 950,
+          "variant": 2792083865,
+          "time": 15023.5
+        },
+        {
+          "mode": "normal",
+          "captured": true,
+          "duration": 950,
+          "variant": 3623741159,
+          "time": 20168.60000000149
+        }
+      ],
+      "audioStarts": 4,
+      "errors": []
+    },
+    {
+      "profile": "320",
+      "width": 320,
+      "reduced": false,
+      "motion": {
+        "duration": 783.5999999977648,
+        "scroll": 321
+      },
+      "marks": 4,
+      "sampledMarks": [
+        {
+          "left": 72,
+          "top": 1542,
+          "clientX": 72,
+          "clientY": 622,
+          "scrollX": 0,
+          "scrollY": 920,
+          "lifetime": 7875.934297666736,
+          "time": 17961.39999999851,
+          "primary": "#ff3dbb"
+        },
+        {
+          "left": 70,
+          "top": 1583,
+          "clientX": 70,
+          "clientY": 566,
+          "scrollX": 0,
+          "scrollY": 1017,
+          "lifetime": 9720.429555847844,
+          "time": 18160.39999999851,
+          "primary": "#8511ff"
+        },
+        {
+          "left": 72,
+          "top": 1583,
+          "clientX": 72,
+          "clientY": 454,
+          "scrollX": 0,
+          "scrollY": 1129,
+          "lifetime": 7157.64525214481,
+          "time": 18360.199999999255,
+          "primary": "#bcff16"
+        },
+        {
+          "left": 70,
+          "top": 1555,
+          "clientX": 70,
+          "clientY": 314,
+          "scrollX": 0,
+          "scrollY": 1241,
+          "lifetime": 7131.089214419672,
+          "time": 18577.39999999851,
+          "primary": "#bcff16"
+        }
+      ],
+      "repeatedModes": [
+        {
+          "mode": "xray",
+          "captured": true,
+          "duration": 950,
+          "variant": 2828804574,
+          "time": 4779.199999999255
+        },
+        {
+          "mode": "normal",
+          "captured": true,
+          "duration": 950,
+          "variant": 3883785808,
+          "time": 9432.800000000745
+        },
+        {
+          "mode": "xray",
+          "captured": true,
+          "duration": 950,
+          "variant": 2252437782,
+          "time": 12147.5
+        },
+        {
+          "mode": "normal",
+          "captured": true,
+          "duration": 950,
+          "variant": 3440640502,
+          "time": 15921.300000000745
+        }
+      ],
+      "audioStarts": 4,
+      "errors": []
+    },
+    {
+      "profile": "reduced",
+      "width": 320,
+      "reduced": true,
+      "motion": {
+        "duration": 875.6000000014901,
+        "scroll": 321
+      },
+      "marks": 2,
+      "sampledMarks": [
+        {
+          "left": 72,
+          "top": 1542,
+          "clientX": 72,
+          "clientY": 622,
+          "scrollX": 0,
+          "scrollY": 920,
+          "lifetime": 6393.748786428401,
+          "time": 6896.400000002235,
+          "primary": "#8511ff"
+        },
+        {
+          "left": 74,
+          "top": 1583,
+          "clientX": 74,
+          "clientY": 510,
+          "scrollX": 0,
+          "scrollY": 1073,
+          "lifetime": 6465.628213681957,
+          "time": 7227.10000000149,
+          "primary": "#8511ff"
+        }
+      ],
+      "repeatedModes": [
+        {
+          "mode": "xray",
+          "captured": false,
+          "time": 4758.300000000745
+        },
+        {
+          "mode": "normal",
+          "captured": false,
+          "time": 5436.400000002235
+        },
+        {
+          "mode": "xray",
+          "captured": false,
+          "time": 6051.60000000149
+        },
+        {
+          "mode": "normal",
+          "captured": false,
+          "time": 6460.800000000745
+        }
+      ],
+      "audioStarts": 4,
+      "errors": []
+    },
+    {
+      "profile": "desktop",
+      "keyboardPreserved": true,
+      "errors": []
+    }
+  ],
+  "failure": null
+}

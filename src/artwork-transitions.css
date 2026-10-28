@@ -1,0 +1,38 @@
+::view-transition-group(h4-artwork) {
+  animation-duration: 360ms;
+  animation-timing-function: cubic-bezier(.2,.7,.25,1);
+  z-index: 2;
+}
+::view-transition-old(h4-artwork), ::view-transition-new(h4-artwork) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: normal;
+}
+.artwork-flight-copy {
+  position: fixed;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  object-fit: contain;
+  transform-origin: 0 0;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+  outline: 1px solid transparent;
+  outline-offset: 2px;
+  animation: artwork-flight-light 540ms ease-out both;
+}
+@keyframes artwork-flight-light {
+  0%, 100% { outline-color: #ffffff00; box-shadow: 0 0 0 0 #ffffff00; }
+  22% { outline-color: #fffffff2; box-shadow: 0 0 18px 1px #ffffff2b; }
+}
+.artwork-dialog[data-artwork-flight] { overflow: visible; }
+.artwork-dialog[data-artwork-flight='opening'] { opacity: 1; transition: none; }
+.artwork-dialog[data-artwork-flight='closing'] :is(.artwork-viewer-header, .artwork-viewer-stage, .artwork-viewer-caption, .artwork-viewer-navigation) { opacity: 0; transition: opacity 130ms ease-out; }
+.artwork-dialog[data-artwork-flight='closing']::backdrop { background: transparent; }
+.artwork-dialog[data-artwork-flight='closing'] { background: transparent; border-color: transparent; transition: background-color 130ms ease-out, border-color 130ms ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(h4-artwork) { animation: none; }
+  .artwork-flight-copy { display: none; }
+}

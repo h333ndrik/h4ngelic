@@ -1,0 +1,168 @@
+{
+  "checkedAt": "2026-10-27T20:45:50.180Z",
+  "width": 800,
+  "home": {
+    "width": 800,
+    "height": 1000,
+    "documentWidth": 800,
+    "brand": "h4ngelic",
+    "edition": false,
+    "identity": false,
+    "controls": {
+      "left": 22,
+      "right": 778,
+      "top": 840,
+      "bottom": 884,
+      "width": 756,
+      "height": 44
+    },
+    "buttons": [
+      {
+        "left": 22,
+        "right": 125.125,
+        "top": 840,
+        "bottom": 884,
+        "width": 103.125,
+        "height": 44,
+        "fontSize": 10
+      },
+      {
+        "left": 130.125,
+        "right": 169.140625,
+        "top": 840,
+        "bottom": 884,
+        "width": 39.015625,
+        "height": 44,
+        "fontSize": 10
+      },
+      {
+        "left": 174.140625,
+        "right": 211.5,
+        "top": 840,
+        "bottom": 884,
+        "width": 37.359375,
+        "height": 44,
+        "fontSize": 10
+      },
+      {
+        "left": 216.5,
+        "right": 277.65625,
+        "top": 840,
+        "bottom": 884,
+        "width": 61.15625,
+        "height": 44,
+        "fontSize": 10
+      }
+    ],
+    "navigation": {
+      "left": 507.75,
+      "right": 778,
+      "top": 892,
+      "bottom": 936,
+      "width": 270.25,
+      "height": 44
+    },
+    "naavi": {
+      "left": 356,
+      "right": 444,
+      "top": 944,
+      "bottom": 988,
+      "width": 88,
+      "height": 44
+    }
+  },
+  "work": {
+    "heading": "01 / WORKS",
+    "groups": [
+      "tattoos",
+      "jewellery",
+      "more"
+    ],
+    "subheads": [
+      "on skin",
+      "flashes",
+      "3d model",
+      "digital artworks",
+      "analog photography"
+    ],
+    "majorSize": 72,
+    "subordinateSize": 32,
+    "digitalSize": 20.8,
+    "noArrows": true,
+    "noMiniNav": true,
+    "modelChildren": [
+      "H3"
+    ],
+    "lines": [
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      [
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ]
+    ],
+    "documentWidth": 800,
+    "images": 1
+  },
+  "counts": [
+    "VISIT 001",
+    "VISIT 001",
+    "VISIT 001",
+    "VISIT 001"
+  ],
+  "errors": []
+}

@@ -1,0 +1,206 @@
+.living-decay-panel {
+  position: fixed;
+  z-index: 2147483000;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  width: min(320px, calc(100vw - 24px));
+  max-width: 320px;
+  max-height: 80vh;
+  max-height: 80dvh;
+  overflow: hidden;
+  border: 1px solid #62666b;
+  border-radius: 5px;
+  background: #17191df5;
+  box-shadow: 0 5px 24px #0008;
+  color: #eceef1;
+  font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  pointer-events: auto;
+  cursor: auto;
+  isolation: isolate;
+  color-scheme: dark;
+}
+
+.living-decay-panel,
+.living-decay-panel * {
+  box-sizing: border-box;
+}
+
+.living-decay-panel [hidden] {
+  display: none !important;
+}
+
+.living-decay-panel .living-decay-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 42px;
+  padding: 4px 6px;
+  border-bottom: 1px solid #464a50;
+}
+
+.living-decay-panel button,
+.living-decay-panel input {
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.living-decay-panel button {
+  appearance: none;
+  min-height: 30px;
+  padding: 5px 8px;
+  border: 1px solid #737981;
+  border-radius: 3px;
+  background: #282c32;
+  color: #f2f4f6;
+  text-align: center;
+  cursor: pointer;
+}
+
+.living-decay-panel button:hover:not(:disabled) {
+  border-color: #c4cbd3;
+  background: #363c45;
+}
+
+.living-decay-panel button:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+.living-decay-panel :is(button, input):focus-visible {
+  outline: 2px solid #e5f6ff;
+  outline-offset: 3px;
+}
+
+.living-decay-panel .living-decay-panel__toggle {
+  flex: 1;
+  border-color: transparent;
+  background: transparent;
+  font-weight: 650;
+  text-align: left;
+}
+
+.living-decay-panel .living-decay-panel__toggle::before {
+  display: inline-block;
+  width: 15px;
+  content: "−";
+}
+
+.living-decay-panel .living-decay-panel__toggle[aria-expanded="false"]::before {
+  content: "+";
+}
+
+.living-decay-panel .living-decay-panel__close {
+  flex: 0 0 30px;
+  padding-inline: 4px;
+  border-color: transparent;
+  background: transparent;
+  font-size: 17px;
+  line-height: 1;
+}
+
+.living-decay-panel .living-decay-panel__form {
+  max-height: calc(80vh - 43px);
+  max-height: calc(80dvh - 43px);
+  margin: 0;
+  padding: 10px 12px 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.living-decay-panel .living-decay-panel__status {
+  margin: 0 0 10px;
+  color: #bfc7d0;
+  font-size: 11px;
+}
+
+.living-decay-panel .living-decay-panel__seed-current,
+.living-decay-panel .living-decay-panel__seed-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 9px;
+}
+
+.living-decay-panel .living-decay-panel__seed-current output {
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.living-decay-panel .living-decay-panel__seed-field input {
+  width: 136px;
+  min-width: 0;
+  min-height: 30px;
+  padding: 4px 6px;
+  border: 1px solid #737981;
+  border-radius: 3px;
+  background: #101216;
+  color: #f2f4f6;
+  font-variant-numeric: tabular-nums;
+}
+
+.living-decay-panel .living-decay-panel__seed-field input[aria-invalid="true"] {
+  border-color: #ffa6aa;
+}
+
+.living-decay-panel .living-decay-panel__regenerate {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.living-decay-panel .living-decay-panel__controls {
+  display: grid;
+  gap: 11px;
+  padding-block: 11px;
+  border-block: 1px solid #464a50;
+}
+
+.living-decay-panel .living-decay-panel__control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 3px 8px;
+  margin: 0;
+  font-size: 11px;
+}
+
+.living-decay-panel .living-decay-panel__label {
+  min-width: 0;
+}
+
+.living-decay-panel .living-decay-panel__value {
+  color: #e5f6ff;
+  font-variant-numeric: tabular-nums;
+}
+
+.living-decay-panel .living-decay-panel__control input[type="range"] {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  height: 18px;
+  margin: 0;
+  accent-color: #d4e7f4;
+  cursor: pointer;
+}
+
+.living-decay-panel .living-decay-panel__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-decay-panel,
+  .living-decay-panel * {
+    scroll-behavior: auto;
+    animation: none;
+    transition: none;
+  }
+}

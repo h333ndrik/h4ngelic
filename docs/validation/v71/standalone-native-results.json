@@ -1,0 +1,711 @@
+{
+  "checkedAt": "2026-10-27T10:23:34.984Z",
+  "method": "Exact exported HTML bytes executed with network rejected; managed browser blocks file:// navigation.",
+  "htmlSHA256": "5ed35ce1dddefc2ab24e084d18fc2a04ef0d318c7d6da1937d3de504cf0ddae8",
+  "htmlBytes": 7754218,
+  "browser": "154.0.8037.57",
+  "rendering": "Chromium ANGLE SwiftShader",
+  "width": 390,
+  "reducedMotion": false,
+  "gestureDurationsMs": [
+    462,
+    227.89999999850988
+  ],
+  "deliveryDurationsMs": [
+    2773.5,
+    288.5999999977648
+  ],
+  "events": [
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 950,
+      "variant": 4220600524
+    },
+    {
+      "mode": "normal",
+      "captured": true,
+      "duration": 950,
+      "variant": 3451957187
+    },
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 950,
+      "variant": 3831822446
+    },
+    {
+      "mode": "normal",
+      "captured": true,
+      "duration": 950,
+      "variant": 413723026
+    }
+  ],
+  "touchTrace": [
+    {
+      "type": "pointerdown",
+      "at": 6678.5,
+      "stamp": 6536.60000000149,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 6678.699999999255,
+      "stamp": 6536.60000000149,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 6679.199999999255,
+      "stamp": 6537.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 6679.300000000745,
+      "stamp": 6537.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 6680.89999999851,
+      "stamp": 6537.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 6682.60000000149,
+      "stamp": 6537.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 6699.60000000149,
+      "stamp": 6537.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 6814.300000000745,
+      "stamp": 6704.300000000745,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 6814.39999999851,
+      "stamp": 6704.300000000745,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 6814.60000000149,
+      "stamp": 6704.39999999851,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 6814.60000000149,
+      "stamp": 6704.39999999851,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 6828,
+      "stamp": 6704.39999999851,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 6828.10000000149,
+      "stamp": 6704.39999999851,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 6828.300000000745,
+      "stamp": 6704.39999999851,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 6996.300000000745,
+      "stamp": 6834.60000000149,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 6996.300000000745,
+      "stamp": 6834.60000000149,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 6996.699999999255,
+      "stamp": 6834.699999999255,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 6996.800000000745,
+      "stamp": 6834.699999999255,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 6997.60000000149,
+      "stamp": 6834.699999999255,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 6997.699999999255,
+      "stamp": 6834.699999999255,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 6998,
+      "stamp": 6834.699999999255,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 7011.300000000745,
+      "stamp": 6999.199999999255,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 7011.39999999851,
+      "stamp": 6999.199999999255,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 7011.60000000149,
+      "stamp": 6999.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 7011.699999999255,
+      "stamp": 6999.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 7012.10000000149,
+      "stamp": 6999.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 7012.10000000149,
+      "stamp": 6999.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": false,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 9473.10000000149,
+      "stamp": 6999.5,
+      "mode": "normal",
+      "transition": false,
+      "captured": true,
+      "taps": "4",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 11200,
+      "stamp": 11037.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 11203.10000000149,
+      "stamp": 11037.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 11203.5,
+      "stamp": 11037.800000000745,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 11203.5,
+      "stamp": 11037.800000000745,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 11206.699999999255,
+      "stamp": 11037.800000000745,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 11206.699999999255,
+      "stamp": 11037.800000000745,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "0",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 11240.10000000149,
+      "stamp": 11037.800000000745,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 11261.89999999851,
+      "stamp": 11242.60000000149,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 11261.89999999851,
+      "stamp": 11242.60000000149,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 11262,
+      "stamp": 11242.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 11262,
+      "stamp": 11242.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 11264.10000000149,
+      "stamp": 11242.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 11264.10000000149,
+      "stamp": 11242.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "1",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 11264.300000000745,
+      "stamp": 11242.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerdown",
+      "at": 11515,
+      "stamp": 11265.5,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchstart",
+      "at": 11515,
+      "stamp": 11265.5,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "pointerup",
+      "at": 11515.199999999255,
+      "stamp": 11265.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "touchend",
+      "at": 11515.300000000745,
+      "stamp": 11265.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mousedown",
+      "at": 11515.89999999851,
+      "stamp": 11265.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "mouseup",
+      "at": 11516,
+      "stamp": 11265.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": false,
+      "taps": "2",
+      "trusted": true,
+      "prevented": false
+    },
+    {
+      "type": "click",
+      "at": 11528.699999999255,
+      "stamp": 11265.699999999255,
+      "mode": "xray",
+      "transition": false,
+      "captured": true,
+      "taps": "3",
+      "trusted": true,
+      "prevented": false
+    }
+  ],
+  "memoryHandoffs": [
+    {
+      "phase": "prepared",
+      "token": {
+        "id": 1,
+        "variant": 4220600524,
+        "seed": 2220461835,
+        "width": 156,
+        "height": 338,
+        "frame": 7
+      },
+      "matchesPrepared": null,
+      "pixels": 210912,
+      "snapshot": {
+        "buffers": 2,
+        "recoverySource": "history",
+        "cleanSourceRetained": false,
+        "sourceInitializations": 1,
+        "transition": {
+          "token": 1,
+          "variant": 4220600524,
+          "frozen": true,
+          "frame": 7,
+          "claimedFrame": null,
+          "completedToken": null,
+          "passes": 6
+        },
+        "frames": 7
+      }
+    },
+    {
+      "phase": "released",
+      "token": {
+        "id": 1,
+        "variant": 4220600524,
+        "seed": 2220461835,
+        "width": 156,
+        "height": 338,
+        "frame": 7
+      },
+      "matchesPrepared": true,
+      "pixels": 210912,
+      "snapshot": {
+        "buffers": 2,
+        "recoverySource": "history",
+        "cleanSourceRetained": false,
+        "sourceInitializations": 1,
+        "transition": {
+          "token": 1,
+          "variant": 4220600524,
+          "frozen": false,
+          "frame": 7,
+          "claimedFrame": 7,
+          "completedToken": 1,
+          "passes": 6
+        },
+        "frames": 7
+      }
+    },
+    {
+      "phase": "prepared",
+      "token": {
+        "id": 2,
+        "variant": 3831822446,
+        "seed": 2955451332,
+        "width": 156,
+        "height": 338,
+        "frame": 16
+      },
+      "matchesPrepared": null,
+      "pixels": 210912,
+      "snapshot": {
+        "buffers": 2,
+        "recoverySource": "history",
+        "cleanSourceRetained": false,
+        "sourceInitializations": 2,
+        "transition": {
+          "token": 2,
+          "variant": 3831822446,
+          "frozen": true,
+          "frame": 16,
+          "claimedFrame": null,
+          "completedToken": 1,
+          "passes": 12
+        },
+        "frames": 16
+      }
+    },
+    {
+      "phase": "released",
+      "token": {
+        "id": 2,
+        "variant": 3831822446,
+        "seed": 2955451332,
+        "width": 156,
+        "height": 338,
+        "frame": 16
+      },
+      "matchesPrepared": true,
+      "pixels": 210912,
+      "snapshot": {
+        "buffers": 2,
+        "recoverySource": "history",
+        "cleanSourceRetained": false,
+        "sourceInitializations": 2,
+        "transition": {
+          "token": 2,
+          "variant": 3831822446,
+          "frozen": false,
+          "frame": 16,
+          "claimedFrame": 16,
+          "completedToken": 2,
+          "passes": 12
+        },
+        "frames": 16
+      }
+    }
+  ],
+  "viewTransitionSupported": true,
+  "retainedMaps": 0,
+  "webglContexts": 0,
+  "gray": "rgb(36, 36, 36)",
+  "body": "rgba(0, 0, 0, 0)",
+  "gradient": "linear-gradient(rgb(40, 40, 40) 0%, rgb(36, 36, 36) 50%, rgb(32, 32, 32) 100%)",
+  "runtimeErrors": [],
+  "externalHTTP": []
+}

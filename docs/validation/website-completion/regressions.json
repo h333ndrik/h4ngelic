@@ -1,0 +1,92 @@
+{
+  "startedAt": "2026-10-27T15:20:53.489Z",
+  "base": "http://127.0.0.1:55173",
+  "tests": [
+    "hover-containment-browser.mjs",
+    "about-browser.mjs",
+    "navigation-completion-browser.mjs",
+    "horizontal-drift-browser.mjs",
+    "v6-browser.mjs",
+    "portfolio-browser.mjs",
+    "memory-mosh-browser.mjs"
+  ],
+  "completed": [
+    {
+      "file": "hover-containment-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 25856
+    },
+    {
+      "file": "about-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 10069
+    },
+    {
+      "file": "navigation-completion-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 22373
+    },
+    {
+      "file": "horizontal-drift-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 33204
+    },
+    {
+      "file": "v6-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 37448
+    },
+    {
+      "file": "portfolio-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 65319
+    },
+    {
+      "file": "memory-mosh-browser.mjs",
+      "code": 0,
+      "signal": null,
+      "elapsedMs": 107154
+    }
+  ],
+  "passed": true,
+  "resumedAt": "2026-10-27T15:42:40.478Z",
+  "previousFailures": [
+    {
+      "file": "navigation-completion-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 10012
+    },
+    {
+      "file": "horizontal-drift-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 51044
+    },
+    {
+      "file": "horizontal-drift-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 21500
+    },
+    {
+      "file": "horizontal-drift-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 31228
+    },
+    {
+      "file": "portfolio-browser.mjs",
+      "code": 1,
+      "signal": null,
+      "elapsedMs": 59941
+    }
+  ],
+  "finishedAt": "2026-10-27T15:45:32.955Z"
+}

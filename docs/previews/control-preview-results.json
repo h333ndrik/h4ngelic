@@ -1,0 +1,573 @@
+{
+  "offline": {
+    "checkedAt": "2026-10-24T20:50:16.470Z",
+    "html": "h4ngelic-preview.html (inside portfolio-preview.zip)",
+    "htmlBytes": 2567441,
+    "htmlSha256": "20e6f02bf1650191e0c31f074b1b372ba0b3f65ee71848018af171bfdf947aa3",
+    "reports": [
+      {
+        "width": 1440,
+        "mobile": false,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0,
+        "verified": [
+          "WebGL hero",
+          "short hold cancellation",
+          "one-second 4 hold",
+          "mode-aware hint",
+          "embedded film",
+          "mute",
+          "category filter",
+          "About",
+          "Contact",
+          "mode return",
+          "visitor",
+          "horizontal bounds"
+        ]
+      },
+      {
+        "width": 390,
+        "mobile": true,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0,
+        "verified": [
+          "WebGL hero",
+          "short hold cancellation",
+          "native touch hold",
+          "mode-aware hint",
+          "embedded film",
+          "mute",
+          "category filter",
+          "About",
+          "Contact",
+          "mode return",
+          "visitor",
+          "horizontal bounds"
+        ]
+      },
+      {
+        "width": 320,
+        "mobile": true,
+        "externalHttpRequests": 0,
+        "runtimeErrors": 0,
+        "verified": [
+          "WebGL hero",
+          "short hold cancellation",
+          "native touch hold",
+          "mode-aware hint",
+          "embedded film",
+          "mute",
+          "category filter",
+          "About",
+          "Contact",
+          "mode return",
+          "visitor",
+          "horizontal bounds"
+        ]
+      }
+    ]
+  },
+  "package": {
+    "packagedAt": "2026-10-24T20:51:30.717720+00:00",
+    "file": "docs/previews/portfolio-preview.zip",
+    "zipBytes": 1737047,
+    "htmlBytes": 2567441,
+    "htmlSha256": "20e6f02bf1650191e0c31f074b1b372ba0b3f65ee71848018af171bfdf947aa3",
+    "offlineCheckedAt": "2026-10-24T20:50:16.470Z",
+    "members": [
+      "h4ngelic-preview.html",
+      "BITTE-LESEN.txt",
+      "other-side-enter.wav",
+      "other-side-leave.wav"
+    ]
+  },
+  "capture": {
+    "capturedAt": "2026-10-24T20:06:55.847Z",
+    "base": "http://127.0.0.1:4214",
+    "runtimeErrors": [],
+    "captures": [
+      {
+        "file": "docs/previews/homepage.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "Reduced-motion pause preserves the same hero pose across paired modes.",
+        "bytes": 208794
+      },
+      {
+        "file": "docs/previews/homepage-hero.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "",
+        "bytes": 82461
+      },
+      {
+        "file": "docs/previews/homepage-visitor.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 83974
+      },
+      {
+        "file": "artifacts/control-capture-extras/homepage-secret.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 40343
+      },
+      {
+        "file": "artifacts/control-capture-extras/homepage-counter.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 41137
+      },
+      {
+        "file": "docs/previews/homepage-xray.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side. A fixed background in full-page captures represents its original viewport; section viewport captures show the actual scrolled composition.",
+        "bytes": 2465969
+      },
+      {
+        "file": "docs/previews/homepage-hero-xray.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "",
+        "bytes": 2208059
+      },
+      {
+        "file": "artifacts/control-capture-extras/homepage-work-xray.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 2234247
+      },
+      {
+        "file": "artifacts/control-capture-extras/homepage-about-xray.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 2232359
+      },
+      {
+        "file": "artifacts/control-capture-extras/homepage-contact-xray.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 2216974
+      },
+      {
+        "file": "artifacts/control-capture-extras/homepage-secret-xray.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 2217392
+      },
+      {
+        "file": "artifacts/control-capture-extras/homepage-counter-xray.png",
+        "width": 1440,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 2216080
+      },
+      {
+        "file": "docs/previews/mobile.png",
+        "width": 390,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "Reduced-motion pause preserves the same hero pose across paired modes.",
+        "bytes": 68462
+      },
+      {
+        "file": "docs/previews/mobile-hero.png",
+        "width": 390,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "",
+        "bytes": 23828
+      },
+      {
+        "file": "docs/previews/mobile-visitor.png",
+        "width": 390,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 24940
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-secret.png",
+        "width": 390,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 18577
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-counter.png",
+        "width": 390,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 19284
+      },
+      {
+        "file": "docs/previews/mobile-xray.png",
+        "width": 390,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side. A fixed background in full-page captures represents its original viewport; section viewport captures show the actual scrolled composition.",
+        "bytes": 691809
+      },
+      {
+        "file": "docs/previews/mobile-hero-xray.png",
+        "width": 390,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "",
+        "bytes": 614420
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-work-xray.png",
+        "width": 390,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 624587
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-about-xray.png",
+        "width": 390,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 618762
+      },
+      {
+        "file": "docs/previews/mobile-contact-xray.png",
+        "width": 390,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 615811
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-secret-xray.png",
+        "width": 390,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 616401
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-counter-xray.png",
+        "width": 390,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 616797
+      },
+      {
+        "file": "docs/previews/mobile-320.png",
+        "width": 320,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "Reduced-motion pause preserves the same hero pose across paired modes.",
+        "bytes": 64276
+      },
+      {
+        "file": "docs/previews/mobile-320-hero.png",
+        "width": 320,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "",
+        "bytes": 20746
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-320-visitor.png",
+        "width": 320,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 21845
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-320-secret.png",
+        "width": 320,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 17605
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-320-counter.png",
+        "width": 320,
+        "route": "/",
+        "mode": "normal",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 18291
+      },
+      {
+        "file": "docs/previews/mobile-320-xray.png",
+        "width": 320,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side. A fixed background in full-page captures represents its original viewport; section viewport captures show the actual scrolled composition.",
+        "bytes": 578169
+      },
+      {
+        "file": "docs/previews/mobile-320-hero-xray.png",
+        "width": 320,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "",
+        "bytes": 502982
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-320-work-xray.png",
+        "width": 320,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 511097
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-320-about-xray.png",
+        "width": 320,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 511348
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-320-contact-xray.png",
+        "width": 320,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual scrolled viewport of fixed film and live semantic content.",
+        "bytes": 504444
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-320-secret-xray.png",
+        "width": 320,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 504891
+      },
+      {
+        "file": "artifacts/control-capture-extras/mobile-320-counter-xray.png",
+        "width": 320,
+        "route": "/",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual discoverable hotspot, shown by touch or hover.",
+        "bytes": 505266
+      },
+      {
+        "file": "docs/previews/work.png",
+        "width": 1440,
+        "route": "/work",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "",
+        "bytes": 36403
+      },
+      {
+        "file": "docs/previews/work-xray.png",
+        "width": 1440,
+        "route": "/work",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side on an actual interior route; no portfolio fixture.",
+        "bytes": 2225291
+      },
+      {
+        "file": "docs/previews/about.png",
+        "width": 1440,
+        "route": "/about",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "",
+        "bytes": 82617
+      },
+      {
+        "file": "docs/previews/about-xray.png",
+        "width": 1440,
+        "route": "/about",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side on an actual interior route; no portfolio fixture.",
+        "bytes": 2265448
+      },
+      {
+        "file": "artifacts/control-capture-extras/work-390.png",
+        "width": 390,
+        "route": "/work",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "",
+        "bytes": 19578
+      },
+      {
+        "file": "artifacts/control-capture-extras/work-390-xray.png",
+        "width": 390,
+        "route": "/work",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side on an actual interior route; no portfolio fixture.",
+        "bytes": 612546
+      },
+      {
+        "file": "artifacts/control-capture-extras/about-390.png",
+        "width": 390,
+        "route": "/about",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "",
+        "bytes": 48130
+      },
+      {
+        "file": "artifacts/control-capture-extras/about-390-xray.png",
+        "width": 390,
+        "route": "/about",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side on an actual interior route; no portfolio fixture.",
+        "bytes": 631001
+      },
+      {
+        "file": "artifacts/control-capture-extras/work-320.png",
+        "width": 320,
+        "route": "/work",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "",
+        "bytes": 19425
+      },
+      {
+        "file": "artifacts/control-capture-extras/work-320-xray.png",
+        "width": 320,
+        "route": "/work",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side on an actual interior route; no portfolio fixture.",
+        "bytes": 505736
+      },
+      {
+        "file": "artifacts/control-capture-extras/about-320.png",
+        "width": 320,
+        "route": "/about",
+        "mode": "normal",
+        "fullPage": true,
+        "note": "",
+        "bytes": 48067
+      },
+      {
+        "file": "artifacts/control-capture-extras/about-320-xray.png",
+        "width": 320,
+        "route": "/about",
+        "mode": "xray",
+        "fullPage": true,
+        "note": "The Other Side on an actual interior route; no portfolio fixture.",
+        "bytes": 531902
+      },
+      {
+        "file": "docs/previews/control-cursor-corruption.png",
+        "width": 1440,
+        "route": "/work",
+        "mode": "xray",
+        "fullPage": false,
+        "note": "Actual normal-motion sampled film/history damage on empty production Work; no artwork fixture.",
+        "bytes": 2227564
+      }
+    ],
+    "soundSamples": [
+      "docs/previews/other-side-enter.wav",
+      "docs/previews/other-side-leave.wav"
+    ],
+    "note": "Legacy filenames with xray mean The Other Side. Historical media-normal/media-xray fixtures were not recaptured or presented as portfolio projects."
+  },
+  "sounds": [
+    {
+      "file": "docs/previews/other-side-enter.wav",
+      "bytes": 134444,
+      "channels": 2,
+      "sampleRate": 48000,
+      "durationSeconds": 0.7
+    },
+    {
+      "file": "docs/previews/other-side-leave.wav",
+      "bytes": 134444,
+      "channels": 2,
+      "sampleRate": 48000,
+      "durationSeconds": 0.7
+    }
+  ],
+  "visualReview": {
+    "freshPairedHeroes": "1440px Normal/The Other Side and 390/320px Other Side inspected; geometry/pose retained, actual white-hot/purple-corroded material visible.",
+    "mobileContact": "390px and 320px scrolled Contact inspected; text has dark edge separation over bright film. At320px the existing contact strip scrolls horizontally; third label is partially clipped at its initial scroll position. No document overflow.",
+    "fixedFilmCapture": "Full-page screenshots of a fixed film layer represent its capture viewport; separate scrolled viewport screenshots preserve the actual section composition.",
+    "portfolioFixtures": "Existing media-normal.png/media-xray.png are historical supplied-artwork browser fixtures, not current portfolio projects; not recaptured."
+  },
+  "captureStorageNote": "Essential current pairs remain in docs/previews; additional exact viewport captures are retained in ignored artifacts/control-capture-extras in the execution workspace.",
+  "loadingRefinement": {
+    "checkedAt": "2026-10-24T20:51:30.750579+00:00",
+    "base": "http://127.0.0.1:4221",
+    "checks": "docs/performance/loading-browser-results.json",
+    "materialDevBase": "http://127.0.0.1:5173",
+    "material": {
+      "meshPixels": 109453,
+      "alteredMeshPixels": 108116,
+      "meanRestorationDifference": 0,
+      "shaderErrors": 0
+    },
+    "captureReuseNote": "The loading-only follow-up changes no presentation source. Existing full-page and mobile captures retain their original capturedAt timestamp; the current material test freshly captured normal/other/restored mesh images in ignored artifacts and confirmed exact Normal restoration. The prior49 captures were not rerun."
+  }
+}

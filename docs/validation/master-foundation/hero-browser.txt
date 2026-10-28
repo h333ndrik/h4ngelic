@@ -1,0 +1,5 @@
+PASS desktop: render, original cursor, controls, cursor push, drag, release momentum including a queued final movement, independent motion, smooth return.
+PASS mobile: WebGL render, normal cursor, touch scroll over the logo, drag cancellation.
+PASS accessibility: reduced motion defaults to paused.
+PASS fallback: disabled WebGL produces an accessible static wordmark.
+Screenshots: /workspace/h4ngelic/artifacts/desktop.png, /workspace/h4ngelic/artifacts/mobile.png

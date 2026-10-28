@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-27T20:41:09.033Z",
+  "method": "Native loopback HTTP with browser-compatible FormData and local mock email-provider HTTP service. No external requests or real email delivery.",
+  "status": {
+    "accepted": 202,
+    "crossOrigin": 403,
+    "providerFailure": 502,
+    "spoofedAttachment": 415,
+    "rateLimit": 429,
+    "unconfigured": 503
+  },
+  "fixedRecipient": "h4ngelic@gmail.com",
+  "replyTo": "visitor@example.com",
+  "freeTextContactChannelsAccepted": [
+    "@loopback-visitor",
+    "+49 170 1234567"
+  ],
+  "nonEmailReplyToOmitted": true,
+  "unicodeFilename": "référence.pdf",
+  "attachmentSHA256": "094c4fc2defca10825e6aa36baff3130580ad7b1ffefd13d7c87df5897f51b53",
+  "bytesPreserved": true,
+  "providerMockCalls": 4,
+  "liveDeliveryVerified": false
+}

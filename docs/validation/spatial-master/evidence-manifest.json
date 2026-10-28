@@ -1,0 +1,391 @@
+{
+  "preparedAt": "2026-10-26T09:36:31.220Z",
+  "note": "JSON reports are byte-identical copies of the listed source artifacts at collection; timestamps inside reports and filesystem modification times are separate. Full four-profile relief, exact old HTML offline results, one-run-per-route Lighthouse baseline and both passing and failed native offline observations are included. Earlier screenshots remain their individually hashed captures. Current source artifacts may have been replaced by later runs; copied bytes are authoritative.",
+  "reports": [
+    {
+      "source": "artifacts/persistent-memory/results.json",
+      "destination": "docs/validation/spatial-master/persistent-memory.json",
+      "bytes": 8875,
+      "sha256": "2e09b776bb38341dbc47859f460cbe969a3ff1378fb563eb437ec604b1c63a9e",
+      "artifactModifiedAt": "2026-10-26T00:29:55.784Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/spatial-master/hero-background-results.json",
+      "destination": "docs/validation/spatial-master/hero-background.json",
+      "bytes": 7327,
+      "sha256": "929bd059e80e04525cc162d0b35e39a8a953feaaac95b07717bc599c89551fb3",
+      "artifactModifiedAt": "2026-10-26T00:35:14.097Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/end-reveal/results.json",
+      "destination": "docs/validation/spatial-master/end-relief-desktop.json",
+      "bytes": 5573,
+      "sha256": "b17b1321c6b6129b662631770e51a3253252e65a008445911c49c2bda6dd5f45",
+      "artifactModifiedAt": "2026-10-25T23:07:56.043Z",
+      "sourceMatchesCopiedBytesAtAggregation": false,
+      "note": "Earlier desktop-only copy preserved. Source path was later overwritten by the full four-profile run; use pre-v6-end-relief-all-profiles.json for the final pre-V6 relief check."
+    },
+    {
+      "source": "artifacts/digital-ink-results.json",
+      "destination": "docs/validation/spatial-master/digital-ink.json",
+      "bytes": 10861,
+      "sha256": "2d58b5b02034146ad762ee8ecbbe82c7ea5d6c98d63f5e97202e8d5d64e04dca",
+      "artifactModifiedAt": "2026-10-26T09:43:13.505Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/spatial-archives/horizontal-drift-results.json",
+      "destination": "docs/validation/spatial-master/horizontal-drift.json",
+      "bytes": 4967,
+      "sha256": "3d5b109b65425b70b8b003ff3aef08b923f3f2e895e87aac6b007d9d88dee577",
+      "artifactModifiedAt": "2026-10-26T09:44:24.945Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/flash-mannequin/results.json",
+      "destination": "docs/validation/spatial-master/optional-model-fixture.json",
+      "bytes": 2118,
+      "sha256": "0b1bf8217c377bc8ad3715b6990fdeb6706c06fd4f7ec7413958b6a066b781ff",
+      "artifactModifiedAt": "2026-10-26T09:45:01.736Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/mode-snapshot/results.json",
+      "destination": "docs/validation/spatial-master/actual-page-glyphs.json",
+      "bytes": 2547,
+      "sha256": "b02952db04c032c7e4fe3dcd23306ae9cd57d658ab31db2b4ce48f001c930497",
+      "artifactModifiedAt": "2026-10-26T09:54:37.336Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/mode-snapshot-modal/results.json",
+      "destination": "docs/validation/spatial-master/actual-page-image.json",
+      "bytes": 900,
+      "sha256": "6f163ee9aa12a3147abb39a2b016eb2b3e26f119801235764731a1c0f6bf240c",
+      "artifactModifiedAt": "2026-10-26T09:54:44.364Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/interaction-regression-results.json",
+      "destination": "docs/validation/spatial-master/interaction-regressions.json",
+      "bytes": 2860,
+      "sha256": "3991a8951e43c1c69938bdfb962b7c217f3d4fa67a775ee6ed844472cb008706",
+      "artifactModifiedAt": "2026-10-26T10:03:45.483Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/mannequin-build-gate.json",
+      "destination": "docs/validation/spatial-master/mannequin-build-gate.json",
+      "bytes": 151,
+      "sha256": "8f6de57191de9920dcf003907a1dea358f975849c6fe9ce3fc2d415a932da065",
+      "artifactModifiedAt": "2026-10-26T10:06:23.418Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/end-reveal/results.json",
+      "destination": "docs/validation/spatial-master/pre-v6-end-relief-all-profiles.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 17363,
+      "sha256": "3dacf1f7ccc7e685e9bfef72380102d71629ae8d0bfa3c7dbc797df053f2a4dd",
+      "artifactModifiedAt": "2026-10-26T10:09:19.592245Z",
+      "reportTimestamp": "not recorded; artifactModifiedAt is filesystem metadata, not asserted run start/end",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/control-offline-results.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-three-widths.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 2280,
+      "sha256": "afb20288418ae5420d5d1f8862069c21558a0389d8d91e158c944fc678376220",
+      "artifactModifiedAt": "2026-10-26T10:11:06.100107Z",
+      "checkedAt": "2026-10-26T10:11:06.048Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/spatial-master/offline-package.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-package.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 345,
+      "sha256": "f46d15dc73c8b187df651e5a38d8061fea9e41b3b0ae912bda24ffbd11d324a8",
+      "artifactModifiedAt": "2026-10-26T10:12:07.488385Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/performance/spatial-master-final-summary.json",
+      "destination": "docs/validation/spatial-master/pre-v6-lighthouse-summary.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 6554,
+      "sha256": "71b492614c97f661a5cd037584267947b69908d10404181ff4fffaa4e5ea8c14",
+      "artifactModifiedAt": "2026-10-26T14:57:45.359635Z",
+      "generatedAt": "2026-10-26T14:57:45.359Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/performance/spatial-master-final-home-mobile-1.json",
+      "destination": "docs/validation/spatial-master/pre-v6-lighthouse-home-mobile-1.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 242369,
+      "sha256": "c3bdad6c38c7c621ceedd9be4a4f78423ea65590cd006c38996ef684779d1161",
+      "artifactModifiedAt": "2026-10-26T14:57:39.629804Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/performance/spatial-master-final-work-mobile-1.json",
+      "destination": "docs/validation/spatial-master/pre-v6-lighthouse-work-mobile-1.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 234058,
+      "sha256": "efbdef371eee2abac3e160d3df9cf4f821323e07462234ae212fb2705ee2d9f3",
+      "artifactModifiedAt": "2026-10-26T14:57:45.353752Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/living-offline-native-swiftshader-results.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-native-swiftshader-pass.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 988,
+      "sha256": "f1b101d5f599323187c8fe9cbde23e11f578220e1f78e4b2d33115b205d21d1b",
+      "artifactModifiedAt": "2026-10-26T14:55:51.003001Z",
+      "checkedAt": "2026-10-26T14:54:19.427Z",
+      "rendering": "Chromium ANGLE SwiftShader",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/living-offline-native-cpu-results.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-native-cpu-pass.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 943,
+      "sha256": "de8f5e017ded51cf553bd9e5b2c9809333f43f3688b94d1e7c1d3c1bb99d3877",
+      "artifactModifiedAt": "2026-10-26T14:55:50.999001Z",
+      "checkedAt": "2026-10-26T14:55:01.440Z",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    },
+    {
+      "source": "artifacts/living-offline-native-failure.json",
+      "destination": "docs/validation/spatial-master/pre-v6-offline-native-swiftshader-repeat-failure.json",
+      "scope": "historical pre-V6; source checkpoint b9142dc",
+      "bytes": 12698,
+      "sha256": "17dc01025b23520138918eddaca3b02e33cb6c020a0883c9d04d09c61fc6ae40",
+      "artifactModifiedAt": "2026-10-26T14:59:04.753026Z",
+      "checkedAt": "2026-10-26T14:59:04.745Z",
+      "status": "failed-repeat",
+      "rendering": "Chromium ANGLE SwiftShader",
+      "sourceMatchesCopiedBytesAtAggregation": true
+    }
+  ],
+  "screenshots": [
+    {
+      "source": "artifacts/end-reveal/desktop-normal.png",
+      "destination": "docs/previews/spatial-master/end-relief-normal.webp",
+      "sourceSha256": "b05dc80c4c301db6c1d2d0037126f2412032b08e45e515fd706022e794384f01",
+      "sha256": "182aa6b8cfc142b8026566f38152f22557a7682d6b11de8694873996f1b792cc",
+      "bytes": 5354,
+      "width": 1200,
+      "height": 833,
+      "artifactModifiedAt": "2026-10-25T23:07:15.779Z"
+    },
+    {
+      "source": "artifacts/end-reveal/desktop-other.png",
+      "destination": "docs/previews/spatial-master/end-relief-other.webp",
+      "sourceSha256": "151f044a9b2ec800106200f0ea85955aa6b0d6bfc557a7c594eb51eb6eacd684",
+      "sha256": "5ac8d526c7f0d79d361e2426ff301be99a994ae9d49a4c88e16251b1f89203e5",
+      "bytes": 35062,
+      "width": 1200,
+      "height": 833,
+      "artifactModifiedAt": "2026-10-25T23:07:45.579Z"
+    },
+    {
+      "source": "artifacts/persistent-memory/idle-1000.png",
+      "destination": "docs/previews/spatial-master/persistent-idle-desktop.webp",
+      "sourceSha256": "b4bc0f8e60f6ff253e1f1f825c7e82f7e1083a446f2ad8c02710c37a53fe4c82",
+      "sha256": "ffbbbcee2230901e44e3991397ed017de6456b311e133baeda5d322430d90623",
+      "bytes": 117454,
+      "width": 1000,
+      "height": 760,
+      "artifactModifiedAt": "2026-10-26T00:28:35.316Z"
+    },
+    {
+      "source": "artifacts/persistent-memory/idle-320.png",
+      "destination": "docs/previews/spatial-master/persistent-idle-320.webp",
+      "sourceSha256": "46b12362c6951052aeae2357b9c2646784803dc0a17101e796b5f85a3152dacc",
+      "sha256": "4f6a9f3783dc542a224a5aa6c657fcdd0d091b4c0e4a979352f67fdc566dfd15",
+      "bytes": 44530,
+      "width": 320,
+      "height": 844,
+      "artifactModifiedAt": "2026-10-26T00:29:46.996Z"
+    },
+    {
+      "source": "artifacts/spatial-master/hero-background-1000.png",
+      "destination": "docs/previews/spatial-master/hero-background-desktop.webp",
+      "sourceSha256": "a6d5325bc970e886cca2e8326ae0609e6bab1977485f6042f6a06a5d8a64cf68",
+      "sha256": "6a32e518691ecf75927c5d877e2388c67a9a71558f13547a55a2fbfa1917c260",
+      "bytes": 20714,
+      "width": 1000,
+      "height": 760,
+      "artifactModifiedAt": "2026-10-26T00:35:01.418Z"
+    },
+    {
+      "source": "artifacts/spatial-master/hero-background-320.png",
+      "destination": "docs/previews/spatial-master/hero-background-320.webp",
+      "sourceSha256": "860571c7584811666ce6987f4eba2f9b5babfb7366ec81662b5a346c31a37724",
+      "sha256": "255195b51fb7b9ea509e3ebdf092566e94962434058206336e88af26cbdbdaa3",
+      "bytes": 11494,
+      "width": 320,
+      "height": 844,
+      "artifactModifiedAt": "2026-10-26T00:35:12.433Z"
+    },
+    {
+      "source": "artifacts/spatial-master/archive-strip-1000.png",
+      "destination": "docs/previews/spatial-master/archive-strip-desktop.webp",
+      "sourceSha256": "265fe7f60ca6e6ee0579b7e79984c0e9223a785c3fb86b3387cd63c08a4f41ba",
+      "sha256": "606c08f4c9115ebdca609954c482038303656f2738c0a259c1d7df3c773d1c71",
+      "bytes": 16756,
+      "width": 1000,
+      "height": 760,
+      "artifactModifiedAt": "2026-10-26T00:35:02.222Z"
+    },
+    {
+      "source": "artifacts/spatial-master/archive-strip-390.png",
+      "destination": "docs/previews/spatial-master/archive-strip-390.webp",
+      "sourceSha256": "8a055c75fa2bdec7520d7491fb4476802678df45b0476a1ef5d41fb14395f860",
+      "sha256": "ac35da959a63fdeec066b3c99f4cadac6f3df8c923b2a82271a77b70a5231a7f",
+      "bytes": 16182,
+      "width": 390,
+      "height": 844,
+      "artifactModifiedAt": "2026-10-26T00:35:07.749Z"
+    },
+    {
+      "source": "artifacts/digital-ink/original-first-1000.png",
+      "destination": "docs/previews/spatial-master/digital-original-first-desktop.webp",
+      "sourceSha256": "3433fe3e8242d827688f14f6bd0a928d44cf7167c8d4083629c883f2947de5f2",
+      "sha256": "e6a09e781927065c8041ffa823b65d299aa1124b97f01eeefe161f5a631d9f5f",
+      "bytes": 17298,
+      "width": 1000,
+      "height": 800,
+      "artifactModifiedAt": "2026-10-26T09:37:19.728Z",
+      "content": "Actual supplied green-and-black original, not a test fixture."
+    },
+    {
+      "source": "artifacts/digital-ink/original-later-1000.png",
+      "destination": "docs/previews/spatial-master/digital-original-later-desktop.webp",
+      "sourceSha256": "5624a54de1f7f4925a156c081c5a2329f109e1b6fdf980d644f0cceaf81324ac",
+      "sha256": "aefb885adc0cad6d08b4b6bb8bf4639be68c9dfa0c58fdccc4fb1485512e1fb7",
+      "bytes": 67148,
+      "width": 1000,
+      "height": 800,
+      "artifactModifiedAt": "2026-10-26T09:37:19.904Z",
+      "content": "Actual supplied green-and-black original, not a test fixture."
+    },
+    {
+      "source": "artifacts/digital-ink/original-complete-1000.png",
+      "destination": "docs/previews/spatial-master/digital-original-complete-desktop.webp",
+      "sourceSha256": "1b465ea7aff1ca18266a16a2c60f955d5b2b18e9d3c7a3c41cabf307af77119d",
+      "sha256": "b81460e0fd330396e5ef02ef34aa43badd663e749cb6ce56e015d292289b4351",
+      "bytes": 66382,
+      "width": 1000,
+      "height": 800,
+      "artifactModifiedAt": "2026-10-26T09:37:21.140Z",
+      "content": "Actual supplied green-and-black original, not a test fixture."
+    },
+    {
+      "source": "artifacts/digital-ink/original-complete-390.png",
+      "destination": "docs/previews/spatial-master/digital-original-complete-390.webp",
+      "sourceSha256": "fae206bb0a91dfc84c26c59b68b25b014e9bf12145ef3678133f0dd4b44f33f3",
+      "sha256": "9945bf24be2f9ac2e76ce10ab0a7ea9c2e7eeadbf88b123d3bc186c0bdd1fe18",
+      "bytes": 51548,
+      "width": 390,
+      "height": 800,
+      "artifactModifiedAt": "2026-10-26T09:38:09.516Z",
+      "content": "Actual supplied green-and-black original, not a test fixture."
+    },
+    {
+      "source": "artifacts/digital-ink/original-complete-320.png",
+      "destination": "docs/previews/spatial-master/digital-original-complete-320.webp",
+      "sourceSha256": "24253fed8ae10cb41e6bb95e33f8e981c646fc221ab632eb3af35fd779fa2170",
+      "sha256": "583e43254b4ae5f483054736bb0863547de0e2e92bcfbbb7e9c02da6c78d47c3",
+      "bytes": 31378,
+      "width": 320,
+      "height": 800,
+      "artifactModifiedAt": "2026-10-26T09:43:12.245Z",
+      "content": "Actual supplied green-and-black original, not a test fixture."
+    },
+    {
+      "source": "artifacts/spatial-archives/horizontal-drift-1000.png",
+      "destination": "docs/previews/spatial-master/drift-fixture-desktop.webp",
+      "sourceSha256": "b3f6efd23720c7ffb0385fd7e4f2c167fd938230f78a4fff6b830caceba553eb",
+      "sha256": "48affc98157a3d77d7a0ca286e8c10b60eea4ebd38b46a206e50bcee73ee4585",
+      "bytes": 88150,
+      "width": 1000,
+      "height": 844,
+      "artifactModifiedAt": "2026-10-26T09:44:13.141Z",
+      "content": "Test-only archive with repeated views of supplied reflection artwork; not a published tattoo collection."
+    },
+    {
+      "source": "artifacts/spatial-archives/horizontal-drift-390.png",
+      "destination": "docs/previews/spatial-master/drift-fixture-390.webp",
+      "sourceSha256": "92fc167d15ce3452bd3a7c58360eb8a48b5848cb82df2e0dbd3c2a57906cbe15",
+      "sha256": "8740c553ed22a4e33721240bf2d0eb7cc3fdbb9efaf644e5b04f3c67fe856b8a",
+      "bytes": 35896,
+      "width": 390,
+      "height": 844,
+      "artifactModifiedAt": "2026-10-26T09:44:20.749Z",
+      "content": "Test-only archive with repeated views of supplied reflection artwork; not a published tattoo collection."
+    },
+    {
+      "source": "artifacts/spatial-archives/horizontal-drift-320.png",
+      "destination": "docs/previews/spatial-master/drift-fixture-320.webp",
+      "sourceSha256": "0e39848dcab242fa652fa536956d9719246323f019a97c8ebaf13ba1934e2ccd",
+      "sha256": "8c199779ef7b7863faaf495a07637786d63f5763fbaaf2fdc6019c68672d9df5",
+      "bytes": 28196,
+      "width": 320,
+      "height": 844,
+      "artifactModifiedAt": "2026-10-26T09:44:24.921Z",
+      "content": "Test-only archive with repeated views of supplied reflection artwork; not a published tattoo collection."
+    },
+    {
+      "source": "artifacts/flash-mannequin/desktop-initial.png",
+      "destination": "docs/previews/spatial-master/optional-model-fixture-desktop.webp",
+      "sourceSha256": "28b37857d8d9b1bef14333a425eec5b13955be2a8ad03ddf1d4c9f6637da4109",
+      "sha256": "8faa95a72bd842b3c0bb67d5907728a793c9d5e74d70ee1da947b0ba982254f5",
+      "bytes": 1832,
+      "width": 1000,
+      "height": 612,
+      "artifactModifiedAt": "2026-10-26T09:44:54.294Z",
+      "content": "Synthetic test-only textured box and plane; not a human mannequin or UV/Procreate validation."
+    },
+    {
+      "source": "artifacts/flash-mannequin/touch-390-rotated.png",
+      "destination": "docs/previews/spatial-master/optional-model-fixture-390.webp",
+      "sourceSha256": "860b4b15b85869410d1c23cdadeb29ae017a7070b51871a7be780ee3a0b06e19",
+      "sha256": "6bd1795b29d3e788caa121228be1900984c5b32a0c8bd1c75d9c406d08094c48",
+      "bytes": 1464,
+      "width": 390,
+      "height": 507,
+      "artifactModifiedAt": "2026-10-26T09:45:00.384Z",
+      "content": "Synthetic test-only textured box and plane; not a human mannequin or UV/Procreate validation."
+    },
+    {
+      "source": "artifacts/mode-snapshot/displaced-actual-typography.png",
+      "destination": "docs/previews/spatial-master/actual-page-glyphs.webp",
+      "sourceSha256": "ec335b4ed30fdd0f1003ca256a1069a61318133cb59ef28db72137b7064cbb40",
+      "sha256": "efa5e7ee97fbf2b9907ba7c66d51efa66bca966acfc1b0e94f15473e21dc26d8",
+      "bytes": 6794,
+      "width": 760,
+      "height": 270,
+      "artifactModifiedAt": "2026-10-26T09:54:33.716Z"
+    },
+    {
+      "source": "artifacts/mode-snapshot-modal/displaced-dialog-image.png",
+      "destination": "docs/previews/spatial-master/actual-page-image.webp",
+      "sourceSha256": "90f426c0884a59941c2fd3940b0a56852997e159ce1a8d80323a0d8e744facc4",
+      "sha256": "46eb94d4d2cca4a4e68e5bfffdfaf7c1511e1d6a514abbb084b8fe1ab78a8620",
+      "bytes": 22118,
+      "width": 220,
+      "height": 260,
+      "artifactModifiedAt": "2026-10-26T09:54:43.340Z"
+    }
+  ],
+  "updatedAt": "2026-10-26T15:08:02.954355Z",
+  "scope": "Historical pre-V6 spatial archives feature at source checkpoint b9142dc; none of these reports validates V6."
+}

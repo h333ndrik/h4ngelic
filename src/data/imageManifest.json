@@ -1,0 +1,28 @@
+{
+  "/images/digital-artworks/green-black-original.jpg": {
+    "width": 1440,
+    "height": 1920,
+    "variants": [
+      {
+        "src": "/images/optimized/green-black-original-16cca95e4acb-320.webp",
+        "width": 320,
+        "height": 427
+      },
+      {
+        "src": "/images/optimized/green-black-original-16cca95e4acb-640.webp",
+        "width": 640,
+        "height": 853
+      },
+      {
+        "src": "/images/optimized/green-black-original-16cca95e4acb-960.webp",
+        "width": 960,
+        "height": 1280
+      },
+      {
+        "src": "/images/optimized/green-black-original-16cca95e4acb-1440.webp",
+        "width": 1440,
+        "height": 1920
+      }
+    ]
+  }
+}

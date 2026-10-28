@@ -1,0 +1,2863 @@
+{
+  "measuredAt": "2026-10-25T20:34:08.649Z",
+  "base": "http://127.0.0.1:5173",
+  "note": "Headless Chromium with software WebGL. Actual geometry input/raster evidence, not physical-device FPS.",
+  "reports": [
+    {
+      "profile": "desktop",
+      "front": {
+        "id": 1,
+        "color": "#8511ff",
+        "localPoint": [
+          -3.8484126884459045,
+          0.24054709920725262,
+          0.28249999880790544
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "worldPoint": [
+          -3.431476540298702,
+          0.19380496511760611,
+          1.2113031737913373
+        ],
+        "facing": 0.9016845244593107,
+        "projected": {
+          "x": 182.83027648925764,
+          "y": 362.08670043945295,
+          "z": 0.9859856140086389,
+          "radius": 41.75846413034197,
+          "frontFacing": true
+        },
+        "ageMs": 435.5,
+        "lifetimeMs": 7871.332420052893,
+        "opacity": 0.94,
+        "vertexCount": 2025,
+        "componentId": 0,
+        "registrationError": 0
+      },
+      "angled": {
+        "id": 2,
+        "color": "#ff3dbb",
+        "localPoint": [
+          -3.9931035908467183,
+          0.01567668513569448,
+          0.23958167351113235
+        ],
+        "normal": [
+          -0.9920830074612496,
+          0,
+          0.12558386164886917
+        ],
+        "worldPoint": [
+          -0.716507170010102,
+          0.09446797353529343,
+          3.623521020082017
+        ],
+        "facing": 0.8486398646890252,
+        "projected": {
+          "x": 418.7408447265625,
+          "y": 369.286376953125,
+          "z": 0.982501631130644,
+          "radius": 49.48739674182301,
+          "frontFacing": true
+        },
+        "ageMs": 283.5,
+        "lifetimeMs": 7655.505109259793,
+        "opacity": 0.94,
+        "vertexCount": 75,
+        "componentId": 0,
+        "registrationError": 0
+      },
+      "frames": [
+        {
+          "label": "front-still",
+          "before": {
+            "id": 1,
+            "color": "#8511ff",
+            "localPoint": [
+              -3.8484126884459045,
+              0.24054709920725262,
+              0.28249999880790544
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.431476540298702,
+              0.19380496511760611,
+              1.2113031737913373
+            ],
+            "facing": 0.9016845244593107,
+            "projected": {
+              "x": 182.83027648925764,
+              "y": 362.08670043945295,
+              "z": 0.9859856140086389,
+              "radius": 41.75846413034197,
+              "frontFacing": true
+            },
+            "ageMs": 450.4000000022352,
+            "lifetimeMs": 7871.332420052893,
+            "opacity": 0.94,
+            "vertexCount": 2025,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          "after": {
+            "id": 1,
+            "color": "#8511ff",
+            "localPoint": [
+              -3.8484126884459045,
+              0.24054709920725262,
+              0.28249999880790544
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.431476540298702,
+              0.19380496511760611,
+              1.2113031737913373
+            ],
+            "facing": 0.9016845244593107,
+            "projected": {
+              "x": 182.83027648925764,
+              "y": 362.08670043945295,
+              "z": 0.9859856140086389,
+              "radius": 41.75846413034197,
+              "frontFacing": true
+            },
+            "ageMs": 892.1000000014901,
+            "lifetimeMs": 7871.332420052893,
+            "opacity": 0.94,
+            "vertexCount": 2025,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          "radius": 65,
+          "coloredPixels": 1114,
+          "maximumChroma": 178,
+          "centroid": {
+            "x": 186.9281867145422,
+            "y": 356.15978456014363
+          },
+          "centroidToAnchor": 7.205636686296406
+        },
+        {
+          "label": "moving-surface-1",
+          "before": {
+            "id": 1,
+            "color": "#8511ff",
+            "localPoint": [
+              -3.8484126884459045,
+              0.24054709920725262,
+              0.28249999880790544
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.243115096881426,
+              0.17186278727327642,
+              1.4983380910941606
+            ],
+            "facing": 0.8190988866172311,
+            "projected": {
+              "x": 193.49322429144124,
+              "y": 363.7572496757602,
+              "z": 0.9856401361874322,
+              "radius": 42.45289094523221,
+              "frontFacing": true
+            },
+            "ageMs": 1422.199999999255,
+            "lifetimeMs": 7871.332420052893,
+            "opacity": 0.94,
+            "vertexCount": 2025,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          "after": {
+            "id": 1,
+            "color": "#8511ff",
+            "localPoint": [
+              -3.8484126884459045,
+              0.24054709920725262,
+              0.28249999880790544
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.243115096881426,
+              0.17186278727327642,
+              1.4983380910941606
+            ],
+            "facing": 0.8190988866172311,
+            "projected": {
+              "x": 193.49322429144124,
+              "y": 363.7572496757602,
+              "z": 0.9856401361874322,
+              "radius": 42.45289094523221,
+              "frontFacing": true
+            },
+            "ageMs": 2051.199999999255,
+            "lifetimeMs": 7871.332420052893,
+            "opacity": 0.94,
+            "vertexCount": 2025,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          "radius": 65,
+          "coloredPixels": 1087,
+          "maximumChroma": 177,
+          "centroid": {
+            "x": 197.7083716651334,
+            "y": 358.1287948482061
+          },
+          "centroidToAnchor": 7.031854032028886
+        },
+        {
+          "label": "moving-surface-2",
+          "before": {
+            "id": 1,
+            "color": "#8511ff",
+            "localPoint": [
+              -3.8484126884459045,
+              0.24054709920725262,
+              0.28249999880790544
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.111324392523367,
+              0.15699054515654487,
+              1.6749221049770213
+            ],
+            "facing": 0.7503768797116407,
+            "projected": {
+              "x": 201.81974528021064,
+              "y": 364.95448405962844,
+              "z": 0.9854197625077118,
+              "radius": 42.70594623087063,
+              "frontFacing": true
+            },
+            "ageMs": 2292.800000000745,
+            "lifetimeMs": 7871.332420052893,
+            "opacity": 0.94,
+            "vertexCount": 2025,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          "after": {
+            "id": 1,
+            "color": "#8511ff",
+            "localPoint": [
+              -3.8484126884459045,
+              0.24054709920725262,
+              0.28249999880790544
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.111324392523367,
+              0.15699054515654487,
+              1.6749221049770213
+            ],
+            "facing": 0.7503768797116407,
+            "projected": {
+              "x": 201.81974528021064,
+              "y": 364.95448405962844,
+              "z": 0.9854197625077118,
+              "radius": 42.70594623087063,
+              "frontFacing": true
+            },
+            "ageMs": 2893.699999999255,
+            "lifetimeMs": 7871.332420052893,
+            "opacity": 0.94,
+            "vertexCount": 2025,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          "radius": 65,
+          "coloredPixels": 1239,
+          "maximumChroma": 172,
+          "centroid": {
+            "x": 205.43502824858757,
+            "y": 362.48910411622273
+          },
+          "centroidToAnchor": 4.3758849626999385
+        }
+      ],
+      "hidden": {
+        "label": "rotated-away",
+        "before": {
+          "id": 1,
+          "color": "#8511ff",
+          "localPoint": [
+            -3.8484126884459045,
+            0.24054709920725262,
+            0.28249999880790544
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "worldPoint": [
+            -1.46323823225919,
+            -0.0014162835611984947,
+            3.095747828503684
+          ],
+          "facing": -0.18098798943490998,
+          "projected": {
+            "x": 341.9055279275233,
+            "y": 380.1530212900239,
+            "z": 0.9833926722933268,
+            "radius": 33.728354299914805,
+            "frontFacing": false
+          },
+          "ageMs": 4329.300000000745,
+          "lifetimeMs": 7871.332420052893,
+          "opacity": 0.94,
+          "vertexCount": 2025,
+          "componentId": 0,
+          "registrationError": 0
+        },
+        "after": {
+          "id": 1,
+          "color": "#8511ff",
+          "localPoint": [
+            -3.8484126884459045,
+            0.24054709920725262,
+            0.28249999880790544
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "worldPoint": [
+            -0.545973783516212,
+            -0.09888863936148748,
+            3.5406010143622555
+          ],
+          "facing": -0.30946849254955533,
+          "projected": {
+            "x": 438.5604541783169,
+            "y": 391.1281407143125,
+            "z": 0.9826474401291563,
+            "radius": 20.6661690146778,
+            "frontFacing": false
+          },
+          "ageMs": 4986.300000000745,
+          "lifetimeMs": 7871.332420052893,
+          "opacity": 0.9006330592938763,
+          "vertexCount": 2025,
+          "componentId": 0,
+          "registrationError": 0
+        },
+        "radius": 65,
+        "coloredPixels": 124,
+        "maximumChroma": 177,
+        "centroid": {
+          "x": 347.7983870967742,
+          "y": 376.88709677419354
+        },
+        "centroidToAnchor": 43.32804056317745
+      },
+      "projectedTravel": 19.204793876913254,
+      "colors": [
+        "#ff3dbb",
+        "#bcff16",
+        "#2266ff",
+        "#bcff16",
+        "#2266ff",
+        "#8511ff",
+        "#2266ff",
+        "#ff3dbb"
+      ],
+      "capped": {
+        "count": 6,
+        "pending": 0,
+        "maxMarks": 6,
+        "created": 9,
+        "disposed": 3,
+        "failed": 0,
+        "rejected": 0,
+        "destroyed": false,
+        "resourcesDisposed": {
+          "geometries": 3,
+          "materials": 3,
+          "textures": 3
+        },
+        "marks": [
+          {
+            "id": 4,
+            "color": "#2266ff",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              -0.03688132312957415,
+              0.2104163798836717,
+              3.579907342052282
+            ],
+            "facing": 0.2580240228080098,
+            "projected": {
+              "x": 495.8343811035157,
+              "y": 356.23419189453125,
+              "z": 0.9825786052184895,
+              "radius": 23.86020602881899,
+              "frontFacing": true
+            },
+            "ageMs": 1510.800000000745,
+            "lifetimeMs": 10625.289323499102,
+            "opacity": 0.94,
+            "vertexCount": 2352,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 5,
+            "color": "#bcff16",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              -0.03688132312957415,
+              0.2104163798836717,
+              3.579907342052282
+            ],
+            "facing": 0.2580240228080098,
+            "projected": {
+              "x": 495.8343811035157,
+              "y": 356.23419189453125,
+              "z": 0.9825786052184895,
+              "radius": 19.111990970520953,
+              "frontFacing": true
+            },
+            "ageMs": 1035.5,
+            "lifetimeMs": 8960.768248529792,
+            "opacity": 0.94,
+            "vertexCount": 2049,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 6,
+            "color": "#2266ff",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              -0.03688132312957415,
+              0.2104163798836717,
+              3.579907342052282
+            ],
+            "facing": 0.2580240228080098,
+            "projected": {
+              "x": 495.8343811035157,
+              "y": 356.23419189453125,
+              "z": 0.9825786052184895,
+              "radius": 17.865068956677728,
+              "frontFacing": true
+            },
+            "ageMs": 828.8000000007451,
+            "lifetimeMs": 7044.844608286832,
+            "opacity": 0.94,
+            "vertexCount": 2061,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 7,
+            "color": "#8511ff",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              -0.03688132312957415,
+              0.2104163798836717,
+              3.579907342052282
+            ],
+            "facing": 0.2580240228080098,
+            "projected": {
+              "x": 495.8343811035157,
+              "y": 356.23419189453125,
+              "z": 0.9825786052184895,
+              "radius": 20.966281242665328,
+              "frontFacing": true
+            },
+            "ageMs": 640.0999999977648,
+            "lifetimeMs": 9278.674117161088,
+            "opacity": 0.94,
+            "vertexCount": 2253,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 8,
+            "color": "#2266ff",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              -0.03688132312957415,
+              0.2104163798836717,
+              3.579907342052282
+            ],
+            "facing": 0.2580240228080098,
+            "projected": {
+              "x": 495.8343811035157,
+              "y": 356.23419189453125,
+              "z": 0.9825786052184895,
+              "radius": 23.543842074131266,
+              "frontFacing": true
+            },
+            "ageMs": 385.80000000074506,
+            "lifetimeMs": 9554.904923711423,
+            "opacity": 0.94,
+            "vertexCount": 2400,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 9,
+            "color": "#ff3dbb",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              -0.03688132312957415,
+              0.2104163798836717,
+              3.579907342052282
+            ],
+            "facing": 0.2580240228080098,
+            "projected": {
+              "x": 495.8343811035157,
+              "y": 356.23419189453125,
+              "z": 0.9825786052184895,
+              "radius": 17.664839225089054,
+              "frontFacing": true
+            },
+            "ageMs": 90.10000000149012,
+            "lifetimeMs": 6110.805103640173,
+            "opacity": 0.658940000014007,
+            "vertexCount": 2013,
+            "componentId": 0,
+            "registrationError": 0
+          }
+        ],
+        "gpu": {
+          "geometries": 7,
+          "textures": 9
+        }
+      },
+      "lifetimeStart": {
+        "count": 6,
+        "pending": 0,
+        "maxMarks": 6,
+        "created": 9,
+        "disposed": 3,
+        "failed": 0,
+        "rejected": 0,
+        "destroyed": false,
+        "resourcesDisposed": {
+          "geometries": 3,
+          "materials": 3,
+          "textures": 3
+        },
+        "marks": [
+          {
+            "id": 4,
+            "color": "#2266ff",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              1.1639963668588678,
+              0.7293535790487299,
+              3.6220845900409078
+            ],
+            "facing": 0.09959366688618881,
+            "projected": {
+              "x": 631.9911122361912,
+              "y": 297.2951111764415,
+              "z": 0.9825041763565759,
+              "radius": 16.66154175442519,
+              "frontFacing": true
+            },
+            "ageMs": 2685.300000000745,
+            "lifetimeMs": 10625.289323499102,
+            "opacity": 0.94,
+            "vertexCount": 2352,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 5,
+            "color": "#bcff16",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              1.1639963668588678,
+              0.7293535790487299,
+              3.6220845900409078
+            ],
+            "facing": 0.09959366688618881,
+            "projected": {
+              "x": 631.9911122361912,
+              "y": 297.2951111764415,
+              "z": 0.9825041763565759,
+              "radius": 13.343166265857285,
+              "frontFacing": true
+            },
+            "ageMs": 2210,
+            "lifetimeMs": 8960.768248529792,
+            "opacity": 0.94,
+            "vertexCount": 2049,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 6,
+            "color": "#2266ff",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              1.1639963668588678,
+              0.7293535790487299,
+              3.6220845900409078
+            ],
+            "facing": 0.09959366688618881,
+            "projected": {
+              "x": 631.9911122361912,
+              "y": 297.2951111764415,
+              "z": 0.9825041763565759,
+              "radius": 12.471955380171453,
+              "frontFacing": true
+            },
+            "ageMs": 2003.300000000745,
+            "lifetimeMs": 7044.844608286832,
+            "opacity": 0.94,
+            "vertexCount": 2061,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 7,
+            "color": "#8511ff",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              1.1639963668588678,
+              0.7293535790487299,
+              3.6220845900409078
+            ],
+            "facing": 0.09959366688618881,
+            "projected": {
+              "x": 631.9911122361912,
+              "y": 297.2951111764415,
+              "z": 0.9825041763565759,
+              "radius": 14.638910280013965,
+              "frontFacing": true
+            },
+            "ageMs": 1814.5999999977648,
+            "lifetimeMs": 9278.674117161088,
+            "opacity": 0.94,
+            "vertexCount": 2253,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 8,
+            "color": "#2266ff",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              1.1639963668588678,
+              0.7293535790487299,
+              3.6220845900409078
+            ],
+            "facing": 0.09959366688618881,
+            "projected": {
+              "x": 631.9911122361912,
+              "y": 297.2951111764415,
+              "z": 0.9825041763565759,
+              "radius": 16.440403281626235,
+              "frontFacing": true
+            },
+            "ageMs": 1560.300000000745,
+            "lifetimeMs": 9554.904923711423,
+            "opacity": 0.94,
+            "vertexCount": 2400,
+            "componentId": 0,
+            "registrationError": 0
+          },
+          {
+            "id": 9,
+            "color": "#ff3dbb",
+            "localPoint": [
+              -3.6921663652879704,
+              0.3534709883671782,
+              -0.28249999880790655
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "worldPoint": [
+              1.1639963668588678,
+              0.7293535790487299,
+              3.6220845900409078
+            ],
+            "facing": 0.09959366688618881,
+            "projected": {
+              "x": 631.9911122361912,
+              "y": 297.2951111764415,
+              "z": 0.9825041763565759,
+              "radius": 12.332065679787883,
+              "frontFacing": true
+            },
+            "ageMs": 1264.6000000014901,
+            "lifetimeMs": 6110.805103640173,
+            "opacity": 0.94,
+            "vertexCount": 2013,
+            "componentId": 0,
+            "registrationError": 0
+          }
+        ],
+        "gpu": {
+          "geometries": 7,
+          "textures": 9
+        }
+      },
+      "expired": {
+        "count": 0,
+        "pending": 0,
+        "maxMarks": 6,
+        "created": 9,
+        "disposed": 9,
+        "failed": 0,
+        "rejected": 0,
+        "destroyed": false,
+        "resourcesDisposed": {
+          "geometries": 9,
+          "materials": 9,
+          "textures": 9
+        },
+        "marks": [],
+        "gpu": {
+          "geometries": 1,
+          "textures": 3
+        }
+      },
+      "final": {
+        "count": 0,
+        "pending": 0,
+        "maxMarks": 6,
+        "created": 11,
+        "disposed": 11,
+        "failed": 0,
+        "rejected": 0,
+        "destroyed": false,
+        "resourcesDisposed": {
+          "geometries": 11,
+          "materials": 11,
+          "textures": 11
+        },
+        "marks": [],
+        "gpu": {
+          "geometries": 1,
+          "textures": 5
+        }
+      },
+      "errors": []
+    },
+    {
+      "profile": "mobile-390",
+      "hit": {
+        "x": 81.31398389418543,
+        "y": 403.6020313371587,
+        "facing": 0.8922346739632472,
+        "faceIndex": 138,
+        "normal": [
+          0,
+          0,
+          1
+        ]
+      },
+      "initial": {
+        "count": 1,
+        "pending": 0,
+        "maxMarks": 3,
+        "created": 1,
+        "disposed": 0,
+        "failed": 0,
+        "rejected": 0,
+        "destroyed": false,
+        "resourcesDisposed": {
+          "geometries": 0,
+          "materials": 0,
+          "textures": 0
+        },
+        "marks": [
+          {
+            "id": 1,
+            "color": "#2266ff",
+            "localPoint": [
+              -3.781045531734566,
+              0.6252620377774853,
+              0.2824999988079072
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.330921906540589,
+              0.5390481063115626,
+              1.3637494162860917
+            ],
+            "facing": 0.8922346778918914,
+            "projected": {
+              "x": 81.3139801025385,
+              "y": 403.6020202636719,
+              "z": 0.9962306762114095,
+              "radius": 15.358880362012263,
+              "frontFacing": true
+            },
+            "ageMs": 113,
+            "lifetimeMs": 11933.210485744763,
+            "opacity": 0.94,
+            "vertexCount": 2037,
+            "componentId": 0,
+            "registrationError": 0
+          }
+        ],
+        "gpu": {
+          "geometries": 2,
+          "textures": 4
+        }
+      },
+      "raster": {
+        "label": "mobile-390",
+        "before": {
+          "id": 1,
+          "color": "#2266ff",
+          "localPoint": [
+            -3.781045531734566,
+            0.6252620377774853,
+            0.2824999988079072
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "worldPoint": [
+            -3.330921906540589,
+            0.5390481063115626,
+            1.3637494162860917
+          ],
+          "facing": 0.8922346778918914,
+          "projected": {
+            "x": 81.3139801025385,
+            "y": 403.6020202636719,
+            "z": 0.9962306762114095,
+            "radius": 15.358880362012263,
+            "frontFacing": true
+          },
+          "ageMs": 120.30000000074506,
+          "lifetimeMs": 11933.210485744763,
+          "opacity": 0.94,
+          "vertexCount": 2037,
+          "componentId": 0,
+          "registrationError": 0
+        },
+        "after": {
+          "id": 1,
+          "color": "#2266ff",
+          "localPoint": [
+            -3.781045531734566,
+            0.6252620377774853,
+            0.2824999988079072
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "worldPoint": [
+            -3.330921906540589,
+            0.5390481063115626,
+            1.3637494162860917
+          ],
+          "facing": 0.8922346778918914,
+          "projected": {
+            "x": 81.3139801025385,
+            "y": 403.6020202636719,
+            "z": 0.9962306762114095,
+            "radius": 15.358880362012263,
+            "frontFacing": true
+          },
+          "ageMs": 355.0999999977648,
+          "lifetimeMs": 11933.210485744763,
+          "opacity": 0.94,
+          "vertexCount": 2037,
+          "componentId": 0,
+          "registrationError": 0
+        },
+        "radius": 29.574208579219622,
+        "coloredPixels": 197,
+        "maximumChroma": 168,
+        "centroid": {
+          "x": 79.15736040609137,
+          "y": 404.7664974619289
+        },
+        "centroidToAnchor": 2.4509213900825597
+      },
+      "final": {
+        "count": 1,
+        "pending": 0,
+        "maxMarks": 3,
+        "created": 1,
+        "disposed": 0,
+        "failed": 0,
+        "rejected": 0,
+        "destroyed": false,
+        "resourcesDisposed": {
+          "geometries": 0,
+          "materials": 0,
+          "textures": 0
+        },
+        "marks": [
+          {
+            "id": 1,
+            "color": "#2266ff",
+            "localPoint": [
+              -3.781045531734566,
+              0.6252620377774853,
+              0.2824999988079072
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.27754884528624,
+              0.9925892562992826,
+              1.3615777365273998
+            ],
+            "facing": 0.8955135244224091,
+            "projected": {
+              "x": 83.14182384438668,
+              "y": 271.12431145275644,
+              "z": 0.9962309588271075,
+              "radius": 15.360563842293518,
+              "frontFacing": true
+            },
+            "ageMs": 1882.3999999985099,
+            "lifetimeMs": 11933.210485744763,
+            "opacity": 0.94,
+            "vertexCount": 2037,
+            "componentId": 0,
+            "registrationError": 0
+          }
+        ],
+        "gpu": {
+          "geometries": 2,
+          "textures": 4
+        }
+      },
+      "errors": []
+    },
+    {
+      "profile": "mobile-320",
+      "hit": {
+        "x": 67.02608543828379,
+        "y": 406.95390000318037,
+        "facing": 0.8890543187192315,
+        "faceIndex": 138,
+        "normal": [
+          0,
+          0,
+          1
+        ]
+      },
+      "initial": {
+        "count": 1,
+        "pending": 0,
+        "maxMarks": 3,
+        "created": 1,
+        "disposed": 0,
+        "failed": 0,
+        "rejected": 0,
+        "destroyed": false,
+        "resourcesDisposed": {
+          "geometries": 0,
+          "materials": 0,
+          "textures": 0
+        },
+        "marks": [
+          {
+            "id": 1,
+            "color": "#bcff16",
+            "localPoint": [
+              -3.7910179022884187,
+              0.6270990978454343,
+              0.2824999988079214
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.340474821364515,
+              0.5405941918609423,
+              1.3667783438186392
+            ],
+            "facing": 0.8890543226847559,
+            "projected": {
+              "x": 67.02608489990195,
+              "y": 406.9538879394533,
+              "z": 0.9971724114662132,
+              "radius": 12.765305310268015,
+              "frontFacing": true
+            },
+            "ageMs": 115.40000000223517,
+            "lifetimeMs": 9463.514099020329,
+            "opacity": 0.94,
+            "vertexCount": 1893,
+            "componentId": 0,
+            "registrationError": 0
+          }
+        ],
+        "gpu": {
+          "geometries": 2,
+          "textures": 4
+        }
+      },
+      "raster": {
+        "label": "mobile-320",
+        "before": {
+          "id": 1,
+          "color": "#bcff16",
+          "localPoint": [
+            -3.7910179022884187,
+            0.6270990978454343,
+            0.2824999988079214
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "worldPoint": [
+            -3.340474821364515,
+            0.5405941918609423,
+            1.3667783438186392
+          ],
+          "facing": 0.8890543226847559,
+          "projected": {
+            "x": 67.02608489990195,
+            "y": 406.9538879394533,
+            "z": 0.9971724114662132,
+            "radius": 12.765305310268015,
+            "frontFacing": true
+          },
+          "ageMs": 121.30000000074506,
+          "lifetimeMs": 9463.514099020329,
+          "opacity": 0.94,
+          "vertexCount": 1893,
+          "componentId": 0,
+          "registrationError": 0
+        },
+        "after": {
+          "id": 1,
+          "color": "#bcff16",
+          "localPoint": [
+            -3.7910179022884187,
+            0.6270990978454343,
+            0.2824999988079214
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ],
+          "worldPoint": [
+            -3.340474821364515,
+            0.5405941918609423,
+            1.3667783438186392
+          ],
+          "facing": 0.8890543226847559,
+          "projected": {
+            "x": 67.02608489990195,
+            "y": 406.9538879394533,
+            "z": 0.9971724114662132,
+            "radius": 12.765305310268015,
+            "frontFacing": true
+          },
+          "ageMs": 433.69999999925494,
+          "lifetimeMs": 9463.514099020329,
+          "opacity": 0.94,
+          "vertexCount": 1893,
+          "componentId": 0,
+          "registrationError": 0
+        },
+        "radius": 25.424488496428825,
+        "coloredPixels": 115,
+        "maximumChroma": 122,
+        "centroid": {
+          "x": 65.61739130434782,
+          "y": 406.2173913043478
+        },
+        "centroidToAnchor": 1.5896052779469847
+      },
+      "final": {
+        "count": 1,
+        "pending": 0,
+        "maxMarks": 3,
+        "created": 1,
+        "disposed": 0,
+        "failed": 0,
+        "rejected": 0,
+        "destroyed": false,
+        "resourcesDisposed": {
+          "geometries": 0,
+          "materials": 0,
+          "textures": 0
+        },
+        "marks": [
+          {
+            "id": 1,
+            "color": "#bcff16",
+            "localPoint": [
+              -3.7910179022884187,
+              0.6270990978454343,
+              0.2824999988079214
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "worldPoint": [
+              -3.2989595985763067,
+              0.8966090726188884,
+              1.3650839314114893
+            ],
+            "facing": 0.8913697180722061,
+            "projected": {
+              "x": 68.18479436330142,
+              "y": 280.04596709406206,
+              "z": 0.9971725581050406,
+              "radius": 12.76609203548367,
+              "frontFacing": true
+            },
+            "ageMs": 1675.4000000022352,
+            "lifetimeMs": 9463.514099020329,
+            "opacity": 0.94,
+            "vertexCount": 1893,
+            "componentId": 0,
+            "registrationError": 0
+          }
+        ],
+        "gpu": {
+          "geometries": 2,
+          "textures": 4
+        }
+      },
+      "errors": []
+    },
+    {
+      "profile": "recorded-real-animation",
+      "samples": [
+        {
+          "baseTime": 0.9334000000000007,
+          "position": [
+            0.40015100411735843,
+            0.22549562840659476,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 10,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  -2.7984645657398985,
+                  0.41198212387310373,
+                  1.9494549738611293
+                ],
+                "facing": 0.71868718117897,
+                "projected": {
+                  "x": 182.8775653333039,
+                  "y": 293.035842629712,
+                  "z": 0.9862701137464223,
+                  "radius": 35.163420613072816,
+                  "frontFacing": true
+                },
+                "ageMs": 760,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 1.3000000000000003,
+          "position": [
+            0.5439283598417868,
+            0.2835851453539887,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 13,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  -2.3135862414708455,
+                  0.27720372463936604,
+                  2.429169210366234
+                ],
+                "facing": 0.4514184116571082,
+                "projected": {
+                  "x": 213.77314126743764,
+                  "y": 302.6871171071036,
+                  "z": 0.9857057987066437,
+                  "radius": 34.45362105528588,
+                  "frontFacing": true
+                },
+                "ageMs": 1166,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 1.7333000000000007,
+          "position": [
+            0.6971115599242922,
+            0.3177479044021821,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 17,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  -1.709901179746053,
+                  0.0984314881319571,
+                  2.867836022588387
+                ],
+                "facing": 0.10632384188754297,
+                "projected": {
+                  "x": 257.4834191940607,
+                  "y": 316.79594745101565,
+                  "z": 0.9851514496780378,
+                  "radius": 31.657772091553777,
+                  "frontFacing": true
+                },
+                "ageMs": 1573.800000000745,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 2.083300000000001,
+          "position": [
+            0.8043372414379705,
+            0.31514003257604006,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 21,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  -1.2237020632840911,
+                  -0.05291291113480073,
+                  3.1333507752827137
+                ],
+                "facing": -0.12870038279650603,
+                "projected": {
+                  "x": 295.76928689498885,
+                  "y": 329.5069389237125,
+                  "z": 0.9847963906492189,
+                  "radius": 27.827276913593522,
+                  "frontFacing": false
+                },
+                "ageMs": 1978.5,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 2.4833000000000007,
+          "position": [
+            0.9056319337368807,
+            0.27933942417318075,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 25,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  -0.6894177467700456,
+                  -0.2247574502510677,
+                  3.356783628675968
+                ],
+                "facing": -0.28727125684024,
+                "projected": {
+                  "x": 340.1731867787003,
+                  "y": 344.5041715407875,
+                  "z": 0.98448530644129,
+                  "radius": 21.902397911805583,
+                  "frontFacing": false
+                },
+                "ageMs": 2384.5,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 2.9333000000000005,
+          "position": [
+            0.9891554073533674,
+            0.20225630174431047,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 30,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  -0.1304654924187908,
+                  -0.402595799399371,
+                  3.5280159365246635
+                ],
+                "facing": -0.28964304699847165,
+                "projected": {
+                  "x": 388.5127697429402,
+                  "y": 360.44776908042815,
+                  "z": 0.9842388635501532,
+                  "radius": 13.777430487019656,
+                  "frontFacing": false
+                },
+                "ageMs": 2792.400000002235,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 3.349900000000001,
+          "position": [
+            1.035288503143196,
+            0.10526264367175,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 33,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  0.3434104188990794,
+                  -0.5336193799529921,
+                  3.6303481855420414
+                ],
+                "facing": -0.14488222348721283,
+                "projected": {
+                  "x": 430.5032476528333,
+                  "y": 372.3984573655028,
+                  "z": 0.9840881118196854,
+                  "radius": 5.661162976477933,
+                  "frontFacing": false
+                },
+                "ageMs": 3197,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 3.7666000000000004,
+          "position": [
+            1.0499746165325121,
+            -0.004450027272134735,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 37,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  0.7846856591302847,
+                  -0.6102393433078823,
+                  3.691738688679621
+                ],
+                "facing": 0.0753790237681967,
+                "projected": {
+                  "x": 470.0699706839408,
+                  "y": 379.49246127826973,
+                  "z": 0.9839963910835943,
+                  "radius": 3.5982289937892724,
+                  "frontFacing": true
+                },
+                "ageMs": 3603.900000002235,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 4.1499000000000015,
+          "position": [
+            1.0353031728883382,
+            -0.10521200950234703,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 41,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  1.1795247773162023,
+                  -0.6156184197124183,
+                  3.7128128012423764
+                ],
+                "facing": 0.2685664186549054,
+                "projected": {
+                  "x": 505.5205133798819,
+                  "y": 380.07334219970494,
+                  "z": 0.9839646798710895,
+                  "radius": 10.668261218128881,
+                  "frontFacing": true
+                },
+                "ageMs": 4010.5,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 4.566500000000001,
+          "position": [
+            0.9891849129004848,
+            -0.20221475002929615,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 45,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  1.6202134910346173,
+                  -0.5404195912115615,
+                  3.68153689249686
+                ],
+                "facing": 0.3876737686294658,
+                "projected": {
+                  "x": 544.5522334725533,
+                  "y": 373.21516383749605,
+                  "z": 0.9840117006513861,
+                  "radius": 18.110387738628678,
+                  "frontFacing": true
+                },
+                "ageMs": 4415.900000002235,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 4.8998,
+          "position": [
+            0.930554508575146,
+            -0.26273714356217165,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 48,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  1.9929956752331206,
+                  -0.4213105024759314,
+                  3.59337817785295
+                ],
+                "facing": 0.37505716022306157,
+                "projected": {
+                  "x": 576.4645956726243,
+                  "y": 362.30383783364164,
+                  "z": 0.9841428803249576,
+                  "radius": 23.505444303837507,
+                  "frontFacing": true
+                },
+                "ageMs": 4821.699999999255,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.94,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 5.349799999999999,
+          "position": [
+            0.8229327663169231,
+            -0.31153300116861327,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 52,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  2.5215983146879988,
+                  -0.19603669097370338,
+                  3.3417793806511376
+                ],
+                "facing": 0.19165944065235313,
+                "projected": {
+                  "x": 618.5450978103319,
+                  "y": 341.9903578828188,
+                  "z": 0.9845065628706878,
+                  "radius": 29.583175304027737,
+                  "frontFacing": true
+                },
+                "ageMs": 5246.5,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.9399148543265122,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 5.7830999999999975,
+          "position": [
+            0.691701146671927,
+            -0.3171972398014827,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0.6856733507164113,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 56,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  3.0233424118611483,
+                  0.055237981181994855,
+                  2.913937969222119
+                ],
+                "facing": -0.1215422336783484,
+                "projected": {
+                  "x": 652.9319585317554,
+                  "y": 320.3788063466151,
+                  "z": 0.9850908978133706,
+                  "radius": 33.55734160625016,
+                  "frontFacing": false
+                },
+                "ageMs": 5649.900000002235,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.9015105640603026,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 6.133099999999997,
+          "position": [
+            0.5688798815302565,
+            -0.2914446066463995,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0.9753978788444145,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 59,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  3.3795076013692738,
+                  0.2517348565236196,
+                  2.423142868899686
+                ],
+                "facing": -0.4098820967089381,
+                "projected": {
+                  "x": 671.8978181952436,
+                  "y": 304.74670682062305,
+                  "z": 0.9857131499391841,
+                  "radius": 35.11917506687284,
+                  "frontFacing": false
+                },
+                "ageMs": 6060.400000002235,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.8274803520247634,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 6.583099999999996,
+          "position": [
+            0.3934320737846999,
+            -0.2223356708746718,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0.8248115660195876,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 63,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  3.705358082823192,
+                  0.45760574660683806,
+                  1.6233050395055564
+                ],
+                "facing": -0.7363290029753604,
+                "projected": {
+                  "x": 680.5964441084558,
+                  "y": 290.34679174552514,
+                  "z": 0.9866310675871868,
+                  "radius": 35.02363957407663,
+                  "frontFacing": false
+                },
+                "ageMs": 6468.300000000745,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.6919956059273243,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        },
+        {
+          "baseTime": 6.933099999999997,
+          "position": [
+            0.2469989654258796,
+            -0.14632696917080645,
+            0
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "isDragging": false,
+          "revealOpacity": 0.4304808298915879,
+          "xrayAmount": 0,
+          "camera": {
+            "amount": 0,
+            "position": [
+              0,
+              0,
+              15.234901950356372
+            ],
+            "fov": 35
+          },
+          "pixelRatio": 1,
+          "qualityName": "desktop",
+          "frameCount": 66,
+          "heroInk": {
+            "count": 1,
+            "pending": 0,
+            "maxMarks": 6,
+            "created": 1,
+            "disposed": 0,
+            "failed": 0,
+            "rejected": 0,
+            "destroyed": false,
+            "resourcesDisposed": {
+              "geometries": 0,
+              "materials": 0,
+              "textures": 0
+            },
+            "marks": [
+              {
+                "id": 1,
+                "color": "#bcff16",
+                "localPoint": [
+                  -3.690016569740569,
+                  0.6084939913837422,
+                  0.28249999880790877
+                ],
+                "normal": [
+                  0,
+                  0,
+                  1
+                ],
+                "worldPoint": [
+                  3.81558369099246,
+                  0.5614812045939059,
+                  0.9113199863062891
+                ],
+                "facing": -0.9057656663754108,
+                "projected": {
+                  "x": 674.5809508843221,
+                  "y": 284.59411310384127,
+                  "z": 0.9873619201618776,
+                  "radius": 33.6851062341241,
+                  "frontFacing": false
+                },
+                "ageMs": 6874,
+                "lifetimeMs": 8864.66227213845,
+                "opacity": 0.5670012621838708,
+                "vertexCount": 2148,
+                "componentId": 0,
+                "registrationError": 0
+              }
+            ],
+            "gpu": {
+              "geometries": 2,
+              "textures": 4
+            }
+          }
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "profiles": [
+    "desktop",
+    "mobile-390",
+    "mobile-320",
+    "recorded-real-animation"
+  ],
+  "passed": true,
+  "video": {
+    "path": "artifacts/hero-ink/rotating-surface-ink-short.webm",
+    "startInOriginalSeconds": 6,
+    "durationSeconds": 7.2,
+    "note": "Actual unpaused base animation; startup-only frames trimmed, no altered geometry or timing."
+  }
+}

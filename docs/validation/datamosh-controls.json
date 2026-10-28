@@ -1,0 +1,329 @@
+{
+  "testedAt": "2026-10-25T21:00:06.098Z",
+  "base": "http://127.0.0.1:5173",
+  "reports": [
+    {
+      "width": 1000,
+      "firstSeed": 3561622279,
+      "nextSeed": 3804022547,
+      "idleChangedPixels": 670165,
+      "reproduction": {
+        "changed": 672557,
+        "mismatch": 0,
+        "materialControls": {
+          "organicDecay": 727438,
+          "colorVariation": 477618,
+          "voidCoverage": 162342,
+          "bleachCoverage": 491971,
+          "blockSize": 254705
+        },
+        "count": 760000,
+        "seed": 6831
+      },
+      "pointer": {
+        "radius25": {
+          "pixels": 2831,
+          "outside": 0,
+          "count": 760000,
+          "radius": 25,
+          "cellSize": 28,
+          "regions": 0,
+          "memory": {
+            "cells": 1008,
+            "columns": 36,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 2,
+            "byKind": {
+              "cursor": 2
+            },
+            "energy": 0.0005648105705682411,
+            "maxEnergy": 0.22646141037203413,
+            "movingCells": 4,
+            "heldCells": 4
+          },
+          "advectedBlocks": 11553
+        },
+        "radius45": {
+          "pixels": 6662,
+          "outside": 0,
+          "count": 760000,
+          "radius": 45,
+          "cellSize": 28,
+          "regions": 0,
+          "memory": {
+            "cells": 1008,
+            "columns": 36,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 1,
+            "byKind": {
+              "cursor": 1
+            },
+            "energy": 0.0014345815833575104,
+            "maxEnergy": 0.3216052602052751,
+            "movingCells": 9,
+            "heldCells": 9
+          },
+          "advectedBlocks": 11562
+        }
+      },
+      "visual": {
+        "dark": 185419,
+        "light": 61151,
+        "changed": 734033,
+        "count": 760000
+      },
+      "renderer": {
+        "active": true,
+        "queued": false,
+        "regions": 0,
+        "frames": 15,
+        "maximumBlocks": 160,
+        "pendingImpulses": 0,
+        "receivedImpulses": 13,
+        "paintedBlocks": 0,
+        "reconstructedBlocks": 0,
+        "sharedInputs": 19,
+        "rememberedSurfaces": 0,
+        "drawMs": [
+          0.30000000074505806,
+          0.3999999985098839,
+          0.10000000149011612,
+          0,
+          0.19999999925494194,
+          0.20000000298023224,
+          0.09999999776482582,
+          0,
+          0.10000000149011612,
+          2.100000001490116,
+          0.19999999925494194,
+          0.09999999776482582,
+          0.20000000298023224,
+          2.100000001490116,
+          0.10000000149011612
+        ],
+        "source": "http://127.0.0.1:5173/assets/living-decay-material.webp",
+        "quality": {
+          "width": 620,
+          "height": 420,
+          "pixelRatio": 1,
+          "framesPerSecond": 30,
+          "maximumBlocks": 160,
+          "minimumBlocks": 40,
+          "maximumPhotoDimension": 1024
+        },
+        "ambient": {
+          "active": true,
+          "queued": true,
+          "frames": 46,
+          "elapsed": 1.278,
+          "seed": 3804022547,
+          "regenerations": 17,
+          "width": 1000,
+          "height": 760,
+          "framesPerSecond": 6,
+          "quality": "desktop",
+          "drawMs": [
+            443,
+            1389.199999999255,
+            720.8000000007451,
+            631.8000000007451,
+            613.5,
+            601.5,
+            675.3000000007451,
+            555.6000000014901,
+            276.6000000014901,
+            239.69999999925494,
+            249.39999999850988,
+            283.1000000014901,
+            279.69999999925494,
+            325.6000000014901,
+            455.3999999985099,
+            317.5,
+            331.20000000298023,
+            359.19999999925494,
+            325.20000000298023,
+            364.19999999925494,
+            328.5999999977648,
+            346.80000000074506,
+            346.5999999977648,
+            312,
+            356.1000000014901,
+            386.80000000074506,
+            339.19999999925494,
+            410.3999999985099,
+            7.300000000745058,
+            312.69999999925494,
+            7.5,
+            313.4000000022352,
+            11.199999999254942,
+            10.300000000745058,
+            10.300000000745058,
+            8.900000002235174,
+            8.699999999254942,
+            9,
+            8.899999998509884,
+            8.799999997019768,
+            474.30000000074506,
+            1.699999999254942,
+            1.6000000014901161,
+            324.5,
+            1032.7000000029802,
+            1102
+          ],
+          "preparationMs": 316.30000000074506,
+          "viewport": {
+            "width": 1000,
+            "height": 760
+          },
+          "settings": {
+            "seed": null,
+            "idleIntensity": 0.45,
+            "mutationSpeed": 0.22,
+            "scrollStrength": 1.15,
+            "scrollInertia": 0.72,
+            "scrollMosh": 1.1,
+            "sectionMosh": 0.9,
+            "typographyMosh": 0.8,
+            "heroMosh": 1.35,
+            "cursorRadius": 35,
+            "cursorMosh": 1.25,
+            "hoverMosh": 1.1,
+            "clickMosh": 1.4,
+            "navigationMosh": 1.25,
+            "feedbackPersistence": 0.96,
+            "pixelDisplacement": 1.35,
+            "colorBleeding": 0.55,
+            "negativeExposure": 0.14,
+            "recoverySpeed": 0.8,
+            "parallaxStrength": 0.4,
+            "modeTransitionMs": 950,
+            "navigationTransitionMs": 340,
+            "blockSize": 28,
+            "organicDecay": 1.15,
+            "colorVariation": 1.15,
+            "voidCoverage": 0.34,
+            "bleachCoverage": 0.3
+          },
+          "composition": {
+            "seed": 3804022547,
+            "source": {
+              "scale": 1.4444463286153042,
+              "x": 0.759961579926312,
+              "y": 0.7924803479108959,
+              "angle": 0.13713136638980358,
+              "flip": -1
+            },
+            "flow": {
+              "x": 0.9876521723766944,
+              "y": -0.15666265157846723,
+              "speed": 0.634681581100449,
+              "curl": 0.9458583178929985
+            },
+            "tint": {
+              "violet": 1.0009382314048707,
+              "green": 0.7436211520805955,
+              "warm": 0.08661287577822804
+            },
+            "field": {
+              "x": 86.87154614832252,
+              "y": 69.60326252970845,
+              "stretch": 1.3821109900251032,
+              "frequency": 1.895577228674665,
+              "voidBias": -0.02746445040218532,
+              "bleachBias": -0.02811127558350563
+            },
+            "controls": {
+              "seed": 3804022547,
+              "idleIntensity": 0.45,
+              "mutationSpeed": 0.22,
+              "scrollStrength": 1.15,
+              "scrollInertia": 0.72,
+              "scrollMosh": 1.1,
+              "sectionMosh": 0.9,
+              "typographyMosh": 0.8,
+              "heroMosh": 1.35,
+              "cursorRadius": 35,
+              "cursorMosh": 1.25,
+              "hoverMosh": 1.1,
+              "clickMosh": 1.4,
+              "navigationMosh": 1.25,
+              "feedbackPersistence": 0.96,
+              "pixelDisplacement": 1.35,
+              "colorBleeding": 0.55,
+              "negativeExposure": 0.14,
+              "recoverySpeed": 0.8,
+              "parallaxStrength": 0.4,
+              "modeTransitionMs": 950,
+              "navigationTransitionMs": 340,
+              "blockSize": 28,
+              "organicDecay": 1.15,
+              "colorVariation": 1.15,
+              "voidCoverage": 0.34,
+              "bleachCoverage": 0.3
+            }
+          },
+          "motion": {
+            "x": 0,
+            "y": 0,
+            "strength": 0
+          },
+          "memory": {
+            "cells": 1008,
+            "columns": 36,
+            "rows": 28,
+            "cellSize": 28,
+            "accepted": 15,
+            "byKind": {
+              "mode": 6,
+              "section": 1,
+              "idle": 8
+            },
+            "energy": 0.5725205479883462,
+            "maxEnergy": 0.5848524421703871,
+            "movingCells": 999,
+            "heldCells": 407
+          },
+          "parallax": {
+            "x": 0,
+            "y": 0,
+            "offsetX": 0,
+            "offsetY": 0,
+            "sourceX": 150,
+            "sourceY": 114,
+            "strength": 0.4
+          },
+          "advectedBlocks": 15681,
+          "recoveredBlocks": 26208,
+          "carriedSurfaces": 0,
+          "activeFramesPerSecond": 10,
+          "material": {
+            "width": 1000,
+            "height": 760,
+            "codecFragments": 156,
+            "sourceReadback": true
+          }
+        }
+      },
+      "errors": []
+    },
+    {
+      "profile": "calibration-320",
+      "controls": 28,
+      "autoSeeds": [
+        4272712588,
+        2441359817
+      ],
+      "manualSeed": 321,
+      "manualChecksum": 1636751281,
+      "bounds": {
+        "x": 12,
+        "y": 156.8125,
+        "width": 296,
+        "height": 675.1875
+      },
+      "errors": []
+    }
+  ]
+}

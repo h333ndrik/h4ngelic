@@ -1,0 +1,78 @@
+.xray-filter-definitions { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+
+html[data-xray-ready] { transition: background-color var(--xray-duration, 650ms) ease, color var(--xray-duration, 650ms) ease; }
+
+html[data-mode='xray'] {
+  background-color: var(--xray-background, #25142f);
+  color: var(--xray-foreground, #f5e5ed);
+  --ink-color-1: var(--xray-acid, #c9f144);
+  --ink-color-2: var(--xray-violet, #b98be1);
+  --ink-color-3: var(--xray-pink, #ef9fc4);
+  --ink-color-4: var(--xray-cyan, #a4d8ce);
+  --xray-accent: var(--xray-acid, #c9f144);
+}
+
+/* The treatment belongs to media, never the document or its semantic text. */
+html:is([data-mode='xray'], [data-xray-transition]) :is(.project-image img, .artwork-viewer-image, .about-portrait img, .fallback) {
+  filter: url('#h4-xray-treatment');
+}
+html[data-xray-quality='lite']:is([data-mode='xray'], [data-xray-transition]) :is(.project-image img, .artwork-viewer-image, .about-portrait img) {
+  filter: url('#h4-xray-lite');
+}
+/* Animated WebGL handles color within its existing material shader. Keep
+   full-viewport compositing filters away from that continuously changing surface. */
+html[data-xray-quality='lite'][data-mode='xray'] .fallback {
+  filter: invert(.84) sepia(.62) saturate(3.2) hue-rotate(218deg) contrast(1.2);
+}
+
+.xray-distress {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  user-select: none;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  visibility: hidden;
+  mix-blend-mode: normal;
+  transition: opacity var(--xray-duration, 650ms) ease, visibility 0s var(--xray-duration, 650ms);
+}
+html[data-mode='xray'] .xray-distress { opacity: var(--xray-grain, .24); visibility: visible; transition-delay: 0s; }
+html[data-mode='xray'][data-xray-quality='lite'] .xray-distress { opacity: var(--xray-lite-grain, .16); }
+html[data-xray-transition] .xray-distress { visibility: visible; }
+.xray-distress::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #e6d4df;
+  opacity: 0;
+}
+html[data-xray-transition] .xray-distress::after { animation: xray-exposure var(--xray-duration, 650ms) ease-out both; }
+@keyframes xray-exposure {
+  0%, 100% { opacity: 0; }
+  18% { opacity: .11; }
+  46% { opacity: .025; }
+}
+
+html[data-mode='xray'] :is(.section-label, .page-kicker, .page-footer, .project-index, .project-details dt, .project-image figcaption, .archive-empty, .filter-link, .artwork-viewer-caption, .artwork-viewer-count, .artwork-image-error) { color: var(--xray-muted, #c6b4cb); }
+html[data-mode='xray'] :is(.filter-link.is-active, .filter-link:hover, .contact-link:not(.is-unconfigured), .page-nav a[aria-current='page']) { color: var(--xray-foreground, #f5e5ed); }
+html[data-mode='xray'] .contact-link.is-unconfigured { color: #c6b2c5; }
+html[data-mode='xray'] :is(.arrow, [data-xray-toggle][aria-pressed='true']) { color: var(--xray-acid, #c9f144); }
+html[data-mode='xray'] :is(.category-strip, .category-link, .contact-links, .contact-link, .contact-section, .about-preview, .page-footer, .project-meta, .work-filters, .about-references) { border-color: #dac0e642; }
+html[data-mode='xray'] .category-link:hover { background-color: #b98be10b; }
+html[data-mode='xray'] .controls button { color: var(--xray-foreground, #f5e5ed); border-color: #c3a9d2; }
+html[data-mode='xray'] .controls button:hover:not(:disabled) { background-color: #b98be11a; border-color: #ead8ee; }
+html[data-mode='xray'] .artwork-dialog { background-color: #2e1939; color: var(--xray-foreground, #f5e5ed); border-color: #d3b8e452; }
+html[data-mode='xray'] .artwork-dialog::backdrop { background-color: rgb(15 6 21 / 92%); }
+html[data-mode='xray'] .artwork-dialog button:hover { background-color: #c9f1440b; }
+
+/* Grain stays light over UI; these controls retain their ordinary precision. */
+html[data-mode='xray'] :is(a:focus-visible, button:focus-visible, [tabindex='0']:focus-visible) { outline-color: #f4e9f0; }
+html[data-mode='xray'] .skip-link { background-color: #f5e5ed; color: #25142f; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-xray-ready], .xray-distress { transition: none; }
+  .xray-distress::after { animation: none !important; }
+}

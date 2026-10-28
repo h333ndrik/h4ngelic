@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-26T14:54:19.427Z",
+  "method": "Exact exported HTML bytes executed with network rejected; managed browser blocks file:// navigation.",
+  "width": 390,
+  "reducedMotion": false,
+  "events": [
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 950,
+      "variant": 1145217539
+    },
+    {
+      "mode": "normal",
+      "captured": true,
+      "duration": 950,
+      "variant": 1243802897
+    },
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 950,
+      "variant": 1096159196
+    },
+    {
+      "mode": "normal",
+      "captured": true,
+      "duration": 950,
+      "variant": 1394816327
+    }
+  ],
+  "viewTransitionSupported": true,
+  "retainedMaps": 0,
+  "webglContexts": 0,
+  "gray": "rgb(36, 36, 36)",
+  "body": "rgba(0, 0, 0, 0)",
+  "gradient": "linear-gradient(rgb(40, 40, 40) 0%, rgb(36, 36, 36) 50%, rgb(32, 32, 32) 100%)",
+  "runtimeErrors": [],
+  "externalHTTP": [],
+  "rendering": "Chromium ANGLE SwiftShader"
+}

@@ -1,0 +1,97 @@
+{
+  "checkedAt": "2026-10-26T09:45:01.739Z",
+  "reports": [
+    {
+      "name": "desktop",
+      "passed": true,
+      "fixture": "test-only textured box and plane, not supplied mannequin",
+      "initial": {
+        "width": 1000,
+        "height": 612,
+        "magenta": 7400,
+        "red": 0,
+        "neutral": 92600,
+        "centroidX": 499.5
+      },
+      "rotated": {
+        "width": 1000,
+        "height": 612,
+        "magenta": 6494,
+        "red": 0,
+        "neutral": 99430,
+        "centroidX": 520.8170619032953
+      },
+      "restored": {
+        "width": 1000,
+        "height": 612,
+        "magenta": 7400,
+        "red": 0,
+        "neutral": 92600,
+        "centroidX": 499.5
+      },
+      "reducedMotionDraws": 2,
+      "loadedResources": {
+        "draws": 2,
+        "buffers": 8,
+        "textures": 6,
+        "lost": false
+      },
+      "cleanup": [
+        {
+          "draws": 34,
+          "buffers": 0,
+          "textures": 5,
+          "lost": true
+        }
+      ],
+      "contextLossReleasesRendererDefaults": true,
+      "errors": []
+    },
+    {
+      "name": "touch-390",
+      "passed": true,
+      "fixture": "test-only textured box and plane, not supplied mannequin",
+      "initial": {
+        "width": 390,
+        "height": 507,
+        "magenta": 3072,
+        "red": 0,
+        "neutral": 38097,
+        "centroidX": 194.5
+      },
+      "rotated": {
+        "width": 390,
+        "height": 507,
+        "magenta": 2692,
+        "red": 0,
+        "neutral": 41723,
+        "centroidX": 208.36775631500743
+      },
+      "restored": {
+        "width": 390,
+        "height": 507,
+        "magenta": 3072,
+        "red": 0,
+        "neutral": 38097,
+        "centroidX": 194.5
+      },
+      "reducedMotionDraws": 2,
+      "loadedResources": {
+        "draws": 2,
+        "buffers": 8,
+        "textures": 6,
+        "lost": false
+      },
+      "cleanup": [
+        {
+          "draws": 28,
+          "buffers": 0,
+          "textures": 5,
+          "lost": true
+        }
+      ],
+      "contextLossReleasesRendererDefaults": true,
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+/* One typographic system for the three exhibition stages. Static HTML stays
+   complete; scroll-choreography.css progressively adds the pinned timelines. */
+.content-section { padding: clamp(80px, 10vw, 160px) 35px; }
+.selected-work { padding-top: 100px; padding-bottom: 110px; }
+.kinetic-heading {
+  margin: 0 0 clamp(40px, 6vw, 90px);
+  color: #f0efeb;
+  font-size: clamp(32px, 6vw, 88px);
+  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -.045em;
+  overflow: clip;
+}
+.kinetic-heading-text { display: block; }
+/* One uninterrupted charcoal surface: typography/space carry the composition. */
+.selected-work, .category-strip, .category-link, .category-link + .category-link {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.category-link:hover { background: transparent; }
+.category-link > .kinetic-item, .contact-link > .kinetic-item {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  gap: inherit;
+}
+.about-preview { display: block; border: 0; background: transparent; }
+.about-preview > .section-pin {
+  display: block;
+  text-align: left;
+}
+.about-preview .kinetic-heading { font-size: clamp(28px, 4.95vw, 73px); }
+/* The paragraph stays a single natural text flow. Its modest inset gives it
+   room beside the editorial title without recreating the old right column. */
+.about-preview-copy {
+  grid-column: auto;
+  max-width: min(1100px, 100% - clamp(12px, 3vw, 48px));
+  margin: 0 0 18px clamp(12px, 3vw, 48px);
+  text-align: left;
+}
+.about-preview .text-link {
+  grid-column: auto;
+  justify-self: start;
+  margin-left: clamp(12px, 3vw, 48px);
+  font-size: clamp(18px, 1.8vw, 27px);
+  line-height: 1.3;
+  letter-spacing: -.015em;
+  min-height: 44px;
+  text-decoration: none;
+}
+.contact-section { padding-top: 110px; padding-bottom: 110px; border: 0; background: transparent; }
+.contact-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(110px, 1fr));
+  gap: 0;
+  border: 0;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #858580 transparent;
+}
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px));
+  padding: clamp(32px, 6vw, 100px) clamp(4px, 1.2vw, 20px);
+  min-width: 0;
+  white-space: nowrap;
+  font-size: clamp(18px, 5.2vw, 84px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -.045em;
+}
+.contact-link + .contact-link { border-left: 0; }
+.contact-link:not(.is-unconfigured):hover { text-decoration: none; background: transparent; }
+.contact-link:focus-visible { outline-offset: -4px; }
+.hero-nav a { display: inline-flex; min-height: 44px; align-items: center; gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
+/* Small physical hit targets retain their 44px touch height while the visible
+   text and hairline treatment recede beneath the sculpture. */
+.hero .controls {
+  top: auto;
+  right: auto;
+  bottom: 24px;
+  left: 35px;
+  gap: 5px;
+  max-width: calc(50% - 95px);
+  justify-content: flex-start;
+  z-index: 1;
+}
+.hero .controls button {
+  text-transform: lowercase;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: .025em;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid #ffffff30;
+  border-radius: 0;
+}
+.hero .controls button:hover:not(:disabled) { border-color: #ffffff70; background: #ffffff06; }
+.hero .hero-nav { right: 35px; bottom: 24px; min-height: 44px; align-items: center; }
+:is(.hero-nav, .page-nav, .text-link) .category-magnet { gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
+:is(.category-link, .contact-link, .hero-nav a, .page-nav a, .text-link) .arrow {
+  transition: transform 300ms cubic-bezier(.2,.8,.25,1);
+}
+@media (max-width: 700px) {
+  .content-section { padding: 75px 22px; }
+  .selected-work { padding-top: 70px; }
+  .about-preview > .section-pin { display: block; }
+  .about-preview-copy { margin-bottom: 14px; }
+}
+@media (max-width: 800px) {
+  .hero .controls { left: 22px; right: 22px; bottom: 116px; max-width: none; gap: 5px; }
+  .hero .controls button { padding-inline: 8px; font-size: 10px; }
+  .hero .hero-nav { right: 22px; bottom: 64px; gap: clamp(12px, 4vw, 26px); font-size: clamp(14px, 3.8vw, 18px); }
+}

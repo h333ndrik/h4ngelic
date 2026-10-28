@@ -1,0 +1,347 @@
+{
+  "checkedAt": "2026-10-27T21:12:53.993Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": true,
+      "about": {
+        "current": 1,
+        "total": 1,
+        "href": "/",
+        "label": "NAAVI: 01 / 01, about. go to home",
+        "left": 676,
+        "right": 764,
+        "top": 788,
+        "bottom": 832,
+        "center": 720,
+        "text": "01 / 01",
+        "hover": true
+      },
+      "sequence": [
+        {
+          "current": 1,
+          "total": 4,
+          "href": "/#about-preview",
+          "label": "NAAVI: 01 / 04, works. go to about",
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "center": 720,
+          "text": "01 / 04",
+          "hover": true
+        },
+        {
+          "current": 2,
+          "total": 4,
+          "href": "/#contact",
+          "label": "NAAVI: 02 / 04, about. go to contact",
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "center": 720,
+          "text": "02 / 04",
+          "hover": true
+        },
+        {
+          "current": 3,
+          "total": 4,
+          "href": "/#final-secret",
+          "label": "NAAVI: 03 / 04, contact. go to the final h4",
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "center": 720,
+          "text": "03 / 04",
+          "hover": true
+        },
+        {
+          "current": 4,
+          "total": 4,
+          "href": "/",
+          "label": "NAAVI: 04 / 04, the final h4. go to home",
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "center": 720,
+          "text": "04 / 04",
+          "hover": true
+        },
+        {
+          "current": 0,
+          "total": 4,
+          "href": "/#selected-work",
+          "label": "NAAVI: 00 / 04, home. go to works",
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "center": 720,
+          "text": "00 / 04",
+          "hover": true
+        }
+      ],
+      "work": [
+        {
+          "current": 2,
+          "total": 3,
+          "href": "/work#more",
+          "label": "NAAVI: 02 / 03, jewellery. go to more",
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "center": 720,
+          "text": "02 / 03",
+          "hover": true
+        },
+        {
+          "current": 3,
+          "total": 3,
+          "href": "/",
+          "label": "NAAVI: 03 / 03, more. go to home",
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "center": 720,
+          "text": "03 / 03",
+          "hover": true
+        }
+      ],
+      "fieldBottom": 756.21875,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "about": {
+        "current": 1,
+        "total": 1,
+        "href": "/",
+        "label": "NAAVI: 01 / 01, about. go to home",
+        "left": 153,
+        "right": 237,
+        "top": 788,
+        "bottom": 832,
+        "center": 195,
+        "text": "01 / 01",
+        "hover": true
+      },
+      "sequence": [
+        {
+          "current": 1,
+          "total": 4,
+          "href": "/#about-preview",
+          "label": "NAAVI: 01 / 04, works. go to about",
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "center": 195,
+          "text": "01 / 04",
+          "hover": true
+        },
+        {
+          "current": 2,
+          "total": 4,
+          "href": "/#contact",
+          "label": "NAAVI: 02 / 04, about. go to contact",
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "center": 195,
+          "text": "02 / 04",
+          "hover": true
+        },
+        {
+          "current": 3,
+          "total": 4,
+          "href": "/#final-secret",
+          "label": "NAAVI: 03 / 04, contact. go to the final h4",
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "center": 195,
+          "text": "03 / 04",
+          "hover": true
+        },
+        {
+          "current": 4,
+          "total": 4,
+          "href": "/",
+          "label": "NAAVI: 04 / 04, the final h4. go to home",
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "center": 195,
+          "text": "04 / 04",
+          "hover": true
+        },
+        {
+          "current": 0,
+          "total": 4,
+          "href": "/#selected-work",
+          "label": "NAAVI: 00 / 04, home. go to works",
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "center": 195,
+          "text": "00 / 04",
+          "hover": true
+        }
+      ],
+      "work": [
+        {
+          "current": 2,
+          "total": 3,
+          "href": "/work#more",
+          "label": "NAAVI: 02 / 03, jewellery. go to more",
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "center": 195,
+          "text": "02 / 03",
+          "hover": true
+        },
+        {
+          "current": 3,
+          "total": 3,
+          "href": "/",
+          "label": "NAAVI: 03 / 03, more. go to home",
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "center": 195,
+          "text": "03 / 03",
+          "hover": true
+        }
+      ],
+      "fieldBottom": 755.78125,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "about": {
+        "current": 1,
+        "total": 1,
+        "href": "/",
+        "label": "NAAVI: 01 / 01, about. go to home",
+        "left": 118,
+        "right": 202,
+        "top": 788,
+        "bottom": 832,
+        "center": 160,
+        "text": "01 / 01",
+        "hover": true
+      },
+      "sequence": [
+        {
+          "current": 1,
+          "total": 4,
+          "href": "/#about-preview",
+          "label": "NAAVI: 01 / 04, works. go to about",
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "center": 160,
+          "text": "01 / 04",
+          "hover": true
+        },
+        {
+          "current": 2,
+          "total": 4,
+          "href": "/#contact",
+          "label": "NAAVI: 02 / 04, about. go to contact",
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "center": 160,
+          "text": "02 / 04",
+          "hover": true
+        },
+        {
+          "current": 3,
+          "total": 4,
+          "href": "/#final-secret",
+          "label": "NAAVI: 03 / 04, contact. go to the final h4",
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "center": 160,
+          "text": "03 / 04",
+          "hover": true
+        },
+        {
+          "current": 4,
+          "total": 4,
+          "href": "/",
+          "label": "NAAVI: 04 / 04, the final h4. go to home",
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "center": 160,
+          "text": "04 / 04",
+          "hover": true
+        },
+        {
+          "current": 0,
+          "total": 4,
+          "href": "/#selected-work",
+          "label": "NAAVI: 00 / 04, home. go to works",
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "center": 160,
+          "text": "00 / 04",
+          "hover": true
+        }
+      ],
+      "work": [
+        {
+          "current": 2,
+          "total": 3,
+          "href": "/work#more",
+          "label": "NAAVI: 02 / 03, jewellery. go to more",
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "center": 160,
+          "text": "02 / 03",
+          "hover": true
+        },
+        {
+          "current": 3,
+          "total": 3,
+          "href": "/",
+          "label": "NAAVI: 03 / 03, more. go to home",
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "center": 160,
+          "text": "03 / 03",
+          "hover": true
+        }
+      ],
+      "fieldBottom": 755.734375,
+      "errors": []
+    }
+  ]
+}

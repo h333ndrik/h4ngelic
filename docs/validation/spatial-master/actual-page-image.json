@@ -1,0 +1,45 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 700
+  },
+  "limitBytes": 2147483648,
+  "maximumTreeRssBytes": 1028067328,
+  "aborted": null,
+  "clip": {
+    "x": 85,
+    "y": 203,
+    "width": 220,
+    "height": 260
+  },
+  "metadata": {
+    "calls": [
+      {
+        "captured": true,
+        "duration": 1000,
+        "variant": 1947,
+        "kind": "mode",
+        "strength": 1
+      }
+    ],
+    "dialogOpen": true,
+    "image": "/assets/tattoo-texture-640.webp",
+    "dialogName": "none",
+    "filter": "url(\"#h4-mode-snapshot-3-old\")"
+  },
+  "pixels": {
+    "brightBefore": 39328,
+    "brightAfter": 33962,
+    "darkAfter": 2687,
+    "movedOutsideMask": 9817,
+    "changed": 32707,
+    "unexpectedChroma": 0
+  },
+  "restoration": {
+    "changedChannels": 25,
+    "maximumDelta": 1,
+    "meanDelta": 0.0001456876456876457
+  },
+  "passed": true,
+  "finishedAt": "2026-10-26T09:54:44.369Z"
+}

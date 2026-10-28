@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-page="home">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#242424" />
+    <!--seo:start-->
+    <meta name="description" content="h4ngelic — independent tattooing, jewellery and painting. berlin, de." />
+    <title>h4ngelic</title>
+    <!--seo:end-->
+    <link rel="icon" href="/assets/h4ngelic-favicon-normal-r09-16.png" type="image/png" sizes="16x16" data-mode-icon="16" />
+    <link rel="icon" href="/assets/h4ngelic-favicon-normal-r09-32.png" type="image/png" sizes="32x32" data-mode-icon="32" />
+    <link rel="icon" href="/assets/h4ngelic-cursor.svg" type="image/svg+xml" sizes="any" data-mode-icon="svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#page-content">skip to content</a>
+    <main>
+      <!--hero:start-->
+      <section class="hero" id="home-hero" aria-labelledby="page-title" hidden>
+        <header class="masthead">
+          <h1 id="page-title"><a class="hero-brand" href="/">h4ngelic</a></h1>
+          <button class="visitor-hotspot secret-hotspot" type="button" data-visitor-hotspot data-secret-hotspot aria-label="reveal visitor message" aria-describedby="header-visitor-message">
+            <span class="secret-message" data-secret-message data-visit-message id="header-visitor-message">nice to meet you.</span>
+          </button>
+        </header>
+        <div class="stage" id="stage">
+          <div id="fallback" class="fallback" role="img" aria-label="h4ngelic wordmark">h4ngelic</div>
+          <canvas id="logo-canvas" aria-label="Interactive chrome h4ngelic wordmark. Drag to move and spin it. Scroll normally to move the page."></canvas>
+        </div>
+        <div class="hero-bottom">
+          <p id="interaction-hint" class="sr-only">Move to push. Grab to spin.</p>
+        </div>
+        <div class="controls" data-controls role="group" aria-label="Wordmark animation and sound">
+          <button id="reveal-control" type="button" aria-pressed="true">Reveal on</button>
+          <button id="speed-control" type="button" aria-pressed="false">Slow</button>
+          <button id="pause-control" type="button" aria-pressed="false">Pause</button>
+          <button class="mode-mute" type="button" data-mode-mute aria-label="mute transition sounds" aria-pressed="false">sound on</button>
+        </div>
+        <nav class="hero-nav" aria-label="Portfolio">
+          <a href="/work">work <i class="arrow" aria-hidden="true"></i></a>
+          <a href="/about">about <i class="arrow" aria-hidden="true"></i></a>
+          <a href="/#contact">contact <i class="arrow" aria-hidden="true"></i></a>
+        </nav>
+        <p id="scene-status" class="sr-only" role="status" aria-live="polite">Loading the 3D wordmark.</p>
+      </section>
+      <!--hero:end-->
+      <!--content:start--><div id="page-content" tabindex="-1"></div><!--content:end-->
+    </main>
+    <!--naavi:start--><a class="chapter-counter naavi" data-naavi data-chapter-counter data-no-ink data-corruption-protected href="/#selected-work" aria-label="NAAVI: 00 / 04, home. go to works" data-chapter="0" data-chapter-total="4"><span class="chapter-digit-window" aria-hidden="true"><span class="chapter-digit">00</span></span><span class="chapter-total" aria-hidden="true"> / 04</span></a><!--naavi:end-->
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>

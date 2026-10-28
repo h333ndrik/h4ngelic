@@ -1,0 +1,163 @@
+.exhibition-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px 24px;
+  align-items: center;
+}
+.page-footer.exhibition-footer {
+  border: 0;
+  padding-bottom: max(84px, calc(env(safe-area-inset-bottom) + 72px));
+}
+.footer-identity {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: max-content max-content minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(6px, 1vw, 12px);
+  min-width: 0;
+  min-height: 44px;
+  font-size: clamp(10px, 2.75vw, 12px);
+}
+.footer-identity > .footer-brand { grid-column: 1; justify-self: start; white-space: nowrap; }
+.footer-identity > .footer-details { grid-column: 3; justify-self: end; }
+.footer-details { display: flex; align-items: center; gap: clamp(12px, 2vw, 30px); white-space: nowrap; }
+.footer-instagram { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+.footer-instagram:focus-visible { outline-offset: 3px; }
+.footer-identity > .footer-visit-hotspot { grid-column: 2; justify-self: start; margin: 0; font-size: inherit; letter-spacing: inherit; white-space: nowrap; }
+/* VISIT is one shared local counter, visible beside the signature on every
+   route. Its existing memory updater only repaints during route changes. */
+.footer-visit-hotspot .secret-message { opacity: 1; }
+.footer-contact-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
+
+/* These are stationary, discoverable targets, not visible interface ornaments. */
+.secret-hotspot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: .04em;
+  text-align: center;
+  pointer-events: auto;
+}
+.visitor-hotspot {
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  z-index: 1;
+  width: clamp(76px, calc(100vw - 260px), 320px);
+  transform: translateX(-50%);
+  font-size: 16px;
+}
+.secret-message { opacity: 0; transition: opacity 600ms ease-out; pointer-events: none; }
+.secret-message.is-discovered { opacity: .35; }
+.secret-hotspot:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
+.secret-hotspot:not(.footer-secret):focus-visible .secret-message { opacity: 1; transition: none; }
+.visitor-hotspot .secret-message.is-discovered { opacity: .48; }
+.footer-secret .secret-message.is-discovered { opacity: .35; }
+.footer-secret-space { position: relative; min-height: 30svh; }
+.footer-secret {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: calc(100vw - 44px);
+  touch-action: pan-y;
+  -webkit-touch-callout: none;
+  user-select: none;
+  z-index: 3;
+  font-size: clamp(15px, 1.5vw, 21px);
+}
+html[data-mode='xray'] .footer-secret { color: #fff; }
+html[data-mode='xray'] .footer-secret .secret-message {
+  text-shadow: 0 1px 2px #080216, 0 0 6px #080216, 0 0 12px #8011ff, 0 0 24px #8011ff88;
+}
+
+body { position: relative; }
+.ink-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ink-mark {
+  position: absolute;
+  width: var(--ink-size);
+  height: var(--ink-size);
+  color: var(--ink-primary, #bcff16);
+  fill: currentColor;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(var(--ink-angle));
+  pointer-events: none;
+  filter: drop-shadow(0 0 var(--ink-glow, 3px) color-mix(in srgb, currentColor 45%, transparent));
+  animation: ink-imprint var(--ink-lifetime) ease-out both;
+}
+.ink-film { opacity: var(--ink-texture-opacity, .54); }
+.ink-channel { opacity: .52; }
+.ink-mark[data-touch-ink] { filter: drop-shadow(0 0 1px color-mix(in srgb, currentColor 30%, transparent)); }
+.ink-mark[data-touch-ink] .ink-film { opacity: .22; }
+[data-mode='xray'] .ink-mark[data-touch-ink] .ink-film { opacity: .85; }
+.ink-tear {
+  animation: ink-fracture var(--ink-fracture-duration, 480ms) cubic-bezier(.18,.74,.3,1) var(--ink-tear-delay, 0ms) both;
+}
+[data-mode='xray'] .ink-mark {
+  filter: saturate(1.35) drop-shadow(0 0 var(--ink-other-glow, 6px) var(--ink-accent-1, #8511ff));
+}
+[data-mode='xray'] .ink-film { opacity: var(--ink-other-texture-opacity, .79); }
+[data-mode='xray'] .ink-channel { opacity: .95; stroke-width: 1.4px; }
+@keyframes ink-fracture {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(calc(var(--ink-slip, 1) * var(--ink-smear-distance, 13px))); }
+  48% { transform: translateX(calc(var(--ink-slip, 1) * var(--ink-smear-distance, 13px) * -.35)); }
+  100% { transform: translateX(0); }
+}
+@keyframes ink-imprint {
+  0% { opacity: .8; transform: translate(-50%, -50%) rotate(var(--ink-angle)) scale(.82); }
+  8% { opacity: .8; transform: translate(-50%, -50%) rotate(var(--ink-angle)) scale(1); }
+  72% { opacity: .68; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--ink-angle)) scale(1.025); }
+}
+@keyframes ink-fade {
+  0%, 72% { opacity: .7; }
+  100% { opacity: 0; }
+}
+@media (max-width: 600px) {
+  .exhibition-footer { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .secret-hotspot { font-size: 12px; }
+  .footer-secret.secret-hotspot { font-size: 15px; }
+  .visitor-hotspot { top: -11px; }
+  .visitor-hotspot .secret-message {
+    position: absolute;
+    top: 34px;
+    left: 50%;
+    width: min(230px, calc(100vw - 72px));
+    transform: translateX(-50%);
+    font-size: 14px;
+    line-height: 1.25;
+  }
+  .footer-identity { grid-template-columns: max-content minmax(0, 1fr); gap: 0 10px; }
+  .footer-identity > .footer-details { grid-column: 1 / -1; justify-self: start; flex-direction: row; gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .secret-message { transition: none; }
+  .ink-mark { animation-name: ink-fade; }
+  .ink-tear { animation: none; }
+}
+
+@media (max-width: 360px) {
+  .footer-details { flex-direction: column; gap: 0; align-items: flex-end; }
+  .footer-instagram { min-height: 30px; }
+  .footer-identity { font-size: 10px; }
+}

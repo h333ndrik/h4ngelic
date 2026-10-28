@@ -1,0 +1,97 @@
+/* Exact uploaded h4 silhouette: the unchanged fill path and cutouts from the
+   custom cursor, without its cursor-only white outline. Never fixed. */
+.footer-secret-space.end-reveal {
+  position: relative;
+  min-height: clamp(440px, 82svh, 960px);
+  isolation: isolate;
+  overflow: clip;
+  background: transparent;
+  --end-reveal-opacity: 0;
+  --end-reveal-y: 48px;
+  --end-reveal-scale: .96;
+  --end-relief-depth: 0px;
+  --end-relief-edge-x: 0px;
+  --end-relief-edge-y: 0px;
+}
+.end-reveal-mark {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  width: min(64vw, 470px, 42svh);
+  aspect-ratio: 615 / 1006;
+  pointer-events: none;
+  user-select: none;
+  opacity: var(--end-reveal-opacity);
+  transform: translate(-50%, calc(-50% + var(--end-reveal-y))) scale(var(--end-reveal-scale));
+}
+.end-reveal-mark::before,
+.end-reveal-material {
+  position: absolute;
+  inset: 0;
+  -webkit-mask: url('/assets/h4-monogram.svg') center / contain no-repeat;
+  mask: url('/assets/h4-monogram.svg') center / contain no-repeat;
+}
+.end-reveal-mark::before {
+  content: '';
+  /* A neutral impression, not a filled brand overlay. The silhouette's edge
+     separation grows with local scroll depth; the page remains continuous. */
+  background: linear-gradient(140deg, #ffffff04, #00000009 68%, #ffffff02);
+  filter: drop-shadow(calc(0px - var(--end-relief-depth) + var(--end-relief-edge-x)) calc(0px - var(--end-relief-depth) + var(--end-relief-edge-y)) .5px #ffffff15)
+    drop-shadow(calc(var(--end-relief-depth) + var(--end-relief-edge-x)) calc(var(--end-relief-depth) + var(--end-relief-edge-y)) 1px #00000085);
+  opacity: .9;
+}
+.end-reveal-relief {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  /* Source alpha is the exact monogram. Lighting is mapped into the existing
+     charcoal range inside the SVG, avoiding a pale, filled logo or reliance
+     on blending through the section's isolated transparent backdrop. */
+  opacity: .85;
+}
+.end-reveal-material {
+  opacity: 0;
+}
+.end-reveal-material::before {
+  content: '';
+  position: absolute;
+  inset: -14%;
+  background-size: cover;
+  background-position: 40% 45%;
+}
+.end-reveal .footer-secret { top: 48%; }
+/* Image downloading is conditional on the user-entered mode. Normal uses
+   only the small existing vector silhouette, with no background image. */
+html[data-mode='xray'] .end-reveal-material {
+  opacity: .7;
+  filter: contrast(1.12) saturate(.83);
+}
+html[data-mode='xray'] .end-reveal-material::before { background-image: url('/assets/living-decay-material.webp'); }
+html[data-mode='xray'] .end-reveal-mark::before { opacity: .15; }
+html[data-mode='xray'] .end-reveal-relief { opacity: 0; }
+html[data-mode='xray'] .end-reveal[data-end-reveal-active] .end-reveal-material::before {
+  animation: h4-end-material 13s ease-in-out infinite alternate;
+}
+html[data-mode='xray'] .end-reveal .footer-secret .secret-message {
+  text-shadow: 0 1px 2px #07050b, 0 0 8px #07050b, 0 0 18px #07050b;
+}
+/* The existing full-page datamosh captures the actual mark and mode change.
+   This brief split emphasizes its silhouette without changing switch timing. */
+html[data-xray-transition] .end-reveal-material::before { background-position: 61% 34%; }
+@keyframes h4-end-material {
+  0% { transform: translate3d(-2%, 0, 0) scale(1.01); }
+  42% { transform: translate3d(2%, -1%, 0) scale(1.025); }
+  43% { transform: translate3d(1.4%, -.7%, 0) scale(1.025); }
+  100% { transform: translate3d(-.5%, 2%, 0) scale(1.01); }
+}
+@media (max-width: 700px) {
+  .end-reveal-mark { width: min(70vw, 38svh); }
+  html[data-mode='xray'] .end-reveal-material::before { background-image: url('/assets/living-decay-material-mobile.webp'); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .end-reveal-mark { transform: translate(-50%, -50%); }
+  html[data-mode='xray'] .end-reveal[data-end-reveal-active] .end-reveal-material::before { animation: none; }
+}

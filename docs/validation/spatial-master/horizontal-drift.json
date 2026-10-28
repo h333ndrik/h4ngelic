@@ -1,0 +1,199 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "width": 1000,
+      "forward": {
+        "position": 299.714,
+        "travel": 1606,
+        "start": 531,
+        "scroll": 831,
+        "transform": "translate3d(-299.714px, 0px, 0px)"
+      },
+      "reverse": {
+        "position": 180.24,
+        "travel": 1606,
+        "start": 531,
+        "scroll": 711,
+        "transform": "translate3d(-180.24px, 0px, 0px)"
+      },
+      "before": {
+        "position": 0.246,
+        "travel": 1606,
+        "start": 531,
+        "scroll": 531,
+        "transform": "translate3d(-0.246px, 0px, 0px)"
+      },
+      "after": {
+        "position": 0.246,
+        "travel": 1606,
+        "start": 531,
+        "scroll": 531,
+        "transform": "translate3d(-0.246px, 0px, 0px)"
+      },
+      "worlds": {
+        "other": {
+          "position": 0.246,
+          "travel": 1606,
+          "start": 531,
+          "scroll": 531,
+          "transform": "translate3d(-0.246px, 0px, 0px)"
+        },
+        "normal": {
+          "position": 0.246,
+          "travel": 1606,
+          "start": 531,
+          "scroll": 531,
+          "transform": "translate3d(-0.246px, 0px, 0px)"
+        },
+        "sameNode": true
+      },
+      "boundary": {
+        "position": 843.986,
+        "travel": 1606,
+        "start": 531,
+        "scroll": 2317,
+        "transform": "translate3d(-843.986px, 0px, 0px)"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "forward": {
+        "position": 299.808,
+        "travel": 1619,
+        "start": 395.90625,
+        "scroll": 696,
+        "transform": "translate3d(-299.808px, 0px, 0px)"
+      },
+      "reverse": {
+        "position": 180.334,
+        "travel": 1619,
+        "start": 395.90625,
+        "scroll": 576,
+        "transform": "translate3d(-180.334px, 0px, 0px)"
+      },
+      "touch": {
+        "initial": {
+          "position": 160.975,
+          "travel": 1619,
+          "start": 395.90625,
+          "scroll": 556,
+          "transform": "translate3d(-160.975px, 0px, 0px)"
+        },
+        "horizontal": {
+          "position": 281.123,
+          "travel": 1619,
+          "start": 395.90625,
+          "scroll": 710,
+          "transform": "translate3d(-281.123px, 0px, 0px)"
+        },
+        "nativeBefore": {
+          "position": 428.896,
+          "travel": 1619,
+          "start": 395.90625,
+          "scroll": 825,
+          "transform": "translate3d(-428.896px, 0px, 0px)"
+        },
+        "vertical": {
+          "position": 552.734,
+          "travel": 1619,
+          "start": 395.90625,
+          "scroll": 964,
+          "transform": "translate3d(-552.734px, 0px, 0px)"
+        }
+      },
+      "before": {
+        "position": 0.294,
+        "travel": 1619,
+        "start": 395.90625,
+        "scroll": 396,
+        "transform": "translate3d(-0.294px, 0px, 0px)"
+      },
+      "after": {
+        "position": 0.294,
+        "travel": 1619,
+        "start": 395.90625,
+        "scroll": 396,
+        "transform": "translate3d(-0.294px, 0px, 0px)"
+      },
+      "boundary": {
+        "position": 1619,
+        "travel": 1619,
+        "start": 395.90625,
+        "scroll": 2169,
+        "transform": "translate3d(-1619px, 0px, 0px)"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "forward": {
+        "position": 300,
+        "travel": 1429,
+        "start": 445,
+        "scroll": 745,
+        "transform": "translate3d(-300px, 0px, 0px)"
+      },
+      "reverse": {
+        "position": 180,
+        "travel": 1429,
+        "start": 445,
+        "scroll": 625,
+        "transform": "translate3d(-180px, 0px, 0px)"
+      },
+      "touch": {
+        "initial": {
+          "position": 160,
+          "travel": 1429,
+          "start": 445,
+          "scroll": 605,
+          "transform": "translate3d(-160px, 0px, 0px)"
+        },
+        "horizontal": {
+          "position": 314,
+          "travel": 1429,
+          "start": 445,
+          "scroll": 759,
+          "transform": "translate3d(-314px, 0px, 0px)"
+        },
+        "nativeBefore": {
+          "position": 314,
+          "travel": 1429,
+          "start": 445,
+          "scroll": 759,
+          "transform": "translate3d(-314px, 0px, 0px)"
+        },
+        "vertical": {
+          "position": 463,
+          "travel": 1429,
+          "start": 445,
+          "scroll": 908,
+          "transform": "translate3d(-463px, 0px, 0px)"
+        }
+      },
+      "before": {
+        "position": 0,
+        "travel": 1429,
+        "start": 445,
+        "scroll": 445,
+        "transform": "translate3d(0px, 0px, 0px)"
+      },
+      "after": {
+        "position": 0,
+        "travel": 1429,
+        "start": 445,
+        "scroll": 445,
+        "transform": "translate3d(0px, 0px, 0px)"
+      },
+      "boundary": {
+        "position": 1429,
+        "travel": 1429,
+        "start": 445,
+        "scroll": 2028,
+        "transform": "translate3d(-1429px, 0px, 0px)"
+      },
+      "errors": []
+    }
+  ]
+}
