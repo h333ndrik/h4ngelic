@@ -2,12 +2,20 @@
   "sourceCommit": "d0bcb15f5b46dbd1806f731e60a1e61b78109fe2",
   "files": {
     "README.md": {
-      "bytes": 3485,
-      "sha256": "be962a92af93f851fc72935b2a0b5ddab177c34fcc4b63b6a8d121c690989eec"
+      "bytes": 4115,
+      "sha256": "7de36f118a4e30e4a879d4b039a7ac9a56e73d66bb80394f927b918490f92e89"
+    },
+    "backend-adapter.json": {
+      "bytes": 245,
+      "sha256": "1d9b85303916406582b374b014275167acd46c381f57f28cad925324bfef5cdd"
     },
     "build-export.txt": {
       "bytes": 2458,
       "sha256": "0e8317ee77b7d103d4fa4f442fa64dc1c149ea536560562cac2632c7bb13182c"
+    },
+    "delivery-verification.json": {
+      "bytes": 855,
+      "sha256": "08fd084a75743ba32e5bf38cafc225e73e55674083c7c7ecc3040ac1dabf1c49"
     },
     "digital-gallery.txt": {
       "bytes": 612,

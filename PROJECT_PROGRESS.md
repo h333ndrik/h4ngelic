@@ -1,8 +1,8 @@
 # V3 progress — verified implementation and preview
 
-Updated 2026-10-28. Branch: `feat/smart-continuation-v3`, based on `3249099`. Verified UI source: `d0bcb15f5b46dbd1806f731e60a1e61b78109fe2`. Code is committed; tested HTML/ZIP and delivery documentation are being committed separately. Inspect actual Git status before further work.
+Updated 2026-10-28. Branch: `feat/smart-continuation-v3`, based on `3249099`. Verified UI source: `d0bcb15f5b46dbd1806f731e60a1e61b78109fe2`. Implementation and tested artifacts are pushed. Review PR #20 is OPEN against main; final delivery checkpoint follows. Inspect actual Git status before further work.
 
-All approved, available V3 implementation and current checks are complete. Review delivery is next; missing assets/services and a hardware performance review remain explicit below. No launch or main merge occurred. The [full brief](docs/SMART-CONTINUATION-V3.md), [active tracker](PROJECT_PLAN.md) and [35-file evidence set](docs/validation/smart-continuation-v3/README.md) are durable. Earlier foundation evidence stays in history and is not presented as V3 verification.
+All approved, available V3 implementation and current checks are complete. Review is next; missing assets/services and a hardware performance review remain explicit below. No deployment or main merge was performed by this task. The [full brief](docs/SMART-CONTINUATION-V3.md), [active tracker](PROJECT_PLAN.md) and [evidence set](docs/validation/smart-continuation-v3/README.md) are durable. Earlier foundation evidence stays in history and is not presented as V3 verification.
 
 ## Current verification matrix
 
@@ -30,9 +30,9 @@ All approved, available V3 implementation and current checks are complete. Revie
 | V3-20 | DONE: approved unblocked implementation, serial QA and artifact packaging completed. | Source d0bcb15; evidence manifest | PASS | PASS |
 | V3-21 | DONE: existing controllers reused; read-only final review found one footer accessibility issue, now fixed/tested. No added dependencies or competing framework. | Diff review and focused footer tests | PASS | PASS |
 | V3-22 | DONE:348 Node tests, current browser suites, build, production routes and exact offline package pass. | 35 evidence files and SHA-256 manifest | PASS | PASS |
-| V3-23 | DONE: full brief, tracker, results, blockers and exact checkpoint persisted. Review delivery remains next action until GitHub verification. | Four checkpoint files; V3 report/evidence | Not applicable | Not applicable |
+| V3-23 | DONE: full brief, tracker, results, blockers and exact checkpoint persisted. Remote HTML/ZIP and OPEN review PR verified. | Four checkpoint files; V3 report/evidence | Not applicable | Not applicable |
 | V3-24 | DONE: continuation contract is durable; future work starts with actual Git/code reconciliation. | `AGENTS.md`, `NEXT_SESSION.md` | Not applicable | Not applicable |
-| V3-25 | DONE for available implementation; delivery/review checkpoint follows. External content/services and hardware review remain explicit. | Current source/artifact validation | PASS | PASS |
+| V3-25 | DONE for available implementation; delivery complete; review is next. External content/services and hardware review remain explicit. | Current source/artifact validation | PASS | PASS |
 
 ## Verified changes and tests
 
@@ -111,6 +111,10 @@ Read-only final code review found one concrete issue: the visible visit count ha
 - Physical-device mixed-input/native scroll behaviour; emulation is not a physical-device claim.
 - Home hardware performance and paired retained traces before changing the accepted hero; see actual measured results above.
 
-## Exact next step
+## Delivery and exact next step
 
-Commit the tested preview/evidence/checkpoint, push the feature branch and open a review PR against `feat/master-foundation`/PR #18. Verify remote HTML bytes/blob and PR state, then record that delivery checkpoint. No merge, launch, domain, analytics or public soundtrack. After delivery, no approved unblocked implementation remains; resume on new assets/configuration or a concrete new request instead of repeating completed checks.
+Source `d0bcb15` and artifact/evidence commit `b2960e2` are pushed. [PR #20](https://github.com/h333ndrik/h4ngelic/pull/20) is OPEN, ready for review, based on main. GitHub API confirms the 7,768,382-byte HTML blob `9a3f05bdbad801d6b37ae8f4b2a2dee73e777cc2` and ZIP blob/size match local tested files (`delivery-verification.json`).
+
+During delivery, main independently merged the foundation via PR #19 and added `api/inquiry.js` in `5c46828`. Feature merge `ef5dd29` preserves that user addition unchanged; the V3 frontend/export inputs remain identical to the tested source. The adapter passes syntax/module import and actual loopback 405 method rejection. No real mail or deployment was attempted. The task did not merge V3 into main.
+
+Next action: review PR #20 or provide missing genuine assets/configuration. No approved unblocked implementation remains. Do not repeat completed checks or add deferred features merely to continue. For the Home performance uncertainty, obtain a hardware/paired retained-trace comparison before changing the accepted hero. No launch, domain, analytics or soundtrack publication.

@@ -149,3 +149,8 @@ Evidence is `artifacts/smart-continuation-v3/inquiry.json`. Cross-route
 Contact/history verification belongs to the main navigation integration suite.
 All browser and mock-provider checks remain separate from actual live email
 delivery.
+
+
+## Existing serverless adapter
+
+Main added `api/inquiry.js` in commit `5c46828` during V3 review preparation. The feature branch preserves this thin Vercel Node adapter unchanged; it delegates to `server/inquiry.mjs`. Syntax/module import and an actual local HTTP 405 method-rejection probe pass. This does not establish a configured Vercel deployment, provider credentials, verified sender or real message delivery; none was performed by this task.
