@@ -43,14 +43,16 @@ export const easterSettings = {
 export const visitorMessages = [
   'nice to meet you.',
   'you came back.',
-  "twice wasn't enough?",
-  'getting familiar.',
-  "we're practically friends now.",
+  'we’re practically friends now.',
+  "getting familiar, aren't we?",
   'you know your way around here.',
+  'some things are worth returning to.',
+  "you're part of this place now.",
 ];
 
 export function visitorMessage(count) {
-  const index = Number.isSafeInteger(count) && count > 0 ? Math.min(count, visitorMessages.length) - 1 : 0;
+  const visit = Number.isSafeInteger(count) && count > 0 ? count : 1;
+  const index = visit >= 10 ? 6 : visit >= 6 ? 5 : visit - 1;
   return visitorMessages[index];
 }
 

@@ -85,6 +85,14 @@ export function sampleAboutItem(sectionProgress, role, viewportWidth, settings =
   return sampleFlyIn(local, { distance });
 }
 
+/** Major archive headings share About's bounded local approach and native
+ * scroll clock. There is no sticky reservation, launch, overshoot or time loop. */
+export function sampleArchiveHeading(sectionProgress, viewportWidth, settings = motionSettings.about) {
+  const distance = Math.min(settings.maximumCopyDistance,
+    Math.max(0, Number(viewportWidth) || 0) * settings.copyDistanceVw);
+  return sampleFlyIn(sectionProgress, { distance });
+}
+
 /** Empty decorative spans use CSS generated text, keeping real DOM text unique.
  * The echo depends only on progress, so reverse and stopped scroll are exact.
  */

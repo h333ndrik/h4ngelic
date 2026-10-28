@@ -87,7 +87,7 @@ function structuredData(route, metadata, config) {
     inLanguage: seoContent.language, creator: { '@id': personID },
   };
   const page = {
-    '@type': route.kind === 'about' ? 'AboutPage' : route.kind === 'contact' ? 'ContactPage' : route.kind === 'work' ? 'CollectionPage' : 'WebPage',
+    '@type': route.kind === 'about' ? 'AboutPage' : route.kind === 'work' ? 'CollectionPage' : 'WebPage',
     '@id': pageID, url: metadata.canonicalURL, name: metadata.title, description: metadata.description,
     inLanguage: seoContent.language, isPartOf: { '@id': siteID }, about: { '@id': personID },
   };
@@ -98,7 +98,6 @@ function structuredData(route, metadata, config) {
     crumbs.push({ name: route.category, path: categoryURL(route.category) });
   }
   if (route.kind === 'about') crumbs.push({ name: 'about', path: '/about' });
-  if (route.kind === 'contact') crumbs.push({ name: 'contact', path: '/contact' });
   if (route.kind === 'artwork') crumbs.push({ name: cleanText(route.project.title) || route.category, path: route.canonicalPath });
   if (crumbs.length > 1) {
     page.breadcrumb = { '@id': `${metadata.canonicalURL}#breadcrumbs` };
@@ -142,7 +141,7 @@ export function getPageMetadata(route, options = {}) {
       description: cleanText(route.project.seo?.description) || cleanText(route.project.description) || seoContent.categories[route.category]?.description,
     };
   }
-  const contentReady = route.kind === 'home' || route.kind === 'about' || route.kind === 'contact'
+  const contentReady = route.kind === 'home' || route.kind === 'about'
     || (route.kind === 'artwork' && isIndexableProject(route.project))
     || (route.kind === 'work' && projects.some((project) => isIndexableProject(project) && matchesArchive(project, route.category)));
   // Legacy category documents now contain the same connected archive. Retain

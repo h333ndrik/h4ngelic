@@ -35,6 +35,12 @@ export function prerenderHTML(shell, route, metadata = getPageMetadata(route)) {
   return html;
 }
 
+/** Static-host compatibility only; Contact is an anchor of Home, never a
+ * separately rendered regular page or a second inquiry form. */
+export function contactRedirectHTML() {
+  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, follow"><title>contact — h4ngelic</title><noscript><meta http-equiv="refresh" content="0;url=/#contact"></noscript></head><body><a href="/#contact">go to contact</a><script>const artwork = new URLSearchParams(location.search).get("artwork"); location.replace("/" + (artwork ? "?artwork=" + encodeURIComponent(artwork) : "") + "#contact");</script></body></html>';
+}
+
 export function buildSitemap(metadata) {
   const urls = metadata.filter((page) => page.indexable && page.canonicalURL)
     .map((page) => `  <url><loc>${escapeHTML(page.canonicalURL)}</loc></url>`).join('\n');
@@ -65,6 +71,8 @@ export async function prerender({ outDir = resolve(projectRoot, 'dist'), config 
     await writeFile(destination, prerenderHTML(shell, route, metadata));
     pages.push(metadata);
   }
+  await mkdir(resolve(root, 'contact'), { recursive: true });
+  await writeFile(resolve(root, 'contact/index.html'), contactRedirectHTML());
   const missing = resolveRoute('/404');
   await writeFile(resolve(root, '404.html'), prerenderHTML(shell, missing, getPageMetadata(missing, config)));
   const existing = await readFile(resolve(projectRoot, 'public/robots.txt'), 'utf8').catch((error) => {

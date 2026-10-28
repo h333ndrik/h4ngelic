@@ -2,6 +2,8 @@ import { siteContent } from './data/siteContent.js';
 import { artworks } from './data/artworks.js';
 import { contentURL } from './content-utils.js';
 
+export const contactURL = (artworkId = '') => `/${artworkId ? `?artwork=${encodeURIComponent(artworkId)}` : ''}#contact`;
+
 export const categoryURL = (category) => `/work/${encodeURIComponent(category)}`;
 /** New navigation uses one connected Work document; old category URLs remain valid. */
 export const workAnchorURL = (category) => category === 'all' ? '/work' : `/work#${encodeURIComponent(category)}`;
@@ -38,7 +40,7 @@ export function resolveRoute(input) {
   } else if (path === '/about') {
     kind = 'about';
   } else if (path === '/contact') {
-    kind = 'contact';
+    kind = 'home'; canonicalPath = '/';
   } else if (path === '/work') {
     kind = 'work';
     const requested = url.searchParams.get('category');
@@ -54,14 +56,14 @@ export function resolveRoute(input) {
       }
     }
   }
-  const redirectPath = kind !== 'not-found' && (url.pathname !== canonicalPath || (path === '/work' && category !== 'all'))
+  const redirectPath = path === '/contact' ? contactURL(url.searchParams.get('artwork') || '') : kind !== 'not-found' && (url.pathname !== canonicalPath || (path === '/work' && category !== 'all'))
     ? `${canonicalPath}${url.hash}` : undefined;
   return { kind, category, project, path, canonicalPath, redirectPath };
 }
 
 /** Only genuine, published projects can produce detail routes. */
 export function routeDefinitions() {
-  const paths = ['/', '/work', ...new Set([...siteContent.categories, ...siteContent.workGroups].map(({ id }) => categoryURL(id))), '/about', '/contact', ...publishedProjects().map(projectURL)];
+  const paths = ['/', '/work', ...new Set([...siteContent.categories, ...siteContent.workGroups].map(({ id }) => categoryURL(id))), '/about', ...publishedProjects().map(projectURL)];
   if (new Set(paths).size !== paths.length) throw new Error('Published artwork IDs must have unique category URLs.');
   return paths.map((path) => resolveRoute(path));
 }

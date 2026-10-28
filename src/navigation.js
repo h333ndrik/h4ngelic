@@ -36,7 +36,8 @@ export function initNavigation({ render, moshTransitions } = {}) {
     const destination = resolveRoute(location.href);
     const destinationHash = location.hash;
     const fromHash = renderedHash;
-    const enhanced = typeof document.startViewTransition === 'function' && !reduced.matches && !document.hidden;
+    // Anchor navigation scrolls the real document, outside a frozen view snapshot.
+    const enhanced = !options.smoothAnchor && typeof document.startViewTransition === 'function' && !reduced.matches && !document.hidden;
     let artwork = prepareArtworkTransition(destination, trigger, { animate: enhanced, fromHash });
     sharedArtwork = artwork;
     const commit = async () => {
@@ -93,7 +94,7 @@ export function initNavigation({ render, moshTransitions } = {}) {
     const destination = route.redirectPath || `${url.pathname}${url.search}${url.hash}`;
     history.pushState({ h4NavigationKey: key }, '', destination);
     positions.set(key, [0, 0]);
-    update({ reset: true, restoreScroll }, anchor);
+    update({ reset: true, restoreScroll, smoothAnchor: Boolean(url.hash || route.redirectPath?.includes('#contact')) }, anchor);
   }
 
   function pop(event) {

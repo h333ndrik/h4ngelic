@@ -60,19 +60,52 @@ export function synthesizeModeSound(mode, { sampleRate = 48000, settings = modeA
 /** Lazy Web Audio: nothing is allocated until a trusted gesture primes it.
  * A denied/suspended audio context never prevents the visual mode change.
  */
-export function createModeAudio({ view = window, settings = modeAudioSettings } = {}) {
+export function createModeAudio({ view = window, settings = modeAudioSettings, privateURL = view.__H4_PRIVATE_SMASH_URL__ || '' } = {}) {
   const AudioContext = view.AudioContext || view.webkitAudioContext;
   const buffers = new Map();
   const voices = new Set();
   let context = null;
   let master = null;
+  let cueBus = null;
+  let smashBus = null;
   let compressor = null;
   let active = null;
   let muted = !settings.enabled;
+  const maximumVolume = Math.max(.01, Math.min(.5, settings.maximumVolume || .5));
+  let volume = Math.max(0, Math.min(1, settings.volume / maximumVolume));
+  try {
+    const saved = JSON.parse(view.localStorage?.getItem(settings.preferenceKey) || 'null');
+    if (typeof saved?.muted === 'boolean') muted = saved.muted;
+    if (Number.isFinite(saved?.volume)) volume = Math.max(0, Math.min(1, saved.volume));
+  } catch { /* Private browsing/storage denial leaves safe local defaults. */ }
+  const subscribers = new Set();
+  let media = null;
+  let mediaSource = null;
+  let smashActive = false;
+  let smashRequest = 0;
   let disposed = false;
   let failed = false;
   let resume = null;
   let latestStop = 0;
+
+  function notify() { for (const listener of subscribers) listener(); }
+  function save() {
+    try { view.localStorage?.setItem(settings.preferenceKey, JSON.stringify({ muted, volume })); } catch { /* Storage is optional. */ }
+    notify();
+  }
+  function ramp(param, value, seconds = settings.volumeFadeSeconds || .04) {
+    if (!context || !param) return;
+    const now = context.currentTime;
+    param.cancelScheduledValues(now);
+    param.setValueAtTime(param.value, now);
+    param.linearRampToValueAtTime(value, now + seconds);
+  }
+  function updateMaster() { ramp(master?.gain, muted ? 0 : volume * maximumVolume); }
+  function releasePriority() {
+    smashActive = false;
+    ramp(cueBus?.gain, 1, settings.priorityFadeSeconds || .08);
+    notify();
+  }
 
   function cleanVoice(voice) {
     if (!voices.has(voice)) return;
@@ -106,13 +139,18 @@ export function createModeAudio({ view = window, settings = modeAudioSettings } 
     return buffer;
   }
 
-  function prime(event) {
-    if (disposed || muted || failed || !AudioContext || event?.isTrusted !== true) return Promise.resolve(false);
+  function prime(event, { allowMuted = false } = {}) {
+    if (disposed || (muted && !allowMuted) || failed || !AudioContext || event?.isTrusted !== true) return Promise.resolve(false);
     try {
       if (!context) {
         context = new AudioContext({ latencyHint: 'interactive' });
         master = context.createGain();
-        master.gain.value = Math.max(0, Math.min(.5, settings.volume));
+        master.gain.value = muted ? 0 : volume * maximumVolume;
+        cueBus = context.createGain();
+        cueBus.connect(master);
+        smashBus = context.createGain();
+        smashBus.gain.value = .85;
+        smashBus.connect(master);
         compressor = context.createDynamicsCompressor();
         compressor.threshold.value = -16;
         compressor.knee.value = 10;
@@ -133,14 +171,14 @@ export function createModeAudio({ view = window, settings = modeAudioSettings } 
   }
 
   function play(mode) {
-    if (disposed || muted || failed || !context || context.state !== 'running' || !['normal', 'xray'].includes(mode)) return false;
+    if (disposed || muted || smashActive || failed || !context || context.state !== 'running' || !['normal', 'xray'].includes(mode)) return false;
     try {
       const available = stop();
       const source = context.createBufferSource();
       const gain = context.createGain();
       source.buffer = bufferFor(mode);
       source.connect(gain);
-      gain.connect(master);
+      gain.connect(cueBus);
       const started = Math.max(context.currentTime, available, latestStop);
       const voice = { source, gain, started };
       source.onended = () => cleanVoice(voice);
@@ -151,17 +189,66 @@ export function createModeAudio({ view = window, settings = modeAudioSettings } 
     } catch { return false; }
   }
 
+  function stopSmash() {
+    smashRequest++;
+    if (media) {
+      media.pause();
+      try { media.currentTime = 0; } catch { /* Metadata may not yet be loaded. */ }
+    }
+    releasePriority();
+  }
+
+  function toggleSmash(event) {
+    if (smashActive) { stopSmash(); return Promise.resolve(false); }
+    if (disposed || !privateURL || !view.Audio || event?.isTrusted !== true) return Promise.resolve(false);
+    // Both resume() and play() are called in the original gesture. No network,
+    // media element or AudioContext is created merely by rendering the footer.
+    const ready = prime(event, { allowMuted: true });
+    if (!context || failed) return Promise.resolve(false);
+    const request = ++smashRequest;
+    try {
+      if (!media) {
+        media = new view.Audio();
+        media.preload = 'none';
+        media.src = privateURL;
+        mediaSource = context.createMediaElementSource(media);
+        mediaSource.connect(smashBus);
+        media.onended = () => { if (smashActive) { smashRequest++; releasePriority(); } };
+        media.onerror = () => { if (smashActive) stopSmash(); };
+      }
+      media.currentTime = 0;
+      stop();
+      smashActive = true;
+      ramp(cueBus.gain, 0, settings.priorityFadeSeconds || .08);
+      notify();
+      const playing = Promise.resolve(media.play());
+      return Promise.all([ready, playing]).then(([resumed]) => {
+        if (disposed || request !== smashRequest) return false;
+        if (!resumed) { stopSmash(); return false; }
+        return true;
+      }, () => { if (request === smashRequest) stopSmash(); return false; });
+    } catch { if (request === smashRequest) stopSmash(); return Promise.resolve(false); }
+  }
+
   return {
     prime,
     play,
     stop,
+    toggleSmash,
+    stopSmash,
     get supported() { return Boolean(AudioContext) && !failed; },
     get muted() { return muted; },
-    setMuted(value) { muted = Boolean(value); if (muted) stop(); },
-    snapshot: () => ({ initialized: Boolean(context), state: context?.state || 'uninitialized', muted, active: Boolean(active), allocatedVoices: voices.size }),
+    get volume() { return volume; },
+    get smashAvailable() { return Boolean(privateURL && view.Audio && AudioContext) && !failed; },
+    get smashPlaying() { return smashActive; },
+    setMuted(value) { muted = Boolean(value); if (muted) stop(); updateMaster(); save(); },
+    setVolume(value) { if (!Number.isFinite(value)) return; volume = Math.max(0, Math.min(1, value)); updateMaster(); save(); },
+    subscribe(listener) { subscribers.add(listener); return () => subscribers.delete(listener); },
+    snapshot: () => ({ initialized: Boolean(context), state: context?.state || 'uninitialized', muted, volume, active: Boolean(active), allocatedVoices: voices.size, smashAvailable: Boolean(privateURL && view.Audio && AudioContext) && !failed, smashPlaying: smashActive }),
     dispose() {
       if (disposed) return;
       disposed = true;
+      stopSmash();
       stop();
       for (const voice of voices) {
         try { voice.source.stop(); } catch { /* An already-ended source is harmless. */ }
@@ -169,6 +256,11 @@ export function createModeAudio({ view = window, settings = modeAudioSettings } 
       }
       buffers.clear();
       master?.disconnect();
+      cueBus?.disconnect();
+      smashBus?.disconnect();
+      mediaSource?.disconnect();
+      if (media) { media.onended = null; media.onerror = null; media.removeAttribute?.('src'); media.load?.(); }
+      subscribers.clear();
       compressor?.disconnect();
       try { Promise.resolve(context?.close()).catch(() => {}); } catch { /* Closing audio must not interrupt page cleanup. */ }
     },

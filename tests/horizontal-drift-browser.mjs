@@ -199,26 +199,67 @@ try {
     }
     assert.equal(await page.locator('.artwork-dialog[open]').count(), 0, 'A drag or native vertical swipe must not click an artwork.');
 
-    // Select a middle work, not merely the first image, to prove exact native
-    // horizontal position survives both a detail image and close animation.
+    assert.equal(await section(page).locator('.drift-artwork.is-drift-expanded').count(), 0,
+      'A horizontal drag or vertical swipe must not enlarge an artwork.');
+
+    // A middle image grows around its own centre, retaining every layout slot,
+    // scroll offset and neighbour. No modal or document scroll lock is involved.
     await showSection(page); await home(page);
     await page.keyboard.press('ArrowRight'); await atIndex(page, 1);
     await page.keyboard.press('ArrowRight'); await atIndex(page, 2);
     const opener = section(page).locator('[data-drift-item]').nth(2).locator('[data-artwork-open]').first();
     await opener.evaluate(element => element.focus({ preventScroll: true }));
     const beforeViewer = await state(page);
+    const checkContext = async () => {
+      const current = await state(page);
+      assert.ok(Math.abs(current.left - beforeViewer.left) < 1 && Math.abs(current.scrollY - beforeViewer.scrollY) < 1,
+        `Each inline activation must preserve native scroll context: ${JSON.stringify({ beforeViewer, current })}`);
+    };
+    const originalBox = await opener.boundingBox();
+    const originalSlots = await section(page).locator('[data-drift-item]').evaluateAll(elements => elements.map(element =>
+      [element.offsetLeft, element.offsetWidth, element.offsetHeight]));
+    const originalOverflow = await page.evaluate(() => document.body.style.overflow);
     await page.keyboard.press('Enter');
-    const dialog = page.locator('.artwork-dialog[open]');
-    await dialog.waitFor();
-    await page.waitForFunction(() => document.querySelector('.artwork-dialog[open] .artwork-viewer-status')?.textContent === 'image 1 of 2');
-    assert.equal(await section(page).getAttribute('data-drift-paused'), '');
-    await dialog.locator('.artwork-next').click();
-    await page.waitForFunction(() => document.querySelector('.artwork-dialog[open] .artwork-viewer-status')?.textContent === 'image 2 of 2');
+    await page.waitForFunction(() => {
+      const selected = document.querySelector('[data-horizontal-drift="tattoos"] .drift-artwork.is-drift-expanded');
+      return selected && Math.abs(new DOMMatrixReadOnly(getComputedStyle(selected).transform).m11 - 1.1) < .001;
+    });
+    const enlargedBox = await opener.boundingBox();
+    await checkContext();
+    assert.equal(await opener.getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('.artwork-dialog[open]').count(), 0, 'Carousel enlargement must never open a modal.');
+    assert.equal(await section(page).getAttribute('data-drift-paused'), null);
+    assert.equal(await page.evaluate(() => document.body.style.overflow), originalOverflow);
+    assert.ok(Math.abs(enlargedBox.width / originalBox.width - 1.1) < .005);
+    assert.ok(Math.abs(enlargedBox.height / originalBox.height - 1.1) < .005);
+    assert.ok(Math.abs(enlargedBox.x + enlargedBox.width / 2 - originalBox.x - originalBox.width / 2) < 1,
+      'The photograph must retain its carousel position rather than move to the screen centre.');
+    assert.ok(Math.abs(enlargedBox.y + enlargedBox.height / 2 - originalBox.y - originalBox.height / 2) < 1);
+    assert.deepEqual(await section(page).locator('[data-drift-item]').evaluateAll(elements => elements.map(element =>
+      [element.offsetLeft, element.offsetWidth, element.offsetHeight])), originalSlots, 'Enlargement must not reflow or reorder images.');
+    const neighbours = await section(page).locator('[data-drift-item]').evaluateAll(elements => elements.slice(1, 4).map(element => {
+      const box = element.querySelector('[data-artwork-open]').getBoundingClientRect();
+      return { left: box.left, right: box.right };
+    }));
+    assert.ok(neighbours[0].right < neighbours[1].left && neighbours[1].right < neighbours[2].left,
+      'The enlarged photograph must not overlap its neighbours.');
+    if (width < 600) await opener.tap();
+    else await opener.click();
+    await page.waitForFunction(() => !document.querySelector('[data-horizontal-drift="tattoos"] .drift-artwork.is-drift-expanded'));
+    assert.equal(await opener.getAttribute('aria-pressed'), 'false', 'A second activation restores the photograph.');
+    await checkContext();
+    if (width < 600) await opener.tap();
+    else await opener.click();
+    await checkContext();
+    await section(page).locator('.drift-instruction').click();
+    await checkContext();
+    assert.equal(await opener.getAttribute('aria-pressed'), 'false', 'Clicking outside restores the photograph.');
+    await opener.evaluate(element => element.focus({ preventScroll: true })); await page.keyboard.press('Enter');
     await page.keyboard.press('Escape');
-    await page.waitForFunction(() => !document.querySelector('.artwork-dialog[open]'));
+    assert.equal(await opener.getAttribute('aria-pressed'), 'false', 'Escape restores the photograph.');
     const afterViewer = await state(page);
-    assert.ok(Math.abs(afterViewer.left - beforeViewer.left) < 1, 'Closing a detail must restore the same horizontal context.');
-    assert.ok(Math.abs(afterViewer.scrollY - beforeViewer.scrollY) < 1, 'Closing a detail must restore the same vertical context.');
+    assert.ok(Math.abs(afterViewer.left - beforeViewer.left) < 1, `In-place interaction must preserve horizontal context: ${JSON.stringify({ beforeViewer, afterViewer })}`);
+    assert.ok(Math.abs(afterViewer.scrollY - beforeViewer.scrollY) < 1, 'In-place interaction must preserve vertical context.');
     assert.equal(await opener.evaluate(element => element === document.activeElement), true);
 
     await section(page).focus(); await page.keyboard.press('End'); await atIndex(page, 5);
@@ -243,7 +284,7 @@ try {
     assert.deepEqual(errors, []);
     results.push({ width, initial, next, end, trackpad, shiftedWheel, vertical, drag, beforeViewer, afterViewer, boundary, wheelDeltas, errors });
     await writeFile(new URL('results.json', artifacts), JSON.stringify({ passed: false, results }, null, 2));
-    console.log(`PASS native carousel ${width}px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, ${width < 600 ? 'native swipe/pan' : 'drag'}, detail return and bounds.`);
+    console.log(`PASS native carousel ${width}px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, ${width < 600 ? 'native swipe/pan' : 'drag'}, in-place enlargement/restore and bounds.`);
     await context.close();
   }
   await writeFile(new URL('results.json', artifacts), JSON.stringify({ passed: true, results }, null, 2));

@@ -11,7 +11,7 @@ html[data-mode-snapshot]::view-transition-group(*),
 html[data-mode-snapshot]::view-transition-image-pair(*),
 html[data-mode-snapshot]::view-transition-old(*),
 html[data-mode-snapshot]::view-transition-new(*) { pointer-events: none; }
-html[data-mode-snapshot]::view-transition-group(*) { animation-duration: var(--mode-snapshot-duration, 950ms); }
+html[data-mode-snapshot]::view-transition-group(*) { animation-duration: var(--mode-snapshot-duration, 1400ms); }
 html[data-mode-snapshot]::view-transition-group(root) { animation: none; }
 html[data-mode-snapshot]::view-transition-image-pair(*) { isolation: isolate; }
 html[data-mode-snapshot]::view-transition-old(*),
@@ -19,7 +19,7 @@ html[data-mode-snapshot]::view-transition-new(*) {
   mix-blend-mode: normal;
   object-fit: fill;
   transform: none;
-  animation-duration: var(--mode-snapshot-duration, 950ms);
+  animation-duration: var(--mode-snapshot-duration, 1400ms);
   animation-timing-function: linear;
   animation-fill-mode: both;
 }

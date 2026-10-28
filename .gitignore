@@ -146,5 +146,8 @@ vite.config.ts.timestamp-*
 # Astro generated types
 .astro/
 
+# Approved copyrighted soundtrack: local private testing only, never exported.
+private/audio/
+
 # Turbo Repo
 .turbo

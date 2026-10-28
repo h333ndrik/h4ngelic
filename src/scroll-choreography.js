@@ -1,5 +1,5 @@
 import './scroll-choreography.css';
-import { motionSettings, progressBetween, pinnedProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn, sampleHeading, sampleHero, sampleKineticItem, sampleAboutItem } from './data/motionSettings.js';
+import { motionSettings, progressBetween, pinnedProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn, sampleHeading, sampleHero, sampleKineticItem, sampleAboutItem, sampleArchiveHeading } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
@@ -17,7 +17,11 @@ export function initScrollChoreography(root = document) {
     items: [...element.querySelectorAll('.category-link > .kinetic-item, .contact-link > .kinetic-item, .kinetic-item[data-motion-item]')],
     top: 0, run: 0, lastState: '', lastProgress: '',
   })).filter((section) => section.pin && ['work', 'about', 'contact'].includes(section.kind));
-  if (!sections.length) return () => {};
+  const archiveHeadings = [...root.querySelectorAll('.work-group > .work-group-heading')].map(element => ({
+    element, group: element.closest('[data-work-group]'), top: 0, left: 0, width: 0, height: 0,
+    pose: { x: 0, rotation: 0, opacity: 1 },
+  }));
+  if (!sections.length && !archiveHeadings.length) return () => {};
 
   const page = root.nodeType === Node.DOCUMENT_NODE ? root.documentElement : root;
   const owner = root.ownerDocument || root;
@@ -130,6 +134,13 @@ export function initScrollChoreography(root = document) {
           scroller, scrollLeft: scroller?.scrollLeft || 0 };
       });
     }
+    for (const heading of archiveHeadings) {
+      const bounds = (heading.element.querySelector('a') || heading.element).getBoundingClientRect();
+      heading.top = bounds.top + offset;
+      heading.left = bounds.left + scrollX - heading.pose.x;
+      heading.width = bounds.width;
+      heading.height = bounds.height;
+    }
     if (hero) {
       const bounds = hero.getBoundingClientRect();
       heroTop = bounds.top + offset;
@@ -195,6 +206,21 @@ export function initScrollChoreography(root = document) {
         }
       }
     }
+    for (const heading of archiveHeadings) {
+      const focused = heading.group === owner.activeElement || heading.element.contains(owner.activeElement);
+      const progress = progressBetween(position, heading.top - height * motionSettings.about.approach,
+        heading.top - height * motionSettings.about.finish);
+      const pose = focused ? { x: 0, rotation: 0, opacity: 1 } : sampleArchiveHeading(progress, width);
+      heading.pose = pose;
+      setValue(heading.element, '--archive-heading-x', `${pose.x.toFixed(3)}px`);
+      setValue(heading.element, '--archive-heading-opacity', pose.opacity.toFixed(4));
+      if (motionSamples && heading.top - position < height && heading.top + heading.height - position > 0) {
+        motionSamples.push({ target: heading.element, kind: 'typography',
+          x: heading.left - scrollX + heading.width / 2 + pose.x,
+          y: heading.top - position + heading.height / 2,
+          width: heading.width, height: heading.height, opacity: pose.opacity });
+      }
+    }
     if (motionSamples?.length) motionPublisher.publish(motionSamples);
   }
 
@@ -233,6 +259,13 @@ export function initScrollChoreography(root = document) {
       stage.style.removeProperty('--hero-scroll-scale');
       values.delete(stage);
     }
+    for (const heading of archiveHeadings) {
+      heading.element.removeAttribute('data-scroll-heading');
+      heading.element.style.removeProperty('--archive-heading-x');
+      heading.element.style.removeProperty('--archive-heading-opacity');
+      values.delete(heading.element);
+      heading.pose = { x: 0, rotation: 0, opacity: 1 };
+    }
     if (previousRootAttribute === null) page.removeAttribute('data-scroll-choreography');
     else page.setAttribute('data-scroll-choreography', previousRootAttribute);
   }
@@ -244,6 +277,7 @@ export function initScrollChoreography(root = document) {
     if (!enabled) { motionPublisher.reset(); return clearStyles(); }
     prepareEchoes();
     page.setAttribute('data-scroll-choreography', '');
+    for (const heading of archiveHeadings) heading.element.setAttribute('data-scroll-heading', '');
     stage?.setAttribute('data-scroll-hero', '');
     dirty = true;
     // Immediate initial values avoid an unenhanced frame flashing into a pose.
@@ -273,6 +307,7 @@ export function initScrollChoreography(root = document) {
 
   const resize = 'ResizeObserver' in window ? new ResizeObserver(() => schedule(true)) : null;
   for (const section of sections) { resize?.observe(section.element); resize?.observe(section.pin); }
+  for (const heading of archiveHeadings) { resize?.observe(heading.element); resize?.observe(heading.group); }
   if (hero) resize?.observe(hero);
   focusSection = sections.find((section) => section.element.contains(owner.activeElement)) || null;
   configure();

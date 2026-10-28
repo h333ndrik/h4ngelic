@@ -18,7 +18,10 @@ const emptyBinding = moduleURL(`const empty = () => {}; empty.cancel = () => {};
 let source = (await readFile(new URL('../src/xray.js', import.meta.url), 'utf8')).replace(/^import ['"]\.\/xray\.css['"];?\s*/m, '');
 for (const name of ['xray-shortcut.js', 'mode-hold.js', 'mobile-mode.js']) source = source.replace(`'./${name}'`, JSON.stringify(emptyBinding));
 source = source.replace("'./mode-snapshot.js'", JSON.stringify(moduleURL('export const createModeSnapshotTransition = ({doc}) => doc.__snapshot;')))
-  .replace("'./mode-audio.js'", JSON.stringify(moduleURL('export const createModeAudio = ({view}) => view.__audio;')));
+  .replace("'./mode-audio.js'", JSON.stringify(moduleURL('export const createModeAudio = ({view}) => view.__audio;')))
+  // This fixture tests capture/history ownership, not DOM audio controls. The
+  // real controls and audio lifecycle are checked independently.
+  .replace("'./sound-controls.js'", JSON.stringify(moduleURL('export const initSoundControls = () => { const dispose = () => {}; dispose.refresh = () => {}; return dispose; };')));
 for (const name of ['xraySettings.js', 'corruptionSettings.js', 'livingDecaySettings.js']) source = source.replace(`'./data/${name}'`, JSON.stringify(new URL(`../src/data/${name}`, import.meta.url).href));
 const { initXRay } = await import(moduleURL(`${source}\n//# sourceURL=xray-memory-handoff-fixture.js`));
 

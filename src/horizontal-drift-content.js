@@ -23,7 +23,7 @@ function imageMarkup(image, index, { hidden = false } = {}) {
   const asset = getImageAsset(image, { sizes: '(max-width: 600px) 76vw, min(66vw, 720px)' });
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
   return `<figure class="project-image${hidden ? ' drift-detail-image' : ''}"${hidden ? ' hidden' : ''}>
-    <button class="artwork-open drift-artwork" type="button" data-artwork-open aria-label="open ${escape(image.alt || 'artwork image')}" style="--artwork-ratio:${asset.width} / ${asset.height}">
+    <button class="artwork-open drift-artwork" type="button" data-artwork-open aria-pressed="false" aria-label="enlarge ${escape(image.alt || 'artwork image')} in place" style="--artwork-ratio:${asset.width} / ${asset.height}">
       <img src="${escape(asset.src)}" data-full-src="${escape(asset.fullSrc)}" data-artwork-image="${index}" alt="${escape(image.alt || '')}" loading="lazy" decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
     </button>
     ${image.caption ? `<figcaption>${escape(image.caption)}</figcaption>` : ''}

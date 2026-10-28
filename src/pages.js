@@ -2,7 +2,7 @@ import { siteContent } from './data/siteContent.js';
 import { artworks } from './data/artworks.js';
 import { contentURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
-import { categoryURL, projectURL, categoryById, groupById, workAnchorURL } from './routes.js';
+import { categoryURL, projectURL, categoryById, groupById, workAnchorURL, contactURL } from './routes.js';
 import { renderFooter } from './footer.js';
 import { renderHorizontalDrift } from './horizontal-drift-content.js';
 import { renderFlashMannequin } from './flash-mannequin-content.js';
@@ -15,22 +15,17 @@ export function normalizeCategory(category) {
   return categoryById(category) || groupById(category) ? category : 'all';
 }
 
-function header(page) {
-  return `<header class="page-header">
-    <a class="brand-link" href="/">${escape(siteContent.name)}</a>
-    <nav class="page-nav" aria-label="Portfolio">
-      <a href="/work"${page === 'work' ? ' aria-current="page"' : ''}>works</a>
-      <a href="/about"${page === 'about' ? ' aria-current="page"' : ''}>about</a>
-      <a href="/contact"${page === 'contact' ? ' aria-current="page"' : ''}>contact</a>
-    </nav>
-  </header>`;
+function header() {
+  // The one persistent brand and INDEX live in the document shell, outside
+  // route content. Reserve their original header rhythm without duplicates.
+  return '<header class="page-header" aria-hidden="true"></header>';
 }
 
 function footer() {
   return renderFooter();
 }
 
-export function renderHomepageSections() {
+export function renderHomepageSections(context = '') {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
     <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
     <div class="category-strip" role="navigation" aria-label="Works categories" tabindex="0">
@@ -44,7 +39,7 @@ export function renderHomepageSections() {
   </div></section>
   <section class="content-section contact-section" id="contact" aria-labelledby="contact-title" tabindex="-1" data-motion="contact"><div class="section-pin">
     <h2 class="kinetic-heading" id="contact-title"><span class="kinetic-heading-text">${escape(siteContent.home.contactLabel)}</span></h2>
-    <div class="inquiry-enter">${renderInquiryForm({ id: 'home-inquiry' })}</div>
+    <div class="inquiry-enter">${renderInquiryForm({ context, id: 'home-inquiry' })}</div>
   </div></section>
   ${renderFooter({ home: true })}`;
 }
@@ -122,13 +117,6 @@ export function renderWorkPage(category = 'all') {
   </div>${footer()}`;
 }
 
-export function renderContactPage(context = '') {
-  return `${header('contact')}<section class="page-shell contact-page" id="contact" tabindex="-1" aria-labelledby="contact-page-title">
-    <h1 class="page-heading" id="contact-page-title">${escape(siteContent.home.contactLabel)}</h1>
-    ${renderInquiryForm({ context, id: 'contact-inquiry' })}
-  </section>${footer()}`;
-}
-
 export function renderAboutPage() {
   const about = siteContent.about;
   const portraitURL = contentURL(about.portrait?.src);
@@ -146,7 +134,7 @@ export function renderAboutPage() {
         <p class="about-intro">${escape(about.intro)}</p>
         <p class="about-location">${escape(about.location)}</p>
         ${(about.paragraphs || []).map((paragraph) => `<p class="about-paragraph">${escape(paragraph)}</p>`).join('')}
-        <a class="text-link" href="/contact">get in touch</a>
+        <a class="text-link" href="${contactURL()}">get in touch</a>
       </div>
       ${portrait ? `<figure class="about-portrait" style="--artwork-ratio: ${portrait.width} / ${portrait.height}"><img src="${escape(portrait.src || portraitURL)}" alt="${escape(about.portrait.alt || '')}" loading="lazy" decoding="async" width="${portrait.width}" height="${portrait.height}"${portraitResponsive} /></figure>` : ''}
     </div>
@@ -180,18 +168,17 @@ export function renderArtworkPage(project) {
           <p class="project-index">${escape(category.label)}${project.year ? ` / ${escape(project.year)}` : ''}</p>
           ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}
           ${details.length ? `<dl class="project-details">${details.map(([key, value]) => `<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>` : ''}
-          <a class="text-link" href="/contact?artwork=${encodeURIComponent(project.id)}">inquire about this work</a>
+          <a class="text-link" href="${escape(contactURL(project.id))}">inquire about this work</a>
           <a class="text-link" href="${workAnchorURL(category.id)}">back to ${escape(category.label)}</a>
         </div>
       </article>
     </div>${footer()}`;
 }
 
-export function renderRoutePage(route) {
-  if (route.kind === 'home') return renderHomepageSections();
+export function renderRoutePage(route, { context = '' } = {}) {
+  if (route.kind === 'home') return renderHomepageSections(context);
   if (route.kind === 'work') return renderWorkPage(route.category);
   if (route.kind === 'about') return renderAboutPage();
-  if (route.kind === 'contact') return renderContactPage();
   if (route.kind === 'artwork') return renderArtworkPage(route.project);
   return renderNotFoundPage();
 }

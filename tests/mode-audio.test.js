@@ -26,8 +26,9 @@ test('the actual enter/leave PCM is short, bounded, stereo and decays without a 
   assert.throws(() => synthesizeModeSound('xray', { sampleRate: 0 }), RangeError);
 });
 
-function audioFixture({ rejectResume = false, throwConstruction = false } = {}) {
+function audioFixture({ rejectResume = false, throwConstruction = false, storage = new Map(), privateURL = '', rejectPlayback = false } = {}) {
   const contexts = [];
+  const media = [];
   class Param {
     value = 1;
     events = [];
@@ -47,17 +48,28 @@ function audioFixture({ rejectResume = false, throwConstruction = false } = {}) 
     end() { this.onended?.(); }
   }
   class Context {
-    state = 'suspended'; currentTime = 1; sampleRate = 24000; destination = {}; sources = []; resumeCalls = 0;
+    state = 'suspended'; currentTime = 1; sampleRate = 24000; destination = {}; sources = []; gains = []; resumeCalls = 0;
     constructor() { if (throwConstruction) throw new Error('Audio unavailable.'); contexts.push(this); }
-    createGain() { return Object.assign(new Node(), { gain: new Param() }); }
+    createGain() { const node = Object.assign(new Node(), { gain: new Param() }); this.gains.push(node); return node; }
     createDynamicsCompressor() { return Object.assign(new Node(), Object.fromEntries(['threshold', 'knee', 'ratio', 'attack', 'release'].map(name => [name, new Param()]))); }
     createBuffer(channels, length) { return { channels: Array.from({ length: channels }, () => new Float32Array(length)), copyToChannel(data, index) { this.channels[index].set(data); } }; }
     createBufferSource() { const source = new Source(); this.sources.push(source); return source; }
+    createMediaElementSource(element) { const node = new Node(); node.media = element; return node; }
     resume() { this.resumeCalls++; if (rejectResume) return Promise.reject(new Error('Gesture denied.')); this.state = 'running'; return Promise.resolve(); }
     close() { this.state = 'closed'; return Promise.resolve(); }
   }
-  const audio = createModeAudio({ view: { AudioContext: Context } });
-  return { audio, contexts };
+  class Audio {
+    currentTime = 0; playCalls = 0; pauseCalls = 0;
+    constructor() { media.push(this); }
+    play() { this.playCalls++; return rejectPlayback ? Promise.reject(new Error('Playback denied.')) : Promise.resolve(); }
+    pause() { this.pauseCalls++; }
+    load() {}
+    removeAttribute(name) { delete this[name]; }
+  }
+  const audio = createModeAudio({ view: { AudioContext: Context, Audio,
+    localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value) },
+  }, privateURL });
+  return { audio, contexts, media, storage };
 }
 
 test('Web Audio remains unallocated until a trusted user gesture, then primes before the hold timer', async () => {
@@ -128,4 +140,76 @@ test('unsupported or denied audio never throws into mode switching', async () =>
   assert.equal(await unavailable.audio.prime({ isTrusted: true }), false);
   assert.equal(unavailable.audio.supported, false);
   unavailable.audio.dispose();
+});
+
+test('mute and bounded global volume survive reload without allocating audio or autoplaying', async () => {
+  const storage = new Map();
+  const first = audioFixture({ storage });
+  let changes = 0;
+  const unsubscribe = first.audio.subscribe(() => changes++);
+  first.audio.setVolume(.27);
+  first.audio.setMuted(true);
+  assert.equal(changes, 2);
+  assert.equal(first.contexts.length, 0);
+  const second = audioFixture({ storage });
+  assert.equal(second.audio.muted, true);
+  assert.equal(second.audio.volume, .27);
+  assert.equal(second.contexts.length, 0);
+  second.audio.setMuted(false);
+  await second.audio.prime({ isTrusted: true });
+  assert.equal(second.contexts[0].gains[0].gain.value, .135);
+  second.audio.setVolume(2);
+  assert.equal(second.audio.volume, 1);
+  assert.equal(second.contexts[0].gains[0].gain.value, .5, 'The shared bus caps maximum loudness.');
+  second.audio.setVolume(-1);
+  assert.equal(second.audio.volume, 0);
+  second.audio.setVolume(Number.NaN);
+  assert.equal(second.audio.volume, 0);
+  unsubscribe(); first.audio.dispose(); second.audio.dispose();
+});
+
+test('private SMASH is lazy, has exclusive priority, survives mode cues, and restores on stop/end', async () => {
+  const { audio, contexts, media } = audioFixture({ privateURL: '/__h4_private_audio/smash' });
+  assert.equal(audio.smashAvailable, true);
+  assert.equal(media.length, 0);
+  assert.equal(await audio.toggleSmash({ isTrusted: false }), false);
+  assert.equal(media.length, 0);
+  assert.equal(await audio.toggleSmash({ isTrusted: true }), true);
+  assert.equal(media.length, 1);
+  assert.equal(media[0].preload, 'none');
+  assert.equal(media[0].playCalls, 1);
+  assert.equal(audio.smashPlaying, true);
+  assert.equal(audio.play('xray'), false);
+  assert.equal(audio.play('normal'), false);
+  assert.equal(media[0].pauseCalls, 0, 'A mode cue never interrupts the private track.');
+  media[0].currentTime = 17;
+  audio.setVolume(.5);
+  assert.equal(contexts[0].gains[0].gain.value, .25);
+  audio.setMuted(true);
+  assert.equal(contexts[0].gains[0].gain.value, 0);
+  assert.equal(audio.smashPlaying, true, 'Global mute silences the shared bus without restarting playback.');
+  audio.setMuted(false);
+  assert.equal(await audio.toggleSmash({ isTrusted: true }), false);
+  assert.equal(media[0].currentTime, 0);
+  assert.equal(audio.smashPlaying, false);
+  assert.equal(audio.play('normal'), true);
+  assert.equal(await audio.toggleSmash({ isTrusted: true }), true);
+  assert.equal(media[0].currentTime, 0);
+  media[0].onended();
+  assert.equal(audio.smashPlaying, false);
+  assert.equal(audio.play('xray'), true);
+  audio.dispose();
+  assert.equal(audio.snapshot().allocatedVoices, 0);
+});
+
+test('missing or denied private audio cannot replace the soundtrack or leave cue priority stuck', async () => {
+  const absent = audioFixture();
+  assert.equal(absent.audio.smashAvailable, false);
+  assert.equal(await absent.audio.toggleSmash({ isTrusted: true }), false);
+  assert.equal(absent.contexts.length, 0);
+  const denied = audioFixture({ privateURL: '/__h4_private_audio/smash', rejectPlayback: true });
+  assert.equal(await denied.audio.toggleSmash({ isTrusted: true }), false);
+  assert.equal(denied.audio.smashPlaying, false);
+  assert.equal(denied.audio.play('normal'), true);
+  absent.audio.dispose(); denied.audio.dispose();
 });

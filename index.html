@@ -14,11 +14,21 @@
   </head>
   <body>
     <a class="skip-link" href="#page-content">skip to content</a>
+    <!--floating:start--><a class="floating-brand" data-floating-brand data-no-ink data-corruption-protected href="/">h4ngelic</a>
+    <details class="global-index" data-global-index data-no-ink data-corruption-protected>
+      <summary aria-label="open index" aria-controls="global-index-links"><span class="index-sign" aria-hidden="true">+</span></summary>
+      <nav class="global-index-links" id="global-index-links" aria-label="Index">
+        <a href="/" data-index-page="home">home</a>
+        <a href="/work" data-index-page="work">works</a>
+        <a href="/about" data-index-page="about">more about</a>
+        <a href="/#contact" data-index-page="contact">contact</a>
+      </nav>
+    </details><!--floating:end-->
     <main>
       <!--hero:start-->
       <section class="hero" id="home-hero" aria-labelledby="page-title" hidden>
         <header class="masthead">
-          <h1 id="page-title"><a class="hero-brand" href="/">h4ngelic</a></h1>
+          <h1 id="page-title" class="sr-only">h4ngelic</h1>
           <button class="visitor-hotspot secret-hotspot" type="button" data-visitor-hotspot data-secret-hotspot aria-label="reveal visitor message" aria-describedby="header-visitor-message">
             <span class="secret-message" data-secret-message data-visit-message id="header-visitor-message">nice to meet you.</span>
           </button>
@@ -31,7 +41,6 @@
           <p id="interaction-hint" class="sr-only">Move to push. Grab to spin.</p>
         </div>
         <div class="controls" data-controls role="group" aria-label="Wordmark animation and sound">
-          <button id="reveal-control" type="button" aria-pressed="true">Reveal on</button>
           <button id="speed-control" type="button" aria-pressed="false">Slow</button>
           <button id="pause-control" type="button" aria-pressed="false">Pause</button>
           <button class="mode-mute" type="button" data-mode-mute aria-label="mute transition sounds" aria-pressed="false">sound on</button>

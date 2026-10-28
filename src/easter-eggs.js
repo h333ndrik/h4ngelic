@@ -33,7 +33,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
 
   function updateVisitorCopy() {
     for (const element of root.querySelectorAll('[data-visit-message]')) element.textContent = visitorMessage(visit.count);
-    for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = `VISIT ${String(visit.count).padStart(3, '0')}`;
+    for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = `visit ${visit.count}`;
   }
 
   function consentGranted() {
@@ -122,7 +122,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     return [...root.querySelectorAll('[data-mobile-mode], [data-other-side-hint], [data-corruption-protected]')].flatMap(element => {
       const rect = element.getBoundingClientRect();
       if (!rect.width || !rect.height) return [];
-      const fixed = element.matches('[data-mobile-mode]');
+      const fixed = view.getComputedStyle(element).position === 'fixed';
       return [{ fixed, left: rect.left + (fixed ? 0 : view.scrollX), right: rect.right + (fixed ? 0 : view.scrollX),
         top: rect.top + (fixed ? 0 : view.scrollY), bottom: rect.bottom + (fixed ? 0 : view.scrollY) }];
     });

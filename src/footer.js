@@ -9,8 +9,8 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
   const hint = otherSideEnabled ? `<button class="footer-secret secret-hotspot" type="button" data-other-side-hint data-secret-hotspot data-mode-hold aria-label="hold for one second to enter the other side" aria-keyshortcuts="4" aria-describedby="footer-other-side-message">
       <span class="secret-message" data-secret-message data-xray-hint id="footer-other-side-message"><span data-xray-hint-text>HOLD 4 TO SEE THE OTHER SIDE.</span></span>
     </button>` : '';
-  const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count" aria-describedby="footer-visit-count">
-      <span class="secret-message" data-secret-message data-visit-number id="footer-visit-count">VISIT 001</span>
+  const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count" aria-describedby="footer-visit-count footer-visit-memory">
+      <span data-visit-number id="footer-visit-count">visit 1</span><span class="secret-message footer-visit-memory" data-secret-message data-visit-message id="footer-visit-memory">nice to meet you.</span>
     </button>` : '';
   return `${home ? `<div class="footer-secret-space end-reveal" id="final-secret" data-footer-secret-space data-end-reveal>
     <div class="end-reveal-mark" aria-hidden="true">
@@ -32,7 +32,7 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
     <div class="footer-identity">
       <span class="footer-brand">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>
       ${counter}
-      <span class="footer-details">${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram${home ? ' <i class="arrow" aria-hidden="true"></i>' : ''}</a>` : ''}<span class="footer-location">${escape(siteContent.location)}</span></span>
+      <span class="footer-details"><button type="button" class="footer-smash" data-smash aria-pressed="false" aria-label="play private soundtrack" disabled title="private soundtrack not supplied">smash</button>${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram${home ? ' <i class="arrow" aria-hidden="true"></i>' : ''}</a>` : ''}<span class="footer-location">${escape(siteContent.location)}</span></span>
     </div>
     ${otherSideEnabled ? '<span class="sr-only" data-mode-status role="status" aria-live="polite"></span>' : ''}
   </footer>`;

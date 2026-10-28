@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const out = new URL('../artifacts/master-foundation/', import.meta.url);
+const out = new URL('../artifacts/smart-continuation-v3/', import.meta.url);
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -15,10 +15,11 @@ try {
     const page = await context.newPage();
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(`${base}/contact`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/#contact`, { waitUntil: 'networkidle' });
     const inquiry = page.locator('[data-inquiry]');
     const form = page.locator('[data-inquiry-form]');
     await inquiry.locator('[data-inquiry-contact]').waitFor();
+    assert.equal(await page.locator('[data-inquiry-form]').count(), 1);
     await page.waitForFunction(() => document.querySelector('[data-inquiry]').dataset.inquiryReveal === 'visible');
     const entrance = await inquiry.evaluate(node => ({ duration: getComputedStyle(node).transitionDuration,
       immediate: node.hasAttribute('data-inquiry-reveal-immediate'), state: node.dataset.inquiryReveal }));
@@ -30,11 +31,23 @@ try {
     assert.equal(await contact.getAttribute('required'), '');
     assert.equal(await contact.getAttribute('placeholder'), 'email, instagram, phone number...');
     assert.equal(await form.locator('label[for$="-email"] > span').innerText(), 'HOW TO REACH YOU');
+    assert.equal(await form.locator('[name=message]').getAttribute('placeholder'), 'could be an inquiry, a question or just a thought.\nfeel free to write anything.');
+    assert.equal(await form.locator('[data-inquiry-submit] > span').innerText(), 'SEND MESSAGE');
+    assert.equal(await form.locator('.inquiry-privacy').count(), 0);
     const geometry = await form.locator('.inquiry-field').evaluateAll(labels => labels.map(label => {
-      const a = label.querySelector('span').getBoundingClientRect(), b = label.querySelector('input,textarea').getBoundingClientRect();
-      return { gap: b.top - a.bottom, left: b.left, right: b.right };
+      const field = label.querySelector('input,textarea');
+      const a = label.querySelector('span').getBoundingClientRect(), b = field.getBoundingClientRect();
+      const own = getComputedStyle(field), parent = getComputedStyle(label);
+      return { gap: b.top - a.bottom, left: b.left, right: b.right,
+        fieldBorder: own.borderBottomWidth, labelBorder: parent.borderBottomWidth,
+        fieldBackground: own.backgroundColor, labelBackground: parent.backgroundColor };
     }));
     assert.ok(geometry.every(box => box.gap >= 0 && box.left >= 0 && box.right <= width), JSON.stringify(geometry));
+    assert.ok(geometry.every(box => box.fieldBorder === '1px' && box.labelBorder === '0px'
+      && box.fieldBackground !== 'rgba(0, 0, 0, 0)' && box.labelBackground === 'rgba(0, 0, 0, 0)'), JSON.stringify(geometry));
+    const grid = await page.evaluate(() => ({ form: document.querySelector('[data-inquiry]').getBoundingClientRect().left,
+      about: document.querySelector('.about-preview-copy').getBoundingClientRect().left }));
+    assert.ok(Math.abs(grid.form - grid.about) < 1, JSON.stringify(grid));
     const before = await contact.boundingBox();
     await contact.focus();
     const after = await contact.boundingBox();
@@ -52,6 +65,27 @@ try {
     await contact.fill('@browser-visitor');
     await form.locator('[name=message]').fill('This is a browser test; no actual mail is sent.');
     await form.locator('[type=file]').setInputFiles({ name: 'reference.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.7\nTest fixture') });
+    await page.evaluate(() => {
+      window.__v3InquiryForm = document.querySelector('[data-inquiry-form]');
+      const link = document.createElement('a');
+      link.id = 'v3-context-test-link'; link.href = '/?artwork=green-black-original#contact';
+      link.textContent = 'browser-only navigation fixture';
+      document.querySelector('[data-inquiry]').append(link);
+    });
+    await page.locator('#v3-context-test-link').click();
+    await page.waitForURL('**/?artwork=green-black-original#contact');
+    assert.equal(await form.locator('[data-inquiry-artwork]').inputValue(), 'green-black-original');
+    assert.equal(await page.evaluate(() => window.__v3InquiryForm === document.querySelector('[data-inquiry-form]')), true);
+    await page.locator('#v3-context-test-link').evaluate(link => { link.href = '/#contact'; });
+    await page.locator('#v3-context-test-link').click();
+    await page.waitForURL('**/#contact');
+    assert.equal(await form.locator('[data-inquiry-artwork]').inputValue(), '');
+    assert.equal(await form.locator('[data-inquiry-context]').isHidden(), true);
+    assert.equal(await form.locator('[name=name]').inputValue(), 'Browser-only fixture');
+    assert.equal(await contact.inputValue(), '@browser-visitor');
+    assert.equal(await form.locator('[name=message]').inputValue(), 'This is a browser test; no actual mail is sent.');
+    assert.equal(await form.locator('.inquiry-file-row').count(), 1);
+    await page.locator('#v3-context-test-link').evaluate(link => link.remove());
     const submitted = [];
     await page.route('**/api/inquiry', async route => {
       submitted.push(route.request().postData());
@@ -76,8 +110,9 @@ try {
     assert.equal(await inquiry.getAttribute('data-inquiry-reveal'), 'visible');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
     assert.deepEqual(errors, []);
-    reports.push({ width, reduced, entrance, labelsAboveFields: true, focusSizeStable: true,
-      acceptsEmailSocialPhone: true, errorsPreserveAllContent: true, mockAcceptanceOnly: true, runtimeErrors: errors });
+    reports.push({ width, reduced, entrance, labelsAboveFields: true, focusSizeStable: true, geometry, grid,
+      contextRefreshPreservesDraftAndUploads: true, acceptsEmailSocialPhone: true, errorsPreserveAllContent: true,
+      mockAcceptanceOnly: true, runtimeErrors: errors });
     console.log(`PASS inquiry ${width}px ${reduced ? 'reduced' : 'animated'}`);
     await context.close();
   }

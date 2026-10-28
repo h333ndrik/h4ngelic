@@ -1,6 +1,6 @@
 import './inquiry.css';
 import { inquirySettings as settings } from './data/inquirySettings.js';
-import { inquiryArtwork } from './inquiry-content.js';
+import { refreshInquiryContext } from './inquiry-content.js';
 import { validateInquiryFiles, validateInquiryContact } from './inquiry-validation.js';
 import { initInquiryEntrance } from './inquiry-entrance.js';
 export { validateInquiryFiles } from './inquiry-validation.js';
@@ -11,6 +11,7 @@ export function initInquiry(root = document) {
   const doc = root.ownerDocument || root;
   const view = doc.defaultView;
   const disposers = [];
+  const contextRefreshers = [];
   for (const form of root.querySelectorAll('[data-inquiry-form]')) {
     const entrance = initInquiryEntrance(form.closest('[data-inquiry]') || form);
     const contact = form.querySelector('[data-inquiry-contact]');
@@ -30,12 +31,9 @@ export function initInquiry(root = document) {
     started.value = String(Date.now());
     let url;
     try { url = new URL(offline ? view.location.hash.slice(1) : view.location.href, 'https://preview.invalid'); } catch { /* Invalid optional URL context is ignored. */ }
-    const project = inquiryArtwork(url?.searchParams.get('artwork'));
-    if (project) {
-      contextInput.value = project.id;
-      contextLabel.textContent = `regarding ${project.title || project.id.replaceAll('-', ' ')}.`;
-      contextLabel.hidden = false;
-    }
+    const refreshContext = target => refreshInquiryContext(form, target);
+    refreshContext(url);
+    contextRefreshers.push(refreshContext);
     const setStatus = (text, state = '') => { status.textContent = text; status.dataset.state = state; };
     const clearURLs = () => { for (const url of objectURLs) view.URL.revokeObjectURL(url); objectURLs = []; };
     const validateContact = () => contact?.setCustomValidity(validateInquiryContact(contact.value));
@@ -126,5 +124,7 @@ export function initInquiry(root = document) {
     form.addEventListener('submit', send);
     disposers.push(() => { disposed = true; controller?.abort(); entrance(); input.removeEventListener('change', change); contact?.removeEventListener('input', validateContact); form.removeEventListener('submit', send); clearURLs(); });
   }
-  return () => { for (const dispose of disposers) dispose(); };
+  const stop = () => { for (const dispose of disposers) dispose(); contextRefreshers.length = 0; };
+  stop.refreshContext = url => { for (const refresh of contextRefreshers) refresh(url); };
+  return stop;
 }

@@ -27,6 +27,17 @@
   transition: none;
 }
 
+/* Works uses this same scroll controller, with natural page flow and a short
+   About-like local approach. Nested link hover remains independently owned. */
+[data-scroll-choreography] .work-group-heading[data-scroll-heading] {
+  opacity: var(--archive-heading-opacity, 1);
+  transition: none;
+}
+[data-scroll-choreography] .work-group-heading[data-scroll-heading] > a {
+  transform: translate3d(var(--archive-heading-x, 0px), 0, 0);
+  transition: none;
+}
+
 [data-scroll-choreography] [data-motion-pin] {
   display: block;
   padding: 0;
@@ -104,6 +115,8 @@
   }
   [data-scroll-choreography] [data-motion] .kinetic-item,
   [data-scroll-choreography] .kinetic-heading-text,
+  [data-scroll-choreography] .work-group-heading[data-scroll-heading],
+  [data-scroll-choreography] .work-group-heading[data-scroll-heading] > a,
   #stage[data-scroll-hero] {
     opacity: 1;
     transform: none;

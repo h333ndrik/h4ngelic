@@ -1,4 +1,78 @@
-/* NAAVI is one shared, route-aware link. No header index or expanding menu. */
+/* INDEX and NAAVI are independent persistent controls. Their hit areas never
+   chase scrolling content; difference on the brand/counter provides contrast
+   over white headings without an extra pointer-move/scroll animation loop. */
+.floating-brand {
+  position: fixed;
+  top: max(21px, env(safe-area-inset-top));
+  left: max(35px, env(safe-area-inset-left));
+  z-index: 12;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #fff;
+  mix-blend-mode: difference;
+  font-size: clamp(13px, 1.32vw, 20px);
+  font-weight: 400;
+  letter-spacing: .06em;
+  text-decoration: none;
+}
+.global-index {
+  position: fixed;
+  top: max(21px, env(safe-area-inset-top));
+  right: max(22px, env(safe-area-inset-right));
+  z-index: 13;
+  color: #f0efeb;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: .045em;
+}
+.global-index summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  list-style: none;
+  user-select: none;
+  touch-action: manipulation;
+  text-shadow: 0 1px 4px #101010;
+}
+.global-index summary::-webkit-details-marker { display: none; }
+.global-index summary::marker { content: ''; }
+.index-sign { display: inline-block; font-size: 28px; font-weight: 300; line-height: 1; transition: transform 250ms cubic-bezier(.2,.8,.25,1); }
+.global-index[open] .index-sign { transform: rotate(45deg); }
+.global-index-links {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  display: grid;
+  gap: 2px;
+  width: 184px;
+  max-width: calc(100vw - 44px);
+  max-height: calc(100svh - 140px);
+  overflow-y: auto;
+  padding: 12px 18px;
+  background: #252527f5;
+  box-shadow: 0 8px 22px #00000020;
+}
+.global-index[open] .global-index-links { animation: index-arrive 250ms cubic-bezier(.2,.8,.25,1); }
+.global-index-links a { display: flex; align-items: center; min-height: 44px; color: #c3c3c0; text-decoration: none; }
+.global-index-links a[aria-current] { color: #fff; }
+.global-index summary:focus-visible, .global-index-links a:focus-visible, .floating-brand:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+@keyframes index-arrive { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+@media (hover: hover) and (pointer: fine) {
+  .global-index summary:hover .index-sign { text-shadow: 0 0 2px #ffffff30; }
+}
+@media (max-width: 600px) {
+  .floating-brand { top: max(16px, env(safe-area-inset-top)); left: max(22px, env(safe-area-inset-left)); }
+  .global-index { top: max(16px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right)); }
+  /* A stable readable fallback for coarse/mobile compositing. */
+  .floating-brand, .chapter-counter { mix-blend-mode: normal; text-shadow: 0 1px 3px #151515, 0 0 5px #151515; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .index-sign { transition: none; }
+  .global-index[open] .global-index-links { animation: none; }
+}
 .chapter-counter {
   position: fixed;
   bottom: max(12px, env(safe-area-inset-bottom));
@@ -36,5 +110,5 @@
 [data-inquiry-form] input, [data-inquiry-form] textarea, [data-inquiry-form] button { scroll-margin-bottom: 88px; }
 @media (max-width: 600px) {
   .page-header { min-height: 80px; }
-  .chapter-counter { min-width: 84px; }
+  .chapter-counter { min-width: 84px; mix-blend-mode: normal; text-shadow: 0 1px 3px #151515, 0 0 5px #151515; }
 }

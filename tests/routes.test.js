@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { artworks } from '../src/data/artworks.js';
-import { resolveRoute, routeDefinitions, projectURL, matchesArchive } from '../src/routes.js';
+import { resolveRoute, routeDefinitions, projectURL, matchesArchive, contactURL } from '../src/routes.js';
 import { renderArtworkPage } from '../src/pages.js';
 
 test('canonical categories preserve legacy query links and distinguish actual missing routes', () => {
@@ -57,4 +57,19 @@ test('only genuine published artwork can have a detail URL and duplicate URLs fa
     artworks.push({ ...fixture });
     assert.throws(routeDefinitions, /unique category URLs/);
   } finally { artworks.length = initial; }
+});
+
+
+test('Contact is a shared Home anchor and the old URL redirects preserving artwork context', () => {
+  assert.equal(contactURL(), '/#contact');
+  assert.equal(contactURL('a & b'), '/?artwork=a%20%26%20b#contact');
+  for (const path of ['/contact', '/contact/']) {
+    const route = resolveRoute(path);
+    assert.equal(route.kind, 'home');
+    assert.equal(route.canonicalPath, '/');
+    assert.equal(route.redirectPath, '/#contact');
+  }
+  assert.equal(resolveRoute('/contact?artwork=green-black-original').redirectPath, '/?artwork=green-black-original#contact');
+  assert.equal(routeDefinitions().some(route => route.path === '/contact'), false);
+  assert.deepEqual([...new Set(routeDefinitions().filter(route => ['home','work','about'].includes(route.kind) && (route.kind !== 'work' || route.category === 'all')).map(route => route.kind))], ['home','work','about']);
 });

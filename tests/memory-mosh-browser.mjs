@@ -59,7 +59,8 @@ try {
   // Exercise a same-document interior route through the existing ordinary
   // Work anchor. NAAVI's visible Home destination intentionally enters the
   // hero; this isolated cold-interior memory check must not visit Home.
-  await page.locator('.page-nav a[href="/work"]').evaluate(link => link.click());
+  await page.locator('[data-global-index] summary').click();
+  await page.locator('[data-global-index] a[href="/work"]').click();
   await page.locator('html[data-page="work"]').waitFor();
   await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-mode-snapshot'));
   const navigated=await snap();assert.equal(navigated.ambient.seed,stable.ambient.seed);assert.equal(navigated.ambient.sourceInitializations,1);

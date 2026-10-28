@@ -16,7 +16,7 @@ export function naaviStops(kind) {
     { id: 'jewellery', label: 'jewellery', href: '/work#jewellery' },
     { id: 'more', label: 'more', href: '/work#more' },
   ];
-  return [{ label: 'home', href: '/' }, { label: kind === 'about' ? 'about' : kind === 'contact' ? 'contact' : 'page', href: kind === 'about' ? '/about' : kind === 'contact' ? '/contact' : '/' }];
+  return [{ label: 'home', href: '/' }, { label: kind === 'about' ? 'about' : 'page', href: kind === 'about' ? '/about' : '/' }];
 }
 
 export function initialNaaviIndex(route) {

@@ -13,6 +13,9 @@ export function initGlobalNavigation(doc = document) {
     doc.body.insertAdjacentHTML('beforeend', renderNAAVI({ kind: doc.documentElement.dataset.page || 'home' }));
     link = doc.querySelector('[data-naavi]');
   }
+  const index = doc.querySelector('[data-global-index]');
+  const summary = index?.querySelector('summary');
+  const indexLinks = [...doc.querySelectorAll('[data-index-page]')];
   const reduced = view.matchMedia('(prefers-reduced-motion: reduce)');
   const listeners = [];
   let stops = [], measured = [], frame = 0, dirty = true, disposed = false;
@@ -23,8 +26,25 @@ export function initGlobalNavigation(doc = document) {
   };
   const href = value => doc.documentElement.dataset.preview === 'standalone' ? `#${value}` : value;
 
+  function closeIndex({ focus = false } = {}) {
+    if (!index?.open) return;
+    index.open = false;
+    summary.setAttribute('aria-expanded', 'false');
+    summary.setAttribute('aria-label', 'open index');
+    if (focus) summary.focus({ preventScroll: true });
+  }
+  function paintIndex(chapter) {
+    const primary = routeKind === 'artwork' ? 'work' : routeKind;
+    for (const item of indexLinks) {
+      const contactActive = primary === 'home' && chapter === 3;
+      const active = item.dataset.indexPage === (contactActive ? 'contact' : primary);
+      if (active) item.setAttribute('aria-current', contactActive ? 'location' : 'page');
+      else item.removeAttribute('aria-current');
+    }
+  }
   function paint(index) {
     const state = naaviState(stops, index);
+    paintIndex(state.current);
     const destination = href(state.destination.href);
     if (link.getAttribute('href') !== destination) link.setAttribute('href', destination);
     if (link.getAttribute('aria-label') !== state.label) link.setAttribute('aria-label', state.label);
@@ -62,6 +82,7 @@ export function initGlobalNavigation(doc = document) {
     if (!frame && !disposed && !doc.hidden) frame = view.requestAnimationFrame(update);
   }
   function refresh() {
+    closeIndex();
     routeKind = doc.documentElement.dataset.page || 'home';
     const standalone = doc.documentElement.dataset.preview === 'standalone';
     const url = standalone ? new URL(view.location.hash.slice(1) || '/', 'https://preview.invalid') : new URL(view.location.href);
@@ -82,6 +103,22 @@ export function initGlobalNavigation(doc = document) {
     current = -1;
     dirty = true;
     update();
+  }
+  if (index && summary) {
+    // Reuse the original native-details INDEX, independently of NAAVI. Native
+    // summary keyboard/touch behaviour also works in the prerendered document.
+    listen(index, 'toggle', () => {
+      summary.setAttribute('aria-expanded', String(index.open));
+      summary.setAttribute('aria-label', index.open ? 'close index' : 'open index');
+    });
+    listen(index, 'click', event => { if (event.target.closest?.('a[href]')) closeIndex(); });
+    listen(doc, 'keydown', event => {
+      if (event.key === 'Escape' && index.open) { event.preventDefault(); closeIndex({ focus: true }); }
+    });
+    listen(doc, 'pointerdown', event => { if (index.open && !index.contains(event.target)) closeIndex(); }, { passive: true });
+    listen(doc, 'focusin', event => { if (index.open && !index.contains(event.target)) closeIndex(); });
+    listen(doc, 'h4:navigationstart', () => closeIndex());
+    summary.setAttribute('aria-expanded', String(index.open));
   }
   listen(link, 'click', event => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;

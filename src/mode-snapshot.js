@@ -4,7 +4,7 @@ const svgNS = 'http://www.w3.org/2000/svg';
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const mix = (a, b, t) => a + (b - a) * t;
 const defaults = Object.freeze({
-  minimumDurationMs: 950, maximumDurationMs: 950,
+  minimumDurationMs: 1400, maximumDurationMs: 1400,
   framesPerSecond: 20, displacementPx: 180, smearPx: 220,
   channelOffsetPx: 9, colorStrength: .86, columns: 18, rows: 12,
 });
@@ -18,8 +18,8 @@ let serial = 0;
 function parameters(settings) {
   const finite = (name, minimum, maximum) => clamp(Number.isFinite(settings[name]) ? settings[name] : defaults[name], minimum, maximum);
   const result = {
-    minimumDurationMs: finite('minimumDurationMs', 750, 1200),
-    maximumDurationMs: finite('maximumDurationMs', 750, 1200),
+    minimumDurationMs: finite('minimumDurationMs', 750, 1600),
+    maximumDurationMs: finite('maximumDurationMs', 750, 1600),
     framesPerSecond: finite('framesPerSecond', 1, 30),
     displacementPx: finite('displacementPx', 0, 320),
     smearPx: finite('smearPx', 0, 420),
@@ -129,7 +129,9 @@ function displacementMap(width, height, seed, phase, settings, mobile, kind, rec
 
 function filterMarkup(id) {
   return `<filter id="${id}" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-    <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" data-snapshot-map result="uv"/>
+    <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" data-snapshot-map result="uv-current"/>
+    <feImage x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" data-snapshot-next-map result="uv-next"/>
+    <feComposite in="uv-current" in2="uv-next" operator="arithmetic" k1="0" k2="1" k3="0" k4="0" data-snapshot-map-blend result="uv"/>
     <feDisplacementMap in="SourceGraphic" in2="uv" scale="0" xChannelSelector="R" yChannelSelector="G" result="broken" data-snapshot-displacement/>
     <feOffset in="broken" dx="0" dy="0" data-snapshot-advection result="history"/>
     <feOffset in="history" dx="0" dy="0" data-snapshot-echo result="held-frame"/>
@@ -208,6 +210,8 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
       doc.body.append(definitions);
       filters = [...definitions.querySelectorAll('filter')].map(element => ({
         map: element.querySelector('[data-snapshot-map]'),
+        nextMap: element.querySelector('[data-snapshot-next-map]'),
+        mapBlend: element.querySelector('[data-snapshot-map-blend]'),
         mask: element.querySelector('[data-snapshot-mask]'),
         advection: element.querySelector('[data-snapshot-advection]'),
         echo: element.querySelector('[data-snapshot-echo]'),
@@ -225,7 +229,9 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     const mask = regionMask(width, height, scope);
     // Discovery may predecode the next capture while this graph still belongs
     // to an active one. Leave that capture's sampling and mask intact.
-    if (!active) for (const filter of filters) { filter.map.setAttribute('href', maps[0]); filter.mask.setAttribute('href', mask); }
+    if (!active) for (const filter of filters) {
+      filter.map.setAttribute('href', maps[0]); filter.nextMap.setAttribute('href', maps[0]); filter.mask.setAttribute('href', mask);
+    }
     const decodes = [];
     for (const src of [...maps, mask]) {
       const image = new view.Image(); image.src = src;
@@ -258,7 +264,8 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     }
     // Release every decoded UV/mask dependency and all retained filter state.
     for (const filter of filters) {
-      filter.map.removeAttribute('href'); filter.mask.removeAttribute('href');
+      filter.map.removeAttribute('href'); filter.nextMap.removeAttribute('href'); filter.mask.removeAttribute('href');
+      filter.mapBlend.setAttribute('k2', '1'); filter.mapBlend.setAttribute('k3', '0');
       filter.displacement.setAttribute('scale', '0');
       for (const offset of [...filter.offsets, filter.advection, filter.echo]) {
         offset.setAttribute('dx', '0'); offset.setAttribute('dy', '0');
@@ -305,14 +312,16 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     if (!plan) { commit(false); return null; }
     // Superseding a capture releases its hrefs. Cached plans must rebind both
     // dependencies too, including a rapid mode reversal or hover-to-click.
-    for (const filter of filters) { filter.map.setAttribute('href', plan.maps[0]); filter.mask.setAttribute('href', plan.mask); }
+    for (const filter of filters) {
+      filter.map.setAttribute('href', plan.maps[0]); filter.nextMap.setAttribute('href', plan.maps[0]); filter.mask.setAttribute('href', plan.mask);
+    }
     prepared = null;
     const seed = Number.isFinite(variant) ? variant >>> 0 : plan.seed;
     const random = randomSequence(seed);
     const local = localKind(kind);
     const length = local ? clamp(Number.isFinite(duration) ? duration : kind === 'hover' ? 300 : 400, 240, 480)
       : kind === 'navigation' ? clamp(Number.isFinite(duration) ? duration : 340, 250, 450)
-        : clamp(Number.isFinite(duration) ? duration : mix(config.minimumDurationMs, config.maximumDurationMs, random()), 750, 1200);
+        : clamp(Number.isFinite(duration) ? duration : mix(config.minimumDurationMs, config.maximumDurationMs, random()), 750, 1600);
     const amount = clamp(Number.isFinite(strength) ? strength : 1, 0, 1);
     detail = { duration: length, variant: seed, kind, strength: amount };
     const entering = kind !== 'mode' || mode === 'xray';
@@ -344,16 +353,30 @@ export function createModeSnapshotTransition({ doc = document, settings = {} } =
     const travelY = clamp(Number.isFinite(dy) ? dy : kind === 'mode' ? (entering ? 14 : -11) : 5, -60, 60);
     let previousPhase = -1;
     function render(progress) {
-      const phase = Math.min(plan.maps.length - 1, Math.floor(progress * plan.maps.length));
+      // Mode maps retain the same seeded cells while their UVs flow between
+      // phases. Local gestures retain their short established block rhythm.
+      const position = progress * (kind === 'mode' ? plan.maps.length - 1 : plan.maps.length);
+      const phase = Math.min(plan.maps.length - 1, Math.floor(position));
+      const fraction = kind === 'mode' ? position - phase : 0;
+      const mapMix = fraction * fraction * (3 - 2 * fraction);
       const envelope = entering ? progress < .13 ? progress / .13 : progress > .72 ? (1 - progress) / .28 : 1
         : progress < .08 ? .65 + progress / .08 * .35 : Math.pow(1 - progress, .58);
-      const pulse = .94 + .06 * Math.sin(progress * Math.PI * (entering ? 2 : 1));
+      // Broad, non-strobing bursts ride the continuous displacement. Reverse
+      // reconstruction has its own rhythm rather than replaying entry backward.
+      const burst = Math.exp(-Math.pow((progress - (entering ? .43 : .23)) / .11, 2));
+      const pulse = kind === 'mode' ? 1 + .08 * burst : .94 + .06 * Math.sin(progress * Math.PI * (entering ? 2 : 1));
       const gain = clamp(envelope * pulse, 0, 1) * amount;
       const displacement = config.displacementPx * (plan.mobile ? .65 : 1) * (kind === 'mode' ? 1.85 : local ? .65 : .9);
       const drift = Math.sin(progress * Math.PI) * (.35 + .65 * progress) * amount;
       for (let index = 0; index < filters.length; index++) {
         const filter = filters[index];
-        if (phase !== previousPhase) filter.map.setAttribute('href', plan.maps[(phase + (index && !entering ? 1 : 0)) % plan.maps.length]);
+        if (phase !== previousPhase) {
+          const mapIndex = Math.min(plan.maps.length - 1, phase + (index && !entering ? 1 : 0));
+          filter.map.setAttribute('href', plan.maps[mapIndex]);
+          filter.nextMap.setAttribute('href', plan.maps[Math.min(plan.maps.length - 1, mapIndex + 1)]);
+        }
+        filter.mapBlend.setAttribute('k2', String(1 - mapMix));
+        filter.mapBlend.setAttribute('k3', String(mapMix));
         const imageGain = index ? gain * (entering ? .58 : .68) : gain;
         filter.displacement.setAttribute('scale', String(displacement * imageGain * (index ? -.83 : 1)));
         filter.advection.setAttribute('dx', String(travelX * drift * (index ? -.28 : 1)));

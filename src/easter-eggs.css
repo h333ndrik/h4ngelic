@@ -13,7 +13,7 @@
   display: grid;
   grid-template-columns: max-content max-content minmax(0, 1fr);
   align-items: center;
-  gap: clamp(6px, 1vw, 12px);
+  gap: clamp(20px, 3vw, 44px);
   min-width: 0;
   min-height: 44px;
   font-size: clamp(10px, 2.75vw, 12px);
@@ -21,12 +21,36 @@
 .footer-identity > .footer-brand { grid-column: 1; justify-self: start; white-space: nowrap; }
 .footer-identity > .footer-details { grid-column: 3; justify-self: end; }
 .footer-details { display: flex; align-items: center; gap: clamp(12px, 2vw, 30px); white-space: nowrap; }
-.footer-instagram { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+.footer-instagram, .footer-smash { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
 .footer-instagram:focus-visible { outline-offset: 3px; }
 .footer-identity > .footer-visit-hotspot { grid-column: 2; justify-self: start; margin: 0; font-size: inherit; letter-spacing: inherit; white-space: nowrap; }
 /* VISIT is one shared local counter, visible beside the signature on every
    route. Its existing memory updater only repaints during route changes. */
-.footer-visit-hotspot .secret-message { opacity: 1; }
+.footer-visit-hotspot { position: relative; }
+.footer-visit-hotspot [data-visit-number] { opacity: 1; }
+.footer-visit-memory {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 44px));
+  white-space: normal;
+  text-align: left;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.footer-visit-hotspot:hover .footer-visit-memory,
+.footer-visit-hotspot:focus-visible .footer-visit-memory,
+.footer-visit-memory.is-discovered { opacity: .78; }
+.footer-smash {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.footer-smash:disabled { opacity: .45; }
+.footer-smash:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
 .footer-contact-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
 
@@ -147,7 +171,9 @@ body { position: relative; }
     font-size: 14px;
     line-height: 1.25;
   }
-  .footer-identity { grid-template-columns: max-content minmax(0, 1fr); gap: 0 10px; }
+  .footer-identity { position: relative; grid-template-columns: max-content minmax(0, 1fr); gap: 0 24px; }
+  .footer-identity > .footer-visit-hotspot { position: static; }
+  .footer-visit-memory { left: 0; max-width: 100%; }
   .footer-identity > .footer-details { grid-column: 1 / -1; justify-self: start; flex-direction: row; gap: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -157,7 +183,5 @@ body { position: relative; }
 }
 
 @media (max-width: 360px) {
-  .footer-details { flex-direction: column; gap: 0; align-items: flex-end; }
-  .footer-instagram { min-height: 30px; }
   .footer-identity { font-size: 10px; }
 }

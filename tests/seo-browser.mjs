@@ -6,7 +6,7 @@ const production = process.env.H4_EXPECT_DEPLOYMENT === 'production';
 const origin = process.env.H4_CANONICAL_ORIGIN || 'https://h4ngelic.com';
 const archiveIDs = ['tattoos', 'flashes', 'jewellery', 'more', 'analog-photography', 'digital-artworks', 'paintings'];
 const originalPath = '/work/digital-artworks/green-black-original';
-const paths = ['/', '/work', ...archiveIDs.map(id => `/work/${id}`), '/about', '/contact', originalPath];
+const paths = ['/', '/work', ...archiveIDs.map(id => `/work/${id}`), '/about', originalPath];
 const route = (path) => new URL(path, baseURL).href;
 
 for (const category of archiveIDs) {
@@ -14,6 +14,20 @@ for (const category of archiveIDs) {
   assert.equal(response.status, 301, 'Existing category-query bookmarks must redirect permanently to the canonical route.');
   assert.equal(new URL(response.headers.get('location'), baseURL).pathname, `/work/${category}`);
 }
+// Contact survives only as a compatibility redirect to the one Home form.
+for (const [path, destination] of [
+  ['/contact', '/#contact'],
+  ['/contact?artwork=green-black-original', '/?artwork=green-black-original#contact'],
+]) {
+  const response = await fetch(route(path), { redirect: 'manual' });
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get('location'), destination);
+}
+const manifestResponse = await fetch(route('/route-manifest.json'));
+assert.equal(manifestResponse.status, 200);
+const manifest = await manifestResponse.json();
+assert.equal(manifest.routes.some(entry => entry.path === '/contact'), false);
+assert.deepEqual(manifest.routes.filter(entry => ['/', '/work', '/about'].includes(entry.path)).map(entry => entry.path), ['/', '/work', '/about']);
 const missing = await fetch(route('/missing-page-for-seo-test'));
 assert.equal(missing.status, 404, 'Unknown page paths must return an actual HTTP 404.');
 const missingHTML = await missing.text();
@@ -29,7 +43,7 @@ assert.match(sitemap.headers.get('content-type'), /xml/);
 const sitemapXML = await sitemap.text();
 assert.match(sitemapXML, /<urlset\b/);
 const locations = [...sitemapXML.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-assert.deepEqual(locations.sort(), production ? [`${origin}/`, `${origin}/about`, `${origin}/contact`].sort() : [], 'Only canonical, indexable published pages belong in the sitemap; duplicate archive contexts, incomplete artwork and previews are excluded.');
+assert.deepEqual(locations.sort(), production ? [`${origin}/`, `${origin}/about`].sort() : [], 'Only canonical, indexable published pages belong in the sitemap; duplicate archive contexts, incomplete artwork and previews are excluded.');
 const robots = await fetch(route('/robots.txt'));
 assert.equal(robots.status, 200);
 const robotsText = await robots.text();
@@ -76,7 +90,7 @@ try {
     assert.equal(metadata.ogDescription, metadata.description);
     assert.equal(metadata.ogURL, metadata.canonical);
     assert.equal(metadata.rendered, path, 'The response must contain its route-specific prerendered content.');
-    const shouldIndex = production && ['/', '/about', '/contact'].includes(path);
+    const shouldIndex = production && ['/', '/about'].includes(path);
     assert.match(metadata.robots, shouldIndex ? /^index,\s*follow$/ : /^noindex,\s*follow$/);
     const person = metadata.data.find((node) => [node['@type']].flat().includes('Person'));
     assert.ok(person, 'The artist identity must be readable in structured data.');
@@ -84,9 +98,13 @@ try {
     assert.ok([person.alternateName].flat().includes('h4ngelic'));
     assert.deepEqual(person.sameAs, ['https://www.instagram.com/h4ngelic/']);
     assert.equal(await page.locator('main').count(), 1);
+    assert.equal(await page.locator('[data-floating-brand]').count(), 1);
+    assert.equal(await page.locator('[data-global-index] summary').isVisible(), true);
+    assert.equal(await page.locator('#reveal-control').count(), 0);
+    if (path !== '/') assert.equal(await page.locator('[data-inquiry-form]').count(), 0, 'Only Home contains the contact form.');
     assert.ok((await page.locator('h1').count()) >= 1);
     if (path === '/') {
-      assert.equal(await page.locator('[data-global-index]').count(), 0);
+      assert.equal(await page.locator('[data-global-index]').count(), 1);
       assert.equal(await page.locator('[data-naavi]').isVisible(), true, 'The single NAAVI remains usable without JavaScript.');
       assert.equal(await page.locator('[data-naavi]').getAttribute('href'), '/#selected-work');
       assert.equal(await page.locator('.hero').count(), 1);
@@ -97,7 +115,7 @@ try {
       assert.match(metadata.text, /01 \/ WORKS/);
       assert.equal(await page.locator('.fallback').isVisible(), true, 'The no-JS homepage retains the accessible static wordmark.');
     } else {
-      assert.equal(await page.locator('[data-global-index]').count(), 0);
+      assert.equal(await page.locator('[data-global-index]').count(), 1);
       assert.equal(await page.locator('[data-naavi]').isVisible(), true, 'Every prerendered route retains shared NAAVI.');
       assert.equal(await page.locator('[data-naavi]').count(), 1);
       assert.equal(await page.locator('.hero').count(), 0, 'Interior HTML must not expose a competing hero or download its font/scene.');
@@ -126,14 +144,6 @@ try {
           ['/work', '/work#tattoos', '/work#jewellery', '/work#more']);
         assert.equal(await page.locator('.work-page .page-heading').innerText(), '01 / WORKS');
         assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);
-      } else if (path === '/contact') {
-        assert.equal(await page.locator('[data-inquiry-form]').count(), 1);
-        assert.equal(await page.locator('input[name="name"][required]').count(), 1);
-        assert.equal(await page.locator('input[name="email"][type="text"][required][data-inquiry-contact]').count(), 1);
-        assert.equal(await page.locator('input[type="file"][multiple]').count(), 1);
-        assert.match(metadata.text, /for tattoos, jewellery or other projects\./);
-        assert.match(metadata.text, /h4ngelic@gmail\.com/);
-        assert.ok(metadata.data.some(node => node['@type'] === 'ContactPage'));
       } else {
         assert.match(metadata.text, /hi, i'm hendrik\./);
         assert.match(metadata.text, /berlin/);
@@ -141,28 +151,45 @@ try {
     }
   }
   assert.equal(new Set(titles).size, paths.length, 'Every direct page/context needs its own useful title.');
-  assert.equal(new Set(descriptions).size, paths.length - 1, 'Every archive, Home, About and Contact keeps its own useful description.');
+  assert.equal(new Set(descriptions).size, paths.length - 1, 'Every archive, Home and About keeps its own useful description.');
   await context.close();
   console.log(`PASS SEO HTTP/no-JS (${production ? 'production' : 'preview'}): ${paths.length} semantic direct routes, unique metadata, confirmed canonicals, structured artist identity, legacy redirects, strict 404s, sitemap and robots.`);
 
   const live = await browser.newContext({ viewport: { width: 390, height: 844 } });
-  for (const path of ['/work/tattoos', '/work/more', '/work/digital-artworks', originalPath, '/about', '/contact']) {
+  for (const path of ['/work/tattoos', '/work/more', '/work/digital-artworks', originalPath, '/about', '/contact', '/contact?artwork=green-black-original', '/#contact']) {
     const livePage = await live.newPage();
     const errors = [];
     const requests = [];
+    await livePage.addInitScript(() => {
+      window.__seoWebGLContexts = 0;
+      const getContext = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function(type, ...args) {
+        if (/webgl/i.test(type)) window.__seoWebGLContexts++;
+        return getContext.call(this, type, ...args);
+      };
+    });
     livePage.on('pageerror', (error) => errors.push(error.message));
     livePage.on('request', (request) => requests.push(request.url()));
     await livePage.goto(route(path), { waitUntil: 'networkidle' });
     assert.deepEqual(errors, []);
     assert.ok(!requests.some((url) => /\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans-Bold/.test(url)), 'Direct Work/About/Contact cannot download the 3D scene, font or reflection texture.');
-    const expected = path === originalPath ? 'artwork' : path.startsWith('/work') ? 'work' : path.slice(1);
+    const expected = path === originalPath ? 'artwork' : path.startsWith('/work') ? 'work' : path.startsWith('/about') ? 'about' : 'home';
     assert.equal(await livePage.locator('html').getAttribute('data-page'), expected);
+    assert.equal(await livePage.evaluate(() => window.__seoWebGLContexts), 0, 'Cold interior/Home Contact never initializes WebGL.');
+    if (expected === 'home') {
+      assert.equal(await livePage.locator('[data-inquiry-form]').count(), 1);
+      assert.equal(new URL(livePage.url()).hash, '#contact');
+      assert.ok(await livePage.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
+      if (path.includes('artwork=')) assert.equal(await livePage.locator('[data-inquiry-artwork]').inputValue(), 'green-black-original');
+    }
     await livePage.reload({ waitUntil: 'networkidle' });
+    assert.equal(await livePage.evaluate(() => window.__seoWebGLContexts), 0);
+    assert.ok(!requests.some((url) => /\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans-Bold/.test(url)));
     assert.deepEqual(errors, []);
     await livePage.close();
   }
   await live.close();
-  console.log('PASS SEO live interiors: direct/refresh routes work without Three.js scene, font or reflection requests.');
+  console.log('PASS SEO live interiors and Home Contact: direct/refresh routes work without Three.js scene, font or reflection requests.');
 } finally {
   await browser.close();
 }

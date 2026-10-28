@@ -81,12 +81,13 @@ try {
     const probe = window.__snapshotProbe;
     const calls = [];
     const started = performance.now();
-    const handle = probe.controller.run(detail => calls.push(detail), { mode: 'normal', duration: 720, variant: 2231 });
+    const handle = probe.controller.run(detail => calls.push(detail), { mode: 'normal', variant: 2231 });
     await handle.finished;
     return { elapsedMs: Math.round(performance.now() - started), calls, flag: document.documentElement.hasAttribute('data-mode-snapshot'), snapshot: probe.controller.snapshot() };
   });
   assert.deepEqual(realtime.calls.map(detail => detail.captured), [true]);
-  assert.ok(realtime.elapsedMs >= 650 && realtime.elapsedMs < 3000, `The unpaused native transition must finish within its bounded lifecycle; observed ${realtime.elapsedMs}ms.`);
+  assert.equal(realtime.snapshot.last.duration, 1400);
+  assert.ok(realtime.elapsedMs >= 1200 && realtime.elapsedMs < 5000, `The unpaused 1.4-second native transition must finish within its bounded lifecycle; observed ${realtime.elapsedMs}ms.`);
   assert.equal(realtime.flag, false);
   assert.equal(realtime.snapshot.active, false);
 
@@ -126,6 +127,46 @@ try {
   assert.deepEqual(errors, []);
   reports.push({ profile: 'native-desktop', brightBefore, brightAfter, movedOutsideMask, unexpectedColors, metadata, realtime, fallback, interruption });
   await context.close();
+
+  for (const width of [390, 320]) {
+    const mobileContext = await browser.newContext({ viewport: { width, height: 844 }, hasTouch: true, isMobile: true, deviceScaleFactor: 1 });
+    const mobilePage = await mobileContext.newPage();
+    const mobileErrors = [];
+    mobilePage.on('pageerror', error => mobileErrors.push(error.message));
+    await mobilePage.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
+    const transitions = await mobilePage.evaluate(async () => {
+      const { createModeSnapshotTransition } = await import('/src/mode-snapshot.js');
+      const controller = createModeSnapshotTransition();
+      const results = [];
+      for (const mode of ['xray', 'normal']) {
+        const started = performance.now();
+        const calls = [];
+        const handle = controller.run(detail => calls.push(detail), { mode, variant: mode === 'xray' ? 1947 : 2231 });
+        await handle.ready;
+        const style = getComputedStyle(document.documentElement, '::view-transition-old(root)');
+        const captured = { transform: style.transform, filter: style.filter };
+        await handle.finished;
+        results.push({ mode, elapsedMs: Math.round(performance.now() - started), duration: handle.duration,
+          calls, captured, snapshot: controller.snapshot(), retainedMaps: document.querySelectorAll('.mode-snapshot-definitions [href]').length,
+          overflow: document.documentElement.scrollWidth > innerWidth });
+      }
+      controller.dispose();
+      return results;
+    });
+    for (const result of transitions) {
+      assert.equal(result.duration, 1400);
+      assert.deepEqual(result.calls.map(detail => detail.captured), [true]);
+      assert.equal(result.captured.transform, 'none', 'Actual page captures never zoom away from the viewport.');
+      assert.match(result.captured.filter, /h4-mode-snapshot/);
+      assert.ok(result.elapsedMs >= 1200 && result.elapsedMs < 5000, `Mobile ${width} ${result.mode}: ${result.elapsedMs}ms.`);
+      assert.equal(result.snapshot.active, false);
+      assert.equal(result.retainedMaps, 0);
+      assert.equal(result.overflow, false);
+    }
+    assert.deepEqual(mobileErrors, []);
+    reports.push({ profile: `native-mobile-${width}`, transitions, errors: mobileErrors });
+    await mobileContext.close();
+  }
 
   const reducedContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
   const reducedPage = await reducedContext.newPage();

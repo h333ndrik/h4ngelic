@@ -4,14 +4,16 @@ import { easterSettings, visitorMessages, visitorMessage, nextVisit, canRemember
 import { renderFooter } from '../src/footer.js';
 import { createInkImprint } from '../src/ink-imprint.js';
 
-test('visitor copy follows the six exact messages, then remains stable', () => {
+test('visitor copy follows the seven exact personal stages, including returning intervals', () => {
   assert.deepEqual(visitorMessages, [
-    'nice to meet you.', 'you came back.', "twice wasn't enough?", 'getting familiar.',
-    "we're practically friends now.", 'you know your way around here.',
+    'nice to meet you.', 'you came back.', 'we’re practically friends now.',
+    "getting familiar, aren't we?", 'you know your way around here.',
+    'some things are worth returning to.', "you're part of this place now.",
   ]);
-  for (let count = 1; count <= 6; count++) assert.equal(visitorMessage(count), visitorMessages[count - 1]);
-  assert.equal(visitorMessage(99), 'you know your way around here.');
-  assert.equal(visitorMessage(-1), 'nice to meet you.');
+  for (let count = 1; count <= 5; count++) assert.equal(visitorMessage(count), visitorMessages[count - 1]);
+  for (let count = 6; count <= 9; count++) assert.equal(visitorMessage(count), visitorMessages[5]);
+  for (const count of [10, 11, 99, Number.MAX_SAFE_INTEGER]) assert.equal(visitorMessage(count), visitorMessages[6]);
+  for (const invalid of [-1, 0, NaN, Infinity, '3']) assert.equal(visitorMessage(invalid), visitorMessages[0]);
 });
 
 test('ordinary page views and reloads are one visit until separated inactivity', () => {
@@ -41,11 +43,15 @@ test('the homepage keeps its hidden instruction separate from the identity-row c
   assert.match(html, /h4ngelic © 2026/);
   assert.match(html, /berlin, de/);
   assert.match(html, /data-footer-secret-space/);
-  assert.doesNotMatch(html, /data-visit-message/, 'The returning message stays in the header.');
+  assert.match(html, /data-visit-message/, 'The personal phrase accompanies the visible count.');
   assert.match(html, /data-other-side-hint data-secret-hotspot data-mode-hold/);
   assert.match(html, />HOLD 4 TO SEE THE OTHER SIDE\.<\/span>/);
   assert.match(html, /data-visit-counter-hotspot/);
-  assert.match(html, />VISIT 001<\/span>/);
+  assert.match(html, /aria-describedby="footer-visit-count footer-visit-memory"/);
+  assert.match(html, /data-visit-number id="footer-visit-count"/);
+  assert.match(html, />visit 1<\/span>/);
+  assert.ok(html.indexOf('data-smash') < html.indexOf('class="footer-instagram"'));
+  assert.match(html, /data-smash[^>]*disabled/, 'Missing private soundtrack cannot fake playback.');
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
   assert.ok(html.indexOf('data-visit-counter-hotspot') > html.indexOf('footer-identity'));
   assert.doesNotMatch(html, /data-mode-mute/, 'The sound control belongs to the hero controls, without a footer duplicate.');

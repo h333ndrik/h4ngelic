@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { siteContent } from '../src/data/siteContent.js';
 import { artworks } from '../src/data/artworks.js';
 import { contentURL, emailURL, escapeHTML } from '../src/content-utils.js';
-import { normalizeCategory, renderHomepageSections, renderWorkPage, renderProject, renderAboutPage, renderArtworkPage, renderContactPage } from '../src/pages.js';
+import { normalizeCategory, renderHomepageSections, renderWorkPage, renderProject, renderAboutPage, renderArtworkPage } from '../src/pages.js';
 
 test('homepage keeps only the three horizontal main links into the connected Work document', () => {
   const markup = renderHomepageSections();
@@ -44,11 +44,11 @@ test('Work retains all real groups and children for every category deep link wit
   }
 });
 
-test('home and dedicated Contact expose one accessible inquiry form and the confirmed contact details', () => {
+test('only Home exposes the accessible inquiry form; interior Contact links target its section', () => {
   assert.equal(siteContent.contact.email, 'h4ngelic@gmail.com');
   assert.equal(siteContent.contact.instagramURL, 'https://www.instagram.com/h4ngelic/');
   assert.equal(siteContent.contact.bookingURL, '');
-  for (const markup of [renderHomepageSections(), renderContactPage()]) {
+  for (const markup of [renderHomepageSections()]) {
     assert.equal((markup.match(/data-inquiry-form/g) || []).length, 1);
     assert.match(markup, /action="\/api\/inquiry" method="post" enctype="multipart\/form-data"/);
     assert.match(markup, /name="name" autocomplete="name" required/);
@@ -57,12 +57,19 @@ test('home and dedicated Contact expose one accessible inquiry form and the conf
     assert.doesNotMatch(markup, /<textarea[^>]+required/);
     assert.match(markup, /type="file" name="attachments"[^>]+multiple/);
     assert.match(markup, /ATTACH REFERENCES \/ IMAGES/);
-    assert.match(markup, /SEND INQUIRY/);
+    assert.match(markup, /SEND MESSAGE/);
     assert.match(markup, /data-inquiry-status role="status" aria-live="polite"/);
     assert.match(markup, /href="mailto:h4ngelic@gmail\.com"/);
     assert.match(markup, /href="https:\/\/www\.instagram\.com\/h4ngelic\/" target="_blank" rel="noopener noreferrer"/);
     assert.doesNotMatch(markup, /class="contact-links"|link coming soon|href="(?:#|mailto:|https?:\/\/|)"/);
   }
+});
+
+test('interior routes have no form and one contact destination', () => {
+  for (const markup of [renderWorkPage(), renderAboutPage()]) {
+    assert.doesNotMatch(markup, /data-inquiry-form|href="\/contact/);
+  }
+  assert.match(renderAboutPage(), /href="\/#contact">get in touch/);
 });
 
 test('configured Instagram links remain safe, optional and separate from inquiry submission', () => {
@@ -160,7 +167,7 @@ test('published artwork images keep real detail URLs and progressively open in-p
   assert.match(detail, /id="image-2" tabindex="-1"/);
   assert.match(detail, /data-artwork-image="1"/);
   assert.match(detail, /loading="eager" fetchpriority="high"/);
-  assert.match(detail, /href="\/contact\?artwork=real-url-fixture"/);
+  assert.match(detail, /href="\/\?artwork=real-url-fixture#contact"/);
 });
 
 test('about optional content renders only when configured', () => {
@@ -232,7 +239,7 @@ test('homepage About copy remains one flowing paragraph and every relevant route
   const paragraph = home.match(/<p class="about-preview-copy[^>]+>([\s\S]*?)<\/p>/)?.[1];
   assert.equal(paragraph, 'mixed media. ink, metal and everything in between.');
   assert.doesNotMatch(paragraph, /<br|<span/);
-  for (const markup of [home, renderWorkPage(), renderAboutPage(), renderContactPage(), renderArtworkPage(artworks[0])]) {
+  for (const markup of [home, renderWorkPage(), renderAboutPage(), renderArtworkPage(artworks[0])]) {
     assert.equal((markup.match(/data-visit-number/g) || []).length, 1);
     assert.match(markup, /footer-brand[\s\S]*?data-visit-counter-hotspot/);
   }

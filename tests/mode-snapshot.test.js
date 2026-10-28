@@ -326,7 +326,7 @@ test('live local corruption preserves stylesheet glow then restores stylesheet o
 
 test('major and ordinary navigation captures have distinct bounded durations', async () => {
   for (const [kind, requested, expected] of [
-    ['mode', undefined, 950], ['mode', 100, 750], ['mode', 9999, 1200],
+    ['mode', undefined, 1400], ['mode', 100, 750], ['mode', 9999, 1600],
     ['navigation', undefined, 340], ['navigation', 100, 250], ['navigation', 9999, 450],
   ]) {
     const f = fixture(), controller = f.create();
@@ -334,6 +334,33 @@ test('major and ordinary navigation captures have distinct bounded durations', a
     assert.equal(handle.duration, expected, `${kind}: ${requested}`);
     assert.equal(f.doc.documentElement.style.getPropertyValue('--mode-snapshot-duration'), `${expected}ms`);
     await f.transitions[0].complete(); await handle.finished;
+    controller.dispose();
+  }
+});
+
+test('major UV fields flow continuously across a seeded phase boundary in both directions', async () => {
+  for (const mode of ['xray', 'normal']) {
+    const f = fixture(), controller = f.create();
+    const handle = controller.run(() => {}, { mode, variant: 271 });
+    assert.equal(handle.duration, 1400);
+    await f.transitions[0].invokeUpdate(); await handle.ready;
+    const filters = f.doc.body.querySelectorAll('filter');
+    f.advance(252); // 18%: approaching the first 20% map boundary.
+    const before = filters.map(filter => ({
+      next: filter.querySelector('[data-snapshot-next-map]').getAttribute('href'),
+      mix: Number(filter.querySelector('[data-snapshot-map-blend]').getAttribute('k3')),
+    }));
+    f.advance(308); // 22%: the former destination is now the current map.
+    for (let index = 0; index < filters.length; index++) {
+      const filter = filters[index];
+      const blend = filter.querySelector('[data-snapshot-map-blend]');
+      assert.equal(filter.querySelector('[data-snapshot-map]').getAttribute('href'), before[index].next);
+      assert.ok(before[index].mix > .97, 'The previous UV field has almost reached its destination.');
+      assert.ok(Number(blend.getAttribute('k3')) < .03, 'The next field starts near the same destination.');
+      assert.ok(Math.abs(Number(blend.getAttribute('k2')) + Number(blend.getAttribute('k3')) - 1) < 1e-9);
+    }
+    await f.transitions[0].complete(); await handle.finished;
+    assert.ok(filters.every(filter => filter.querySelector('[data-snapshot-next-map]').getAttribute('href') === null));
     controller.dispose();
   }
 });

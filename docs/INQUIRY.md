@@ -1,22 +1,35 @@
-> Current master-foundation update: the contact field is **HOW TO REACH YOU**,
-> required free text with placeholder `email, instagram, phone number...`.
-> Email addresses, Instagram handles and telephone numbers are accepted. The
-> legacy multipart key `email` remains compatible; the mail adapter includes
-> `reply_to` only when that value is a valid email address. All contact text
-> appears in the message body. The 700ms IntersectionObserver entrance runs
-> once, bypassed for reduced motion and keyboard focus.
+> Current V3 state: there is exactly one form, in Home `03 / CONTACT`.
+> Every Contact/inquire destination leads to `/#contact`; legacy `/contact`
+> redirects there. Required **HOW TO REACH YOU** accepts email, Instagram or
+> phone with placeholder `email, instagram, phone number...`. The message
+> uses the approved two-line placeholder and the action is **SEND MESSAGE**.
+> The legacy multipart key `email` remains compatible; `reply_to` is included
+> only for a valid email address. The 700ms entrance runs once and bypasses
+> motion for reduced-motion preferences or keyboard focus.
 >
-> Delivery is blocked until `RESEND_API_KEY`, a verified `INQUIRY_FROM` sender
-> and a same-origin deployed `/api/inquiry` backend exist. HTTP/provider-mock
-> tests verify handling, **not delivery of real mail**. A downloaded HTML cannot
-> submit mail. Errors preserve entered text and attachments.
+> Actual delivery is blocked until a Resend key, verified sender and hosted
+> same-origin backend are configured. Mock-provider tests prove handling,
+> not real email delivery. Offline HTML cannot submit mail. Errors preserve
+> entered text and attachments. No production deployment is authorized.
 
 # Inquiry form and delivery
 
-The homepage Contact section and `/contact` share the same native form and
-progressive enhancement. Name and a free-text contact channel are required; the
-message is optional. An inquiry opened from a real artwork can carry its
-published ID. No invented portfolio entries are accepted as context.
+The only native form is in the homepage Contact section. Works and More About
+contain no separate form. Use the shared `contactURL()` helper from
+`src/routes.js` for links; `contactURL(project.id)` carries a published artwork
+ID as `/?artwork=…#contact`. Legacy `/contact?artwork=…` redirects to that Home
+section. The router scrolls to Contact and updates NAAVI; changing context
+within Home refreshes only its hidden artwork field and label, retaining the
+same form node, entered text and attachments.
+
+Name and a free-text contact channel are required; the message is optional.
+No invented portfolio entries are accepted as context. The message placeholder
+is exactly:
+
+```text
+could be an inquiry, a question or just a thought.
+feel free to write anything.
+```
 
 ## What is implemented
 
@@ -101,9 +114,9 @@ public files. MIME checks establish basic file-type consistency; they are not
 an antivirus scan or a guarantee that a document is safe to open. Configure
 provider/inbox attachment protection and the artist's retention policy.
 Confirm the site's legally appropriate privacy notice and the mail provider's
-processing terms before enabling public submissions. The frontend includes a
-short purpose statement; it does not invent a jurisdiction-specific legal
-policy.
+processing terms before any separately authorized public submissions. The V3
+frontend removes the former short purpose sentence without replacing it with
+unapproved copy; it does not invent a jurisdiction-specific legal policy.
 
 No email delivery or new public deployment is enabled by this change.
 
@@ -114,7 +127,7 @@ node --test tests/inquiry.test.js
 node tests/inquiry-http.mjs
 ```
 
-The 17 Node cases test binary integrity, false boundary prefixes, malformed
+The focused Node cases test binary integrity, false boundary prefixes, malformed
 multipart data, spoofed MIME types, actual streamed and per-file/total-byte
 limits, Unicode filenames, required inputs, origin/rate/concurrency protections,
 bounded rate storage, fixed recipient and Reply-To, unconfigured delivery,
@@ -129,6 +142,10 @@ attachment bytes survived. The report is written to
 `artifacts/inquiry/http-results.json`; it explicitly records
 `liveDeliveryVerified: false`.
 
-Browser validation should additionally check 320px/390px and desktop layouts,
-keyboard/file removal, success/error/unavailable states, route cleanup and
-artwork context. Those runs are separate from actual live email delivery.
+The current V3 form browser suite passed at 1440px, 390px and 320px, each with
+normal and reduced motion. It checks the single field surfaces, grid alignment,
+labels, stable focus, entrance, context changes, retained draft and uploads.
+Evidence is `artifacts/smart-continuation-v3/inquiry.json`. Cross-route
+Contact/history verification belongs to the main navigation integration suite.
+All browser and mock-provider checks remain separate from actual live email
+delivery.

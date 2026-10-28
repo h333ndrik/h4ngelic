@@ -22,18 +22,21 @@ async function routeNavigate(page, name) {
   const previousVisit = await page.locator('[data-visit-number]').textContent();
   const current = await page.locator('html').getAttribute('data-page');
   if (name === 'contact' && current === 'about') {
-    await page.locator('.about-copy a[href="#/contact"]').click();
+    await page.locator('.about-copy a[href="#/#contact"]').click();
+  } else if (name === 'home') {
+    await page.locator('[data-floating-brand]').click();
   } else {
-    if (current !== 'home') {
-      await page.locator('.brand-link').click();
-      await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
-    }
-    if (name !== 'home') await page.locator(`.hero-nav a[href="#/${name === 'work' ? 'work' : 'about'}"]`).click();
+    await page.locator('[data-global-index] summary').click();
+    await page.locator(`[data-index-page="${name}"]`).click();
   }
-  await page.waitForFunction(expected => document.documentElement.dataset.page === expected, name);
+  await page.waitForFunction(expected => document.documentElement.dataset.page === expected, name === 'contact' ? 'home' : name);
+  if (name === 'contact') await page.waitForFunction(() => location.hash === '#/#contact'
+    && document.querySelector('#contact').getBoundingClientRect().top < innerHeight);
   assert.equal(await page.locator('[data-visit-number]').textContent(), previousVisit, 'Routes do not count as new visits.');
   assert.equal(await page.locator('[data-naavi]').count(), 1);
   assert.equal(await page.locator('[data-naavi]').isVisible(), true);
+  assert.equal(await page.locator('[data-floating-brand]').isVisible(), true);
+  assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), false, 'Choosing a destination closes INDEX.');
 }
 
 async function enterWith4(page) {
@@ -117,13 +120,20 @@ try {
       await waitMode(page, 'normal');
       assert.equal(await page.locator('[data-end-reveal]').count(), 1);
       assert.equal(await page.locator('.end-reveal-mark').evaluate(mark => Number(getComputedStyle(mark).opacity)), 0, 'End mark must remain invisible at the hero.');
-      assert.equal(await page.locator('.identity, .masthead .edition, [data-global-index]').count(), 0);
+      assert.equal(await page.locator('.identity, .masthead .edition, #reveal-control, .brand-link, .hero-brand').count(), 0);
+      assert.equal(await page.locator('[data-floating-brand]').count(), 1);
+      assert.equal(await page.locator('[data-global-index]').count(), 1);
+      assert.equal(await page.locator('[data-global-index] summary').textContent(), '+');
+      await page.locator('[data-global-index] summary').click();
+      assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), true);
+      await page.keyboard.press('Escape');
+      assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), false);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
       assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1);
       const identity = await identityGeometry(page);
       assert.equal(identity.counterInRow, true, 'The visit counter belongs to the existing identity row.');
-      assert.ok(identity.counter.left - identity.brand.right >= 3 && identity.counter.left - identity.brand.right <= 18,
-        'VISIT sits directly beside the copyright rather than centered on the page.');
+      assert.ok(identity.counter.left - identity.brand.right >= 18 && identity.counter.left - identity.brand.right <= 48,
+        'The local visit count has generous spacing beside the copyright.');
       assert.ok(Math.abs(identity.brand.centerY - identity.counter.centerY) < .5,
         'Copyright and VISIT share one baseline.');
       assert.ok(width < 600 || identity.counter.right + 3 <= identity.location.left,
@@ -241,8 +251,9 @@ try {
       assert.match(await page.locator('main').textContent(), /independent artist based in berlin\./);
       assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0);
       await routeNavigate(page, 'contact');
-      await page.waitForFunction(() => document.documentElement.dataset.page === 'contact');
-      assert.equal(await page.locator('[data-inquiry-form]').count(), 1, 'The direct Contact page contains the shared form.');
+      await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
+      assert.equal(await page.locator('[data-inquiry-form]').count(), 1, 'Contact opens the only form in the Home section.');
+      assert.equal(await page.locator('[data-inquiry-form]').evaluate(form => form.closest('#contact') !== null), true);
       await routeNavigate(page, 'home');
       await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
       await page.locator('.hero-nav a[href="#/#contact"]').click();
@@ -257,9 +268,15 @@ try {
       await page.evaluate(() => { location.hash = '#/'; });
       await page.waitForFunction(() => scrollY === 0);
       assert.equal(await page.locator('#logo-canvas').isVisible(), true);
+      const homeHash = await page.evaluate(() => location.hash);
+      await page.locator('#contact').evaluate(element => element.scrollIntoView({ behavior: 'instant' }));
+      assert.ok(await page.evaluate(() => scrollY > 0), 'Prepare a real scrolled Home document without changing its hash.');
+      await page.locator('[data-floating-brand]').click();
+      await page.waitForFunction(hash => location.hash === hash && scrollY === 0 && document.querySelector('[data-naavi]').dataset.chapter === '0', homeHash);
+      assert.equal(await page.locator('[data-naavi]').getAttribute('data-chapter'), '0', 'Same-hash Home navigation still updates NAAVI.');
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       if (mobile) await page.locator('[data-visitor-hotspot]').tap(); else await page.locator('[data-visitor-hotspot]').hover();
-      assert.match(await page.locator('[data-visit-message]').textContent(), /nice to meet you\./);
+      assert.match(await page.locator('[data-visitor-hotspot] [data-visit-message]').textContent(), /nice to meet you\./);
       assert.deepEqual(errors, []);
       assert.deepEqual(requests, [], 'Standalone mode, texture, sound and navigation must require no HTTP requests.');
       reports.push({ width, mobile, externalHttpRequests: requests.length, runtimeErrors: errors.length,
@@ -267,12 +284,12 @@ try {
         verified: ['WebGL hero', 'short hold cancellation', mobile ? 'native touch hold' : 'one-second 4 hold',
           'one-second 4 reverse', 'released 333 return', 'temporary faint hint', 'embedded film',
           'retained transition pixels', 'two bounded memory buffers', 'no pristine CSS source', 'lower hero mute',
-          'copyright-adjacent VISIT', 'connected Work anchors', 'About', 'Contact inquiry', 'visitor', 'horizontal bounds'] });
-      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, 4/333 return, temporary faint hint, lower hero mute, copyright-adjacent VISIT, connected Work, Contact, zero HTTP requests/runtime errors.`);
+          'spaced lowercase local visit', 'persistent brand and INDEX', 'connected Work anchors', 'About', 'Home-only Contact inquiry', 'visitor', 'horizontal bounds'] });
+      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, 4/333 return, temporary faint hint, lower hero mute, spaced visit, persistent INDEX, connected Work, Home Contact, zero HTTP requests/runtime errors.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL('../artifacts/control-offline-results.json', import.meta.url), JSON.stringify({
-    contract: 'v6-navigation-inquiry', checkedAt: new Date().toISOString(), html: htmlPath.pathname, htmlBytes: Buffer.byteLength(html),
+    contract: 'smart-continuation-v3-offline', checkedAt: new Date().toISOString(), html: htmlPath.pathname, htmlBytes: Buffer.byteLength(html),
     htmlSha256: createHash('sha256').update(html).digest('hex'), reports,
   }, null, 2) + '\n');
 } finally { await browser.close(); }

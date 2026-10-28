@@ -1,0 +1,12 @@
+.sound-control { display: inline-flex; align-items: center; position: relative; }
+.hero .controls .sound-control > .sound-volume-toggle { padding-inline: 4px; min-width: 44px; margin-left: -3px; border-color: transparent; }
+.sound-volume-toggle span { display: block; font-size: 14px; line-height: 1; transition: transform 220ms ease; }
+.sound-control[data-volume-open] .sound-volume-toggle span { transform: rotate(180deg); }
+.sound-volume-popup { position: absolute; z-index: 4; inset: auto auto calc(100% + 8px) 0; display: flex; gap: 10px; align-items: center; width: 164px; padding: 12px; background: #303032f5; color: #f0efeb; border: 1px solid #ffffff24; opacity: 0; transform: translateY(5px); transition: opacity 220ms ease, transform 220ms cubic-bezier(.2,.8,.25,1); pointer-events: none; }
+.sound-control[data-volume-open] .sound-volume-popup { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.sound-volume-popup input { margin: 0; width: 100%; min-width: 0; accent-color: #d3d2cf; height: 28px; touch-action: pan-x; }
+.sound-volume-popup input:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+.sound-volume-popup output { min-width: 3.5ch; font-size: 10px; font-variant-numeric: tabular-nums; }
+html[data-mode='xray'] .sound-volume-popup { background: #302a36f5; }
+@media (pointer: coarse) { .sound-volume-popup { padding-block: 10px; } }
+@media (prefers-reduced-motion: reduce) { .sound-volume-popup, .sound-volume-toggle span { transition: none; } }

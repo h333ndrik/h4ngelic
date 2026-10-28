@@ -141,7 +141,8 @@ export function initInteractions(root = document, { revealSections = true, setti
   function fitVisual(target) {
     const wrapper = targets.get(target)?.wrapper;
     if (!wrapper) return;
-    let preferred = target.matches('.artwork-open') ? settings.hover.imageScale : settings.hover.scale;
+    let preferred = target.matches('.drift-artwork') ? 1.025
+      : target.matches('.artwork-open') ? settings.hover.imageScale : settings.hover.scale;
     if (target.matches('.category-link, .contact-link')) {
       const style = getComputedStyle(target);
       const available = target.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);

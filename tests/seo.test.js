@@ -35,7 +35,7 @@ test('metadata stays descriptive while connected archive aliases consolidate on 
   assert.equal(original.canonicalURL, 'https://h4ngelic.com/work/digital-artworks/green-black-original');
   assert.equal(original.description, getPageMetadata(resolveRoute('/work/digital-artworks'), production).description,
     'An incomplete noindex detail uses the truthful existing category description.');
-  assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/about', '/contact']);
+  assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/about']);
   assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/work');
   const missing = getPageMetadata(resolveRoute('/no-such-page'), production);
   assert.equal(missing.status, 404);
@@ -127,30 +127,21 @@ test('prerender emits readable semantic pages while interior hero stays inert', 
   assert.throws(() => prerenderHTML('<html></html>', resolveRoute('/')));
 });
 
-test('dedicated Contact is crawlable HTML with the real inquiry form and canonical public URL', () => {
-  const route = resolveRoute('/contact');
-  assert.equal(route.kind, 'contact');
+test('legacy Contact consolidates on Home and does not create a second indexed page', () => {
+  const route = resolveRoute('/contact?artwork=green-black-original');
+  assert.equal(route.kind, 'home');
+  assert.equal(route.redirectPath, '/?artwork=green-black-original#contact');
   const metadata = getPageMetadata(route, production);
-  assert.equal(metadata.indexable, true);
-  assert.equal(metadata.canonicalURL, 'https://h4ngelic.com/contact');
-  assert.equal(metadata.structuredData['@graph'].some(node => node['@type'] === 'ContactPage'), true);
-  assert.equal(getPageMetadata(route).indexable, false, 'A preview must not become indexable simply because Contact now exists.');
-  const markup = prerenderHTML(shell, route, metadata);
-  const active = markup.replace(/<template\b[\s\S]*?<\/template>/g, '');
-  assert.doesNotMatch(active, /logo-canvas/);
-  assert.equal((active.match(/<h1\b/g) || []).length, 1);
-  assert.match(active, /03 \/ CONTACT/);
-  assert.match(active, /<form[^>]+action="\/api\/inquiry"[^>]+method="post"/);
-  assert.match(active, /name="name"[^>]+required/);
-  assert.match(active, /type="text"[^>]+required[^>]+data-inquiry-contact/);
-  assert.match(active, /mailto:h4ngelic@gmail\.com/);
+  assert.equal(metadata.canonicalURL, 'https://h4ngelic.com/');
+  assert.equal(metadata.structuredData['@graph'].some(node => node['@type'] === 'ContactPage'), false);
+  assert.equal(routeDefinitions().some(entry => entry.path === '/contact'), false);
 });
 
 test('sitemap only includes indexable canonical pages and robots preserves existing policy', () => {
   const pages = routeDefinitions().map((route) => getPageMetadata(route, production));
   const xml = buildSitemap(pages);
   assert.match(xml, /https:\/\/h4ngelic.com\/about/);
-  assert.match(xml, /https:\/\/h4ngelic.com\/contact/);
+  assert.doesNotMatch(xml, /https:\/\/h4ngelic.com\/contact/);
   assert.doesNotMatch(xml, /\/work/);
   assert.doesNotMatch(buildSitemap(routeDefinitions().map((route) => getPageMetadata(route))), /<url>/);
   assert.equal(buildRobots(getSEOConfig()), 'User-agent: *\nDisallow: /\n');
@@ -181,7 +172,7 @@ test('production output and preview HTTP preserve canonical redirects, strict 40
   assert.equal(home.headers.get('x-robots-tag'), 'index, follow');
   assert.equal(home.headers.get('content-encoding'), 'gzip');
   assert.match(await home.text(), /data-prerendered="\/"/);
-  for (const [path, destination] of [['/work?category=tattoos', '/work/tattoos'], ['/about/', '/about'], ['/work/index.html', '/work'], ['/index.html', '/']]) {
+  for (const [path, destination] of [['/contact', '/#contact'], ['/contact?artwork=green-black-original', '/?artwork=green-black-original#contact'], ['/work?category=tattoos', '/work/tattoos'], ['/about/', '/about'], ['/work/index.html', '/work'], ['/index.html', '/']]) {
     const response = await fetch(`${base}${path}`, { redirect: 'manual' });
     assert.equal(response.status, 301, path);
     assert.equal(response.headers.get('location'), destination);
@@ -193,6 +184,9 @@ test('production output and preview HTTP preserve canonical redirects, strict 40
   assert.match(aliasHTML, /rel="canonical" href="https:\/\/h4ngelic.com\/work"/);
   assert.match(aliasHTML, /data-connected-work/);
   assert.match(aliasHTML, /data-archive-category="digital-artworks"/);
+  const alias = await readFile(join(directory, 'contact/index.html'), 'utf8');
+  assert.doesNotMatch(alias, /data-inquiry-form/);
+  assert.match(alias, /location.replace/);
   const contact = await fetch(`${base}/contact`);
   assert.equal(contact.status, 200);
   assert.equal(contact.headers.get('x-robots-tag'), 'index, follow');
