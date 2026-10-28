@@ -29,7 +29,7 @@ All approved, available V3 implementation and current checks are complete. Revie
 | V3-19 | DONE for recorded no-launch constraint; no launch/merge performed. | Actual feature-branch workflow | Not applicable | Not applicable |
 | V3-20 | DONE: approved unblocked implementation, serial QA and artifact packaging completed. | Source d0bcb15; evidence manifest | PASS | PASS |
 | V3-21 | DONE: existing controllers reused; read-only final review found one footer accessibility issue, now fixed/tested. No added dependencies or competing framework. | Diff review and focused footer tests | PASS | PASS |
-| V3-22 | DONE:348 Node tests, current browser suites, build, production routes and exact offline package pass. | 35 evidence files and SHA-256 manifest | PASS | PASS |
+| V3-22 | DONE: 348 Node tests, current browser suites, build, production routes and exact offline package pass. | 37 evidence files and SHA-256 manifest | PASS | PASS |
 | V3-23 | DONE: full brief, tracker, results, blockers and exact checkpoint persisted. Remote HTML/ZIP and OPEN review PR verified. | Four checkpoint files; V3 report/evidence | Not applicable | Not applicable |
 | V3-24 | DONE: continuation contract is durable; future work starts with actual Git/code reconciliation. | `AGENTS.md`, `NEXT_SESSION.md` | Not applicable | Not applicable |
 | V3-25 | DONE for available implementation; delivery complete; review is next. External content/services and hardware review remain explicit. | Current source/artifact validation | PASS | PASS |
@@ -59,7 +59,7 @@ All approved, available V3 implementation and current checks are complete. Revie
 | Persistent memory |1000/390/320 active,390 reduced; byte handoff/two buffers/seed/navigation/resize |4 PASS |
 | Hero |Desktop physics, mobile touch, reduced pause, no-WebGL fallback |PASS |
 | Production routes |11 semantic routes +404; no-JS/metadata/redirects; cold interiors/Home Contact without Three |PASS |
-| Exact standalone HTML |1440/390/320 + native390 touch, with external HTTP rejected |PASS; no runtime errors/external requests |
+| Exact standalone HTML |1440/390/320 + native 390 touch, with external HTTP rejected |PASS; no runtime errors/external requests |
 
 Production build and standalone export pass. The lazy hero chunk remains 610.38kB (158.04kB gzip); no dependencies were added. The size warning is recorded, not hidden. Interior routes do not download or initialize it.
 
