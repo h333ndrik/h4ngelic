@@ -1,6 +1,6 @@
 # V3.1 progress — final build and artifact verification
 
-Updated 2026-10-29. Branch: `feat/smart-continuation-v3` / PR #20. Starting verified V3 HEAD: `96820e5`; the branch was clean before this pass. Asset commit `f1841e4` contains the eight originals and approved SMASH file. Source commit **`daeaff8`** now contains the V3.1 refinement and generated image variants. The final Node run passes 357/357 after all runtime corrections; all approved functional-browser suites and the six production Digital comparisons pass. Production build/export succeeds for 19 routes plus 404 in preview/noindex mode. All 17 source items are DONE; live production-route and exact offline HTML/package validation now pass. Preserve current documentation/evidence changes for the final artifact commit; same-branch push and PR review handoff remain pending.
+Updated 2026-10-29. Branch: `feat/smart-continuation-v3` / PR #20. Starting verified V3 HEAD: `96820e5`; the branch was clean before this pass. Asset commit `f1841e4` contains the eight originals and approved SMASH file. Source commit **`daeaff8`** now contains the V3.1 refinement and generated image variants. The final Node run passes 357/357 after all runtime corrections; all approved functional-browser suites and the six production Digital comparisons pass. Production build/export succeeds for 19 routes plus 404 in preview/noindex mode. All 17 source items are DONE; live production-route and exact offline HTML/package validation now pass. Artifact/evidence commit `3b424e9` is pushed, remote HTML bytes match, and PR #20 is OPEN and ready for review. Only this documentation-only delivery checkpoint remains to be committed/pushed by root; do not invent its future commit hash.
 
 The [full brief](docs/V3.1-REFINEMENT.md) plus the user’s **eight-photo correction** define the active scope. The former V3 evidence is historical where V3.1 changes behaviour; it must not be presented as new verification. [PROJECT_PLAN.md](PROJECT_PLAN.md) tracks the complete requirements.
 
@@ -69,7 +69,7 @@ Preserved Digital baseline: `/tmp/h4-v31-before-digital-dist`. Keep it until act
 
 Verified items **1, 3, 4, 5, 7b and 8**: INDEX numbering/menu interaction, exact cursor sizing/NAAVI form, panel/input surface parity, matching typography, compact brand/category row, footer baseline and scoped contrast. The contrast tests prove that opacity changes on a heading, its child or an ancestor immediately release blending when invisible, and that the scroll path reuses cached geometry rather than measuring it again. Inquiry content has priority over nearby display type. These results do not mark the separate footer, motion or shared-UI suites complete.
 
-PR #20 is currently **DRAFT** while V3.1 verification is in progress; it will be marked ready only after the remaining approved checks pass. No merge or deployment occurred.
+PR #20 was DRAFT during V3.1 verification. It is now OPEN and ready for review after the verified artifact push and remote-byte check. No merge or deployment occurred.
 
 ### Footer milestone — current browser evidence
 
@@ -123,7 +123,7 @@ The complete actual SMASH playback suite now passes all three widths, as recorde
 
 Item **16 is DONE**. Every profile verifies the unchanged approved bytes, no startup fetch/AudioContext, one first-use fetch/decode with cached restart, native 1.8s attack/final five-second tail/approximately one-second manual stop, sound ducking/restoration, global mute/volume, route continuity and uninterrupted 333↔4 transitions. At 1440px the full **100.270s decoded original** runs to its natural end without seeking or shortening. Live gain falls during the final four seconds and final 0.6 seconds, reaches silence, restores the ordinary cue bus and allows the next mode cue. The ended-event observation lasts approximately 100.836 seconds including browser scheduling; it is not a shortened fixture.
 
-All approved functional-browser work is now verified. The final `npm test` passes **357/357** at `docs/validation/v3.1-refinement/node-tests.txt` (3416.202864ms, no failures/skips), covering all runtime/source corrections. Source commit daeaff8 has now been built/exported, and the subsequent six actual Digital comparisons pass. Live-route and exact offline/package delivery QA now pass; commit/push handoff remains.
+All approved functional-browser work is now verified. The final `npm test` passes **357/357** at `docs/validation/v3.1-refinement/node-tests.txt` (3416.202864ms, no failures/skips), covering all runtime/source corrections. Source commit daeaff8 has now been built/exported, and the subsequent six actual Digital comparisons pass. Live-route and exact offline/package delivery QA pass, artifact commit 3b424e9 is pushed and PR #20 is ready for review.
 
 ### Production build and measured Digital milestone
 
@@ -140,7 +140,7 @@ Source commit **`daeaff8`** is complete. `npm run preview:export` passes (`docs/
 |320|Work archive|262.39→131.19px|40,410→40,410|0%|126,399→214,815|
 |320|Digital detail|276→138px|40,410→40,410|0%|122,666→124,617|
 
-At320px the old preview already selected the minimum 320w asset, so halving display size cannot reduce that file further within the approved 320/640 variants. The first harness assumed a strict byte decrease there; it now permits only this genuine smallest-variant plateau while retaining strict decreases elsewhere. **The full Work route can grow because it now loads eight real photographs.** These figures support the specific Digital image change, not a blanket whole-route performance claim.
+At 320px the old preview already selected the minimum 320w asset, so halving display size cannot reduce that file further within the approved 320/640 variants. The first harness assumed a strict byte decrease there; it now permits only this genuine smallest-variant plateau while retaining strict decreases elsewhere. **The full Work route can grow because it now loads eight real photographs.** These figures support the specific Digital image change, not a blanket whole-route performance claim.
 
 ### Final production, offline and package milestone
 
@@ -155,7 +155,7 @@ All delivery QA now passes against the exact export from source **daeaff8**. Com
 | [h4ngelic-preview.html](docs/previews/h4ngelic-preview.html) |24,484,734|`6c11473dd0360a15c5e459ae8ee95deeffa3c34c01cad0ffe790bd5d734ce001`|
 | [portfolio-preview.zip](docs/previews/portfolio-preview.zip) |17,305,532|`61da29cabd658cb4fee3eb158e0b98dbc81bee65fb8f363ccef7c9abf5932770`|
 
-Artifact source revision: `daeaff83ec0b8a6b48873c3d77d63e3a2d706ead`. The final artifact/evidence commit and remote handoff have not yet been made at this checkpoint. PR #20 is still DRAFT until root completes that delivery; no push, ready state, merge or deployment is inferred from local success. No further approved implementation is needed without new input.
+Artifact source revision: `daeaff83ec0b8a6b48873c3d77d63e3a2d706ead`. Artifact/evidence commit **`3b424e91f386d75359c2463e6245fc0eeeaae752`** is pushed to `origin/feat/smart-continuation-v3`. GitHub confirms PR #20 is OPEN, `isDraft:false`, base `main`, same feature head and head OID 3b424e9. The remote HTML is 24,484,734 bytes with Git blob SHA-1 `404e1127ab7323f851ba9b59f2b61cedeccbdf9b`, matching the local committed blob exactly; the SHA-256 remains the value above. No merge/deployment occurred. No further approved implementation is needed without new input.
 
 
 ## TODO / external inputs
@@ -166,6 +166,8 @@ Artifact source revision: `daeaff83ec0b8a6b48873c3d77d63e3a2d706ead`. The final 
 
 ## Exact next checkpoint
 
-Commit the locally verified HTML/ZIP, matching evidence and final checkpoint on `feat/smart-continuation-v3`. Push that same branch, verify remote committed artifact hashes and source/evidence availability, then update PR #20 and mark it ready for user review. Record the actual delivery commit and PR state after those actions succeed. All 17 items and local build/browser/offline/package checks are complete; do not repeat them or add implementation without a relevant new change/input.
+User review of the verified HTML/ZIP and [ready PR #20](https://github.com/h333ndrik/h4ngelic/pull/20). Artifact/evidence commit 3b424e9 is already pushed and remote HTML verified. Keep the tested artifacts unchanged unless a relevant source change requires a new export. All 17 approved items and all recorded QA are complete. Do not repeat QA or add implementation without a relevant new change/input.
+
+To open the delivered website, visit [the HTML on GitHub](https://github.com/h333ndrik/h4ngelic/blob/feat/smart-continuation-v3/docs/previews/h4ngelic-preview.html), choose **Download raw file**, save it with the `.html` extension and open it in a browser. If Raw displays source text, save that file rather than trying to view the GitHub source page as a website. The [ZIP](https://github.com/h333ndrik/h4ngelic/raw/refs/heads/feat/smart-continuation-v3/docs/previews/portfolio-preview.zip) contains the same tested HTML; download, extract and open it locally. No deployment is required for this preview.
 
 External inputs remain only the real h4 moshlab URL, real mail delivery configuration/verification and genuine unpublished Loose Thread content. No merge, launch, deployment, main/API edit or dependency change is authorized.

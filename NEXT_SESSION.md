@@ -1,4 +1,4 @@
-# V3.1 — verified local delivery checkpoint
+# V3.1 — delivered and ready for review
 
 Updated 2026-10-29. Read AGENTS.md, PROJECT_PLAN.md and PROJECT_PROGRESS.md, then inspect actual Git status/log. Preserve current artifact/evidence/documentation changes. Do not restart or repeat verified work.
 
@@ -8,14 +8,15 @@ Updated 2026-10-29. Read AGENTS.md, PROJECT_PLAN.md and PROJECT_PROGRESS.md, the
 - **All 17 approved items are DONE.** The user’s explicit eight-photo correction governs item 15. Actual code, committed original hashes and desktop/mobile browser evidence have been reconciled.
 - All local QA passes: final Node 357/357; navigation4; footer4; motion6; shared UI6; carousel4; existing gallery3; inquiry6; sound controls8; actual SMASH3; production Digital6; SEO19 static/17 live records; both exact standalone suites and package integrity.
 - Production build/export passes for 19 routes plus 404 in preview/noindex mode with zero indexable routes. No launch or deployment occurred.
-- **PR #20 is still DRAFT at this checkpoint.** Root is about to commit/push the final locally verified artifacts and evidence, verify remote bytes and mark the PR ready. Do not claim those actions already happened until actual Git/PR state proves it.
+- **Delivered:** artifact/evidence commit **3b424e91f386d75359c2463e6245fc0eeeaae752** is pushed to the same feature branch. [PR #20](https://github.com/h333ndrik/h4ngelic/pull/20) is OPEN and ready for review (`isDraft:false`), base main, same feature head. Remote HTML size 24,484,734 and blob SHA-1 `404e1127ab7323f851ba9b59f2b61cedeccbdf9b` match the local committed blob exactly. No merge/deployment occurred.
 
 ## Exact next action
 
-1. Commit the current verified HTML/ZIP, evidence and final checkpoint on the existing feature branch.
-2. Push the same branch, verify remote artifact/source/evidence bytes and record the actual delivery commit.
-3. Update PR #20, mark it ready after remote verification, and provide the user with the tested HTML/ZIP and PR links for review.
-4. Stop implementation unless new user input requires it. Real h4 moshlab URL, actual mail delivery and genuine unpublished Loose Thread artwork remain external inputs; no invented URL/content or mail-success claim.
+User review only: all 17 approved items and local/remote delivery QA are complete. This delivery record identifies the verified artifact commit above; later documentation commits do not change its tested bytes. No further approved unblocked implementation remains. Do not repeat QA or rebuild unchanged artifacts without a relevant new change/input.
+
+For the website preview, open [the HTML on GitHub](https://github.com/h333ndrik/h4ngelic/blob/feat/smart-continuation-v3/docs/previews/h4ngelic-preview.html), choose **Download raw file**, save as `.html` and open it locally in a browser. Raw may display code in the browser; save that file instead of treating GitHub's source view as the running website. Alternatively [download the ZIP](https://github.com/h333ndrik/h4ngelic/raw/refs/heads/feat/smart-continuation-v3/docs/previews/portfolio-preview.zip), extract and open the included HTML. Both are the exact tested bytes below.
+
+External input remains the real h4 moshlab URL, actual mail delivery configuration/verification and genuine unpublished Loose Thread artwork. Do not invent a URL/content or claim mail success.
 
 Do not merge, deploy, launch, change main or `api/inquiry.js`, add dependencies, force-push or modify H4 MOSH LAB. Preserve the accepted hero/physics/memory-mosh, separate INDEX/NAAVI and Home-only Contact.
 
