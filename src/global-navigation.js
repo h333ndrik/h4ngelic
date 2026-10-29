@@ -1,6 +1,6 @@
 import './global-navigation.css';
 import { resolveRoute } from './routes.js';
-import { activeChapter } from './global-navigation-state.js';
+import { activeChapter, naaviUsesDisplayContrast } from './global-navigation-state.js';
 import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from './naavi-content.js';
 
 /** Persistent shared NAAVI. Geometry is cached on layout changes; ordinary
@@ -20,6 +20,9 @@ export function initGlobalNavigation(doc = document) {
   const listeners = [];
   let stops = [], measured = [], frame = 0, dirty = true, disposed = false;
   let current = -1, digitAnimation, routeKind = '', initialIndex = 0, resizeObserver;
+  let displayBounds = [], quietBounds = [], footerBounds = null, dockBounds = null;
+  const displaySelector = '.kinetic-heading, .page-heading, .work-group-heading > a, .archive-category-heading > a, .about-preview-copy, .category-link .interaction-visual';
+  const quietSelector = '.inquiry, [data-inquiry-form], [data-controls], [data-global-index], .work-filters, [data-footer-row]';
   const listen = (target, name, handler, options) => {
     target.addEventListener(name, handler, options);
     listeners.push(() => target.removeEventListener(name, handler, options));
@@ -36,9 +39,9 @@ export function initGlobalNavigation(doc = document) {
   function paintIndex(chapter) {
     const primary = routeKind === 'artwork' ? 'work' : routeKind;
     for (const item of indexLinks) {
-      const contactActive = primary === 'home' && chapter === 3;
-      const active = item.dataset.indexPage === (contactActive ? 'contact' : primary);
-      if (active) item.setAttribute('aria-current', contactActive ? 'location' : 'page');
+      const homeDestination = ['home', 'work', 'about', 'contact', 'secret'][chapter] || 'home';
+      const active = item.dataset.indexPage === (primary === 'home' ? homeDestination : primary);
+      if (active) item.setAttribute('aria-current', primary === 'home' && chapter > 0 ? 'location' : 'page');
       else item.removeAttribute('aria-current');
     }
   }
@@ -64,10 +67,76 @@ export function initGlobalNavigation(doc = document) {
     }
     current = index;
   }
+  const documentBounds = element => {
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left + view.scrollX, right: rect.right + view.scrollX,
+      top: rect.top + view.scrollY, bottom: rect.bottom + view.scrollY, width: rect.width, height: rect.height };
+  };
+  function measureChrome() {
+    // Layout is measured only when routes, fonts or sizes change. The existing
+    // scroll RAF reuses these document coordinates for contrast and docking.
+    link.style.removeProperty('--naavi-dock-y');
+    dockBounds = link.getBoundingClientRect();
+    const brand = doc.querySelector('[data-floating-brand]');
+    const filters = doc.querySelector('.work-filters');
+    if (brand && filters && index) {
+      const brandBox = brand.getBoundingClientRect();
+      const indexBox = index.getBoundingClientRect();
+      const left = brandBox.right + 12;
+      filters.style.setProperty('--work-row-top', `${brandBox.top}px`);
+      filters.style.setProperty('--work-row-left', `${left}px`);
+      filters.style.setProperty('--work-row-width', `${Math.max(0, indexBox.left - left - 12)}px`);
+    }
+    displayBounds = [...doc.querySelectorAll(displaySelector)].flatMap(element => {
+      const style = view.getComputedStyle(element);
+      const channels = style.color.match(/[\d.]+/g)?.map(Number) || [];
+      const largeWhiteType = parseFloat(style.fontSize) >= 32 && channels.length >= 3
+        && channels.slice(0, 3).every(value => value >= 215);
+      const rect = documentBounds(element);
+      return largeWhiteType && rect.width > 0 && rect.height > 0
+        ? [{ ...rect, element, paintedElement: element.matches('.kinetic-heading')
+          ? element.querySelector('.kinetic-heading-text') || element : element }] : [];
+    });
+    quietBounds = [...doc.querySelectorAll(quietSelector)].map(documentBounds).filter(rect => rect.width > 0 && rect.height > 0);
+    const footer = doc.querySelector('[data-footer-row]');
+    footerBounds = footer ? documentBounds(footer) : null;
+  }
+  function displayIsPainted(rect) {
+    // Geometry stays cached. Read only the paint styles of a geometrically
+    // overlapping candidate and its ancestors; an invisible scrubbed heading
+    // must not activate contrast. The numbered heading's child owns its fade.
+    let element = rect.paintedElement;
+    if (!element?.isConnected) return false;
+    let opacity = 1;
+    while (element) {
+      const style = view.getComputedStyle(element);
+      if (style.display === 'none' || style.visibility !== 'visible') return false;
+      opacity *= Number(style.opacity);
+      if (opacity <= .001) return false;
+      element = element.parentElement;
+    }
+    return true;
+  }
+  function paintChrome() {
+    if (!dockBounds) return;
+    const defaultCentre = dockBounds.top + dockBounds.height / 2;
+    const footerCentre = footerBounds ? footerBounds.top - view.scrollY + footerBounds.height / 2 : Infinity;
+    const docked = footerCentre <= defaultCentre && footerCentre >= dockBounds.height / 2;
+    const offset = docked ? footerCentre - defaultCentre : 0;
+    const value = `${offset}px`;
+    if (link.style.getPropertyValue('--naavi-dock-y') !== value) link.style.setProperty('--naavi-dock-y', value);
+    link.toggleAttribute('data-naavi-footer-docked', docked);
+    const bounds = { left: dockBounds.left + view.scrollX, right: dockBounds.right + view.scrollX,
+      top: dockBounds.top + offset + view.scrollY, bottom: dockBounds.bottom + offset + view.scrollY };
+    const contrast = !docked && naaviUsesDisplayContrast(bounds, displayBounds, quietBounds)
+      && displayBounds.some(rect => naaviUsesDisplayContrast(bounds, [rect]) && displayIsPainted(rect));
+    link.toggleAttribute('data-naavi-display-contrast', contrast);
+  }
   function update() {
     frame = 0;
     if (disposed || doc.hidden || !stops.length) return;
     if (dirty) {
+      measureChrome();
       const maximum = Math.max(0, doc.documentElement.scrollHeight - view.innerHeight);
       measured = stops.map((stop, index) => ({ index, element: stop.element,
         top: stop.element ? Math.min(maximum, stop.element.getBoundingClientRect().top + view.scrollY) : Infinity }))
@@ -76,6 +145,7 @@ export function initGlobalNavigation(doc = document) {
     }
     const active = measured.length ? activeChapter(measured.map(stop => stop.top), view.scrollY, view.innerHeight) : -1;
     paint(active < 0 ? initialIndex : measured[active].index);
+    paintChrome();
   }
   function schedule(remeasure = false) {
     dirty ||= remeasure;
@@ -100,6 +170,8 @@ export function initGlobalNavigation(doc = document) {
       return { ...stop, element };
     });
     if (doc.getElementById('page-content')) resizeObserver?.observe(doc.getElementById('page-content'));
+    const footer = doc.querySelector('[data-footer-row]');
+    if (footer) resizeObserver?.observe(footer);
     current = -1;
     dirty = true;
     update();
@@ -150,10 +222,14 @@ export function initGlobalNavigation(doc = document) {
   if (view.visualViewport) listen(view.visualViewport, 'resize', () => schedule(true), { passive: true });
   listen(doc, 'visibilitychange', () => { if (!doc.hidden) schedule(true); });
   refresh();
+  doc.fonts?.ready.then(() => schedule(true));
   return Object.assign(() => {
     disposed = true;
     if (frame) view.cancelAnimationFrame(frame);
     digitAnimation?.cancel();
+    link.style.removeProperty('--naavi-dock-y');
+    link.removeAttribute('data-naavi-footer-docked');
+    link.removeAttribute('data-naavi-display-contrast');
     resizeObserver?.disconnect();
     listeners.forEach(remove => remove());
   }, { refresh });

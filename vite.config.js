@@ -5,7 +5,6 @@ import { getPageMetadata, renderHead, seoEnvironment } from './src/seo.js';
 import { buildRobots, buildSitemap } from './scripts/prerender.mjs';
 import { flashMannequinConfig } from './src/flash-mannequin-content.js';
 import { createInquiryHandler } from './server/inquiry.mjs';
-import { privateAudioPlugin } from './scripts/private-audio-plugin.mjs';
 
 const config = seoEnvironment(process.env);
 
@@ -16,7 +15,7 @@ export default defineConfig({
     // Publishing a validated Flash placement enables this on the next build.
     __H4_HAS_MANNEQUINS__: JSON.stringify(publishedProjects().some(project => Boolean(flashMannequinConfig(project)))),
   },
-  plugins: [privateAudioPlugin(), {
+  plugins: [{
     name: 'h4ngelic-document-routes',
     configureServer(server) {
       const inquiry = createInquiryHandler();

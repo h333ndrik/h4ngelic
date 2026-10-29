@@ -35,6 +35,116 @@ import { featuredDigitalArtwork } from './digitalArtworkSettings.js';
  *   published: true,
  * },
  */
-// The actual green/black original is shared by the archive and detail route.
-// Add further real projects below; no reference texture is a portfolio entry.
-export const artworks = [featuredDigitalArtwork];
+// The eight Tattoo photographs are the exact user-supplied JPEG originals,
+// kept in ZIP entry order. Titles, dates and descriptions remain empty until
+// the artist provides them; these IDs identify photographs, not invented work.
+export const suppliedTattooPhotographs = [
+  {
+    id: "tattoo-01",
+    category: 'tattoos',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/tattoos/tattoo-01.jpg",
+      alt: "abstract black ink tattoo curving across the lower abdomen.",
+      width: 1170,
+      height: 1470,
+    }],
+  },
+  {
+    id: "tattoo-02",
+    category: 'tattoos',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/tattoos/tattoo-02.jpg",
+      alt: "fragmented black ink tattoo with flowing forms along the side of the torso.",
+      width: 1170,
+      height: 1734,
+    }],
+  },
+  {
+    id: "tattoo-03",
+    category: 'tattoos',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/tattoos/tattoo-03.jpg",
+      alt: "textured black ink tattoo extending down the arm.",
+      width: 1170,
+      height: 1674,
+    }],
+  },
+  {
+    id: "tattoo-04",
+    category: 'tattoos',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/tattoos/tattoo-04.jpg",
+      alt: "flowing black ink tattoo across a bent knee and lower leg.",
+      width: 2476,
+      height: 3606,
+    }],
+  },
+  {
+    id: "tattoo-05",
+    category: 'tattoos',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/tattoos/tattoo-05.jpg",
+      alt: "large fragmented black ink tattoo across the back and shoulders.",
+      width: 2480,
+      height: 3307,
+    }],
+  },
+  {
+    id: "tattoo-06",
+    category: 'tattoos',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/tattoos/tattoo-06.jpg",
+      alt: "black ornamental tattoo on the upper arm.",
+      width: 2480,
+      height: 3308,
+    }],
+  },
+  {
+    id: "tattoo-07",
+    category: 'tattoos',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/tattoos/tattoo-07.jpg",
+      alt: "fragmented black ink tattoo across the side of the abdomen.",
+      width: 2480,
+      height: 3308,
+    }],
+  },
+  {
+    id: "tattoo-08",
+    category: 'tattoos',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/tattoos/tattoo-08.jpg",
+      alt: "detailed black ink tattoo extending down the forearm.",
+      width: 2480,
+      height: 3308,
+    }],
+  },
+];
+
+// The actual green/black original stays shared by its archive and detail route.
+// Reference textures are not automatically portfolio entries.
+export const artworks = [featuredDigitalArtwork, ...suppliedTattooPhotographs];

@@ -35,6 +35,7 @@ test('inquiry renders semantic native form with real email fallback and no fabri
   const html = renderInquiryForm({ context: '<script>', id: '"><img>' });
   assert.match(html, /method="post" enctype="multipart\/form-data"/);
   assert.match(html, /name="name"[^>]*required/);
+  assert.match(html, /name="name"[^>]*placeholder="max musterperson"/);
   assert.match(html, /HOW TO REACH YOU/);
   assert.match(html, /name="email" type="text"[^>]*placeholder="email, instagram, phone number\.\.\."[^>]*required/);
   assert.doesNotMatch(html, /YOUR EMAIL|type="email"/);

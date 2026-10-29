@@ -1,0 +1,1006 @@
+{
+  "checkedAt": "2026-10-29T15:29:07.672Z",
+  "completeNaturalEnd": true,
+  "reports": [
+    {
+      "width": 1440,
+      "originalBytes": 3210973,
+      "originalSHA256": "307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b",
+      "initial": {
+        "duration": 100.27,
+        "when": 0.5021315192743764,
+        "offset": 0,
+        "startedAt": 1716.699999988079,
+        "now": 0.5021315192743764,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.5021315192743764
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.3021315192743765
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.77213151927437
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.77213151927437
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "duringAttack": {
+        "duration": 100.27,
+        "when": 0.5021315192743764,
+        "offset": 0,
+        "startedAt": 1716.699999988079,
+        "now": 1.3119274376417234,
+        "gain": 0.4498741924762726,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.5021315192743764
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.3021315192743765
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.77213151927437
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.77213151927437
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterAttack": {
+        "duration": 100.27,
+        "when": 0.5021315192743764,
+        "offset": 0,
+        "startedAt": 1716.699999988079,
+        "now": 2.522267573696145,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.5021315192743764
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.3021315192743765
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.77213151927437
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.77213151927437
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterModes": {
+        "duration": 100.27,
+        "when": 0.5021315192743764,
+        "offset": 0,
+        "startedAt": 1716.699999988079,
+        "now": 12.26013605442177,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.5021315192743764
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.3021315192743765
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.77213151927437
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.77213151927437
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterRoute": {
+        "duration": 100.27,
+        "when": 0.5021315192743764,
+        "offset": 0,
+        "startedAt": 1716.699999988079,
+        "now": 14.332517006802721,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.5021315192743764
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.3021315192743765
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.77213151927437
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.77213151927437
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "stopping": {
+        "duration": 100.27,
+        "when": 0.5021315192743764,
+        "offset": 0,
+        "startedAt": 1716.699999988079,
+        "now": 22.482721088435373,
+        "gain": 0.04314935952425003,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.5021315192743764
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.3021315192743765
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.77213151927437
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.77213151927437
+          ],
+          [
+            "cancelAndHoldAtTime",
+            22.392743764172337
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            23.392743764172337
+          ]
+        ],
+        "stopped": [
+          {
+            "when": 23.392743764172337,
+            "now": 22.392743764172337
+          }
+        ],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.02500000037252903,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "restarted": {
+        "duration": 100.27,
+        "when": 23.45215419501134,
+        "offset": 0,
+        "startedAt": 25348.69999998808,
+        "now": 23.460861678004534,
+        "gain": 0.004824895411729813,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            23.45215419501134
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            25.25215419501134
+          ],
+          [
+            "setValueAtTime",
+            1,
+            118.72215419501134
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            123.72215419501134
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 2,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.02500000037252903,
+        "cueBus": 0.8902681469917297,
+        "contexts": 1
+      },
+      "natural": {
+        "tailFour": {
+          "duration": 100.27,
+          "when": 23.45215419501134,
+          "offset": 0,
+          "startedAt": 25348.69999998808,
+          "now": 119.74240362811791,
+          "gain": 0.7959553003311157,
+          "gainEvents": [
+            [
+              "setValueAtTime",
+              0,
+              23.45215419501134
+            ],
+            [
+              "linearRampToValueAtTime",
+              1,
+              25.25215419501134
+            ],
+            [
+              "setValueAtTime",
+              1,
+              118.72215419501134
+            ],
+            [
+              "linearRampToValueAtTime",
+              0,
+              123.72215419501134
+            ]
+          ],
+          "stopped": [],
+          "ended": false,
+          "trackSources": 2,
+          "fetched": 1,
+          "decoded": 1,
+          "master": 0.02500000037252903,
+          "cueBus": 0,
+          "contexts": 1
+        },
+        "tailLast": {
+          "duration": 100.27,
+          "when": 23.45215419501134,
+          "offset": 0,
+          "startedAt": 25348.69999998808,
+          "now": 123.14122448979592,
+          "gain": 0.11619039624929428,
+          "gainEvents": [
+            [
+              "setValueAtTime",
+              0,
+              23.45215419501134
+            ],
+            [
+              "linearRampToValueAtTime",
+              1,
+              25.25215419501134
+            ],
+            [
+              "setValueAtTime",
+              1,
+              118.72215419501134
+            ],
+            [
+              "linearRampToValueAtTime",
+              0,
+              123.72215419501134
+            ]
+          ],
+          "stopped": [],
+          "ended": false,
+          "trackSources": 2,
+          "fetched": 1,
+          "decoded": 1,
+          "master": 0.02500000037252903,
+          "cueBus": 0,
+          "contexts": 1
+        },
+        "ended": {
+          "duration": 100.27,
+          "when": 23.45215419501134,
+          "offset": 0,
+          "startedAt": 25348.69999998808,
+          "now": 123.86104308390023,
+          "gain": 0,
+          "gainEvents": [
+            [
+              "setValueAtTime",
+              0,
+              23.45215419501134
+            ],
+            [
+              "linearRampToValueAtTime",
+              1,
+              25.25215419501134
+            ],
+            [
+              "setValueAtTime",
+              1,
+              118.72215419501134
+            ],
+            [
+              "linearRampToValueAtTime",
+              0,
+              123.72215419501134
+            ]
+          ],
+          "stopped": [],
+          "ended": true,
+          "endedAt": 126184.5,
+          "trackSources": 2,
+          "fetched": 1,
+          "decoded": 1,
+          "master": 0.02500000037252903,
+          "cueBus": 1,
+          "contexts": 1
+        },
+        "observedMs": 100835.80000001192
+      },
+      "requests": [
+        "http://127.0.0.1:55173/audio/h4ngelic_v8_full_sound_remaster_v11.mp3"
+      ],
+      "pageBounds": {
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "originalBytes": 3210973,
+      "originalSHA256": "307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b",
+      "initial": {
+        "duration": 100.27,
+        "when": 0.38022675736961453,
+        "offset": 0,
+        "startedAt": 1478.199999988079,
+        "now": 0.38022675736961453,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.38022675736961453
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.1802267573696144
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.65022675736961
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.65022675736961
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "duringAttack": {
+        "duration": 100.27,
+        "when": 0.38022675736961453,
+        "offset": 0,
+        "startedAt": 1478.199999988079,
+        "now": 1.1900226757369614,
+        "gain": 0.4498741924762726,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.38022675736961453
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.1802267573696144
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.65022675736961
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.65022675736961
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterAttack": {
+        "duration": 100.27,
+        "when": 0.38022675736961453,
+        "offset": 0,
+        "startedAt": 1478.199999988079,
+        "now": 2.391655328798186,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.38022675736961453
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.1802267573696144
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.65022675736961
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.65022675736961
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterModes": {
+        "duration": 100.27,
+        "when": 0.38022675736961453,
+        "offset": 0,
+        "startedAt": 1478.199999988079,
+        "now": 8.820680272108843,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.38022675736961453
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.1802267573696144
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.65022675736961
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.65022675736961
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterRoute": {
+        "duration": 100.27,
+        "when": 0.38022675736961453,
+        "offset": 0,
+        "startedAt": 1478.199999988079,
+        "now": 9.560816326530611,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.38022675736961453
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.1802267573696144
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.65022675736961
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.65022675736961
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "stopping": {
+        "duration": 100.27,
+        "when": 0.38022675736961453,
+        "offset": 0,
+        "startedAt": 1478.199999988079,
+        "now": 13.572063492063492,
+        "gain": 0.07983814924955368,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.38022675736961453
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.1802267573696144
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.65022675736961
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.65022675736961
+          ],
+          [
+            "cancelAndHoldAtTime",
+            13.56045351473923
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            14.56045351473923
+          ]
+        ],
+        "stopped": [
+          {
+            "when": 14.56045351473923,
+            "now": 13.56045351473923
+          }
+        ],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.02500000037252903,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "restarted": {
+        "duration": 100.27,
+        "when": 14.631473922902494,
+        "offset": 0,
+        "startedAt": 15872.40000000596,
+        "now": 14.631473922902494,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            14.631473922902494
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            16.431473922902494
+          ],
+          [
+            "setValueAtTime",
+            1,
+            109.90147392290248
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            114.90147392290248
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 2,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.02500000037252903,
+        "cueBus": 0.9992848038673401,
+        "contexts": 1
+      },
+      "natural": null,
+      "requests": [
+        "http://127.0.0.1:55173/audio/h4ngelic_v8_full_sound_remaster_v11.mp3"
+      ],
+      "pageBounds": {
+        "width": 390,
+        "scrollWidth": 390
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "originalBytes": 3210973,
+      "originalSHA256": "307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b",
+      "initial": {
+        "duration": 100.27,
+        "when": 0.4005442176870748,
+        "offset": 0,
+        "startedAt": 1429,
+        "now": 0.4005442176870748,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.4005442176870748
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.200544217687075
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.67054421768707
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.67054421768707
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "duringAttack": {
+        "duration": 100.27,
+        "when": 0.4005442176870748,
+        "offset": 0,
+        "startedAt": 1429,
+        "now": 1.2103401360544217,
+        "gain": 0.4498741924762726,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.4005442176870748
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.200544217687075
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.67054421768707
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.67054421768707
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterAttack": {
+        "duration": 100.27,
+        "when": 0.4005442176870748,
+        "offset": 0,
+        "startedAt": 1429,
+        "now": 2.440997732426304,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.4005442176870748
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.200544217687075
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.67054421768707
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.67054421768707
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterModes": {
+        "duration": 100.27,
+        "when": 0.4005442176870748,
+        "offset": 0,
+        "startedAt": 1429,
+        "now": 8.420136054421768,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.4005442176870748
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.200544217687075
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.67054421768707
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.67054421768707
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "afterRoute": {
+        "duration": 100.27,
+        "when": 0.4005442176870748,
+        "offset": 0,
+        "startedAt": 1429,
+        "now": 9.110929705215419,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.4005442176870748
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.200544217687075
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.67054421768707
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.67054421768707
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.30000001192092896,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "stopping": {
+        "duration": 100.27,
+        "when": 0.4005442176870748,
+        "offset": 0,
+        "startedAt": 1429,
+        "now": 12.521360544217687,
+        "gain": 0.0876331627368927,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            0.4005442176870748
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            2.200544217687075
+          ],
+          [
+            "setValueAtTime",
+            1,
+            95.67054421768707
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            100.67054421768707
+          ],
+          [
+            "cancelAndHoldAtTime",
+            12.51265306122449
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            13.51265306122449
+          ]
+        ],
+        "stopped": [
+          {
+            "when": 13.51265306122449,
+            "now": 12.51265306122449
+          }
+        ],
+        "ended": false,
+        "trackSources": 1,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.02500000037252903,
+        "cueBus": 0,
+        "contexts": 1
+      },
+      "restarted": {
+        "duration": 100.27,
+        "when": 13.592380952380953,
+        "offset": 0,
+        "startedAt": 14744.800000011921,
+        "now": 13.592380952380953,
+        "gain": 1,
+        "gainEvents": [
+          [
+            "setValueAtTime",
+            0,
+            13.592380952380953
+          ],
+          [
+            "linearRampToValueAtTime",
+            1,
+            15.392380952380954
+          ],
+          [
+            "setValueAtTime",
+            1,
+            108.86238095238095
+          ],
+          [
+            "linearRampToValueAtTime",
+            0,
+            113.86238095238095
+          ]
+        ],
+        "stopped": [],
+        "ended": false,
+        "trackSources": 2,
+        "fetched": 1,
+        "decoded": 1,
+        "master": 0.02500000037252903,
+        "cueBus": 0.9992292523384094,
+        "contexts": 1
+      },
+      "natural": null,
+      "requests": [
+        "http://127.0.0.1:55173/audio/h4ngelic_v8_full_sound_remaster_v11.mp3"
+      ],
+      "pageBounds": {
+        "width": 320,
+        "scrollWidth": 320
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

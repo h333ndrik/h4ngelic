@@ -3,8 +3,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
-const out = process.env.H4_SOUND_ARTIFACTS || 'artifacts/v3-sound-controls';
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
+const out = process.env.H4_SOUND_ARTIFACTS || 'artifacts/v31-sound-controls';
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
+  args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const results = [];
 await mkdir(out, { recursive: true });
 try {
@@ -18,6 +19,7 @@ try {
     const page = await context.newPage();
     const errors = [], audioRequests = [];
     page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     page.on('request', request => { if (/\.mp3|__h4_private_audio/.test(request.url())) audioRequests.push(request.url()); });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     const arrow = page.locator('[data-sound-volume-toggle]');
@@ -52,14 +54,17 @@ try {
     assert.equal(await mute.getAttribute('aria-pressed'), 'true');
     assert.equal(await range.inputValue(), '1');
     assert.equal(await page.evaluate(() => window.__soundContexts), 0, 'Reload restores preferences without autoplay.');
-    assert.equal(await page.locator('[data-smash]').isDisabled(), true, 'The missing approved private file has no substitute.');
+    assert.equal(await page.locator('[data-smash]').isDisabled(), false, 'The supplied approved track is available without being preloaded.');
     assert.deepEqual(audioRequests, []);
     assert.deepEqual(errors, []);
-    results.push({ width, reducedMotion, popup: box, persistedVolume: 1, persistedMuted: true, contexts: 0, errors });
+    const horizontalOverflow = await page.evaluate(() => Math.max(0, document.documentElement.scrollWidth - innerWidth));
+    assert.equal(horizontalOverflow, 0);
+    results.push({ width, reducedMotion, popup: box, persistedVolume: 1, persistedMuted: true, contexts: 0,
+      horizontalOverflow, audioRequests, errors });
     await page.screenshot({ path: `${out}/${width}-${reducedMotion}.png` });
     await context.close();
   }
-  console.log(`PASS sound controls: ${results.length} desktop/tablet/mobile motion profiles, above-popup fit, keyboard range/Escape, touch, outside close, persisted mute/volume, no autoplay or missing-track request.`);
+  console.log(`PASS sound controls: ${results.length} desktop/tablet/mobile motion profiles, above-popup fit, keyboard range/Escape, touch, outside close, persisted mute/volume, no autoplay or early soundtrack request.`);
 } finally {
   await writeFile(`${out}/results.json`, JSON.stringify(results, null, 2));
   await browser.close();

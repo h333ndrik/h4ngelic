@@ -5,7 +5,7 @@ import { createFiniteHoverMotion } from './finite-hover-motion.js';
 import { activateRubric, rubricSelector } from './rubric-activation.js';
 
 const magneticSelector = `${rubricSelector}, .contact-link[href]`;
-const interactiveSelector = 'a[href], button, [role="button"]';
+const interactiveSelector = 'a[href], button, summary, [role="button"], .inquiry-file-label, .footer-location';
 const excludedSelector = '.secret-hotspot, [data-secret-hotspot], [data-mode-hold], .skip-link, [data-no-hover], [aria-disabled="true"], :disabled';
 
 /**
@@ -141,8 +141,7 @@ export function initInteractions(root = document, { revealSections = true, setti
   function fitVisual(target) {
     const wrapper = targets.get(target)?.wrapper;
     if (!wrapper) return;
-    let preferred = target.matches('.drift-artwork') ? 1.025
-      : target.matches('.artwork-open') ? settings.hover.imageScale : settings.hover.scale;
+    let preferred = target.matches('.artwork-open') ? settings.hover.imageScale : settings.hover.scale;
     if (target.matches('.category-link, .contact-link')) {
       const style = getComputedStyle(target);
       const available = target.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
@@ -205,7 +204,10 @@ export function initInteractions(root = document, { revealSections = true, setti
   }
 
   function enhance(target) {
-    if (!target.matches?.(interactiveSelector) || target.matches(excludedSelector) || target.closest('.secret-hotspot, [data-secret-hotspot]')) return;
+    const visitCounter = target.matches?.('.footer-visit-hotspot');
+    if (!target.matches?.(interactiveSelector)
+      || !visitCounter && (target.matches(excludedSelector) || target.closest('.secret-hotspot, [data-secret-hotspot]'))
+      || target.matches(':disabled, [aria-disabled="true"]')) return;
     let wrapper = target.querySelector(':scope > .interaction-visual, :scope > .category-magnet, :scope > .kinetic-item > .category-magnet');
     if (!wrapper) {
       wrapper = owner.createElement('span');
@@ -275,7 +277,9 @@ export function initInteractions(root = document, { revealSections = true, setti
   }
   listen(owner.defaultView, 'resize', fitActiveVisuals, { passive: true });
   // Hero controls replace textContent; gallery controls are created later.
-  // Observe only child changes, not animation styles or pointer attributes.
+  // Child changes cover text replacement and late controls. Disabled-state
+  // changes also enhance a deferred SMASH control once it becomes available;
+  // animation styles and pointer attributes are deliberately not observed.
   contentObserver = new MutationObserver((records) => {
     if (disposed) return;
     for (const record of records) {
@@ -283,7 +287,8 @@ export function initInteractions(root = document, { revealSections = true, setti
       for (const added of record.addedNodes) enhanceTree(added);
     }
   });
-  contentObserver.observe(root, { childList: true, subtree: true });
+  contentObserver.observe(root, { childList: true, subtree: true,
+    attributes: true, attributeFilter: ['disabled', 'aria-disabled'] });
 
   listen(root, 'focusin', (event) => {
     // Keyboard navigation and anchor jumps must never land in faded content.

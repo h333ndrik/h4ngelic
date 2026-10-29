@@ -2,6 +2,7 @@ import { seoContent } from './data/seoContent.js';
 import { siteContent } from './data/siteContent.js';
 import { contentURL, escapeHTML } from './content-utils.js';
 import { publishedProjects, projectURL, categoryURL, matchesArchive } from './routes.js';
+import { artworkLabel } from './artwork-content.js';
 
 const cleanText = (value) => typeof value === 'string' ? value.trim() : '';
 
@@ -98,7 +99,7 @@ function structuredData(route, metadata, config) {
     crumbs.push({ name: route.category, path: categoryURL(route.category) });
   }
   if (route.kind === 'about') crumbs.push({ name: 'about', path: '/about' });
-  if (route.kind === 'artwork') crumbs.push({ name: cleanText(route.project.title) || route.category, path: route.canonicalPath });
+  if (route.kind === 'artwork') crumbs.push({ name: artworkLabel(route.project) || route.category, path: route.canonicalPath });
   if (crumbs.length > 1) {
     page.breadcrumb = { '@id': `${metadata.canonicalURL}#breadcrumbs` };
     graph.push({
@@ -113,7 +114,7 @@ function structuredData(route, metadata, config) {
     page.mainEntity = { '@id': artworkID };
     const artwork = {
       '@type': 'VisualArtwork', '@id': artworkID, url: metadata.canonicalURL,
-      name: cleanText(project.title) || route.category,
+      name: artworkLabel(project) || route.category,
       ...(cleanText(project.description) ? { description: cleanText(project.description) } : {}),
       creator: { '@id': personID }, artform: route.category,
       image: images.map((image, index) => ({
@@ -137,7 +138,7 @@ export function getPageMetadata(route, options = {}) {
   if (route.kind === 'work' && route.category !== 'all') copy = seoContent.categories[route.category] || copy;
   if (route.kind === 'artwork') {
     copy = {
-      title: cleanText(route.project.seo?.title) || `${cleanText(route.project.title) || route.category} — h4ngelic`,
+      title: cleanText(route.project.seo?.title) || `${artworkLabel(route.project) || route.category} — h4ngelic`,
       description: cleanText(route.project.seo?.description) || cleanText(route.project.description) || seoContent.categories[route.category]?.description,
     };
   }

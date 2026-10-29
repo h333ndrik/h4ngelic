@@ -88,8 +88,11 @@ export function initHorizontalDrift(root = document) {
       state.section.dataset.driftPosition = current.toFixed(3);
       state.section.dataset.carouselIndex = String(Math.max(0, index));
       if (state.counter) state.counter.textContent = `${index < 0 ? 0 : index + 1} / ${state.items.length}`;
-      if (state.previous) state.previous.disabled = state.travel <= 1 || current <= .5;
-      if (state.next) state.next.disabled = state.travel <= 1 || current >= state.travel - .5;
+      // Fractional photo widths can put an edge photograph's centred target
+      // just inside the integer scroll limit. Disable at the actual target,
+      // otherwise the final arrow remains enabled but cannot advance.
+      if (state.previous) state.previous.disabled = state.travel <= 1 || current <= (state.targets[0] ?? 0) + .5;
+      if (state.next) state.next.disabled = state.travel <= 1 || current >= (state.targets.at(-1) ?? state.travel) - .5;
     }
     if (publisher.ready(time)) publisher.publish(samples(), time);
   }

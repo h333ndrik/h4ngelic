@@ -7,7 +7,7 @@ import { renderFooter } from './footer.js';
 import { renderHorizontalDrift } from './horizontal-drift-content.js';
 import { renderFlashMannequin } from './flash-mannequin-content.js';
 import { renderInquiryForm } from './inquiry-content.js';
-import { orderedArtworks, artworkImages } from './artwork-content.js';
+import { orderedArtworks, artworkImages, artworkLabel } from './artwork-content.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
 
@@ -44,10 +44,19 @@ export function renderHomepageSections(context = '') {
   ${renderFooter({ home: true })}`;
 }
 
-function imageMarkup(image, { critical = false, href = '', imageIndex = 0, figureId = '' } = {}) {
+function digitalPreviewOptions(detail = false) {
+  return {
+    maximumPreviewWidth: 640,
+    sizes: detail
+      ? '(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 1270px) calc((100vw - 70px) / 2), 600px'
+      : '(max-width: 1341px) 41vw, 550px',
+  };
+}
+
+function imageMarkup(image, { critical = false, href = '', imageIndex = 0, figureId = '', assetOptions = {} } = {}) {
   const source = contentURL(image?.src);
   if (!source) return '';
-  const asset = getImageAsset(image, { sizes: '(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)' });
+  const asset = getImageAsset(image, assetOptions);
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
   const element = href ? 'a' : 'button';
   const action = href ? `href="${escape(href)}" data-artwork-link data-artwork-open` : 'type="button" data-artwork-open';
@@ -63,6 +72,7 @@ export function renderProject(project) {
   const href = projectURL(project);
   const images = artworkImages(project).map((image, index) => imageMarkup(image, {
     href: href ? `${href}${index ? `#image-${index + 1}` : ''}` : '', imageIndex: index,
+    assetOptions: project.category === 'digital-artworks' ? digitalPreviewOptions() : {},
   })).filter(Boolean).join('');
   if (!images) return '';
   const label = categoryById(project.category)?.label || '';
@@ -111,7 +121,7 @@ export function renderWorkPage(category = 'all') {
   <div class="page-shell work-page" data-connected-work data-work-context="${escape(selected)}">
     <h1 class="page-heading">01 / WORKS</h1>
     <nav class="work-filters" aria-label="Works sections">
-      ${[{ id: 'all', label: 'all' }, ...siteContent.workGroups].map(filter => `<a class="filter-link${selected === filter.id ? ' is-active' : ''}" href="${workAnchorURL(filter.id)}"${selected === filter.id ? ' aria-current="location"' : ''}>${escape(filter.label)}</a>`).join('')}
+      ${siteContent.workGroups.map(filter => `<a class="filter-link${selected === filter.id ? ' is-active' : ''}" href="${workAnchorURL(filter.id)}"${selected === filter.id ? ' aria-current="location"' : ''}>${escape(filter.label)}</a>`).join('')}
     </nav>
     <div class="portfolio-archive" aria-label="All artwork">${content}${legacy}</div>
   </div>${footer()}`;
@@ -160,9 +170,12 @@ export function renderArtworkPage(project) {
   return `${header('work')}
     <div class="page-shell artwork-page">
       <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">home</a><span aria-hidden="true">/</span><a href="${categoryURL(category.id)}">${escape(category.label)}</a></nav>
-      <article class="project artwork-detail" data-project-url="${escape(projectURL(project))}">
-        <h1 class="page-heading">${escape(project.title || category.label)}</h1>
-        <div class="project-images">${artworkImages(project).map((image, index) => imageMarkup(image, { critical: index === 0, imageIndex: index, figureId: `image-${index + 1}` })).join('')}</div>
+      <article class="project artwork-detail" data-artwork-category="${escape(project.category)}" data-project-url="${escape(projectURL(project))}">
+        <h1 class="page-heading">${escape(artworkLabel(project) || category.label)}</h1>
+        <div class="project-images">${artworkImages(project).map((image, index) => imageMarkup(image, {
+          critical: project.category !== 'digital-artworks' && index === 0, imageIndex: index, figureId: `image-${index + 1}`,
+          assetOptions: project.category === 'digital-artworks' ? digitalPreviewOptions(true) : {},
+        })).join('')}</div>
         ${renderFlashMannequin(project)}
         <div class="project-meta">
           <p class="project-index">${escape(category.label)}${project.year ? ` / ${escape(project.year)}` : ''}</p>

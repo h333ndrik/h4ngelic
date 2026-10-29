@@ -8,6 +8,9 @@ import { getPageMetadata, getSEOConfig, normalizeProductionURL, renderHead, seri
 import { resolveRoute, routeDefinitions } from '../src/routes.js';
 import { prerenderHTML, buildRobots, buildSitemap, prerender } from '../scripts/prerender.mjs';
 import { createPreviewServer } from '../scripts/serve-preview.mjs';
+import { suppliedTattooPhotographs } from '../src/data/artworks.js';
+import { renderArtworkPage } from '../src/pages.js';
+import { artworkLabel } from '../src/artwork-content.js';
 
 const production = { deployment: 'production', productionURL: 'https://h4ngelic.com' };
 const shell = `<!doctype html><html lang="en"><head><!--seo:start--><title>old</title><!--seo:end--></head><body><main><!--hero:start--><section class="hero" hidden><h1>h4ngelic</h1><canvas id="logo-canvas"></canvas></section><!--hero:end--><!--content:start--><div id="page-content"></div><!--content:end--></main><script type="module" src="/assets/app.js"></script></body></html>`;
@@ -42,6 +45,26 @@ test('metadata stays descriptive while connected archive aliases consolidate on 
   assert.equal(missing.indexable, false);
   assert.equal(missing.canonicalURL, '');
   assert.equal(missing.structuredData, null);
+});
+
+test('untitled supplied Tattoo photographs have unique catalogue labels without acquiring invented authored metadata', () => {
+  const routeTitles = [];
+  for (const project of suppliedTattooPhotographs) {
+    const route = resolveRoute(`/work/tattoos/${project.id}`);
+    const metadata = getPageMetadata(route, production);
+    const label = artworkLabel(project);
+    assert.equal(label, project.id.replaceAll('-', ' '));
+    assert.equal(project.title, '');
+    assert.equal(project.description, '');
+    assert.equal(project.year, undefined);
+    assert.equal(metadata.title, `${label} — h4ngelic`);
+    assert.equal(metadata.indexable, false, 'Catalogue identifiers do not count as artist-supplied project titles.');
+    assert.ok(renderArtworkPage(project).includes(`<h1 class="page-heading">${label}</h1>`));
+    assert.equal(metadata.structuredData['@graph'].find(node => node['@type'] === 'VisualArtwork').name, label);
+    routeTitles.push(metadata.title);
+  }
+  assert.equal(routeTitles.length, 8);
+  assert.equal(new Set(routeTitles).size, 8);
 });
 
 test('only complete supplied projects make canonical Work and genuine details indexable', () => {

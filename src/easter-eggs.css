@@ -1,57 +1,64 @@
-.exhibition-footer {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 8px 24px;
-  align-items: center;
-}
+/* A single footer row reserves the centre for the one persistent NAAVI.
+   Narrow left/right groups scroll natively inside their own columns, preserving
+   readable type and 44px targets without making the page horizontally scroll. */
+.exhibition-footer { display: block; }
 .page-footer.exhibition-footer {
+  --footer-naavi-reservation: 88px;
   border: 0;
-  padding-bottom: max(84px, calc(env(safe-area-inset-bottom) + 72px));
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
 }
 .footer-identity {
-  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: max-content max-content minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) var(--footer-naavi-reservation) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(20px, 3vw, 44px);
+  column-gap: clamp(8px, 1.2vw, 18px);
   min-width: 0;
   min-height: 44px;
-  font-size: clamp(10px, 2.75vw, 12px);
+  font-size: clamp(10px, .84vw, 12px);
 }
-.footer-identity > .footer-brand { grid-column: 1; justify-self: start; white-space: nowrap; }
-.footer-identity > .footer-details { grid-column: 3; justify-self: end; }
-.footer-details { display: flex; align-items: center; gap: clamp(12px, 2vw, 30px); white-space: nowrap; }
-.footer-instagram, .footer-smash { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
-.footer-instagram:focus-visible { outline-offset: 3px; }
-.footer-identity > .footer-visit-hotspot { grid-column: 2; justify-self: start; margin: 0; font-size: inherit; letter-spacing: inherit; white-space: nowrap; }
-/* VISIT is one shared local counter, visible beside the signature on every
-   route. Its existing memory updater only repaints during route changes. */
-.footer-visit-hotspot { position: relative; }
-.footer-visit-hotspot [data-visit-number] { opacity: 1; }
-.footer-visit-memory {
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 0;
-  width: max-content;
-  max-width: min(280px, calc(100vw - 44px));
-  white-space: normal;
-  text-align: left;
-  font-size: 12px;
-  line-height: 1.5;
+.footer-left, .footer-details {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 30px);
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  scroll-padding-inline: 3px;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+  white-space: nowrap;
 }
-.footer-visit-hotspot:hover .footer-visit-memory,
-.footer-visit-hotspot:focus-visible .footer-visit-memory,
-.footer-visit-memory.is-discovered { opacity: .78; }
-.footer-smash {
+.footer-left::-webkit-scrollbar, .footer-details::-webkit-scrollbar { display: none; }
+.footer-left { grid-column: 1; }
+.footer-details { grid-column: 3; justify-self: end; width: max-content; }
+.footer-left > *, .footer-details > * { flex: 0 0 auto; }
+.footer-brand, .footer-location { display: inline-flex; align-items: center; min-height: 44px; }
+.footer-moshlab, .footer-instagram, .footer-smash {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
   padding: 0;
+  margin: 0;
   border: 0;
   background: transparent;
   color: inherit;
   font: inherit;
+  letter-spacing: inherit;
+  text-decoration: none;
 }
 .footer-smash:disabled { opacity: .45; }
-.footer-smash:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
-.footer-contact-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.exhibition-footer :is(a, button, [role='group']):focus-visible { outline: 1px solid currentColor; outline-offset: -3px; }
+.footer-visit-hotspot.secret-hotspot {
+  position: relative;
+  flex: 0 0 auto;
+  font-size: clamp(15px, 1.5vw, 21px);
+}
+.footer-contact-links { display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
 
 /* These are stationary, discoverable targets, not visible interface ornaments. */
@@ -64,7 +71,7 @@
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--radius-soft);
   background: transparent;
   color: inherit;
   font: inherit;
@@ -74,20 +81,9 @@
   text-align: center;
   pointer-events: auto;
 }
-.visitor-hotspot {
-  position: absolute;
-  left: 50%;
-  top: -8px;
-  z-index: 1;
-  width: clamp(76px, calc(100vw - 260px), 320px);
-  transform: translateX(-50%);
-  font-size: 16px;
-}
 .secret-message { opacity: 0; transition: opacity 600ms ease-out; pointer-events: none; }
 .secret-message.is-discovered { opacity: .35; }
 .secret-hotspot:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
-.secret-hotspot:not(.footer-secret):focus-visible .secret-message { opacity: 1; transition: none; }
-.visitor-hotspot .secret-message.is-discovered { opacity: .48; }
 .footer-secret .secret-message.is-discovered { opacity: .35; }
 .footer-secret-space { position: relative; min-height: 30svh; }
 .footer-secret {
@@ -103,8 +99,8 @@
   z-index: 3;
   font-size: clamp(15px, 1.5vw, 21px);
 }
-html[data-mode='xray'] .footer-secret { color: #fff; }
-html[data-mode='xray'] .footer-secret .secret-message {
+html[data-mode='xray'] :is(.footer-secret, .footer-visit-hotspot) { color: #fff; }
+html[data-mode='xray'] :is(.footer-secret, .footer-visit-hotspot) .secret-message {
   text-shadow: 0 1px 2px #080216, 0 0 6px #080216, 0 0 12px #8011ff, 0 0 24px #8011ff88;
 }
 
@@ -158,30 +154,13 @@ body { position: relative; }
   100% { opacity: 0; }
 }
 @media (max-width: 600px) {
-  .exhibition-footer { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .page-footer.exhibition-footer { --footer-naavi-reservation: 84px; }
+  .footer-left, .footer-details { gap: 12px; }
   .secret-hotspot { font-size: 12px; }
-  .footer-secret.secret-hotspot { font-size: 15px; }
-  .visitor-hotspot { top: -11px; }
-  .visitor-hotspot .secret-message {
-    position: absolute;
-    top: 34px;
-    left: 50%;
-    width: min(230px, calc(100vw - 72px));
-    transform: translateX(-50%);
-    font-size: 14px;
-    line-height: 1.25;
-  }
-  .footer-identity { position: relative; grid-template-columns: max-content minmax(0, 1fr); gap: 0 24px; }
-  .footer-identity > .footer-visit-hotspot { position: static; }
-  .footer-visit-memory { left: 0; max-width: 100%; }
-  .footer-identity > .footer-details { grid-column: 1 / -1; justify-self: start; flex-direction: row; gap: 16px; }
+  :is(.footer-secret, .footer-visit-hotspot).secret-hotspot { font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .secret-message { transition: none; }
   .ink-mark { animation-name: ink-fade; }
   .ink-tear { animation: none; }
-}
-
-@media (max-width: 360px) {
-  .footer-identity { font-size: 10px; }
 }

@@ -19,7 +19,7 @@ test('About copy and link use bounded entrances and settle into the same left-al
     const link = sampleAboutItem(.5, 'link', width);
     assert.ok(copy.x < link.x, 'The text leads and MORE ABOUT follows with a brief stagger.');
   }
-  assert.ok(motionSettings.about.copyStart > motionSettings.fly.start, 'About arrives later than the initial Work rubric.');
+  assert.equal(motionSettings.about.copyStart, motionSettings.calm.start, 'The calm content family shares the established About copy range.');
 });
 
 test('About scroll reversal and stopped scrolling reproduce exactly the same entrance history', () => {

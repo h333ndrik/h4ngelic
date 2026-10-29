@@ -1,0 +1,22 @@
+/* The existing frontpage navigation supplies the interaction language. Numeric
+   hover values are published once by uiEffectProperties(); every target uses
+   the same filter, duration and scale, with geometry fitting only at edges. */
+:root {
+  --radius-soft: 4px;
+  --surface-input: #303033;
+  --type-display: clamp(32px, 6vw, 88px);
+  --type-navigation: clamp(13px, 1.32vw, 20px);
+  --type-secondary-link: clamp(18px, 1.8vw, 27px);
+  --ui-hover-glow-normal: drop-shadow(0 0 1px rgb(255 255 255 / calc(.95 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 3px rgb(255 255 255 / calc(.62 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 6px rgb(255 255 255 / calc(.38 * var(--ui-glow-strength, .2))));
+  --ui-hover-glow-other: drop-shadow(0 0 1px rgb(255 255 255 / calc(.98 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 3px rgb(255 255 255 / calc(.75 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 6px rgb(255 255 255 / calc(.48 * var(--ui-glow-strength, .2))))
+    drop-shadow(0 0 calc(6px * var(--ui-other-glow-strength, 1.15)) rgb(185 139 225 / calc(.24 * var(--ui-glow-strength, .2))));
+  --ui-hover-glow: var(--ui-hover-glow-normal);
+}
+html[data-mode='xray'] { --ui-hover-glow: var(--ui-hover-glow-other); }
+@media (max-width: 800px) {
+  :root { --type-navigation: clamp(14px, 3.8vw, 18px); }
+}

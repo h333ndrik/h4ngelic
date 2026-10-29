@@ -1,6 +1,5 @@
 import './sound-controls.css';
 
-const privateFilename = 'h4ngelic_v8_full_sound_remaster_v11.mp3';
 
 /** Enhance the existing SOUND button; one document-level controller survives
  * internal routes together with the existing mode/audio controller. */
@@ -68,8 +67,8 @@ export function initSoundControls({ doc = document, audio } = {}) {
     for (const button of doc.querySelectorAll('[data-smash]')) {
       button.disabled = !audio.smashAvailable;
       button.setAttribute('aria-pressed', String(audio.smashPlaying));
-      button.setAttribute('aria-label', audio.smashPlaying ? 'stop private soundtrack' : 'play private soundtrack');
-      button.title = audio.smashAvailable ? 'private local playback' : `private soundtrack unavailable: ${privateFilename}`;
+      button.setAttribute('aria-label', audio.smashPlaying ? 'stop soundtrack' : 'play soundtrack');
+      button.title = audio.smashAvailable ? '' : 'soundtrack unavailable';
     }
   }
 

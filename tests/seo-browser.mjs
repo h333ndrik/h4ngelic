@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const baseURL = process.env.H4_PREVIEW_URL || 'http://127.0.0.1:4173';
@@ -6,7 +7,10 @@ const production = process.env.H4_EXPECT_DEPLOYMENT === 'production';
 const origin = process.env.H4_CANONICAL_ORIGIN || 'https://h4ngelic.com';
 const archiveIDs = ['tattoos', 'flashes', 'jewellery', 'more', 'analog-photography', 'digital-artworks', 'paintings'];
 const originalPath = '/work/digital-artworks/green-black-original';
-const paths = ['/', '/work', ...archiveIDs.map(id => `/work/${id}`), '/about', originalPath];
+const tattooPaths = Array.from({ length: 8 }, (_, index) => `/work/tattoos/tattoo-${String(index + 1).padStart(2, '0')}`);
+const artworkPaths = [originalPath, ...tattooPaths];
+const isArtwork = path => artworkPaths.includes(path);
+const paths = ['/', '/work', ...archiveIDs.map(id => `/work/${id}`), '/about', ...artworkPaths];
 const route = (path) => new URL(path, baseURL).href;
 
 for (const category of archiveIDs) {
@@ -27,6 +31,8 @@ const manifestResponse = await fetch(route('/route-manifest.json'));
 assert.equal(manifestResponse.status, 200);
 const manifest = await manifestResponse.json();
 assert.equal(manifest.routes.some(entry => entry.path === '/contact'), false);
+assert.equal(manifest.routes.length, 19, 'The current build includes eight genuine Tattoo details, not fixture or empty-photo routes.');
+assert.deepEqual(manifest.routes.map(entry => entry.path).sort(), [...paths].sort());
 assert.deepEqual(manifest.routes.filter(entry => ['/', '/work', '/about'].includes(entry.path)).map(entry => entry.path), ['/', '/work', '/about']);
 const missing = await fetch(route('/missing-page-for-seo-test'));
 assert.equal(missing.status, 404, 'Unknown page paths must return an actual HTTP 404.');
@@ -55,6 +61,7 @@ if (production) {
 }
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
+const report = { checkedAt: new Date().toISOString(), baseURL, production, staticRoutes: [], liveRoutes: [], passed: false };
 try {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 1000 } });
   const page = await context.newPage();
@@ -76,15 +83,17 @@ try {
         data: Array.isArray(data) ? data : data['@graph'] || [data],
         rendered: document.getElementById('page-content')?.dataset.prerendered,
         text: document.getElementById('page-content')?.textContent,
+        horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - innerWidth),
       };
     });
     titles.push(metadata.title);
-    // The original has no artist-supplied description yet. Its noindex detail
-    // deliberately reuses truthful category copy instead of inventing text.
-    if (path !== originalPath) descriptions.push(metadata.description);
+    // Supplied images have no artist-authored titles/descriptions yet. Their
+    // unique catalogue labels stay noindex and reuse truthful category copy.
+    if (!isArtwork(path)) descriptions.push(metadata.description);
     assert.ok(metadata.title.length > 10);
+    assert.equal(metadata.horizontalOverflow, 0, `${path} must fit the no-JS desktop viewport.`);
     assert.ok(metadata.description.length > 25);
-    const archiveAlias = path.startsWith('/work/') && path !== originalPath;
+    const archiveAlias = path.startsWith('/work/') && !isArtwork(path);
     assert.equal(metadata.canonical, `${origin}${archiveAlias ? '/work' : path}`);
     assert.equal(metadata.ogTitle, metadata.title);
     assert.equal(metadata.ogDescription, metadata.description);
@@ -101,6 +110,9 @@ try {
     assert.equal(await page.locator('[data-floating-brand]').count(), 1);
     assert.equal(await page.locator('[data-global-index] summary').isVisible(), true);
     assert.equal(await page.locator('#reveal-control').count(), 0);
+    assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00 /', '01 /', '02 /', '03 /', '04 /']);
+    assert.equal(await page.locator('[data-visit-message], [data-visitor-hotspot]').count(), 0);
+    assert.match(await page.locator('[data-visit-number]').textContent(), /^VISIT \d{4,}$/);
     if (path !== '/') assert.equal(await page.locator('[data-inquiry-form]').count(), 0, 'Only Home contains the contact form.');
     assert.ok((await page.locator('h1').count()) >= 1);
     if (path === '/') {
@@ -126,13 +138,29 @@ try {
         assert.equal(await page.locator('.artwork-detail img').getAttribute('height'), '1920');
         assert.match(await page.locator('.artwork-detail img').getAttribute('src'), /green-black-original/);
         assert.ok(metadata.data.some(node => node['@type'] === 'VisualArtwork'), 'The supplied image has genuine artwork structured data.');
+      } else if (tattooPaths.includes(path)) {
+        const number = path.slice(-2);
+        assert.equal(await page.locator('.artwork-detail img').count(), 1);
+        assert.equal(await page.locator('.work-filters').count(), 0);
+        assert.equal(await page.locator('.artwork-detail').getAttribute('data-artwork-category'), 'tattoos');
+        assert.equal(await page.locator('.artwork-detail h1').innerText(), `tattoo ${number}`, 'The existing catalogue ID labels the untitled photograph without inventing an artwork title.');
+        assert.equal(metadata.title, `tattoo ${number} — h4ngelic`);
+        assert.match(await page.locator('.artwork-detail img').getAttribute('src'), new RegExp(`tattoo-${number}`));
+        const dimensions = await page.locator('.artwork-detail img').evaluate(image => [Number(image.width), Number(image.height)]);
+        assert.ok(dimensions.every(size => size > 0));
+        const artwork = metadata.data.find(node => node['@type'] === 'VisualArtwork');
+        assert.ok(artwork);
+        assert.equal(artwork.name, `tattoo ${number}`);
+        assert.equal(artwork.dateCreated, undefined, 'No creation year is inferred from the supplied photograph.');
       } else if (path.startsWith('/work')) {
         const category = path.split('/')[2] || 'all';
-        const expectedEmpty = category === 'paintings' ? 5 : 4;
+        const expectedEmpty = category === 'paintings' ? 4 : 3;
         assert.deepEqual(await page.locator('.archive-empty').allTextContents(), Array(expectedEmpty).fill('archive in progress.'));
-        assert.equal(await page.locator('.portfolio-archive img').count(), 1,
-          'Connected Work retains the one genuine original in every category context.');
-        assert.equal(await page.locator('.portfolio-archive .project-image').count(), 1, 'Only the supplied original has an image figure; empty categories do not invent artwork.');
+        assert.equal(await page.locator('.portfolio-archive img').count(), 9,
+          'Connected Work retains all eight supplied Tattoo photographs and the digital original in every category context.');
+        assert.equal(await page.locator('.portfolio-archive .project-image').count(), 9, 'Only the nine genuine supplied images have figures; remaining empty categories do not invent artwork.');
+        assert.equal(await page.locator('[data-horizontal-drift="tattoos"] [data-drift-item]').count(), 8);
+        assert.equal(await page.locator('[data-horizontal-drift="tattoos"]').getAttribute('data-carousel-total'), '8');
         assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)),
           ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography', ...(category === 'paintings' ? ['paintings'] : [])]);
         assert.match(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('src'), /green-black-original/);
@@ -141,7 +169,7 @@ try {
         assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').isVisible(), true,
           'Without JavaScript, the actual original stays visible and needs no reveal interaction.');
         assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
-          ['/work', '/work#tattoos', '/work#jewellery', '/work#more']);
+          ['/work#tattoos', '/work#jewellery', '/work#more']);
         assert.equal(await page.locator('.work-page .page-heading').innerText(), '01 / WORKS');
         assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);
       } else {
@@ -149,14 +177,16 @@ try {
         assert.match(metadata.text, /berlin/);
       }
     }
+    report.staticRoutes.push({ path, status: response.status(), width: 1440, title: metadata.title,
+      canonical: metadata.canonical, robots: metadata.robots, horizontalOverflow: metadata.horizontalOverflow });
   }
   assert.equal(new Set(titles).size, paths.length, 'Every direct page/context needs its own useful title.');
-  assert.equal(new Set(descriptions).size, paths.length - 1, 'Every archive, Home and About keeps its own useful description.');
+  assert.equal(new Set(descriptions).size, paths.length - artworkPaths.length, 'Every archive, Home and About keeps its own useful description; untitled photographs retain category copy.');
   await context.close();
   console.log(`PASS SEO HTTP/no-JS (${production ? 'production' : 'preview'}): ${paths.length} semantic direct routes, unique metadata, confirmed canonicals, structured artist identity, legacy redirects, strict 404s, sitemap and robots.`);
 
   const live = await browser.newContext({ viewport: { width: 390, height: 844 } });
-  for (const path of ['/work/tattoos', '/work/more', '/work/digital-artworks', originalPath, '/about', '/contact', '/contact?artwork=green-black-original', '/#contact']) {
+  for (const path of ['/work/tattoos', '/work/more', '/work/digital-artworks', ...artworkPaths, '/about', '/contact', '/contact?artwork=green-black-original', '/contact?artwork=tattoo-08', '/#contact']) {
     const livePage = await live.newPage();
     const errors = [];
     const requests = [];
@@ -169,27 +199,37 @@ try {
       };
     });
     livePage.on('pageerror', (error) => errors.push(error.message));
+    livePage.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     livePage.on('request', (request) => requests.push(request.url()));
     await livePage.goto(route(path), { waitUntil: 'networkidle' });
     assert.deepEqual(errors, []);
     assert.ok(!requests.some((url) => /\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans-Bold/.test(url)), 'Direct Work/About/Contact cannot download the 3D scene, font or reflection texture.');
-    const expected = path === originalPath ? 'artwork' : path.startsWith('/work') ? 'work' : path.startsWith('/about') ? 'about' : 'home';
+    const expected = isArtwork(path) ? 'artwork' : path.startsWith('/work') ? 'work' : path.startsWith('/about') ? 'about' : 'home';
     assert.equal(await livePage.locator('html').getAttribute('data-page'), expected);
     assert.equal(await livePage.evaluate(() => window.__seoWebGLContexts), 0, 'Cold interior/Home Contact never initializes WebGL.');
     if (expected === 'home') {
       assert.equal(await livePage.locator('[data-inquiry-form]').count(), 1);
       assert.equal(new URL(livePage.url()).hash, '#contact');
       assert.ok(await livePage.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
-      if (path.includes('artwork=')) assert.equal(await livePage.locator('[data-inquiry-artwork]').inputValue(), 'green-black-original');
+      if (path.includes('artwork=')) assert.equal(await livePage.locator('[data-inquiry-artwork]').inputValue(), new URL(path, baseURL).searchParams.get('artwork'));
     }
+    assert.ok(!requests.some(url => /\.mp3(?:$|[?#])|__h4_private_audio/.test(url)), 'The approved SMASH track is not requested before use.');
     await livePage.reload({ waitUntil: 'networkidle' });
     assert.equal(await livePage.evaluate(() => window.__seoWebGLContexts), 0);
     assert.ok(!requests.some((url) => /\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans-Bold/.test(url)));
+    assert.ok(!requests.some(url => /\.mp3(?:$|[?#])|__h4_private_audio/.test(url)), 'Refresh still defers SMASH loading.');
     assert.deepEqual(errors, []);
+    const horizontalOverflow = await livePage.evaluate(() => Math.max(0, document.documentElement.scrollWidth - innerWidth));
+    assert.equal(horizontalOverflow, 0, `${path} must fit the live mobile viewport.`);
+    report.liveRoutes.push({ path, width: 390, refreshed: true, webglContexts: await livePage.evaluate(() => window.__seoWebGLContexts),
+      horizontalOverflow, errors, soundtrackRequests: requests.filter(url => /\.mp3(?:$|[?#])|__h4_private_audio/.test(url)) });
     await livePage.close();
   }
   await live.close();
   console.log('PASS SEO live interiors and Home Contact: direct/refresh routes work without Three.js scene, font or reflection requests.');
+  report.passed = true;
 } finally {
+  await mkdir(new URL('../artifacts/v31-seo/', import.meta.url), { recursive: true });
+  await writeFile(new URL('../artifacts/v31-seo/results.json', import.meta.url), JSON.stringify(report, null, 2));
   await browser.close();
 }

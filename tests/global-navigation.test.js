@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { activeChapter } from '../src/global-navigation-state.js';
+import { activeChapter, naaviUsesDisplayContrast } from '../src/global-navigation-state.js';
 import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from '../src/naavi-content.js';
 
 test('chapter activation follows real section positions in either scroll direction', () => {
@@ -45,4 +45,18 @@ test('About renders one reusable accessible no-JS link with active 01 / 01', () 
   assert.match(html, /data-chapter="1" data-chapter-total="1"/);
   assert.match(html, /NAAVI: 01 \/ 01, about. go to home/);
   assert.doesNotMatch(html, /details|summary|data-no-hover/);
+});
+
+
+test('NAAVI contrast covers the entire link only over display type and gives quiet form/UI regions priority', () => {
+  const nav = { left: 100, right: 188, top: 730, bottom: 774 };
+  const heading = { left: 35, right: 350, top: 700, bottom: 790 };
+  const form = { left: 50, right: 300, top: 740, bottom: 860 };
+  assert.equal(naaviUsesDisplayContrast(nav, [heading]), true);
+  assert.equal(naaviUsesDisplayContrast(nav, [heading], [form]), false);
+  assert.equal(naaviUsesDisplayContrast(nav, [], [form]), false);
+  assert.equal(naaviUsesDisplayContrast(nav, [{ ...heading, bottom: 729 }]), false);
+  assert.equal(naaviUsesDisplayContrast(nav, [{ ...heading, right: 100 }]), false, 'Touching edges do not claim overlap.');
+  assert.equal(naaviUsesDisplayContrast(nav, [{ ...heading, left: NaN }]), false);
+  assert.equal(naaviUsesDisplayContrast(null, [heading]), false);
 });

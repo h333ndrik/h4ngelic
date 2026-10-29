@@ -1,4 +1,4 @@
-/* The original symbol is displayed 15% smaller at 27.2 × 40.8 px.
+/* V3.1 reduces every native variant by a further 5%; base is 25.84 × 38.76 px.
    Its top tip lands near (9.4, 1.1), including aspect-ratio padding.
    A native cursor keeps WebGL picking aligned with the actual pointer. */
 @media (hover: hover) and (pointer: fine) {
@@ -50,8 +50,8 @@
   }
 }
 
-/* The alternate native cursors retain exactly the original SVG paths, viewport
-   dimensions and hotspots. Only their opaque interior material is different. */
+/* The alternate native cursors retain exactly the original SVG paths, reduced viewport
+   dimensions and original hotspots. Only their opaque interior material is different. */
 @media (hover: hover) and (pointer: fine) {
   html[data-mode='xray'],
   html[data-mode='xray'] body,

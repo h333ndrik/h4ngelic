@@ -40,20 +40,10 @@ export const easterSettings = {
   },
 };
 
-export const visitorMessages = [
-  'nice to meet you.',
-  'you came back.',
-  'we’re practically friends now.',
-  "getting familiar, aren't we?",
-  'you know your way around here.',
-  'some things are worth returning to.',
-  "you're part of this place now.",
-];
-
-export function visitorMessage(count) {
-  const visit = Number.isSafeInteger(count) && count > 0 ? count : 1;
-  const index = visit >= 10 ? 6 : visit >= 6 ? 5 : visit - 1;
-  return visitorMessages[index];
+/** Local personal count, with four digits as a minimum rather than a public total. */
+export function formatVisitCount(count) {
+  const visit = Number.isSafeInteger(count) && count >= 0 ? count : 1;
+  return `VISIT ${String(visit).padStart(4, '0')}`;
 }
 
 /** A visit is separated by inactivity, never by a page view or immediate reload. */

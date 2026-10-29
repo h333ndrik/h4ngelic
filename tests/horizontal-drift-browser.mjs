@@ -1,14 +1,20 @@
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
-const artifacts = new URL('../artifacts/native-carousel/', import.meta.url);
+const artifacts = new URL('../artifacts/v31/native-carousel/', import.meta.url);
+const originals = JSON.parse(await readFile(new URL('../docs/assets/tattoo-originals-v31.json', import.meta.url), 'utf8')).images;
+const imageManifest = JSON.parse(await readFile(new URL('../src/data/imageManifest.json', import.meta.url), 'utf8'));
+const profiles = [{ width: 1440, reduced: false }, { width: 390, reduced: false }, { width: 320, reduced: false }, { width: 320, reduced: true }]
+  .filter(profile => !process.env.H4_DRIFT_WIDTHS || process.env.H4_DRIFT_WIDTHS.split(',').map(Number).includes(profile.width))
+  .filter(profile => !process.env.H4_DRIFT_REDUCED || profile.reduced === (process.env.H4_DRIFT_REDUCED === 'true'));
 await mkdir(artifacts, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const results = [];
-const deadline = setTimeout(() => void browser.close(), 180000);
+let activeProfile = null;
+const deadline = setTimeout(() => void browser.close(), 360000);
 const section = page => page.locator('[data-horizontal-drift="tattoos"]');
 const viewport = page => section(page).locator('.drift-viewport');
 async function state(page) {
@@ -46,21 +52,124 @@ async function showSection(page) {
     scrollTo({ top: element.getBoundingClientRect().top + scrollY - Math.max(80, clearance), behavior: 'instant' });
   });
 }
+const frames = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+async function mode(page, expected) {
+  await page.evaluate(() => document.activeElement?.blur());
+  if (expected === 'xray') {
+    await page.keyboard.down('4'); await page.waitForTimeout(1100); await page.keyboard.up('4');
+  } else await page.keyboard.type('333', { delay: 65 });
+  await page.waitForFunction(expected => document.documentElement.dataset.mode === expected, expected, { timeout: 60000 });
+  await page.waitForFunction(() => !document.documentElement.hasAttribute('data-mode-snapshot')
+    && !document.documentElement.hasAttribute('data-xray-transition') && !document.documentElement.hasAttribute('data-memory-mosh-preparing'));
+  await frames(page);
+}
+async function genuinePhotographs(page, context, profile, world) {
+  assert.equal(await section(page).count(), 1, 'The genuine On Skin photographs use the existing native carousel.');
+  assert.equal(await section(page).getAttribute('data-carousel-total'), '8');
+  assert.equal(await section(page).locator('[data-drift-item]').count(), 8);
+  assert.equal(await section(page).locator('img').count(), 8);
+  assert.equal(await section(page).locator('.archive-empty').count(), 0, 'Real uploads replace the former empty archive.');
+  const metadata = await section(page).locator('img').evaluateAll(images => images.map(image => ({
+    original: image.dataset.fullSrc, width: image.width, height: image.height,
+    intrinsicWidth: Number(image.getAttribute('width')), intrinsicHeight: Number(image.getAttribute('height')),
+    alt: image.alt, loading: image.loading, radius: getComputedStyle(image).borderRadius,
+    fit: getComputedStyle(image).objectFit,
+  })));
+  assert.deepEqual(metadata.map(image => image.original), originals.map(image => imageManifest[image.url].variants.at(-1).src),
+    'ZIP order is preserved through the existing optimized viewer derivatives; committed originals remain unchanged.');
+  for (let index = 0; index < metadata.length; index++) {
+    const image = metadata[index], original = originals[index];
+    assert.equal(image.intrinsicWidth, original.width); assert.equal(image.intrinsicHeight, original.height);
+    assert.equal(image.loading, 'lazy'); assert.equal(image.radius, '0px'); assert.equal(image.fit, 'contain');
+    assert.ok(image.alt.length > 20);
+  }
+  await showSection(page); await home(page);
+  assert.equal(await section(page).locator('[data-drift-count]').textContent(), '1 / 8');
+  assert.equal(await section(page).locator('[data-drift-previous]').isDisabled(), true);
+  await section(page).locator('[data-drift-next]').click();
+  const next = await atIndex(page, 1);
+  assert.equal(next.count, '2 / 8');
+  await section(page).locator('[data-drift-previous]').click(); await atIndex(page, 0);
+  await section(page).focus(); await page.keyboard.press('End');
+  const end = await atIndex(page, 7);
+  assert.ok(Math.abs(end.left - end.travel) < 2); assert.equal(end.count, '8 / 8');
+  assert.equal(await section(page).locator('[data-drift-next]').isDisabled(), true);
+  await home(page); await page.keyboard.press('ArrowRight'); await atIndex(page, 1);
+  await page.keyboard.press('ArrowRight'); await atIndex(page, 2);
+  const opener = section(page).locator('[data-drift-item]').nth(2).locator('[data-artwork-open]').first();
+  const image = opener.locator('img');
+  await image.evaluate(element => element.decode());
+  await page.mouse.move(1, 1); await page.evaluate(() => document.activeElement?.blur());
+  await page.waitForTimeout(profile.reduced ? 0 : 360);
+  const before = await state(page), boxBefore = await image.boundingBox();
+  const slots = await section(page).locator('[data-drift-item]').evaluateAll(items => items.map(item => [item.offsetLeft, item.offsetWidth, item.offsetHeight]));
+  const bodyOverflow = await page.evaluate(() => document.body.style.overflow);
+  await opener.evaluate(element => element.focus({ preventScroll: true })); await page.keyboard.press('Enter');
+  await page.waitForFunction(() => {
+    const selected = document.querySelector('[data-horizontal-drift="tattoos"] .drift-artwork.is-drift-expanded');
+    return selected && Math.abs(new DOMMatrixReadOnly(getComputedStyle(selected).transform).m11 - 1.1) < .001;
+  });
+  await page.waitForTimeout(profile.reduced ? 0 : 360);
+  const enlarged = await state(page), boxEnlarged = await image.boundingBox();
+  assert.ok(Math.abs(boxEnlarged.width / boxBefore.width - 1.1) < .006, 'The real photo grows once by 10%, without compounded hover scaling.');
+  assert.ok(Math.abs(boxEnlarged.height / boxBefore.height - 1.1) < .006);
+  assert.ok(Math.abs(boxEnlarged.x + boxEnlarged.width / 2 - boxBefore.x - boxBefore.width / 2) < 1);
+  assert.ok(Math.abs(boxEnlarged.y + boxEnlarged.height / 2 - boxBefore.y - boxBefore.height / 2) < 1);
+  assert.ok(Math.abs(enlarged.left - before.left) < 1 && Math.abs(enlarged.scrollY - before.scrollY) < 1,
+    'Enlargement preserves horizontal and vertical context instead of zooming the website.');
+  assert.deepEqual(await section(page).locator('[data-drift-item]').evaluateAll(items => items.map(item => [item.offsetLeft, item.offsetWidth, item.offsetHeight])), slots);
+  assert.equal(await page.locator('dialog[open]').count(), 0); assert.equal(await opener.getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.evaluate(() => document.body.style.overflow), bodyOverflow);
+  await page.keyboard.press('Escape'); assert.equal(await opener.getAttribute('aria-pressed'), 'false');
+  await home(page); await showSection(page);
+  const port = await viewport(page).boundingBox(), gestureBefore = await state(page);
+  if (profile.width >= 600) {
+    await page.mouse.move(port.x + port.width * .6, port.y + Math.min(150, port.height * .4));
+    await page.mouse.down(); await page.mouse.move(port.x + port.width * .6 - 200, port.y + Math.min(150, port.height * .4), { steps: 8 }); await page.mouse.up();
+  } else {
+    const cdp = await context.newCDPSession(page);
+    const point = { x: port.x + port.width * .82, y: port.y + Math.min(150, port.height * .4) };
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] });
+    for (let index = 1; index <= 8; index++) {
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: point.x - index * 24, y: point.y }] });
+      await page.waitForTimeout(24);
+    }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await cdp.detach();
+  }
+  await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"] .drift-viewport').scrollLeft > 80);
+  const gestureAfter = await state(page);
+  assert.equal(await section(page).locator('.drift-artwork.is-drift-expanded').count(), 0, 'Native gesture never opens or enlarges real work.');
+  assert.equal(await page.locator('dialog[open]').count(), 0);
+  assert.ok(Math.abs(gestureAfter.scrollY - gestureBefore.scrollY) < 2, 'A horizontal gesture retains page position.');
+  assert.ok(gestureAfter.maximum <= gestureAfter.viewport + 1);
+  await page.screenshot({ path: new URL(`originals-${profile.width}-${profile.reduced}-${world}.png`, artifacts).pathname });
+  return { world, metadata, next, end, before, enlarged, actualImageScale: boxEnlarged.width / boxBefore.width, gestureBefore, gestureAfter };
+}
 try {
-  for (const width of (process.env.H4_DRIFT_WIDTHS || '1000,390,320').split(',').map(Number)) {
-    console.log(`START native carousel ${width}px`);
-    const context = await browser.newContext({ viewport: { width, height: 844 }, reducedMotion: width === 320 ? 'reduce' : 'no-preference',
+  for (const profile of profiles) {
+    activeProfile = profile;
+    const { width, reduced } = profile;
+    console.log(`START V3.1 native carousel ${width}px reduced=${reduced}`);
+    const context = await browser.newContext({ viewport: { width, height: 844 }, reducedMotion: reduced ? 'reduce' : 'no-preference',
       hasTouch: width < 600, isMobile: width < 600 });
     const page = await context.newPage();
-    const errors = [];
+    const errors = [], requests = [];
     page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    page.on('request', request => requests.push(request.url()));
     await page.goto(new URL('/work/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
-    assert.equal(await section(page).count(), 1, 'Empty real archives retain a visible carousel shell.');
-    assert.equal(await section(page).locator('img, canvas, [data-drift-item]').count(), 0, 'The empty archive cannot invent photographs or placeholder cards.');
-    assert.equal(await section(page).locator('.archive-empty').textContent(), 'archive in progress.');
-    assert.equal(await section(page).locator('[data-drift-count]').textContent(), '0 / 0');
-    assert.equal(await section(page).locator('[data-drift-previous]').isDisabled(), true);
-    assert.equal(await section(page).locator('[data-drift-next]').isDisabled(), true);
+    assert.ok(!requests.some(url => /\/src\/main\.js|wordmark\.typeface|tattoo-texture|LiberationSans-Bold/.test(url)), 'A cold Work route never downloads the Three.js hero assets.');
+    assert.ok(!requests.some(url => /\.mp3(?:$|[?#])/.test(url)), 'Browsing real photographs defers SMASH loading.');
+    const flashes = page.locator('[data-horizontal-drift="flashes"]');
+    assert.equal(await flashes.locator('img, canvas, [data-drift-item]').count(), 0, 'Unprovided Flash artwork remains genuinely empty.');
+    assert.equal(await flashes.locator('.archive-empty').textContent(), 'archive in progress.');
+    assert.equal(await flashes.locator('[data-drift-count]').textContent(), '0 / 0');
+    assert.equal(await flashes.locator('[data-drift-previous]').isDisabled(), true);
+    assert.equal(await flashes.locator('[data-drift-next]').isDisabled(), true);
+    const genuine = [await genuinePhotographs(page, context, profile, 'normal')];
+    await mode(page, 'xray'); genuine.push(await genuinePhotographs(page, context, profile, 'xray'));
+    await mode(page, 'normal');
+    console.log(`PASS eight genuine photographs ${width}px reduced=${reduced}: ZIP order/ratio/lazy/radius, controls, keyboard, in-place zoom, ${width < 600 ? 'native swipe' : 'drag'}, both333/4.`);
 
     await page.evaluate(async () => {
       const { renderHorizontalDrift } = await import('/src/horizontal-drift-content.js');
@@ -68,8 +177,8 @@ try {
       const { initGallery } = await import('/src/gallery.js');
       const old = document.querySelector('[data-horizontal-drift="tattoos"]');
       const host = document.createElement('div');
-      // Six copies of a supplied image are a browser fixture only. Production
-      // keeps its honest empty tattoo archive and publishes no invented work.
+      // Six copies plus hidden detail images are a browser-only stress fixture.
+      // Genuine photographs were checked above; this retains multi-image teardown/input coverage.
       host.innerHTML = renderHorizontalDrift(Array.from({ length: 6 }, (_, index) => ({
         id: `carousel-fixture-${index}`, category: 'tattoos', title: `fixture ${index + 1}`,
         images: [
@@ -133,6 +242,21 @@ try {
     await showSection(page);
     await home(page);
     if (width >= 600) {
+      // At some viewport/photo ratios the first neighbour fits completely and
+      // the next is entirely outside. Choose a genuine native intermediate
+      // scroll position so this stress case actually starts on a clipped work.
+      await viewport(page).evaluate(scroller => {
+        const port = scroller.getBoundingClientRect();
+        for (const item of [...scroller.querySelectorAll('[data-drift-item]')].slice(1)) {
+          const image = item.querySelector('[data-artwork-open]').getBoundingClientRect();
+          if (image.right <= port.right + 5) continue;
+          if (image.left >= port.right - 18) scroller.scrollTo({
+            left: scroller.scrollLeft + image.left - port.right + 60, behavior: 'instant',
+          });
+          break;
+        }
+      });
+      await frames(page);
       const partial = await section(page).evaluate(element => {
         const port = element.querySelector('.drift-viewport').getBoundingClientRect();
         for (const item of [...element.querySelectorAll('[data-drift-item]')].slice(1)) {
@@ -243,15 +367,23 @@ try {
     }));
     assert.ok(neighbours[0].right < neighbours[1].left && neighbours[1].right < neighbours[2].left,
       'The enlarged photograph must not overlap its neighbours.');
-    if (width < 600) await opener.tap();
-    else await opener.click();
+    const activateVisiblePhoto = async () => {
+      const box = await opener.boundingBox();
+      assert.ok(box.x + box.width / 2 > 0 && box.x + box.width / 2 < width
+        && box.y + box.height / 2 > 0 && box.y + box.height / 2 < 844,
+      'Pointer activation starts on the visible photograph without automation scrolling.');
+      if (width < 600) await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+      else await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    };
+    await activateVisiblePhoto();
     await page.waitForFunction(() => !document.querySelector('[data-horizontal-drift="tattoos"] .drift-artwork.is-drift-expanded'));
     assert.equal(await opener.getAttribute('aria-pressed'), 'false', 'A second activation restores the photograph.');
     await checkContext();
-    if (width < 600) await opener.tap();
-    else await opener.click();
+    await activateVisiblePhoto();
     await checkContext();
-    await section(page).locator('.drift-instruction').click();
+    // Click a visible page margin. Locator.click on the toolbar can itself
+    // scroll that offscreen target (and the focused archive) into view.
+    await page.mouse.click(width - 3, 400);
     await checkContext();
     assert.equal(await opener.getAttribute('aria-pressed'), 'false', 'Clicking outside restores the photograph.');
     await opener.evaluate(element => element.focus({ preventScroll: true })); await page.keyboard.press('Enter');
@@ -278,14 +410,17 @@ try {
     await page.waitForFunction(before => scrollY > before + 30, boundaryBefore);
     const boundary = await state(page);
     assert.ok(boundary.maximum <= boundary.viewport + 1, 'The carousel must not widen the website.');
-    await page.screenshot({ path: new URL(`carousel-${width}.png`, artifacts).pathname });
+    await page.screenshot({ path: new URL(`carousel-${width}-${reduced}.png`, artifacts).pathname });
     await page.evaluate(() => window.__stopCarouselFixture());
     assert.equal(await section(page).evaluate(element => element.classList.contains('is-drift-enhanced')), false);
     assert.deepEqual(errors, []);
-    results.push({ width, initial, next, end, trackpad, shiftedWheel, vertical, drag, beforeViewer, afterViewer, boundary, wheelDeltas, errors });
+    results.push({ width, reduced, genuine, initial, next, end, trackpad, shiftedWheel, vertical, drag, beforeViewer, afterViewer, boundary, wheelDeltas, errors });
     await writeFile(new URL('results.json', artifacts), JSON.stringify({ passed: false, results }, null, 2));
-    console.log(`PASS native carousel ${width}px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, ${width < 600 ? 'native swipe/pan' : 'drag'}, in-place enlargement/restore and bounds.`);
+    console.log(`PASS native carousel stress fixture ${width}px reduced=${reduced}: controls, keyboard, horizontal wheel/shift-wheel, vertical release, ${width < 600 ? 'native swipe/pan' : 'drag'}, in-place enlargement/restore and bounds.`);
     await context.close();
   }
   await writeFile(new URL('results.json', artifacts), JSON.stringify({ passed: true, results }, null, 2));
+} catch (error) {
+  await writeFile(new URL('results.json', artifacts), JSON.stringify({ passed: false, failedProfile: activeProfile, failure: error.stack || String(error), results }, null, 2));
+  throw error;
 } finally { clearTimeout(deadline); await browser.close(); }

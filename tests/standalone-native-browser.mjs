@@ -11,6 +11,7 @@ try {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('request', request => { if (/^https?:/.test(request.url())) external.push(request.url()); });
   // This managed browser blocks file:// navigation. Execute the exact exported
   // bytes in an isolated document with all network access rejected instead.
@@ -125,6 +126,7 @@ try {
     viewTransitionSupported: typeof document.startViewTransition === 'function',
     retainedMaps: document.querySelectorAll('.mode-snapshot-definitions feImage[href]').length,
     webglContexts: window.__offlineWebGL,
+    horizontalOverflow: Math.max(0, document.documentElement.scrollWidth - innerWidth),
     gray: getComputedStyle(document.documentElement).backgroundColor, body: getComputedStyle(document.body).backgroundColor, gradient: getComputedStyle(document.documentElement).backgroundImage }));
   assert.equal(result.viewTransitionSupported, true);
   assert.deepEqual(result.events.map(event => event.mode), ['xray', 'normal', 'xray', 'normal']);
@@ -143,6 +145,7 @@ try {
   }
   assert.equal(result.retainedMaps, 0);
   assert.equal(result.webglContexts, 0, 'Direct offline Work must not initialize a hero scene.');
+  assert.equal(result.horizontalOverflow, 0);
   assert.equal(result.gray, 'rgb(36, 36, 36)');
   assert.equal(result.body, 'rgba(0, 0, 0, 0)');
   assert.match(result.gradient, /rgb\(40, 40, 40\).*rgb\(36, 36, 36\).*rgb\(32, 32, 32\)/);

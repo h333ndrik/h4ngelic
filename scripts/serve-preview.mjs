@@ -13,6 +13,7 @@ const mimeTypes = {
   '.json': 'application/json; charset=utf-8', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
   '.svg': 'image/svg+xml', '.webp': 'image/webp', '.avif': 'image/avif', '.png': 'image/png', '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.ico': 'image/x-icon', '.hdr': 'application/octet-stream',
+  '.mp3': 'audio/mpeg',
 };
 
 /** Serve the output as real documents, with strict route status and cached gzip. */

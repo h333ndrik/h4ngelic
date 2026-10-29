@@ -1,0 +1,473 @@
+{
+  "checkedAt": "2026-10-29T14:57:58.814Z",
+  "results": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "normal": {
+        "row": {
+          "left": 35,
+          "right": 1405,
+          "top": 788.328125,
+          "bottom": 832.328125,
+          "width": 1370,
+          "height": 44
+        },
+        "left": {
+          "left": 35,
+          "right": 658.734375,
+          "top": 788.328125,
+          "bottom": 832.328125,
+          "width": 623.734375,
+          "height": 44
+        },
+        "right": {
+          "left": 1019.5625,
+          "right": 1405,
+          "top": 788.328125,
+          "bottom": 832.328125,
+          "width": 385.4375,
+          "height": 44
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 1440,
+        "documentWidth": 1440,
+        "pageHeight": 4913,
+        "footerPosition": "static",
+        "rightOverflow": 0,
+        "leftOverflow": 0
+      },
+      "other": {
+        "row": {
+          "left": 35,
+          "right": 1405,
+          "top": 788.328125,
+          "bottom": 832.328125,
+          "width": 1370,
+          "height": 44
+        },
+        "left": {
+          "left": 35,
+          "right": 658.734375,
+          "top": 788.328125,
+          "bottom": 832.328125,
+          "width": 623.734375,
+          "height": 44
+        },
+        "right": {
+          "left": 1019.5625,
+          "right": 1405,
+          "top": 788.328125,
+          "bottom": 832.328125,
+          "width": 385.4375,
+          "height": 44
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 1440,
+        "documentWidth": 1440,
+        "pageHeight": 4913,
+        "footerPosition": "static",
+        "rightOverflow": 0,
+        "leftOverflow": 0
+      },
+      "parity": {
+        "smash": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "letterSpacing": "0.72px",
+          "lineHeight": "18px",
+          "color": "rgb(179, 179, 175)"
+        },
+        "instagram": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "letterSpacing": "0.72px",
+          "lineHeight": "18px",
+          "color": "rgb(179, 179, 175)"
+        }
+      },
+      "hintFont": {
+        "hint": [
+          "Arial, Helvetica, sans-serif",
+          "21px",
+          "400",
+          "0.84px"
+        ],
+        "count": [
+          "Arial, Helvetica, sans-serif",
+          "21px",
+          "400",
+          "0.84px"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "normal": {
+        "row": {
+          "left": 22,
+          "right": 368,
+          "top": 787.59375,
+          "bottom": 831.59375,
+          "width": 346,
+          "height": 44
+        },
+        "left": {
+          "left": 22,
+          "right": 145,
+          "top": 787.59375,
+          "bottom": 831.59375,
+          "width": 123,
+          "height": 44
+        },
+        "right": {
+          "left": 245,
+          "right": 368,
+          "top": 787.59375,
+          "bottom": 831.59375,
+          "width": 123,
+          "height": 44
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 787.59375,
+          "bottom": 831.59375,
+          "width": 84,
+          "height": 44
+        },
+        "width": 390,
+        "documentWidth": 390,
+        "pageHeight": 4187,
+        "footerPosition": "static",
+        "rightOverflow": 154,
+        "leftOverflow": 45
+      },
+      "other": {
+        "row": {
+          "left": 22,
+          "right": 368,
+          "top": 787.59375,
+          "bottom": 831.59375,
+          "width": 346,
+          "height": 44
+        },
+        "left": {
+          "left": 22,
+          "right": 145,
+          "top": 787.59375,
+          "bottom": 831.59375,
+          "width": 123,
+          "height": 44
+        },
+        "right": {
+          "left": 245,
+          "right": 368,
+          "top": 787.59375,
+          "bottom": 831.59375,
+          "width": 123,
+          "height": 44
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 787.59375,
+          "bottom": 831.59375,
+          "width": 84,
+          "height": 44
+        },
+        "width": 390,
+        "documentWidth": 390,
+        "pageHeight": 4187,
+        "footerPosition": "static",
+        "rightOverflow": 154,
+        "leftOverflow": 45
+      },
+      "parity": {
+        "smash": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "letterSpacing": "0.72px",
+          "lineHeight": "15px",
+          "color": "rgb(179, 179, 175)"
+        },
+        "instagram": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "letterSpacing": "0.72px",
+          "lineHeight": "15px",
+          "color": "rgb(179, 179, 175)"
+        }
+      },
+      "hintFont": {
+        "hint": [
+          "Arial, Helvetica, sans-serif",
+          "15px",
+          "400",
+          "0.6px"
+        ],
+        "count": [
+          "Arial, Helvetica, sans-serif",
+          "15px",
+          "400",
+          "0.6px"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "normal": {
+        "row": {
+          "left": 22,
+          "right": 298,
+          "top": 788.09375,
+          "bottom": 832.09375,
+          "width": 276,
+          "height": 44
+        },
+        "left": {
+          "left": 22,
+          "right": 110,
+          "top": 788.09375,
+          "bottom": 832.09375,
+          "width": 88,
+          "height": 44
+        },
+        "right": {
+          "left": 210,
+          "right": 298,
+          "top": 788.09375,
+          "bottom": 832.09375,
+          "width": 88,
+          "height": 44
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 320,
+        "documentWidth": 320,
+        "pageHeight": 4221,
+        "footerPosition": "static",
+        "rightOverflow": 189,
+        "leftOverflow": 80
+      },
+      "other": {
+        "row": {
+          "left": 22,
+          "right": 298,
+          "top": 788.09375,
+          "bottom": 832.09375,
+          "width": 276,
+          "height": 44
+        },
+        "left": {
+          "left": 22,
+          "right": 110,
+          "top": 788.09375,
+          "bottom": 832.09375,
+          "width": 88,
+          "height": 44
+        },
+        "right": {
+          "left": 210,
+          "right": 298,
+          "top": 788.09375,
+          "bottom": 832.09375,
+          "width": 88,
+          "height": 44
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 320,
+        "documentWidth": 320,
+        "pageHeight": 4221,
+        "footerPosition": "static",
+        "rightOverflow": 189,
+        "leftOverflow": 80
+      },
+      "parity": {
+        "smash": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "letterSpacing": "0.72px",
+          "lineHeight": "15px",
+          "color": "rgb(179, 179, 175)"
+        },
+        "instagram": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "letterSpacing": "0.72px",
+          "lineHeight": "15px",
+          "color": "rgb(179, 179, 175)"
+        }
+      },
+      "hintFont": {
+        "hint": [
+          "Arial, Helvetica, sans-serif",
+          "15px",
+          "400",
+          "0.6px"
+        ],
+        "count": [
+          "Arial, Helvetica, sans-serif",
+          "15px",
+          "400",
+          "0.6px"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "normal": {
+        "row": {
+          "left": 22,
+          "right": 298,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "width": 276,
+          "height": 44
+        },
+        "left": {
+          "left": 22,
+          "right": 110,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "width": 88,
+          "height": 44
+        },
+        "right": {
+          "left": 210,
+          "right": 298,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "width": 88,
+          "height": 44
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "width": 84,
+          "height": 44
+        },
+        "width": 320,
+        "documentWidth": 320,
+        "pageHeight": 3276,
+        "footerPosition": "static",
+        "rightOverflow": 189,
+        "leftOverflow": 80
+      },
+      "other": {
+        "row": {
+          "left": 22,
+          "right": 298,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "width": 276,
+          "height": 44
+        },
+        "left": {
+          "left": 22,
+          "right": 110,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "width": 88,
+          "height": 44
+        },
+        "right": {
+          "left": 210,
+          "right": 298,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "width": 88,
+          "height": 44
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "width": 84,
+          "height": 44
+        },
+        "width": 320,
+        "documentWidth": 320,
+        "pageHeight": 3276,
+        "footerPosition": "static",
+        "rightOverflow": 189,
+        "leftOverflow": 80
+      },
+      "parity": {
+        "smash": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "letterSpacing": "0.72px",
+          "lineHeight": "15px",
+          "color": "rgb(179, 179, 175)"
+        },
+        "instagram": {
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "letterSpacing": "0.72px",
+          "lineHeight": "15px",
+          "color": "rgb(179, 179, 175)"
+        }
+      },
+      "hintFont": {
+        "hint": [
+          "Arial, Helvetica, sans-serif",
+          "15px",
+          "400",
+          "0.6px"
+        ],
+        "count": [
+          "Arial, Helvetica, sans-serif",
+          "15px",
+          "400",
+          "0.6px"
+        ]
+      },
+      "errors": []
+    }
+  ]
+}
