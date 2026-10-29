@@ -1,0 +1,63 @@
+
+> h4ngelic@0.1.0 preview:export
+> npm run build && node scripts/export-preview.mjs
+
+
+> h4ngelic@0.1.0 prebuild
+> npm run images:optimize
+
+
+> h4ngelic@0.1.0 images:optimize
+> node scripts/optimize-images.mjs
+
+/images/digital-artworks/green-black-original.jpg: 1440×1920 → 320, 640, 960, 1440px WebP
+/images/tattoos/tattoo-01.jpg: 1170×1470 → 320, 640, 960, 1170px WebP
+/images/tattoos/tattoo-02.jpg: 1170×1734 → 320, 640, 960, 1170px WebP
+/images/tattoos/tattoo-03.jpg: 1170×1674 → 320, 640, 960, 1170px WebP
+/images/tattoos/tattoo-04.jpg: 2476×3606 → 320, 640, 960, 1440, 1920px WebP
+/images/tattoos/tattoo-05.jpg: 2480×3307 → 320, 640, 960, 1440, 1920px WebP
+/images/tattoos/tattoo-06.jpg: 2480×3308 → 320, 640, 960, 1440, 1920px WebP
+/images/tattoos/tattoo-07.jpg: 2480×3308 → 320, 640, 960, 1440, 1920px WebP
+/images/tattoos/tattoo-08.jpg: 2480×3308 → 320, 640, 960, 1440, 1920px WebP
+Prepared 9 local portfolio/portrait images. Originals preserved.
+
+> h4ngelic@0.1.0 build
+> vite build && node scripts/prerender.mjs
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 112 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             4.17 kB │ gzip:   1.37 kB
+dist/assets/corruption-BLAceHgE.css         1.32 kB │ gzip:   0.57 kB
+dist/assets/index-CYLVW8dZ.css             63.31 kB │ gzip:  12.88 kB
+dist/assets/wordmark-xray-BmMbumHG.js       4.37 kB │ gzip:   1.67 kB
+dist/assets/horizontal-drift-D3ZzLKwS.js    7.48 kB │ gzip:   2.75 kB
+dist/assets/corruption-CwPxPP8b.js         24.87 kB │ gzip:  10.13 kB
+dist/assets/index-CWU_1WKx.js             191.70 kB │ gzip:  62.22 kB
+dist/assets/main-C_K11riV.js              610.38 kB │ gzip: 158.04 kB
+
+✓ built in 498ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+Prerendered 19 routes + 404 (preview; 0 indexable).
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 112 modules transformed.
+rendering chunks...
+computing gzip size...
+artifacts/.preview-build/index.html                   4.17 kB │ gzip:   1.37 kB
+artifacts/.preview-build/assets/index-DVqe-PmP.css   64.63 kB │ gzip:  13.12 kB
+artifacts/.preview-build/assets/index-C6x8LzeS.js   840.86 kB │ gzip: 234.25 kB
+
+✓ built in 352ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+Exported self-contained interactive preview: /workspace/h4ngelic/artifacts/h4ngelic-preview.html

@@ -1,0 +1,28 @@
+{
+  "sourceCommit": "daeaff83ec0b8a6b48873c3d77d63e3a2d706ead",
+  "packagedAt": "2026-10-29T15:35:53.126143+00:00",
+  "htmlBytes": 24484734,
+  "htmlSha256": "6c11473dd0360a15c5e459ae8ee95deeffa3c34c01cad0ffe790bd5d734ce001",
+  "zipBytes": 17305532,
+  "zipSha256": "61da29cabd658cb4fee3eb158e0b98dbc81bee65fb8f363ccef7c9abf5932770",
+  "zipHTMLMatchesExport": true,
+  "originalArtworkUnchanged": true,
+  "originalArtworkSHA256": "df0781e4f572ba9e644c3471fbb6060e228c34f02acf32d01f4b0e1dce68132f",
+  "testFixtureContentExcluded": true,
+  "approvedSoundtrackUnchanged": true,
+  "approvedSoundtrackSHA256": "307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b",
+  "tattooOriginalsSHA256": {
+    "public/images/tattoos/tattoo-01.jpg": "440d5b7f114eccaa6f04e499535bfa379169a4a18bcbea13f853c1f1b2730993",
+    "public/images/tattoos/tattoo-02.jpg": "c175805d6b02518e3a5c2948d2f005969c4f37fe4c843bfea077bd1fa9b2f848",
+    "public/images/tattoos/tattoo-03.jpg": "6af8684dd29a3e3d8f290cecdaec5b3c45425f20049f211802168344a89744bf",
+    "public/images/tattoos/tattoo-04.jpg": "01eed8dd82f145d538b206a3f668180aaafe714020d90a784d9428bc37d1b667",
+    "public/images/tattoos/tattoo-05.jpg": "839914e8e99e8e88392d6dc51e75718160eed4ba6dea77e7e4e66033f704e222",
+    "public/images/tattoos/tattoo-06.jpg": "898b43d493dee3460691999528414ce38f0453ccf974e317df34781adad539ef",
+    "public/images/tattoos/tattoo-07.jpg": "94200308cd8c1631702a0a60b33d61415fcac10dda9961d048e8e56c1ba848db",
+    "public/images/tattoos/tattoo-08.jpg": "637ed2c38c929dea469e48435bfd5996a6291403d1bf2795a66377a9131500f8"
+  },
+  "offlineReports": [
+    "artifacts/control-offline-results.json",
+    "artifacts/living-offline-native-results.json"
+  ]
+}

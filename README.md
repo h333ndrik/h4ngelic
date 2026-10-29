@@ -16,7 +16,7 @@ The three main categories are `tattoos`, `jewellery` and `more`. On Skin contain
 
 The V3.1 source uses calm reversible section entrances, restrained shared hover, a hidden right-footer `VISIT 0000` counter, borderless hero controls and one shared 4px UI radius. Photos and corruption surfaces keep square edges. The approved SMASH MP3 is public and unchanged; it loads on first use and plays through the central audio controller with fades, sound ducking, global mute/volume and route/mode continuity. The previous private-only soundtrack restriction is superseded by the user's explicit approval.
 
-**Downloadable preview:** [HTML](docs/previews/h4ngelic-preview.html) · [ZIP](docs/previews/portfolio-preview.zip). Download the HTML and open it in a browser, or extract the ZIP first. GitHub's source view does not run the website. The files are self-contained for offline use; see [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the exact version, hash and matching checks. A checked-in preview does not by itself prove the in-progress V3.1 source has passed production/offline verification.
+**Downloadable preview:** [HTML](docs/previews/h4ngelic-preview.html) · [ZIP](docs/previews/portfolio-preview.zip). Download the HTML and open it in a browser, or extract the ZIP first. GitHub's source view does not run the website. The files are self-contained for offline use; see [PROJECT_PROGRESS.md](PROJECT_PROGRESS.md) for the exact version, hash and matching checks. The current V3.1 export has passed production-route and exact-byte offline checks in Chromium at 1440/390/320px, including native touch and actual embedded SMASH playback.
 
 ## Development
 

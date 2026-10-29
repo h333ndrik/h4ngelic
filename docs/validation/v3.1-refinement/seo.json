@@ -1,0 +1,334 @@
+{
+  "checkedAt": "2026-10-29T15:33:30.598Z",
+  "baseURL": "http://127.0.0.1:55385",
+  "production": false,
+  "staticRoutes": [
+    {
+      "path": "/",
+      "status": 200,
+      "width": 1440,
+      "title": "h4ngelic — Hendrik, mixed media artist in berlin",
+      "canonical": "https://h4ngelic.com/",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work",
+      "status": 200,
+      "width": 1440,
+      "title": "work — h4ngelic",
+      "canonical": "https://h4ngelic.com/work",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoos — h4ngelic, berlin",
+      "canonical": "https://h4ngelic.com/work",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/flashes",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo flashes — h4ngelic, berlin",
+      "canonical": "https://h4ngelic.com/work",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/jewellery",
+      "status": 200,
+      "width": 1440,
+      "title": "jewellery — h4ngelic, berlin",
+      "canonical": "https://h4ngelic.com/work",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/more",
+      "status": 200,
+      "width": 1440,
+      "title": "more — analog photography & digital artworks — h4ngelic",
+      "canonical": "https://h4ngelic.com/work",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/analog-photography",
+      "status": 200,
+      "width": 1440,
+      "title": "analog photography — h4ngelic",
+      "canonical": "https://h4ngelic.com/work",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/digital-artworks",
+      "status": 200,
+      "width": 1440,
+      "title": "digital artworks — h4ngelic",
+      "canonical": "https://h4ngelic.com/work",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/paintings",
+      "status": 200,
+      "width": 1440,
+      "title": "paintings — h4ngelic, berlin",
+      "canonical": "https://h4ngelic.com/work",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "width": 1440,
+      "title": "about Hendrik / h4ngelic — independent artist in berlin",
+      "canonical": "https://h4ngelic.com/about",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/digital-artworks/green-black-original",
+      "status": 200,
+      "width": 1440,
+      "title": "green black original — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/digital-artworks/green-black-original",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos/tattoo-01",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo 01 — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/tattoos/tattoo-01",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos/tattoo-02",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo 02 — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/tattoos/tattoo-02",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos/tattoo-03",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo 03 — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/tattoos/tattoo-03",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos/tattoo-04",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo 04 — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/tattoos/tattoo-04",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos/tattoo-05",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo 05 — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/tattoos/tattoo-05",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos/tattoo-06",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo 06 — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/tattoos/tattoo-06",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos/tattoo-07",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo 07 — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/tattoos/tattoo-07",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    },
+    {
+      "path": "/work/tattoos/tattoo-08",
+      "status": 200,
+      "width": 1440,
+      "title": "tattoo 08 — h4ngelic",
+      "canonical": "https://h4ngelic.com/work/tattoos/tattoo-08",
+      "robots": "noindex, follow",
+      "horizontalOverflow": 0
+    }
+  ],
+  "liveRoutes": [
+    {
+      "path": "/work/tattoos",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/more",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/digital-artworks",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/digital-artworks/green-black-original",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/tattoos/tattoo-01",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/tattoos/tattoo-02",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/tattoos/tattoo-03",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/tattoos/tattoo-04",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/tattoos/tattoo-05",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/tattoos/tattoo-06",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/tattoos/tattoo-07",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/work/tattoos/tattoo-08",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/about",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/contact",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/contact?artwork=green-black-original",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/contact?artwork=tattoo-08",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    },
+    {
+      "path": "/#contact",
+      "width": 390,
+      "refreshed": true,
+      "webglContexts": 0,
+      "horizontalOverflow": 0,
+      "errors": [],
+      "soundtrackRequests": []
+    }
+  ],
+  "passed": true
+}

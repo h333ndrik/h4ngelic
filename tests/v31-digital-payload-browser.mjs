@@ -77,9 +77,10 @@ try {
       const after = await measure(afterURL, path, width, 'after');
       const ratio = after.width / before.width;
       assert.ok(ratio >= .45 && ratio <= .55, `Digital artwork width should halve: observed ${before.width} → ${after.width}.`);
-      assert.ok(after.imageBodyBytes < before.imageBodyBytes,
-        `The actual initial image payload must fall: ${before.imageBodyBytes} → ${after.imageBodyBytes}.`);
-      const result = { width, path, before, after, widthRatio: ratio,
+      const alreadySmallestVariant = before.sourcePixelWidth === 320;
+      assert.ok(alreadySmallestVariant ? after.imageBodyBytes <= before.imageBodyBytes : after.imageBodyBytes < before.imageBodyBytes,
+        `The actual image payload falls unless the baseline already selected the smallest 320px variant: ${before.imageBodyBytes} → ${after.imageBodyBytes}.`);
+      const result = { width, path, before, after, widthRatio: ratio, alreadySmallestVariant,
         savedImageBodyBytes: before.imageBodyBytes - after.imageBodyBytes,
         savedImageBodyPercent: (1 - after.imageBodyBytes / before.imageBodyBytes) * 100,
         savedRouteTransferBytes: before.routeTransferBytes - after.routeTransferBytes };

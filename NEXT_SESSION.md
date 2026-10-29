@@ -1,48 +1,41 @@
-# Exact V3.1 continuation checkpoint
+# V3.1 — verified local delivery checkpoint
 
-Updated 2026-10-29. Read AGENTS.md, PROJECT_PLAN.md and PROJECT_PROGRESS.md, then inspect actual Git status/log and code. Do not restart or repeat verified work.
+Updated 2026-10-29. Read AGENTS.md, PROJECT_PLAN.md and PROJECT_PROGRESS.md, then inspect actual Git status/log. Preserve current artifact/evidence/documentation changes. Do not restart or repeat verified work.
 
-- **Branch:** `feat/smart-continuation-v3`, PR #20, starting HEAD `96820e5`. Asset commit `f1841e4` exists for the eight originals and approved SMASH track. Remaining V3.1 source/test/docs changes are uncommitted. Preserve all of them; no completed V3.1 UI commit is claimed.
-- **PR state:** PR #20 is OPEN as DRAFT during V3.1 verification. Mark it ready only after the remaining approved QA passes; do not merge or deploy.
-- **Active scope:** all 17 items in [V3.1 brief](docs/V3.1-REFINEMENT.md), with the user’s specific **all eight Tattoo photos** correction. The later continuation’s generic five-file wording does not undo that explicit correction. Previous V3 checkpoint is archived under `docs/history/v3-checkpoint-2026-10-28`.
-- **Actual implementation:** source for INDEX/cursor/NAAVI, calm scroll motion, footer/counter, shared hover/form/radius, smaller Digital previews and central SMASH is already present. Do not rebuild it. Component-owner focused Node reports: shared UI 42, motion 13, Digital 6, audio 20. The final broad Node suite passes 357/357 after all runtime corrections. Navigation4, footer4, motion6, UI6 and carousel4 pass in their recorded scopes; gallery3, form6, sound-controls8 and SMASH3 also pass. Production and V3.1 offline checks remain pending.
-- **First unfinished unblocked task:** commit source/test/generated-image/checkpoint changes on the same feature branch before build/export so the artifact records the correct source hash. The final Node run passes 357/357; all approved functional-browser suites pass. Only item 11 remains PARTIAL pending actual Digital6 production transfer measurements. Continue SEO19, exact offline HTML/package, final artifact/evidence commit and push PR #20 for ready review. Do not repeat completed suites without a relevant change.
-- **Tattoo inputs now available:** all eight originals from `file_00000000c8dc81f49374162adacce007` exist as `public/images/tattoos/tattoo-01.jpg` through `tattoo-08.jpg`. See `docs/assets/tattoo-originals-v31.json` for exact ZIP mapping, hashes and dimensions. The former file-access blocker is resolved. Eight genuine On Skin entries are now wired in `artworks.js`; root verified all eight committed Git blob hashes against the ZIP; the four-profile real-photo/input suite now passes. Check the asset owner’s latest changes before duplicating work.
-- **SMASH input:** `public/audio/h4ngelic_v8_full_sound_remaster_v11.mp3`, 3,210,973 bytes, SHA-256 `307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b`. Public commit/embedding of this exact file is explicitly approved. No re-encoding/substitution. The MP3 is committed in f1841e4 and root verified its exact Git blob SHA-256. Controller fades/cache pass focused/broad Node checks and sound-controls8 passes. The actual three-width playback suite now passes, including one full native natural end; item 16 is DONE. Browser-decoded duration is about 100.270s versus the unchanged container duration 100.310204s; do not mistake decoder padding for modified bytes.
-- **Completed navigation milestone:** `artifacts/v31-navigation/results.json` and `/tmp/h4-v31-navigation-final.log`: 1440/390/320 normal +320 reduced, both realities, four PASS profiles with no failures/errors. Strict opacity-driven contrast and cached-geometry behaviour are tested.
-- **Completed footer milestone:** `artifacts/v31-footer/results.json` and `/tmp/h4-v31-footer.log`: 1440/390/320 normal +320 reduced, both realities, four PASS profiles with empty console/page-error lists and zero page overflow. Items 7d/12/13 pass for style, counter discovery/persistence and the honest placeholder. `src/easter-eggs.js` now exposes a focused target fully within its own narrow footer cluster; page position and NAAVI remain stable.
-- **Completed motion milestone:** `artifacts/v31-motion/results.json` and `/tmp/h4-v31-motion.log`: all six 1440/390/320 × normal/reduced profiles pass, each in 333 and 4, with empty failures and runtime console/page-error lists. Contact/title/form and Home Works reverse exactly; parent/subheads share timing; hero bottom bars fade together, become inert and restore without height changes. Items 6/7a/7c/9/14b are DONE.
-- **Completed shared-UI milestone:** `artifacts/v31/ui/results.json` and `/tmp/h4-v31-ui.log`: all six 1440/390/320 × normal/reduced profiles pass, each in 333 and 4, with empty failure/error lists and no early MP3 requests. Items 2/10/14a/17 are DONE. Actual eight-photo enlargement is 1.1 in place without modal/slot/scroll changes and restores, and full carousel4 input/stress checks have since passed.
-- **Completed gallery/form/sound milestones:** gallery3 passes 1440/390/320 (`/tmp/h4-v31-gallery.log`); inquiry6 passes 1440/390/320 × normal/reduced (`artifacts/v31/inquiry.json`), including validation/PDF upload/draft/context/error preservation/mocked success. Unexpected console/page-error lists are empty; exactly one intentionally mocked 503 diagnostic per profile is recorded separately, and real email remains unverified. Sound-controls8 passes 1440/810/390/320 × normal/reduced (`artifacts/v31-sound-controls/results.json`): popup keyboard/touch/Escape, persisted mute/volume, no startup AudioContext/MP3 request, zero overflow/errors.
-- **Completed SMASH milestone:** `artifacts/v31-smash/results.json` and `/tmp/h4-v31-smash.log`: all three 1440/390/320px profiles pass with exact file integrity, one deferred fetch/decode and cached restart, native attack/tail/stop fades, duck restoration, global mute/volume and uninterrupted route/333↔4 continuity. At 1440px the complete 100.270s decoded original reaches its native natural end without seeking/shortening; live tail gain/restoration/post-track mode cue pass. Failures/errors/overflow are zero; item 16 is DONE.
-- **Completed Node milestone:** `/tmp/h4-v31-node.log`: 357/357 PASS after stale contracts/untitled metadata were corrected (initial 347/352). All eight projects and neutral unique metadata are wired; 20 focused asset checks also pass. The final rerun at `/tmp/h4-v31-node-final.log` passes **357/357** after all runtime corrections, with zero failures/skips in 3416.202864ms. Source commit is now next.
-- **Export integration:** root has prepared the approved MP3’s once-only offline embedding and package integrity checks for the soundtrack plus all eight original photographs, and removed active registration of the older private audio plugin. Do not assume the new export has been built or tested.
-- **Digital measurement:** baseline production copy is `/tmp/h4-v31-before-digital-dist`. Preserve it until actual before/after transferred-byte measurements run. Prepared harness: `tests/v31-digital-payload-browser.mjs` with before/after URLs.
-- **Initial failures resolved, not hidden:** the footer route-count assertion raced asynchronous route completion and now waits for its stable count. Native focus left partially visible links clipped; the scoped footer focus correction is verified by the passing footer rerun. The motion harness incorrectly converted a CSS `px` string with `Number`; `parseFloat` fixes the comparison, and the full motion6 rerun now passes. A separate run lost the expired dev server (`ERR_CONNECTION_REFUSED`); root restarted it before the complete passing run.
-- **Verified shared-UI corrections:** explicit outline-zero resets now cover form inputs, hero buttons and connected sound header/popup/input surfaces. Genuine keyboard underlines remain. The full UI6 rerun passes. Harness comparisons now use an actual Tab for range focus and matching pointer-away states for photo restoration; these were test corrections, not additional source changes. Motion geometry is unaffected.
-- **Completed carousel milestone:** `artifacts/v31/native-carousel/results.json` contains four successful 1440/390/320 normal +320 reduced profiles, each checking all eight actual photographs in both modes and then the retained multi-image fixture stress suite. Item 15 is DONE. Original dimensions/order/full-source URLs, lazy/contain/square treatment, End count8, keyboard/native input and exact 1.1 inline restoration pass. Wheel/Shift-wheel/vertical release, partial drag/native pan and teardown also pass. The single runtime edge-arrow correction against actual centred targets is verified; harness setup now avoids locator auto-scrolling and uses genuine partial-neighbour fixtures.
-- **Prepared affected suites:** the completed tattoo harness checks all eight real images in both modes before retaining fixture stress checks. Offline/SEO harnesses cover 19 routes, stable route-count completion and exact embedded MP3 playback/cache; their current-build executions remain pending.
-- **Responsive decisions:** readable single-row footer uses local horizontal cluster scrollports around a reserved NAAVI centre on narrow screens; all destinations must remain keyboard/touch reachable. Works strip may scroll locally between floating brand and INDEX. Verify no whole-page overflow or baseline/target collisions.
-- **External TODO/BLOCKED:** real h4 moshlab URL is TODO; use only `#`. Mail delivery and genuine unpublished Loose Thread content remain unverified/absent. Tattoo and SMASH file access are no longer blockers.
-- **Constraints:** no new branch, dependencies, merge, deployment, main or `api/inquiry.js` changes. H4 MOSH LAB, accepted hero/memory-mosh and deferred WORLD/mannequin/Flowfield remain untouched. No automatic background execution.
-- **Preview:** prior V3 HTML is the last verified artifact. Do not publish a tested V3.1 claim until production build, exact standalone/browser checks and matching package integrity pass.
+## Current state
 
-Browser checks must run **serially**. No asset build or Vite configuration changes while a browser suite is active. Do not introduce global HTML scroll padding to clear NAAVI: it previously scrolled the hero out of view during control focus. Keep clearance scoped.
+- Branch: `feat/smart-continuation-v3`, PR #20. Asset commit **f1841e4** preserves all eight supplied JPEG originals and the approved MP3. Source commit **daeaff8** contains the completed V3.1 refinement; its full hash is `daeaff83ec0b8a6b48873c3d77d63e3a2d706ead`.
+- **All 17 approved items are DONE.** The user’s explicit eight-photo correction governs item 15. Actual code, committed original hashes and desktop/mobile browser evidence have been reconciled.
+- All local QA passes: final Node 357/357; navigation4; footer4; motion6; shared UI6; carousel4; existing gallery3; inquiry6; sound controls8; actual SMASH3; production Digital6; SEO19 static/17 live records; both exact standalone suites and package integrity.
+- Production build/export passes for 19 routes plus 404 in preview/noindex mode with zero indexable routes. No launch or deployment occurred.
+- **PR #20 is still DRAFT at this checkpoint.** Root is about to commit/push the final locally verified artifacts and evidence, verify remote bytes and mark the PR ready. Do not claim those actions already happened until actual Git/PR state proves it.
 
-Useful current commands, run only when relevant:
+## Exact next action
 
-```sh
-npm test
-npm run dev -- --port 55173 --strictPort
-H4_BASE_URL=http://127.0.0.1:55173 node tests/footer-v31-browser.mjs
-H4_BASE_URL=http://127.0.0.1:55173 node tests/v31-motion-browser.mjs
-H4_BASE_URL=http://127.0.0.1:55173 node tests/v31-ui-browser.mjs
-H4_BASE_URL=http://127.0.0.1:55173 H4_SMASH_NATURAL_END=1 node tests/smash-v31-browser.mjs
-npm run preview:export
-npm run preview -- --port 55383
-H4_PREVIEW_URL=http://127.0.0.1:55383 node tests/seo-browser.mjs
-npm run test:standalone
-npm run preview:package
-```
+1. Commit the current verified HTML/ZIP, evidence and final checkpoint on the existing feature branch.
+2. Push the same branch, verify remote artifact/source/evidence bytes and record the actual delivery commit.
+3. Update PR #20, mark it ready after remote verification, and provide the user with the tested HTML/ZIP and PR links for review.
+4. Stop implementation unless new user input requires it. Real h4 moshlab URL, actual mail delivery and genuine unpublished Loose Thread artwork remain external inputs; no invented URL/content or mail-success claim.
 
-After every actual milestone, record changed files, command/result, desktop/mobile status, remaining blockers and the exact next step. No successful current browser/build result or commit should be inferred from prepared source alone.
+Do not merge, deploy, launch, change main or `api/inquiry.js`, add dependencies, force-push or modify H4 MOSH LAB. Preserve the accepted hero/physics/memory-mosh, separate INDEX/NAAVI and Home-only Contact.
+
+## Exact verified preview
+
+Source revision: `daeaff83ec0b8a6b48873c3d77d63e3a2d706ead`.
+
+| Artifact | Bytes | SHA-256 |
+| --- | ---: | --- |
+| [HTML](docs/previews/h4ngelic-preview.html) |24,484,734|`6c11473dd0360a15c5e459ae8ee95deeffa3c34c01cad0ffe790bd5d734ce001`|
+| [ZIP](docs/previews/portfolio-preview.zip) |17,305,532|`61da29cabd658cb4fee3eb158e0b98dbc81bee65fb8f363ccef7c9abf5932770`|
+
+The ZIP contains the exact tested HTML. [Package evidence](docs/validation/v3.1-refinement/offline-package.json) confirms the eight original JPEGs, approved MP3 and original Digital image remain unchanged and fixture content is excluded. The controls and native standalone reports match the exact HTML hash/size and record zero HTTP/console/page errors/overflow. Offline 390px actual SMASH starts only after trusted tap and uses its decoded cache on restart.
+
+## Evidence and measured limits
+
+All current reports/logs are preserved under [docs/validation/v3.1-refinement](docs/validation/v3.1-refinement). PROJECT_PROGRESS.md contains per-item files, suite counts, failure corrections and actual transfer measurements. Final Node 357/357 passes after all source corrections. All named screen sizes 1440/390/320, reduced motion and 333/4 behaviours are covered by the recorded suites; extra sound-control 810px coverage also passes.
+
+Digital display widths halve. Image body bytes fall 46.06% at 1440px and 68.32% at 390px; 320px remains 40,410B because the old build already used the minimum 320w file. Full Work route totals can increase now that eight real photos are present. Do not claim general whole-route savings. SMASH’s exact original container duration is 100.310204s, browser-decoded 100.270s; the complete native natural end was observed without seeking or shortening.
+
+The served website defers MP3 fetch/decode until first trusted use, then caches it. Offline embedding necessarily includes the original bytes in the downloaded HTML; runtime decoding/playback remains gesture-driven. Real mail is unverified: controlled 503 and 202 test responses prove UI behaviour only.
+
+Do not rerun passing suites without a relevant runtime change. For a later local preview, use `npm run dev` or serve the production dist with `npm run preview`; the current fresh production server used 55385, baseline 55384, while old 55383 is stale/cached and unused. Tests run serially; no build/image preparation during browser checks.
