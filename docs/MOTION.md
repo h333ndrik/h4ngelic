@@ -1,28 +1,31 @@
-# Homepage motion
+# Motion and interaction — V3.1
 
-The homepage uses native scrolling and native CSS sticky positioning. No wheel
-or touch gesture is intercepted. The poses are a direct function of the current
-scroll position: scrolling up reverses them, and stopping freezes them. There
-is no animation clock or idle render loop for these effects.
+This document describes the current implementation. The active requirements and
+verification status are [V3.1-REFINEMENT.md](V3.1-REFINEMENT.md) and
+[PROJECT_PROGRESS.md](../PROJECT_PROGRESS.md). Older fly-in/echo descriptions
+and historical browser reports do not establish current V3.1 acceptance.
 
-`src/data/motionSettings.js` contains the editable distances and timing ranges.
-All durations are **scroll distances**, not seconds. The pure sampling helpers
-live in the same file so Node tests do not need a CSS loader or a browser.
+Native scrolling is the single clock for editorial entrances. Poses are a
+function of the current scroll position: reverse scroll reverses them and
+stopping freezes them. The controller does not intercept wheel or touch input
+and runs no idle animation loop. The accepted hero, physics and memory-mosh
+remain separate existing systems.
 
 ## Markup and lifecycle
 
-Call `initScrollChoreography(content)` after rendering the homepage and call its
-returned disposer before replacing that content. The initializer returns a
-no-op on Work/About routes, where there are no motion sections. This module
-does not import the Three.js entry point or change logo physics.
+`initScrollChoreography(content)` handles Home's `data-motion` sections and
+Work's `.work-group` parent/subcategory headings. It is a no-op on About when
+there are no matching motion targets. Dispose it before replacing route content;
+styles, generated label wrappers, observers, focus state and scheduled frames
+are cleaned up. The module never imports the Three.js hero.
 
-Each of the three homepage sections has this structure:
+Home Work retains this wrapper structure:
 
 ```html
 <section class="content-section selected-work" data-motion="work">
   <div class="section-pin">
     <h2 class="kinetic-heading">
-      <span class="kinetic-heading-text">01 / SELECTED WORKS</span>
+      <span class="kinetic-heading-text">01 / WORKS</span>
     </h2>
     <div class="category-strip">
       <a class="category-link" href="/work/tattoos">
@@ -30,159 +33,178 @@ Each of the three homepage sections has this structure:
           <span class="category-magnet">tattoos <i class="arrow"></i></span>
         </span>
       </a>
-      <!-- jewellery and paintings use the same structure -->
+      <!-- jewellery and more share the same structure -->
     </div>
   </div>
 </section>
 ```
 
-Contact uses `data-motion="contact"`, `.contact-links` and `.contact-link` with
-the same two inner wrappers, including unconfigured disabled spans. About uses
-`data-motion="about"` and keeps its paragraph/link as their existing elements:
+Contact uses `data-motion="contact"`, its `.kinetic-heading-text` and one
+`.inquiry-enter` wrapper containing the complete form. Title and form receive
+identical horizontal displacement and opacity. The former one-shot inquiry
+observer is retired. About retains its existing paragraph/link targets:
 
 ```html
 <p class="about-preview-copy kinetic-item" data-motion-item="copy">…</p>
 <a class="text-link kinetic-item" data-motion-item="link" href="/about">MORE ABOUT ↗</a>
 ```
 
-`.kinetic-item` owns scroll translation and rotation; `.category-magnet` owns
-the independent magnetic translation and shared inner hover scale. Anchor hit areas stay in the
-three-column grid. Heading masking belongs to `.kinetic-heading`, and its
-inner text owns the heading transform. Shared heading typography remains in
-the site's normal stylesheet.
+Outer `.kinetic-item` targets own scroll displacement; inner
+`.category-magnet`/`.interaction-visual` targets own hover and magnetic movement.
+Semantic hit areas do not move. Static HTML stays visible before enhancement.
+Motion CSS is scoped to `data-scroll-choreography`.
 
-Static HTML is visible by default. Only the initialized root receives
-`data-scroll-choreography`; all motion CSS is scoped to that capability. The
-section pin uses `overflow: clip`, which does not create an intermediate
-scroll container. Do not add `overflow: hidden/auto` to its ancestors.
+## Calm entrances
 
-## Sequence settings
+Settings and pure samplers live in `src/data/motionSettings.js`.
+`sampleCalmProgress()` uses bounded smooth interpolation with zero rotation,
+no overshoot, no stagger and no decorative copies. Legacy sampler export names
+remain thin compatibility adapters; runtime choreography uses the calm helpers.
+The old `fly` and trail configuration/runtime are retired.
 
-The latest homepage refinement begins before the sticky stage. For Work and
-Contact, `pinnedProgress()` maps one continuous range from
-`sectionTop - viewportHeight * approach` to `sectionTop + pinRun`. With the
-default `approach: .85`, the heading starts revealing as the section's top
-reaches 85% of the viewport height. Link stagger begins just after that.
-
-| Setting | Current value | Effect |
+| Setting | Value | Purpose |
 | --- | --- | --- |
-| `approach` | `.85` | Viewport fraction before the section reaches the top |
-| `pin.work` / `pin.contact` | `.68` / `.58` | Extra section height in viewport heights |
-| `pin.mobileWork` / `pin.mobileContact` | `.48` / `.44` | Shorter extra height at 700px and below |
-| `fly.distanceVw` | `1.35` | Starting travel in viewport widths, beyond the right edge |
-| `fly.rotation` | `6.5` | Starting rotation in degrees; settles at zero |
-| `fly.start` / `stagger` / `duration` | `.025` / `.14` / `.66` | Fractions of the combined approach and pin range |
-| `fly.overshoot` / `overshootAt` | `12` / `.78` | Pixel overshoot and local progress at its turning point |
-| `heading.start` / `end` / `rise` | `0` / `.27` / `112` | Masked heading reveal range and starting rise in percent |
-| `hero.start` / `end` / `scale` | `.02` / `.90` / `.97` | Hero wrapper fade range and final scale |
+| `calm.start` / `end` | `.16` / `.90` | Local content reveal range |
+| `calm.distanceVw` / `maximumDistance` | `.055` / `36` | Travel capped at 36px |
+| `approach` | `.85` | Home Work starts as its top approaches 85% of viewport height |
+| `pin.work` / `pin.mobileWork` | `.68` / `.48` | Existing extra sticky height, in viewport heights |
+| `heading.start` / `end` / `rise` | `0` / `.27` / `112` | Retained masked numbered-heading rise, in percent |
+| `about.approach` / `finish` | `.68` / `.10` | Shorter unpinned About approach |
+| `about.copyStart` / `copyEnd` | `.16` / `.90` | About paragraph's local reveal range |
+| `about.linkStart` / `linkEnd` | `.24` / `.98` | Approved modest link offset |
+| `hero.start` / `end` / `scale` | `.02` / `.90` / `.97` | Existing hero wrapper fade and final scale |
+| `heroBar.start` / `end` | `.02` / `.55` | Controls and hero navigation fade together |
 
-The three links finish at section progress `.965`, shortly before release at
-`1`. The first segment strongly decelerates; the final segment continuously
-returns from the small overshoot to exact alignment. The sticky wrapper remains
-at least one viewport tall and releases through ordinary browser layout.
+Home Work's three category labels share one pose and enter simultaneously.
+Its large numbered heading keeps the existing rise. Native sticky layout still
+uses `pinnedProgress()` from `sectionTop - viewportHeight * .85` through
+`sectionTop + pinRun`. No viewport-wide flight remains.
 
-About is unpinned. Its shorter range starts with the section at 88% of viewport
-height and ends at 8%. The copy runs from `.045` to `.84`, the More About link
-from `.18` to `1`, with travel of `1.12` and `1.04` viewport widths respectively.
-All three headings share the same typography and sampling helper; About maps
-that helper to its own approach range. Edit these values in
-`src/data/motionSettings.js`; CSS spacing and typography live in
-`src/homepage.css`.
+Contact is unpinned. Its progress runs from
+`sectionTop - viewportHeight * .68` through
+`sectionTop - viewportHeight * .10`; title and complete form then use the same
+calm sampler. Reverse scroll restores the same previous pose without a
+one-shot visible latch. About remains unpinned with its approved paragraph/link
+timing and smaller relative inset.
 
-## Temporary typographic echoes
+On Work, `.work-group-heading` and every `.archive-category-heading` in that
+group share the parent's `.68`–`.10` approach range through
+`sampleArchiveHeading()`. Labels arrive together, including On Skin, Flashes,
+3D Model, Digital Artworks and Analog Photography. Only their intrinsic child
+visual translates; the full-width heading does not widen the page. The Work
+category strip separately follows measured brand/INDEX bounds in the shared
+navigation controller.
 
-Work and Contact receive two `.motion-echo` spans per flying label. The spans
-are empty, `aria-hidden="true"`, noninteractive and unselectable. Their
-`data-echo-text` attribute supplies decorative CSS-generated text; the original
-label remains the only semantic text and interaction target. About uses its
-ordinary fly-in without extra echo layers.
+The old exported `pin.contact`/`pin.mobileContact` settings are retained for
+compatibility; current Contact rendering does not use them to pin the form.
 
-`trail` in the motion settings controls the effect:
+## Hero bottom bar and depth
 
-- `layers: 2` caps the effect at two copies.
-- `distanceVw: .045` is capped at 64px on desktop and 26px at 700px and below.
-- `opacity: .22` and `secondaryOpacity: .13` keep both copies restrained.
-- `fadeIn: .08`, `fadeOutStart: .38` and `fadeOutEnd: .82` describe local item
-  progress. Displacement contracts cubically and the copies disappear before
-  the text reaches its final position.
+Both existing bar halves — `.controls` and `.hero-nav` — share
+`--hero-bar-opacity`. They fade fully by hero progress `.55`, become inert and
+ignore pointer input while hidden, and restore on reverse scroll. The controller
+restores their original inert state on disposal. No bar is moved out of its
+original layout. Reduced motion switches opacity immediately at the threshold.
 
-Both displacement and opacity come from the same local scroll progress as the
-original label. Reversing scroll restores the exact earlier echo state;
-stopping does not let it drift. There is no blur, RGB separation, duplicate
-link or persistent duplication. Section clipping contains offscreen travel.
+The accepted `#stage` wrapper still fades/scales as the hero exits. Existing
+camera-only composition in `src/hero-depth.js` is independent of logo transforms,
+quaternions and physics. `src/data/heroDepthSettings.js` retains:
 
-## Hero depth composition
-
-The existing `#stage` wrapper fades and scales as the hero exits. A separate
-camera-only composition in `src/hero-depth.js` adds restrained depth without
-writing the sculpture's transforms, quaternions or physics state. The original
-infinity movement, rotation, chrome material and tattoo reveal continue.
-
-`src/data/heroDepthSettings.js` contains the camera settings:
-
-| Setting | Current value | Effect at full progress |
+| Setting | Value | Effect at full progress |
 | --- | --- | --- |
-| `start` / `end` | `.02` / `.92` | Fractions of the hero's scroll-out distance |
+| `start` / `end` | `.02` / `.92` | Fractions of the hero scroll-out distance |
 | `distance` | `.08` | Increase base camera Z distance by 8% |
 | `horizontal` / `vertical` | `.012` / `.005` | Offsets relative to base camera distance |
-| `fieldOfView` | `1` | Add one degree to the original 35° field of view |
+| `fieldOfView` | `1` | Add one degree to the original field of view |
 
-The offsets use a smooth bounded interpolation, and the camera continues to
-look at the origin. Scroll reversal restores its original position and FOV.
-Resize caches the hero's document position, height and base camera distance;
-updates read the cached values inside the existing hero render loop. Hit
-testing updates and uses the same composed camera. The viewport observer and
-document-visibility lifecycle still pause WebGL offscreen or in a hidden tab.
-No second scene or independent camera animation loop is created. Reduced motion
-restores the base camera and removes the wrapper fade/scale.
+Resize caches geometry and base camera distance; the visible hero's existing
+render loop samples the cached values. Reverse restores the original camera;
+reduced motion restores its base composition. WebGL remains paused offscreen
+or in a hidden document. V3.1 does not replace this accepted behaviour.
 
-For diagnostics, each section exposes `data-motion-progress` and
-`data-motion-state` (`before`, `active`, `settled` or `focus`). Link wrappers
-expose `--kinetic-x`, `--kinetic-rotate`, `--kinetic-opacity`; headings expose
-`--heading-y` and `--heading-opacity`. Pin sizes are `--motion-run` and
-`--motion-pin-height`. These values are diagnostic output, not content fields.
+## Shared hover, arrows and radius
+
+`src/data/uiEffectSettings.js` publishes the shared hover values once; CSS
+surface/type/glow/radius tokens live in `src/ui-tokens.css`.
+
+- Text, large labels and image interiors target at most `1.025` scale.
+- Hover/release use 300ms and `cubic-bezier(.2,.8,.25,1)`.
+- Magnetic movement is capped at 2px within stationary category/contact targets.
+- Glow strength is `.2` of the earlier treatment; Other Side preserves its
+  existing restrained white/violet variation.
+- Arrows share `.72em` dimensions, 1.25px stroke, a
+  `clamp(7px, .22em, 18px)` label gap and at most 2px hover movement.
+- `--radius-soft: 4px` covers the named UI surfaces. Images, carousel photos,
+  corruption material and the full page canvas remain square.
+
+The same interaction wrappers cover INDEX summary/entries, NAAVI, More About,
+footer links/location/counter, form submit, hero controls and gallery controls.
+The visit counter is the deliberate exception to the invisible-secret hover
+exclusion: it uses the shared hover while retaining its own faint discovery.
+Other hidden mode hints keep their independent stationary reveal.
+
+Entry/focus/resize fitting constrains scale and magnetic travel to available
+space. An already clipped carousel item is not enlarged further by the generic
+hover layer. The existing selected photograph can grow in place to `1.1` under
+the carousel controller; its inner hover scale becomes `1`, avoiding doubled
+zoom. No website-level zoom or camera movement is introduced by image selection.
+
+The wrapper observer watches child changes and disabled/aria-disabled changes,
+so changed control labels and newly available SMASH/gallery buttons are enhanced.
+It does not observe animation styles. Touch does not retain mouse hover or
+magnets. Reduced motion removes nonessential transforms/transitions while
+keyboard focus remains visible.
 
 ## Accessibility and performance
 
-Keyboard focus within a section immediately shows its heading and all links
-at the final position. This also applies when the router focuses `#contact`
-after a Contact anchor jump. The override lasts while focus stays in that
-section. It does not alter document height, avoiding native anchor/tab layout
-jumps. The Contact and phone pin distances are deliberately shorter.
+Focus on a real descendant field/link immediately exposes its section at rest
+without changing section height. Focus on a section container from INDEX,
+NAAVI or route navigation **does not** latch the content at rest; reverse scrub
+continues to work. Focusout restores the appropriate scroll-derived pose.
 
-Below 700px, the ordinary horizontal row scrollbar becomes available as soon
-as the sequence settles, or immediately on focus. Keep the base row's minimum
-column widths and accessible horizontal scrolling; never replace it with three
-stacked rows. Touch scrolling remains entirely native.
+The horizontal three-category strip stays horizontal on small screens, with
+native local scrolling available when settled or focused. Footer clusters also
+scroll locally around NAAVI's reserved centre. Do not replace the categories
+with stacked rows, add scroll snap that traps vertical escape, or apply global
+scroll padding that moves the hero during control focus.
 
-`prefers-reduced-motion` skips all pinning, travel, heading masking and hero
-fading. A live preference change removes motion attributes and inline variables;
-turning motion back on samples the current scroll position. Focus, observers,
-event listeners, attributes, styles and queued animation frames are cleaned up
-when the page changes.
+Reduced motion removes nonessential pinning, travel and heading masking. A
+live preference change clears motion attributes/styles and resamples the
+current position when animation is re-enabled. The hero bottom bar still uses
+its instantaneous hidden/visible state so covered controls remain unreachable.
 
-Scroll events schedule one animation frame and reuse cached section bounds.
-Only resize/ResizeObserver callbacks request new layout measurements. Per-value
-caching avoids repeated DOM writes at the endpoints. No work runs on a timer
-or on every display frame while the page is idle; hidden documents cancel the
-pending frame. Scroll choreography uses transform and opacity only. The separately requested hover glow uses bounded filters on inner labels/images, never the whole page or live WebGL canvas.
+Scroll events coalesce into one animation frame and reuse cached geometry.
+Resize/ResizeObserver, mode changes and visibility restoration request new
+measurements. Per-value caching avoids endpoint DOM writes. Hidden documents
+cancel pending work. UI motion uses transform and opacity; the shared bounded
+hover filter is confined to labels/images, never the whole page or WebGL canvas.
+Other Side motion samples feed the existing corruption publisher rather than
+creating another rendering system.
 
-Run `node --test tests/scroll-motion.test.js tests/hero-depth.test.js` for
-endpoint, overshoot, stagger, early approach, echo, camera reversal and
-stopped-scroll determinism checks. With the development server
-running, `npm run test:motion` checks actual pinned stages, reverse/stopped
-poses and echoes, native wheel/touch scrolling, resize, 320/390/768/1920px layout
-and live reduced-motion changes. `npm run test:portfolio` also checks Contact anchor focus
-and navigation. These browser checks write review screenshots to `artifacts/`.
-Current execution results are recorded in [CONTROL-CORRUPTION.md](CONTROL-CORRUPTION.md). [REFINEMENT-REPORT.md](REFINEMENT-REPORT.md) retains the historical PR-10 snapshot.
+Diagnostics include `data-motion-progress`, `data-motion-state`,
+`--kinetic-x`, `--kinetic-opacity`, `--heading-x`, `--heading-y`,
+`--heading-opacity`, `--archive-heading-x`, `--archive-heading-opacity`,
+`--hero-bar-opacity`, `--motion-run` and `--motion-pin-height`. These are output,
+not artist-editable content fields.
 
+## Verification
 
-## Shared hover, arrows and Other Side surfaces
+Run affected tests serially. Current V3.1 motion/UI harnesses are:
 
-`src/data/uiEffectSettings.js` controls a separate shared interaction layer. Suitable labels target `1.22`, large category/contact labels target at most `1.20` within their own column, and image interiors target `1.08`. `.interaction-visual` moves/scales while its semantic link/button hit area stays stationary. Existing `.category-magnet` wrappers combine that scale with the bounded 3px magnetic offset. Resize and entry measurements prevent oversized labels from colliding or overflowing. Touch does not retain mouse-hover magnification. Reduced motion removes nonessential transforms/transitions while keyboard focus remains visible.
+```sh
+node --test tests/scroll-motion.test.js tests/about-motion.test.js tests/hero-depth.test.js
+H4_BASE_URL=http://127.0.0.1:5173 node tests/v31-motion-browser.mjs
+H4_BASE_URL=http://127.0.0.1:5173 node tests/v31-ui-browser.mjs
+H4_BASE_URL=http://127.0.0.1:5173 node tests/v31-navigation-browser.mjs
+H4_BASE_URL=http://127.0.0.1:5173 node tests/master-inquiry-browser.mjs
+```
 
-Normal hover uses a strong bounded white glow; Other Side adds white, acid, violet and magenta fringes. Invisible `.secret-hotspot` controls are excluded so their independent 35%-opacity discovery stays faint and stationary. A child-list observer renews inner wrappers when hero control text changes or gallery controls appear; it does not observe animation styles or run an idle loop.
-
-Arrows share `.72em` dimensions, `1.25px` stroke, a responsive `clamp(7px, .22em, 18px)` label gap and a 2px hover movement. They sit next to their words rather than at an unrelated column edge. The main headings now use uppercase source labels; `MORE ABOUT` is 24–44px with the existing editorial font.
-
-The core scroll timing and C1-continuous deceleration remain unchanged because they already provide precise stopping/reversal. No liquid deformation is applied to Normal Mode. Other Side cursor damage is a distinct, input-driven source/history-pixel system on film/photo surfaces; see [XRAY.md](XRAY.md) for its lifecycle and bounded rendering, rather than treating it as another scroll animation.
+The browser harnesses cover actual poses/reversal, parent/subcategory timing,
+focus, bar fades, shared surfaces and responsive navigation at 1440/390/320px,
+with reduced motion and both realities. Source or prepared harnesses are not
+passing results. Actual outcomes, failures, exact preview version and the next
+checkpoint belong in [PROJECT_PROGRESS.md](../PROJECT_PROGRESS.md) and
+[NEXT_SESSION.md](../NEXT_SESSION.md). Earlier reports such as
+[CONTROL-CORRUPTION.md](CONTROL-CORRUPTION.md) and
+[REFINEMENT-REPORT.md](REFINEMENT-REPORT.md) are historical where V3.1 supersedes
+those behaviours.

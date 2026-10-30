@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
-import { renderInquiryForm, inquiryArtwork } from '../src/inquiry-content.js';
+import { renderInquiryForm, inquiryArtwork, refreshInquiryContext } from '../src/inquiry-content.js';
 import { validateInquiryFiles, validateInquiryContact } from '../src/inquiry-validation.js';
 import { createInquiryHandler, detectAttachmentType, parseInquiryMultipart, readInquiryConfig, validateInquiryFields } from '../server/inquiry.mjs';
 
@@ -35,15 +35,43 @@ test('inquiry renders semantic native form with real email fallback and no fabri
   const html = renderInquiryForm({ context: '<script>', id: '"><img>' });
   assert.match(html, /method="post" enctype="multipart\/form-data"/);
   assert.match(html, /name="name"[^>]*required/);
+  assert.match(html, /name="name"[^>]*placeholder="max musterperson"/);
   assert.match(html, /HOW TO REACH YOU/);
   assert.match(html, /name="email" type="text"[^>]*placeholder="email, instagram, phone number\.\.\."[^>]*required/);
   assert.doesNotMatch(html, /YOUR EMAIL|type="email"/);
   assert.match(html, /name="attachments"[^>]*multiple/);
+  assert.match(html, /WHAT'S ON YOUR MIND\?/);
+  assert.match(html, /placeholder="could be an inquiry, a question or just a thought\.\nfeel free to write anything\."/);
+  assert.match(html, /SEND MESSAGE/);
+  assert.doesNotMatch(html, /SEND INQUIRY|inquiry-privacy|your details and references/);
   assert.match(html, /mailto:h4ngelic@gmail.com/);
   assert.match(html, /id="inquiry-name"/);
   assert.doesNotMatch(html, /<script>|<img>/);
   assert.equal(inquiryArtwork('not-a-real-project'), undefined);
   assert.match(renderInquiryForm({ context: 'green-black-original' }), /regarding green black original/);
+});
+
+test('Home context refresh updates or clears only the optional project while preserving a draft and uploads', () => {
+  const input = { value: '' };
+  const label = { textContent: '', hidden: true };
+  const draft = { name: 'visitor', contact: '@visitor', message: 'please keep this', files: ['reference.jpg'] };
+  const form = { querySelector(selector) {
+    if (selector === '[data-inquiry-artwork]') return input;
+    if (selector === '[data-inquiry-context]') return label;
+    assert.fail(`refresh must not touch the draft: ${selector}`);
+  } };
+  const expected = structuredClone(draft);
+  refreshInquiryContext(form, new URL('https://h4ngelic.com/?artwork=green-black-original#contact'));
+  assert.equal(input.value, 'green-black-original');
+  assert.equal(label.textContent, 'regarding green black original.');
+  assert.equal(label.hidden, false);
+  for (const target of ['/#contact', '/?artwork=not-published#contact', undefined]) {
+    refreshInquiryContext(form, target);
+    assert.equal(input.value, '');
+    assert.equal(label.textContent, '');
+    assert.equal(label.hidden, true);
+    assert.deepEqual(draft, expected);
+  }
 });
 
 test('contact validation accepts free-text reply channels and rejects blank, oversized or control-bearing text', () => {

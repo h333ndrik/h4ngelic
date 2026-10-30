@@ -18,6 +18,19 @@ original = (root / 'public/images/digital-artworks/green-black-original.jpg').re
 original_hash = sha256(original).hexdigest()
 assert original_hash == 'df0781e4f572ba9e644c3471fbb6060e228c34f02acf32d01f4b0e1dce68132f'
 assert base64.b64encode(original) in html, 'The genuine original must be embedded byte-for-byte.'
+soundtrack = (root / 'public/audio/h4ngelic_v8_full_sound_remaster_v11.mp3').read_bytes()
+soundtrack_hash = sha256(soundtrack).hexdigest()
+assert soundtrack_hash == '307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b'
+assert html.count(base64.b64encode(soundtrack)) == 1, 'Approved soundtrack must be embedded exactly once, unchanged.'
+tattoo_manifest = json.loads((root / 'docs/assets/tattoo-originals-v31.json').read_text())
+tattoo_hashes = {}
+for photo in tattoo_manifest['images']:
+    path = photo['path']
+    original_photo = (root / path).read_bytes()
+    photo_hash = sha256(original_photo).hexdigest()
+    assert photo_hash == photo['sha256'], f'Tattoo original changed: {path}'
+    assert base64.b64encode(original_photo) in html, f'Tattoo original absent from offline export: {path}'
+    tattoo_hashes[path] = photo_hash
 folder = root / 'docs/previews'
 folder.mkdir(parents=True, exist_ok=True)
 (folder / 'h4ngelic-preview.html').write_bytes(html)
@@ -31,7 +44,8 @@ result = dict(sourceCommit=subprocess.check_output(['git','rev-parse','HEAD'], c
     packagedAt=datetime.now(timezone.utc).isoformat(), htmlBytes=len(html), htmlSha256=digest,
     zipBytes=archive.stat().st_size, zipSha256=sha256(archive.read_bytes()).hexdigest(),
     zipHTMLMatchesExport=True, originalArtworkUnchanged=True, originalArtworkSHA256=original_hash,
-    testFixtureContentExcluded=True, offlineReports=reports)
+    testFixtureContentExcluded=True, approvedSoundtrackUnchanged=True, approvedSoundtrackSHA256=soundtrack_hash,
+    tattooOriginalsSHA256=tattoo_hashes, offlineReports=reports)
 output = root / 'artifacts/master-foundation/offline-package.json'
 output.parent.mkdir(parents=True, exist_ok=True)
 output.write_text(json.dumps(result, indent=2)+'\n')

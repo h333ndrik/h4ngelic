@@ -64,7 +64,10 @@ function fallback(message) {
   stage.classList.add('is-fallback');
   status.textContent = message;
   document.getElementById('interaction-hint').textContent = 'h4ngelic';
-  for (const id of ['pause-control', 'speed-control', 'reveal-control']) document.getElementById(id).disabled = true;
+  for (const id of ['pause-control', 'speed-control', 'reveal-control']) {
+    const control = document.getElementById(id);
+    if (control) control.disabled = true;
+  }
 }
 
 async function initialize() {

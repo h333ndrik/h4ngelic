@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-29T15:41:49.643627+00:00",
+  "branch": "feat/smart-continuation-v3",
+  "sourceCommit": "daeaff83ec0b8a6b48873c3d77d63e3a2d706ead",
+  "artifactCommit": "3b424e91f386d75359c2463e6245fc0eeeaae752",
+  "remoteHeadAtVerification": "3b424e91f386d75359c2463e6245fc0eeeaae752",
+  "pullRequest": {
+    "url": "https://github.com/h333ndrik/h4ngelic/pull/20",
+    "state": "OPEN",
+    "isDraft": false,
+    "base": "main"
+  },
+  "remoteHTML": {
+    "path": "docs/previews/h4ngelic-preview.html",
+    "bytes": 24484734,
+    "gitBlobSHA1": "404e1127ab7323f851ba9b59f2b61cedeccbdf9b",
+    "matchesLocalGitBlob": true
+  },
+  "protectedFilesUnchangedSinceV31Start": [
+    "api/inquiry.js",
+    "package.json",
+    "package-lock.json",
+    "src/main.js",
+    "src/physics.js"
+  ],
+  "merged": false,
+  "deployed": false,
+  "nextStep": "User review; await genuine external URL/mail/content inputs. No remaining approved unblocked V3.1 implementation."
+}

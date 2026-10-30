@@ -1,4 +1,4 @@
-/* The original symbol is displayed 15% smaller at 27.2 × 40.8 px.
+/* V3.1 reduces every native variant by a further 5%; base is 25.84 × 38.76 px.
    Its top tip lands near (9.4, 1.1), including aspect-ratio padding.
    A native cursor keeps WebGL picking aligned with the actual pointer. */
 @media (hover: hover) and (pointer: fine) {
@@ -9,6 +9,7 @@
   }
 
   a,
+  summary,
   button,
   [role='button'],
   input,
@@ -25,14 +26,14 @@
 /* Native cursor variants keep tracking tied to the real pointer. Only their
    viewport size changes; the supplied symbol paths and silhouette are exact. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover,
-  :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover *,
+  :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover,
+  :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover *,
   canvas.is-hovering {
     cursor: url('/assets/h4ngelic-cursor-hover.svg') 10 2, pointer;
   }
 
-  :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active,
-  :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active *,
+  :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active,
+  :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active *,
   canvas.is-dragging {
     cursor: url('/assets/h4ngelic-cursor-pressed.svg') 9 2, pointer;
   }
@@ -49,26 +50,26 @@
   }
 }
 
-/* The alternate native cursors retain exactly the original SVG paths, viewport
-   dimensions and hotspots. Only their opaque interior material is different. */
+/* The alternate native cursors retain exactly the original SVG paths, reduced viewport
+   dimensions and original hotspots. Only their opaque interior material is different. */
 @media (hover: hover) and (pointer: fine) {
   html[data-mode='xray'],
   html[data-mode='xray'] body,
   html[data-mode='xray'] body * {
     cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto;
   }
-  html[data-mode='xray'] :is(a, button, [role='button'], input, select, textarea) {
+  html[data-mode='xray'] :is(a, summary, button, [role='button'], input, select, textarea) {
     cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, pointer;
   }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  html[data-mode='xray'] :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover,
-  html[data-mode='xray'] :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover *,
+  html[data-mode='xray'] :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover,
+  html[data-mode='xray'] :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):hover *,
   html[data-mode='xray'] canvas.is-hovering {
     cursor: url('/assets/h4ngelic-cursor-other-hover-r09.svg') 10 2, pointer;
   }
-  html[data-mode='xray'] :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active,
-  html[data-mode='xray'] :is(a[href], button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active *,
+  html[data-mode='xray'] :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active,
+  html[data-mode='xray'] :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)):active *,
   html[data-mode='xray'] canvas.is-dragging {
     cursor: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 9 2, pointer;
   }

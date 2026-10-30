@@ -16,7 +16,7 @@ export const corruptionSettings = Object.freeze({
   recoverySpeed: 1,
   recoveryMs: 2350,
   ambient: ambientFilmSettings,
-  transition: Object.freeze({ minimumDurationMs: 720, maximumDurationMs: 920, framesPerSecond: 20,
+  transition: Object.freeze({ minimumDurationMs: 1400, maximumDurationMs: 1400, framesPerSecond: 20,
     displacementPx: 180, smearPx: 220, channelOffsetPx: 9, colorStrength: .86, columns: 18, rows: 12 }),
   rendering: Object.freeze({ maximumSourceStretch: 190, maximumHistoryStretch: 250,
     sourceSmearRatio: .55, historySmearRatio: .72, historyOpacity: .74, stripeOpacity: .66, stripeEvery: 3 }),

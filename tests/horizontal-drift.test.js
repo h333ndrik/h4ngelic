@@ -31,6 +31,8 @@ test('spatial archive preserves original dimensions, full sources, detail images
   assert.match(markup, /data-full-src="\/images\/original-large.webp"/);
   assert.match(markup, /drift-detail-image" hidden/);
   assert.equal((markup.match(/data-artwork-open/g) || []).length, 2);
+  assert.equal((markup.match(/aria-pressed="false"/g) || []).length, 2);
+  assert.match(markup, /aria-label="enlarge original &lt;image&gt; in place"/);
   assert.match(markup, /&lt;original&gt;/);
   assert.match(markup, /skin &amp; ink/);
   assert.match(markup, /href="\/work\/tattoos\/original-work"/);

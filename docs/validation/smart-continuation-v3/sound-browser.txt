@@ -1,0 +1,1 @@
+PASS sound controls: 8 desktop/tablet/mobile motion profiles, above-popup fit, keyboard range/Escape, touch, outside close, persisted mute/volume, no autoplay or missing-track request.

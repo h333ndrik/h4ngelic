@@ -7,6 +7,7 @@ import { siteContent } from '../src/data/siteContent.js';
 import { corruptionSettings } from '../src/data/corruptionSettings.js';
 import { modeIconSettings } from '../src/data/modeIconSettings.js';
 import { livingDecayMaterialAssets } from '../src/data/livingDecaySettings.js';
+import { modeAudioSettings } from '../src/data/modeAudioSettings.js';
 import imageManifest from '../src/data/imageManifest.json' with { type: 'json' };
 
 const root = new URL('../', import.meta.url);
@@ -46,6 +47,13 @@ for (const path of new Set([
   ...Object.values(modeIconSettings.favicon.other),
 ])) {
   assets.set(path, await dataURL(`public${path}`, path.endsWith('.svg') ? 'image/svg+xml' : 'image/png'));
+}
+// V3.1 explicitly approves this exact soundtrack for the downloadable preview.
+// The served website still fetches it only on first SMASH use. Offline bytes
+// are embedded here once; decoding/playback remain gesture-driven.
+if (modeAudioSettings.smashURL) {
+  if (!/^\/audio\/[^/]+\.mp3$/.test(modeAudioSettings.smashURL)) throw new Error('Preview soundtrack must be a local public/audio MP3.');
+  assets.set(modeAudioSettings.smashURL, await dataURL(`public${modeAudioSettings.smashURL}`, 'audio/mpeg'));
 }
 const defaultPaths = new Set(assets.keys());
 const portfolioAssets = new Map();

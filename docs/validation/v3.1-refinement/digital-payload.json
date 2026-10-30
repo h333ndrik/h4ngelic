@@ -1,0 +1,675 @@
+{
+  "checkedAt": "2026-10-29T15:33:29.842Z",
+  "method": "Fresh production contexts at DPR1; actual CDP encoded transfer lengths and Resource Timing body bytes; no viewer opening.",
+  "beforeURL": "http://127.0.0.1:55384",
+  "afterURL": "http://127.0.0.1:55385",
+  "results": [
+    {
+      "width": 1440,
+      "path": "/work#digital-artworks",
+      "before": {
+        "width": 1100,
+        "height": 1466.65625,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-960.webp",
+        "sourcePixelWidth": 960,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w, /images/optimized/green-black-original-16cca95e4acb-960.webp 960w, /images/optimized/green-black-original-16cca95e4acb-1440.webp 1440w",
+        "sizes": "(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 236494,
+        "imageTransferBytes": 236794,
+        "routeBodyBytes": 320383,
+        "routeTransferBytes": 322483,
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55384/assets/index-CCun4v1r.css",
+            "transferredBytes": 13141
+          },
+          {
+            "url": "http://127.0.0.1:55384/work",
+            "transferredBytes": 4050
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-DpOCmn98.js",
+            "transferredBytes": 60153
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/horizontal-drift-B1P7EobC.js",
+            "transferredBytes": 3011
+          },
+          {
+            "url": "http://127.0.0.1:55384/images/optimized/green-black-original-16cca95e4acb-960.webp",
+            "transferredBytes": 236705
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          }
+        ],
+        "errors": []
+      },
+      "after": {
+        "width": 550,
+        "height": 733.328125,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-640.webp",
+        "sourcePixelWidth": 640,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w",
+        "sizes": "(max-width: 1341px) 41vw, 550px",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 127562,
+        "imageTransferBytes": 127862,
+        "routeBodyBytes": 723057,
+        "routeTransferBytes": 726657,
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CYLVW8dZ.css",
+            "transferredBytes": 13100
+          },
+          {
+            "url": "http://127.0.0.1:55385/work",
+            "transferredBytes": 5113
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-01-3a01e970d48f-960.webp",
+            "transferredBytes": 79994
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CWU_1WKx.js",
+            "transferredBytes": 62078
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-02-85362ed687be-960.webp",
+            "transferredBytes": 104243
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-03-d229e36ed059-960.webp",
+            "transferredBytes": 107213
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-05-6e58856f6430-960.webp",
+            "transferredBytes": 74994
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-04-fa329e382e06-960.webp",
+            "transferredBytes": 143249
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/horizontal-drift-D3ZzLKwS.js",
+            "transferredBytes": 3028
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/green-black-original-16cca95e4acb-640.webp",
+            "transferredBytes": 127773
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          }
+        ],
+        "errors": []
+      },
+      "widthRatio": 0.5,
+      "alreadySmallestVariant": false,
+      "savedImageBodyBytes": 108932,
+      "savedImageBodyPercent": 46.06121085524369,
+      "savedRouteTransferBytes": -404174
+    },
+    {
+      "width": 1440,
+      "path": "/work/digital-artworks/green-black-original",
+      "before": {
+        "width": 1200,
+        "height": 1600,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-960.webp",
+        "sourcePixelWidth": 960,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w, /images/optimized/green-black-original-16cca95e4acb-960.webp 960w, /images/optimized/green-black-original-16cca95e4acb-1440.webp 1440w",
+        "sizes": "(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)",
+        "loading": "eager",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 236494,
+        "imageTransferBytes": 236794,
+        "routeBodyBytes": 316950,
+        "routeTransferBytes": 318750,
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55384/work/digital-artworks/green-black-original",
+            "transferredBytes": 3352
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-CCun4v1r.css",
+            "transferredBytes": 13141
+          },
+          {
+            "url": "http://127.0.0.1:55384/images/optimized/green-black-original-16cca95e4acb-960.webp",
+            "transferredBytes": 236705
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-DpOCmn98.js",
+            "transferredBytes": 60153
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          }
+        ],
+        "errors": []
+      },
+      "after": {
+        "width": 600,
+        "height": 800,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-640.webp",
+        "sourcePixelWidth": 640,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w",
+        "sizes": "(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 1270px) calc((100vw - 70px) / 2), 600px",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 127562,
+        "imageTransferBytes": 127862,
+        "routeBodyBytes": 209969,
+        "routeTransferBytes": 211769,
+        "pageWidth": 1440,
+        "viewport": 1440,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CYLVW8dZ.css",
+            "transferredBytes": 13100
+          },
+          {
+            "url": "http://127.0.0.1:55385/work/digital-artworks/green-black-original",
+            "transferredBytes": 3417
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CWU_1WKx.js",
+            "transferredBytes": 62078
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/green-black-original-16cca95e4acb-640.webp",
+            "transferredBytes": 127773
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          }
+        ],
+        "errors": []
+      },
+      "widthRatio": 0.5,
+      "alreadySmallestVariant": false,
+      "savedImageBodyBytes": 108932,
+      "savedImageBodyPercent": 46.06121085524369,
+      "savedRouteTransferBytes": 106981
+    },
+    {
+      "width": 390,
+      "path": "/work#digital-artworks",
+      "before": {
+        "width": 319.796875,
+        "height": 426.390625,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-640.webp",
+        "sourcePixelWidth": 640,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w, /images/optimized/green-black-original-16cca95e4acb-960.webp 960w, /images/optimized/green-black-original-16cca95e4acb-1440.webp 1440w",
+        "sizes": "(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 127562,
+        "imageTransferBytes": 127862,
+        "routeBodyBytes": 211451,
+        "routeTransferBytes": 213551,
+        "pageWidth": 390,
+        "viewport": 390,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55384/work",
+            "transferredBytes": 4050
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-CCun4v1r.css",
+            "transferredBytes": 13141
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-DpOCmn98.js",
+            "transferredBytes": 60153
+          },
+          {
+            "url": "http://127.0.0.1:55384/images/optimized/green-black-original-16cca95e4acb-640.webp",
+            "transferredBytes": 127773
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/horizontal-drift-B1P7EobC.js",
+            "transferredBytes": 3011
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          }
+        ],
+        "errors": []
+      },
+      "after": {
+        "width": 159.890625,
+        "height": 213.1875,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-320.webp",
+        "sourcePixelWidth": 320,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w",
+        "sizes": "(max-width: 1341px) 41vw, 550px",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 40410,
+        "imageTransferBytes": 40710,
+        "routeBodyBytes": 182705,
+        "routeTransferBytes": 185705,
+        "pageWidth": 390,
+        "viewport": 390,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55385/work",
+            "transferredBytes": 5113
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CYLVW8dZ.css",
+            "transferredBytes": 13100
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CWU_1WKx.js",
+            "transferredBytes": 62078
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-01-3a01e970d48f-320.webp",
+            "transferredBytes": 13482
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-02-85362ed687be-320.webp",
+            "transferredBytes": 21308
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-03-d229e36ed059-320.webp",
+            "transferredBytes": 21280
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/green-black-original-16cca95e4acb-320.webp",
+            "transferredBytes": 40620
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/horizontal-drift-D3ZzLKwS.js",
+            "transferredBytes": 3028
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          }
+        ],
+        "errors": []
+      },
+      "widthRatio": 0.499975570430449,
+      "alreadySmallestVariant": false,
+      "savedImageBodyBytes": 87152,
+      "savedImageBodyPercent": 68.32128690362333,
+      "savedRouteTransferBytes": 27846
+    },
+    {
+      "width": 390,
+      "path": "/work/digital-artworks/green-black-original",
+      "before": {
+        "width": 346,
+        "height": 461.328125,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-640.webp",
+        "sourcePixelWidth": 640,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w, /images/optimized/green-black-original-16cca95e4acb-960.webp 960w, /images/optimized/green-black-original-16cca95e4acb-1440.webp 1440w",
+        "sizes": "(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)",
+        "loading": "eager",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 127562,
+        "imageTransferBytes": 127862,
+        "routeBodyBytes": 208018,
+        "routeTransferBytes": 209818,
+        "pageWidth": 390,
+        "viewport": 390,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55384/work/digital-artworks/green-black-original",
+            "transferredBytes": 3352
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-CCun4v1r.css",
+            "transferredBytes": 13141
+          },
+          {
+            "url": "http://127.0.0.1:55384/images/optimized/green-black-original-16cca95e4acb-640.webp",
+            "transferredBytes": 127773
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-DpOCmn98.js",
+            "transferredBytes": 60153
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          }
+        ],
+        "errors": []
+      },
+      "after": {
+        "width": 173,
+        "height": 230.65625,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-320.webp",
+        "sourcePixelWidth": 320,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w",
+        "sizes": "(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 1270px) calc((100vw - 70px) / 2), 600px",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 40410,
+        "imageTransferBytes": 40710,
+        "routeBodyBytes": 122817,
+        "routeTransferBytes": 124617,
+        "pageWidth": 390,
+        "viewport": 390,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55385/work/digital-artworks/green-black-original",
+            "transferredBytes": 3417
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CYLVW8dZ.css",
+            "transferredBytes": 13100
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CWU_1WKx.js",
+            "transferredBytes": 62078
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/green-black-original-16cca95e4acb-320.webp",
+            "transferredBytes": 40620
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          }
+        ],
+        "errors": []
+      },
+      "widthRatio": 0.5,
+      "alreadySmallestVariant": false,
+      "savedImageBodyBytes": 87152,
+      "savedImageBodyPercent": 68.32128690362333,
+      "savedRouteTransferBytes": 85201
+    },
+    {
+      "width": 320,
+      "path": "/work#digital-artworks",
+      "before": {
+        "width": 262.390625,
+        "height": 349.84375,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-320.webp",
+        "sourcePixelWidth": 320,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w, /images/optimized/green-black-original-16cca95e4acb-960.webp 960w, /images/optimized/green-black-original-16cca95e4acb-1440.webp 1440w",
+        "sizes": "(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 40410,
+        "imageTransferBytes": 40710,
+        "routeBodyBytes": 124299,
+        "routeTransferBytes": 126399,
+        "pageWidth": 320,
+        "viewport": 320,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55384/work",
+            "transferredBytes": 4050
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-CCun4v1r.css",
+            "transferredBytes": 13141
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-DpOCmn98.js",
+            "transferredBytes": 60153
+          },
+          {
+            "url": "http://127.0.0.1:55384/images/optimized/green-black-original-16cca95e4acb-320.webp",
+            "transferredBytes": 40620
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/horizontal-drift-B1P7EobC.js",
+            "transferredBytes": 3011
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          }
+        ],
+        "errors": []
+      },
+      "after": {
+        "width": 131.1875,
+        "height": 174.90625,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-320.webp",
+        "sourcePixelWidth": 320,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w",
+        "sizes": "(max-width: 1341px) 41vw, 550px",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 40410,
+        "imageTransferBytes": 40710,
+        "routeBodyBytes": 211515,
+        "routeTransferBytes": 214815,
+        "pageWidth": 320,
+        "viewport": 320,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55385/work",
+            "transferredBytes": 5113
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CYLVW8dZ.css",
+            "transferredBytes": 13100
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CWU_1WKx.js",
+            "transferredBytes": 62078
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/horizontal-drift-D3ZzLKwS.js",
+            "transferredBytes": 3028
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-01-3a01e970d48f-320.webp",
+            "transferredBytes": 13482
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-02-85362ed687be-320.webp",
+            "transferredBytes": 21308
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-03-d229e36ed059-320.webp",
+            "transferredBytes": 21280
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/tattoo-04-fa329e382e06-320.webp",
+            "transferredBytes": 29020
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/green-black-original-16cca95e4acb-320.webp",
+            "transferredBytes": 40620
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          }
+        ],
+        "errors": []
+      },
+      "widthRatio": 0.4999702256892753,
+      "alreadySmallestVariant": true,
+      "savedImageBodyBytes": 0,
+      "savedImageBodyPercent": 0,
+      "savedRouteTransferBytes": -88416
+    },
+    {
+      "width": 320,
+      "path": "/work/digital-artworks/green-black-original",
+      "before": {
+        "width": 276,
+        "height": 368,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-320.webp",
+        "sourcePixelWidth": 320,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w, /images/optimized/green-black-original-16cca95e4acb-960.webp 960w, /images/optimized/green-black-original-16cca95e4acb-1440.webp 1440w",
+        "sizes": "(max-width: 600px) calc(100vw - 44px), calc((100vw - 105px) / 2)",
+        "loading": "eager",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 40410,
+        "imageTransferBytes": 40710,
+        "routeBodyBytes": 120866,
+        "routeTransferBytes": 122666,
+        "pageWidth": 320,
+        "viewport": 320,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55384/work/digital-artworks/green-black-original",
+            "transferredBytes": 3352
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-CCun4v1r.css",
+            "transferredBytes": 13141
+          },
+          {
+            "url": "http://127.0.0.1:55384/images/optimized/green-black-original-16cca95e4acb-320.webp",
+            "transferredBytes": 40620
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/index-DpOCmn98.js",
+            "transferredBytes": 60153
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          },
+          {
+            "url": "http://127.0.0.1:55384/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2588
+          }
+        ],
+        "errors": []
+      },
+      "after": {
+        "width": 138,
+        "height": 184,
+        "candidate": "/images/optimized/green-black-original-16cca95e4acb-320.webp",
+        "sourcePixelWidth": 320,
+        "srcset": "/images/optimized/green-black-original-16cca95e4acb-320.webp 320w, /images/optimized/green-black-original-16cca95e4acb-640.webp 640w",
+        "sizes": "(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 1270px) calc((100vw - 70px) / 2), 600px",
+        "loading": "lazy",
+        "authoredWidth": "1440",
+        "authoredHeight": "1920",
+        "imageBodyBytes": 40410,
+        "imageTransferBytes": 40710,
+        "routeBodyBytes": 122817,
+        "routeTransferBytes": 124617,
+        "pageWidth": 320,
+        "viewport": 320,
+        "borderRadius": "0px",
+        "requests": [
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CYLVW8dZ.css",
+            "transferredBytes": 13100
+          },
+          {
+            "url": "http://127.0.0.1:55385/work/digital-artworks/green-black-original",
+            "transferredBytes": 3417
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/index-CWU_1WKx.js",
+            "transferredBytes": 62078
+          },
+          {
+            "url": "http://127.0.0.1:55385/images/optimized/green-black-original-16cca95e4acb-320.webp",
+            "transferredBytes": 40620
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          },
+          {
+            "url": "http://127.0.0.1:55385/assets/h4ngelic-cursor.svg",
+            "transferredBytes": 2589
+          }
+        ],
+        "errors": []
+      },
+      "widthRatio": 0.5,
+      "alreadySmallestVariant": true,
+      "savedImageBodyBytes": 0,
+      "savedImageBodyPercent": 0,
+      "savedRouteTransferBytes": -1951
+    }
+  ],
+  "failures": []
+}

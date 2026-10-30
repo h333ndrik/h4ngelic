@@ -1,0 +1,5946 @@
+{
+  "checkedAt": "2026-10-29T15:10:09.223Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "tokens": {
+        "--radius-soft": "4px",
+        "--surface-input": "#303033",
+        "--ui-hover-scale": "1.025",
+        "--ui-image-scale": "1.025",
+        "--ui-hover-duration": "300ms",
+        "--ui-hover-easing": "cubic-bezier(.2,.8,.25,1)"
+      },
+      "worlds": [
+        {
+          "world": "normal",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 532,
+                "height": 75.59375,
+                "top": 3434.1875,
+                "captionBottom": 3422.1875,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 532,
+                "height": 75.59375,
+                "top": 3434.1875,
+                "captionBottom": 3422.1875,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 1100,
+                "height": 158.78125,
+                "top": 3575.78125,
+                "captionBottom": 3563.78125,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 532,
+                "height": 75.59375,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4913
+              },
+              {
+                "name": "email",
+                "width": 532,
+                "height": 75.59375,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4913
+              },
+              {
+                "name": "message",
+                "width": 1100,
+                "height": 158.78125,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4913
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": {
+              "selector": "[data-global-index] [data-index-page=\"home\"]",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.19) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.125) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.075) 0px 0px 6px)",
+              "scale": 1.025,
+              "duration": "0.3s",
+              "preferred": 1.025
+            }
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 416.484375,
+              "imageWidth": 416.484375,
+              "imageHeight": 523.265625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 458.1328125,
+              "imageWidth": 458.1328125,
+              "imageHeight": 575.59228515625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 416.484375,
+              "imageWidth": 416.484375,
+              "imageHeight": 523.265625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.1,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": {
+              "selector": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.19) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.125) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.075) 0px 0px 6px)",
+              "scale": 1,
+              "duration": "0.3s",
+              "preferred": 1
+            }
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Slow down base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Pause base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": {
+              "selector": ".hero-nav a",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.19) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.125) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.075) 0px 0px 6px)",
+              "scale": 1.025,
+              "duration": "0.3s",
+              "preferred": 1.025
+            },
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        },
+        {
+          "world": "xray",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 532,
+                "height": 75.59375,
+                "top": 3434.1875,
+                "captionBottom": 3422.1875,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 532,
+                "height": 75.59375,
+                "top": 3434.1875,
+                "captionBottom": 3422.1875,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 1100,
+                "height": 158.78125,
+                "top": 3575.78125,
+                "captionBottom": 3563.78125,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 532,
+                "height": 75.59375,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4913
+              },
+              {
+                "name": "email",
+                "width": 532,
+                "height": 75.59375,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4913
+              },
+              {
+                "name": "message",
+                "width": 1100,
+                "height": 158.78125,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4913
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": {
+              "selector": "[data-global-index] [data-index-page=\"home\"]",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.196) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.15) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.094) 0px 0px 6px) drop-shadow(rgba(185, 139, 225, 0.047) 0px 0px 6.9px)",
+              "scale": 1.025,
+              "duration": "0.3s",
+              "preferred": 1.025
+            }
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 416.484375,
+              "imageWidth": 416.484375,
+              "imageHeight": 523.265625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 458.1328125,
+              "imageWidth": 458.1328125,
+              "imageHeight": 575.59228515625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 416.484375,
+              "imageWidth": 416.484375,
+              "imageHeight": 523.265625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.1,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": {
+              "selector": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.196) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.15) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.094) 0px 0px 6px) drop-shadow(rgba(185, 139, 225, 0.047) 0px 0px 6.9px)",
+              "scale": 1,
+              "duration": "0.3s",
+              "preferred": 1
+            }
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Restore normal animation speed",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Pause base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": {
+              "selector": ".hero-nav a",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.196) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.15) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.094) 0px 0px 6px) drop-shadow(rgba(185, 139, 225, 0.047) 0px 0px 6.9px)",
+              "scale": 1.025,
+              "duration": "0.3s",
+              "preferred": 1.025
+            },
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        }
+      ],
+      "audioRequests": [],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "tokens": {
+        "--radius-soft": "4px",
+        "--surface-input": "#303033",
+        "--ui-hover-scale": "1.025",
+        "--ui-image-scale": "1.025",
+        "--ui-hover-duration": "300ms",
+        "--ui-hover-easing": "cubic-bezier(.2,.8,.25,1)"
+      },
+      "worlds": [
+        {
+          "world": "normal",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 532,
+                "height": 75.59375,
+                "top": 2662.625,
+                "captionBottom": 2650.625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 532,
+                "height": 75.59375,
+                "top": 2662.625,
+                "captionBottom": 2650.625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 1100,
+                "height": 158.78125,
+                "top": 2804.21875,
+                "captionBottom": 2792.21875,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 532,
+                "height": 75.59375,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4142
+              },
+              {
+                "name": "email",
+                "width": 532,
+                "height": 75.59375,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4142
+              },
+              {
+                "name": "message",
+                "width": 1100,
+                "height": 158.78125,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4142
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": {
+              "selector": "[data-global-index] [data-index-page=\"home\"]",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.19) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.125) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.075) 0px 0px 6px)",
+              "scale": 1,
+              "duration": "0s",
+              "preferred": 0
+            }
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 416.484375,
+              "imageWidth": 416.484375,
+              "imageHeight": 523.265625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 458.1328125,
+              "imageWidth": 458.1328125,
+              "imageHeight": 575.59228515625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 416.484375,
+              "imageWidth": 416.484375,
+              "imageHeight": 523.265625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.1,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": {
+              "selector": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.19) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.125) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.075) 0px 0px 6px)",
+              "scale": 1,
+              "duration": "0s",
+              "preferred": 1
+            }
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Slow down base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Play base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": {
+              "selector": ".hero-nav a",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.19) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.125) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.075) 0px 0px 6px)",
+              "scale": 1,
+              "duration": "0s",
+              "preferred": 1.025
+            },
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        },
+        {
+          "world": "xray",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 532,
+                "height": 75.59375,
+                "top": 2662.625,
+                "captionBottom": 2650.625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 532,
+                "height": 75.59375,
+                "top": 2662.625,
+                "captionBottom": 2650.625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 1100,
+                "height": 158.78125,
+                "top": 2804.21875,
+                "captionBottom": 2792.21875,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 532,
+                "height": 75.59375,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4142
+              },
+              {
+                "name": "email",
+                "width": 532,
+                "height": 75.59375,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4142
+              },
+              {
+                "name": "message",
+                "width": 1100,
+                "height": 158.78125,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4142
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": {
+              "selector": "[data-global-index] [data-index-page=\"home\"]",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.196) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.15) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.094) 0px 0px 6px) drop-shadow(rgba(185, 139, 225, 0.047) 0px 0px 6.9px)",
+              "scale": 1,
+              "duration": "0s",
+              "preferred": 0
+            }
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 416.484375,
+              "imageWidth": 416.484375,
+              "imageHeight": 523.265625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 458.1328125,
+              "imageWidth": 458.1328125,
+              "imageHeight": 575.59228515625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 597,
+              "height": 4981,
+              "buttonWidth": 416.484375,
+              "imageWidth": 416.484375,
+              "imageHeight": 523.265625,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.1,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": {
+              "selector": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.196) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.15) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.094) 0px 0px 6px) drop-shadow(rgba(185, 139, 225, 0.047) 0px 0px 6.9px)",
+              "scale": 1,
+              "duration": "0s",
+              "preferred": 1
+            }
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Restore normal animation speed",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Play base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": {
+              "selector": ".hero-nav a",
+              "filter": "drop-shadow(rgba(255, 255, 255, 0.196) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.15) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.094) 0px 0px 6px) drop-shadow(rgba(185, 139, 225, 0.047) 0px 0px 6.9px)",
+              "scale": 1,
+              "duration": "0s",
+              "preferred": 1.025
+            },
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        }
+      ],
+      "audioRequests": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "tokens": {
+        "--radius-soft": "4px",
+        "--surface-input": "#303033",
+        "--ui-hover-scale": "1.025",
+        "--ui-image-scale": "1.025",
+        "--ui-hover-duration": "300ms",
+        "--ui-hover-easing": "cubic-bezier(.2,.8,.25,1)"
+      },
+      "worlds": [
+        {
+          "world": "normal",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 334,
+                "height": 58.6875,
+                "top": 2704.265625,
+                "captionBottom": 2692.265625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 334,
+                "height": 58.6875,
+                "top": 2822.953125,
+                "captionBottom": 2810.953125,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 334,
+                "height": 130,
+                "top": 2941.640625,
+                "captionBottom": 2929.640625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 334,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4187
+              },
+              {
+                "name": "email",
+                "width": 334,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4187
+              },
+              {
+                "name": "message",
+                "width": 334,
+                "height": 130,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4187
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": null
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 296.390625,
+              "imageWidth": 296.390625,
+              "imageHeight": 372.375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 326.0296630859375,
+              "imageWidth": 326.0296630859375,
+              "imageHeight": 409.612548828125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 296.390625,
+              "imageWidth": 296.390625,
+              "imageHeight": 372.375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.0999999176287627,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": null
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Slow down base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Pause base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": null,
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        },
+        {
+          "world": "xray",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 334,
+                "height": 58.6875,
+                "top": 2704.265625,
+                "captionBottom": 2692.265625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 334,
+                "height": 58.6875,
+                "top": 2822.953125,
+                "captionBottom": 2810.953125,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 334,
+                "height": 130,
+                "top": 2941.640625,
+                "captionBottom": 2929.640625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 334,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4187
+              },
+              {
+                "name": "email",
+                "width": 334,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4187
+              },
+              {
+                "name": "message",
+                "width": 334,
+                "height": 130,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4187
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": null
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 296.390625,
+              "imageWidth": 296.390625,
+              "imageHeight": 372.375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 326.0296630859375,
+              "imageWidth": 326.0296630859375,
+              "imageHeight": 409.612548828125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 296.390625,
+              "imageWidth": 296.390625,
+              "imageHeight": 372.375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.0999999176287627,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": null
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Restore normal animation speed",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Pause base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": null,
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        }
+      ],
+      "audioRequests": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "tokens": {
+        "--radius-soft": "4px",
+        "--surface-input": "#303033",
+        "--ui-hover-scale": "1.025",
+        "--ui-image-scale": "1.025",
+        "--ui-hover-duration": "300ms",
+        "--ui-hover-easing": "cubic-bezier(.2,.8,.25,1)"
+      },
+      "worlds": [
+        {
+          "world": "normal",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 334,
+                "height": 58.6875,
+                "top": 1761.40625,
+                "captionBottom": 1749.40625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 334,
+                "height": 58.6875,
+                "top": 1880.09375,
+                "captionBottom": 1868.09375,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 334,
+                "height": 130,
+                "top": 1998.78125,
+                "captionBottom": 1986.78125,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 334,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3244
+              },
+              {
+                "name": "email",
+                "width": 334,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3244
+              },
+              {
+                "name": "message",
+                "width": 334,
+                "height": 130,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3244
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": null
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 296.390625,
+              "imageWidth": 296.390625,
+              "imageHeight": 372.375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 326.0296630859375,
+              "imageWidth": 326.0296630859375,
+              "imageHeight": 409.612548828125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 296.390625,
+              "imageWidth": 296.390625,
+              "imageHeight": 372.375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.0999999176287627,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": null
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Slow down base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Play base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": null,
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        },
+        {
+          "world": "xray",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 334,
+                "height": 58.6875,
+                "top": 1761.40625,
+                "captionBottom": 1749.40625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 334,
+                "height": 58.6875,
+                "top": 1880.09375,
+                "captionBottom": 1868.09375,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 334,
+                "height": 130,
+                "top": 1998.78125,
+                "captionBottom": 1986.78125,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 334,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3244
+              },
+              {
+                "name": "email",
+                "width": 334,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3244
+              },
+              {
+                "name": "message",
+                "width": 334,
+                "height": 130,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3244
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": null
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 296.390625,
+              "imageWidth": 296.390625,
+              "imageHeight": 372.375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 326.0296630859375,
+              "imageWidth": 326.0296630859375,
+              "imageHeight": 409.612548828125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 221,
+              "height": 2877,
+              "buttonWidth": 296.390625,
+              "imageWidth": 296.390625,
+              "imageHeight": 372.375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.0999999176287627,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": null
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Restore normal animation speed",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Play base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": null,
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        }
+      ],
+      "audioRequests": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "tokens": {
+        "--radius-soft": "4px",
+        "--surface-input": "#303033",
+        "--ui-hover-scale": "1.025",
+        "--ui-image-scale": "1.025",
+        "--ui-hover-duration": "300ms",
+        "--ui-hover-easing": "cubic-bezier(.2,.8,.25,1)"
+      },
+      "worlds": [
+        {
+          "world": "normal",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 264,
+                "height": 58.6875,
+                "top": 2738.765625,
+                "captionBottom": 2726.765625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 264,
+                "height": 58.6875,
+                "top": 2857.453125,
+                "captionBottom": 2845.453125,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 264,
+                "height": 130,
+                "top": 2976.140625,
+                "captionBottom": 2964.140625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 264,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4221
+              },
+              {
+                "name": "email",
+                "width": 264,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4221
+              },
+              {
+                "name": "message",
+                "width": 264,
+                "height": 130,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4221
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": null
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 243.1875,
+              "imageWidth": 243.1875,
+              "imageHeight": 305.53125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 267.5062255859375,
+              "imageWidth": 267.5062255859375,
+              "imageHeight": 336.0843505859375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 243.1875,
+              "imageWidth": 243.1875,
+              "imageHeight": 305.53125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.09999989960807,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": null
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Slow down base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Pause base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": null,
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        },
+        {
+          "world": "xray",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 264,
+                "height": 58.6875,
+                "top": 2738.765625,
+                "captionBottom": 2726.765625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 264,
+                "height": 58.6875,
+                "top": 2857.453125,
+                "captionBottom": 2845.453125,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 264,
+                "height": 130,
+                "top": 2976.140625,
+                "captionBottom": 2964.140625,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 264,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4221
+              },
+              {
+                "name": "email",
+                "width": 264,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4221
+              },
+              {
+                "name": "message",
+                "width": 264,
+                "height": 130,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 4221
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": null
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 243.1875,
+              "imageWidth": 243.1875,
+              "imageHeight": 305.53125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 267.5062255859375,
+              "imageWidth": 267.5062255859375,
+              "imageHeight": 336.0843505859375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 243.1875,
+              "imageWidth": 243.1875,
+              "imageHeight": 305.53125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.09999989960807,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": null
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Restore normal animation speed",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Pause base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": null,
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        }
+      ],
+      "audioRequests": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "tokens": {
+        "--radius-soft": "4px",
+        "--surface-input": "#303033",
+        "--ui-hover-scale": "1.025",
+        "--ui-image-scale": "1.025",
+        "--ui-hover-duration": "300ms",
+        "--ui-hover-easing": "cubic-bezier(.2,.8,.25,1)"
+      },
+      "worlds": [
+        {
+          "world": "normal",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 264,
+                "height": 58.6875,
+                "top": 1793.359375,
+                "captionBottom": 1781.359375,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 264,
+                "height": 58.6875,
+                "top": 1912.046875,
+                "captionBottom": 1900.046875,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 264,
+                "height": 130,
+                "top": 2030.734375,
+                "captionBottom": 2018.734375,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 264,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3276
+              },
+              {
+                "name": "email",
+                "width": 264,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3276
+              },
+              {
+                "name": "message",
+                "width": 264,
+                "height": 130,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3276
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": null
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 243.1875,
+              "imageWidth": 243.1875,
+              "imageHeight": 305.53125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 267.5062255859375,
+              "imageWidth": 267.5062255859375,
+              "imageHeight": 336.0843505859375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 243.1875,
+              "imageWidth": 243.1875,
+              "imageHeight": 305.53125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.09999989960807,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": null
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Slow down base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Play base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": null,
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        },
+        {
+          "world": "xray",
+          "form": {
+            "fields": [
+              {
+                "name": "name",
+                "width": 264,
+                "height": 58.6875,
+                "top": 1793.359375,
+                "captionBottom": 1781.359375,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "email",
+                "width": 264,
+                "height": 58.6875,
+                "top": 1912.046875,
+                "captionBottom": 1900.046875,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              },
+              {
+                "name": "message",
+                "width": 264,
+                "height": 130,
+                "top": 2030.734375,
+                "captionBottom": 2018.734375,
+                "surface": "rgb(48, 48, 51)",
+                "radius": "4px",
+                "outline": "0px",
+                "border": "1px",
+                "labelSurface": "rgba(0, 0, 0, 0)"
+              }
+            ],
+            "focused": [
+              {
+                "name": "name",
+                "width": 264,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3276
+              },
+              {
+                "name": "email",
+                "width": 264,
+                "height": 58.6875,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3276
+              },
+              {
+                "name": "message",
+                "width": 264,
+                "height": 130,
+                "outline": "0px",
+                "border": "1px",
+                "radius": "4px",
+                "pageHeight": 3276
+              }
+            ],
+            "panel": {
+              "surface": "rgb(48, 48, 51)",
+              "borderColor": "rgb(255, 255, 255)",
+              "borderWidth": "1px",
+              "radius": "4px"
+            },
+            "targets": [
+              {
+                "selector": "[data-global-index] summary",
+                "count": 1
+              },
+              {
+                "selector": "[data-global-index] a",
+                "count": 5
+              },
+              {
+                "selector": "[data-naavi]",
+                "count": 1
+              },
+              {
+                "selector": ".about-preview .text-link",
+                "count": 1
+              },
+              {
+                "selector": ".footer-moshlab",
+                "count": 1
+              },
+              {
+                "selector": ".footer-smash",
+                "count": 1
+              },
+              {
+                "selector": ".footer-instagram",
+                "count": 1
+              },
+              {
+                "selector": ".footer-location",
+                "count": 1
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "count": 1
+              },
+              {
+                "selector": "[data-inquiry-submit]",
+                "count": 1
+              },
+              {
+                "selector": "[data-controls] button",
+                "count": 4
+              }
+            ],
+            "surfaces": [
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field input",
+                "radius": "4px"
+              },
+              {
+                "selector": ".inquiry-field textarea",
+                "radius": "4px"
+              },
+              {
+                "selector": ".global-index-links",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-naavi]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-other-side-hint]",
+                "radius": "4px"
+              },
+              {
+                "selector": "[data-visit-counter-hotspot]",
+                "radius": "4px"
+              }
+            ],
+            "menuHover": null
+          },
+          "images": {
+            "before": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 243.1875,
+              "imageWidth": 243.1875,
+              "imageHeight": 305.53125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "enlarged": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 267.5062255859375,
+              "imageWidth": 267.5062255859375,
+              "imageHeight": 336.0843505859375,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "restored": {
+              "left": 0,
+              "y": 187,
+              "height": 2759,
+              "buttonWidth": 243.1875,
+              "imageWidth": 243.1875,
+              "imageHeight": 305.53125,
+              "order": [
+                "/work/tattoos/tattoo-01",
+                "/work/tattoos/tattoo-02",
+                "/work/tattoos/tattoo-03",
+                "/work/tattoos/tattoo-04",
+                "/work/tattoos/tattoo-05",
+                "/work/tattoos/tattoo-06",
+                "/work/tattoos/tattoo-07",
+                "/work/tattoos/tattoo-08"
+              ]
+            },
+            "ratio": 1.09999989960807,
+            "photoRadii": [
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "[data-horizontal-drift=\"tattoos\"] img",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks .artwork-open",
+                "radius": "0px"
+              },
+              {
+                "selector": "#digital-artworks img",
+                "radius": "0px"
+              }
+            ],
+            "viewerRadii": [
+              {
+                "selector": ".artwork-dialog",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              },
+              {
+                "selector": ".artwork-dialog button",
+                "radius": "4px"
+              }
+            ],
+            "viewerPhoto": [
+              {
+                "selector": ".artwork-viewer-stage img",
+                "radius": "0px"
+              }
+            ],
+            "imageHover": null
+          },
+          "hero": {
+            "controls": [
+              {
+                "label": "Restore normal animation speed",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "Play base animation",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "turn sound on",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              },
+              {
+                "label": "adjust sound volume",
+                "resting": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": false,
+                  "underline": "none",
+                  "shadow": "none"
+                },
+                "focused": {
+                  "border": [
+                    "0px",
+                    "0px",
+                    "0px",
+                    "0px"
+                  ],
+                  "outline": "0px",
+                  "radius": "4px",
+                  "focus": true,
+                  "underline": "underline",
+                  "shadow": "none"
+                }
+              }
+            ],
+            "pressed": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "popupStyle": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "4px",
+              "focus": false,
+              "underline": "none",
+              "shadow": "none"
+            },
+            "rangeFocus": {
+              "border": [
+                "0px",
+                "0px",
+                "0px",
+                "0px"
+              ],
+              "outline": "0px",
+              "radius": "0px",
+              "focus": true,
+              "underline": "none",
+              "shadow": "rgb(157, 150, 142) 0px -1px 0px 0px inset"
+            },
+            "hover": null,
+            "unrounded": [
+              {
+                "selector": "#logo-canvas",
+                "radius": "0px"
+              },
+              {
+                "selector": ".stage",
+                "radius": "0px"
+              }
+            ]
+          }
+        }
+      ],
+      "audioRequests": [],
+      "errors": []
+    }
+  ],
+  "failures": []
+}

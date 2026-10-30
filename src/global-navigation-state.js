@@ -15,3 +15,13 @@ export function activeChapter(tops, scrollTop, viewportHeight) {
   }
   return current;
 }
+
+/** All NAAVI characters share one contrast mode. Quiet UI wins over display
+ * type when regions overlap, so a form never acquires difference artefacts. */
+export function naaviUsesDisplayContrast(bounds, displayBounds = [], quietBounds = []) {
+  const overlaps = rect => rect && bounds && [rect.left, rect.right, rect.top, rect.bottom,
+    bounds.left, bounds.right, bounds.top, bounds.bottom].every(Number.isFinite)
+    && bounds.left < rect.right && bounds.right > rect.left
+    && bounds.top < rect.bottom && bounds.bottom > rect.top;
+  return !quietBounds.some(overlaps) && displayBounds.some(overlaps);
+}

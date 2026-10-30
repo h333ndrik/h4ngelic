@@ -2,8 +2,8 @@
 export const uiEffectSettings = Object.freeze({
   hover: Object.freeze({
     scale: 1.025,
-    largeScale: 1.02,
-    imageScale: 1.015,
+    largeScale: 1.025,
+    imageScale: 1.025,
     durationMs: 300,
     releaseMs: 300,
     easing: 'cubic-bezier(.2,.8,.25,1)',

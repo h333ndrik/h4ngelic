@@ -12,8 +12,8 @@ export function bindControls({
   const speed = document.getElementById('speed-control');
   const reveal = document.getElementById('reveal-control');
 
-  if (!pause || !speed || !reveal) {
-    throw new Error('Wordmark controls require #pause-control, #speed-control and #reveal-control.');
+  if (!pause || !speed) {
+    throw new Error('Wordmark controls require #pause-control and #speed-control.');
   }
 
   const state = {
@@ -38,11 +38,13 @@ export function bindControls({
     speed.setAttribute('aria-label', state.speed === 1 ? 'Slow down base animation' : 'Restore normal animation speed');
     speed.setAttribute('aria-pressed', String(state.speed !== 1));
 
+    if (reveal) {
     reveal.textContent = available ? `Reveal ${state.reveal ? 'on' : 'off'}` : 'Reveal unavailable';
     reveal.disabled = !available;
     reveal.setAttribute('aria-pressed', String(state.reveal));
     reveal.setAttribute('aria-label', available ? 'Toggle tattoo artwork reveal' : 'Tattoo artwork has not been supplied');
     reveal.title = available ? 'Show artwork near the configured rotation angle' : 'Requires the original transparent tattoo artwork';
+    }
   }
 
   function setPaused(value) {
@@ -59,14 +61,14 @@ export function bindControls({
     render();
     onSpeed(state.speed);
   });
-  listen(reveal, 'click', () => {
+  if (reveal) listen(reveal, 'click', () => {
     if (!available) return;
     state.reveal = !state.reveal;
     render();
     onReveal(state.reveal);
   });
 
-  for (const button of [pause, speed, reveal]) {
+  for (const button of [pause, speed, reveal].filter(Boolean)) {
     button.type = 'button';
     listen(button, 'pointerdown', (event) => event.stopPropagation());
   }

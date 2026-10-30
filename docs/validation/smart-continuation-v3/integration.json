@@ -1,0 +1,1094 @@
+{
+  "checkedAt": "2026-10-28T16:39:01.546Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "coldWork": {
+        "gl": 0,
+        "audio": 0
+      },
+      "workGeometry": {
+        "brand": {
+          "left": 35,
+          "right": 114.90625,
+          "top": 21,
+          "bottom": 65,
+          "width": 79.90625,
+          "height": 44
+        },
+        "index": {
+          "left": 1374,
+          "right": 1418,
+          "top": 21,
+          "bottom": 65,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 1440,
+        "height": 844,
+        "pageWidth": 1440,
+        "blends": {
+          "brand": "difference",
+          "index": "normal",
+          "naavi": "difference"
+        }
+      },
+      "crossContact": {
+        "brand": {
+          "left": 35,
+          "right": 114.90625,
+          "top": 21,
+          "bottom": 65,
+          "width": 79.90625,
+          "height": 44
+        },
+        "index": {
+          "left": 1374,
+          "right": 1418,
+          "top": 21,
+          "bottom": 65,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 1440,
+        "height": 844,
+        "pageWidth": 1440,
+        "blends": {
+          "brand": "difference",
+          "index": "normal",
+          "naavi": "difference"
+        }
+      },
+      "foot": {
+        "brand": {
+          "left": 35,
+          "right": 132.71875,
+          "top": 729.328125,
+          "bottom": 747.328125
+        },
+        "visit": {
+          "left": 175.90625,
+          "right": 219.90625,
+          "top": 716.328125,
+          "bottom": 760.328125
+        },
+        "details": {
+          "left": 1180.6875,
+          "right": 1405,
+          "top": 716.328125,
+          "bottom": 760.328125
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832
+        },
+        "width": 1440,
+        "smashDisabled": true,
+        "links": [
+          "smash",
+          "instagram",
+          "berlin, de"
+        ]
+      },
+      "soundGeometry": {
+        "button": {
+          "left": 143.46875,
+          "right": 254.015625,
+          "top": 776,
+          "bottom": 820
+        },
+        "popup": {
+          "left": 143.46875,
+          "right": 307.46875,
+          "top": 719,
+          "bottom": 773
+        }
+      },
+      "homeGeometry": {
+        "brand": {
+          "left": 35,
+          "right": 114.90625,
+          "top": 21,
+          "bottom": 65,
+          "width": 79.90625,
+          "height": 44
+        },
+        "index": {
+          "left": 1374,
+          "right": 1418,
+          "top": 21,
+          "bottom": 65,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 1440,
+        "height": 844,
+        "pageWidth": 1440,
+        "blends": {
+          "brand": "difference",
+          "index": "normal",
+          "naavi": "difference"
+        }
+      },
+      "controls": {
+        "box": {
+          "left": 35,
+          "right": 253.9375,
+          "top": 776,
+          "bottom": 820
+        },
+        "nav": {
+          "left": 1123.796875,
+          "right": 1405,
+          "top": 776,
+          "bottom": 820
+        },
+        "labels": [
+          "Slow",
+          "Pause",
+          "sound on",
+          "⌃"
+        ],
+        "buttons": [
+          {
+            "left": 35,
+            "right": 80.109375,
+            "top": 776,
+            "bottom": 820,
+            "height": 44
+          },
+          {
+            "left": 85.109375,
+            "right": 138.46875,
+            "top": 776,
+            "bottom": 820,
+            "height": 44
+          },
+          {
+            "left": 143.46875,
+            "right": 212.9375,
+            "top": 776,
+            "bottom": 820,
+            "height": 44
+          },
+          {
+            "left": 209.9375,
+            "right": 253.9375,
+            "top": 776,
+            "bottom": 820,
+            "height": 44
+          }
+        ]
+      },
+      "otherGeometry": {
+        "brand": {
+          "left": 35,
+          "right": 114.90625,
+          "top": 21,
+          "bottom": 65,
+          "width": 79.90625,
+          "height": 44
+        },
+        "index": {
+          "left": 1374,
+          "right": 1418,
+          "top": 21,
+          "bottom": 65,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 1440,
+        "height": 844,
+        "pageWidth": 1440,
+        "blends": {
+          "brand": "difference",
+          "index": "normal",
+          "naavi": "difference"
+        }
+      },
+      "entry": {
+        "mode": "xray",
+        "event": {
+          "mode": "xray",
+          "captured": true,
+          "duration": 1400,
+          "variant": 2695273197,
+          "at": 7463.9000000059605
+        },
+        "width": 1440,
+        "viewport": 1440,
+        "modeFlag": "xray",
+        "observedGestureToCleanupMs": 5090
+      },
+      "exit": {
+        "mode": "normal",
+        "event": {
+          "mode": "normal",
+          "captured": true,
+          "duration": 1400,
+          "variant": 1380094004,
+          "at": 13532.70000000298
+        },
+        "width": 1440,
+        "viewport": 1440,
+        "modeFlag": "normal",
+        "observedGestureToCleanupMs": 3512
+      },
+      "persisted": {
+        "muted": false,
+        "volume": 0.01
+      },
+      "errors": []
+    },
+    {
+      "width": 800,
+      "reduced": true,
+      "coldWork": {
+        "gl": 0,
+        "audio": 0
+      },
+      "workGeometry": {
+        "brand": {
+          "left": 35,
+          "right": 89.671875,
+          "top": 21,
+          "bottom": 65,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 734,
+          "right": 778,
+          "top": 21,
+          "bottom": 65,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 356,
+          "right": 444,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 800,
+        "height": 844,
+        "pageWidth": 800,
+        "blends": {
+          "brand": "difference",
+          "index": "normal",
+          "naavi": "difference"
+        }
+      },
+      "crossContact": {
+        "brand": {
+          "left": 35,
+          "right": 89.671875,
+          "top": 21,
+          "bottom": 65,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 734,
+          "right": 778,
+          "top": 21,
+          "bottom": 65,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 356,
+          "right": 444,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 800,
+        "height": 844,
+        "pageWidth": 800,
+        "blends": {
+          "brand": "difference",
+          "index": "normal",
+          "naavi": "difference"
+        }
+      },
+      "foot": {
+        "brand": {
+          "left": 35,
+          "right": 132.71875,
+          "top": 728.96875,
+          "bottom": 746.96875
+        },
+        "visit": {
+          "left": 156.71875,
+          "right": 200.71875,
+          "top": 715.96875,
+          "bottom": 759.96875
+        },
+        "details": {
+          "left": 566.28125,
+          "right": 765,
+          "top": 715.96875,
+          "bottom": 759.96875
+        },
+        "naavi": {
+          "left": 356,
+          "right": 444,
+          "top": 788,
+          "bottom": 832
+        },
+        "width": 800,
+        "smashDisabled": true,
+        "links": [
+          "smash",
+          "instagram",
+          "berlin, de"
+        ]
+      },
+      "soundGeometry": {
+        "button": {
+          "left": 117.515625,
+          "right": 219.734375,
+          "top": 684,
+          "bottom": 728
+        },
+        "popup": {
+          "left": 117.515625,
+          "right": 281.515625,
+          "top": 622,
+          "bottom": 676
+        }
+      },
+      "homeGeometry": {
+        "brand": {
+          "left": 35,
+          "right": 89.671875,
+          "top": 21,
+          "bottom": 65,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 734,
+          "right": 778,
+          "top": 21,
+          "bottom": 65,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 356,
+          "right": 444,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 800,
+        "height": 844,
+        "pageWidth": 800,
+        "blends": {
+          "brand": "difference",
+          "index": "normal",
+          "naavi": "difference"
+        }
+      },
+      "controls": {
+        "box": {
+          "left": 22,
+          "right": 778,
+          "top": 684,
+          "bottom": 728
+        },
+        "nav": {
+          "left": 507.75,
+          "right": 778,
+          "top": 736,
+          "bottom": 780
+        },
+        "labels": [
+          "Slow",
+          "Play",
+          "sound on",
+          "⌃"
+        ],
+        "buttons": [
+          {
+            "left": 22,
+            "right": 61.015625,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 66.015625,
+            "right": 103.375,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 108.375,
+            "right": 169.53125,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 166.53125,
+            "right": 210.53125,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          }
+        ]
+      },
+      "otherGeometry": {
+        "brand": {
+          "left": 35,
+          "right": 89.671875,
+          "top": 21,
+          "bottom": 65,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 734,
+          "right": 778,
+          "top": 21,
+          "bottom": 65,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 356,
+          "right": 444,
+          "top": 788,
+          "bottom": 832,
+          "width": 88,
+          "height": 44
+        },
+        "width": 800,
+        "height": 844,
+        "pageWidth": 800,
+        "blends": {
+          "brand": "difference",
+          "index": "normal",
+          "naavi": "difference"
+        }
+      },
+      "entry": {
+        "mode": "xray",
+        "event": {
+          "mode": "xray",
+          "captured": false,
+          "at": 6312.5
+        },
+        "width": 800,
+        "viewport": 800,
+        "modeFlag": "xray",
+        "observedGestureToCleanupMs": 1304
+      },
+      "exit": {
+        "mode": "normal",
+        "event": {
+          "mode": "normal",
+          "captured": false,
+          "at": 9543.90000000596
+        },
+        "width": 800,
+        "viewport": 800,
+        "modeFlag": "normal",
+        "observedGestureToCleanupMs": 289
+      },
+      "persisted": {
+        "muted": false,
+        "volume": 0.01
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "coldWork": {
+        "gl": 0,
+        "audio": 0
+      },
+      "workGeometry": {
+        "brand": {
+          "left": 22,
+          "right": 76.671875,
+          "top": 16,
+          "bottom": 60,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 336,
+          "right": 380,
+          "top": 16,
+          "bottom": 60,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 390,
+        "height": 844,
+        "pageWidth": 390,
+        "blends": {
+          "brand": "normal",
+          "index": "normal",
+          "naavi": "normal"
+        }
+      },
+      "crossContact": {
+        "brand": {
+          "left": 22,
+          "right": 76.671875,
+          "top": 16,
+          "bottom": 60,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 336,
+          "right": 380,
+          "top": 16,
+          "bottom": 60,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 390,
+        "height": 844,
+        "pageWidth": 390,
+        "blends": {
+          "brand": "normal",
+          "index": "normal",
+          "naavi": "normal"
+        }
+      },
+      "foot": {
+        "brand": {
+          "left": 22,
+          "right": 110.4375,
+          "top": 685.546875,
+          "bottom": 701.625
+        },
+        "visit": {
+          "left": 134.4375,
+          "right": 178.4375,
+          "top": 671.59375,
+          "bottom": 715.59375
+        },
+        "details": {
+          "left": 22,
+          "right": 205.140625,
+          "top": 715.59375,
+          "bottom": 759.59375
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832
+        },
+        "width": 390,
+        "smashDisabled": true,
+        "links": [
+          "smash",
+          "instagram",
+          "berlin, de"
+        ]
+      },
+      "soundGeometry": {
+        "button": {
+          "left": 117.515625,
+          "right": 219.734375,
+          "top": 684,
+          "bottom": 728
+        },
+        "popup": {
+          "left": 117.515625,
+          "right": 281.515625,
+          "top": 631,
+          "bottom": 681
+        }
+      },
+      "homeGeometry": {
+        "brand": {
+          "left": 22,
+          "right": 76.671875,
+          "top": 16,
+          "bottom": 60,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 336,
+          "right": 380,
+          "top": 16,
+          "bottom": 60,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 390,
+        "height": 844,
+        "pageWidth": 390,
+        "blends": {
+          "brand": "normal",
+          "index": "normal",
+          "naavi": "normal"
+        }
+      },
+      "controls": {
+        "box": {
+          "left": 22,
+          "right": 368,
+          "top": 684,
+          "bottom": 728
+        },
+        "nav": {
+          "left": 153.5,
+          "right": 368,
+          "top": 736,
+          "bottom": 780
+        },
+        "labels": [
+          "Slow",
+          "Pause",
+          "sound on",
+          "⌃"
+        ],
+        "buttons": [
+          {
+            "left": 22,
+            "right": 61.015625,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 66.015625,
+            "right": 112.515625,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 117.515625,
+            "right": 178.671875,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 175.671875,
+            "right": 219.671875,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          }
+        ]
+      },
+      "otherGeometry": {
+        "brand": {
+          "left": 22,
+          "right": 76.671875,
+          "top": 16,
+          "bottom": 60,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 336,
+          "right": 380,
+          "top": 16,
+          "bottom": 60,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 390,
+        "height": 844,
+        "pageWidth": 390,
+        "blends": {
+          "brand": "normal",
+          "index": "normal",
+          "naavi": "normal"
+        }
+      },
+      "entry": {
+        "mode": "xray",
+        "event": {
+          "mode": "xray",
+          "captured": true,
+          "duration": 1400,
+          "variant": 1259293471,
+          "at": 3573.699999988079
+        },
+        "width": 390,
+        "viewport": 390,
+        "modeFlag": "xray",
+        "observedGestureToCleanupMs": 3899
+      },
+      "exit": {
+        "mode": "normal",
+        "event": {
+          "mode": "normal",
+          "captured": true,
+          "duration": 1400,
+          "variant": 752156304,
+          "at": 7940.29999999702
+        },
+        "width": 390,
+        "viewport": 390,
+        "modeFlag": "normal",
+        "observedGestureToCleanupMs": 2502
+      },
+      "persisted": {
+        "muted": false,
+        "volume": 0.01
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "coldWork": {
+        "gl": 0,
+        "audio": 0
+      },
+      "workGeometry": {
+        "brand": {
+          "left": 22,
+          "right": 76.671875,
+          "top": 16,
+          "bottom": 60,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 266,
+          "right": 310,
+          "top": 16,
+          "bottom": 60,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 320,
+        "height": 844,
+        "pageWidth": 320,
+        "blends": {
+          "brand": "normal",
+          "index": "normal",
+          "naavi": "normal"
+        }
+      },
+      "crossContact": {
+        "brand": {
+          "left": 22,
+          "right": 76.671875,
+          "top": 16,
+          "bottom": 60,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 266,
+          "right": 310,
+          "top": 16,
+          "bottom": 60,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 320,
+        "height": 844,
+        "pageWidth": 320,
+        "blends": {
+          "brand": "normal",
+          "index": "normal",
+          "naavi": "normal"
+        }
+      },
+      "foot": {
+        "brand": {
+          "left": 22,
+          "right": 105.234375,
+          "top": 686.1875,
+          "bottom": 701.1875
+        },
+        "visit": {
+          "left": 129.234375,
+          "right": 173.234375,
+          "top": 671.6875,
+          "bottom": 715.6875
+        },
+        "details": {
+          "left": 22,
+          "right": 196.375,
+          "top": 715.6875,
+          "bottom": 759.6875
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832
+        },
+        "width": 320,
+        "smashDisabled": true,
+        "links": [
+          "smash",
+          "instagram",
+          "berlin, de"
+        ]
+      },
+      "soundGeometry": {
+        "button": {
+          "left": 117.515625,
+          "right": 219.734375,
+          "top": 684,
+          "bottom": 728
+        },
+        "popup": {
+          "left": 117.515625,
+          "right": 281.515625,
+          "top": 626,
+          "bottom": 676
+        }
+      },
+      "homeGeometry": {
+        "brand": {
+          "left": 22,
+          "right": 76.671875,
+          "top": 16,
+          "bottom": 60,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 266,
+          "right": 310,
+          "top": 16,
+          "bottom": 60,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 320,
+        "height": 844,
+        "pageWidth": 320,
+        "blends": {
+          "brand": "normal",
+          "index": "normal",
+          "naavi": "normal"
+        }
+      },
+      "controls": {
+        "box": {
+          "left": 22,
+          "right": 298,
+          "top": 684,
+          "bottom": 728
+        },
+        "nav": {
+          "left": 97.984375,
+          "right": 298,
+          "top": 736,
+          "bottom": 780
+        },
+        "labels": [
+          "Slow",
+          "Play",
+          "sound on",
+          "⌃"
+        ],
+        "buttons": [
+          {
+            "left": 22,
+            "right": 61.015625,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 66.015625,
+            "right": 103.375,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 108.375,
+            "right": 169.53125,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          },
+          {
+            "left": 166.53125,
+            "right": 210.53125,
+            "top": 684,
+            "bottom": 728,
+            "height": 44
+          }
+        ]
+      },
+      "otherGeometry": {
+        "brand": {
+          "left": 22,
+          "right": 76.671875,
+          "top": 16,
+          "bottom": 60,
+          "width": 54.671875,
+          "height": 44
+        },
+        "index": {
+          "left": 266,
+          "right": 310,
+          "top": 16,
+          "bottom": 60,
+          "width": 44,
+          "height": 44
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832,
+          "width": 84,
+          "height": 44
+        },
+        "width": 320,
+        "height": 844,
+        "pageWidth": 320,
+        "blends": {
+          "brand": "normal",
+          "index": "normal",
+          "naavi": "normal"
+        }
+      },
+      "entry": {
+        "mode": "xray",
+        "event": {
+          "mode": "xray",
+          "captured": false,
+          "at": 3384.9000000059605
+        },
+        "width": 320,
+        "viewport": 320,
+        "modeFlag": "xray",
+        "observedGestureToCleanupMs": 1195
+      },
+      "exit": {
+        "mode": "normal",
+        "event": {
+          "mode": "normal",
+          "captured": false,
+          "at": 4508.70000000298
+        },
+        "width": 320,
+        "viewport": 320,
+        "modeFlag": "normal",
+        "observedGestureToCleanupMs": 327
+      },
+      "persisted": {
+        "muted": false,
+        "volume": 0.01
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

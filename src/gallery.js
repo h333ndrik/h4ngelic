@@ -1,6 +1,7 @@
 import './gallery.css';
 import { animateArtworkFlight, artworkRect } from './artwork-transitions.js';
 import { inquiryArtwork } from './inquiry-content.js';
+import { contactURL } from './routes.js';
 
 /** Native modal artwork viewer. No scene, animation library or scroll handler. */
 export function initGallery(root = document) {
@@ -13,7 +14,7 @@ export function initGallery(root = document) {
   dialog.setAttribute('aria-labelledby', 'artwork-viewer-title');
   dialog.innerHTML = `<div class="artwork-viewer-header">
       <h2 class="sr-only" id="artwork-viewer-title">artwork</h2>
-      <a class="artwork-inquire text-link" href="/contact" data-inquiry-link>inquire</a>
+      <a class="artwork-inquire text-link" href="${contactURL()}" data-inquiry-link>inquire</a>
       <button class="artwork-close" type="button" autofocus aria-label="close artwork viewer">close</button>
     </div>
     <figure class="artwork-viewer-figure">
@@ -26,7 +27,7 @@ export function initGallery(root = document) {
       <button class="artwork-next" type="button" aria-label="next artwork image">next</button>
     </div>
     <p class="artwork-viewer-status sr-only" role="status" aria-live="polite"></p>`;
-  document.body.append(dialog);
+  if (triggers.some(trigger => !trigger.closest('[data-horizontal-drift]'))) document.body.append(dialog);
   const stage = dialog.querySelector('.artwork-viewer-stage');
   const caption = dialog.querySelector('.artwork-viewer-caption');
   const count = dialog.querySelector('.artwork-viewer-count');
@@ -56,6 +57,27 @@ export function initGallery(root = document) {
   let outsidePress = null;
   let openingImage = null;
   let openingVisibility = '';
+  let expanded = null;
+
+  // Native archives keep their own image in its existing layout slot. The
+  // same gallery controller handles this deliberately smaller interaction;
+  // regular project images retain the established accessible detail viewer.
+  function collapseInline() {
+    if (!expanded) return;
+    expanded.classList.remove('is-drift-expanded');
+    expanded.setAttribute('aria-pressed', 'false');
+    expanded.closest('[data-drift-item]')?.classList.remove('is-drift-expanded');
+    expanded = null;
+  }
+  function toggleInline(trigger) {
+    const same = expanded === trigger;
+    collapseInline();
+    if (same) return;
+    expanded = trigger;
+    trigger.classList.add('is-drift-expanded');
+    trigger.setAttribute('aria-pressed', 'true');
+    trigger.closest('[data-drift-item]')?.classList.add('is-drift-expanded');
+  }
 
   const listen = (element, type, handler, options) => {
     element.addEventListener(type, handler, options);
@@ -206,7 +228,7 @@ export function initGallery(root = document) {
     opener = trigger;
     const project = trigger.closest('.project') || root;
     const identity = project.dataset?.projectUrl?.split('/').at(-1);
-    const inquiryPath = inquiryArtwork(identity) ? `/contact?artwork=${encodeURIComponent(identity)}` : '/contact';
+    const inquiryPath = contactURL(inquiryArtwork(identity) ? identity : '');
     dialog.querySelector('[data-inquiry-link]').setAttribute('href', document.documentElement.dataset.preview === 'standalone' ? `#${inquiryPath}` : inquiryPath);
     images = [...project.querySelectorAll('[data-artwork-open] img')];
     selected = images.indexOf(trigger.querySelector('img'));
@@ -250,12 +272,23 @@ export function initGallery(root = document) {
 
   for (const trigger of triggers) listen(trigger, 'click', event => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
-    // Published image links remain usable detail URLs without JavaScript.
-    // A normal activation enhances them into the same in-place modal as a
-    // carousel image; modified clicks retain native new-tab behavior.
+    if (trigger.closest('[data-horizontal-drift]')) {
+      event.preventDefault();
+      toggleInline(trigger);
+      return;
+    }
+    collapseInline();
+    // Published image links retain their detail URLs without JavaScript;
+    // modified clicks retain native new-tab behavior.
     if (typeof dialog.showModal !== 'function') return;
     event.preventDefault();
     open(trigger);
+  });
+  listen(document, 'click', event => {
+    if (expanded && !expanded.contains(event.target)) collapseInline();
+  });
+  listen(document, 'keydown', event => {
+    if (event.key === 'Escape' && expanded) { event.preventDefault(); collapseInline(); }
   });
   listen(closeButton, 'click', requestClose);
   listen(previousButton, 'click', () => showImage(selected - 1));
@@ -300,6 +333,7 @@ export function initGallery(root = document) {
 
   return () => {
     closed = true;
+    collapseInline();
     ++ticket;
     cancelFlight();
     clearTimeout(closeTimer);

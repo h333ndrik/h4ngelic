@@ -8,7 +8,7 @@
   transform: translate3d(var(--magnet-x, 0px), var(--magnet-y, 0px), 0) scale(var(--ui-active-scale, 1));
   transform-origin: 0 50%;
   filter: none;
-  transition: transform var(--ui-release-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)), filter var(--ui-release-duration, 300ms) ease-out;
+  transition: transform var(--ui-release-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)), filter var(--ui-release-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1));
 }
 
 .category-link .interaction-visual, .contact-link .interaction-visual { transform-origin: 0 50%; }
@@ -27,17 +27,8 @@
 /* Ordinary hover is deliberately quiet in both realities. The shared strength
    is 20% of the former white glow; corruption rendering has separate settings.
    Never filter the page, live canvas or invisible secret hotspots. */
-[data-ui-interactive] {
-  --ui-hover-glow: drop-shadow(0 0 1px rgb(255 255 255 / calc(.95 * var(--ui-glow-strength, .2))))
-    drop-shadow(0 0 3px rgb(255 255 255 / calc(.62 * var(--ui-glow-strength, .2))))
-    drop-shadow(0 0 6px rgb(255 255 255 / calc(.38 * var(--ui-glow-strength, .2))));
-}
-html[data-mode='xray'] [data-ui-interactive] {
-  --ui-hover-glow: drop-shadow(0 0 1px rgb(255 255 255 / calc(.98 * var(--ui-glow-strength, .2))))
-    drop-shadow(0 0 3px rgb(255 255 255 / calc(.75 * var(--ui-glow-strength, .2))))
-    drop-shadow(0 0 6px rgb(255 255 255 / calc(.48 * var(--ui-glow-strength, .2))))
-    drop-shadow(0 0 calc(6px * var(--ui-other-glow-strength, 1.15)) rgb(185 139 225 / calc(.24 * var(--ui-glow-strength, .2))));
-}
+[data-ui-interactive] { --ui-hover-glow: var(--ui-hover-glow-normal); }
+html[data-mode='xray'] [data-ui-interactive] { --ui-hover-glow: var(--ui-hover-glow-other); }
 
 /* Selection is brief and belongs to the existing label, never its hit area. */
 [data-ui-selected] .interaction-visual {
@@ -65,7 +56,7 @@ html[data-mode='xray'] [data-ui-interactive] {
     transition-duration: var(--ui-hover-duration, 300ms);
   }
   .artwork-open[data-ui-interactive]:is(:hover, :focus-visible) .interaction-visual {
-    --ui-active-scale: var(--ui-target-scale, var(--ui-image-scale, 1.015));
+    --ui-active-scale: var(--ui-target-scale, var(--ui-image-scale, 1.025));
   }
   [data-ui-interactive]:is(:hover, :focus-visible) .arrow {
     transform: translate(var(--ui-fit-arrow-movement, var(--ui-arrow-movement, 2px)), calc(-1 * var(--ui-fit-arrow-movement, var(--ui-arrow-movement, 2px))));

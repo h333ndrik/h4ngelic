@@ -3,6 +3,7 @@ import { xraySettings, chooseXRayQuality, solarizedChannels } from './data/xrayS
 import { bindXRayShortcut, bindReverseShortcut } from './xray-shortcut.js';
 import { bindModeHold } from './mode-hold.js';
 import { createModeAudio } from './mode-audio.js';
+import { initSoundControls } from './sound-controls.js';
 import { corruptionSettings } from './data/corruptionSettings.js';
 import { createModeSnapshotTransition } from './mode-snapshot.js';
 import { initMobileMode } from './mobile-mode.js';
@@ -50,6 +51,7 @@ export function initXRay({ root = document, memory = null } = {}) {
   const previousAttributes = new Map(['data-mode', 'data-xray-quality', 'data-xray-ready', 'data-xray-transition', 'data-mode-holding', 'data-memory-mosh-preparing'].map((name) => [name, html.getAttribute(name)]));
   const previousProperties = new Map();
   const audio = createModeAudio({ view });
+  const soundControls = initSoundControls({ doc, audio });
   const snapshot = createModeSnapshotTransition({ doc, settings: corruptionSettings.transition });
   let mode = 'normal';
   let pendingMode = null;
@@ -123,12 +125,7 @@ export function initXRay({ root = document, memory = null } = {}) {
       button.setAttribute('aria-keyshortcuts', '4');
     }
     for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'HOLD 4 TO REVERSE.' : 'HOLD 4 TO SEE THE OTHER SIDE.';
-    for (const button of doc.querySelectorAll('[data-mode-mute]')) {
-      button.textContent = audio.muted ? 'sound off' : 'sound on';
-      button.setAttribute('aria-pressed', String(audio.muted));
-      button.disabled = !audio.supported;
-      button.setAttribute('aria-label', audio.supported ? 'mute transition sounds' : 'transition sounds unavailable');
-    }
+    soundControls.refresh();
   }
 
   function announce() {
@@ -306,13 +303,6 @@ export function initXRay({ root = document, memory = null } = {}) {
     }, onChange: setMode });
   removers.push(stopMobile);
   listen(doc, 'click', (event) => {
-    const mute = event.target.closest?.('[data-mode-mute]');
-    if (mute && !mute.disabled) {
-      audio.setMuted(!audio.muted);
-      if (!audio.muted) void audio.prime(event).then(refresh);
-      refresh();
-      return;
-    }
     const button = event.target.closest?.('[data-xray-toggle]');
     if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
     stopKeyboard.cancel();
@@ -345,6 +335,7 @@ export function initXRay({ root = document, memory = null } = {}) {
     view.cancelAnimationFrame(frame);
     snapshot.dispose();
     releaseMemory();
+    soundControls();
     audio.dispose();
     for (const remove of removers) remove();
     defs.remove();

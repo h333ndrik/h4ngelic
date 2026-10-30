@@ -5,7 +5,7 @@
 .kinetic-heading {
   margin: 0 0 clamp(40px, 6vw, 90px);
   color: #f0efeb;
-  font-size: clamp(32px, 6vw, 88px);
+  font-size: var(--type-display);
   line-height: 1.08;
   font-weight: 400;
   letter-spacing: -.045em;
@@ -43,7 +43,7 @@
   grid-column: auto;
   justify-self: start;
   margin-left: clamp(12px, 3vw, 48px);
-  font-size: clamp(18px, 1.8vw, 27px);
+  font-size: var(--type-secondary-link);
   line-height: 1.3;
   letter-spacing: -.015em;
   min-height: 44px;
@@ -96,10 +96,10 @@
   letter-spacing: .025em;
   min-height: 44px;
   padding: 8px 10px;
-  border: 1px solid #ffffff30;
-  border-radius: 0;
+  border: 0;
+  border-radius: var(--radius-soft);
 }
-.hero .controls button:hover:not(:disabled) { border-color: #ffffff70; background: #ffffff06; }
+.hero .controls button:hover:not(:disabled) { border: 0; background: transparent; }
 .hero .hero-nav { right: 35px; bottom: 24px; min-height: 44px; align-items: center; }
 :is(.hero-nav, .page-nav, .text-link) .category-magnet { gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
 :is(.category-link, .contact-link, .hero-nav a, .page-nav a, .text-link) .arrow {
@@ -114,5 +114,5 @@
 @media (max-width: 800px) {
   .hero .controls { left: 22px; right: 22px; bottom: 116px; max-width: none; gap: 5px; }
   .hero .controls button { padding-inline: 8px; font-size: 10px; }
-  .hero .hero-nav { right: 22px; bottom: 64px; gap: clamp(12px, 4vw, 26px); font-size: clamp(14px, 3.8vw, 18px); }
+  .hero .hero-nav { right: 22px; bottom: 64px; gap: clamp(12px, 4vw, 26px); font-size: var(--type-navigation); }
 }

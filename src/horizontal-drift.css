@@ -6,20 +6,25 @@
 .drift-instruction { margin: 0; color: #b5b4b0; font-size: 12px; line-height: 1.5; }
 .drift-instruction > span[aria-hidden] { margin-inline: 5px; }
 .drift-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
-.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 0; padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; cursor: pointer; transition: text-shadow 300ms cubic-bezier(.2,.8,.25,1); }
+.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: var(--radius-soft); padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; cursor: pointer; transition: text-shadow 300ms cubic-bezier(.2,.8,.25,1); }
 .drift-controls button:disabled { opacity: .28; cursor: default; }
 .drift-controls button:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
 .drift-count { min-width: 45px; text-align: center; font-size: 12px; letter-spacing: .05em; font-variant-numeric: tabular-nums; color: #bdbcb8; }
 .drift-status { top: 0; left: 0; margin: 0; }
 .drift-viewport { position: relative; max-width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior: auto; scrollbar-width: thin; scrollbar-color: #858580 transparent; touch-action: pan-x pan-y pinch-zoom; }
-.drift-track { position: relative; display: flex; align-items: flex-start; gap: clamp(32px, 6vw, 96px); width: max-content; min-width: 100%; box-sizing: border-box; padding: 30px var(--drift-trailing, 22px) 22px var(--drift-leading, 22px); }
+.drift-track { position: relative; display: flex; align-items: flex-start; gap: clamp(32px, 6vw, 96px); width: max-content; min-width: 100%; box-sizing: border-box; padding: max(32px, 3.2svh) var(--drift-trailing, 22px) max(32px, 3.2svh) var(--drift-leading, 22px); }
 .drift-item { flex: 0 0 auto; width: min(76vw, calc(62svh * var(--drift-ratio, .8)), 760px); min-width: min(160px, 70vw); }
 .drift-images { display: block; }
 .drift-item .project-image { overflow: visible; }
 .drift-detail-image[hidden] { display: none; }
-.drift-artwork { position: relative; outline: 1px solid transparent; outline-offset: 2px; transition: box-shadow 240ms ease, outline-color 240ms ease; }
+.drift-artwork { position: relative; outline: 1px solid transparent; outline-offset: 2px; transform-origin: 50% 50%; transition: transform 300ms cubic-bezier(.2,.8,.25,1), box-shadow 300ms ease, outline-color 300ms ease; }
+/* One selected photograph grows around its own centre. Reserved track padding
+   and the existing generous image gaps contain its edges without reflow. */
+.drift-item.is-drift-expanded { position: relative; z-index: 1; }
+.drift-artwork.is-drift-expanded { transform: scale(1.1); box-shadow: 0 0 12px #ffffff12; }
+.drift-artwork.is-drift-expanded[data-ui-interactive] .interaction-visual { --ui-active-scale: 1; }
 .drift-item .artwork-open img { object-fit: contain; }
-.drift-meta { margin-top: 18px; color: #c5c5bf; }
+.drift-meta { margin-top: max(18px, 3.2svh); color: #c5c5bf; }
 .drift-meta h2 { margin: 0; font-size: 13px; line-height: 1.5; font-weight: 400; }
 .drift-meta h2 a { text-decoration: none; }
 .drift-meta .project-index { margin: 3px 0 0; font-size: 11px; }
@@ -36,7 +41,6 @@
 @media (hover: hover) and (pointer: fine) {
   /* The existing UI system owns the image zoom/glow and bounds its wrapper.
      Do not add a second perspective or scaling transform to the image plane. */
-  .drift-controls button:hover:not(:disabled) { text-shadow: 0 0 1px #fff3, 0 0 3px #ffffff1f; }
 }
 @media (max-width: 600px) {
   .horizontal-drift { margin-top: 22px; }
@@ -44,9 +48,8 @@
   .drift-instruction { font-size: 10px; max-width: 16ch; }
   .drift-controls { gap: 0; }
   .drift-count { min-width: 40px; }
-  .drift-track { gap: 28px; padding-block: 25px 18px; }
+  .drift-track { gap: 32px; }
   .drift-item { width: min(76vw, calc(62svh * var(--drift-ratio, .8))); }
-  .drift-meta { margin-top: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .drift-artwork, .drift-controls button { transition: none; animation: none !important; }

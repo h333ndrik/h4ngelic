@@ -57,7 +57,7 @@ function ensureHero() {
     template.remove();
     hero = document.querySelector('.hero');
   }
-  const brand = document.querySelector('#page-title .hero-brand');
+  const brand = document.querySelector('[data-floating-brand]');
   if (brand) brand.textContent = siteContent.name;
   const tagline = hero.querySelector('.identity');
   if (tagline) tagline.textContent = siteContent.home.tagline;
@@ -88,7 +88,7 @@ function currentURL() {
     : new URL(location.href);
 }
 
-function scrollToTarget(url, { reset = false, restoreScroll } = {}) {
+function scrollToTarget(url, { reset = false, restoreScroll, smoothAnchor = false } = {}) {
   // View Transition update callbacks suspend animation frames. Apply layout,
   // scroll and focus together before their new-document snapshot is captured.
   let target = null;
@@ -106,25 +106,31 @@ function scrollToTarget(url, { reset = false, restoreScroll } = {}) {
     // jump; ordinary scrolling remains reversible after focus moves away.
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
     target.focus({ preventScroll: true });
-    target?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    target.scrollIntoView({ behavior: smoothAnchor && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'instant', block: 'start' });
   } else if (reset) {
     scrollTo({ top: 0, behavior: 'instant' });
     content.focus({ preventScroll: true });
   }
 }
 
-async function render({ reset = false, restoreScroll } = {}) {
-  const url = currentURL();
+async function render({ reset = false, restoreScroll, smoothAnchor = false } = {}) {
+  let url = currentURL();
   const route = resolveRoute(url);
+  if (route.redirectPath) {
+    if (standalone) history.replaceState(history.state, '', `#${route.redirectPath}`);
+    else history.replaceState(history.state, '', route.redirectPath);
+    url = new URL(route.redirectPath, url);
+  }
   // Anchors in Home/Work navigate the existing document. Retain canvas state,
   // gallery positions and input values instead of remounting the page.
   const workTargetExists = route.kind !== 'work' || route.category === 'all'
     || document.getElementById(route.category);
   if (renderedKind === route.kind && ['home', 'work'].includes(route.kind) && workTargetExists) {
+    stopInquiry.refreshContext?.(url);
     if (route.kind === 'work') content.querySelector('[data-connected-work]').dataset.workContext = route.category;
     const metadataOptions = typeof __H4_SEO_CONFIG__ === 'undefined' ? {} : __H4_SEO_CONFIG__;
     applyMetadata(getPageMetadata(route, metadataOptions));
-    scrollToTarget(url, { reset, restoreScroll });
+    scrollToTarget(url, { reset, restoreScroll, smoothAnchor });
     globalNavigation.refresh();
     return;
   }
@@ -144,10 +150,9 @@ async function render({ reset = false, restoreScroll } = {}) {
   stopConnectedWork();
   stopDrift = stopMannequins = () => {};
   heroObserver?.disconnect();
-  if (!standalone && route.redirectPath) history.replaceState(history.state, '', route.redirectPath);
   if (hero) hero.hidden = route.kind !== 'home';
   document.documentElement.dataset.page = route.kind;
-  if (content.dataset.prerendered !== route.canonicalPath) content.innerHTML = renderRoutePage(route);
+  if (content.dataset.prerendered !== route.canonicalPath) content.innerHTML = renderRoutePage(route, { context: url.searchParams.get('artwork') || '' });
   delete content.dataset.prerendered;
   if (route.kind === 'home') prepareHero();
   const metadataOptions = typeof __H4_SEO_CONFIG__ === 'undefined' ? {} : __H4_SEO_CONFIG__;
@@ -158,6 +163,7 @@ async function render({ reset = false, restoreScroll } = {}) {
   stopEndReveal = initEndReveal(content);
   stopImageReveals = initImageReveals(content);
   stopInquiry = initInquiry(content);
+  stopInquiry.refreshContext?.(url);
   stopConnectedWork = initConnectedWork(content);
 
   if (standalone) {
@@ -185,7 +191,7 @@ async function render({ reset = false, restoreScroll } = {}) {
     if (Number.isFinite(left)) section.querySelector('.drift-viewport').scrollTo({ left, behavior: 'instant' });
   }
   renderedKind = route.kind;
-  scrollToTarget(url, { reset, restoreScroll });
+  scrollToTarget(url, { reset, restoreScroll, smoothAnchor });
   globalNavigation.refresh();
 }
 
@@ -220,15 +226,27 @@ if (featureFlags.otherSideEnabled) {
 }
 if (standalone) {
   let hashRevision = 0;
-  addEventListener('hashchange', () => {
+  const navigateHash = () => {
     const revision = ++hashRevision;
     document.dispatchEvent(new CustomEvent('h4:navigationstart'));
     const commit = async () => {
       if (revision !== hashRevision) return;
-      await render({ reset: true });
+      await render({ reset: true, smoothAnchor: Boolean(currentURL().hash) });
       if (revision === hashRevision) document.dispatchEvent(new CustomEvent('h4:pagechange'));
     };
     if (!moshTransitions?.navigation(commit, { standalone: true })) commit();
+  };
+  addEventListener('hashchange', navigateHash);
+  // Clicking the current hash does not emit hashchange. A persistent Home or
+  // Contact link must still return to its real destination after free scrolling.
+  document.addEventListener('click', event => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const anchor = event.target.closest?.('a[href]');
+    const destination = anchor?.getAttribute('href');
+    if (!destination?.startsWith('#/') || destination !== location.hash || anchor.hasAttribute('download')
+      || (anchor.target && anchor.target !== '_self')) return;
+    event.preventDefault();
+    navigateHash();
   });
   document.querySelector('.skip-link').addEventListener('click', (event) => {
     event.preventDefault();

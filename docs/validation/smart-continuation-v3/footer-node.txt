@@ -1,0 +1,16 @@
+✔ visitor copy follows the seven exact personal stages, including returning intervals (1.685563ms)
+✔ ordinary page views and reloads are one visit until separated inactivity (0.454246ms)
+✔ the requested local counter works by default and supports opt-out or a host consent gate (0.224954ms)
+✔ the homepage keeps its hidden instruction separate from the identity-row count (1.332736ms)
+✔ the shared release gate can still omit all alternate-mode controls independently of visits (0.304034ms)
+✔ ink remains temporary for six to twelve seconds with a bounded active count (0.221507ms)
+✔ ink clips actual film pixels and bounded displaced bands to independent organic masks (13.679756ms)
+✔ each procedural ink impression changes its contour, fragmentation and pigment density (71.094901ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 279.370618

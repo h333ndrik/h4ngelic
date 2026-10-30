@@ -1,17 +1,18 @@
-/**
- * All choreography scrubs with native scroll distance, never elapsed time.
- * Entrances begin when the section's top reaches 85% of the viewport, before
- * its short sticky interval. The final item settles immediately before release.
- */
+/** Native scroll is the single clock for all editorial entrances. */
+const calm = Object.freeze({ start: .16, end: .90, distanceVw: .055, maximumDistance: 36 });
 export const motionSettings = Object.freeze({
   mobileBreakpoint: 700,
   approach: .85,
   pin: Object.freeze({ work: .68, contact: .58, mobileWork: .48, mobileContact: .44 }),
-  fly: Object.freeze({ start: .025, stagger: .14, duration: .66, distanceVw: 1.35, rotation: 6.5, overshoot: 12, overshootAt: .78, accelerationRamp: .12 }),
+  calm,
   heading: Object.freeze({ start: 0, end: .27, rise: 112 }),
-  about: Object.freeze({ approach: .68, finish: .10, headingEnd: .28, copyStart: .16, copyEnd: .90, linkStart: .24, linkEnd: .98, copyDistanceVw: .055, linkDistanceVw: .045, maximumCopyDistance: 36, maximumLinkDistance: 28 }),
-  trail: Object.freeze({ layers: 2, distanceVw: .045, maximumDistance: 64, mobileMaximumDistance: 26, opacity: .22, secondaryOpacity: .13, fadeIn: .08, fadeOutStart: .38, fadeOutEnd: .82 }),
+  // Keep the approved About paragraph/link timing and modest relative inset.
+  about: Object.freeze({ approach: .68, finish: .10, headingEnd: .28,
+    copyStart: calm.start, copyEnd: calm.end, linkStart: .24, linkEnd: .98,
+    copyDistanceVw: calm.distanceVw, linkDistanceVw: .045,
+    maximumCopyDistance: calm.maximumDistance, maximumLinkDistance: 28 }),
   hero: Object.freeze({ start: .02, end: .90, scale: .97 }),
+  heroBar: Object.freeze({ start: .02, end: .55 }),
 });
 
 export function clamp01(value) {
@@ -26,77 +27,45 @@ export function easeOutCubic(value) {
   return 1 - (1 - clamp01(value)) ** 3;
 }
 
-/** Start at rest, then meet the established cubic with matching velocity and
- * acceleration. The short ramp preserves the rest of the existing entrance.
- */
-function easeFromRest(value, accelerationRamp) {
-  const p = clamp01(value);
-  const ramp = Math.max(0, Math.min(.3, Number.isFinite(accelerationRamp) ? accelerationRamp : 0));
-  if (!ramp || p >= ramp) return easeOutCubic(p);
-  const end = easeOutCubic(ramp);
-  const velocity = ramp * 3 * (1 - ramp) ** 2;
-  const acceleration = ramp ** 2 * -6 * (1 - ramp);
-  const a = 10 * end - 4 * velocity + acceleration / 2;
-  const b = -15 * end + 7 * velocity - acceleration;
-  const c = 6 * end - 3 * velocity + acceleration / 2;
-  const q = p / ramp;
-  return q ** 3 * (a + q * (b + q * c));
-}
-
-function smoothSettle(value) {
+/** Rest-to-rest interpolation: no rotation, overshoot, stagger or history. */
+export function smoothProgress(value) {
   const p = clamp01(value);
   return p ** 3 * (10 + p * (-15 + 6 * p));
 }
 
-/** The approach and native pin form one continuous, reversible scroll range. */
+/** The existing native sticky Work interval remains independent of animation. */
 export function pinnedProgress(position, top, viewportHeight, pinRun, settings = motionSettings) {
   const approach = Math.max(0, viewportHeight * settings.approach);
   return (position - top + approach) / Math.max(1, approach + pinRun);
 }
 
-/** A continuous, deterministic entrance with one small controlled overshoot. */
-export function sampleFlyIn(progress, { distance = 0, rotation = 0, overshoot = 0, overshootAt = .78, accelerationRamp = motionSettings.fly.accelerationRamp } = {}) {
-  const p = clamp01(progress);
-  if (p === 0) return { x: distance, rotation, opacity: 0 };
-  if (p === 1) return { x: 0, rotation: 0, opacity: 1 };
-  const turn = Math.max(.01, Math.min(.99, overshootAt));
-  const settle = clamp01((p - turn) / (1 - turn));
-  const x = p < turn
-    ? distance + (-overshoot - distance) * easeFromRest(p / turn, accelerationRamp)
-    : -overshoot * (1 - smoothSettle(settle));
-  return { x, rotation: rotation * (1 - easeFromRest(p, accelerationRamp)), opacity: progressBetween(p, 0, .16) };
+export function sampleCalmProgress(progress, distance = 0) {
+  const amount = smoothProgress(progress);
+  const boundedDistance = Math.max(0, Number.isFinite(distance) ? distance : 0);
+  return { x: boundedDistance * (1 - amount), rotation: 0, opacity: amount };
 }
 
-export function kineticItemProgress(sectionProgress, index, settings = motionSettings.fly) {
-  return progressBetween(sectionProgress, settings.start + index * settings.stagger, settings.start + index * settings.stagger + settings.duration);
+export function sampleCalmItem(sectionProgress, viewportWidth, settings = motionSettings.calm) {
+  const distance = Math.min(settings.maximumDistance,
+    Math.max(0, Number(viewportWidth) || 0) * settings.distanceVw);
+  return sampleCalmProgress(progressBetween(sectionProgress, settings.start, settings.end), distance);
 }
 
-export function sampleKineticItem(sectionProgress, index, viewportWidth, settings = motionSettings.fly) {
-  return sampleFlyIn(kineticItemProgress(sectionProgress, index, settings), { distance: viewportWidth * settings.distanceVw, rotation: settings.rotation, overshoot: settings.overshoot, overshootAt: settings.overshootAt, accelerationRamp: settings.accelerationRamp });
-}
-
-/** About retains a small reversible local entrance, with its link arriving just after
- * the copy. Both scrub through the existing scroll clock and end at rest. */
+/** About retains its approved copy/link offsets through the same calm sampler. */
 export function sampleAboutItem(sectionProgress, role, viewportWidth, settings = motionSettings.about) {
   const link = role === 'link';
-  const local = progressBetween(sectionProgress, link ? settings.linkStart : settings.copyStart, link ? settings.linkEnd : settings.copyEnd);
+  const local = progressBetween(sectionProgress, link ? settings.linkStart : settings.copyStart,
+    link ? settings.linkEnd : settings.copyEnd);
   const distance = Math.min(link ? settings.maximumLinkDistance : settings.maximumCopyDistance,
     Math.max(0, Number(viewportWidth) || 0) * (link ? settings.linkDistanceVw : settings.copyDistanceVw));
-  return sampleFlyIn(local, { distance });
+  return sampleCalmProgress(local, distance);
 }
 
-/** Empty decorative spans use CSS generated text, keeping real DOM text unique.
- * The echo depends only on progress, so reverse and stopped scroll are exact.
- */
-export function sampleMotionTrail(progress, layer, viewportWidth, settings = motionSettings.trail) {
-  const p = clamp01(progress);
-  const maximum = viewportWidth <= motionSettings.mobileBreakpoint ? settings.mobileMaximumDistance : settings.maximumDistance;
-  const distance = Math.min(Math.max(0, viewportWidth) * settings.distanceVw, maximum);
-  const envelope = progressBetween(p, 0, settings.fadeIn) * (1 - progressBetween(p, settings.fadeOutStart, settings.fadeOutEnd));
-  return {
-    x: distance * (layer === 0 ? .55 : 1) * (1 - p) ** 3,
-    opacity: (layer === 0 ? settings.opacity : settings.secondaryOpacity) * envelope,
-  };
+/** Every label belonging to an archive group receives this same parent pose. */
+export function sampleArchiveHeading(sectionProgress, viewportWidth, settings = motionSettings.about) {
+  const distance = Math.min(settings.maximumCopyDistance,
+    Math.max(0, Number(viewportWidth) || 0) * settings.copyDistanceVw);
+  return sampleCalmProgress(sectionProgress, distance);
 }
 
 export function sampleHeading(progress, start = motionSettings.heading.start, end = motionSettings.heading.end) {
@@ -108,3 +77,24 @@ export function sampleHero(progress, settings = motionSettings.hero) {
   const local = easeOutCubic(progressBetween(progress, settings.start, settings.end));
   return { scale: 1 + (settings.scale - 1) * local, opacity: 1 - local };
 }
+
+/** The bar is completely gone before the next section fills the viewport. */
+export function sampleHeroBar(progress, { reduced = false, settings = motionSettings.heroBar } = {}) {
+  const opacity = reduced ? Number(progress < settings.end)
+    : 1 - smoothProgress(progressBetween(progress, settings.start, settings.end));
+  return { opacity, hidden: opacity <= .001 };
+}
+
+// Compatibility exports for existing consumers. The kinetic implementation,
+// stagger/overshoot configuration and decorative trails have been retired.
+// Runtime choreography uses only the calm samplers above.
+export function sampleFlyIn(progress, { distance = 0 } = {}) {
+  return sampleCalmProgress(progress, distance);
+}
+export function kineticItemProgress(sectionProgress, _index, settings = motionSettings.calm) {
+  return progressBetween(sectionProgress, settings.start, settings.end);
+}
+export function sampleKineticItem(sectionProgress, _index, viewportWidth, settings = motionSettings.calm) {
+  return sampleCalmItem(sectionProgress, viewportWidth, settings);
+}
+export function sampleMotionTrail() { return { x: 0, opacity: 0 }; }

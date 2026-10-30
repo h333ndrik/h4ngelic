@@ -64,16 +64,13 @@ try {
   await ready(page);
 
   assert.match(await page.locator('body').evaluate((element) => getComputedStyle(element).cursor), /h4ngelic-cursor\.svg/);
-  assert.equal(await page.locator('#reveal-control').isDisabled(), false, 'The supplied tattoo artwork must enable the reveal control.');
-  const revealBefore = await page.locator('#reveal-control').getAttribute('aria-pressed');
-  await page.locator('#reveal-control').click();
-  assert.notEqual(await page.locator('#reveal-control').getAttribute('aria-pressed'), revealBefore, 'Reveal must toggle independently of animation.');
-  await page.locator('#reveal-control').click();
+  assert.equal(await page.locator('#reveal-control').count(), 0, 'V3 removes the obsolete Reveal button while preserving angle-based artwork rendering.');
   const first = await snapshot(page);
-  await page.waitForTimeout(300);
+  await page.waitForFunction(frame => window.__H4_TEST__.snapshot().frameCount > frame, first.frameCount, { timeout: 10000 });
   const animated = await snapshot(page);
   assert.ok(animated.frameCount > first.frameCount, 'WebGL must render frames.');
   assert.ok(animated.baseTime > first.baseTime, 'The base animation must advance.');
+  assert.ok(Number.isFinite(animated.revealOpacity) && animated.revealOpacity >= 0 && animated.revealOpacity <= 1, 'The retained artwork reveal remains bounded.');
   for (const values of [animated.position, animated.offset, animated.orientation]) {
     assert.ok(values.every(Number.isFinite), 'Displayed transforms must remain finite.');
   }

@@ -5,6 +5,14 @@ import { livingDecayDefaults, livingDecaySchema, createLivingDecaySettings, getL
 import { createLivingComposition, sampleLivingField, createLivingField, renderLivingMaterial, livingRegion, livingCodecFragment,
   livingNoise } from '../src/living-decay-material.js';
 
+test('mode and frozen-memory handoff share the 1.4 second target without lengthening local gestures', () => {
+  assert.equal(livingDecayDefaults.modeTransitionMs, 1400);
+  assert.equal(createLivingDecaySettings({ modeTransitionMs: 1400 }).modeTransitionMs, 1400);
+  assert.equal(createLivingDecaySettings({ modeTransitionMs: Infinity }).modeTransitionMs, 1400);
+  assert.equal(createLivingDecaySettings({ modeTransitionMs: 9999 }).modeTransitionMs, 1600);
+  assert.equal(livingDecayDefaults.navigationTransitionMs, 340);
+});
+
 test('living controls are bounded immutable replacements with stable frame reads', () => {
   const original = getLivingDecaySettings();
   const notices = [];

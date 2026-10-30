@@ -64,4 +64,6 @@ test('restrained production hover stays inside every supported screen and clippi
   const properties = uiEffectProperties();
   assert.equal(properties['--ui-hover-duration'], properties['--ui-release-duration']);
   assert.equal(properties['--ui-glow-strength'], '0.2');
+  assert.equal(properties['--ui-image-scale'], properties['--ui-hover-scale'], 'Images use the same quiet scale as the frontpage navigation.');
+  assert.equal(uiEffectSettings.hover.largeScale, uiEffectSettings.hover.scale, 'Large labels use the shared preferred scale before edge fitting.');
 });

@@ -8,6 +8,23 @@ export function inquiryArtwork(id) {
     && Array.isArray(project.images) && project.images.length);
 }
 
+/** Change only the optional project context when Home is reused by the router.
+ * Draft text, selected uploads and submission status belong to the mounted form. */
+export function refreshInquiryContext(form, url) {
+  let project;
+  try {
+    const target = url instanceof URL ? url : new URL(url, 'https://preview.invalid');
+    project = inquiryArtwork(target.searchParams.get('artwork'));
+  } catch { /* Missing or invalid context clears the previous optional project. */ }
+  const input = form.querySelector('[data-inquiry-artwork]');
+  const label = form.querySelector('[data-inquiry-context]');
+  if (input) input.value = project?.id || '';
+  if (label) {
+    label.textContent = project ? `regarding ${project.title || project.id.replaceAll('-', ' ')}.` : '';
+    label.hidden = !project;
+  }
+}
+
 export function renderInquiryForm({ context = '', id = 'inquiry' } = {}) {
   const prefix = /^[a-z][a-z0-9-]*$/.test(id) ? id : 'inquiry';
   const project = inquiryArtwork(context);
@@ -19,9 +36,10 @@ export function renderInquiryForm({ context = '', id = 'inquiry' } = {}) {
       <input type="hidden" name="started" value="" data-inquiry-started />
       <p class="inquiry-context" data-inquiry-context${project ? '' : ' hidden'}>${project ? `regarding ${escape(project.title || project.id.replaceAll('-', ' '))}.` : ''}</p>
       <div class="inquiry-fields">
-        <label class="inquiry-field" for="${prefix}-name"><span>YOUR NAME</span><input id="${prefix}-name" name="name" autocomplete="name" required maxlength="${inquirySettings.maximumNameLength}" /></label>
+        <label class="inquiry-field" for="${prefix}-name"><span>YOUR NAME</span><input id="${prefix}-name" name="name" autocomplete="name" placeholder="max musterperson" required maxlength="${inquirySettings.maximumNameLength}" /></label>
         <label class="inquiry-field" for="${prefix}-email"><span>HOW TO REACH YOU</span><input id="${prefix}-email" name="email" type="text" autocomplete="off" placeholder="email, instagram, phone number..." required maxlength="254" data-inquiry-contact /></label>
-        <label class="inquiry-field inquiry-field-message" for="${prefix}-message"><span>WHAT'S ON YOUR MIND?</span><textarea id="${prefix}-message" name="message" rows="3" maxlength="${inquirySettings.maximumMessageLength}"></textarea></label>
+        <label class="inquiry-field inquiry-field-message" for="${prefix}-message"><span>WHAT'S ON YOUR MIND?</span><textarea id="${prefix}-message" name="message" rows="3" placeholder="could be an inquiry, a question or just a thought.
+feel free to write anything." maxlength="${inquirySettings.maximumMessageLength}"></textarea></label>
       </div>
       <div class="inquiry-honey" aria-hidden="true"><label for="${prefix}-website">Leave this field empty<input id="${prefix}-website" name="website" tabindex="-1" autocomplete="off" /></label></div>
       <div class="inquiry-attachments">
@@ -31,10 +49,9 @@ export function renderInquiryForm({ context = '', id = 'inquiry' } = {}) {
         <p class="inquiry-error" id="${prefix}-file-error" data-inquiry-file-error role="alert"></p>
         <ul class="inquiry-file-list" data-inquiry-files aria-label="Selected references"></ul>
       </div>
-      <button class="inquiry-submit" type="submit" data-inquiry-submit><span>SEND INQUIRY</span><i class="arrow" aria-hidden="true"></i></button>
+      <button class="inquiry-submit" type="submit" data-inquiry-submit><span>SEND MESSAGE</span><i class="arrow" aria-hidden="true"></i></button>
       <p class="inquiry-status" id="${prefix}-status" data-inquiry-status role="status" aria-live="polite" aria-atomic="true"></p>
       <p class="inquiry-email-fallback" data-inquiry-email-fallback hidden>you can also email <a href="mailto:${address}">${address}</a>.</p>
-      <p class="inquiry-privacy">your details and references are used to respond to your inquiry.</p>
       <noscript><p>send the form directly, or email <a href="mailto:${address}">${address}</a>. references are limited to 5 files and 12 MB in total.</p></noscript>
     </form>
   </div>`;

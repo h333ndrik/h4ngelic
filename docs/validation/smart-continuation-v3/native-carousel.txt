@@ -1,0 +1,6 @@
+START native carousel 1000px
+PASS native carousel 1000px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, drag, in-place enlargement/restore and bounds.
+START native carousel 390px
+PASS native carousel 390px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, native swipe/pan, in-place enlargement/restore and bounds.
+START native carousel 320px
+PASS native carousel 320px: controls, keyboard, horizontal wheel/shift-wheel, vertical release, native swipe/pan, in-place enlargement/restore and bounds.

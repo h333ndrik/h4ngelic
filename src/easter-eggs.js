@@ -1,5 +1,5 @@
 import './easter-eggs.css';
-import { easterSettings, visitorMessage, nextVisit, canRememberVisits } from './data/easterSettings.js';
+import { easterSettings, formatVisitCount, nextVisit, canRememberVisits } from './data/easterSettings.js';
 import { createInkImprint } from './ink-imprint.js';
 import { createTouchInkSampler } from './touch-ink.js';
 import { isExposedHeroBackground } from './hero-background-ink.js';
@@ -32,8 +32,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   }
 
   function updateVisitorCopy() {
-    for (const element of root.querySelectorAll('[data-visit-message]')) element.textContent = visitorMessage(visit.count);
-    for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = `VISIT ${String(visit.count).padStart(3, '0')}`;
+    for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = formatVisitCount(visit.count);
   }
 
   function consentGranted() {
@@ -56,7 +55,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     // Recheck at every write as well as the integration's privacy-change event.
     if (!canRememberVisits(settings.visits, consentGranted())) { forgetVisitorMemory(); return; }
     try { visitStorage.setItem(settings.visits.storageKey, JSON.stringify(visit)); lastWrite = Date.now(); }
-    catch { authorized = false; visitStorage = null; /* Retain the in-memory greeting when storage is unavailable. */ }
+    catch { authorized = false; visitStorage = null; /* Retain the in-memory count when storage is unavailable. */ }
   }
 
   function readVisit() {
@@ -122,7 +121,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     return [...root.querySelectorAll('[data-mobile-mode], [data-other-side-hint], [data-corruption-protected]')].flatMap(element => {
       const rect = element.getBoundingClientRect();
       if (!rect.width || !rect.height) return [];
-      const fixed = element.matches('[data-mobile-mode]');
+      const fixed = view.getComputedStyle(element).position === 'fixed';
       return [{ fixed, left: rect.left + (fixed ? 0 : view.scrollX), right: rect.right + (fixed ? 0 : view.scrollX),
         top: rect.top + (fixed ? 0 : view.scrollY), bottom: rect.bottom + (fixed ? 0 : view.scrollY) }];
     });
@@ -279,7 +278,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     clearHintTimer(message);
     message.classList.add('is-discovered');
     const hideAfter = settings.hint.visibleMs
-      + (hotspot.hasAttribute('data-other-side-hint') || reduced.matches ? 0 : settings.hint.fadeMs);
+      + (hotspot.hasAttribute('data-other-side-hint') || hotspot.hasAttribute('data-visit-counter-hotspot') || reduced.matches ? 0 : settings.hint.fadeMs);
     const hide = setTimeout(() => {
       message.classList.remove('is-discovered');
       hintTimers.delete(message);
@@ -317,10 +316,25 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     revealSecret(hotspot);
   }, { passive: true });
   listen(root, 'click', (event) => {
+    // This explicitly configured placeholder must not navigate to page top or
+    // pretend that H4 MOSH LAB already has a known destination.
+    if (event.target.closest?.('[data-moshlab-placeholder]')) event.preventDefault();
     const hotspot = secretTarget(event);
     if (hotspot) revealSecret(hotspot);
   });
   listen(root, 'focusin', (event) => {
+    // Native focus may leave a partially visible link clipped in a horizontal
+    // scrollport. Expose its full hit area without moving the page or NAAVI.
+    const target = event.target;
+    const cluster = target.closest?.('.footer-left, .footer-details');
+    if (cluster && target !== cluster) {
+      const port = cluster.getBoundingClientRect();
+      const item = target.getBoundingClientRect();
+      const left = port.left + cluster.clientLeft + 3;
+      const right = port.left + cluster.clientLeft + cluster.clientWidth - 3;
+      const delta = item.left < left ? item.left - left : item.right > right ? item.right - right : 0;
+      if (delta) cluster.scrollBy({ left: delta, behavior: 'instant' });
+    }
     const hotspot = secretTarget(event);
     if (hotspot) revealSecret(hotspot);
   });

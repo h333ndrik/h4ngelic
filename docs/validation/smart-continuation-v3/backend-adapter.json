@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-10-28T22:22:47.580Z",
+  "sourceMainCommit": "5c46828",
+  "preservedUserFile": "api/inquiry.js",
+  "syntaxAndModuleImport": true,
+  "loopbackHTTPStatus": 405,
+  "realDeliveryAttempted": false,
+  "frontendUnchanged": true
+}
