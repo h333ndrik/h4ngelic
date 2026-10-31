@@ -58,6 +58,6 @@ Actual single source: `src/carouselSettings.js`, exported `carouselSettings` wit
 
 ## Current verified checkpoint
 
-F2: **DONE** (2026-10-31 19:04 UTC). Move VISIT after moshlab with shared secret reveal; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F2.
+F3: **DONE** (2026-10-31 19:06 UTC). Keep top tattoo labels static from first paint; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F3.
 
-Next: F3: static first-paint TATTOOS and ON SKIN headings. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+Next: F4: audit Contact native scrub and measure actual scroll costs. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.

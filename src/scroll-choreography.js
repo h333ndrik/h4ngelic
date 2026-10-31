@@ -30,7 +30,7 @@ export function initScrollChoreography(root = document) {
         visual.append(...element.childNodes);
         element.append(visual);
       }
-      return { element, visual, generatedLabel, group, top: 0, left: 0, width: 0, height: 0,
+      return { element, visual, generatedLabel, group, static: element.hasAttribute('data-motion-static'), top: 0, left: 0, width: 0, height: 0,
         pose: { x: 0, rotation: 0, opacity: 1 } };
     });
     return group.headings;
@@ -221,10 +221,14 @@ export function initScrollChoreography(root = document) {
         && heading.group.element.contains(owner.activeElement);
       const progress = progressBetween(position, heading.group.top - height * motionSettings.about.approach,
         heading.group.top - height * motionSettings.about.finish);
-      const pose = focused ? { x: 0, rotation: 0, opacity: 1 } : sampleArchiveHeading(progress, width);
+      const pose = heading.static || focused ? { x: 0, rotation: 0, opacity: 1 } : sampleArchiveHeading(progress, width);
       heading.pose = pose;
-      setValue(heading.element, '--archive-heading-x', `${pose.x.toFixed(3)}px`);
-      setValue(heading.element, '--archive-heading-opacity', pose.opacity.toFixed(4));
+      // Static top labels remain at their CSS first-paint pose. Keep their
+      // geometry records so later headings retain the original group anchor.
+      if (!heading.static) {
+        setValue(heading.element, '--archive-heading-x', `${pose.x.toFixed(3)}px`);
+        setValue(heading.element, '--archive-heading-opacity', pose.opacity.toFixed(4));
+      }
       if (motionSamples && heading.top - position < height && heading.top + heading.height - position > 0) {
         motionSamples.push({ target: heading.element, kind: 'typography',
           x: heading.left - scrollX + heading.width / 2 + pose.x,
@@ -297,7 +301,7 @@ export function initScrollChoreography(root = document) {
     if (!animated) { motionPublisher.reset(); clearStyles(); dirty = true; update(); return; }
     page.setAttribute('data-scroll-choreography', '');
     for (const section of sections) for (const item of section.items) item.setAttribute('data-scroll-item', '');
-    for (const heading of archiveHeadings) heading.element.setAttribute('data-scroll-heading', '');
+    for (const heading of archiveHeadings) if (!heading.static) heading.element.setAttribute('data-scroll-heading', '');
     stage?.setAttribute('data-scroll-hero', '');
     dirty = true;
     // Immediate initial values avoid an unenhanced frame flashing into a pose.

@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL('../artifacts/v31-motion/', import.meta.url);
+const output = new URL(`../${process.env.H4_MOTION_ARTIFACTS || 'artifacts/v31-motion'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
 const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })))
   .filter(profile => !process.env.H4_MOTION_WIDTHS || process.env.H4_MOTION_WIDTHS.split(',').map(Number).includes(profile.width));
@@ -104,6 +104,18 @@ async function homeEntrances(page, profile, world) {
   return records;
 }
 async function archiveEntrances(page, profile, world) {
+  const firstPaint = await page.locator('#group-tattoos-title, #archive-tattoos-title').evaluateAll(headings => headings.map(heading => {
+    const visual = heading.querySelector(':scope > a, :scope > .archive-scroll-label') || heading;
+    const style = getComputedStyle(visual), transform = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
+    return { id: heading.id, static: heading.hasAttribute('data-motion-static'),
+      enhanced: heading.hasAttribute('data-scroll-heading'), opacity: Number(getComputedStyle(heading).opacity),
+      x: transform.m41, y: transform.m42,
+      inlineX: heading.style.getPropertyValue('--archive-heading-x'), inlineOpacity: heading.style.getPropertyValue('--archive-heading-opacity') };
+  }));
+  assert.equal(firstPaint.length, 2, 'Both top Works labels are present immediately after arrival.');
+  for (const heading of firstPaint) assert.ok(heading.static && !heading.enhanced && heading.opacity === 1
+    && heading.x === 0 && heading.y === 0 && heading.inlineX === '' && heading.inlineOpacity === '',
+  `${heading.id} keeps its final CSS first-paint pose without entrance enhancement.`);
   const result = [];
   for (const group of await page.locator('.work-group').all()) {
     const origin = await group.locator('.work-group-heading').evaluate(element => element.getBoundingClientRect().top + scrollY - innerHeight * .68);
@@ -115,14 +127,15 @@ async function archiveEntrances(page, profile, world) {
         poses: [...element.querySelectorAll('.work-group-heading, .archive-category-heading')].map(heading => {
           const visual = heading.querySelector(':scope > a, :scope > .archive-scroll-label') || heading;
           const style = getComputedStyle(visual), matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
-          return { text: heading.textContent.trim(), x: matrix.m41, y: matrix.m42,
+          return { text: heading.textContent.trim(), static: heading.hasAttribute('data-motion-static'), x: matrix.m41, y: matrix.m42,
             rotation: Math.atan2(matrix.m12, matrix.m11), opacity: Number(getComputedStyle(heading).opacity) };
         }),
       }));
       for (const pose of sample.poses) {
         assert.ok(pose.x >= 0 && pose.x <= 36.001 && close(pose.y, 0) && close(pose.rotation, 0));
-        assert.ok(close(pose.x, sample.poses[0].x) && close(pose.opacity, sample.poses[0].opacity), 'Subcategory labels cannot arrive later than their parent.');
-        if (profile.reduced) assert.ok(pose.x === 0 && pose.opacity === 1);
+        const animated = sample.poses.find(item => !item.static);
+        if (!pose.static && animated) assert.ok(close(pose.x, animated.x) && close(pose.opacity, animated.opacity), 'Animated labels share their unchanged group timeline.');
+        if (pose.static || profile.reduced) assert.ok(pose.x === 0 && pose.opacity === 1);
       }
       observations.push(sample);
     }
