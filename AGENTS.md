@@ -58,6 +58,6 @@ Actual single source: `src/carouselSettings.js`, exported `carouselSettings` wit
 
 ## Current verified checkpoint
 
-F3: **DONE** (2026-10-31 19:06 UTC). Keep top tattoo labels static from first paint; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F3.
+F4: **DONE** (2026-10-31 19:09 UTC). Share the About section clock with Contact; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F4.
 
-Next: F4: audit Contact native scrub and measure actual scroll costs. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+Next: F5: equal measured gaps throughout the floating Works row. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.

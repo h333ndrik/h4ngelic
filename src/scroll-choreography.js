@@ -1,5 +1,5 @@
 import './scroll-choreography.css';
-import { motionSettings, progressBetween, pinnedProgress, sampleCalmItem, sampleHeading, sampleHero, sampleHeroBar, sampleAboutItem, sampleArchiveHeading } from './data/motionSettings.js';
+import { motionSettings, progressBetween, pinnedProgress, sampleCalmItem, sampleHeading, sampleHero, sampleHeroBar, sampleAboutItem, aboutSectionProgress, sampleArchiveHeading } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
@@ -172,16 +172,15 @@ export function initScrollChoreography(root = document) {
     }
     for (const section of sections) {
       const focused = section === focusSection;
-      const progress = section.kind === 'contact'
-        ? progressBetween(position, section.top - height * .68, section.top - height * .10)
-        : section.kind === 'about'
-        ? progressBetween(position, section.top - height * motionSettings.about.approach, section.top - height * motionSettings.about.finish)
+      const progress = ['about', 'contact'].includes(section.kind)
+        ? aboutSectionProgress(position, section.top, height)
         : pinnedProgress(position, section.top, height, section.run);
       const state = focused ? 'focus' : progress <= 0 ? 'before' : progress >= 1 ? 'settled' : 'active';
       if (state !== section.lastState) { section.element.dataset.motionState = state; section.lastState = state; }
       const recordedProgress = progress.toFixed(4);
       if (recordedProgress !== section.lastProgress) { section.element.dataset.motionProgress = recordedProgress; section.lastProgress = recordedProgress; }
-      const calm = focused ? { x: 0, rotation: 0, opacity: 1 } : sampleCalmItem(progress, width);
+      const calm = focused ? { x: 0, rotation: 0, opacity: 1 } : section.kind === 'contact'
+        ? sampleAboutItem(progress, 'copy', width) : sampleCalmItem(progress, width);
       const heading = section.kind === 'contact'
         ? { ...calm, y: 0 }
         : focused ? { x: 0, y: 0, opacity: 1 }

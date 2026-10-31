@@ -1,0 +1,12 @@
+CHECK V3.1 motion 1440px reduced=false
+PASS V3.1 motion 1440px reduced=false: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.
+CHECK V3.1 motion 1440px reduced=true
+PASS V3.1 motion 1440px reduced=true: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.
+CHECK V3.1 motion 390px reduced=false
+PASS V3.1 motion 390px reduced=false: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.
+CHECK V3.1 motion 390px reduced=true
+PASS V3.1 motion 390px reduced=true: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.
+CHECK V3.1 motion 320px reduced=false
+PASS V3.1 motion 320px reduced=false: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.
+CHECK V3.1 motion 320px reduced=true
+PASS V3.1 motion 320px reduced=true: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.

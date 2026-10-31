@@ -8,9 +8,9 @@ Read all four root files and actual Git before work. F1 is committed as `f57f759
 
 ## First unfinished task
 
-F4: audit Contact native scrub and measure actual scroll costs. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F5: equal measured gaps throughout the floating Works row. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
-Latest recorded result: **F3 DONE**, 2026-10-31 19:06 UTC. Keep top tattoo labels static from first paint; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F3.
+Latest recorded result: **F4 DONE**, 2026-10-31 19:09 UTC. Share the About section clock with Contact; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F4.
 
 ## F1 — actual verification
 
@@ -30,7 +30,7 @@ F1 was committed as `f57f759`; no V3.1.1 build/export is claimed by this documen
 | F1 | DONE | Border/outline/glow/shadow removed from INDEX panel, form surface and shared4px radius/focus retained. Navigation6 and broad UI6 pass in333/4; Node357/357. Committed as `f57f759`. |
 | F2 | DONE | Move VISIT after moshlab with shared secret reveal; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F2. |
 | F3 | DONE | Keep top tattoo labels static from first paint; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F3. |
-| F4 | TODO | Audit Contact using MORE ABOUT's existing native scrub pipeline, reversal and real frame/long-task measurements; avoid inventing a missing CPU-hang cause. |
+| F4 | DONE | Share the About section clock with Contact; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F4. |
 | F5 | TODO — clarified | ONE identical horizontal gap throughout Works branding→tattoos→jewellery→more. Brand-to-first equals category-to-category. Neither Home rubric nor small hero-nav spacing is the reference. Measure320/390/1440; no wrap; baseline unchanged. |
 | F6 | TODO | Remove entire special Home category pin/fly path; reuse exact MORE ABOUT module/scrub/easing/parameters. Native reversible scroll; measure actual costs. |
 | F7 | TODO | Works TATTOOS size equals Home tattoo link at all widths, with common arrow. |

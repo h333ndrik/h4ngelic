@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { measureEntrancePerformance } from './helpers/v311-motion-performance.mjs';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_MOTION_ARTIFACTS || 'artifacts/v31-motion'}/`, import.meta.url);
@@ -93,7 +94,9 @@ async function homeEntrances(page, profile, world) {
       'A route anchor focused on the section cannot disable reverse scrub.');
       await page.evaluate(() => document.activeElement?.blur());
     }
-    records.push({ world, id, samples });
+    const performance = id === 'contact'
+      ? await measureEntrancePerformance(page, { selector: '#contact', profile, label: `${world} contact` }) : null;
+    records.push({ world, id, samples, performance });
   }
   assert.equal(await page.locator('[data-inquiry-reveal], .motion-echo').count(), 0, 'Retired one-shot and kinetic echo systems stay absent.');
   const field = page.locator('[data-inquiry-contact]');
@@ -199,7 +202,7 @@ try {
       await save();
       console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.`);
     } catch (error) {
-      failures.push({ ...profile, error: error.stack, errors });
+      failures.push({ ...profile, error: error.stack, errors, motionPerformance: error.motionPerformance || null });
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});
       await save(); throw error;
     } finally { await context.close(); }

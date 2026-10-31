@@ -1,4 +1,4 @@
-# V3.1.1 progress — F3 done
+# V3.1.1 progress — F4 done
 
 Updated 2026-10-31. Active branch **`v3.1.1-fixes`**, based on fetched main **`9123a00b21b9a7d3873fe97ba7c36fb90b74c3e5`**. PR #20 was merged by the user at 2026-10-30T11:41:11Z. This round does not reopen, edit, merge or deploy it. Merged V3.1 source and assets are present; no missing baseline prerequisite has been established.
 
@@ -9,7 +9,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F1 | DONE | Border/outline/glow/shadow removed from INDEX panel, form surface and shared4px radius/focus retained. Navigation6 and broad UI6 pass in333/4; Node357/357. Committed as `f57f759`. |
 | F2 | DONE | Move VISIT after moshlab with shared secret reveal; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F2. |
 | F3 | DONE | Keep top tattoo labels static from first paint; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F3. |
-| F4 | TODO | Audit Contact using MORE ABOUT's existing native scrub pipeline, reversal and real frame/long-task measurements; avoid inventing a missing CPU-hang cause. |
+| F4 | DONE | Share the About section clock with Contact; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F4. |
 | F5 | TODO — clarified | ONE identical horizontal gap throughout Works branding→tattoos→jewellery→more. Brand-to-first equals category-to-category. Neither Home rubric nor small hero-nav spacing is the reference. Measure320/390/1440; no wrap; baseline unchanged. |
 | F6 | TODO | Remove entire special Home category pin/fly path; reuse exact MORE ABOUT module/scrub/easing/parameters. Native reversible scroll; measure actual costs. |
 | F7 | TODO | Works TATTOOS size equals Home tattoo link at all widths, with common arrow. |
@@ -91,7 +91,7 @@ Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, fo
 
 ## Exact next checkpoint
 
-F4: audit Contact native scrub and measure actual scroll costs. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F5: equal measured gaps throughout the floating Works row. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## Confirmed continuation answers — 2026-10-31
 
@@ -142,3 +142,18 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F3`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: F4: audit Contact native scrub and measure actual scroll costs. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F4 — DONE — 2026-10-31 19:09 UTC
+
+Share the About section clock with Contact.
+
+Changed files: `src/scroll-choreography.js`, `src/data/motionSettings.js`, `tests/v31-motion-browser.mjs`, `tests/helpers/v311-motion-performance.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-motion-browser.mjs`: exit 0, 163.965s. Actual output: `docs/validation/v3.1.1/F4/browser.txt`.
+- `npm test`: exit 0, 3.374s. Actual output: `docs/validation/v3.1.1/F4/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F4`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F5: equal measured gaps throughout the floating Works row. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.

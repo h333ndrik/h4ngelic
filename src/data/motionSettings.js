@@ -51,6 +51,12 @@ export function sampleCalmItem(sectionProgress, viewportWidth, settings = motion
   return sampleCalmProgress(progressBetween(sectionProgress, settings.start, settings.end), distance);
 }
 
+/** One native section clock for About and Contact; no pinning or event capture. */
+export function aboutSectionProgress(position, top, viewportHeight, settings = motionSettings.about) {
+  return progressBetween(position, top - viewportHeight * settings.approach,
+    top - viewportHeight * settings.finish);
+}
+
 /** About retains its approved copy/link offsets through the same calm sampler. */
 export function sampleAboutItem(sectionProgress, role, viewportWidth, settings = motionSettings.about) {
   const link = role === 'link';

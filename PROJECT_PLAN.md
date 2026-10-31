@@ -9,7 +9,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F1 | DONE | Border/outline/glow/shadow removed from INDEX panel, form surface and shared4px radius/focus retained. Navigation6 and broad UI6 pass in333/4; Node357/357. Committed as `f57f759`. |
 | F2 | DONE | Move VISIT after moshlab with shared secret reveal; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F2. |
 | F3 | DONE | Keep top tattoo labels static from first paint; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F3. |
-| F4 | TODO | Audit Contact using MORE ABOUT's existing native scrub pipeline, reversal and real frame/long-task measurements; avoid inventing a missing CPU-hang cause. |
+| F4 | DONE | Share the About section clock with Contact; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F4. |
 | F5 | TODO — clarified | ONE identical horizontal gap throughout Works branding→tattoos→jewellery→more. Brand-to-first equals category-to-category. Neither Home rubric nor small hero-nav spacing is the reference. Measure320/390/1440; no wrap; baseline unchanged. |
 | F6 | TODO | Remove entire special Home category pin/fly path; reuse exact MORE ABOUT module/scrub/easing/parameters. Native reversible scroll; measure actual costs. |
 | F7 | TODO | Works TATTOOS size equals Home tattoo link at all widths, with common arrow. |
