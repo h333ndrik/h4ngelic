@@ -337,6 +337,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     }
     const hotspot = secretTarget(event);
     if (hotspot) revealSecret(hotspot);
+    else if (cluster?.matches('.footer-left')) revealSecret(cluster.querySelector('[data-visit-counter-hotspot]'));
   });
   listen(root, 'h4:pagechange', () => {
     clearSecrets();

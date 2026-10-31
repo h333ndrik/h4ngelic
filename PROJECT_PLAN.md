@@ -7,7 +7,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | Fix | Status | Verified state / exact next requirement |
 | --- | --- | --- |
 | F1 | DONE | Border/outline/glow/shadow removed from INDEX panel, form surface and shared4px radius/focus retained. Navigation6 and broad UI6 pass in333/4; Node357/357. Committed as `f57f759`. |
-| F2 | TODO | VISIT still in right cluster. Move directly after moshlab in left cluster, footer-link typography; HOLD4 hover/focus fade, reduced instant, localStorage logic unchanged. |
+| F2 | DONE | Move VISIT after moshlab with shared secret reveal; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F2. |
 | F3 | TODO | Make only top TATTOOS (`#group-tattoos-title`) and ON SKIN (`#archive-tattoos-title`) static from first paint; retain other entrances and archive anchor geometry. |
 | F4 | TODO | Audit Contact using MORE ABOUT's existing native scrub pipeline, reversal and real frame/long-task measurements; avoid inventing a missing CPU-hang cause. |
 | F5 | TODO — clarified | ONE identical horizontal gap throughout Works branding→tattoos→jewellery→more. Brand-to-first equals category-to-category. Neither Home rubric nor small hero-nav spacing is the reference. Measure320/390/1440; no wrap; baseline unchanged. |

@@ -58,6 +58,6 @@ Actual single source: `src/carouselSettings.js`, exported `carouselSettings` wit
 
 ## Current verified checkpoint
 
-F9: **DONE** (2026-10-31 19:02 UTC). Carousel6 and UI6 pass in333/4; Node363/363; all8 actual photos, dynamic count, CLS0, no console errors or cold-Work Three.js.
+F2: **DONE** (2026-10-31 19:04 UTC). Move VISIT after moshlab with shared secret reveal; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F2.
 
-Next: F2 is first unfinished: apply the prepared VISIT-left-cluster change, run existing footer browser6 profiles serially and npm test, save actual screenshots/results and commit F2 alone. Then continue F3/F4/F5/F6/F7/F8/F10/F11/F13/F14/F15/F16 in the user order. F9 is verified; do not rebuild or repeat it without a new relevant change. No launch.
+Next: F3: static first-paint TATTOOS and ON SKIN headings. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.

@@ -56,8 +56,12 @@
 .footer-visit-hotspot.secret-hotspot {
   position: relative;
   flex: 0 0 auto;
-  font-size: clamp(15px, 1.5vw, 21px);
+  font: inherit;
+  letter-spacing: inherit;
 }
+/* The counter shares the existing secret-message fade, with a persistent
+   readable state while its keyboard navigation cluster owns focus. */
+.footer-left:focus-within [data-visit-number] { opacity: .35; }
 .footer-contact-links { display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
 
@@ -157,7 +161,7 @@ body { position: relative; }
   .page-footer.exhibition-footer { --footer-naavi-reservation: 84px; }
   .footer-left, .footer-details { gap: 12px; }
   .secret-hotspot { font-size: 12px; }
-  :is(.footer-secret, .footer-visit-hotspot).secret-hotspot { font-size: 15px; }
+  .footer-secret.secret-hotspot { font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .secret-message { transition: none; }

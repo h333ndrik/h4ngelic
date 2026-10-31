@@ -67,7 +67,7 @@ async function identityGeometry(page) {
         centerX: rect.left + rect.width / 2, centerY: rect.top + rect.height / 2 };
     };
     const counter = row.querySelector('[data-visit-counter-hotspot]');
-    return { row: box(row), counter: box(counter), counterInRightCluster: counter.closest('.footer-details') !== null,
+    return { row: box(row), counter: box(counter), counterInLeftCluster: counter.closest('.footer-left') !== null,
       brand: box(row.querySelector('.footer-brand')), left: box(row.querySelector('.footer-left')),
       right: box(row.querySelector('.footer-details')), naavi: box(document.querySelector('[data-naavi]')),
       pageHeight: document.documentElement.scrollHeight, pageWidth: document.documentElement.scrollWidth };
@@ -179,7 +179,7 @@ try {
       assert.match(await page.locator('[data-visit-number]').textContent(), /^VISIT \d{4,}$/);
       await footerAtRest(page);
       const identity = await identityGeometry(page);
-      assert.equal(identity.counterInRightCluster, true, 'The local count belongs to the right footer cluster.');
+      assert.equal(identity.counterInLeftCluster, true, 'The local count follows moshlab in the left footer cluster.');
       assert.ok(Math.abs(identity.row.centerY - identity.naavi.centerY) < 2, 'Footer and NAAVI share one baseline.');
       assert.ok(identity.left.right <= identity.naavi.left + 1 && identity.naavi.right <= identity.right.left + 1,
         'The middle reservation keeps the shared NAAVI clear of both footer clusters.');

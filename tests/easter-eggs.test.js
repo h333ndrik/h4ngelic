@@ -48,7 +48,8 @@ test('shared footer groups contain the hidden count, matching arrows and explici
   assert.ok(html.indexOf('data-smash') < html.indexOf('class="footer-instagram"'));
   assert.match(html, /data-smash[^>]*disabled/, 'The central audio controller enables playback when available.');
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
-  assert.ok(html.indexOf('data-visit-counter-hotspot') > html.indexOf('class="footer-details"'));
+  assert.ok(html.indexOf('data-visit-counter-hotspot') > html.indexOf('class="footer-moshlab"'));
+  assert.ok(html.indexOf('data-visit-counter-hotspot') < html.indexOf('class="footer-details"'));
   assert.match(html, /class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
   assert.ok(html.indexOf('footer-moshlab') > html.indexOf('footer-brand') && html.indexOf('footer-moshlab') < html.indexOf('footer-details'));
   assert.equal((html.match(/class="arrow"/g) || []).length, 3, 'MOSH LAB, SMASH and Instagram use the same arrow on every route.');
