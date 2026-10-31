@@ -2,28 +2,18 @@ import { contentURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
 import { projectURL } from './routes.js';
 import { artworkImages } from './artwork-content.js';
+import { carouselSettings, carouselStyleProperties } from './carouselSettings.js';
 
 export const horizontalDriftCategories = Object.freeze(['tattoos', 'flashes', 'analog-photography']);
 
-/** Stable, restrained art direction: it depends on position, never on random
- * render order or world mode. The same archive therefore keeps its geometry. */
-export function driftPlacement(index = 0) {
-  const position = Math.abs(Math.trunc(Number(index) || 0)) % 5;
-  return [
-    { y: -13, z: -28, angle: -4 },
-    { y: 23, z: -74, angle: 5 },
-    { y: -29, z: 0, angle: -2 },
-    { y: 12, z: -49, angle: 4 },
-    { y: -3, z: -18, angle: -3 },
-  ][position];
-}
-
 function imageMarkup(image, index, { hidden = false } = {}) {
   if (!contentURL(image?.src)) return '';
-  const asset = getImageAsset(image, { sizes: '(max-width: 600px) 76vw, min(66vw, 720px)' });
+  const previewWidth = Math.min(carouselSettings.cardWidth, carouselSettings.cardHeight * (image.width || 4) / (image.height || 5));
+  const asset = getImageAsset(image, { maximumPreviewWidth: 640,
+    sizes: `(max-width: ${Math.ceil(previewWidth * carouselSettings.expansionScale + carouselSettings.cardViewportInset * 2)}px) calc((100vw - ${carouselSettings.cardViewportInset * 2}px) / ${carouselSettings.expansionScale}), ${Math.ceil(previewWidth)}px` });
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
-  return `<figure class="project-image${hidden ? ' drift-detail-image' : ''}"${hidden ? ' hidden' : ''}>
-    <button class="artwork-open drift-artwork" type="button" data-artwork-open aria-pressed="false" aria-label="enlarge ${escape(image.alt || 'artwork image')} in place" style="--artwork-ratio:${asset.width} / ${asset.height}">
+  return `<figure class="project-image inline-artwork-frame${hidden ? ' drift-detail-image' : ''}" style="--artwork-ratio:${asset.width} / ${asset.height}"${hidden ? ' hidden' : ''}>
+    <button class="artwork-open drift-artwork" type="button" data-artwork-open${carouselSettings.expandWithinLayout ? ' data-inline-expand' : ''} aria-pressed="false" aria-label="enlarge ${escape(image.alt || 'artwork image')} in place" style="--artwork-ratio:${asset.width} / ${asset.height}">
       <img src="${escape(asset.src)}" data-full-src="${escape(asset.fullSrc)}" data-artwork-image="${index}" alt="${escape(image.alt || '')}" loading="lazy" decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
     </button>
     ${image.caption ? `<figcaption>${escape(image.caption)}</figcaption>` : ''}
@@ -38,9 +28,10 @@ export function renderHorizontalDrift(projects = [], { category = '', label = ca
     && Array.isArray(project.images) && project.images.some(image => contentURL(image?.src)));
   const instruction = `drift-instruction-${category}`;
   const viewport = `drift-viewport-${category}`;
-  return `<section class="horizontal-drift${entries.length ? '' : ' is-empty'}" data-horizontal-drift="${escape(category)}" data-carousel-total="${entries.length}" role="region" aria-roledescription="carousel" aria-label="${escape(label)} artwork archive" aria-describedby="${instruction}" tabindex="0">
+  const style = Object.entries(carouselStyleProperties()).map(([name, value]) => `${name}:${value}`).join(';');
+  return `<section class="horizontal-drift${entries.length ? '' : ' is-empty'}" style="${style}" data-horizontal-drift="${escape(category)}" data-carousel-total="${entries.length}" role="region" aria-roledescription="carousel" aria-label="${escape(label)} artwork archive" aria-describedby="${instruction}" tabindex="0">
     <div class="drift-toolbar">
-      <p class="drift-instruction${entries.length ? '' : ' sr-only'}" id="${instruction}">${entries.length ? 'drag or shift + scroll <span aria-hidden="true">·</span> select to explore' : 'this carousel will contain published artworks.'}<span class="sr-only"> Use left and right arrow keys to browse. Swipe horizontally on touch screens. Vertical scrolling continues through the page.</span></p>
+      <p class="drift-instruction${entries.length ? '' : ' sr-only'}" id="${instruction}">${entries.length ? 'drag or scroll <span aria-hidden="true">·</span> select to explore' : 'this carousel will contain published artworks.'}<span class="sr-only"> Use left and right arrow keys to browse. Swipe horizontally on touch screens. Vertical touch scrolling continues through the page. Move outside the photographs to scroll vertically with a wheel.</span></p>
       <div class="drift-controls" aria-label="${escape(label)} carousel navigation">
         <button class="drift-previous" type="button" data-drift-previous aria-controls="${viewport}" aria-label="previous ${escape(label)} artwork" disabled><span aria-hidden="true">←</span></button>
         <output class="drift-count" data-drift-count aria-hidden="true">${entries.length ? '1' : '0'} / ${entries.length}</output>

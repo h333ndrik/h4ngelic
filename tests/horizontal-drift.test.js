@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { driftPlacement, horizontalDriftCategories, renderHorizontalDrift } from '../src/horizontal-drift-content.js';
+import { horizontalDriftCategories, renderHorizontalDrift } from '../src/horizontal-drift-content.js';
 
 test('only the agreed three archives receive a horizontal carousel, including honest empty shells', () => {
   assert.deepEqual(horizontalDriftCategories, ['tattoos', 'flashes', 'analog-photography']);
@@ -29,8 +29,9 @@ test('spatial archive preserves original dimensions, full sources, detail images
   assert.match(markup, /--drift-ratio:1\.5/);
   assert.match(markup, /width="1800" height="1200"/);
   assert.match(markup, /data-full-src="\/images\/original-large.webp"/);
-  assert.match(markup, /drift-detail-image" hidden/);
+  assert.match(markup, /class="project-image inline-artwork-frame drift-detail-image"[^>]* hidden>/, 'Additional photographs remain hidden even with the frame geometry attributes.');
   assert.equal((markup.match(/data-artwork-open/g) || []).length, 2);
+  assert.equal((markup.match(/data-inline-expand/g) || []).length, 2, 'Every rendered carousel image opts into the common in-page expansion lifecycle.');
   assert.equal((markup.match(/aria-pressed="false"/g) || []).length, 2);
   assert.match(markup, /aria-label="enlarge original &lt;image&gt; in place"/);
   assert.match(markup, /&lt;original&gt;/);
@@ -61,11 +62,14 @@ test('single real artwork keeps its working viewer and honest one-image navigati
   assert.doesNotMatch(markup, /data-digital-ink|canvas|placeholder/);
 });
 
-test('each spatial pose is deterministic, restrained and identical between worlds', () => {
-  const poses = Array.from({ length: 30 }, (_, index) => driftPlacement(index));
-  assert.ok(new Set(poses.map(value => JSON.stringify(value))).size > 3);
-  poses.forEach((pose, index) => {
-    assert.deepEqual(pose, driftPlacement(index));
-    assert.ok(Math.abs(pose.y) < 32 && pose.z >= -80 && pose.z <= 0 && Math.abs(pose.angle) <= 5);
-  });
+test('carousel totals follow the actual published photo list when photographs are added or removed', () => {
+  const image = { src: '/images/tattoos/tattoo-01.jpg', alt: 'supplied tattoo photograph', width: 1170, height: 1470 };
+  for (const total of [0, 1, 3, 5, 8, 9]) {
+    const projects = Array.from({ length: total }, (_, index) => ({ id: `count-fixture-${index}`, category: 'tattoos', images: [image] }));
+    const markup = renderHorizontalDrift(projects, { category: 'tattoos' });
+    assert.match(markup, new RegExp(`data-carousel-total="${total}"`));
+    assert.match(markup, new RegExp(`data-drift-count aria-hidden="true">${total ? 1 : 0} / ${total}`));
+    assert.equal((markup.match(/data-drift-item/g) || []).length, total);
+    assert.equal((markup.match(/data-inline-expand/g) || []).length, total);
+  }
 });

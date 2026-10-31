@@ -12,17 +12,17 @@
 .drift-count { min-width: 45px; text-align: center; font-size: 12px; letter-spacing: .05em; font-variant-numeric: tabular-nums; color: #bdbcb8; }
 .drift-status { top: 0; left: 0; margin: 0; }
 .drift-viewport { position: relative; max-width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior: auto; scrollbar-width: thin; scrollbar-color: #858580 transparent; touch-action: pan-x pan-y pinch-zoom; }
-.drift-track { position: relative; display: flex; align-items: flex-start; gap: clamp(32px, 6vw, 96px); width: max-content; min-width: 100%; box-sizing: border-box; padding: max(32px, 3.2svh) var(--drift-trailing, 22px) max(32px, 3.2svh) var(--drift-leading, 22px); }
-.drift-item { flex: 0 0 auto; width: min(76vw, calc(62svh * var(--drift-ratio, .8)), 760px); min-width: min(160px, 70vw); }
+.drift-track { position: relative; display: flex; align-items: flex-start; gap: var(--carousel-spacing); width: max-content; min-width: 100%; box-sizing: border-box; padding: max(32px, 3.2svh) var(--drift-trailing, 22px) max(32px, 3.2svh) var(--drift-leading, 22px); }
+.drift-item { flex: 0 0 auto; width: min(var(--carousel-card-width), calc(100vw - var(--carousel-inline-reservation))); min-width: 0; }
+.is-drift-enhanced .drift-viewport { overflow-x: hidden; touch-action: pan-y pinch-zoom; }
+.is-drift-enhanced .drift-track { transform: translate3d(var(--carousel-position, 0px), 0, 0); }
+.is-drift-enhanced .drift-item { transform: translate3d(var(--carousel-cycle-offset, 0px), 0, 0); }
+.drift-item > .drift-images { transform: translate3d(var(--carousel-neighbor-x, 0px), var(--carousel-lift-y, 0px), 0); transition: transform var(--ui-hover-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)); }
 .drift-images { display: block; }
 .drift-item .project-image { overflow: visible; }
+.drift-item .inline-artwork-frame { height: var(--carousel-expanded-height); aspect-ratio: auto; --inline-rest-width: min(100%, var(--carousel-card-width), calc((100vw - var(--carousel-inline-reservation)) / var(--carousel-expansion-scale)), calc(var(--carousel-card-height) * var(--drift-ratio)), calc(var(--carousel-expanded-height) * var(--carousel-resting-fraction) * var(--drift-ratio))); }
 .drift-detail-image[hidden] { display: none; }
-.drift-artwork { position: relative; outline: 1px solid transparent; outline-offset: 2px; transform-origin: 50% 50%; transition: transform 300ms cubic-bezier(.2,.8,.25,1), box-shadow 300ms ease, outline-color 300ms ease; }
-/* One selected photograph grows around its own centre. Reserved track padding
-   and the existing generous image gaps contain its edges without reflow. */
-.drift-item.is-drift-expanded { position: relative; z-index: 1; }
-.drift-artwork.is-drift-expanded { transform: scale(1.1); box-shadow: 0 0 12px #ffffff12; }
-.drift-artwork.is-drift-expanded[data-ui-interactive] .interaction-visual { --ui-active-scale: 1; }
+.drift-artwork { position: relative; outline-offset: 2px; transform-origin: 50% 50%; }
 .drift-item .artwork-open img { object-fit: contain; }
 .drift-meta { margin-top: max(18px, 3.2svh); color: #c5c5bf; }
 .drift-meta h2 { margin: 0; font-size: 13px; line-height: 1.5; font-weight: 400; }
@@ -48,9 +48,7 @@
   .drift-instruction { font-size: 10px; max-width: 16ch; }
   .drift-controls { gap: 0; }
   .drift-count { min-width: 40px; }
-  .drift-track { gap: 32px; }
-  .drift-item { width: min(76vw, calc(62svh * var(--drift-ratio, .8))); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .drift-artwork, .drift-controls button { transition: none; animation: none !important; }
+  .drift-artwork, .drift-controls button, .drift-item > .drift-images { transition: none; animation: none !important; }
 }

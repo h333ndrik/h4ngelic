@@ -1,0 +1,50 @@
+/* The renderer reserves the frame before enhancement. Resting and expanded
+   images share that slot; no portal, dialog or document reflow is involved. */
+.inline-artwork-frame {
+  --inline-rest-fraction: .65;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: var(--artwork-ratio, 4 / 5);
+  border-radius: var(--radius-soft);
+  overflow: visible;
+}
+.project-image.inline-artwork-frame > .artwork-open {
+  position: relative;
+  display: block;
+  width: var(--inline-rest-width, calc(100% * var(--inline-rest-fraction)));
+  max-width: 100%;
+  margin: 0;
+  aspect-ratio: var(--artwork-ratio, 4 / 5);
+  transform-origin: 50% 50%;
+  transform: translate3d(var(--inline-view-x, 0px), var(--inline-view-y, 0px), 0)
+    scale(var(--inline-view-scale, 1));
+  /* Compensation keeps the final physical corner equal to the form's radius. */
+  border-radius: var(--inline-view-radius, var(--radius-soft));
+  overflow: visible;
+  transition: transform var(--ui-hover-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1));
+}
+.inline-artwork-frame > .artwork-open img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: inherit;
+}
+/* clip trims the rounded image without creating a nested scroll container,
+   so the carousel's pan-y contract still governs real touch gestures. */
+.inline-artwork-frame > .artwork-open > .interaction-visual { border-radius: inherit; overflow: clip; }
+.inline-artwork-frame.is-inline-expanded,
+.drift-item.is-inline-expanded { position: relative; z-index: 2; }
+/* Exactly one expansion scale. Resting hover still uses the existing shared
+   1.025 transform/glow on the nested wrapper from initInteractions(). */
+.inline-artwork-frame .artwork-open[data-inline-expanded][data-ui-interactive] > .interaction-visual {
+  --ui-active-scale: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .inline-artwork-frame > .artwork-open,
+  .inline-artwork-frame > .artwork-open > .interaction-visual {
+    transition: none;
+  }
+}

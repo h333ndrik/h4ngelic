@@ -155,9 +155,9 @@ async function imageContract(page, profile) {
   const state = () => section.evaluate(element => {
     const button = element.querySelector('[data-artwork-open]'), image = button.querySelector('img');
     const b = button.getBoundingClientRect(), p = image.getBoundingClientRect();
-    return { left: element.querySelector('.drift-viewport').scrollLeft, y: scrollY, height: document.documentElement.scrollHeight,
+    return { left: element.querySelector('.drift-viewport').scrollLeft, position: Number(element.dataset.driftPosition), y: scrollY, height: document.documentElement.scrollHeight,
       buttonWidth: b.width, imageWidth: p.width, imageHeight: p.height,
-      expanded:button.classList.contains('is-drift-expanded'), buttonTransform:getComputedStyle(button).transform,
+      expanded:button.hasAttribute('data-inline-expanded'), buttonTransform:getComputedStyle(button).transform,
       imageTransform:getComputedStyle(image).transform,
       order: [...element.querySelectorAll('[data-drift-item]')].map(item => item.dataset.projectUrl) };
   });
@@ -168,8 +168,11 @@ async function imageContract(page, profile) {
   assert.equal(await first.getAttribute('aria-pressed'), 'true');
   assert.equal(await page.locator('dialog[open]').count(), 0, 'Carousel enlargement never opens a modal.');
   const ratio = enlarged.imageWidth / before.imageWidth;
-  assert.ok(ratio >= 1.08 && ratio <= 1.12, `The actual photograph grows in place within the approved range (${ratio}): ${JSON.stringify({before,enlarged})}`);
-  assert.ok(close(enlarged.left, before.left) && close(enlarged.y, before.y), 'Inline enlargement retains both scroll axes.');
+  assert.ok(ratio >= 1.2, `The actual photograph becomes clearly larger within the page (${ratio}): ${JSON.stringify({before,enlarged})}`);
+  const expandedBox = await image.boundingBox();
+  assert.ok(expandedBox.x >= -1 && expandedBox.y >= -1 && expandedBox.x + expandedBox.width <= profile.width + 1
+    && expandedBox.y + expandedBox.height <= 845, 'The expanded actual image fits the viewport.');
+  assert.ok(close(enlarged.left, before.left) && close(enlarged.position, before.position) && close(enlarged.y, before.y), 'Inline enlargement retains both scroll axes and carousel position.');
   assert.equal(enlarged.height, before.height); assert.deepEqual(enlarged.order, before.order);
   await first.click();
   await page.mouse.move(profile.width - 2, 100);
@@ -177,9 +180,10 @@ async function imageContract(page, profile) {
   const restored = await state();
   assert.equal(await first.getAttribute('aria-pressed'), 'false');
   assert.ok(close(restored.imageWidth, before.imageWidth) && close(restored.imageHeight, before.imageHeight));
-  assert.ok(close(restored.left, before.left) && close(restored.y, before.y));
+  assert.ok(close(restored.left, before.left) && close(restored.position, before.position) && close(restored.y, before.y));
   const photoRadii = await radiusScope(page, ['[data-horizontal-drift="tattoos"] .artwork-open',
-    '[data-horizontal-drift="tattoos"] img', '#digital-artworks .artwork-open', '#digital-artworks img'], 0);
+    '[data-horizontal-drift="tattoos"] img'], 4);
+  const digitalRadii = await radiusScope(page, ['#digital-artworks .artwork-open', '#digital-artworks img'], 0);
   await coverage(page, ['[data-horizontal-drift="tattoos"] .artwork-open']);
   const imageHover = await hovered(page, '[data-horizontal-drift="tattoos"] [data-artwork-open]', profile);
   await page.locator('#digital-artworks [data-artwork-open]').first().click();
@@ -190,7 +194,7 @@ async function imageContract(page, profile) {
   await page.locator('.artwork-close').click();
   await page.waitForFunction(() => !document.querySelector('.artwork-dialog')?.open);
   await page.screenshot({ path: new URL(`images-${profile.width}-${profile.reduced}-${await page.locator('html').getAttribute('data-mode')}.png`, output).pathname });
-  return { before, enlarged, restored, ratio, photoRadii, viewerRadii, viewerPhoto, imageHover };
+  return { before, enlarged, restored, ratio, expandedBox, photoRadii, digitalRadii, viewerRadii, viewerPhoto, imageHover };
 }
 
 async function heroContract(page, profile) {
