@@ -1,42 +1,80 @@
-# V3.1 — delivered and ready for review
+# V3.1.1 — exact continuation checkpoint
 
-Updated 2026-10-29. Read AGENTS.md, PROJECT_PLAN.md and PROJECT_PROGRESS.md, then inspect actual Git status/log. Preserve current artifact/evidence/documentation changes. Do not restart or repeat verified work.
+Updated 2026-10-31. Active branch **`v3.1.1-fixes`**, based on fetched main **`9123a00b21b9a7d3873fe97ba7c36fb90b74c3e5`**. PR #20 was merged by the user at 2026-10-30T11:41:11Z. This round does not reopen, edit, merge or deploy it. Merged V3.1 source and assets are present; no missing baseline prerequisite has been established.
 
-## Current state
+Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest continuation](docs/V3.1.1-CONTINUATION.md). The continuation overrides matching requirements, gives **F9 top priority**, and adds F16. User clarification independently confirms F5 and F10 below. Previous checkpoints remain unchanged in [V3.1 history](docs/history/v3.1-checkpoint-2026-10-29).
 
-- Branch: `feat/smart-continuation-v3`, PR #20. Asset commit **f1841e4** preserves all eight supplied JPEG originals and the approved MP3. Source commit **daeaff8** contains the completed V3.1 refinement; its full hash is `daeaff83ec0b8a6b48873c3d77d63e3a2d706ead`.
-- **All 17 approved items are DONE.** The user’s explicit eight-photo correction governs item 15. Actual code, committed original hashes and desktop/mobile browser evidence have been reconciled.
-- All local QA passes: final Node 357/357; navigation4; footer4; motion6; shared UI6; carousel4; existing gallery3; inquiry6; sound controls8; actual SMASH3; production Digital6; SEO19 static/17 live records; both exact standalone suites and package integrity.
-- Production build/export passes for 19 routes plus 404 in preview/noindex mode with zero indexable routes. No launch or deployment occurred.
-- **Delivered:** artifact/evidence commit **3b424e91f386d75359c2463e6245fc0eeeaae752** is pushed to the same feature branch. [PR #20](https://github.com/h333ndrik/h4ngelic/pull/20) is OPEN and ready for review (`isDraft:false`), base main, same feature head. Remote HTML size 24,484,734 and blob SHA-1 `404e1127ab7323f851ba9b59f2b61cedeccbdf9b` match the local committed blob exactly. No merge/deployment occurred.
+Read all four root files and actual Git before work. No V3.1.1 fix commits had been created at this checkpoint; never invent a future hash.
 
-## Exact next action
+## First unfinished task
 
-User review only: all 17 approved items and local/remote delivery QA are complete. This delivery record identifies the verified artifact commit above; later documentation commits do not change its tested bytes. No further approved unblocked implementation remains. Do not repeat QA or rebuild unchanged artifacts without a relevant new change/input.
+F1 is fully verified for current navigation6 + broad UI6 and Node357/357. Secure F1 alone in its commit, then **F9 has top priority**. Runtime agent owns carousel/shared expansion; separate test agent owns affected existing browser contracts. Do not run browsers until their edits are complete; root owns serial QA and commits. Future F4 helper must not enter F1 commit.
 
-For the website preview, open [the HTML on GitHub](https://github.com/h333ndrik/h4ngelic/blob/feat/smart-continuation-v3/docs/previews/h4ngelic-preview.html), choose **Download raw file**, save as `.html` and open it locally in a browser. Raw may display code in the browser; save that file instead of treating GitHub's source view as the running website. Alternatively [download the ZIP](https://github.com/h333ndrik/h4ngelic/raw/refs/heads/feat/smart-continuation-v3/docs/previews/portfolio-preview.zip), extract and open the included HTML. Both are the exact tested bytes below.
+## F1 — actual verification
 
-External input remains the real h4 moshlab URL, actual mail delivery configuration/verification and genuine unpublished Loose Thread artwork. Do not invent a URL/content or claim mail success.
+Runtime: `src/global-navigation.css`, `.global-index-links` now `border:0; outline:0; box-shadow:none`, retaining `var(--surface-input)`, `var(--radius-soft)` and individual focus rules. No photo/mode/hero/audio runtime changed under F1. Harness: `tests/v31-navigation-browser.mjs` six profiles, actual panel contrast/screenshots and reduced native cursor expectation; `tests/v31-ui-browser.mjs` borderless panel expectation, evidence path and enlargement diagnostics.
 
-Do not merge, deploy, launch, change main or `api/inquiry.js`, add dependencies, force-push or modify H4 MOSH LAB. Preserve the accepted hero/physics/memory-mosh, separate INDEX/NAAVI and Home-only Contact.
+- Navigation: `H4_BASE_URL=http://127.0.0.1:55173 H4_NAV_ARTIFACTS=artifacts/v311/F1/navigation node tests/v31-navigation-browser.mjs` — **6/6 PASS**, each profile333/4. `artifacts/v311/F1/navigation/results.json`: six reports, zero failures, all error lists empty. `/tmp/h4-v311-F1-navigation.log`. Panel `rgb(48,48,51)`,4px radius,0px border/outline, no filter/shadow. Actual inactive contrast7.447169:1, active13.155752:1. Focus/navigation/geometry/no overflow pass. Twelve `index-{1440,390,320}-{false,true}-{normal,xray}.png` panel screenshots.
+- Broad UI fresh-server repeat: `H4_BASE_URL=http://127.0.0.1:55173 H4_UI_ARTIFACTS=artifacts/v311/F1/ui node tests/v31-ui-browser.mjs` — **6/6 PASS**, each profile333/4. `artifacts/v311/F1/ui/results.json`: six reports, zero failures, all errors/audio-request lists empty. `/tmp/h4-v311-F1-ui.log` records six PASS lines. This verifies baseline shared interaction/form/enlargement/hero/radius contracts, not future F9 changes.
+- `npm test` — **357/357 PASS**, fail0/skipped0,3493.473929ms, `/tmp/h4-v311-F1-node.log`.
+- Prior incomplete UI attempts remain failure history: first ratio1 vs1.1, retry mode timeout with13ERR_CONNECTION_REFUSED. Root found the dev server dead, restarted it and the full six-profile repeat passed. Do not label F9/F15 feature prerequisites BLOCKED or unresolved from those stale attempts. Preserve incomplete evidence separately from final passing output.
 
-## Exact verified preview
+No V3.1.1 build/export/commit is claimed by this documentation update. Root owns serial runs, commits and final artifacts.
 
-Source revision: `daeaff83ec0b8a6b48873c3d77d63e3a2d706ead`.
+## Remaining status
 
-| Artifact | Bytes | SHA-256 |
-| --- | ---: | --- |
-| [HTML](docs/previews/h4ngelic-preview.html) |24,484,734|`6c11473dd0360a15c5e459ae8ee95deeffa3c34c01cad0ffe790bd5d734ce001`|
-| [ZIP](docs/previews/portfolio-preview.zip) |17,305,532|`61da29cabd658cb4fee3eb158e0b98dbc81bee65fb8f363ccef7c9abf5932770`|
+| Fix | Status | Verified state / exact next requirement |
+| --- | --- | --- |
+| F1 | DONE | Border/outline/glow/shadow removed from INDEX panel, form surface and shared4px radius/focus retained. Navigation6 and broad UI6 pass in333/4; Node357/357. Ready for one-fix commit. |
+| F2 | TODO | VISIT still in right cluster. Move directly after moshlab in left cluster, footer-link typography; HOLD4 hover/focus fade, reduced instant, localStorage logic unchanged. |
+| F3 | TODO | Make only top TATTOOS (`#group-tattoos-title`) and ON SKIN (`#archive-tattoos-title`) static from first paint; retain other entrances and archive anchor geometry. |
+| F4 | TODO | Audit Contact using MORE ABOUT's existing native scrub pipeline, reversal and real frame/long-task measurements; avoid inventing a missing CPU-hang cause. |
+| F5 | TODO — clarified | ONE identical horizontal gap throughout Works branding→tattoos→jewellery→more. Brand-to-first equals category-to-category. Neither Home rubric nor small hero-nav spacing is the reference. Measure320/390/1440; no wrap; baseline unchanged. |
+| F6 | TODO | Remove entire special Home category pin/fly path; reuse exact MORE ABOUT module/scrub/easing/parameters. Native reversible scroll; measure actual costs. |
+| F7 | TODO | Works TATTOOS size equals Home tattoo link at all widths, with common arrow. |
+| F8 | TODO | Native h4 cursor across all interactive areas, including NAAVI/lower Home, both motion preferences; preserve size/feel and touch behavior. |
+| F9 | PARTIAL — priority implementation started | Latest continuation replaces native-only mechanics with one input-driven horizontal wheel/drag/touch momentum system, seamless wrap, site hover/glow, central config, shared viewport-fit inline expansion, no ambient motion/WebGL/modal. Runtime and existing-test work delegated; no F9 pass claimed. |
+| F10 | TODO — clarified | Digital resting base is60% of pre-V3.1 original width, replacing V3.1's50% reduction (archive550→660px cap, detail600→720px cap before viewport constraints). Reuse F9 expansion, responsive sources and unified effects. |
+| F11 | TODO | Shared `--radius-soft`4px on carousel/Digital images; keep corruption/effects/page canvas square. F9 includes its required carousel subset. |
+| F13 | TODO | Branding/routes share unified hover/focus, no special opacity/pills/background or layout shift. |
+| F14 | TODO | Floating headers white-base difference/exclusion against actual page/ink/WebGL, correct isolation and readable active/hover/cursor; measured palette pixels/performance/screenshots. Chrome/Firefox/Safari availability must be reported honestly. |
+| F15 | TODO | Hold4 enters only and has zero effect in4. Exactly three quick3 presses in~2s return; double3 does not. Hint exactly `press three times 3 to reverse`; mobile3tap equivalent and1400ms transition unchanged. |
+| F16a | TODO | Make Home01/WORKS heading a real clickable route with unified hover. |
+| F16b | REVIEW NEEDED | Latest wording names01/WORKS,02/JEWELLRY,03/MORE as routes; actual Home is01/WORKS,02/ABOUT,03/CONTACT and Contact must remain Home-only. Reconcile intended rubric targets without replacing Home Contact or inventing content; independent F16a remains unblocked. |
 
-The ZIP contains the exact tested HTML. [Package evidence](docs/validation/v3.1-refinement/offline-package.json) confirms the eight original JPEGs, approved MP3 and original Digital image remain unchanged and fixture content is excluded. The controls and native standalone reports match the exact HTML hash/size and record zero HTTP/console/page errors/overflow. Offline 390px actual SMASH starts only after trusted tap and uses its decoded cache on restart.
+There is no F12. TODO means not started; PARTIAL means code/verification underway; DONE requires actual current checks. REVIEW NEEDED is intent uncertainty, not a missing V3.1 feature.
 
-## Evidence and measured limits
+## F9 configuration contract
 
-All current reports/logs are preserved under [docs/validation/v3.1-refinement](docs/validation/v3.1-refinement). PROJECT_PROGRESS.md contains per-item files, suite counts, failure corrections and actual transfer measurements. Final Node 357/357 passes after all source corrections. All named screen sizes 1440/390/320, reduced motion and 333/4 behaviours are covered by the recorded suites; extra sound-control 810px coverage also passes.
+Planned single source: `src/carouselSettings.js`, exported settings with JSDoc per field; runtime status remains PARTIAL until verified. The user can fine-tune these after implementation without touching components:
 
-Digital display widths halve. Image body bytes fall 46.06% at 1440px and 68.32% at 390px; 320px remains 40,410B because the old build already used the minimum 320w file. Full Work route totals can increase now that eight real photos are present. Do not claim general whole-route savings. SMASH’s exact original container duration is 100.310204s, browser-decoded 100.270s; the complete native natural end was observed without seeking or shortening.
+| Field | Requested default | Meaning |
+| --- | --- | --- |
+| `cardWidth` |300| Card width in px, responsive viewport-fit constraints apply. |
+| `cardHeight` |420| Portrait card height in px. |
+| `spacing` |100| Horizontal px gap between cards. |
+| `inertia` |0.05| Input momentum run-out; reduced motion disables inertia. |
+| `wheelSensitivity` |8.0| Wheel input gain. |
+| `wrap` |true| Seamless horizontal cycle through actual configured photographs. |
+| `hoverStraighten` |true| Optional subtle hovered-card lift/straightening; unified scale/glow stays. |
+| `neighborDisplacement` |true| Adjacent cards shift via transforms, without layout shift. |
+| `scrollCapture` |`'area'`| Capture wheel only over carousel; page scrolling elsewhere unchanged. |
+| `autoDrift` |false| No ambient motion or continuous idle animation loop. |
+| `pointerLabel` |false| No pointer-following label; use existing h4 cursor. |
+| `expandWithinLayout` |true| Click expands in-page, viewport-fit; click again/outside/Escape restores, no modal/body lock. |
 
-The served website defers MP3 fetch/decode until first trusted use, then caches it. Offline embedding necessarily includes the original bytes in the downloaded HTML; runtime decoding/playback remains gesture-driven. Real mail is unverified: controlled 503 and 202 test responses prove UI behaviour only.
+Any additional tuning fields introduced by the implementation must also live in that file and be documented with actual defaults. No Three.js/WebGL on Works. Images use existing optimized sources/alt/lazy loading and retain original appearance. Shared expansion is built once for F9/F10. Reduced states are instant/readable; no idle drift.
 
-Do not rerun passing suites without a relevant runtime change. For a later local preview, use `npm run dev` or serve the production dist with `npm run preview`; the current fresh production server used 55385, baseline 55384, while old 55383 is stale/cached and unused. Tests run serially; no build/image preparation during browser checks.
+**One fix = one commit**, with checkpoint updates and real outputs. After each fix run affected existing browser suites **serially before builds**, at1440/390/320 × full/reduced, both333/4 where relevant. No browser parallelism or asset preparation/build while browser checks run. Preserve unaffected assertions; update only superseded contracts. Capture F1/F2/F9/F10/F14 screenshots and measure actual F4/F6/F14 frame/long-task/compositing costs. Report failures with their actual causes/evidence. Do not rerun the historical full100s SMASH observation for an unrelated CSS change.
+
+## Scope and artifacts
+
+Keep working chrome hero/physics, accepted memory-mosh, approved SMASH and1400ms transition. INDEX stays separate from NAAVI; Contact exclusively Home03/CONTACT. Cold Work/About must never download or initialize Three.js. Preserve uncommitted user/agent work and finish existing components.
+
+Preserve all eight original JPEGs `public/images/tattoos/tattoo-01.jpg`…`tattoo-08.jpg` and approved MP3 byte-for-byte. Photo provenance: `docs/assets/tattoo-originals-v31.json`. MP3 SHA-256 `307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b`. Latest F9 text mentions five; the repository actually has eight and the user explicitly corrected five to eight earlier. Do not delete supplied originals or silently discard three; retain the eight-photo source set while recording this text discrepancy for review.
+
+Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, force-push, merge, close, deploy, launch, connect domains or enable analytics. Deferred WORLD/mannequin/Flowfield/Easter Eggs stay parked. Real moshlab URL, actual mail configuration/delivery and unpublished Loose Thread artwork are external inputs; do not invent substitutes. Actual Safari is unavailable on Linux; WebKit is not Safari. Record concrete installed-browser capabilities before claiming cross-browser success.
+
+## Last verified downloadable preview
+
+Checked-in `docs/previews/h4ngelic-preview.html` and `portfolio-preview.zip` are merged **V3.1**, not current V3.1.1. HTML24,484,734bytes, SHA-256 `6c11473dd0360a15c5e459ae8ee95deeffa3c34c01cad0ffe790bd5d734ce001`; ZIP17,305,532bytes, SHA-256 `61da29cabd658cb4fee3eb158e0b98dbc81bee65fb8f363ccef7c9abf5932770`. Export after serial browser work, then verify exact new bytes before review delivery.

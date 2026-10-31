@@ -3,9 +3,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL('../artifacts/v31-navigation/', import.meta.url);
+const output = new URL(`../${process.env.H4_NAV_ARTIFACTS || 'artifacts/v31-navigation'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
-const profiles = [{ width:1440, reduced:false },{ width:390, reduced:false },{ width:320, reduced:false },{ width:320, reduced:true }]
+const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })))
   .filter(profile => !process.env.H4_NAV_WIDTHS || process.env.H4_NAV_WIDTHS.split(',').map(Number).includes(profile.width));
 const browser = await chromium.launch({ executablePath:process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless:true,
   args:['--no-sandbox','--disable-dev-shm-usage','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
@@ -39,17 +39,26 @@ async function indexContract(page,profile,world) {
   const scroll=await page.evaluate(()=>scrollY);
   await summary.focus();await page.keyboard.press('Enter');
   await page.waitForFunction(()=>{const menu=document.querySelector('[data-global-index]');return menu.open&&menu.querySelector('summary').getAttribute('aria-expanded')==='true';});
+  await menu.locator('.global-index-links').evaluate(panel => Promise.all(panel.getAnimations().map(animation => animation.finished.catch(() => {}))));
   const data=await menu.evaluate(el => {
     const panel=el.querySelector('.global-index-links'),s=getComputedStyle(panel),r=panel.getBoundingClientRect();
     return {numbers:[...el.querySelectorAll('.index-number')].map(el=>el.textContent.trim()),
       targets:[...el.querySelectorAll('a')].map(a=>a.getAttribute('href')),labels:[...el.querySelectorAll('a')].map(a=>a.textContent.trim().replace(/\s+/g,' ')),
-      panel:{left:r.left,right:r.right,bottom:r.bottom},surface:s.backgroundColor,border:s.borderTopColor,borderWidth:s.borderTopWidth,radius:s.borderRadius,
+      panel:{left:r.left,right:r.right,bottom:r.bottom},surface:s.backgroundColor,borderWidth:s.borderTopWidth,radius:s.borderRadius,
+      outlineWidth:s.outlineWidth,filter:s.filter,shadow:s.boxShadow,linkColors:[...panel.querySelectorAll('a')].map(a=>getComputedStyle(a).color),
       expanded:el.querySelector('summary').getAttribute('aria-expanded')};
   });
   assert.deepEqual(data.numbers,['00 /','01 /','02 /','03 /','04 /']);
   assert.deepEqual(data.targets,['/','/work','/about','/#contact','/#final-secret']);
-  assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');assert.equal(data.border,'rgb(255, 255, 255)');
-  assert.equal(data.borderWidth,'1px');assert.equal(data.radius,'4px');
+  assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');
+  assert.equal(data.borderWidth,'0px');assert.equal(data.radius,'4px');
+  assert.equal(data.outlineWidth,'0px');assert.equal(data.filter,'none');assert.equal(data.shadow,'none');
+  const luminance = color => color.match(/[\d.]+/g).slice(0,3).map(Number).map(value => value / 255)
+    .map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4)
+    .reduce((sum,value,index) => sum + value * [.2126,.7152,.0722][index],0);
+  data.contrast = data.linkColors.map(color => (luminance(color)+.05)/(luminance(data.surface)+.05));
+  assert.ok(data.contrast.every(ratio => ratio >= 4.5),'Every INDEX entry retains readable contrast on its opaque field surface.');
+  await page.screenshot({path:new URL(`index-${profile.width}-${profile.reduced}-${world}.png`,output).pathname});
   assert.ok(data.panel.left>=0 && data.panel.right<=profile.width+1 && data.panel.bottom<=844);
   await page.keyboard.press('Tab');
   assert.equal(await menu.locator('a').first().evaluate(el=>el===document.activeElement),true);
@@ -88,7 +97,9 @@ async function workChrome(page,profile,world) {
   if(profile.width>=600) {
     const naavi=page.locator('[data-naavi]');await naavi.hover();
     const cursors=await naavi.evaluate(el=>({outer:getComputedStyle(el).cursor,digit:getComputedStyle(el.querySelector('.chapter-digit')).cursor,total:getComputedStyle(el.querySelector('.chapter-total')).cursor}));
-    const expected=world==='xray'?'h4ngelic-cursor-other-hover-r09.svg':'h4ngelic-cursor-hover.svg';
+    const expected=profile.reduced
+      ? world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg'
+      : world==='xray'?'h4ngelic-cursor-other-hover-r09.svg':'h4ngelic-cursor-hover.svg';
     for(const value of Object.values(cursors)) assert.ok(value.includes(expected),'NAAVI and its slash use the primary interactive h4 cursor.');
     await page.mouse.move(1,1);
   }

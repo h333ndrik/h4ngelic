@@ -1,0 +1,13 @@
+CHECK V3.1 UI 1440px reduced=false
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.waitForFunction: Timeout 60000ms exceeded.
+    at changeMode (/workspace/h4ngelic/tests/v31-ui-browser.mjs:48:14)
+    at async file:///workspace/h4ngelic/tests/v31-ui-browser.mjs:265:31 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

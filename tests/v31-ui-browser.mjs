@@ -6,7 +6,7 @@ import { chromium } from 'playwright';
 // motion, image-transfer measurements and soundtrack playback have separate
 // suites. This suite never activates SMASH or submits a real inquiry.
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL('../artifacts/v31/ui/', import.meta.url);
+const output = new URL(`../${process.env.H4_UI_ARTIFACTS || 'artifacts/v31/ui'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
 const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })))
   .filter(profile => !process.env.H4_UI_WIDTHS || process.env.H4_UI_WIDTHS.split(',').map(Number).includes(profile.width))
@@ -125,10 +125,12 @@ async function formContract(page, profile) {
   await page.locator('[data-global-index] summary').click();
   const panel = await page.locator('.global-index-links').evaluate(element => {
     const s = getComputedStyle(element);
-    return { surface: s.backgroundColor, borderColor: s.borderTopColor, borderWidth: s.borderTopWidth, radius: s.borderRadius };
+    return { surface: s.backgroundColor, borderWidth: s.borderTopWidth, radius: s.borderRadius,
+      outline: s.outlineWidth, shadow: s.boxShadow, filter: s.filter };
   });
-  assert.equal(panel.surface, fields[0].surface); assert.equal(panel.borderColor, 'rgb(255, 255, 255)');
-  assert.equal(panel.borderWidth, '1px'); assert.equal(panel.radius, '4px');
+  assert.equal(panel.surface, fields[0].surface);
+  assert.equal(panel.borderWidth, '0px'); assert.equal(panel.radius, '4px');
+  assert.equal(panel.outline,'0px');assert.equal(panel.shadow,'none');assert.equal(panel.filter,'none');
   const menuHover = await hovered(page, '[data-global-index] [data-index-page="home"]', profile);
   await page.keyboard.press('Escape');
   const targets = await coverage(page, ['[data-global-index] summary', '[data-global-index] a', '[data-naavi]',
@@ -155,6 +157,8 @@ async function imageContract(page, profile) {
     const b = button.getBoundingClientRect(), p = image.getBoundingClientRect();
     return { left: element.querySelector('.drift-viewport').scrollLeft, y: scrollY, height: document.documentElement.scrollHeight,
       buttonWidth: b.width, imageWidth: p.width, imageHeight: p.height,
+      expanded:button.classList.contains('is-drift-expanded'), buttonTransform:getComputedStyle(button).transform,
+      imageTransform:getComputedStyle(image).transform,
       order: [...element.querySelectorAll('[data-drift-item]')].map(item => item.dataset.projectUrl) };
   });
   const before = await state();
@@ -164,7 +168,7 @@ async function imageContract(page, profile) {
   assert.equal(await first.getAttribute('aria-pressed'), 'true');
   assert.equal(await page.locator('dialog[open]').count(), 0, 'Carousel enlargement never opens a modal.');
   const ratio = enlarged.imageWidth / before.imageWidth;
-  assert.ok(ratio >= 1.08 && ratio <= 1.12, `The actual photograph grows in place within the approved range (${ratio}).`);
+  assert.ok(ratio >= 1.08 && ratio <= 1.12, `The actual photograph grows in place within the approved range (${ratio}): ${JSON.stringify({before,enlarged})}`);
   assert.ok(close(enlarged.left, before.left) && close(enlarged.y, before.y), 'Inline enlargement retains both scroll axes.');
   assert.equal(enlarged.height, before.height); assert.deepEqual(enlarged.order, before.order);
   await first.click();
