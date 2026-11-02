@@ -4,6 +4,25 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V23 — DONE — 2026-11-03
+
+Only real links receive the typographic hover now. `01 / creative`,
+`02 / ABOUT` and `03 / CONTACT` are static headings with no anchor, tab stop,
+scale or glow; the shared heading-hover CSS is scoped to headings that
+actually contain a link, and heading hover measurement binds only to those.
+Rubrik links, branding, footer links, NAAVI, carousel cards and artwork keep
+their existing unified hover.
+
+Actual serial checks before builds:
+
+- New `npm run test:static-titles`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Each title remains pixel- and style-identical after a 400ms
+  hover; no title contains a link or tab stop; the desktop rubric link still
+  receives its unified transform.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V23/`.
+
+
 ## V21 + V24 + V27 — DONE — 2026-11-03
 
 The homepage section is now the static `01 / creative` title, with no route

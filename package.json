@@ -51,6 +51,7 @@
     "test:drift-performance": "node tests/horizontal-drift-performance.mjs",
     "test:pointer-focus": "node tests/pointer-focus-browser.mjs",
     "test:about-heading": "node tests/v20-about-heading-browser.mjs",
+    "test:static-titles": "node tests/v23-static-titles-browser.mjs",
     "test:hero-poster": "node tests/hero-poster-browser.mjs",
     "test:digital-ink": "node tests/digital-ink-browser.mjs",
     "test:persistent-memory": "node tests/persistent-memory-browser.mjs",

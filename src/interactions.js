@@ -270,7 +270,7 @@ export function initInteractions(root = document, { revealSections = true, setti
     });
   }
   for (const target of root.querySelectorAll(interactiveSelector)) enhance(target);
-  for (const heading of root.querySelectorAll('.kinetic-heading')) {
+  for (const heading of root.querySelectorAll('.kinetic-heading:has(a)')) {
     headings.set(heading, heading.style.getPropertyValue('--heading-hover-scale'));
     listen(heading, 'pointerenter', () => { if (fine.matches && !reduced.matches) fitHeading(heading); }, { passive: true });
     resizeObserver?.observe(heading);
