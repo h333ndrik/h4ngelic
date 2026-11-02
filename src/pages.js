@@ -111,7 +111,7 @@ export function renderWorkPage(category = 'all') {
   const content = siteContent.workGroups.map(group => {
     const directCategory = group.children.length === 1 && group.children[0] === group.id;
     return `<section class="work-group${directCategory ? ' archive-category' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="group-${escape(group.id)}-title" data-work-group="${escape(group.id)}"${directCategory ? ` data-archive-category="${escape(group.id)}"` : ''}>
-      <h2 class="work-group-heading" id="group-${escape(group.id)}-title"${group.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${workAnchorURL(group.id)}">${escape(group.label)}</a></h2>
+      <h2 class="work-group-heading" id="group-${escape(group.id)}-title"${group.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${workAnchorURL(group.id)}">${escape(group.label)}${group.id === 'tattoos' ? ` ${arrow}` : ''}</a></h2>
       ${directCategory ? collection(categoryById(group.id)) : group.children.map(id => leaf(categoryById(id), { id: id === group.id ? 'finished-tattoos' : id })).join('')}
       ${group.id === 'tattoos' ? '<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading" id="archive-model-title">3d model</h3></section>' : ''}
     </section>`;

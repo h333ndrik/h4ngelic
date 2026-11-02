@@ -225,13 +225,15 @@ test('content utilities reject script, protocol-relative and credential-bearing 
 test('Works has three unnumbered major rubrics, subordinate archive labels and an empty deferred model section', () => {
   const markup = renderWorkPage('all');
   assert.match(markup, /<h1 class="page-heading">01 \/ WORKS<\/h1>/);
-  const major = [...markup.matchAll(/<h2 class="work-group-heading"[^>]*><a[^>]*>([^<]+)<\/a><\/h2>/g)].map(match => match[1]);
+  const major = [...markup.matchAll(/<h2 class="work-group-heading"[^>]*><a[^>]*>([\s\S]*?)<\/a><\/h2>/g)].map(match => match[1].replace(/<[^>]*>/g, '').trim());
   assert.deepEqual(major, ['tattoos', 'jewellery', 'more']);
   const subordinate = [...markup.matchAll(/<h3 class="archive-category-heading"[^>]*>(?:<a[^>]*>)?([^<]+)(?:<\/a>)?<\/h3>/g)].map(match => match[1]);
   assert.deepEqual(subordinate, ['on skin', 'flashes', '3d model', 'digital artworks', 'analog photography']);
   assert.doesNotMatch(markup, /work-subfilters|SELECTED WORKS|selected works/i);
   const numberedAndCategoryHeadings = [...markup.matchAll(/<h[123]\b[^>]*>[\s\S]*?<\/h[123]>/g)].map(match => match[0]).join('');
-  assert.doesNotMatch(numberedAndCategoryHeadings, /class="arrow"/, 'Category headings do not inherit directional footer arrows.');
+  assert.equal((numberedAndCategoryHeadings.match(/class="arrow"/g) || []).length, 1,
+    'Only the approved TATTOOS heading receives the shared directional arrow.');
+  assert.match(markup, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow" aria-hidden="true"><\/i><\/a><\/h2>/);
   const model = markup.match(/<section[^>]+data-deferred-model>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(model);
   assert.match(model, /^<h3[^>]+>3d model<\/h3>$/);

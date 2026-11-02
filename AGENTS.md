@@ -70,9 +70,9 @@ These are headlessChromium/SwiftShader software-renderer measurements, limited b
 
 ## Current verified checkpoint
 
-F6: **DONE** (2026-11-02 16:16 UTC). Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6.
+F7: **DONE** (2026-11-02 16:24 UTC). TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved.
 
-Next: F7: match the TATTOOS heading to Home size and arrow. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+Next: F8: apply the native h4 cursor coverage fix, verify all interactive surfaces with existing navigation suite6 and npm test, record actual results and commit separately. Then continue F10/F11/F13/F14/F15/F16; no launch.
 
 ## F10 viewport decision — confirmed 2026-11-02
 

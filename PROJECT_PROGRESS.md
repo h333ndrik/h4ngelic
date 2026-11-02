@@ -1,4 +1,4 @@
-# V3.1.1 progress — F6 done
+# V3.1.1 progress — F7 done
 
 ## Current committed checkpoint — 2026-11-02
 
@@ -18,7 +18,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F4 | DONE | Contact shares About section clock; browser6 and Node363/363 pass. Commit `7238478`;12windows0LongTasks, but RAFp95 up to566.5ms; see measured limitations below. |
 | F5 | DONE | Use one gap throughout the Works floating row; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F5. |
 | F6 | DONE | Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6. |
-| F7 | TODO | Works TATTOOS size equals Home tattoo link at all widths, with common arrow. |
+| F7 | DONE | TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved. |
 | F8 | TODO | Native h4 cursor across all interactive areas, including NAAVI/lower Home, both motion preferences; preserve size/feel and touch behavior. |
 | F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
 | F10 | TODO — clarified | Digital resting base is60% of pre-V3.1 original width, replacing V3.1's50% reduction (archive550→660px cap, detail600→720px cap before viewport constraints). Reuse F9 expansion, responsive sources and unified effects. |
@@ -97,7 +97,7 @@ Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, fo
 
 ## Exact next checkpoint
 
-F7: match the TATTOOS heading to Home size and arrow. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F8: apply the native h4 cursor coverage fix, verify all interactive surfaces with existing navigation suite6 and npm test, record actual results and commit separately. Then continue F10/F11/F13/F14/F15/F16; no launch.
 
 ## Confirmed continuation answers — 2026-10-31
 
@@ -203,3 +203,29 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F6`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: F7: match the TATTOOS heading to Home size and arrow. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F7 — PARTIAL — 2026-11-02 16:21 UTC
+
+Match the tattoo heading size and arrow: verification incomplete.
+
+Actual failing command: `npm test`, exit 1. Output: `docs/validation/v3.1.1/F7/node.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F7: inspect docs/validation/v3.1.1/F7/node.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F6 measured performance limits
+
+The36 native-scroll measurement windows cover Work/About/Contact in both modes and all6 profiles. The largest observed entrance script duration in attributable long animation frames was5.7ms;20windows did not expose usable source attribution. One whole-page118ms Long Task occurred in390px/full-motion Normal About, with browser attribution `unknown`/`window`; it cannot honestly be assigned to or excluded from the entrance solely from that entry. Preserve the complete JSON. Functional reversal/native-input checks pass, but these cloud/SwiftShader measurements do not establish universally hitch-free hardware rendering.
+
+## F7 — DONE — 2026-11-02 16:24 UTC
+
+TATTOOS now shares the Home category typography token and the common arrow. F3 static markers remain. Changed files: `src/ui-tokens.css`, `src/style.css`, `src/archive-structure.css`, `src/pages.js`, existing navigation/content tests.
+
+Existing navigation browser suite:6/6 PASS,1440/390/320 × full/reduced,333/4, zero console errors/overflow. Actual font parity and arrow count are stored in `docs/validation/v3.1.1/F7/results.json`; browser output in `browser.txt`. `npm test`:363/363 PASS, zero failures. A superseded text-only HTML parser initially omitted the new arrow-bearing TATTOOS link; the parser now compares actual text content while the browser separately verifies exactly one arrow. Failed attempts remain recorded. No browser rerun was needed for a test-parser-only correction.
+
+F6 performance limitations were added to PROJECT_PROGRESS.md from its actual36 measurement windows; no universal smoothness claim is made. No build/deploy/merge.
+
+Exact next checkpoint: F8: apply the native h4 cursor coverage fix, verify all interactive surfaces with existing navigation suite6 and npm test, record actual results and commit separately. Then continue F10/F11/F13/F14/F15/F16; no launch.
+
+## F7 checkpoint correction
+
+The first F7 Node run retained a superseded prohibition on heading arrows. The approved Tattoo arrow and text parsing are now asserted explicitly; final `npm test` is363/363 PASS. The earlier DONE checkpoint was premature and has been corrected in the unpublished F7 commit. All failed Node attempts remain in `docs/validation/v3.1.1/F7/`; its previously successful navigation6 run is unchanged. F8 source is only staged later after its own serial checks.

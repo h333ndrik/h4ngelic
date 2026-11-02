@@ -45,6 +45,8 @@
 .work-group + .work-group, .archive-category + .work-group, .work-group + .archive-category { margin-top: clamp(90px, 14vw, 210px); }
 .work-group-heading { margin: clamp(50px, 8vw, 110px) 0 12px; font-size: clamp(48px, 9vw, 138px); font-weight: 400; line-height: 1.05; letter-spacing: -.055em; }
 .work-group-heading a { display: inline-flex; align-items: center; gap: .3em; }
+#group-tattoos-title { font-size: var(--type-category-link); }
+#group-tattoos-title a { gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
 /* Whitespace, never category rules, separates the archive. */
 .work-page :is(.work-filters, .work-group, .archive-category, .project-meta) { border: 0; }
 .archive-category { scroll-margin-top: 90px; }

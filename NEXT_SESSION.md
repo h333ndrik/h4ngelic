@@ -14,9 +14,9 @@ Read all four root files and actual Git before work. F1/F9/F2/F3/F4 are committe
 
 ## First unfinished task
 
-F7: match the TATTOOS heading to Home size and arrow. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F8: apply the native h4 cursor coverage fix, verify all interactive surfaces with existing navigation suite6 and npm test, record actual results and commit separately. Then continue F10/F11/F13/F14/F15/F16; no launch.
 
-Latest recorded result: **F6 DONE**, 2026-11-02 16:16 UTC. Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6.
+Latest recorded result: **F7 DONE**, 2026-11-02 16:24 UTC. TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved.
 
 ## F1 — actual verification
 
@@ -39,7 +39,7 @@ F1 was committed as `f57f759`; no V3.1.1 build/export is claimed by this documen
 | F4 | DONE | Contact shares About section clock; browser6 and Node363/363 pass. Commit `7238478`;12windows0LongTasks, but RAFp95 up to566.5ms; see measured limitations below. |
 | F5 | DONE | Use one gap throughout the Works floating row; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F5. |
 | F6 | DONE | Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6. |
-| F7 | TODO | Works TATTOOS size equals Home tattoo link at all widths, with common arrow. |
+| F7 | DONE | TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved. |
 | F8 | TODO | Native h4 cursor across all interactive areas, including NAAVI/lower Home, both motion preferences; preserve size/feel and touch behavior. |
 | F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
 | F10 | TODO — clarified | Digital resting base is60% of pre-V3.1 original width, replacing V3.1's50% reduction (archive550→660px cap, detail600→720px cap before viewport constraints). Reuse F9 expansion, responsive sources and unified effects. |

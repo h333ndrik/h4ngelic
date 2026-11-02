@@ -6,6 +6,7 @@
   --surface-input: #303033;
   --header-item-gap: clamp(10px, 2.2vw, 32px);
   --type-display: clamp(32px, 6vw, 88px);
+  --type-category-link: clamp(18px, 5.2vw, 84px);
   --type-navigation: clamp(13px, 1.32vw, 20px);
   --type-secondary-link: clamp(18px, 1.8vw, 27px);
   --ui-hover-glow-normal: drop-shadow(0 0 1px rgb(255 255 255 / calc(.95 * var(--ui-glow-strength, .2))))

@@ -90,6 +90,12 @@ async function workChrome(page,profile,world) {
   for(const gap of spacing.gaps) assert.ok(Math.abs(gap-parseFloat(spacing.token))<.2,`One actual header gap: ${JSON.stringify(spacing)}`);
   assert.ok(spacing.tops.every(top=>Math.abs(top-spacing.brandTop)<1),'Header item hit areas share the existing baseline row.');
   g.spacing=spacing;
+  const tattooParity=await page.evaluate(()=>{
+    const probe=document.createElement('a');probe.className='category-link';probe.style.cssText='position:absolute;visibility:hidden';document.body.append(probe);
+    const front=getComputedStyle(probe).fontSize;probe.remove();
+    const title=document.querySelector('#group-tattoos-title');return {front,work:getComputedStyle(title).fontSize,arrows:title.querySelectorAll('.arrow').length};
+  });
+  assert.equal(tattooParity.work,tattooParity.front);assert.equal(tattooParity.arrows,1);g.tattooParity=tattooParity;
   const typography=await page.evaluate(()=>{
     const h=document.createElement('h2');h.className='kinetic-heading';h.style.cssText='position:absolute;visibility:hidden;pointer-events:none';document.body.append(h);
     const heading=getComputedStyle(h).fontSize;h.remove();
