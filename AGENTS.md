@@ -70,9 +70,9 @@ These are headlessChromium/SwiftShader software-renderer measurements, limited b
 
 ## Current verified checkpoint
 
-F10: **DONE** (2026-11-02 16:41 UTC). Reuse inline viewing for the resized Digital artwork; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F10.
+F11: **DONE** (2026-11-02 16:42 UTC). Round photographs with the shared radius token; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F11.
 
-Next: F11: finish shared4px photo corners while retaining effect exclusions. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+Next: F13: align route-link and branding hover feedback. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## F10 viewport decision — confirmed 2026-11-02
 

@@ -1,4 +1,4 @@
-# V3.1.1 progress — F10 done
+# V3.1.1 progress — F11 done
 
 ## Current committed checkpoint — 2026-11-02
 
@@ -22,7 +22,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F8 | DONE | Cover every interactive area with the native h4 cursor; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F8. |
 | F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
 | F10 | DONE | Reuse inline viewing for the resized Digital artwork; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F10. |
-| F11 | TODO | Shared `--radius-soft`4px on carousel/Digital images; keep corruption/effects/page canvas square. F9 includes its required carousel subset. |
+| F11 | DONE | Round photographs with the shared radius token; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F11. |
 | F13 | TODO | Branding/routes share unified hover/focus, no special opacity/pills/background or layout shift. |
 | F14 | TODO | Floating headers white-base difference/exclusion against actual page/ink/WebGL, correct isolation and readable active/hover/cursor; measured palette pixels/performance/screenshots. Chrome/Firefox/Safari availability must be reported honestly. |
 | F15 | TODO | Hold4 enters only and has zero effect in4. Exactly three quick3 presses in~2s return; double3 does not. Hint exactly `press three times 3 to reverse`; mobile3tap equivalent and1400ms transition unchanged. |
@@ -97,7 +97,7 @@ Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, fo
 
 ## Exact next checkpoint
 
-F11: finish shared4px photo corners while retaining effect exclusions. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F13: align route-link and branding hover feedback. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## Confirmed continuation answers — 2026-10-31
 
@@ -284,3 +284,18 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F10`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: F11: finish shared4px photo corners while retaining effect exclusions. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F11 — DONE — 2026-11-02 16:42 UTC
+
+Round photographs with the shared radius token.
+
+Changed files: `src/gallery.css`, `tests/gallery-browser.mjs`, `src/artwork-transitions.css`.
+
+Actual serial verification, before builds:
+
+- `node tests/gallery-browser.mjs`: exit 0, 21.994s. Actual output: `docs/validation/v3.1.1/F11/browser.txt`.
+- `npm test`: exit 0, 3.357s. Actual output: `docs/validation/v3.1.1/F11/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F11`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F13: align route-link and branding hover feedback. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.

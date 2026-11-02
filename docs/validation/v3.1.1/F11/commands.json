@@ -1,0 +1,14 @@
+[
+  {
+    "command": "node tests/gallery-browser.mjs",
+    "exitCode": 0,
+    "seconds": 21.994,
+    "log": "docs/validation/v3.1.1/F11/browser.txt"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 3.357,
+    "log": "docs/validation/v3.1.1/F11/node.txt"
+  }
+]

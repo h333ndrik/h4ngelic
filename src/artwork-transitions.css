@@ -10,6 +10,7 @@
   mix-blend-mode: normal;
 }
 .artwork-flight-copy {
+  border-radius: var(--radius-soft);
   position: fixed;
   max-width: none;
   max-height: none;

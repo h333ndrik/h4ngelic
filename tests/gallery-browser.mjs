@@ -48,12 +48,12 @@ async function displayed(page, number) {
 }
 
 try {
-  for (const width of [1440, 390, 320]) {
+  for (const {width,reduced} of [1440,390,320].flatMap(width=>[false,true].map(reduced=>({width,reduced})))) {
     const context = await browser.newContext({
       viewport: { width, height: width > 600 ? 1000 : 844 },
       hasTouch: width <= 600,
       isMobile: width <= 600,
-      reducedMotion: width === 320 ? 'reduce' : 'no-preference',
+      reducedMotion: reduced ? 'reduce' : 'no-preference',
     });
     const page = await context.newPage();
     const errors = [];
@@ -72,20 +72,24 @@ try {
       return value === 'none' ? 0 : new DOMMatrixReadOnly(value).m22;
     });
     assert.ok(Math.abs(coverScale) < .001, 'Keyboard focus must remove the image mask.');
+    assert.equal(await opener.evaluate(element=>getComputedStyle(element).borderRadius),'4px');
+    assert.equal(await opener.locator('img').evaluate(element=>getComputedStyle(element).borderRadius),'4px');
     const original = await opener.boundingBox();
     const originalScroll = await page.evaluate(() => scrollY);
     await page.keyboard.press('Enter');
-    if (width !== 320) {
+    if (!reduced) {
       await page.waitForFunction(() => document.querySelector('[data-artwork-flight="opening"]'));
       const flight = await page.locator('[data-artwork-flight-copy]').evaluate(image => {
         const box = image.getBoundingClientRect();
-        return { ratio: box.width / box.height, natural: image.naturalWidth / image.naturalHeight };
+        return { ratio: box.width / box.height, natural: image.naturalWidth / image.naturalHeight, radius: getComputedStyle(image).borderRadius };
       });
       assert.ok(Math.abs(flight.ratio - flight.natural) < .005, 'The moving shared photograph must preserve its aspect ratio.');
+      assert.equal(flight.radius, '4px', 'The temporary moving image keeps the shared photo radius.');
     }
     await displayed(page, 1);
     const dialog = page.locator('.artwork-dialog');
     const box = await dialog.boundingBox();
+    assert.equal(await page.locator('.artwork-viewer-stage img').evaluate(element=>getComputedStyle(element).borderRadius),'4px','Generic detail viewer uses the same radius token.');
     assert.ok(box.x >= 0 && box.x + box.width <= width + 1, `Modal must fit ${width}px viewport.`);
     const scrim = await dialog.evaluate(element => ({ background: getComputedStyle(element).backgroundColor, backdrop: getComputedStyle(element, '::backdrop').backgroundColor, border: getComputedStyle(element).borderTopWidth }));
     assert.equal(scrim.background, 'rgba(0, 0, 0, 0)', 'The viewer must keep the surrounding website visible through its surface.');
@@ -98,10 +102,10 @@ try {
       const rect = await button.boundingBox();
       assert.ok(rect.width >= 44 && rect.height >= 44, 'Viewer controls must keep accessible touch targets.');
     }
-    if (width === 320) {
+    if (reduced) {
       assert.equal(await dialog.evaluate((element) => getComputedStyle(element).transitionDuration), '0s', 'Reduced motion must remove the opening transition.');
     }
-    await page.screenshot({ path: new URL(`gallery-${width}.png`, artifacts).pathname, fullPage: true });
+    await page.screenshot({ path: new URL(`gallery-${width}-${reduced}.png`, artifacts).pathname, fullPage: true });
 
     await page.locator('.artwork-next').click();
     await displayed(page, 2);
@@ -145,7 +149,7 @@ try {
     await page.evaluate(() => window.__galleryCleanup());
     assert.equal(await page.locator('.artwork-dialog').count(), 0, 'Route cleanup must remove the viewer.');
     assert.deepEqual(errors, []);
-    console.log(`PASS gallery ${width}px: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.`);
+    console.log(`PASS gallery ${width}px reduced=${reduced}: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.`);
     await context.close();
   }
 } finally {
