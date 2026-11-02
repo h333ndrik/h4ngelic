@@ -338,7 +338,7 @@ try {
       assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['flashes']);
       await page.locator('.work-filters a[href="#/work/more"]').click();
       await page.waitForFunction(() => location.hash === '#/work/more' && document.querySelector('[data-work-context="more"]'));
-      assert.equal(await page.locator('.work-page h1').textContent(), 'MORE');
+      assert.equal(await page.locator('.work-page h1').textContent(), 'more');
       assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['digital-artworks', 'analog-photography']);
       await page.locator('.archive-category-heading a[href="#/work/digital-artworks"]').click();
       await page.waitForFunction(() => location.hash === '#/work/digital-artworks' && document.querySelector('[data-work-context="digital-artworks"]'));

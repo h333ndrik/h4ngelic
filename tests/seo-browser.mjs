@@ -171,7 +171,8 @@ try {
         }
         assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
           ['/work/tattoos', '/work/jewellery', '/work/more']);
-        const label = category === 'all' ? '01 / WORKS' : category.replaceAll('-', ' ').toUpperCase();
+        const label = category === 'all' ? '01 / WORKS' : ['tattoos', 'jewellery', 'more'].includes(category)
+          ? category : category.replaceAll('-', ' ').toUpperCase();
         assert.equal(await page.locator('.work-page .page-heading').innerText(), label);
         assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);
       } else {

@@ -4,6 +4,30 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V12–V14 — DONE — 2026-11-03
+
+The tattoos, jewellery and more routes now share the corrected structure:
+lower-case `tattoos`, `jewellery` and `more` page titles; no self-link group
+header; and real child categories promoted directly beneath the title at the
+same size as the frontpage tattoo link with the shared arrow treatment.
+Tattoos promotes `flashes`; more promotes `digital artworks` and
+`analog photography`; jewellery has no invented child category. Visible rubric
+category labels carry `data-motion-static`, so they have no entrance pose at
+first paint. Later page content keeps the existing reversible scroll motion.
+
+Changed files: `src/pages.js`, `src/archive-structure.css`, content, portfolio,
+SEO and standalone contracts, plus checkpoint evidence.
+
+Actual serial checks before builds:
+
+- `node tests/portfolio-browser.mjs`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced, in both realities. Confirmed lower-case headings, no
+  `.work-group-heading` on rubric pages, promoted links/arrows, full
+  category-link font parity, static first-paint transforms, real routes,
+  canonicals, reload/back and cold interiors without Three.js. Evidence:
+  `docs/validation/v3.1.2/V12/`.
+- `npm test`: 370/370 PASS, 0 failures. Evidence: `V12/node.txt`.
+
 ## V11 + V16 — DONE — 2026-11-03
 
 Pointer and touch activation no longer paints a focus outline, translucent

@@ -48,6 +48,17 @@
 #group-tattoos-title { font-size: var(--type-category-link); }
 #group-tattoos-title a { gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
 /* Whitespace, never category rules, separates the archive. */
+.work-page.is-rubric-page .page-heading { margin-bottom: 0; }
+html body .work-page.is-rubric-page .rubric-category-heading {
+  margin-top: 0;
+  font-size: var(--type-category-link);
+  line-height: 1.12;
+  letter-spacing: -.045em;
+  scroll-margin-top: 90px;
+}
+.rubric-category-heading a { gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
+.is-rubric-archive > .archive-category:first-child .horizontal-drift,
+.is-rubric-archive > .archive-category:first-child .project-grid { margin-top: clamp(28px, 4vw, 52px); }
 .work-page :is(.work-filters, .work-group, .archive-category, .project-meta) { border: 0; }
 .archive-category { scroll-margin-top: 90px; }
 .archive-category[data-archive-category='digital-artworks'] > .project-grid { grid-template-columns: minmax(0, 1fr); }

@@ -21,10 +21,10 @@ test('homepage keeps three horizontal real category routes and a working Works h
 test('real category pages select their own content while /work retains the complete archive', () => {
   const cases = [
     ['all', ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'more'], 9, '01 / WORKS'],
-    ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'TATTOOS'],
+    ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'tattoos'],
     ['flashes', ['flashes'], [], 0, 'FLASHES'],
-    ['jewellery', ['jewellery'], ['jewellery'], 0, 'JEWELLERY'],
-    ['more', ['digital-artworks', 'analog-photography'], ['more'], 1, 'MORE'],
+    ['jewellery', ['jewellery'], ['jewellery'], 0, 'jewellery'],
+    ['more', ['digital-artworks', 'analog-photography'], ['more'], 1, 'more'],
     ['analog-photography', ['analog-photography'], [], 0, 'ANALOG PHOTOGRAPHY'],
     ['digital-artworks', ['digital-artworks'], [], 1, 'DIGITAL ARTWORKS'],
     ['paintings', ['paintings'], [], 0, 'PAINTINGS'],
@@ -35,11 +35,30 @@ test('real category pages select their own content while /work retains the compl
     assert.deepEqual([...markup.matchAll(/data-archive-category="([^"]+)"/g)].map(match => match[1]), categories);
     assert.deepEqual([...markup.matchAll(/data-work-group="([^"]+)"/g)].map(match => match[1]), groups);
     assert.equal((markup.match(/<img /g) || []).length, imageCount, 'Only real supplied images from the selected route render.');
-    assert.ok(markup.includes(`<h1 class="page-heading">${heading}</h1>`));
+    assert.ok(markup.includes(`<h1 class="page-heading" id="work-page-title">${heading}</h1>`));
     for (const category of ['tattoos', 'jewellery', 'more']) assert.ok(markup.includes(`href="/work/${category}"`));
     assert.doesNotMatch(markup, /href="\/work#/);
     const ids = [...markup.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
     assert.equal(new Set(ids).size, ids.length, `Duplicate anchors in ${context} context`);
+  }
+});
+
+test('the three rubric pages promote their real categories without self-link headers', () => {
+  const expected = {
+    tattoos: ['/work/flashes'],
+    jewellery: [],
+    more: ['/work/digital-artworks', '/work/analog-photography'],
+  };
+  for (const [context, hrefs] of Object.entries(expected)) {
+    const markup = renderWorkPage(context);
+    assert.match(markup, new RegExp(`<div class="page-shell work-page is-rubric-page"[^>]*>`));
+    assert.doesNotMatch(markup, /work-group-heading/);
+    const links = [...markup.matchAll(/<h3 class="archive-category-heading rubric-category-heading"[^>]*data-motion-static[^>]*><a href="([^"]+)">([\s\S]*?)<\/a><\/h3>/g)]
+      .map(match => ({ href: match[1], text: match[2].replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(),
+        arrows: (match[2].match(/class="arrow"/g) || []).length }));
+    assert.deepEqual(links.map(link => link.href), hrefs);
+    assert.ok(links.every(link => link.text && link.arrows === 1 && link.href !== `/work/${context}`), 'Promoted categories never duplicate the page self-route and always carry one arrow.');
+    for (const link of links) assert.ok(markup.includes(`href="${link.href}"`));
   }
 });
 
@@ -219,7 +238,7 @@ test('content utilities reject script, protocol-relative and credential-bearing 
 
 test('Works has three unnumbered major rubrics, subordinate archive labels and an empty deferred model section', () => {
   const markup = renderWorkPage('all');
-  assert.match(markup, /<h1 class="page-heading">01 \/ WORKS<\/h1>/);
+  assert.match(markup, /<h1 class="page-heading" id="work-page-title">01 \/ WORKS<\/h1>/);
   const major = [...markup.matchAll(/<h2 class="work-group-heading"[^>]*><a[^>]*>([\s\S]*?)<\/a><\/h2>/g)].map(match => match[1].replace(/<[^>]*>/g, '').trim());
   assert.deepEqual(major, ['tattoos', 'jewellery', 'more']);
   const subordinate = [...markup.matchAll(/<h3 class="archive-category-heading"[^>]*>(?:<a[^>]*>)?([^<]+)(?:<\/a>)?<\/h3>/g)].map(match => match[1]);

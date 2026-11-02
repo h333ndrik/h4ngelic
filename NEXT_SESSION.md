@@ -23,8 +23,8 @@ Verification:
   fallback all PASS.
 - No build, merge or deployment performed.
 
-Exact next action: V12–V14 normalize the tattoos, jewellery and more category
-pages, then verify their shared structure and animations across the six profiles.
+Exact next action: V20 changes the About heading to `03/ about`, verifies the
+About layout at all three widths and pushes the separate commit.
 
 ---
 

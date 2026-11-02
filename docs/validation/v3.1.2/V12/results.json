@@ -1,0 +1,2526 @@
+{
+  "checkedAt": "2026-11-02T23:22:08.081Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "observations": [
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        }
+      ],
+      "coldInteriorRequestsChecked": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "observations": [
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 1440,
+            "width": 1440
+          }
+        }
+      ],
+      "coldInteriorRequestsChecked": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "observations": [
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        }
+      ],
+      "coldInteriorRequestsChecked": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "observations": [
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 390,
+            "width": 390
+          }
+        }
+      ],
+      "coldInteriorRequestsChecked": true,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "observations": [
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        }
+      ],
+      "coldInteriorRequestsChecked": true,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "observations": [
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "all",
+          "path": "/work",
+          "groups": [
+            "tattoos",
+            "jewellery",
+            "more"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes",
+            "jewellery",
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 9,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "tattoos",
+          "path": "/work/tattoos",
+          "groups": [
+            "tattoos"
+          ],
+          "categories": [
+            "tattoos",
+            "flashes"
+          ],
+          "images": 8,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "jewellery",
+          "path": "/work/jewellery",
+          "groups": [
+            "jewellery"
+          ],
+          "categories": [
+            "jewellery"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "more",
+          "path": "/work/more",
+          "groups": [
+            "more"
+          ],
+          "categories": [
+            "digital-artworks",
+            "analog-photography"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "flashes",
+          "path": "/work/flashes",
+          "groups": [],
+          "categories": [
+            "flashes"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "analog-photography",
+          "path": "/work/analog-photography",
+          "groups": [],
+          "categories": [
+            "analog-photography"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "digital-artworks",
+          "path": "/work/digital-artworks",
+          "groups": [],
+          "categories": [
+            "digital-artworks"
+          ],
+          "images": 1,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        },
+        {
+          "category": "paintings",
+          "path": "/work/paintings",
+          "groups": [],
+          "categories": [
+            "paintings"
+          ],
+          "images": 0,
+          "dimensions": {
+            "document": 320,
+            "width": 320
+          }
+        }
+      ],
+      "coldInteriorRequestsChecked": true,
+      "errors": []
+    }
+  ],
+  "failures": []
+}

@@ -45,7 +45,9 @@ async function work(page, category = 'all') {
   assert.deepEqual(actual, expectedCategories[category], 'A category URL renders only its selected real group/leaf.');
   const expectedGroups = category === 'all' ? groups : groups.includes(category) ? [category] : [];
   assert.deepEqual(await page.locator('[data-work-group]').evaluateAll(nodes => nodes.map(node => node.dataset.workGroup)), expectedGroups);
-  assert.equal(await page.locator('.work-page .page-heading').innerText(), category === 'all' ? '01 / WORKS' : category.replaceAll('-', ' ').toUpperCase());
+  const rubric = groups.includes(category);
+  assert.equal(await page.locator('.work-page .page-heading').innerText(), category === 'all' ? '01 / WORKS'
+    : rubric ? category : category.replaceAll('-', ' ').toUpperCase());
   assert.equal(await page.locator('#contact, [data-inquiry-form]').count(), 0, 'Contact remains exclusively on Home.');
   assert.equal(await page.locator('#logo-canvas').isVisible(), false);
   const links = await page.locator('.work-filters a').evaluateAll(nodes => nodes.map(node => ({ href: node.getAttribute('href'), text: node.textContent.trim() })));
@@ -54,6 +56,25 @@ async function work(page, category = 'all') {
   const current = page.locator('.work-filters a[aria-current="page"]');
   assert.equal(await current.count(), group ? 1 : 0);
   if (group) assert.equal(await current.getAttribute('href'), `/work/${group}`);
+  if (rubric) {
+    assert.equal(await page.locator('.work-group-heading').count(), 0, 'Rubric pages do not retain a self-link header.');
+    assert.equal(await page.locator('.work-page.is-rubric-page').count(), 1);
+    const promoted = await page.locator('.portfolio-archive .rubric-category-heading a').evaluateAll(nodes => nodes.map(node => ({ href: node.getAttribute('href'),
+      text: node.textContent.trim(), arrows: node.querySelectorAll('.arrow').length })));
+    assert.ok(promoted.every(link => link.href !== `/work/${category}` && link.arrows === 1), JSON.stringify(promoted));
+    const staticPose = await page.locator('.portfolio-archive .rubric-category-heading').evaluateAll(nodes => nodes.map(node => {
+      const style = getComputedStyle(node);
+      return { flag: node.hasAttribute('data-motion-static'), transform: style.transform, opacity: Number(style.opacity), size: style.fontSize };
+    }));
+    assert.ok(staticPose.every(pose => pose.flag && pose.transform === 'none' && pose.opacity === 1), JSON.stringify(staticPose));
+    if (promoted.length) {
+      const frontCategorySize = await page.evaluate(() => {
+        const probe = document.createElement('a'); probe.className = 'category-link'; probe.style.cssText = 'position:absolute;visibility:hidden';
+        document.body.append(probe); const size = getComputedStyle(probe).fontSize; probe.remove(); return size;
+      });
+      assert.ok(staticPose.every(pose => pose.size === frontCategorySize), JSON.stringify({ staticPose, frontCategorySize }));
+    }
+  }
   const photos = actual.includes('tattoos') ? 8 : 0, digital = actual.includes('digital-artworks') ? 1 : 0;
   assert.equal(await page.locator('.portfolio-archive .project-image img').count(), photos + digital);
   if (photos) {

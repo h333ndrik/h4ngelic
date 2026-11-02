@@ -102,7 +102,7 @@ export function renderWorkPage(category = 'all') {
   const selectedCategory = categoryById(selected);
   const groups = selected === 'all' ? siteContent.workGroups : selectedGroup ? [selectedGroup] : [];
   const title = selected === 'all' ? siteContent.home.selectedWorkLabel
-    : (selectedGroup?.label || selectedCategory?.label || '').toUpperCase();
+    : selectedGroup?.label || (selectedCategory?.label || '').toUpperCase();
   const activeGroup = selectedGroup?.id || siteContent.workGroups.find(group => group.children.includes(selected))?.id;
   const projects = orderedArtworks(artworks.filter(project => project.published !== false && categoryById(project.category)));
   const collection = entry => {
@@ -118,6 +118,21 @@ export function renderWorkPage(category = 'all') {
     </section>`;
   };
   const content = groups.map(group => {
+    if (selectedGroup) {
+      const rubricCategories = group.children.map(id => categoryById(id)).filter(Boolean).map(entry => {
+        const primary = entry.id === group.id;
+        const sectionId = primary ? `finished-${entry.id}` : entry.id;
+        const titleId = primary ? 'work-page-title' : `archive-${entry.id}-title`;
+        const heading = primary ? '' : `<h3 class="archive-category-heading rubric-category-heading" id="${escape(titleId)}" data-motion-static><a href="${categoryURL(entry.id)}">${escape(entry.archiveLabel || entry.label)} ${arrow}</a></h3>`;
+        return `<section class="archive-category${primary ? ' rubric-primary' : ''}" id="${escape(sectionId)}" tabindex="-1" aria-labelledby="${escape(titleId)}" data-archive-category="${escape(entry.id)}">
+          ${heading}${collection(entry)}
+        </section>`;
+      }).join('');
+      return `<section class="work-group is-rubric-archive" id="${escape(group.id)}" tabindex="-1" aria-labelledby="work-page-title" data-work-group="${escape(group.id)}">
+        ${rubricCategories}
+        ${group.id === 'tattoos' ? '<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading" id="archive-model-title">3d model</h3></section>' : ''}
+      </section>`;
+    }
     const directCategory = group.children.length === 1 && group.children[0] === group.id;
     return `<section class="work-group${directCategory ? ' archive-category' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="group-${escape(group.id)}-title" data-work-group="${escape(group.id)}"${directCategory ? ` data-archive-category="${escape(group.id)}"` : ''}>
       <h2 class="work-group-heading" id="group-${escape(group.id)}-title"${group.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${workAnchorURL(group.id)}">${escape(group.label)}${group.id === 'tattoos' ? ` ${arrow}` : ''}</a></h2>
@@ -130,8 +145,8 @@ export function renderWorkPage(category = 'all') {
     : selected === 'all' ? siteContent.categories.filter(entry => entry.legacy
       && projects.some(project => project.category === entry.id)).map(entry => leaf(entry, { nested: false })).join('') : '';
   return `${header('work')}
-  <div class="page-shell work-page" data-connected-work data-work-context="${escape(selected)}">
-    <h1 class="page-heading">${escape(title)}</h1>
+  <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
+    <h1 class="page-heading" id="work-page-title">${escape(title)}</h1>
     <nav class="work-filters" aria-label="Works sections">
       ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.label)}</a>`).join('')}
     </nav>
