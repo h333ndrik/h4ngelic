@@ -1,4 +1,4 @@
-# V3.1.1 progress — F13 done
+# V3.1.1 progress — F14 blocked
 
 ## Current committed checkpoint — 2026-11-02
 
@@ -24,7 +24,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F10 | DONE | Reuse inline viewing for the resized Digital artwork; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F10. |
 | F11 | DONE | Round photographs with the shared radius token; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F11. |
 | F13 | DONE | Unify route-link and branding hover feedback; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F13. |
-| F14 | TODO | Floating headers white-base difference/exclusion against actual page/ink/WebGL, correct isolation and readable active/hover/cursor; measured palette pixels/performance/screenshots. Chrome/Firefox/Safari availability must be reported honestly. |
+| F14 | BLOCKED | Chromium pixel/navigation6 and Node363 pass; Safari/Firefox/real-mannequin unavailable, legacy corruption recovery test times out. |
 | F15 | TODO | Hold4 enters only and has zero effect in4. Exactly three quick3 presses in~2s return; double3 does not. Hint exactly `press three times 3 to reverse`; mobile3tap equivalent and1400ms transition unchanged. |
 | F16a | TODO | Make Home01/WORKS heading a real clickable route with unified hover. |
 | F16b | TODO — clarified | User confirmed tattoos / jewellery / more become real category routes with large headers, direct-load/back navigation and unified hover. Preserve Home01/WORKS,02/ABOUT,03/CONTACT; Contact remains Home-only. Intent is resolved. |
@@ -97,7 +97,7 @@ Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, fo
 
 ## Exact next checkpoint
 
-F14: floating header blend, actual palette and compositing checks. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F15: apply entry-only4/triple3 proposal, verify sixprofiles serially and npmtest. F14 implementation/pixels are verified in Chromium, but cross-browser/real-mannequin and the legacy corruption recovery contract remain explicitly blocked. Continue F16 realroutes and new F17 returning-visitor line, then build/export; no launch.
 
 ## Confirmed continuation answers — 2026-10-31
 
@@ -314,3 +314,35 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F13`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: F14: floating header blend, actual palette and compositing checks. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F14 — PARTIAL — 2026-11-02 16:47 UTC
+
+Invert floating headers against actual page content: verification incomplete.
+
+Actual failing command: `node tests/v31-navigation-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F14/browser.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F14: inspect docs/validation/v3.1.1/F14/browser.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F14 — PARTIAL — 2026-11-02 16:58 UTC
+
+Invert floating headers against actual page content: verification incomplete.
+
+Actual failing command: `node tests/corruption-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F14/corruption.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F14: inspect docs/validation/v3.1.1/F14/corruption.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F14 — PARTIAL — 2026-11-02 17:05 UTC
+
+Invert floating headers against actual page content: verification incomplete.
+
+Actual failing command: `node tests/corruption-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F14/corruption.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F14: inspect docs/validation/v3.1.1/F14/corruption.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F14 — BLOCKED — 2026-11-02 17:11 UTC
+
+Floating header inversion is implemented. Changed index.html, header-contrast.js/.css, global-navigation.js, ink/mobile placement, corruption/xray layering and existing navigation/corruption tests. Actual navigation/pixel/compositing suite6/6 passes at1440/390/320 full/reduced,333/4; no errors/overflow. Actual palette RGB samples and synthetic WebGL ABBA timings are in results.json; screenshots included. npm test363/363 PASS.
+
+BLOCKED verification: actual Safari cannot run on Linux; Firefox is not installed. Actual mannequin remains unconfigured, so WebGL measurements are explicitly synthetic. The additional legacy corruption suite does NOT pass: recovered() expects the running/queued state to disappear, but its7000ms wait times out with the accepted persistent-memory renderer. Failed logs retained; no change to accepted mosh was made merely to satisfy this expectation. Do not report this suite as passing.
+
+Exact next checkpoint: F15: apply entry-only4/triple3 proposal, verify sixprofiles serially and npmtest. F14 implementation/pixels are verified in Chromium, but cross-browser/real-mannequin and the legacy corruption recovery contract remain explicitly blocked. Continue F16 realroutes and new F17 returning-visitor line, then build/export; no launch.

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { checkFloatingHeaderContrast, measureSyntheticHeaderCompositing } from './helpers/v311-header-contrast.mjs';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_NAV_ARTIFACTS || 'artifacts/v31-navigation'}/`, import.meta.url);
@@ -218,14 +219,22 @@ try {
       const normals=await indexContract(page,profile,'normal');const workNormal=await workChrome(page,profile,'normal');const contrastNormal=await contrastContract(page,'normal');
       assert.equal(await page.evaluate(()=>window.__v31GL),0,'Cold Work does not initialize a Three.js scene.');
       assert.ok(!requests.some(path=>/\/src\/main\.js$|\/three(?:[/.]|$)/i.test(path)));
+      const headerNormal=await checkFloatingHeaderContrast(page,{profile,world:'normal',output});
+      const syntheticHeaderPerformance=process.env.H4_HEADER_PERFORMANCE==='1' ? await measureSyntheticHeaderCompositing(page) : null;
       const cursorNormal=await cursorCoverage(page,profile,'normal');
       await mode(page,'xray');
       const other=await indexContract(page,profile,'xray');const workOther=await workChrome(page,profile,'xray');const contrastOther=await contrastContract(page,'xray');
+      const headerOther=await checkFloatingHeaderContrast(page,{profile,world:'xray',output});
       await page.screenshot({path:new URL(`work-${profile.width}-${profile.reduced?'reduced':'active'}-4.png`,output).pathname});
       const cursorOther=await cursorCoverage(page,profile,'xray');
       await mode(page,'normal');
+      await page.goto(new URL('/',base).href,{waitUntil:'networkidle'});await settle(page);
+      const homeHeaderNormal=await checkFloatingHeaderContrast(page,{profile,world:'normal',output});
+      await mode(page,'xray');
+      const homeHeaderOther=await checkFloatingHeaderContrast(page,{profile,world:'xray',output});
+      await mode(page,'normal');
       assert.deepEqual(errors,[]);
-      reports.push({...profile,normals,workNormal,contrastNormal,other,workOther,contrastOther,cursorNormal,cursorOther,errors});await save();
+      reports.push({...profile,normals,workNormal,contrastNormal,other,workOther,contrastOther,cursorNormal,cursorOther,headerNormal,headerOther,homeHeaderNormal,homeHeaderOther,syntheticHeaderPerformance,errors});await save();
       console.log(`PASS V3.1 navigation ${profile.width}px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.`);
     }catch(error){failures.push({...profile,message:error.stack,errors});await page.screenshot({path:new URL(`failure-${profile.width}.png`,output).pathname}).catch(()=>{});await save();throw error;}
     finally{await context.close();}

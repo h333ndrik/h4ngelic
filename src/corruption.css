@@ -16,7 +16,6 @@ html[data-mode='xray'] .corruption-background { opacity: var(--corruption-film-o
    texture or fading layer underneath it. Its canvas remains static in reduce. */
 html[data-memory-mosh-ready][data-mode='xray'] .corruption-background { opacity: 1; transition: none; }
 html[data-memory-mosh-ready] .xray-distress { display: none; }
-body > .corruption-background ~ main { position: relative; z-index: 1; }
 .corruption-photo-surface { position: relative; }
 .corruption-region { position: absolute; pointer-events: none; z-index: 2; }
 html[data-mode='xray'] :is(.kinetic-heading, .about-preview-copy, .identity, .masthead, .hero-nav, .page-header, .page-heading, .page-kicker, .archive-empty, .filter-link, .about-intro, .about-location, .about-paragraph, .about-references, .project-meta, .breadcrumbs, figcaption, .page-footer) {

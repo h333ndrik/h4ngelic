@@ -1,4 +1,5 @@
 import './global-navigation.css';
+import { initHeaderContrast } from './header-contrast.js';
 import { resolveRoute } from './routes.js';
 import { activeChapter, naaviUsesDisplayContrast } from './global-navigation-state.js';
 import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from './naavi-content.js';
@@ -8,9 +9,10 @@ import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from './naavi-
 export function initGlobalNavigation(doc = document) {
   const view = doc.defaultView;
   if (!view) return Object.assign(() => {}, { refresh: () => {} });
+  const headerContrast = initHeaderContrast(doc);
   let link = doc.querySelector('[data-naavi]');
   if (!link) {
-    doc.body.insertAdjacentHTML('beforeend', renderNAAVI({ kind: doc.documentElement.dataset.page || 'home' }));
+    (doc.querySelector('[data-page-composition]') || doc.body).insertAdjacentHTML('beforeend', renderNAAVI({ kind: doc.documentElement.dataset.page || 'home' }));
     link = doc.querySelector('[data-naavi]');
   }
   const index = doc.querySelector('[data-global-index]');
@@ -81,7 +83,7 @@ export function initGlobalNavigation(doc = document) {
     const filters = doc.querySelector('.work-filters');
     if (brand && filters && index) {
       const brandBox = brand.getBoundingClientRect();
-      const indexBox = index.getBoundingClientRect();
+      const indexBox = (summary || index).getBoundingClientRect();
       const gap = parseFloat(view.getComputedStyle(filters).columnGap) || 0;
       const left = brandBox.right + gap;
       filters.style.setProperty('--work-row-top', `${brandBox.top}px`);
@@ -154,6 +156,7 @@ export function initGlobalNavigation(doc = document) {
   }
   function refresh() {
     closeIndex();
+    headerContrast.refresh();
     routeKind = doc.documentElement.dataset.page || 'home';
     const standalone = doc.documentElement.dataset.preview === 'standalone';
     const url = standalone ? new URL(view.location.hash.slice(1) || '/', 'https://preview.invalid') : new URL(view.location.href);
@@ -232,6 +235,7 @@ export function initGlobalNavigation(doc = document) {
     link.removeAttribute('data-naavi-footer-docked');
     link.removeAttribute('data-naavi-display-contrast');
     resizeObserver?.disconnect();
+    headerContrast();
     listeners.forEach(remove => remove());
   }, { refresh });
 }

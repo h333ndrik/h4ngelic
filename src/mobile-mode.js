@@ -16,7 +16,7 @@ export function initMobileMode({ doc = document, getMode, isBusy, onPrepare, onC
   const status = doc.createElement('span');
   status.className = 'sr-only'; status.setAttribute('aria-live', 'polite'); status.setAttribute('aria-atomic', 'true');
   button.append(image, status);
-  doc.body.append(button);
+  (doc.querySelector('[data-page-composition]') || doc.body).append(button);
   function progress(element, count, total) {
     element.dataset.mobileTaps = String(count);
     element.style.setProperty('--mobile-mode-progress', String(count / total));

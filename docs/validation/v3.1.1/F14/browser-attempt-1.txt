@@ -1,0 +1,17 @@
+CHECK V3.1 navigation 1440px reduced=false
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: [data-floating-brand]: actual inverse glyph interiors must respond to black/white content (found 1).
+    at checkFloatingHeaderContrast (file:///workspace/h4ngelic/tests/helpers/v311-header-contrast.mjs:92:14)
+    at async file:///workspace/h4ngelic/tests/v31-navigation-browser.mjs:222:26 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

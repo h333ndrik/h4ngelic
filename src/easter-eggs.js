@@ -147,7 +147,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
       layer = pageDocument.createElement('div');
       layer.className = 'ink-layer';
       layer.setAttribute('aria-hidden', 'true');
-      pageDocument.body.append(layer);
+      (pageDocument.querySelector('[data-page-composition]') || pageDocument.body).append(layer);
     }
     while (marks.size >= Math.max(1, settings.ink.maximumMarks)) forgetMark(marks.keys().next().value);
     const mark = pageDocument.createElementNS('http://www.w3.org/2000/svg', 'svg');

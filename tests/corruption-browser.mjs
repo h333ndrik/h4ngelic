@@ -207,10 +207,14 @@ try {
     const originalText = await page.locator('.page-heading,.archive-empty,.work-filters').allTextContents();
     await changeMode(page, 'xray');
     const contrast = await page.evaluate(() => ({
-      main: Number(getComputedStyle(document.querySelector('body > main')).zIndex),
+      composition: Number(getComputedStyle(document.querySelector('[data-page-composition]')).zIndex),
+      isolation: getComputedStyle(document.querySelector('[data-page-composition]')).isolation,
+      main: getComputedStyle(document.querySelector('[data-page-composition] > main')).zIndex,
+      backgroundOutside: !document.querySelector('[data-page-composition]').contains(document.querySelector('.corruption-background')),
       heading: getComputedStyle(document.querySelector('.page-heading')).textShadow,
     }));
-    assert.ok(contrast.main >= 1 && contrast.heading !== 'none', 'Essential live content must paint above the damaged film with legible edge separation.');
+    assert.ok(contrast.composition >= 1 && contrast.isolation === 'isolate' && contrast.main === 'auto' && contrast.backgroundOutside && contrast.heading !== 'none',
+      'Actual content/ink/headers share one isolated page group above the damaged film; main must not isolate the floating headers from that actual content.');
     await recovered(page);
     await freezeBackground(page);
     const slow = await stroke(page, { x: 680, y: 600 }, { x: 690, y: 600 }, 100);
