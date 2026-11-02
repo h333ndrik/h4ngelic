@@ -4,6 +4,20 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V10 — DONE — 2026-11-03
+
+INDEX now contains only the stable 00–03 destinations. The 04 “the other
+side” entry and its INDEX route mapping were removed; 00–03 were not
+renumbered. The actual footer h4 reveal remains available through its existing
+end-of-page experience and NAAVI, not a duplicate INDEX shortcut.
+
+Changed files: `index.html`, `src/global-navigation.js`, navigation/SEO/
+standalone assertions and checkpoint evidence. `npm test` passed 369/369.
+`tests/v31-navigation-browser.mjs` passed all six 1440/390/320px full/reduced
+profiles, including four destinations, exact targets, keyboard tab order,
+visible focus, panel contrast and no overflow. Evidence:
+`docs/validation/v3.1.2/V10/`.
+
 ## V9 — DONE — 2026-11-03
 
 The existing eight-photo archive now drifts automatically left-to-right and

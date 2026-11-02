@@ -170,7 +170,7 @@ try {
       assert.equal(await page.locator('[data-global-index] summary').textContent(), '+');
       await page.locator('[data-global-index] summary').click();
       assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), true);
-      assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00 /', '01 /', '02 /', '03 /', '04 /']);
+      assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00 /', '01 /', '02 /', '03 /']);
       await page.keyboard.press('Escape');
       assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), false);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');

@@ -1,7 +1,7 @@
 # V3.1.2 continuation plan
 
 Updated 2026-11-02. `docs/V3.1.2-STATUS.md` is the authoritative reconciliation.
-V8 and V9 are DONE; V10 is next. Each remaining item gets its own tested commit pushed to
+V8, V9 and V10 are DONE; V11 + V16 are next. Each remaining item gets its own tested commit pushed to
 `origin/v3.1.1-fixes`. V3-V6 and V22 are specification-blocked because neither
 the recovered branch nor the supplied continuation defines them. Preserve the
 eight original JPEGs, the approved MP3, F1-F17 behavior, accessibility and

@@ -23,8 +23,8 @@ Verification:
   fallback all PASS.
 - No build, merge or deployment performed.
 
-Exact next action: V10 removes INDEX entry 04 without renumbering 00–03, then
-runs its navigation/accessibility checks and pushes the separate commit.
+Exact next action: V11 + V16 apply the global mouse/touch focus-outline reset,
+then verify header, rubric, footer, carousel and artwork controls across the six profiles.
 
 ---
 

@@ -77,8 +77,8 @@ async function indexContract(page,profile,world) {
       outlineWidth:s.outlineWidth,filter:s.filter,shadow:s.boxShadow,linkColors:[...panel.querySelectorAll('a')].map(a=>getComputedStyle(a).color),
       expanded:el.querySelector('summary').getAttribute('aria-expanded')};
   });
-  assert.deepEqual(data.numbers,['00 /','01 /','02 /','03 /','04 /']);
-  assert.deepEqual(data.targets,['/','/work','/about','/#contact','/#final-secret']);
+  assert.deepEqual(data.numbers,['00 /','01 /','02 /','03 /']);
+  assert.deepEqual(data.targets,['/','/work','/about','/#contact']);
   assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');
   assert.equal(data.borderWidth,'0px');assert.equal(data.radius,'4px');
   assert.equal(data.outlineWidth,'0px');assert.equal(data.filter,'none');assert.equal(data.shadow,'none');

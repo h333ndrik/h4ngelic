@@ -1,0 +1,7 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 H4_NAV_ARTIFACTS=artifacts/v312/V10/navigation node tests/v31-navigation-browser.mjs
+PASS V3.1 navigation 1440px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+PASS V3.1 navigation 1440px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+PASS V3.1 navigation 390px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+PASS V3.1 navigation 390px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.

@@ -41,7 +41,7 @@ export function initGlobalNavigation(doc = document) {
   function paintIndex(chapter) {
     const primary = routeKind === 'artwork' ? 'work' : routeKind;
     for (const item of indexLinks) {
-      const homeDestination = ['home', 'work', 'about', 'contact', 'secret'][chapter] || 'home';
+      const homeDestination = ['home', 'work', 'about', 'contact'][chapter];
       const active = item.dataset.indexPage === (primary === 'home' ? homeDestination : primary);
       if (active) item.setAttribute('aria-current', primary === 'home' && chapter > 0 ? 'location' : 'page');
       else item.removeAttribute('aria-current');
