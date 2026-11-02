@@ -1,0 +1,6 @@
+PASS Digital inline 1440 reduced=false
+PASS Digital inline 1440 reduced=true
+PASS Digital inline 390 reduced=false
+PASS Digital inline 390 reduced=true
+PASS Digital inline 320 reduced=false
+PASS Digital inline 320 reduced=true

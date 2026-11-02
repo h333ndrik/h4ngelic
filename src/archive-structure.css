@@ -51,13 +51,30 @@
 .work-page :is(.work-filters, .work-group, .archive-category, .project-meta) { border: 0; }
 .archive-category { scroll-margin-top: 90px; }
 .archive-category[data-archive-category='digital-artworks'] > .project-grid { grid-template-columns: minmax(0, 1fr); }
-.archive-category[data-archive-category='digital-artworks'] .project-images {
-  max-width: min(41vw, 550px);
+/* 60% of the pre-V3.1 original base: 82vw/1100px ->49.2vw/660px;
+   detail100%/1200px ->60%/720px. The reserved frame is larger than its
+   resting image, so both states retain their exact layout slot. A portrait
+   height cap leaves room for a meaningful1.4x viewport-fitting expansion. */
+.archive-category[data-archive-category='digital-artworks'] .project-images,
+.artwork-detail[data-artwork-category='digital-artworks'] .project-images {
+  max-width: none;
   margin-inline: auto;
 }
-.artwork-detail[data-artwork-category='digital-artworks'] .project-images {
-  max-width: min(50%, 600px);
+.digital-inline-frame {
+  --digital-base-width: min(49.2vw, 660px);
+  --digital-expand-scale: 1.4;
+  --digital-frame-height: min(calc(var(--digital-base-width) / (var(--artwork-ratio)) * var(--digital-expand-scale)), calc(100svh - 152px));
+  --inline-rest-width: min(var(--digital-base-width), calc(100% / var(--digital-expand-scale)), calc(var(--digital-frame-height) * (var(--artwork-ratio)) / var(--digital-expand-scale)));
+  width: min(calc(var(--digital-base-width) * var(--digital-expand-scale)), 100%);
+  height: var(--digital-frame-height);
+  aspect-ratio: auto;
   margin-inline: auto;
+}
+.artwork-detail[data-artwork-category='digital-artworks'] .digital-inline-frame {
+  --digital-base-width: min(60cqw, 720px);
+}
+.artwork-detail[data-artwork-category='digital-artworks'] .project-images {
+  container-type: inline-size;
 }
 /* This is the same floating header row as the Home brand, not another sticky
    strip over it. Geometry follows the measured brand/INDEX hit areas. */

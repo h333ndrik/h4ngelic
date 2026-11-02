@@ -46,22 +46,24 @@ export function renderHomepageSections(context = '') {
 
 function digitalPreviewOptions(detail = false) {
   return {
-    maximumPreviewWidth: 640,
+    maximumPreviewWidth: 960,
+    // The 60% original-width base is capped by height to reserve a genuinely
+    // larger, viewport-fitting inline view of this portrait.
     sizes: detail
-      ? '(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 1270px) calc((100vw - 70px) / 2), 600px'
-      : '(max-width: 1341px) 41vw, 550px',
+      ? '(max-width: 600px) min(calc((100vw - 44px) * .6), calc((100svh - 152px) * .75 / 1.4)), min(calc((100vw - 70px) * .6), 720px, calc((100svh - 152px) * .75 / 1.4))'
+      : 'min(49.2vw, 660px, calc((100svh - 152px) * .75 / 1.4))',
   };
 }
 
-function imageMarkup(image, { critical = false, href = '', imageIndex = 0, figureId = '', assetOptions = {} } = {}) {
+function imageMarkup(image, { critical = false, href = '', imageIndex = 0, figureId = '', assetOptions = {}, inline = false } = {}) {
   const source = contentURL(image?.src);
   if (!source) return '';
   const asset = getImageAsset(image, assetOptions);
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
-  const element = href ? 'a' : 'button';
-  const action = href ? `href="${escape(href)}" data-artwork-link data-artwork-open` : 'type="button" data-artwork-open';
-  return `<figure class="project-image"${figureId ? ` id="${escape(figureId)}" tabindex="-1"` : ''}>
-    <${element} class="artwork-open" ${action} aria-label="open ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
+  const element = href && !inline ? 'a' : 'button';
+  const action = href && !inline ? `href="${escape(href)}" data-artwork-link data-artwork-open` : 'type="button" data-artwork-open';
+  return `<figure class="project-image${inline ? ' inline-artwork-frame digital-inline-frame' : ''}" style="--artwork-ratio:${asset.width} / ${asset.height}"${figureId ? ` id="${escape(figureId)}" tabindex="-1"` : ''}>
+    <${element} class="artwork-open" ${action}${inline ? ' data-inline-expand aria-pressed="false"' : ''} aria-label="${inline ? 'enlarge' : 'open'} ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
       <img src="${escape(asset.src || source)}" data-full-src="${escape(asset.fullSrc || source)}" data-artwork-image="${imageIndex}" alt="${escape(image.alt || '')}" loading="${critical ? 'eager' : 'lazy'}"${critical ? ' fetchpriority="high"' : ''} decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
     </${element}>
     ${image.caption ? `<figcaption>${escape(image.caption)}</figcaption>` : ''}
@@ -73,6 +75,7 @@ export function renderProject(project) {
   const images = artworkImages(project).map((image, index) => imageMarkup(image, {
     href: href ? `${href}${index ? `#image-${index + 1}` : ''}` : '', imageIndex: index,
     assetOptions: project.category === 'digital-artworks' ? digitalPreviewOptions() : {},
+    inline: project.category === 'digital-artworks',
   })).filter(Boolean).join('');
   if (!images) return '';
   const label = categoryById(project.category)?.label || '';
@@ -175,6 +178,7 @@ export function renderArtworkPage(project) {
         <div class="project-images">${artworkImages(project).map((image, index) => imageMarkup(image, {
           critical: project.category !== 'digital-artworks' && index === 0, imageIndex: index, figureId: `image-${index + 1}`,
           assetOptions: project.category === 'digital-artworks' ? digitalPreviewOptions(true) : {},
+          inline: project.category === 'digital-artworks',
         })).join('')}</div>
         ${renderFlashMannequin(project)}
         <div class="project-meta">

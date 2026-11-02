@@ -1,0 +1,21 @@
+CHECK V3.1 UI 1440px reduced=false
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: INDEX and hero links use the identical shared glow.
++ actual - expected
+
++ 'drop-shadow(rgba(255, 255, 255, 0.196) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.15) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.094) 0px 0px 6px) drop-shadow(rgba(185, 139, 225, 0.047) 0px 0px 6.9px)'
+- 'drop-shadow(rgba(255, 255, 255, 0.137) 0px 0px 0.697108px) drop-shadow(rgba(255, 255, 255, 0.106) 0px 0px 2.09132px) drop-shadow(rgba(255, 255, 255, 0.067) 0px 0px 4.18265px) drop-shadow(rgba(185, 139, 225, 0.035) 0px 0px 4.81004px)'
+
+    at file:///workspace/h4ngelic/tests/v31-ui-browser.mjs:310:18 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'drop-shadow(rgba(255, 255, 255, 0.196) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, 0.15) 0px 0px 3px) drop-shadow(rgba(255, 255, 255, 0.094) 0px 0px 6px) drop-shadow(rgba(185, 139, 225, 0.047) 0px 0px 6.9px)',
+  expected: 'drop-shadow(rgba(255, 255, 255, 0.137) 0px 0px 0.697108px) drop-shadow(rgba(255, 255, 255, 0.106) 0px 0px 2.09132px) drop-shadow(rgba(255, 255, 255, 0.067) 0px 0px 4.18265px) drop-shadow(rgba(185, 139, 225, 0.035) 0px 0px 4.81004px)',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

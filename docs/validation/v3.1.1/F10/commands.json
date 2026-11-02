@@ -1,0 +1,20 @@
+[
+  {
+    "command": "node tests/digital-ink-browser.mjs",
+    "exitCode": 0,
+    "seconds": 132.874,
+    "log": "docs/validation/v3.1.1/F10/browser.txt"
+  },
+  {
+    "command": "node tests/v31-ui-browser.mjs",
+    "exitCode": 0,
+    "seconds": 179.838,
+    "log": "docs/validation/v3.1.1/F10/ui.txt"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 3.676,
+    "log": "docs/validation/v3.1.1/F10/node.txt"
+  }
+]

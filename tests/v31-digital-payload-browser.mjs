@@ -3,11 +3,11 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 // Compare two production snapshots through the same HTTP server implementation.
-// Root keeps the accepted V3 dist in /tmp/h4-v31-before-digital-dist, then serves
-// it separately from the V3.1 build. No invented byte counts or DOM fixtures.
+// Root serves the accepted V3.1 production snapshot separately from the F10
+// production build. Report actual changes: larger nominal size may cost bytes.
 const beforeURL = process.env.H4_BEFORE_URL || 'http://127.0.0.1:55384';
 const afterURL = process.env.H4_AFTER_URL || 'http://127.0.0.1:55383';
-const output = new URL('../artifacts/v31/', import.meta.url);
+const output = new URL(`../${process.env.H4_DIGITAL_PAYLOAD_ARTIFACTS || 'artifacts/v311/F10/payload'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -59,11 +59,11 @@ async function measure(base, path, width, phase) {
     assert.deepEqual(errors, []);
     if (phase === 'after') {
       const candidates = [...data.srcset.matchAll(/ (\d+)w(?:,|$)/g)].map(match => Number(match[1]));
-      assert.deepEqual(candidates, [320, 640]);
+      assert.deepEqual(candidates, [320, 640, 960]);
       assert.ok(data.sourcePixelWidth >= data.width - 1, 'DPR1 preview is never displayed wider than its downloaded source.');
-      assert.ok(data.sourcePixelWidth <= 640);
+      assert.ok(data.sourcePixelWidth <= 960);
       assert.equal(data.loading, 'lazy');
-      assert.equal(data.borderRadius, '0px', 'Digital photographs keep unrounded original edges.');
+      assert.equal(data.borderRadius, '4px', 'Digital uses the one shared photo radius.');
     }
     return { ...data, requests: transfers.filter(event => event.url), errors };
   } finally { await context.close(); }
@@ -76,11 +76,13 @@ try {
       const before = await measure(beforeURL, path, width, 'before');
       const after = await measure(afterURL, path, width, 'after');
       const ratio = after.width / before.width;
-      assert.ok(ratio >= .45 && ratio <= .55, `Digital artwork width should halve: observed ${before.width} → ${after.width}.`);
+      const nominal = path.startsWith('/work/digital-artworks/') ? Math.min((width-(width<600?44:70))*.6,720) : Math.min(width*.492,660);
+      const expectedWidth = Math.min(nominal,(900-152)*.75/1.4);
+      assert.ok(Math.abs(after.width-expectedWidth)<2, `60% original base plus explicit portrait height cap: expected ${expectedWidth}, observed ${after.width}.`);
       const alreadySmallestVariant = before.sourcePixelWidth === 320;
-      assert.ok(alreadySmallestVariant ? after.imageBodyBytes <= before.imageBodyBytes : after.imageBodyBytes < before.imageBodyBytes,
-        `The actual image payload falls unless the baseline already selected the smallest 320px variant: ${before.imageBodyBytes} → ${after.imageBodyBytes}.`);
-      const result = { width, path, before, after, widthRatio: ratio, alreadySmallestVariant,
+      // Size is now60% of the original base, not the superseded50% reduction.
+      // Report larger/equal/smaller payloads without assuming a saving.
+      const result = { width, path, before, after, widthRatio: ratio, nominalWidth:nominal, expectedWidth, heightCapped:nominal>expectedWidth, alreadySmallestVariant,
         savedImageBodyBytes: before.imageBodyBytes - after.imageBodyBytes,
         savedImageBodyPercent: (1 - after.imageBodyBytes / before.imageBodyBytes) * 100,
         savedRouteTransferBytes: before.routeTransferBytes - after.routeTransferBytes };

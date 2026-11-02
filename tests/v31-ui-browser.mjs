@@ -71,7 +71,12 @@ async function hovered(page, selector, profile) {
   if (profile.width < 600) return null;
   const target = page.locator(selector).first();
   await target.hover();
-  await page.waitForTimeout(profile.reduced ? 0 : 360);
+  await page.waitForFunction(element => {
+    const visual = element.querySelector('.interaction-visual, .category-magnet');
+    // Flush the new hover style before checking its real transition state.
+    getComputedStyle(visual).filter;
+    return visual.getAnimations().every(animation => animation.playState === 'finished' || animation.playState === 'idle');
+  }, await target.elementHandle(), { timeout: 15000 });
   await settled(page);
   const state = await target.evaluate(element => {
     const visual = element.querySelector('.interaction-visual, .category-magnet');
@@ -183,18 +188,51 @@ async function imageContract(page, profile) {
   assert.ok(close(restored.left, before.left) && close(restored.position, before.position) && close(restored.y, before.y));
   const photoRadii = await radiusScope(page, ['[data-horizontal-drift="tattoos"] .artwork-open',
     '[data-horizontal-drift="tattoos"] img'], 4);
-  const digitalRadii = await radiusScope(page, ['#digital-artworks .artwork-open', '#digital-artworks img'], 0);
+  const digitalRadii = await radiusScope(page, ['#digital-artworks .artwork-open', '#digital-artworks img'], 4);
   await coverage(page, ['[data-horizontal-drift="tattoos"] .artwork-open']);
   const imageHover = await hovered(page, '[data-horizontal-drift="tattoos"] [data-artwork-open]', profile);
-  await page.locator('#digital-artworks [data-artwork-open]').first().click();
-  await page.locator('.artwork-dialog[open].is-open').waitFor();
+  const digital = page.locator('#digital-artworks [data-inline-expand]').first();
+  await digital.evaluate(element => element.closest('.inline-artwork-frame').scrollIntoView({ block:'center', behavior:'instant' }));
+  await page.mouse.move(profile.width - 2,100);
+  await digital.locator('img').evaluate(image => image.decode());
+  // Generic image arrival has a separate 520ms transition. Compare settled
+  // previews rather than measuring that unrelated arrival mid-animation.
+  await page.waitForFunction(element => [element, element.querySelector('.interaction-visual'), element.querySelector('img')].every(target => {
+    const style = getComputedStyle(target);
+    const matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
+    return Math.abs(matrix.m11 - 1) < .001 && Math.abs(matrix.m42) < .01 && Number(style.opacity) > .999;
+  }), await digital.elementHandle(), { timeout: 15000 });
   await settled(page);
-  const viewerRadii = await radiusScope(page, ['.artwork-dialog', '.artwork-dialog button'], 4);
-  const viewerPhoto = await radiusScope(page, ['.artwork-viewer-stage img'], 0);
-  await page.locator('.artwork-close').click();
-  await page.waitForFunction(() => !document.querySelector('.artwork-dialog')?.open);
+  const digitalBefore = await digital.locator('img').boundingBox();
+  const digitalDocument = await page.evaluate(() => ({ y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow }));
+  await digital.click();
+  await page.waitForFunction(element => {
+    const value = getComputedStyle(element).transform;
+    const matrix = new DOMMatrixReadOnly(value === 'none' ? undefined : value);
+    const target = Number(getComputedStyle(element).getPropertyValue('--inline-view-scale')) || 1;
+    return element.hasAttribute('data-inline-expanded') && Math.abs(matrix.m11 - target) < .001;
+  }, await digital.elementHandle(), { timeout: 15000 });
+  await settled(page);
+  assert.equal(await digital.getAttribute('aria-pressed'),'true');
+  const digitalExpanded = await digital.locator('img').boundingBox();
+  assert.ok(digitalExpanded.width / digitalBefore.width >= 1.2,'Digital reuses the same clearly larger inline viewing module.');
+  assert.ok(digitalExpanded.x >= -1 && digitalExpanded.y >= -1 && digitalExpanded.x + digitalExpanded.width <= profile.width+1 && digitalExpanded.y + digitalExpanded.height <=845);
+  assert.equal(await page.locator('dialog[open]').count(),0);
+  assert.deepEqual(await page.evaluate(() => ({ y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow })),digitalDocument);
+  await page.keyboard.press('Escape');
+  assert.equal(await digital.getAttribute('aria-pressed'),'false');
+  assert.equal(await digital.evaluate(element => element === document.activeElement), true, 'Escape retains the viewing button’s focus.');
+  await page.mouse.move(profile.width - 2, 100);
+  await page.evaluate(() => document.activeElement?.blur());
+  await page.waitForFunction(element => [element, element.querySelector('.interaction-visual')].every(target => {
+    const value = getComputedStyle(target).transform;
+    return Math.abs(new DOMMatrixReadOnly(value === 'none' ? undefined : value).m11 - 1) < .001;
+  }), await digital.elementHandle(), { timeout: 15000 });
+  await settled(page);
+  const digitalRestored = await digital.locator('img').boundingBox();
+  assert.ok(close(digitalRestored.width,digitalBefore.width) && close(digitalRestored.height,digitalBefore.height), JSON.stringify({ digitalBefore, digitalRestored }));
   await page.screenshot({ path: new URL(`images-${profile.width}-${profile.reduced}-${await page.locator('html').getAttribute('data-mode')}.png`, output).pathname });
-  return { before, enlarged, restored, ratio, expandedBox, photoRadii, digitalRadii, viewerRadii, viewerPhoto, imageHover };
+  return { before, enlarged, restored, ratio, expandedBox, photoRadii, digitalRadii, digitalBefore, digitalExpanded, digitalRestored, imageHover };
 }
 
 async function heroContract(page, profile) {

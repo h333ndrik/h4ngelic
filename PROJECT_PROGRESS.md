@@ -1,4 +1,4 @@
-# V3.1.1 progress — F8 done
+# V3.1.1 progress — F10 done
 
 ## Current committed checkpoint — 2026-11-02
 
@@ -21,7 +21,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F7 | DONE | TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved. |
 | F8 | DONE | Cover every interactive area with the native h4 cursor; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F8. |
 | F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
-| F10 | TODO — clarified | Digital resting base is60% of pre-V3.1 original width, replacing V3.1's50% reduction (archive550→660px cap, detail600→720px cap before viewport constraints). Reuse F9 expansion, responsive sources and unified effects. |
+| F10 | DONE | Reuse inline viewing for the resized Digital artwork; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F10. |
 | F11 | TODO | Shared `--radius-soft`4px on carousel/Digital images; keep corruption/effects/page canvas square. F9 includes its required carousel subset. |
 | F13 | TODO | Branding/routes share unified hover/focus, no special opacity/pills/background or layout shift. |
 | F14 | TODO | Floating headers white-base difference/exclusion against actual page/ink/WebGL, correct isolation and readable active/hover/cursor; measured palette pixels/performance/screenshots. Chrome/Firefox/Safari availability must be reported honestly. |
@@ -97,7 +97,7 @@ Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, fo
 
 ## Exact next checkpoint
 
-F10: Digital width base60% and shared inline expansion. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F11: finish shared4px photo corners while retaining effect exclusions. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## Confirmed continuation answers — 2026-10-31
 
@@ -244,3 +244,43 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F8`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: F10: Digital width base60% and shared inline expansion. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F10 — PARTIAL — 2026-11-02 16:31 UTC
+
+Reuse inline viewing for the resized Digital artwork: verification incomplete.
+
+Actual failing command: `node tests/v31-ui-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F10/ui.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F10: inspect docs/validation/v3.1.1/F10/ui.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F10 — PARTIAL — 2026-11-02 16:32 UTC
+
+Reuse inline viewing for the resized Digital artwork: verification incomplete.
+
+Actual failing command: `node tests/v31-ui-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F10/ui.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F10: inspect docs/validation/v3.1.1/F10/ui.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F10 — PARTIAL — 2026-11-02 16:36 UTC
+
+Reuse inline viewing for the resized Digital artwork: verification incomplete.
+
+Actual failing command: `node tests/v31-ui-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F10/ui.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F10: inspect docs/validation/v3.1.1/F10/ui.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F10 — DONE — 2026-11-02 16:41 UTC
+
+Reuse inline viewing for the resized Digital artwork.
+
+Changed files: `src/pages.js`, `src/archive-structure.css`, `tests/v31-ui-browser.mjs`, `tests/digital-ink-browser.mjs`, `tests/v31-digital-payload-browser.mjs`, `tests/v31-digital-assets.test.js`.
+
+Actual serial verification, before builds:
+
+- `node tests/digital-ink-browser.mjs`: exit 0, 132.874s. Actual output: `docs/validation/v3.1.1/F10/browser.txt`.
+- `node tests/v31-ui-browser.mjs`: exit 0, 179.838s. Actual output: `docs/validation/v3.1.1/F10/ui.txt`.
+- `npm test`: exit 0, 3.676s. Actual output: `docs/validation/v3.1.1/F10/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F10`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F11: finish shared4px photo corners while retaining effect exclusions. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.

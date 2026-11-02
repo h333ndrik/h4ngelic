@@ -1,0 +1,20 @@
+CHECK V3.1 UI 1440px reduced=false
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(close(digitalRestored.width,digitalBefore.width) && close(digitalRestored.height,digitalBefore.height))
+
+    at imageContract (file:///workspace/h4ngelic/tests/v31-ui-browser.mjs:220:10)
+    at async file:///workspace/h4ngelic/tests/v31-ui-browser.mjs:298:24 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -30,7 +30,7 @@ test('digital archive and detail render lazy, dimensioned small previews without
     assert.match(tag, /loading="lazy"/);
     assert.doesNotMatch(tag, /fetchpriority="high"/);
     assert.match(tag, /width="1440" height="1920"/);
-    assert.deepEqual(candidates(srcset(tag)), [320, 640]);
+    assert.deepEqual(candidates(srcset(tag)), [320, 640, 960]);
     assert.match(tag, /data-full-src="[^"]+-1440\.webp"/);
   }
   assert.match(renderArtworkPage(featuredDigitalArtwork), /data-artwork-category="digital-artworks"/);
