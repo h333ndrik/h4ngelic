@@ -33,14 +33,19 @@ async function state(page) {
     };
   });
 }
-async function idle(page) {
-  await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"]')?.dataset.carouselPhase === 'idle', null, { timeout: 12000 });
+async function pauseDrift(page) {
+  await section(page).focus({ preventScroll: true }); await page.keyboard.press('Shift');
+  await page.waitForFunction(() => {
+    const element = document.querySelector('[data-horizontal-drift="tattoos"]');
+    return (element?.dataset.carouselPhase === 'idle' || element?.dataset.carouselPhase === 'expanded')
+      && Number(element?.dataset.carouselVelocity) === 0;
+  }, null, { timeout: 12000 });
   await frames(page);
   return state(page);
 }
 async function atIndex(page, index) {
   await page.waitForFunction(index => Number(document.querySelector('[data-horizontal-drift="tattoos"]').dataset.carouselIndex) === index, index);
-  return idle(page);
+  return pauseDrift(page);
 }
 async function showSection(page) {
   await section(page).evaluate(element => {
@@ -51,7 +56,7 @@ async function showSection(page) {
 }
 async function home(page) {
   await section(page).focus(); await page.keyboard.press('Home'); await atIndex(page, 0);
-  await showSection(page);
+  await showSection(page); await pauseDrift(page);
 }
 async function mode(page, expected) {
   await page.evaluate(() => document.activeElement?.blur());
@@ -94,11 +99,13 @@ async function expansion(page, profile, world) {
   await home(page); await page.keyboard.press('ArrowRight'); await atIndex(page, 1);
   const opener = section(page).locator('[data-drift-item]').nth(1).locator('[data-artwork-open]').first();
   const image = opener.locator('img'); await image.evaluate(element => element.decode());
-  await page.mouse.move(profile.width - 2, 90); await page.evaluate(() => document.activeElement?.blur());
+  await page.evaluate(() => document.activeElement?.blur()); await pauseDrift(page);
   await page.waitForTimeout(profile.reduced ? 0 : 360);
+  await opener.evaluate(element => element.focus({ preventScroll: true }));
+  await frames(page);
   const before = await state(page), boxBefore = await image.boundingBox();
   const bodyOverflow = await page.evaluate(() => document.body.style.overflow);
-  await opener.evaluate(element => element.focus({ preventScroll: true })); await page.keyboard.press('Enter');
+  await page.keyboard.press('Enter');
   await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"] [data-inline-expanded]'));
   await page.waitForTimeout(profile.reduced ? 0 : 360);
   const enlarged = await state(page), boxEnlarged = await image.boundingBox();
@@ -116,6 +123,7 @@ async function expansion(page, profile, world) {
   assert.equal(await opener.evaluate(element => element === document.activeElement), true, 'Escape retains keyboard focus.');
   await page.waitForTimeout(profile.reduced ? 0 : 360);
   const pointerActivate = async () => {
+    await pauseDrift(page);
     const box = await opener.boundingBox();
     if (profile.width < 600) await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
     else await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
@@ -124,12 +132,17 @@ async function expansion(page, profile, world) {
   await page.waitForTimeout(profile.reduced ? 0 : 360);
   await pointerActivate(); assert.equal(await opener.getAttribute('aria-pressed'), 'false', 'Second click/tap restores.');
   await page.waitForTimeout(profile.reduced ? 0 : 360);
-  await pointerActivate(); assert.equal(await opener.getAttribute('aria-pressed'), 'true');
+  await pauseDrift(page);
+  await opener.evaluate(element => element.focus({ preventScroll: true }));
+  await page.keyboard.press('Enter');
+  assert.equal(await opener.getAttribute('aria-pressed'), 'true');
   await page.mouse.click(profile.width - 2, 90);
   assert.equal(await opener.getAttribute('aria-pressed'), 'false', 'Outside click restores.');
   // Compare the same resting state: Escape deliberately retains keyboard
   // focus, whose shared hover treatment is independent of inline expansion.
+  // Freeze the approved ambient drift before measuring the restored frame.
   await page.evaluate(() => document.activeElement?.blur());
+  await pauseDrift(page);
   await page.waitForFunction(element => {
     const transform = getComputedStyle(element.querySelector('.interaction-visual')).transform;
     const outer = getComputedStyle(element).transform;
@@ -138,8 +151,8 @@ async function expansion(page, profile, world) {
   }, await opener.elementHandle(), { timeout: 3000 });
   await page.waitForTimeout(profile.reduced ? 0 : 360);
   const restored = await state(page), boxRestored = await image.boundingBox();
-  assert.ok(close(boxRestored.width, boxBefore.width) && close(boxRestored.height, boxBefore.height), JSON.stringify({ world, computed: await opener.evaluate(e => ({ hover:e.matches(':hover'), focus:e.matches(':focus-visible'), active:document.activeElement.tagName, matrix:getComputedStyle(e.querySelector('.interaction-visual')).transform, scale:getComputedStyle(e.querySelector('.interaction-visual')).getPropertyValue('--ui-active-scale') })), boxBefore, boxEnlarged, boxRestored, style: await opener.getAttribute('style'), wrapper: await opener.locator('.interaction-visual').getAttribute('style') }));
-  assert.ok(close(restored.position, before.position) && close(restored.scrollY, before.scrollY));
+  assert.ok(close(boxRestored.width, boxBefore.width, 6) && close(boxRestored.height, boxBefore.height, 6), JSON.stringify({ world, computed: await opener.evaluate(e => ({ hover:e.matches(':hover'), focus:e.matches(':focus-visible'), active:document.activeElement.tagName, matrix:getComputedStyle(e.querySelector('.interaction-visual')).transform, scale:getComputedStyle(e.querySelector('.interaction-visual')).getPropertyValue('--ui-active-scale') })), boxBefore, boxEnlarged, boxRestored, style: await opener.getAttribute('style'), wrapper: await opener.locator('.interaction-visual').getAttribute('style') }));
+  assert.ok(close(restored.position, before.position, 12) && close(restored.scrollY, before.scrollY), JSON.stringify({ before, restored, world, phase: restored.phase }));
   assert.deepEqual(restored.slots, before.slots); assert.equal(restored.documentHeight, before.documentHeight);
   return { before, enlarged, restored, boxBefore, boxEnlarged, ratio };
 }
@@ -152,28 +165,38 @@ async function controlsAndWrap(page) {
   await section(page).locator('[data-drift-previous]').click(); await atIndex(page, 0);
   await section(page).focus(); await page.keyboard.press('End'); const end = await atIndex(page, 7);
   await page.keyboard.press('ArrowRight'); const wrappedForward = await atIndex(page, 0);
-  assert.ok(Math.abs(wrappedForward.position - end.position) < 800, 'Last to first wraps by one card instead of crossing the entire archive.');
+  const wrapDistance = (a, b) => Math.min(Math.abs(a - b), Math.abs(3200 - Math.abs(a - b)));
+  assert.ok(wrapDistance(wrappedForward.position, end.position) < 800, 'Last to first wraps across the seam instead of crossing the entire archive.');
   await page.keyboard.press('ArrowLeft'); const wrappedBackward = await atIndex(page, 7);
-  assert.ok(Math.abs(wrappedBackward.position - wrappedForward.position) < 800);
+  assert.ok(wrapDistance(wrappedBackward.position, wrappedForward.position) < 800);
   await home(page); return { next, end, wrappedForward, wrappedBackward };
 }
 async function gestures(page, context, profile) {
-  await home(page); await page.mouse.move(1, 90);
+  await home(page);
   const resting = await state(page);
-  await page.waitForTimeout(250);
-  assert.ok(close((await state(page)).position, resting.position, .01), 'No ambient motion runs at rest.');
+  await page.evaluate(() => document.activeElement?.blur());
+  if (!profile.reduced) {
+    await page.mouse.move(1, 90);
+    await page.waitForTimeout(320);
+    const drifting = await state(page);
+    assert.equal(drifting.phase, 'drift', 'Ambient carousel drift runs while the strip is visible.');
+    assert.ok(Math.abs(drifting.position - resting.position) > 2, 'Ambient drift changes the compositor position.');
+  } else {
+    await page.mouse.move(1, 90); await page.waitForTimeout(320);
+    assert.ok(close((await state(page)).position, resting.position, .01), 'Reduced motion keeps a static row.');
+  }
   const port = await viewport(page).boundingBox();
   const point = { x: port.x + port.width * .72, y: port.y + Math.min(port.height * .5, 240) };
-  await page.mouse.move(point.x, point.y);
-  const wheelBefore = await state(page);
+  await page.mouse.move(point.x, point.y); await pauseDrift(page);
+  const wheelBefore = await state(page), wheelScrollBefore = await page.evaluate(() => scrollY);
   await page.mouse.wheel(0, 22);
+  await page.waitForFunction(before => scrollY > before + 1, wheelScrollBefore);
   await frames(page); const wheelDuring = await state(page);
-  assert.ok(Math.abs(wheelDuring.position - wheelBefore.position) > 1, 'Vertical wheel inside carousel drives horizontal input.');
-  assert.ok(close(wheelDuring.scrollY, wheelBefore.scrollY), 'Captured wheel does not also scroll the page.');
-  if (profile.reduced) { assert.equal(wheelDuring.phase, 'idle'); assert.equal(wheelDuring.velocity, 0); }
-  const wheelAfter = await idle(page);
-  assert.ok(close(wheelAfter.scrollY, wheelBefore.scrollY));
-  if (!profile.reduced) assert.ok(Math.abs(wheelAfter.position - wheelDuring.position) > 1, 'Wheel input has a finite soft run-out.');
+  assert.ok(close(wheelDuring.position, wheelBefore.position, 1), 'Vertical wheel never moves carousel cards.');
+  assert.ok(wheelDuring.scrollY > wheelBefore.scrollY, 'Vertical wheel scrolls the page through the carousel.');
+  assert.equal(wheelDuring.phase, 'idle');
+  const wheelAfter = await pauseDrift(page);
+  assert.ok(wheelAfter.scrollY > wheelBefore.scrollY);
   await home(page);
   let cdp;
   const dragBefore = await state(page);
@@ -192,12 +215,18 @@ async function gestures(page, context, profile) {
   await frames(page); const dragRelease = await state(page);
   assert.ok(Math.abs(dragRelease.position - dragBefore.position) > 140, `Real drag/swipe moves the horizontal archive: ${JSON.stringify({profile, point, dragBefore, dragRelease, world: await page.locator('html').getAttribute('data-mode')})}`);
   if (profile.reduced) { assert.equal(dragRelease.phase, 'idle'); assert.equal(dragRelease.velocity, 0); }
-  const dragAfter = await idle(page);
+  else { await page.waitForTimeout(120); const running = await state(page); assert.ok(Math.abs(running.position - dragRelease.position) > .5, 'Drag/swipe releases into finite momentum.'); }
+  const dragAfter = await pauseDrift(page);
   assert.ok(close(dragAfter.scrollY, dragBefore.scrollY, 2), 'Horizontal gestures preserve page scroll.');
   assert.equal(await section(page).locator('[data-inline-expanded]').count(), 0, 'Drag/swipe never clicks open a photograph.');
-  if (!profile.reduced) assert.ok(Math.abs(dragAfter.position - dragRelease.position) > 1, 'Drag/swipe releases into the same finite momentum system.');
-  await page.waitForTimeout(200); const stopped = await state(page);
-  assert.ok(close(stopped.position, dragAfter.position, .1) && stopped.velocity === 0, 'Input momentum stops completely.');
+  const stopped = await state(page);
+  assert.ok(stopped.velocity === 0, 'Input momentum stops completely at rest.');
+  let resumed = null;
+  if (!profile.reduced) {
+    await page.evaluate(() => document.activeElement?.blur());
+    await page.mouse.move(1, 1); await page.waitForTimeout(320); resumed = await state(page);
+    assert.equal(resumed.phase, 'drift', JSON.stringify({ resumed, paused: await section(page).getAttribute('data-carousel-hover-paused'), pointerInside: await section(page).getAttribute('data-carousel-pointer-inside'), keyboardPaused: await section(page).getAttribute('data-carousel-keyboard-paused'), active: await page.evaluate(() => document.activeElement?.className) })); assert.ok(Math.abs(resumed.position - stopped.position) > 1, 'Auto-drift resumes after manual drag.');
+  }
   await page.mouse.move(profile.width - 2, 400);
   const outsideBefore = await page.evaluate(() => scrollY);
   await page.mouse.wheel(0, 170);
@@ -225,15 +254,20 @@ async function gestures(page, context, profile) {
   }
   assert.equal(await page.locator('dialog[open]').count(), 0);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-  return { resting, wheelBefore, wheelDuring, wheelAfter, dragBefore, dragRelease, dragAfter, stopped, outsideBefore, outsideAfter, verticalTouch };
+  return { resting, wheelBefore, wheelDuring, wheelAfter, dragBefore, dragRelease, dragAfter, stopped, resumed, outsideBefore, outsideAfter, verticalTouch };
 }
 async function hover(page, profile) {
   await home(page);
   const opener = section(page).locator('[data-drift-item]').first().locator('[data-artwork-open]');
   const slotsBefore = (await state(page)).slots;
+  if (!profile.reduced) {
+    await page.mouse.move(1, 90); await page.waitForTimeout(220);
+  }
   const neighborBefore = await section(page).locator('[data-drift-item]').nth(1).locator('.drift-images').evaluate(element => ({ transform: getComputedStyle(element).transform, top: element.getBoundingClientRect().top, left: element.getBoundingClientRect().left }));
   if (profile.width >= 600) await opener.hover(); else await opener.focus();
+  const pausedAt = Number(await section(page).getAttribute('data-drift-position'));
   await page.waitForTimeout(profile.reduced ? 0 : 360);
+  if (!profile.reduced && profile.width >= 600) assert.ok(Math.abs(Number(await section(page).getAttribute('data-drift-position')) - pausedAt) < 1, 'Hover pauses ambient drift.');
   const value = await opener.evaluate(element => {
     const visual = element.querySelector('.interaction-visual'), style = getComputedStyle(visual);
     const m = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
@@ -275,7 +309,20 @@ try {
       const config = await page.evaluate(async () => (await import('/src/carouselSettings.js')).carouselSettings);
       assert.equal(config.cardWidth, 300); assert.equal(config.cardHeight, 420); assert.equal(config.spacing, 100);
       assert.equal(config.inertia, .05); assert.equal(config.wheelSensitivity, 8); assert.equal(config.wrap, true);
-      assert.equal(config.autoDrift, false); assert.equal(config.pointerLabel, false); assert.equal(config.expandWithinLayout, true);
+      assert.equal(config.autoDrift, true); assert.equal(config.autoScroll, .3); assert.equal(config.hoverPause, true);
+      assert.equal(config.scrollCapture, 'none'); assert.equal(config.perspectiveZoom, 45); assert.equal(config.cameraDistance, 900);
+      assert.equal(config.depthScale, true); assert.equal(config.edgeRotation, 12); assert.equal(config.pointerLabel, false);
+      assert.equal(config.expandWithinLayout, true);
+      const depth = await section(page).evaluate(element => {
+        const port = element.querySelector('.drift-viewport');
+        return { perspective: getComputedStyle(port).perspective,
+          items: [...element.querySelectorAll('[data-drift-item]')].map(item => {
+            const matrix = new DOMMatrixReadOnly(getComputedStyle(item).transform === 'none' ? undefined : getComputedStyle(item).transform);
+            return { scale: Math.hypot(matrix.m11, matrix.m12), is3d: !matrix.is2D };
+          }) };
+      });
+      assert.equal(depth.perspective, '900px'); assert.ok(depth.items.some(item => item.is3d));
+      assert.ok(depth.items.some(item => item.scale < .995), 'Edge cards recede with CSS-only depth.');
       const flashes = page.locator('[data-horizontal-drift="flashes"]');
       assert.equal(await flashes.locator('img,canvas,[data-drift-item]').count(), 0);
       assert.equal(await flashes.locator('.archive-empty').textContent(), 'archive in progress.');

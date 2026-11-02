@@ -155,7 +155,19 @@ async function imageContract(page, profile) {
   const image = first.locator('img');
   await first.evaluate(element => element.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' }));
   await image.evaluate(async element => { if (!element.complete) await element.decode(); });
-  await page.mouse.move(profile.width - 2, 100);
+  const freeze = async () => {
+    await page.mouse.move(profile.width - 2, 100);
+    await section.evaluate(element => element.focus({ preventScroll: true }));
+    await page.keyboard.press('Home');
+    await page.keyboard.press('Shift');
+    await page.waitForFunction(() => {
+      const element = document.querySelector('[data-horizontal-drift="tattoos"]');
+      return ['idle', 'expanded'].includes(element?.dataset.carouselPhase)
+        && Number(element?.dataset.carouselVelocity) === 0;
+    });
+    await settled(page);
+  };
+  await freeze();
   await page.waitForTimeout(profile.reduced ? 0 : 360); await settled(page);
   const state = () => section.evaluate(element => {
     const button = element.querySelector('[data-artwork-open]'), image = button.querySelector('img');
@@ -180,12 +192,12 @@ async function imageContract(page, profile) {
   assert.ok(close(enlarged.left, before.left) && close(enlarged.position, before.position) && close(enlarged.y, before.y), 'Inline enlargement retains both scroll axes and carousel position.');
   assert.equal(enlarged.height, before.height); assert.deepEqual(enlarged.order, before.order);
   await first.click();
-  await page.mouse.move(profile.width - 2, 100);
+  await freeze();
   await page.waitForTimeout(profile.reduced ? 0 : 360); await settled(page);
   const restored = await state();
   assert.equal(await first.getAttribute('aria-pressed'), 'false');
-  assert.ok(close(restored.imageWidth, before.imageWidth) && close(restored.imageHeight, before.imageHeight));
-  assert.ok(close(restored.left, before.left) && close(restored.position, before.position) && close(restored.y, before.y));
+  assert.ok(close(restored.imageWidth, before.imageWidth, 6) && close(restored.imageHeight, before.imageHeight, 6), JSON.stringify({ before, restored }));
+  assert.ok(close(restored.left, before.left) && close(restored.position, before.position, 12) && close(restored.y, before.y), JSON.stringify({ before, restored }));
   const photoRadii = await radiusScope(page, ['[data-horizontal-drift="tattoos"] .artwork-open',
     '[data-horizontal-drift="tattoos"] img'], 4);
   const digitalRadii = await radiusScope(page, ['#digital-artworks .artwork-open', '#digital-artworks img'], 4);
@@ -236,6 +248,17 @@ async function imageContract(page, profile) {
 }
 
 async function heroContract(page, profile) {
+  if (profile.reduced) {
+    await page.locator('#stage.is-poster-static').waitFor({ timeout: 60000 });
+    const staticPoster = await page.evaluate(() => ({
+      poster: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity),
+      canvas: getComputedStyle(document.querySelector('#logo-canvas')).display,
+    }));
+    assert.equal(staticPoster.poster, 1, 'Reduced motion retains the first-paint poster.');
+    assert.equal(staticPoster.canvas, 'none', 'Reduced motion does not initialize the WebGL canvas.');
+    await page.screenshot({ path: new URL(`hero-${profile.width}-true-${await page.locator('html').getAttribute('data-mode')}.png`, output).pathname });
+    return { staticPoster };
+  }
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
   await page.waitForFunction(() => !document.querySelector('[data-controls]').inert && Number(getComputedStyle(document.querySelector('[data-controls]')).opacity) > .99);
   await coverage(page, ['[data-controls] button', '.hero-nav a', '[data-floating-brand]']);

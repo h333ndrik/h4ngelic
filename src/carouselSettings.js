@@ -11,18 +11,32 @@ export const carouselSettings = Object.freeze({
   spacing: 100,
   /** Fraction of velocity lost per 60Hz frame; larger values stop sooner. */
   inertia: 0.05,
-  /** Wheel impulse strength, shared with the drag/touch momentum integrator. */
+  /** Legacy wheel impulse value; vertical wheel capture is disabled by default. */
   wheelSensitivity: 8.0,
-  /** Recycle the real cards seamlessly; no duplicate artwork or auto-scroll. */
+  /** Recycle the real cards seamlessly; no duplicate artwork. */
   wrap: true,
   /** Lift the hovered card slightly, retaining the site's own scale/glow. */
   hoverStraighten: true,
   /** Move immediate neighbours aside with transforms while a card is hovered. */
   neighborDisplacement: true,
-  /** 'area' translates wheel only over the image strip; 'none' leaves it native. */
-  scrollCapture: 'area',
-  /** Reserved for compatibility: ambient drift is deliberately unsupported. */
-  autoDrift: false,
+  /** 'area' is a legacy horizontal-wheel mode; 'none' leaves vertical input native. */
+  scrollCapture: 'none',
+  /** Enable the approved carousel-only ambient drift. */
+  autoDrift: true,
+  /** Left-to-right drift distance in CSS pixels per 60 Hz frame (about 18px/s). */
+  autoScroll: 0.3,
+  /** Pause ambient drift while a fine pointer is inside the carousel. */
+  hoverPause: true,
+  /** CSS perspective field of view represented by the depth composition. */
+  perspectiveZoom: 45,
+  /** CSS camera distance in pixels for the perspective plane. */
+  cameraDistance: 900,
+  /** Apply perspective depth scaling and inward edge rotation. */
+  depthScale: true,
+  /** Maximum inward edge rotation in degrees. */
+  edgeRotation: 12,
+  /** Edge cards scale to this floor at the viewport boundary. */
+  edgeScaleFloor: 0.92,
   /** Reserved for compatibility: the native h4 cursor is the sole affordance. */
   pointerLabel: false,
   /** Enable the common in-page image expansion; never opens a modal. */
@@ -70,5 +84,8 @@ export function carouselStyleProperties(settings = carouselSettings) {
     '--inline-safe-end': `${settings.viewportBlockInset}px`,
     '--carousel-hover-lift': `${settings.hoverStraighten ? settings.hoverLift : 0}px`,
     '--carousel-neighbor-shift': `${settings.neighborDisplacement ? settings.neighborShift : 0}px`,
+    '--carousel-perspective': `${settings.cameraDistance}px`,
+    '--carousel-perspective-zoom': `${settings.perspectiveZoom}deg`,
+    '--carousel-edge-rotation': `${settings.depthScale ? settings.edgeRotation : 0}deg`,
   };
 }

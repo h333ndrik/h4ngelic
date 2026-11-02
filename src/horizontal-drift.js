@@ -22,7 +22,7 @@ export function initHorizontalDrift(root = document) {
     previous: section.querySelector('[data-drift-previous]'), next: section.querySelector('[data-drift-next]'),
     counter: section.querySelector('[data-drift-count]'), status: section.querySelector('.drift-status'),
     position: 0, velocity: 0, width: 0, cardWidth: 0, step: 0, cycle: 0, leading: 0,
-    travel: 0, index: 0, near: false, wrap: false, drag: null, hover: -1,
+    travel: 0, index: 0, near: false, wrap: false, drag: null, hover: -1, pointerInside: false, keyboardPaused: false,
     announcement: 0, suppressClickUntil: 0 }));
   const listen = (target, type, handler, options) => {
     if (!target) return;
@@ -85,6 +85,13 @@ export function initHorizontalDrift(root = document) {
       const base = state.leading + itemIndex * state.step;
       const cycleOffset = state.wrap ? Math.ceil((state.position - base - state.cardWidth) / state.cycle) * state.cycle : 0;
       property(item, '--carousel-cycle-offset', `${cycleOffset}px`);
+      const visualCenter = state.leading + itemIndex * state.step + cycleOffset - state.position + state.cardWidth / 2;
+      const depthOffset = state.width ? clamp((visualCenter - state.width / 2) / (state.width / 2), -1, 1) : 0;
+      const depthMagnitude = Math.abs(depthOffset);
+      const depthScale = settings.depthScale ? 1 - depthMagnitude * (1 - settings.edgeScaleFloor) : 1;
+      const depthRotation = settings.depthScale ? -depthOffset * settings.edgeRotation : 0;
+      property(item, '--carousel-depth-scale', String(depthScale));
+      property(item, '--carousel-depth-rotate', `${depthRotation}deg`);
       let neighbour = 0;
       if (!reduced.matches && state.hover >= 0 && settings.neighborDisplacement && !paused(state)) {
         const distance = state.wrap ? modulo(itemIndex - state.hover + state.items.length / 2, state.items.length) - state.items.length / 2 : itemIndex - state.hover;
@@ -96,9 +103,15 @@ export function initHorizontalDrift(root = document) {
     state.section.dataset.driftPosition = state.position.toFixed(3);
     state.section.dataset.carouselIndex = String(Math.max(0, index));
     state.section.dataset.carouselVelocity = state.velocity.toFixed(4);
+    const drifting = !reduced.matches && settings.autoDrift && settings.autoScroll > 0 && !paused(state)
+      && !(settings.hoverPause && (state.pointerInside || state.keyboardPaused)) && !state.drag?.active && state.near && state.items.length > 1
+      && Math.abs(state.velocity) <= settings.velocityCutoff;
     state.section.dataset.carouselPhase = paused(state) ? 'expanded' : state.drag?.active ? 'dragging'
-      : Math.abs(state.velocity) > settings.velocityCutoff ? 'momentum' : 'idle';
+      : Math.abs(state.velocity) > settings.velocityCutoff ? 'momentum' : drifting ? 'drift' : 'idle';
     state.section.dataset.carouselWrapCount = String(state.cycle ? Math.floor(state.position / state.cycle) : 0);
+    state.section.dataset.carouselHoverPaused = String(settings.hoverPause && (state.pointerInside || state.keyboardPaused));
+    state.section.dataset.carouselPointerInside = String(state.pointerInside);
+    state.section.dataset.carouselKeyboardPaused = String(state.keyboardPaused);
     if (state.counter) state.counter.textContent = `${index < 0 ? 0 : index + 1} / ${state.items.length}`;
     if (state.previous) state.previous.disabled = !state.items.length || !state.wrap && state.position <= .5;
     if (state.next) state.next.disabled = !state.items.length || !state.wrap && state.position >= state.travel - .5;
@@ -112,6 +125,7 @@ export function initHorizontalDrift(root = document) {
     let moving = false;
     for (const state of states) {
       if (paused(state) || reduced.matches || !state.near) state.velocity = 0;
+      let driftMoving = false;
       if (!state.drag?.active && Math.abs(state.velocity) > settings.velocityCutoff) {
         state.position += state.velocity * ticks;
         state.velocity *= Math.pow(1 - clamp(settings.inertia, .001, 1), ticks);
@@ -122,7 +136,17 @@ export function initHorizontalDrift(root = document) {
           state.position = bounded;
         }
         moving ||= Math.abs(state.velocity) > settings.velocityCutoff;
-      } else if (!state.drag?.active) state.velocity = 0;
+      } else if (!state.drag?.active) {
+        state.velocity = 0;
+        driftMoving = !reduced.matches && settings.autoDrift && settings.autoScroll > 0
+          && !paused(state) && !(settings.hoverPause && (state.pointerInside || state.keyboardPaused))
+          && state.near && state.items.length > 1;
+        if (driftMoving) {
+          state.position -= settings.autoScroll * ticks;
+          moving = true;
+        }
+      }
+      if (state.wrap && !state.drag?.active && state.cycle) state.position = modulo(state.position, state.cycle);
       render(state);
     }
     if (publisher.ready(time)) publisher.publish(samples(), time);
@@ -185,6 +209,8 @@ export function initHorizontalDrift(root = document) {
       else state.velocity = clamp(state.velocity + delta * settings.wheelSensitivity / 60, -settings.maximumVelocity, settings.maximumVelocity);
       schedule();
     }, { passive: false });
+    listen(state.section, 'keydown', () => { state.keyboardPaused = true; schedule(); });
+    listen(state.section, 'pointerdown', () => { state.keyboardPaused = false; schedule(); }, { passive: true });
     listen(state.section, 'keydown', event => {
       if (event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey
         || event.target.closest('input, textarea, select') || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)
@@ -196,6 +222,7 @@ export function initHorizontalDrift(root = document) {
     });
     listen(state.viewport, 'pointerdown', event => {
       if (event.isPrimary === false || event.button !== 0 || event.target.closest('a') || paused(state)) return;
+      state.keyboardPaused = false;
       state.velocity = 0;
       state.drag = { id: event.pointerId, x: event.clientX, y: event.clientY, start: state.position,
         lastX: event.clientX, lastTime: view.performance.now(), active: false, moved: false };
@@ -248,6 +275,19 @@ export function initHorizontalDrift(root = document) {
         || !event.target.matches(':focus-visible')) return;
       goTo(state, state.items.indexOf(item), { instant: true });
     });
+    listen(state.section, 'focusin', () => schedule());
+    listen(state.section, 'focusout', event => {
+      if (!state.section.contains(event.relatedTarget)) state.keyboardPaused = false;
+      schedule();
+    });
+    listen(state.section, 'pointerenter', event => {
+      if (event.pointerType === 'touch' || reduced.matches || !settings.hoverPause) return;
+      state.pointerInside = true; schedule();
+    });
+    listen(state.section, 'pointerleave', event => {
+      if (event.pointerType === 'touch' || !state.pointerInside) return;
+      state.pointerInside = false; schedule();
+    });
     state.items.forEach((item, index) => {
       listen(item, 'pointerenter', event => {
         if (event.pointerType === 'touch' || reduced.matches) return;
@@ -279,7 +319,7 @@ export function initHorizontalDrift(root = document) {
       stop(state); view.clearTimeout(state.announcement);
       state.section.classList.remove('is-drift-enhanced', 'is-drift-dragging');
       for (const name of ['--drift-leading', '--drift-trailing', '--carousel-position']) state.track.style.removeProperty(name);
-      for (const item of state.items) for (const name of ['--carousel-cycle-offset', '--carousel-neighbor-x', '--carousel-lift-y']) item.style.removeProperty(name);
+      for (const item of state.items) for (const name of ['--carousel-cycle-offset', '--carousel-neighbor-x', '--carousel-lift-y', '--carousel-depth-scale', '--carousel-depth-rotate']) item.style.removeProperty(name);
       for (const name of ['driftPosition', 'driftTravel', 'carouselIndex', 'carouselVelocity', 'carouselPhase', 'carouselWrap', 'carouselWrapCount']) delete state.section.dataset[name];
     }
   };

@@ -14,9 +14,9 @@
 .drift-viewport { position: relative; max-width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior: auto; scrollbar-width: thin; scrollbar-color: #858580 transparent; touch-action: pan-x pan-y pinch-zoom; }
 .drift-track { position: relative; display: flex; align-items: flex-start; gap: var(--carousel-spacing); width: max-content; min-width: 100%; box-sizing: border-box; padding: max(32px, 3.2svh) var(--drift-trailing, 22px) max(32px, 3.2svh) var(--drift-leading, 22px); }
 .drift-item { flex: 0 0 auto; width: min(var(--carousel-card-width), calc(100vw - var(--carousel-inline-reservation))); min-width: 0; }
-.is-drift-enhanced .drift-viewport { overflow-x: hidden; touch-action: pan-y pinch-zoom; }
-.is-drift-enhanced .drift-track { transform: translate3d(var(--carousel-position, 0px), 0, 0); }
-.is-drift-enhanced .drift-item { transform: translate3d(var(--carousel-cycle-offset, 0px), 0, 0); }
+.is-drift-enhanced .drift-viewport { overflow-x: hidden; touch-action: pan-y pinch-zoom; perspective: var(--carousel-perspective, 900px); perspective-origin: 50% 50%; }
+.is-drift-enhanced .drift-track { transform: translate3d(var(--carousel-position, 0px), 0, 0); transform-style: preserve-3d; }
+.is-drift-enhanced .drift-item { transform: translate3d(var(--carousel-cycle-offset, 0px), 0, 0) rotateY(var(--carousel-depth-rotate, 0deg)) scale(var(--carousel-depth-scale, 1)); transform-origin: 50% 50%; will-change: transform; }
 .drift-item > .drift-images { transform: translate3d(var(--carousel-neighbor-x, 0px), var(--carousel-lift-y, 0px), 0); transition: transform var(--ui-hover-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)); }
 .drift-images { display: block; }
 .drift-item .project-image { overflow: visible; }
@@ -39,8 +39,8 @@
   100% { outline-color: #ffffff00; box-shadow: 0 0 26px 0 #ffffff00; }
 }
 @media (hover: hover) and (pointer: fine) {
-  /* The existing UI system owns the image zoom/glow and bounds its wrapper.
-     Do not add a second perspective or scaling transform to the image plane. */
+  /* The existing UI system owns the image zoom/glow. The outer card owns only
+     perspective depth, so hover never multiplies the depth scale. */
 }
 @media (max-width: 600px) {
   .horizontal-drift { margin-top: 22px; }

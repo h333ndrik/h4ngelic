@@ -1,0 +1,7 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 H4_UI_ARTIFACTS=artifacts/v312/V9/ui node tests/v31-ui-browser.mjs
+PASS V3.1 UI 1440px reduced=false: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+PASS V3.1 UI 1440px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+PASS V3.1 UI 390px reduced=false: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+PASS V3.1 UI 390px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+PASS V3.1 UI 320px reduced=false: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+PASS V3.1 UI 320px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.

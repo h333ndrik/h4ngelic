@@ -1,7 +1,7 @@
 # V3.1.2 continuation plan
 
 Updated 2026-11-02. `docs/V3.1.2-STATUS.md` is the authoritative reconciliation.
-V8 is DONE; V9 is next. Each remaining item gets its own tested commit pushed to
+V8 and V9 are DONE; V10 is next. Each remaining item gets its own tested commit pushed to
 `origin/v3.1.1-fixes`. V3-V6 and V22 are specification-blocked because neither
 the recovered branch nor the supplied continuation defines them. Preserve the
 eight original JPEGs, the approved MP3, F1-F17 behavior, accessibility and
@@ -51,9 +51,9 @@ F5 is the first unfinished task: implement one measured horizontal gap throughou
 
 **One fix = one commit**, with checkpoint updates and real outputs. After each fix run affected existing browser suites **serially before builds**, at1440/390/320 × full/reduced, both333/4 where relevant. No browser parallelism or asset preparation/build while browser checks run. Preserve unaffected assertions; update only superseded contracts. Capture F1/F2/F9/F10/F14 screenshots and measure actual F4/F6/F14 frame/long-task/compositing costs. Report failures with their actual causes/evidence. Do not rerun the historical full100s SMASH observation for an unrelated CSS change.
 
-## F9 configuration contract
+## V9 carousel configuration contract (F9 baseline retained)
 
-Actual single source: `src/carouselSettings.js`, exported `carouselSettings` with JSDoc per field. Both prerender markup and runtime enhancement consume the same `carouselStyleProperties()` dimensions. Changing these values is sufficient after rebuild; no component edits needed. F9 verification status: **DONE**; see the actual outputs in PROJECT_PROGRESS.md.
+Actual single source: `src/carouselSettings.js`, exported `carouselSettings` with JSDoc per field. Both prerender markup and runtime enhancement consume the same `carouselStyleProperties()` dimensions. Changing these values is sufficient after rebuild; no component edits needed. V9 status: **DONE**; see `docs/validation/v3.1.2/V9/`.
 
 | Field | Actual default | Meaning |
 | --- | --- | --- |
@@ -62,12 +62,19 @@ Actual single source: `src/carouselSettings.js`, exported `carouselSettings` wit
 | `cardViewportInset` |`24`| Resting card clearance from either edge of a narrow viewport, in pixels. |
 | `spacing` |`100`| Horizontal space between adjacent card slots, in pixels. |
 | `inertia` |`0.05`| Fraction of velocity lost per 60Hz frame; larger values stop sooner. |
-| `wheelSensitivity` |`8.0`| Wheel impulse strength, shared with the drag/touch momentum integrator. |
-| `wrap` |`true`| Recycle the real cards seamlessly; no duplicate artwork or auto-scroll. |
+| `wheelSensitivity` |`8.0`| Legacy wheel impulse value; vertical wheel capture is off. |
+| `wrap` |`true`| Recycle real cards seamlessly through the ambient loop; no duplicate artwork. |
 | `hoverStraighten` |`true`| Lift the hovered card slightly, retaining the site's own scale/glow. |
 | `neighborDisplacement` |`true`| Move immediate neighbours aside with transforms while a card is hovered. |
-| `scrollCapture` |`'area'`| 'area' translates wheel only over the image strip; 'none' leaves it native. |
-| `autoDrift` |`false`| Reserved for compatibility: ambient drift is deliberately unsupported. |
+| `scrollCapture` |`'none'`| Legacy horizontal-wheel mode; the shipped value leaves vertical input native. |
+| `autoDrift` |`true`| Enable the approved carousel-only ambient time loop. |
+| `autoScroll` |`0.3`| Rightward drift distance in CSS pixels per 60 Hz frame, about 18px/s. |
+| `hoverPause` |`true`| Pause ambient drift while a fine pointer or keyboard focus is inside the carousel. |
+| `perspectiveZoom` |`45`| Perspective field-of-view value for the CSS depth composition. |
+| `cameraDistance` |`900`| Camera distance in pixels applied as the CSS perspective plane. |
+| `depthScale` |`true`| Enable edge scaling and inward rotation without WebGL. |
+| `edgeRotation` |`12`| Maximum inward card rotation at the viewport edge, in degrees. |
+| `edgeScaleFloor` |`0.92`| Minimum edge-card scale at the viewport boundary. |
 | `pointerLabel` |`false`| Reserved for compatibility: the native h4 cursor is the sole affordance. |
 | `expandWithinLayout` |`true`| Enable the common in-page image expansion; never opens a modal. |
 | `expansionScale` |`1.65`| Largest reserved viewing height relative to the resting card height. |
@@ -84,7 +91,7 @@ Actual single source: `src/carouselSettings.js`, exported `carouselSettings` wit
 | `dragClickGuardMs` |`350`| Suppress the synthetic click immediately following a completed drag. |
 | `announcementDelayMs` |`140`| Delay before politely announcing the selected artwork to screen readers. |
 
-`autoDrift` and `pointerLabel` are explicitly reserved/unsupported compatibility fields: leave them false; enabling them does not introduce ambient motion or pointer labels. Shared hover scale/glow retain the site's existing unified settings. There is no idle animation loop, no Three.js/WebGL on Works, and the same inline expansion module is prepared for F10 reuse. All eight confirmed photographs use existing optimized assets/alt/lazy loading and preserve original bytes/appearance. Reduced motion uses instant state changes with no inertia.
+`autoDrift` is the only approved time loop and runs only while the carousel is near the viewport. Shared hover scale/glow and neighbour displacement remain active. Works pages still load no Three.js/WebGL. All eight confirmed photographs use existing optimized assets, alt text and lazy loading; original bytes are untouched. Reduced motion is static with instant state changes.
 
 ## Preserved scope
 

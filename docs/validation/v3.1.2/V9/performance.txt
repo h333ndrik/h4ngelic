@@ -1,0 +1,4 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:drift-performance
+PASS drift performance 1440px: 121 frames, p50=16.70ms, p95=16.80ms, max=16.80ms, longTasks=0.
+PASS drift performance 390px: 121 frames, p50=16.70ms, p95=16.70ms, max=16.80ms, longTasks=0.
+PASS drift performance 320px: 121 frames, p50=16.70ms, p95=16.70ms, max=16.80ms, longTasks=0.
