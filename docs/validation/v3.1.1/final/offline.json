@@ -1,0 +1,519 @@
+{
+  "contract": "smart-continuation-v31-offline",
+  "checkedAt": "2026-11-02T17:27:17.955Z",
+  "html": "/workspace/h4ngelic/artifacts/h4ngelic-preview.html",
+  "htmlBytes": 24882098,
+  "htmlSha256": "394ca86c8fc2990a84e04922bfdd382fc6cd0196eab3ef66862a8f962f6d6584",
+  "reports": [
+    {
+      "width": 1440,
+      "mobile": false,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "footerBaselineDelta": 0.3125,
+      "footerGeometry": {
+        "row": {
+          "left": 35,
+          "right": 1405,
+          "top": 943.6875,
+          "bottom": 987.6875,
+          "centerX": 720,
+          "centerY": 965.6875
+        },
+        "counter": {
+          "left": 275.1875,
+          "right": 342.21875,
+          "top": 943.6875,
+          "bottom": 987.6875,
+          "centerX": 308.703125,
+          "centerY": 965.6875
+        },
+        "counterInLeftCluster": true,
+        "brand": {
+          "left": 35,
+          "right": 132.71875,
+          "top": 943.6875,
+          "bottom": 987.6875,
+          "centerX": 83.859375,
+          "centerY": 965.6875
+        },
+        "left": {
+          "left": 35,
+          "right": 658.734375,
+          "top": 943.6875,
+          "bottom": 987.6875,
+          "centerX": 346.8671875,
+          "centerY": 965.6875
+        },
+        "right": {
+          "left": 1161.453125,
+          "right": 1405,
+          "top": 943.6875,
+          "bottom": 987.6875,
+          "centerX": 1283.2265625,
+          "centerY": 965.6875
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 944,
+          "bottom": 988,
+          "centerX": 720,
+          "centerY": 966
+        },
+        "pageHeight": 4426,
+        "pageWidth": 1440
+      },
+      "reverseHint": {
+        "opacity": 0,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 21
+      },
+      "memoryHandoff": {
+        "ready": true,
+        "canvasCount": 1,
+        "hidden": false,
+        "width": 504,
+        "height": 350,
+        "opacity": "1",
+        "backgroundImage": "none",
+        "distressHidden": true,
+        "events": [
+          {
+            "phase": "prepared",
+            "token": {
+              "id": 1,
+              "variant": 1525508436,
+              "seed": 1707927375,
+              "width": 504,
+              "height": 350,
+              "frame": 7
+            },
+            "pixelHash": 3905200047,
+            "colors": 36923,
+            "opaque": true,
+            "matchesPrepared": null,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 1525508436,
+                "frozen": true,
+                "frame": 7,
+                "claimedFrame": null,
+                "completedToken": null,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          },
+          {
+            "phase": "released",
+            "token": {
+              "id": 1,
+              "variant": 1525508436,
+              "seed": 1707927375,
+              "width": 504,
+              "height": 350,
+              "frame": 7
+            },
+            "pixelHash": 3905200047,
+            "colors": 36923,
+            "opaque": true,
+            "matchesPrepared": true,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 1525508436,
+                "frozen": false,
+                "frame": 7,
+                "claimedFrame": 7,
+                "completedToken": 1,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          }
+        ]
+      },
+      "offlineSmash": {
+        "played": false
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "one-second 4 hold",
+        "ignored one-second 4 on Other Side",
+        "exact released triple-3 return",
+        "temporary faint hint",
+        "embedded film",
+        "retained transition pixels",
+        "two bounded memory buffers",
+        "no pristine CSS source",
+        "lower hero mute",
+        "hidden four-digit right-cluster visit",
+        "numbered persistent INDEX",
+        "eight genuine embedded Tattoo photographs",
+        "inline photo enlargement",
+        "embedded SMASH availability",
+        "connected Work anchors",
+        "About",
+        "Home-only Contact inquiry",
+        "horizontal bounds"
+      ]
+    },
+    {
+      "width": 390,
+      "mobile": true,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "footerBaselineDelta": 0,
+      "footerGeometry": {
+        "row": {
+          "left": 22,
+          "right": 368,
+          "top": 787.734375,
+          "bottom": 831.734375,
+          "centerX": 195,
+          "centerY": 809.734375
+        },
+        "counter": {
+          "left": 202.328125,
+          "right": 259.390625,
+          "top": 787.734375,
+          "bottom": 831.734375,
+          "centerX": 230.859375,
+          "centerY": 809.734375
+        },
+        "counterInLeftCluster": true,
+        "brand": {
+          "left": 22,
+          "right": 105.234375,
+          "top": 787.734375,
+          "bottom": 831.734375,
+          "centerX": 63.6171875,
+          "centerY": 809.734375
+        },
+        "left": {
+          "left": 22,
+          "right": 145,
+          "top": 787.734375,
+          "bottom": 831.734375,
+          "centerX": 83.5,
+          "centerY": 809.734375
+        },
+        "right": {
+          "left": 245,
+          "right": 368,
+          "top": 787.734375,
+          "bottom": 831.734375,
+          "centerX": 306.5,
+          "centerY": 809.734375
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 787.734375,
+          "bottom": 831.734375,
+          "centerX": 195,
+          "centerY": 809.734375
+        },
+        "pageHeight": 3244,
+        "pageWidth": 390
+      },
+      "reverseHint": {
+        "opacity": 0,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 15
+      },
+      "memoryHandoff": {
+        "ready": true,
+        "canvasCount": 1,
+        "hidden": false,
+        "width": 156,
+        "height": 338,
+        "opacity": "1",
+        "backgroundImage": "none",
+        "distressHidden": true,
+        "events": [
+          {
+            "phase": "prepared",
+            "token": {
+              "id": 1,
+              "variant": 3967130765,
+              "seed": 4144783752,
+              "width": 156,
+              "height": 338,
+              "frame": 7
+            },
+            "pixelHash": 2147085438,
+            "colors": 16371,
+            "opaque": true,
+            "matchesPrepared": null,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 3967130765,
+                "frozen": true,
+                "frame": 7,
+                "claimedFrame": null,
+                "completedToken": null,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          },
+          {
+            "phase": "released",
+            "token": {
+              "id": 1,
+              "variant": 3967130765,
+              "seed": 4144783752,
+              "width": 156,
+              "height": 338,
+              "frame": 7
+            },
+            "pixelHash": 2147085438,
+            "colors": 16371,
+            "opaque": true,
+            "matchesPrepared": true,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 3967130765,
+                "frozen": false,
+                "frame": 7,
+                "claimedFrame": 7,
+                "completedToken": 1,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          }
+        ]
+      },
+      "offlineSmash": {
+        "played": true,
+        "contexts": 1,
+        "decodes": 1,
+        "tracks": [
+          {
+            "duration": 100.27,
+            "ended": true
+          },
+          {
+            "duration": 100.27,
+            "ended": true
+          }
+        ]
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "native touch hold",
+        "ignored one-second 4 on Other Side",
+        "exact released triple-3 return",
+        "temporary faint hint",
+        "embedded film",
+        "retained transition pixels",
+        "two bounded memory buffers",
+        "no pristine CSS source",
+        "lower hero mute",
+        "hidden four-digit right-cluster visit",
+        "numbered persistent INDEX",
+        "eight genuine embedded Tattoo photographs",
+        "inline photo enlargement",
+        "embedded SMASH availability",
+        "connected Work anchors",
+        "About",
+        "Home-only Contact inquiry",
+        "horizontal bounds"
+      ]
+    },
+    {
+      "width": 320,
+      "mobile": true,
+      "externalHttpRequests": 0,
+      "runtimeErrors": 0,
+      "footerBaselineDelta": 0,
+      "footerGeometry": {
+        "row": {
+          "left": 22,
+          "right": 298,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "centerX": 160,
+          "centerY": 809.6875
+        },
+        "counter": {
+          "left": 202.328125,
+          "right": 259.390625,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "centerX": 230.859375,
+          "centerY": 809.6875
+        },
+        "counterInLeftCluster": true,
+        "brand": {
+          "left": 22,
+          "right": 105.234375,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "centerX": 63.6171875,
+          "centerY": 809.6875
+        },
+        "left": {
+          "left": 22,
+          "right": 110,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "centerX": 66,
+          "centerY": 809.6875
+        },
+        "right": {
+          "left": 210,
+          "right": 298,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "centerX": 254,
+          "centerY": 809.6875
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 787.6875,
+          "bottom": 831.6875,
+          "centerX": 160,
+          "centerY": 809.6875
+        },
+        "pageHeight": 3276,
+        "pageWidth": 320
+      },
+      "reverseHint": {
+        "opacity": 0,
+        "color": "rgb(255, 255, 255)",
+        "fontSize": 15
+      },
+      "memoryHandoff": {
+        "ready": true,
+        "canvasCount": 1,
+        "hidden": false,
+        "width": 128,
+        "height": 338,
+        "opacity": "1",
+        "backgroundImage": "none",
+        "distressHidden": true,
+        "events": [
+          {
+            "phase": "prepared",
+            "token": {
+              "id": 1,
+              "variant": 345579050,
+              "seed": 1703993929,
+              "width": 128,
+              "height": 338,
+              "frame": 7
+            },
+            "pixelHash": 3885792460,
+            "colors": 6838,
+            "opaque": true,
+            "matchesPrepared": null,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 345579050,
+                "frozen": true,
+                "frame": 7,
+                "claimedFrame": null,
+                "completedToken": null,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          },
+          {
+            "phase": "released",
+            "token": {
+              "id": 1,
+              "variant": 345579050,
+              "seed": 1703993929,
+              "width": 128,
+              "height": 338,
+              "frame": 7
+            },
+            "pixelHash": 3885792460,
+            "colors": 6838,
+            "opaque": true,
+            "matchesPrepared": true,
+            "snapshot": {
+              "buffers": 2,
+              "recoverySource": "history",
+              "cleanSourceRetained": false,
+              "sourceInitializations": 1,
+              "transition": {
+                "token": 1,
+                "variant": 345579050,
+                "frozen": false,
+                "frame": 7,
+                "claimedFrame": 7,
+                "completedToken": 1,
+                "passes": 6
+              },
+              "queued": false,
+              "frames": 7
+            }
+          }
+        ]
+      },
+      "offlineSmash": {
+        "played": false
+      },
+      "verified": [
+        "WebGL hero",
+        "short hold cancellation",
+        "native touch hold",
+        "ignored one-second 4 on Other Side",
+        "exact released triple-3 return",
+        "temporary faint hint",
+        "embedded film",
+        "retained transition pixels",
+        "two bounded memory buffers",
+        "no pristine CSS source",
+        "lower hero mute",
+        "hidden four-digit right-cluster visit",
+        "numbered persistent INDEX",
+        "eight genuine embedded Tattoo photographs",
+        "inline photo enlargement",
+        "embedded SMASH availability",
+        "connected Work anchors",
+        "About",
+        "Home-only Contact inquiry",
+        "horizontal bounds"
+      ]
+    }
+  ]
+}

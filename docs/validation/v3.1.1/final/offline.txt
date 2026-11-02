@@ -1,0 +1,3 @@
+PASS standalone 1440px: one-second keyboard 4 entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, hidden right-cluster visit, numbered INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.
+PASS standalone 390px: one-second native touch entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, hidden right-cluster visit, numbered INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.
+PASS standalone 320px: one-second native touch entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, hidden right-cluster visit, numbered INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.

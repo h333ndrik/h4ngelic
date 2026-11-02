@@ -29,7 +29,7 @@ try {
   await page.setContent(html, { waitUntil: 'load' });
   await page.locator('html[data-xray-ready][data-page="work"]').waitFor();
   assert.equal(await page.locator('[data-floating-brand]').count(), 1);
-  assert.equal(await page.locator('[data-global-index]').isVisible(), true);
+  assert.equal(await page.locator('[data-global-index] > summary').isVisible(), true);
   assert.equal(await page.locator('[data-naavi]').isVisible(), true);
   assert.equal(await page.locator('[data-inquiry-form]').count(), 0, 'Cold offline Work has no second Contact form.');
   assert.equal(await page.locator('#reveal-control').count(), 0, 'The obsolete Reveal UI is absent even in the inert hero template.');
