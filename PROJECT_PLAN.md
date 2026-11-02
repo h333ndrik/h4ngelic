@@ -23,7 +23,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
 | F10 | DONE | Reuse inline viewing for the resized Digital artwork; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F10. |
 | F11 | DONE | Round photographs with the shared radius token; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F11. |
-| F13 | TODO | Branding/routes share unified hover/focus, no special opacity/pills/background or layout shift. |
+| F13 | DONE | Unify route-link and branding hover feedback; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F13. |
 | F14 | TODO | Floating headers white-base difference/exclusion against actual page/ink/WebGL, correct isolation and readable active/hover/cursor; measured palette pixels/performance/screenshots. Chrome/Firefox/Safari availability must be reported honestly. |
 | F15 | TODO | Hold4 enters only and has zero effect in4. Exactly three quick3 presses in~2s return; double3 does not. Hint exactly `press three times 3 to reverse`; mobile3tap equivalent and1400ms transition unchanged. |
 | F16a | TODO | Make Home01/WORKS heading a real clickable route with unified hover. |

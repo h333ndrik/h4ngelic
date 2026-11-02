@@ -238,7 +238,14 @@ async function imageContract(page, profile) {
 async function heroContract(page, profile) {
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
   await page.waitForFunction(() => !document.querySelector('[data-controls]').inert && Number(getComputedStyle(document.querySelector('[data-controls]')).opacity) > .99);
-  await coverage(page, ['[data-controls] button', '.hero-nav a']);
+  await coverage(page, ['[data-controls] button', '.hero-nav a', '[data-floating-brand]']);
+  const routeFeedback = await page.locator('[data-floating-brand], .hero-nav a').evaluateAll(elements => elements.map(element => {
+    const style = getComputedStyle(element); return { text: element.textContent.trim(), opacity: style.opacity, background: style.backgroundColor, backgroundImage: style.backgroundImage, shadow: style.boxShadow };
+  }));
+  for (const item of routeFeedback) {
+    assert.equal(item.opacity, '1', 'Branding and routes have no special opacity feedback.');
+    assert.equal(item.background, 'rgba(0, 0, 0, 0)'); assert.equal(item.backgroundImage, 'none'); assert.equal(item.shadow, 'none');
+  }
   const inspect = element => {
     const s = getComputedStyle(element);
     return { border: [s.borderTopWidth, s.borderRightWidth, s.borderBottomWidth, s.borderLeftWidth],
@@ -275,12 +282,14 @@ async function heroContract(page, profile) {
   assert.equal(rangeFocus.focus, true, 'The range is reached through keyboard navigation.');
   assert.equal(rangeFocus.outline, '0px'); assert.notEqual(rangeFocus.shadow, 'none', 'Range focus uses a subtle underline rather than a white box.');
   await page.keyboard.press('Escape');
+  const brandHover = await hovered(page, '[data-floating-brand]', profile);
   const hover = await hovered(page, '.hero-nav a', profile);
+  if (!profile.reduced && profile.width >= 600) assert.equal(brandHover.filter, hover.filter, 'Branding and route links use the same settled shared glow.');
   const unrounded = await radiusScope(page, ['#logo-canvas', '.stage'], 0);
   if (await page.locator('[data-corruption-ambient]').count()) await radiusScope(page, ['[data-corruption-ambient]'], 0);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
   await page.screenshot({ path: new URL(`hero-${profile.width}-${profile.reduced}-${await page.locator('html').getAttribute('data-mode')}.png`, output).pathname });
-  return { controls, pressed, popupStyle, rangeFocus, hover, unrounded };
+  return { controls, pressed, popupStyle, rangeFocus, routeFeedback, brandHover, hover, unrounded };
 }
 
 try {

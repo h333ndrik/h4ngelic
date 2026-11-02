@@ -70,9 +70,9 @@ These are headlessChromium/SwiftShader software-renderer measurements, limited b
 
 ## Current verified checkpoint
 
-F11: **DONE** (2026-11-02 16:42 UTC). Round photographs with the shared radius token; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F11.
+F13: **DONE** (2026-11-02 16:46 UTC). Unify route-link and branding hover feedback; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F13.
 
-Next: F13: align route-link and branding hover feedback. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+Next: F14: floating header blend, actual palette and compositing checks. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## F10 viewport decision — confirmed 2026-11-02
 

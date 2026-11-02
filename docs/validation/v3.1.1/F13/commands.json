@@ -1,0 +1,14 @@
+[
+  {
+    "command": "node tests/v31-ui-browser.mjs",
+    "exitCode": 0,
+    "seconds": 182.584,
+    "log": "docs/validation/v3.1.1/F13/browser.txt"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 3.651,
+    "log": "docs/validation/v3.1.1/F13/node.txt"
+  }
+]
