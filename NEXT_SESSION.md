@@ -1,3 +1,33 @@
+# V3.1.2 — current continuation
+
+Updated 2026-11-02. Work continues on `v3.1.1-fixes`; every commit is pushed to
+`origin`. The recovered branch has F1-F17 DONE except F14's documented external
+validation limits. V3.1.2 source reconciliation is in
+`docs/V3.1.2-STATUS.md`; V3-V6 and V22 have no recovered acceptance criteria.
+
+## V8 — DONE — hero poster
+
+Critical head CSS now paints the static wordmark poster before application CSS
+or WebGL. The source shell no longer hides the home hero for its first render.
+The poster has no literal fallback text, crossfades to the first real WebGL
+frame, and reduced motion retains the poster without importing `main.js` or
+requesting scene assets. `src/data/heroPosterSettings.js` is the configuration
+source; the Vite document plugin injects its values into first-paint CSS.
+
+Verification:
+
+- `npm test`: 369/369 PASS.
+- `npm run test:hero-poster`: 6/6 profiles PASS, CLS below 0.01 in all animated
+  profiles; screenshots and JSON in `docs/validation/v3.1.2/V8/`.
+- Existing `tests/browser.mjs`: desktop, mobile, reduced-motion poster and WebGL
+  fallback all PASS.
+- No build, merge or deployment performed.
+
+Exact next action: implement V9's automatic horizontal drift and CSS depth while
+keeping every vertical wheel/touch gesture native.
+
+---
+
 # Current review checkpoint — V3.1.1
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.

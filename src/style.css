@@ -15,6 +15,7 @@
   color: #f0efeb;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 * { box-sizing: border-box; }
 /* One viewport-anchored field stays continuous through every transparent section. */
@@ -32,10 +33,12 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 .masthead h1, .edition { margin: 0; font-size: clamp(13px, 1.32vw, 20px); font-weight: 400; letter-spacing: .06em; line-height: 1.5; }
 .stage { position: absolute; inset: 0; }
 #logo-canvas { width: 100%; height: 100%; display: block; position: absolute; inset: 0; touch-action: pan-y; }
-#logo-canvas { opacity: 0; }
+#logo-canvas { opacity: 0; transition: opacity var(--hero-poster-fade, 650ms) ease; }
 .stage.is-ready #logo-canvas { opacity: 1; }
-.fallback { position: absolute; inset: 0; background: url('/assets/wordmark-fallback.svg') center / 67% auto no-repeat; color: transparent; font-size: 0; pointer-events: none; }
-.stage.is-ready .fallback { visibility: hidden; }
+.fallback { position: absolute; inset: 0; background: var(--hero-poster-image, url('/assets/wordmark-fallback.svg')) center / 67% auto no-repeat; color: transparent; font-size: 0; pointer-events: none; transition: opacity var(--hero-poster-fade, 650ms) ease; }
+.stage.is-ready .fallback { opacity: 0; }
+.stage.is-poster-static #logo-canvas { display: none; }
+.stage.is-poster-static .fallback { opacity: 1; }
 .stage.is-fallback #logo-canvas { display: none; }
 .hero-bottom { position: absolute; inset: auto 35px 40px; display: flex; align-items: end; gap: 20px; z-index: 1; pointer-events: none; }
 .identity { margin: 0; font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .06em; line-height: 1.5; }

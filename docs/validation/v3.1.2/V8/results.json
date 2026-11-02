@@ -1,0 +1,120 @@
+{
+  "checkedAt": "2026-11-02T22:25:14.369Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "first": {
+        "text": "",
+        "background": "url(\"http://127.0.0.1:55173/assets/wordmark-fallback.svg\")",
+        "opacity": 1,
+        "stylesReady": "true",
+        "heroHeight": 844,
+        "viewportHeight": 844
+      },
+      "requests": [
+        "http://127.0.0.1:55173/assets/wordmark-fallback.svg",
+        "http://127.0.0.1:55173/src/main.js",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_geometries_TextGeometry__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_loaders_FontLoader__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_environments_RoomEnvironment__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_geometries_DecalGeometry__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/fonts/wordmark.typeface.json"
+      ]
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "first": {
+        "text": "",
+        "background": "url(\"http://127.0.0.1:55173/assets/wordmark-fallback.svg\")",
+        "opacity": 1,
+        "stylesReady": "true",
+        "heroHeight": 844,
+        "viewportHeight": 844
+      },
+      "requests": [
+        "http://127.0.0.1:55173/assets/wordmark-fallback.svg"
+      ]
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "first": {
+        "text": "",
+        "background": "url(\"http://127.0.0.1:55173/assets/wordmark-fallback.svg\")",
+        "opacity": 1,
+        "stylesReady": "true",
+        "heroHeight": 844,
+        "viewportHeight": 844
+      },
+      "requests": [
+        "http://127.0.0.1:55173/assets/wordmark-fallback.svg",
+        "http://127.0.0.1:55173/src/main.js",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_geometries_TextGeometry__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_loaders_FontLoader__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_environments_RoomEnvironment__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_geometries_DecalGeometry__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/fonts/wordmark.typeface.json"
+      ]
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "first": {
+        "text": "",
+        "background": "url(\"http://127.0.0.1:55173/assets/wordmark-fallback.svg\")",
+        "opacity": 1,
+        "stylesReady": "true",
+        "heroHeight": 844,
+        "viewportHeight": 844
+      },
+      "requests": [
+        "http://127.0.0.1:55173/assets/wordmark-fallback.svg"
+      ]
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "first": {
+        "text": "",
+        "background": "url(\"http://127.0.0.1:55173/assets/wordmark-fallback.svg\")",
+        "opacity": 1,
+        "stylesReady": "true",
+        "heroHeight": 844,
+        "viewportHeight": 844
+      },
+      "requests": [
+        "http://127.0.0.1:55173/assets/wordmark-fallback.svg",
+        "http://127.0.0.1:55173/src/main.js",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_geometries_TextGeometry__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_loaders_FontLoader__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_environments_RoomEnvironment__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three.module-DFtsUDDU.js?v=3fd0e857",
+        "http://127.0.0.1:55173/node_modules/.vite/deps/three_addons_geometries_DecalGeometry__js.js?v=3fd0e857",
+        "http://127.0.0.1:55173/fonts/wordmark.typeface.json"
+      ]
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "first": {
+        "text": "",
+        "background": "url(\"http://127.0.0.1:55173/assets/wordmark-fallback.svg\")",
+        "opacity": 1,
+        "stylesReady": "true",
+        "heroHeight": 844,
+        "viewportHeight": 844
+      },
+      "requests": [
+        "http://127.0.0.1:55173/assets/wordmark-fallback.svg"
+      ]
+    }
+  ],
+  "failures": []
+}

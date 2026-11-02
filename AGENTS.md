@@ -1,3 +1,11 @@
+# Active continuation — V3.1.2
+
+The active brief is `docs/V3.1.2-CONTINUATION.md`; actual state is reconciled in
+`docs/V3.1.2-STATUS.md`. V8 is DONE. Continue V9 onward in order, one fix per
+commit, and push every commit to `origin/v3.1.1-fixes`. Do not rebuild verified
+F1-F17 work. V3-V6 and V22 lack recovered requirements and are a documented
+specification blocker, not guessed scope. Do not merge or deploy.
+
 # Current review checkpoint — V3.1.1
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.

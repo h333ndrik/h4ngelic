@@ -1,3 +1,12 @@
+# V3.1.2 continuation plan
+
+Updated 2026-11-02. `docs/V3.1.2-STATUS.md` is the authoritative reconciliation.
+V8 is DONE; V9 is next. Each remaining item gets its own tested commit pushed to
+`origin/v3.1.1-fixes`. V3-V6 and V22 are specification-blocked because neither
+the recovered branch nor the supplied continuation defines them. Preserve the
+eight original JPEGs, the approved MP3, F1-F17 behavior, accessibility and
+reduced-motion fallbacks. No merge or deployment.
+
 # Current review checkpoint — V3.1.1
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.

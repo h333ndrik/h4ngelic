@@ -2,6 +2,25 @@
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.
 
+# V3.1.1 progress — V3.1.2 continuation
+
+## V8 — DONE — 2026-11-02
+
+Hero poster is now first-paint critical markup, not a post-JavaScript fallback.
+`index.html` carries layout-critical CSS and the empty poster element; Vite
+injects `src/data/heroPosterSettings.js`. The normal path crossfades after the
+first rendered frame. Reduced motion keeps the poster and does not import or
+request the Three.js scene, fonts or textures.
+
+Changed files: `index.html`, `src/data/heroPosterSettings.js`, `src/app.js`,
+`src/style.css`, `vite.config.js`, `package.json`, `tests/hero-poster.test.js`,
+`tests/hero-poster-browser.mjs`, `tests/browser.mjs`.
+
+Actual checks: `npm test` 369/369 PASS; `npm run test:hero-poster` 6/6 profiles
+PASS with zero measured CLS; existing hero suite passes desktop, mobile,
+reduced-poster and WebGL-failure paths. Evidence: `docs/validation/v3.1.2/V8/`
+plus `docs/V3.1.2-STATUS.md`. No build, merge or deployment performed.
+
 # V3.1.1 progress — F17 done
 
 ## Current committed checkpoint — 2026-11-02

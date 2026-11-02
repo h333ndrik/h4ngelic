@@ -210,14 +210,19 @@ try {
   const reduced = await browser.newContext({ viewport: { width: 1200, height: 800 }, reducedMotion: 'reduce' });
   const reducedPage = await reduced.newPage();
   const reducedErrors = collectErrors(reducedPage);
-  await ready(reducedPage);
-  assert.equal(await reducedPage.locator('#pause-control').getAttribute('aria-pressed'), 'true');
-  const reducedStart = await snapshot(reducedPage);
+  const reducedRequests = [];
+  reducedPage.on('request', request => reducedRequests.push(request.url()));
+  await reducedPage.goto(url, { waitUntil: 'networkidle' });
+  await reducedPage.locator('#stage.is-poster-static').waitFor();
+  assert.equal(await reducedPage.locator('#fallback').isVisible(), true, 'Reduced motion keeps the static poster visible.');
+  assert.equal(await reducedPage.locator('#logo-canvas').isVisible(), false, 'Reduced motion does not initialize the WebGL canvas.');
+  assert.equal(await reducedPage.evaluate(() => window.__H4_TEST__), undefined, 'Reduced motion does not import the Three.js controller.');
+  assert.ok(!reducedRequests.some(request => /\/src\/main\.js|wordmark\.typeface|tattoo-texture/.test(request)), 'Reduced motion must not request scene assets.');
   await reducedPage.waitForTimeout(300);
-  assert.ok(Math.abs((await snapshot(reducedPage)).baseTime - reducedStart.baseTime) < 0.001, 'Reduced motion must default to a still logo.');
+  assert.equal(await reducedPage.locator('#fallback').isVisible(), true);
   assert.deepEqual(reducedErrors, []);
   await reduced.close();
-  console.log('PASS accessibility: reduced motion defaults to paused.');
+  console.log('PASS accessibility: reduced motion stays on the static poster without WebGL.');
 
   const fallback = await browser.newContext({ viewport: { width: 1200, height: 800 } });
   const fallbackPage = await fallback.newPage();

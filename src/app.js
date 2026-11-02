@@ -26,6 +26,9 @@ import { initMotionMosh } from './motion-mosh.js';
 import { initGlobalNavigation } from './global-navigation.js';
 import { initInquiry } from './inquiry.js';
 import { initConnectedWork } from './connected-work.js';
+import { heroPosterSettings } from './data/heroPosterSettings.js';
+
+document.documentElement.dataset.h4StylesReady = 'true';
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -39,6 +42,7 @@ let stopEndReveal = () => {};
 let stopDrift = () => {};
 let stopMannequins = () => {};
 let heroObserver = null;
+const heroReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let moshTransitions = null;
 let renderRevision = 0;
 let renderedKind = '';
@@ -64,10 +68,28 @@ function ensureHero() {
   if (tagline) tagline.textContent = siteContent.home.tagline;
 }
 
+function configureHeroPoster() {
+  const poster = hero?.querySelector('[data-hero-poster]');
+  if (!poster) return;
+  poster.style.setProperty('--hero-poster-image', `url("${heroPosterSettings.src}")`);
+  poster.setAttribute('aria-label', heroPosterSettings.alt);
+  const stage = hero.querySelector('#stage');
+  stage?.style.setProperty('--hero-poster-fade', `${heroPosterSettings.fadeDurationMs}ms`);
+}
+
 function prepareHero() {
   ensureHero();
   if (!hero) return;
   hero.hidden = false;
+  configureHeroPoster();
+  if (heroReducedMotion.matches && heroPosterSettings.reducedMotionStatic) {
+    const stage = hero.querySelector('#stage');
+    stage?.classList.add('is-poster-static');
+    const status = hero.querySelector('#scene-status');
+    if (status) status.textContent = 'Static h4ngelic wordmark. Motion is disabled by your device preference.';
+    return;
+  }
+  hero.querySelector('#stage')?.classList.remove('is-poster-static');
   if (heroLoaded) return;
   heroObserver?.disconnect();
   heroObserver = new IntersectionObserver(([entry]) => {
