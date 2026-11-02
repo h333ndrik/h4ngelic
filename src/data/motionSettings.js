@@ -1,9 +1,6 @@
 /** Native scroll is the single clock for all editorial entrances. */
 const calm = Object.freeze({ start: .16, end: .90, distanceVw: .055, maximumDistance: 36 });
 export const motionSettings = Object.freeze({
-  mobileBreakpoint: 700,
-  approach: .85,
-  pin: Object.freeze({ work: .68, contact: .58, mobileWork: .48, mobileContact: .44 }),
   calm,
   heading: Object.freeze({ start: 0, end: .27, rise: 112 }),
   // Keep the approved About paragraph/link timing and modest relative inset.
@@ -31,12 +28,6 @@ export function easeOutCubic(value) {
 export function smoothProgress(value) {
   const p = clamp01(value);
   return p ** 3 * (10 + p * (-15 + 6 * p));
-}
-
-/** The existing native sticky Work interval remains independent of animation. */
-export function pinnedProgress(position, top, viewportHeight, pinRun, settings = motionSettings) {
-  const approach = Math.max(0, viewportHeight * settings.approach);
-  return (position - top + approach) / Math.max(1, approach + pinRun);
 }
 
 export function sampleCalmProgress(progress, distance = 0) {

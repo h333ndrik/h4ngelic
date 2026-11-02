@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { motionSettings, progressBetween, sampleCalmProgress, sampleCalmItem, sampleHeading, sampleHero,
-  sampleHeroBar, sampleKineticItem, pinnedProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn } from '../src/data/motionSettings.js';
+  sampleHeroBar, sampleKineticItem, aboutSectionProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn } from '../src/data/motionSettings.js';
 
 test('editorial content enters from a bounded right offset without rotation or overshoot', () => {
   for (const width of [320, 390, 1440]) {
@@ -63,12 +63,12 @@ test('numeric heading rise and accepted hero recession keep exact rest states', 
   assert.equal(progressBetween(200, 0, 100), 1);
 });
 
-test('the existing native sticky clock remains continuous with shorter phone reservation', () => {
-  const height = 1000, top = 2000, run = height * motionSettings.pin.work;
-  assert.equal(pinnedProgress(top - height * motionSettings.approach, top, height, run), 0);
-  assert.equal(pinnedProgress(top + run, top, height, run), 1);
-  assert.ok(motionSettings.pin.mobileWork < motionSettings.pin.work);
-  assert.ok(sampleCalmItem(pinnedProgress(top, top, height, run), 1440).opacity > 0);
+test('all editorial sections use the same native About approach without a sticky reservation', () => {
+  const height = 1000, top = 2000;
+  assert.equal(aboutSectionProgress(top - height * motionSettings.about.approach, top, height), 0);
+  assert.equal(aboutSectionProgress(top - height * motionSettings.about.finish, top, height), 1);
+  assert.equal(aboutSectionProgress(top - height * .39, top, height), .5);
+  assert.equal('pin' in motionSettings, false);
 });
 
 test('the whole hero bar fades reversibly and is hidden before the next section fills the screen', () => {

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { measureEntrancePerformance } from './helpers/v311-motion-performance.mjs';
+import { aboutSectionProgress, sampleAboutItem } from '../src/data/motionSettings.js';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_MOTION_ARTIFACTS || 'artifacts/v31-motion'}/`, import.meta.url);
@@ -43,19 +44,20 @@ const sectionState = (page, id) => page.locator(`#${id}`).evaluate(section => {
   };
   return { y: scrollY, height: document.documentElement.scrollHeight,
     heading: pose(section.querySelector('.kinetic-heading-text')),
-    items: [...section.querySelectorAll('[data-scroll-item], .category-link > .kinetic-item, .inquiry-enter')].map(pose) };
+    items: [...section.querySelectorAll('[data-scroll-item], .kinetic-item[data-motion-item], .category-link > .kinetic-item, .inquiry-enter')].map(pose) };
 });
 async function homeEntrances(page, profile, world) {
   const records = [];
-  for (const id of ['selected-work', 'contact']) {
+  for (const id of ['selected-work', 'about-preview', 'contact']) {
     const geometry = await page.locator(`#${id}`).evaluate(element => ({
       top: element.getBoundingClientRect().top + scrollY,
-      run: parseFloat(element.style.getPropertyValue('--motion-run')) || 0,
-      height: innerHeight,
+      height: innerHeight, pin: element.hasAttribute('data-motion-pin'),
+      run: element.style.getPropertyValue('--motion-run'),
+      position: getComputedStyle(element.querySelector(':scope > .section-pin')).position,
     }));
-    const origin = geometry.top - geometry.height * (id === 'selected-work' && !profile.reduced ? .85 : .68);
-    const distance = id === 'selected-work' && !profile.reduced
-      ? geometry.height * .85 + geometry.run : geometry.height * (.68 - .10);
+    assert.ok(!geometry.pin && geometry.run === '' && geometry.position !== 'sticky', 'Editorial entrances reserve no pinned scroll interval.');
+    const origin = geometry.top - geometry.height * .68;
+    const distance = geometry.height * (.68 - .10);
     const samples = [];
     for (const progress of [0, .2, .5, .8, 1]) {
       await move(page, origin + progress * distance);
@@ -66,10 +68,12 @@ async function homeEntrances(page, profile, world) {
         assert.ok(item.opacity >= 0 && item.opacity <= 1);
         assert.ok(close(item.x, sample.items[0].x) && close(item.opacity, sample.items[0].opacity), 'The whole content strip arrives simultaneously.');
       }
-      if (id === 'contact') {
-        assert.ok(close(sample.heading.x, sample.items[0].x) && close(sample.heading.y, 0));
-        assert.ok(close(sample.heading.opacity, sample.items[0].opacity), 'Contact title and inquiry form share the exact same right-entry pose.');
-      }
+      assert.ok(close(sample.heading.x, sample.items[0].x) && close(sample.heading.y, 0));
+      assert.ok(close(sample.heading.opacity, sample.items[0].opacity), 'Section title and content share the exact same sampler pose.');
+      const expected = profile.reduced ? { x: 0, opacity: 1 }
+        : sampleAboutItem(aboutSectionProgress(sample.y, geometry.top, geometry.height), id === 'contact' ? 'copy' : 'link', profile.width);
+      assert.ok(sample.items.every(item => close(item.x, expected.x) && close(item.opacity, expected.opacity)),
+        `${id} uses the exact MORE ABOUT sampler, progress, easing and parameters.`);
       if (profile.reduced) assert.ok(sample.items.every(item => item.x === 0 && item.opacity === 1));
       samples.push(sample);
     }
@@ -94,8 +98,7 @@ async function homeEntrances(page, profile, world) {
       'A route anchor focused on the section cannot disable reverse scrub.');
       await page.evaluate(() => document.activeElement?.blur());
     }
-    const performance = id === 'contact'
-      ? await measureEntrancePerformance(page, { selector: '#contact', profile, label: `${world} contact` }) : null;
+    const performance = await measureEntrancePerformance(page, { selector: `#${id}`, profile, label: `${world} ${id}` });
     records.push({ world, id, samples, performance });
   }
   assert.equal(await page.locator('[data-inquiry-reveal], .motion-echo').count(), 0, 'Retired one-shot and kinetic echo systems stay absent.');
@@ -200,7 +203,7 @@ try {
       reports.push({ ...profile, normalHome, normalWork, otherWork, otherHome, otherBar, normalBar, errors });
       await page.screenshot({ path: new URL(`home-${profile.width}-${profile.reduced ? 'reduced' : 'normal'}.png`, output).pathname });
       await save();
-      console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.`);
+      console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: exact MORE ABOUT section pipeline, no pinning, measured native reversal, static top labels, both-mode bar fade.`);
     } catch (error) {
       failures.push({ ...profile, error: error.stack, errors, motionPerformance: error.motionPerformance || null });
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});

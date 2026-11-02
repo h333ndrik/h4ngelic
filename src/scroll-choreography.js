@@ -1,10 +1,10 @@
 import './scroll-choreography.css';
-import { motionSettings, progressBetween, pinnedProgress, sampleCalmItem, sampleHeading, sampleHero, sampleHeroBar, sampleAboutItem, aboutSectionProgress, sampleArchiveHeading } from './data/motionSettings.js';
+import { motionSettings, progressBetween, sampleHero, sampleHeroBar, sampleAboutItem, aboutSectionProgress, sampleArchiveHeading } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
 
-/** Native scrolling + native sticky positioning; no wheel/touch interception.
+/** Native scrolling is the single section clock; no pinning or wheel/touch interception.
  * Each scroll/resize schedules at most one frame. Nothing runs while idle.
  * Keep this module independent from main.js: it never loads or drives WebGL.
  */
@@ -15,7 +15,7 @@ export function initScrollChoreography(root = document) {
     pin: element.querySelector(':scope > .section-pin'),
     heading: element.querySelector('.kinetic-heading > .kinetic-heading-text'),
     items: [...element.querySelectorAll('.category-link > .kinetic-item, .contact-link > .kinetic-item, .kinetic-item[data-motion-item], .inquiry-enter')],
-    top: 0, run: 0, lastState: '', lastProgress: '',
+    top: 0, lastState: '', lastProgress: '',
   })).filter((section) => section.pin && ['work', 'about', 'contact'].includes(section.kind));
   const archiveGroups = [...root.querySelectorAll('.work-group')].map(element => ({
     element, top: 0, headings: [],
@@ -101,21 +101,12 @@ export function initScrollChoreography(root = document) {
   function measure() {
     width = owner.documentElement.clientWidth || innerWidth;
     height = innerHeight;
-    const mobile = width <= motionSettings.mobileBreakpoint;
     if (!animated) {
       if (hero) { const bounds = hero.getBoundingClientRect(); heroTop = bounds.top + scrollY; heroHeight = bounds.height || 1; }
       dirty = false;
       return;
     }
-    // Only layout changes write/read geometry. Ordinary scroll uses this cache.
-    for (const section of sections) {
-      if (section.kind === 'about' || section.kind === 'contact') continue;
-      const key = mobile ? `mobile${section.kind[0].toUpperCase()}${section.kind.slice(1)}` : section.kind;
-      section.run = height * motionSettings.pin[key];
-      section.element.setAttribute('data-motion-pin', '');
-      setValue(section.element, '--motion-pin-height', `${height}px`);
-      setValue(section.element, '--motion-run', `${section.run}px`);
-    }
+    // Only layout changes read geometry. Ordinary scroll uses this cache.
     const offset = scrollY;
     for (const section of sections) {
       section.top = section.element.getBoundingClientRect().top + offset;
@@ -125,7 +116,7 @@ export function initScrollChoreography(root = document) {
       // layout pass. Undo our known translation around the unchanged center;
       // ordinary scroll frames never read element geometry or computed style.
       const pin = section.pin.getBoundingClientRect();
-      section.pinTravel = ['about', 'contact'].includes(section.kind) ? 0 : Math.max(0, section.element.offsetHeight - section.pin.offsetHeight);
+      section.pinTravel = 0; // All editorial sections now move in ordinary document flow.
       section.pinOffset = pin.top - (section.top - offset + clamp(offset - section.top, 0, section.pinTravel));
       section.pinLeft = pin.left + scrollX;
       section.motionLayout = [section.heading, ...section.items].filter(element => element && !element.matches('.inquiry-enter')).map(element => {
@@ -172,27 +163,21 @@ export function initScrollChoreography(root = document) {
     }
     for (const section of sections) {
       const focused = section === focusSection;
-      const progress = ['about', 'contact'].includes(section.kind)
-        ? aboutSectionProgress(position, section.top, height)
-        : pinnedProgress(position, section.top, height, section.run);
+      const progress = aboutSectionProgress(position, section.top, height);
       const state = focused ? 'focus' : progress <= 0 ? 'before' : progress >= 1 ? 'settled' : 'active';
       if (state !== section.lastState) { section.element.dataset.motionState = state; section.lastState = state; }
       const recordedProgress = progress.toFixed(4);
       if (recordedProgress !== section.lastProgress) { section.element.dataset.motionProgress = recordedProgress; section.lastProgress = recordedProgress; }
-      const calm = focused ? { x: 0, rotation: 0, opacity: 1 } : section.kind === 'contact'
-        ? sampleAboutItem(progress, 'copy', width) : sampleCalmItem(progress, width);
-      const heading = section.kind === 'contact'
-        ? { ...calm, y: 0 }
-        : focused ? { x: 0, y: 0, opacity: 1 }
-          : { x: 0, ...sampleHeading(progress, 0, section.kind === 'about' ? motionSettings.about.headingEnd : motionSettings.heading.end) };
+      // Work and every About element use MORE ABOUT's exact link sampler.
+      // Contact retains its approved copy timing through that same module.
+      const sample = focused ? { x: 0, rotation: 0, opacity: 1 }
+        : sampleAboutItem(progress, section.kind === 'contact' ? 'copy' : 'link', width);
+      const heading = { ...sample, y: 0 };
       setValue(section.heading, '--heading-x', `${heading.x.toFixed(3)}px`);
       setValue(section.heading, '--heading-y', `${heading.y.toFixed(3)}%`);
       setValue(section.heading, '--heading-opacity', heading.opacity.toFixed(4));
       if (section.heading) poses.set(section.heading, heading);
-      section.items.forEach(item => {
-        if (focused) return applyItem(item, { x: 0, rotation: 0, opacity: 1 });
-        applyItem(item, section.kind === 'about' ? sampleAboutItem(progress, item.dataset.motionItem, width) : calm);
-      });
+      section.items.forEach(item => applyItem(item, sample));
       if (motionSamples && section.motionLayout) {
         const pinY = section.top - position + clamp(position - section.top, 0, section.pinTravel) + section.pinOffset;
         for (const source of section.motionLayout) {
@@ -246,11 +231,8 @@ export function initScrollChoreography(root = document) {
 
   function clearStyles() {
     for (const section of sections) {
-      section.element.removeAttribute('data-motion-pin');
       section.element.removeAttribute('data-motion-state');
       section.element.removeAttribute('data-motion-progress');
-      section.element.style.removeProperty('--motion-pin-height');
-      section.element.style.removeProperty('--motion-run');
       section.lastState = '';
       section.lastProgress = '';
       for (const item of section.items) {

@@ -1,4 +1,4 @@
-# V3.1.1 progress — F5 done
+# V3.1.1 progress — F6 done
 
 ## Current committed checkpoint — 2026-11-02
 
@@ -17,7 +17,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F3 | DONE | Top TATTOOS/ON SKIN static from first paint; motion browser6 and Node pass. Commit `7028dbc`; evidence `docs/validation/v3.1.1/F3`. |
 | F4 | DONE | Contact shares About section clock; browser6 and Node363/363 pass. Commit `7238478`;12windows0LongTasks, but RAFp95 up to566.5ms; see measured limitations below. |
 | F5 | DONE | Use one gap throughout the Works floating row; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F5. |
-| F6 | TODO | Remove entire special Home category pin/fly path; reuse exact MORE ABOUT module/scrub/easing/parameters. Native reversible scroll; measure actual costs. |
+| F6 | DONE | Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6. |
 | F7 | TODO | Works TATTOOS size equals Home tattoo link at all widths, with common arrow. |
 | F8 | TODO | Native h4 cursor across all interactive areas, including NAAVI/lower Home, both motion preferences; preserve size/feel and touch behavior. |
 | F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
@@ -97,7 +97,7 @@ Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, fo
 
 ## Exact next checkpoint
 
-F6: replace the Home strip entrance with the exact MORE ABOUT path. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F7: match the TATTOOS heading to Home size and arrow. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## Confirmed continuation answers — 2026-10-31
 
@@ -184,3 +184,22 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F5`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: F6: replace the Home strip entrance with the exact MORE ABOUT path. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F10 viewport decision — confirmed 2026-11-02
+
+The user explicitly approved an additional responsive height cap in short browser windows. Keep the nominal60% original-width base, but reserve a visibly larger full-image view that fits the viewport. Report actual capped dimensions; do not claim a physical660px resting image in an844px-high window.
+
+## F6 — DONE — 2026-11-02 16:16 UTC
+
+Replace Work pinning with the MORE ABOUT scrub path.
+
+Changed files: `src/scroll-choreography.js`, `src/scroll-choreography.css`, `src/data/motionSettings.js`, `tests/v31-motion-browser.mjs`, `tests/scroll-motion.test.js`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-motion-browser.mjs`: exit 0, 311.963s. Actual output: `docs/validation/v3.1.1/F6/browser.txt`.
+- `npm test`: exit 0, 3.776s. Actual output: `docs/validation/v3.1.1/F6/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F6`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F7: match the TATTOOS heading to Home size and arrow. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
