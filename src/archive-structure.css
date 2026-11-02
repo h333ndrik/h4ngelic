@@ -68,7 +68,7 @@
   z-index: 11;
   flex-wrap: nowrap;
   align-items: center;
-  gap: clamp(10px, 2.2vw, 32px);
+  gap: var(--header-item-gap);
   min-height: 44px;
   padding: 0;
   border: 0;
@@ -101,7 +101,7 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
 .contact-page { max-width: 1100px; margin-inline: auto; padding-inline: 35px; }
 .contact-page .page-heading { font-size: clamp(40px, 8vw, 112px); }
 @media (max-width: 600px) {
-  .work-filters { gap: 0 10px; padding: 0; }
+  .work-filters { padding: 0; }
   .work-group, .archive-category { scroll-margin-top: 90px; }
   .contact-page { margin-inline: 0; padding-inline: 22px; }
 }

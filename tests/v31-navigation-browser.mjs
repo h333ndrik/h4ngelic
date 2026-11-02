@@ -78,6 +78,18 @@ async function workChrome(page,profile,world) {
   assert.ok(Math.abs(g.filters.top-g.brand.top)<1 && g.filters.height>=44);
   assert.ok(!overlap(g.brand,g.filters)&&!overlap(g.index,g.filters));
   assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['tattoos','jewellery','more']);
+  const spacing=await page.evaluate(()=>{
+    const strip=document.querySelector('.work-filters');strip.scrollLeft=0;
+    const brand=document.querySelector('[data-floating-brand]').getBoundingClientRect();
+    const boxes=[...strip.querySelectorAll('a')].map(el=>el.getBoundingClientRect());
+    return {token:getComputedStyle(strip).columnGap,wrap:getComputedStyle(strip).flexWrap,
+      gaps:[boxes[0].left-brand.right,...boxes.slice(1).map((r,n)=>r.left-boxes[n].right)],
+      tops:boxes.map(r=>r.top),brandTop:brand.top};
+  });
+  assert.equal(spacing.wrap,'nowrap');
+  for(const gap of spacing.gaps) assert.ok(Math.abs(gap-parseFloat(spacing.token))<.2,`One actual header gap: ${JSON.stringify(spacing)}`);
+  assert.ok(spacing.tops.every(top=>Math.abs(top-spacing.brandTop)<1),'Header item hit areas share the existing baseline row.');
+  g.spacing=spacing;
   const typography=await page.evaluate(()=>{
     const h=document.createElement('h2');h.className='kinetic-heading';h.style.cssText='position:absolute;visibility:hidden;pointer-events:none';document.body.append(h);
     const heading=getComputedStyle(h).fontSize;h.remove();

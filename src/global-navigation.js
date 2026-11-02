@@ -82,10 +82,11 @@ export function initGlobalNavigation(doc = document) {
     if (brand && filters && index) {
       const brandBox = brand.getBoundingClientRect();
       const indexBox = index.getBoundingClientRect();
-      const left = brandBox.right + 12;
+      const gap = parseFloat(view.getComputedStyle(filters).columnGap) || 0;
+      const left = brandBox.right + gap;
       filters.style.setProperty('--work-row-top', `${brandBox.top}px`);
       filters.style.setProperty('--work-row-left', `${left}px`);
-      filters.style.setProperty('--work-row-width', `${Math.max(0, indexBox.left - left - 12)}px`);
+      filters.style.setProperty('--work-row-width', `${Math.max(0, indexBox.left - left - gap)}px`);
     }
     displayBounds = [...doc.querySelectorAll(displaySelector)].flatMap(element => {
       const style = view.getComputedStyle(element);

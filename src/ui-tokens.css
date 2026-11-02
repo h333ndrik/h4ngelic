@@ -4,6 +4,7 @@
 :root {
   --radius-soft: 4px;
   --surface-input: #303033;
+  --header-item-gap: clamp(10px, 2.2vw, 32px);
   --type-display: clamp(32px, 6vw, 88px);
   --type-navigation: clamp(13px, 1.32vw, 20px);
   --type-secondary-link: clamp(18px, 1.8vw, 27px);

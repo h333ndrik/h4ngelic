@@ -1,0 +1,2136 @@
+{
+  "checkedAt": "2026-11-02T16:10:46.324Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "normals": {
+        "world": "normal",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 1234,
+          "right": 1418,
+          "bottom": 327
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workNormal": {
+        "world": "normal",
+        "geometry": {
+          "brand": {
+            "left": 35,
+            "right": 114.90625,
+            "top": 21,
+            "bottom": 65,
+            "width": 79.90625,
+            "height": 44
+          },
+          "index": {
+            "left": 1374,
+            "right": 1418,
+            "top": 21,
+            "bottom": 65,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 146.578125,
+            "right": 384.1875,
+            "top": 21,
+            "bottom": 65,
+            "width": 237.609375,
+            "height": 44
+          },
+          "naavi": {
+            "left": 676,
+            "right": 764,
+            "top": 788,
+            "bottom": 832,
+            "width": 88,
+            "height": 44
+          },
+          "width": 1440,
+          "documentWidth": 1440,
+          "headingSize": "86.4px",
+          "filterSize": "19.008px",
+          "subheadSize": "25.92px",
+          "spacing": {
+            "token": "31.68px",
+            "wrap": "nowrap",
+            "gaps": [
+              31.671875,
+              31.671875,
+              31.671875
+            ],
+            "tops": [
+              21,
+              21,
+              21
+            ],
+            "brandTop": 21
+          }
+        },
+        "typography": {
+          "heading": "86.4px",
+          "secondary": "25.92px"
+        },
+        "footer": {
+          "footerCentre": 810.484375,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 5149,
+          "documentWidth": 1440
+        }
+      },
+      "contrastNormal": {
+        "world": "normal",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "other": {
+        "world": "xray",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 1234,
+          "right": 1418,
+          "bottom": 327
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workOther": {
+        "world": "xray",
+        "geometry": {
+          "brand": {
+            "left": 35,
+            "right": 114.90625,
+            "top": 21,
+            "bottom": 65,
+            "width": 79.90625,
+            "height": 44
+          },
+          "index": {
+            "left": 1374,
+            "right": 1418,
+            "top": 21,
+            "bottom": 65,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 146.578125,
+            "right": 384.1875,
+            "top": 21,
+            "bottom": 65,
+            "width": 237.609375,
+            "height": 44
+          },
+          "naavi": {
+            "left": 676,
+            "right": 764,
+            "top": 788,
+            "bottom": 832,
+            "width": 88,
+            "height": 44
+          },
+          "width": 1440,
+          "documentWidth": 1440,
+          "headingSize": "86.4px",
+          "filterSize": "19.008px",
+          "subheadSize": "25.92px",
+          "spacing": {
+            "token": "31.68px",
+            "wrap": "nowrap",
+            "gaps": [
+              31.671875,
+              31.671875,
+              31.671875
+            ],
+            "tops": [
+              21,
+              21,
+              21
+            ],
+            "brandTop": 21
+          }
+        },
+        "typography": {
+          "heading": "86.4px",
+          "secondary": "25.92px"
+        },
+        "footer": {
+          "footerCentre": 810.484375,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 5149,
+          "documentWidth": 1440
+        }
+      },
+      "contrastOther": {
+        "world": "xray",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "normals": {
+        "world": "normal",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 1234,
+          "right": 1418,
+          "bottom": 327
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workNormal": {
+        "world": "normal",
+        "geometry": {
+          "brand": {
+            "left": 35,
+            "right": 114.90625,
+            "top": 21,
+            "bottom": 65,
+            "width": 79.90625,
+            "height": 44
+          },
+          "index": {
+            "left": 1374,
+            "right": 1418,
+            "top": 21,
+            "bottom": 65,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 146.578125,
+            "right": 384.1875,
+            "top": 21,
+            "bottom": 65,
+            "width": 237.609375,
+            "height": 44
+          },
+          "naavi": {
+            "left": 676,
+            "right": 764,
+            "top": 788,
+            "bottom": 832,
+            "width": 88,
+            "height": 44
+          },
+          "width": 1440,
+          "documentWidth": 1440,
+          "headingSize": "86.4px",
+          "filterSize": "19.008px",
+          "subheadSize": "25.92px",
+          "spacing": {
+            "token": "31.68px",
+            "wrap": "nowrap",
+            "gaps": [
+              31.671875,
+              31.671875,
+              31.671875
+            ],
+            "tops": [
+              21,
+              21,
+              21
+            ],
+            "brandTop": 21
+          }
+        },
+        "typography": {
+          "heading": "86.4px",
+          "secondary": "25.92px"
+        },
+        "footer": {
+          "footerCentre": 810.484375,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 5149,
+          "documentWidth": 1440
+        }
+      },
+      "contrastNormal": {
+        "world": "normal",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "other": {
+        "world": "xray",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 1234,
+          "right": 1418,
+          "bottom": 327
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workOther": {
+        "world": "xray",
+        "geometry": {
+          "brand": {
+            "left": 35,
+            "right": 114.90625,
+            "top": 21,
+            "bottom": 65,
+            "width": 79.90625,
+            "height": 44
+          },
+          "index": {
+            "left": 1374,
+            "right": 1418,
+            "top": 21,
+            "bottom": 65,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 146.578125,
+            "right": 384.1875,
+            "top": 21,
+            "bottom": 65,
+            "width": 237.609375,
+            "height": 44
+          },
+          "naavi": {
+            "left": 676,
+            "right": 764,
+            "top": 788,
+            "bottom": 832,
+            "width": 88,
+            "height": 44
+          },
+          "width": 1440,
+          "documentWidth": 1440,
+          "headingSize": "86.4px",
+          "filterSize": "19.008px",
+          "subheadSize": "25.92px",
+          "spacing": {
+            "token": "31.68px",
+            "wrap": "nowrap",
+            "gaps": [
+              31.671875,
+              31.671875,
+              31.671875
+            ],
+            "tops": [
+              21,
+              21,
+              21
+            ],
+            "brandTop": 21
+          }
+        },
+        "typography": {
+          "heading": "86.4px",
+          "secondary": "25.92px"
+        },
+        "footer": {
+          "footerCentre": 810.484375,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 5149,
+          "documentWidth": 1440
+        }
+      },
+      "contrastOther": {
+        "world": "xray",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "normals": {
+        "world": "normal",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 196,
+          "right": 380,
+          "bottom": 322
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workNormal": {
+        "world": "normal",
+        "geometry": {
+          "brand": {
+            "left": 22,
+            "right": 84.296875,
+            "top": 16,
+            "bottom": 60,
+            "width": 62.296875,
+            "height": 44
+          },
+          "index": {
+            "left": 336,
+            "right": 380,
+            "top": 16,
+            "bottom": 60,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 94.296875,
+            "right": 250.140625,
+            "top": 16,
+            "bottom": 60,
+            "width": 155.84375,
+            "height": 44
+          },
+          "naavi": {
+            "left": 153,
+            "right": 237,
+            "top": 788,
+            "bottom": 832,
+            "width": 84,
+            "height": 44
+          },
+          "width": 390,
+          "documentWidth": 390,
+          "headingSize": "32px",
+          "filterSize": "14.82px",
+          "subheadSize": "18px",
+          "spacing": {
+            "token": "10px",
+            "wrap": "nowrap",
+            "gaps": [
+              10,
+              10,
+              10
+            ],
+            "tops": [
+              16,
+              16,
+              16
+            ],
+            "brandTop": 16
+          }
+        },
+        "typography": {
+          "heading": "32px",
+          "secondary": "18px"
+        },
+        "footer": {
+          "footerCentre": 810.359375,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 3129,
+          "documentWidth": 390
+        }
+      },
+      "contrastNormal": {
+        "world": "normal",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "other": {
+        "world": "xray",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 196,
+          "right": 380,
+          "bottom": 322
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workOther": {
+        "world": "xray",
+        "geometry": {
+          "brand": {
+            "left": 22,
+            "right": 84.296875,
+            "top": 16,
+            "bottom": 60,
+            "width": 62.296875,
+            "height": 44
+          },
+          "index": {
+            "left": 336,
+            "right": 380,
+            "top": 16,
+            "bottom": 60,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 94.296875,
+            "right": 250.140625,
+            "top": 16,
+            "bottom": 60,
+            "width": 155.84375,
+            "height": 44
+          },
+          "naavi": {
+            "left": 153,
+            "right": 237,
+            "top": 788,
+            "bottom": 832,
+            "width": 84,
+            "height": 44
+          },
+          "width": 390,
+          "documentWidth": 390,
+          "headingSize": "32px",
+          "filterSize": "14.82px",
+          "subheadSize": "18px",
+          "spacing": {
+            "token": "10px",
+            "wrap": "nowrap",
+            "gaps": [
+              10,
+              10,
+              10
+            ],
+            "tops": [
+              16,
+              16,
+              16
+            ],
+            "brandTop": 16
+          }
+        },
+        "typography": {
+          "heading": "32px",
+          "secondary": "18px"
+        },
+        "footer": {
+          "footerCentre": 810.359375,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 3129,
+          "documentWidth": 390
+        }
+      },
+      "contrastOther": {
+        "world": "xray",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "normals": {
+        "world": "normal",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 196,
+          "right": 380,
+          "bottom": 322
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workNormal": {
+        "world": "normal",
+        "geometry": {
+          "brand": {
+            "left": 22,
+            "right": 84.296875,
+            "top": 16,
+            "bottom": 60,
+            "width": 62.296875,
+            "height": 44
+          },
+          "index": {
+            "left": 336,
+            "right": 380,
+            "top": 16,
+            "bottom": 60,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 94.296875,
+            "right": 250.140625,
+            "top": 16,
+            "bottom": 60,
+            "width": 155.84375,
+            "height": 44
+          },
+          "naavi": {
+            "left": 153,
+            "right": 237,
+            "top": 788,
+            "bottom": 832,
+            "width": 84,
+            "height": 44
+          },
+          "width": 390,
+          "documentWidth": 390,
+          "headingSize": "32px",
+          "filterSize": "14.82px",
+          "subheadSize": "18px",
+          "spacing": {
+            "token": "10px",
+            "wrap": "nowrap",
+            "gaps": [
+              10,
+              10,
+              10
+            ],
+            "tops": [
+              16,
+              16,
+              16
+            ],
+            "brandTop": 16
+          }
+        },
+        "typography": {
+          "heading": "32px",
+          "secondary": "18px"
+        },
+        "footer": {
+          "footerCentre": 810.359375,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 3129,
+          "documentWidth": 390
+        }
+      },
+      "contrastNormal": {
+        "world": "normal",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "other": {
+        "world": "xray",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 196,
+          "right": 380,
+          "bottom": 322
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workOther": {
+        "world": "xray",
+        "geometry": {
+          "brand": {
+            "left": 22,
+            "right": 84.296875,
+            "top": 16,
+            "bottom": 60,
+            "width": 62.296875,
+            "height": 44
+          },
+          "index": {
+            "left": 336,
+            "right": 380,
+            "top": 16,
+            "bottom": 60,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 94.296875,
+            "right": 250.140625,
+            "top": 16,
+            "bottom": 60,
+            "width": 155.84375,
+            "height": 44
+          },
+          "naavi": {
+            "left": 153,
+            "right": 237,
+            "top": 788,
+            "bottom": 832,
+            "width": 84,
+            "height": 44
+          },
+          "width": 390,
+          "documentWidth": 390,
+          "headingSize": "32px",
+          "filterSize": "14.82px",
+          "subheadSize": "18px",
+          "spacing": {
+            "token": "10px",
+            "wrap": "nowrap",
+            "gaps": [
+              10,
+              10,
+              10
+            ],
+            "tops": [
+              16,
+              16,
+              16
+            ],
+            "brandTop": 16
+          }
+        },
+        "typography": {
+          "heading": "32px",
+          "secondary": "18px"
+        },
+        "footer": {
+          "footerCentre": 810.359375,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 3129,
+          "documentWidth": 390
+        }
+      },
+      "contrastOther": {
+        "world": "xray",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "normals": {
+        "world": "normal",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 126,
+          "right": 310,
+          "bottom": 322
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workNormal": {
+        "world": "normal",
+        "geometry": {
+          "brand": {
+            "left": 22,
+            "right": 80.875,
+            "top": 16,
+            "bottom": 60,
+            "width": 58.875,
+            "height": 44
+          },
+          "index": {
+            "left": 266,
+            "right": 310,
+            "top": 16,
+            "bottom": 60,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 90.875,
+            "right": 239.28125,
+            "top": 16,
+            "bottom": 60,
+            "width": 148.40625,
+            "height": 44
+          },
+          "naavi": {
+            "left": 118,
+            "right": 202,
+            "top": 788,
+            "bottom": 832,
+            "width": 84,
+            "height": 44
+          },
+          "width": 320,
+          "documentWidth": 320,
+          "headingSize": "32px",
+          "filterSize": "14px",
+          "subheadSize": "18px",
+          "spacing": {
+            "token": "10px",
+            "wrap": "nowrap",
+            "gaps": [
+              10,
+              10,
+              10
+            ],
+            "tops": [
+              16,
+              16,
+              16
+            ],
+            "brandTop": 16
+          }
+        },
+        "typography": {
+          "heading": "32px",
+          "secondary": "18px"
+        },
+        "footer": {
+          "footerCentre": 810.078125,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 3091,
+          "documentWidth": 320
+        }
+      },
+      "contrastNormal": {
+        "world": "normal",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "other": {
+        "world": "xray",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 126,
+          "right": 310,
+          "bottom": 322
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workOther": {
+        "world": "xray",
+        "geometry": {
+          "brand": {
+            "left": 22,
+            "right": 80.875,
+            "top": 16,
+            "bottom": 60,
+            "width": 58.875,
+            "height": 44
+          },
+          "index": {
+            "left": 266,
+            "right": 310,
+            "top": 16,
+            "bottom": 60,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 90.875,
+            "right": 239.28125,
+            "top": 16,
+            "bottom": 60,
+            "width": 148.40625,
+            "height": 44
+          },
+          "naavi": {
+            "left": 118,
+            "right": 202,
+            "top": 788,
+            "bottom": 832,
+            "width": 84,
+            "height": 44
+          },
+          "width": 320,
+          "documentWidth": 320,
+          "headingSize": "32px",
+          "filterSize": "14px",
+          "subheadSize": "18px",
+          "spacing": {
+            "token": "10px",
+            "wrap": "nowrap",
+            "gaps": [
+              10,
+              10,
+              10
+            ],
+            "tops": [
+              16,
+              16,
+              16
+            ],
+            "brandTop": 16
+          }
+        },
+        "typography": {
+          "heading": "32px",
+          "secondary": "18px"
+        },
+        "footer": {
+          "footerCentre": 810.078125,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 3091,
+          "documentWidth": 320
+        }
+      },
+      "contrastOther": {
+        "world": "xray",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "normals": {
+        "world": "normal",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 126,
+          "right": 310,
+          "bottom": 322
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workNormal": {
+        "world": "normal",
+        "geometry": {
+          "brand": {
+            "left": 22,
+            "right": 80.875,
+            "top": 16,
+            "bottom": 60,
+            "width": 58.875,
+            "height": 44
+          },
+          "index": {
+            "left": 266,
+            "right": 310,
+            "top": 16,
+            "bottom": 60,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 90.875,
+            "right": 239.28125,
+            "top": 16,
+            "bottom": 60,
+            "width": 148.40625,
+            "height": 44
+          },
+          "naavi": {
+            "left": 118,
+            "right": 202,
+            "top": 788,
+            "bottom": 832,
+            "width": 84,
+            "height": 44
+          },
+          "width": 320,
+          "documentWidth": 320,
+          "headingSize": "32px",
+          "filterSize": "14px",
+          "subheadSize": "18px",
+          "spacing": {
+            "token": "10px",
+            "wrap": "nowrap",
+            "gaps": [
+              10,
+              10,
+              10
+            ],
+            "tops": [
+              16,
+              16,
+              16
+            ],
+            "brandTop": 16
+          }
+        },
+        "typography": {
+          "heading": "32px",
+          "secondary": "18px"
+        },
+        "footer": {
+          "footerCentre": 810.078125,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 3091,
+          "documentWidth": 320
+        }
+      },
+      "contrastNormal": {
+        "world": "normal",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "other": {
+        "world": "xray",
+        "numbers": [
+          "00 /",
+          "01 /",
+          "02 /",
+          "03 /",
+          "04 /"
+        ],
+        "targets": [
+          "/",
+          "/work",
+          "/about",
+          "/#contact",
+          "/#final-secret"
+        ],
+        "labels": [
+          "00 / home",
+          "01 / works",
+          "02 / more about",
+          "03 / contact",
+          "04 / the other side"
+        ],
+        "panel": {
+          "left": 126,
+          "right": 310,
+          "bottom": 322
+        },
+        "surface": "rgb(48, 48, 51)",
+        "borderWidth": "0px",
+        "radius": "4px",
+        "outlineWidth": "0px",
+        "filter": "none",
+        "shadow": "none",
+        "linkColors": [
+          "rgb(195, 195, 192)",
+          "rgb(255, 255, 255)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)",
+          "rgb(195, 195, 192)"
+        ],
+        "expanded": "true",
+        "contrast": [
+          7.447169051967954,
+          13.15575237073756,
+          7.447169051967954,
+          7.447169051967954,
+          7.447169051967954
+        ]
+      },
+      "workOther": {
+        "world": "xray",
+        "geometry": {
+          "brand": {
+            "left": 22,
+            "right": 80.875,
+            "top": 16,
+            "bottom": 60,
+            "width": 58.875,
+            "height": 44
+          },
+          "index": {
+            "left": 266,
+            "right": 310,
+            "top": 16,
+            "bottom": 60,
+            "width": 44,
+            "height": 44
+          },
+          "filters": {
+            "left": 90.875,
+            "right": 239.28125,
+            "top": 16,
+            "bottom": 60,
+            "width": 148.40625,
+            "height": 44
+          },
+          "naavi": {
+            "left": 118,
+            "right": 202,
+            "top": 788,
+            "bottom": 832,
+            "width": 84,
+            "height": 44
+          },
+          "width": 320,
+          "documentWidth": 320,
+          "headingSize": "32px",
+          "filterSize": "14px",
+          "subheadSize": "18px",
+          "spacing": {
+            "token": "10px",
+            "wrap": "nowrap",
+            "gaps": [
+              10,
+              10,
+              10
+            ],
+            "tops": [
+              16,
+              16,
+              16
+            ],
+            "brandTop": 16
+          }
+        },
+        "typography": {
+          "heading": "32px",
+          "secondary": "18px"
+        },
+        "footer": {
+          "footerCentre": 810.078125,
+          "naaviCentre": 810,
+          "docked": false,
+          "documentHeight": 3091,
+          "documentWidth": 320
+        }
+      },
+      "contrastOther": {
+        "world": "xray",
+        "display": {
+          "contrast": true,
+          "blend": "difference",
+          "digit": "rgb(255, 255, 255)",
+          "total": "rgb(255, 255, 255)"
+        },
+        "visibility": [
+          {
+            "source": "heading",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "heading",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "child",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "0",
+            "contrast": false,
+            "blend": "normal",
+            "reads": 2
+          },
+          {
+            "source": "parent",
+            "opacity": "1",
+            "contrast": true,
+            "blend": "difference",
+            "reads": 2
+          }
+        ],
+        "quiet": {
+          "contrast": false,
+          "blend": "normal"
+        }
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}
