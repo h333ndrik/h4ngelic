@@ -1,0 +1,19 @@
+CHECK V3.1 footer 1440px reduced=false
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Clearing local memory restores first-visit behaviour.
+
+true !== false
+
+    at file:///workspace/h4ngelic/tests/footer-v31-browser.mjs:64:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

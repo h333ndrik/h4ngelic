@@ -17,6 +17,8 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   let layer = null;
   let disposed = false;
   let authorized = false;
+  let returningVisitor = false;
+  let visitWritten = false;
   let visitStorage = null;
   let visit = { count: 1, lastSeen: Date.now() };
   let lastWrite = 0;
@@ -32,6 +34,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   }
 
   function updateVisitorCopy() {
+    for (const element of root.querySelectorAll('[data-returning-visitor]')) element.hidden = !returningVisitor;
     for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = formatVisitCount(visit.count);
   }
 
@@ -45,6 +48,8 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
       try { visitStorage.removeItem(settings.visits.storageKey); } catch { /* Best-effort deletion after consent withdrawal. */ }
     }
     authorized = false;
+    returningVisitor = false;
+    visitWritten = false;
     visitStorage = null;
     visit = { count: 1, lastSeen: Date.now() };
     updateVisitorCopy();
@@ -54,7 +59,13 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     if (!authorized || !visitStorage) return;
     // Recheck at every write as well as the integration's privacy-change event.
     if (!canRememberVisits(settings.visits, consentGranted())) { forgetVisitorMemory(); return; }
-    try { visitStorage.setItem(settings.visits.storageKey, JSON.stringify(visit)); lastWrite = Date.now(); }
+    try {
+      // Do not resurrect explicitly cleared memory from a cached pagehide state.
+      if (visitWritten && visitStorage.getItem(settings.visits.storageKey) === null) { forgetVisitorMemory(); return; }
+      visitStorage.setItem(settings.visits.storageKey, JSON.stringify(visit));
+      visitWritten = true;
+      lastWrite = Date.now();
+    }
     catch { authorized = false; visitStorage = null; /* Retain the in-memory count when storage is unavailable. */ }
   }
 
@@ -72,7 +83,9 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
       visitStorage = storage || view.localStorage;
       authorized = Boolean(visitStorage);
       if (authorized) {
-        visit = nextVisit(readVisit(), Date.now(), settings.visits.separatedVisitMs);
+        const previous = readVisit();
+        returningVisitor = Number.isSafeInteger(previous?.count) && previous.count > 0;
+        visit = nextVisit(previous, Date.now(), settings.visits.separatedVisitMs);
         writeVisit();
       }
     } catch { authorized = false; visitStorage = null; }
@@ -356,6 +369,9 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     for (const [mark, record] of marks) if (intersectsHint(record, bounds)) forgetMark(mark);
   });
   listen(root, 'h4:privacychange', refreshConsent);
+  listen(view, 'storage', event => {
+    if ((event.key === null || event.key === settings.visits.storageKey) && !event.newValue) { returningVisitor = false; updateVisitorCopy(); }
+  });
   listen(pageDocument, 'visibilitychange', () => {
     candidate = null;
     clearTouch();

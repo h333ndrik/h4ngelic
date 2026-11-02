@@ -14,9 +14,9 @@ Read all four root files and actual Git before work. F1/F9/F2/F3/F4 are committe
 
 ## First unfinished task
 
-F17: restore returning-visitor recognition above the hero. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
-Latest recorded result: **F16b DONE**, 2026-11-02 17:21 UTC. Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16.
+Latest recorded result: **F17 DONE**, 2026-11-02 17:24 UTC. Restore returning-visitor recognition above the hero; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F17.
 
 ## F1 — actual verification
 
@@ -49,7 +49,7 @@ F1 was committed as `f57f759`; no V3.1.1 build/export is claimed by this documen
 | F15 | DONE | Make4 entry-only and require triple3 for return; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F15. |
 | F16a | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
 | F16b | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
-| F17 | TODO | Restore exact muted hero line “you know your way around here.” only for returning local visitors; first visit/cleared storage hidden, no layout shift or pointer interception, six-profile screenshots/tests. |
+| F17 | DONE | Restore returning-visitor recognition above the hero; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F17. |
 
 There is no F12. TODO means not started; PARTIAL means code/verification underway; DONE requires actual current checks. REVIEW NEEDED is intent uncertainty, not a missing V3.1 feature.
 

@@ -1,0 +1,12 @@
+CHECK V3.1 footer 1440px reduced=false
+PASS V3.1 footer 1440px reduced=false
+CHECK V3.1 footer 1440px reduced=true
+PASS V3.1 footer 1440px reduced=true
+CHECK V3.1 footer 390px reduced=false
+PASS V3.1 footer 390px reduced=false
+CHECK V3.1 footer 390px reduced=true
+PASS V3.1 footer 390px reduced=true
+CHECK V3.1 footer 320px reduced=false
+PASS V3.1 footer 320px reduced=false
+CHECK V3.1 footer 320px reduced=true
+PASS V3.1 footer 320px reduced=true

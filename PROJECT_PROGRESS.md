@@ -1,4 +1,4 @@
-# V3.1.1 progress — F16b done
+# V3.1.1 progress — F17 done
 
 ## Current committed checkpoint — 2026-11-02
 
@@ -28,7 +28,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F15 | DONE | Make4 entry-only and require triple3 for return; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F15. |
 | F16a | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
 | F16b | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
-| F17 | TODO | Restore exact muted hero line “you know your way around here.” only for returning local visitors; first visit/cleared storage hidden, no layout shift or pointer interception, six-profile screenshots/tests. |
+| F17 | DONE | Restore returning-visitor recognition above the hero; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F17. |
 
 There is no F12. TODO means not started; PARTIAL means code/verification underway; DONE requires actual current checks. REVIEW NEEDED is intent uncertainty, not a missing V3.1 feature.
 
@@ -98,7 +98,7 @@ Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, fo
 
 ## Exact next checkpoint
 
-F17: restore returning-visitor recognition above the hero. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## Confirmed continuation answers — 2026-10-31
 
@@ -395,3 +395,26 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F16`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: F17: restore returning-visitor recognition above the hero. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F17 — PARTIAL — 2026-11-02 17:21 UTC
+
+Restore returning-visitor recognition above the hero: verification incomplete.
+
+Actual failing command: `node tests/footer-v31-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F17/browser.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F17: inspect docs/validation/v3.1.1/F17/browser.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F17 — DONE — 2026-11-02 17:24 UTC
+
+Restore returning-visitor recognition above the hero.
+
+Changed files: `index.html`, `src/easter-eggs.js`, `src/easter-eggs.css`, `tests/footer-v31-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/footer-v31-browser.mjs`: exit 0, 133.653s. Actual output: `docs/validation/v3.1.1/F17/browser.txt`.
+- `npm test`: exit 0, 3.518s. Actual output: `docs/validation/v3.1.1/F17/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F17`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.

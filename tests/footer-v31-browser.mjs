@@ -43,6 +43,26 @@ async function mode(page, target) {
 try {
   for (const { width, reduced } of [1440,390,320].flatMap(width => [false,true].map(reduced => ({width,reduced})))) {
     console.log(`CHECK V3.1 footer ${width}px reduced=${reduced}`);
+    const recognitionContext = await browser.newContext({ viewport:{width,height:844}, deviceScaleFactor:1,
+      isMobile:width<600, hasTouch:width<600, reducedMotion:reduced?'reduce':'no-preference' });
+    try {
+      const recognitionPage = await recognitionContext.newPage();
+      await recognitionPage.goto(new URL('/',base).href,{waitUntil:'networkidle'});
+      const line=recognitionPage.locator('[data-returning-visitor]');
+      assert.equal(await line.isVisible(),false,'The first visit has no recognition line.');
+      const initialHeight=await recognitionPage.evaluate(()=>document.documentElement.scrollHeight);
+      await recognitionPage.reload({waitUntil:'networkidle'});
+      await line.waitFor({state:'visible'});
+      assert.equal(await line.textContent(),'you know your way around here.');
+      assert.equal(await line.evaluate(el=>getComputedStyle(el).pointerEvents),'none');
+      assert.equal(await line.evaluate(el=>getComputedStyle(el).transitionDuration),'0s');
+      assert.equal(await recognitionPage.evaluate(()=>document.documentElement.scrollHeight),initialHeight,'Recognition never changes page layout.');
+      assert.ok(await recognitionPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+      await recognitionPage.screenshot({path:new URL(`returning-${width}-${reduced}.png`,out).pathname});
+      await recognitionPage.evaluate(()=>localStorage.clear());
+      await recognitionPage.reload({waitUntil:'networkidle'});
+      assert.equal(await line.isVisible(),false,'Clearing local memory restores first-visit behaviour.');
+    } finally { await recognitionContext.close(); }
     const context = await browser.newContext({ viewport:{width,height:844}, deviceScaleFactor:1,
       isMobile:width<600, hasTouch:width<600, reducedMotion:reduced?'reduce':'no-preference' });
     await context.addInitScript(() => {

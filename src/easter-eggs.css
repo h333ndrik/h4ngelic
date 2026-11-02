@@ -168,3 +168,6 @@ body { position: relative; }
   .ink-mark { animation-name: ink-fade; }
   .ink-tear { animation: none; }
 }
+
+/* Positioned above the sculpture without consuming layout or intercepting it. */
+.returning-visitor-line { position:absolute; top:28%; left:50%; transform:translateX(-50%); z-index:2; width:max-content; max-width:calc(100% - 44px); margin:0; color:#9a9a96; font-size:clamp(12px,1vw,14px); line-height:1.4; letter-spacing:.02em; text-align:center; pointer-events:none; transition:none; }

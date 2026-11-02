@@ -70,9 +70,9 @@ These are headlessChromium/SwiftShader software-renderer measurements, limited b
 
 ## Current verified checkpoint
 
-F16b: **DONE** (2026-11-02 17:21 UTC). Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16.
+F17: **DONE** (2026-11-02 17:24 UTC). Restore returning-visitor recognition above the hero; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F17.
 
-Next: F17: restore returning-visitor recognition above the hero. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+Next: Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## F10 viewport decision — confirmed 2026-11-02
 
