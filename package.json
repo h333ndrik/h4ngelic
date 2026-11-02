@@ -49,6 +49,7 @@
     "test:hero-background": "node tests/hero-background-browser.mjs",
     "test:drift": "node tests/horizontal-drift-browser.mjs",
     "test:drift-performance": "node tests/horizontal-drift-performance.mjs",
+    "test:pointer-focus": "node tests/pointer-focus-browser.mjs",
     "test:hero-poster": "node tests/hero-poster-browser.mjs",
     "test:digital-ink": "node tests/digital-ink-browser.mjs",
     "test:persistent-memory": "node tests/persistent-memory-browser.mjs",

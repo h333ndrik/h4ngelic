@@ -34,9 +34,9 @@
 .horizontal-drift.is-empty .archive-empty { margin: 0; padding: 28px 0; font-size: clamp(18px, 2.3vw, 28px); }
 .drift-artwork.is-artwork-selected { animation: drift-selection-light 360ms ease-out; }
 @keyframes drift-selection-light {
-  0% { outline-color: #ffffff00; box-shadow: 0 0 0 0 #ffffff00; }
-  35% { outline-color: #fffffff2; box-shadow: 0 0 17px 1px #ffffff28; }
-  100% { outline-color: #ffffff00; box-shadow: 0 0 26px 0 #ffffff00; }
+  0% { box-shadow: 0 0 0 0 #ffffff00; }
+  35% { box-shadow: 0 0 17px 1px #ffffff28; }
+  100% { box-shadow: 0 0 26px 0 #ffffff00; }
 }
 @media (hover: hover) and (pointer: fine) {
   /* The existing UI system owns the image zoom/glow. The outer card owns only

@@ -1,0 +1,8 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:drift
+PASS all six carousel profiles at 1440/390/320px, reduced=true/false.
+
+Command: npm test
+tests 369
+pass 369
+fail 0
+duration_ms 1315.774791

@@ -192,9 +192,8 @@ export function initInlineArtworkExpand(root = document) {
     if (!record || event.isPrimary === false || event.button !== 0 || event.pointerType === 'touch'
       || event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return;
     event.preventDefault();
-    record.trigger.setAttribute('data-inline-pointer-focus', '');
-    try { record.trigger.focus({ preventScroll: true }); }
-    finally { record.trigger.removeAttribute('data-inline-pointer-focus'); }
+    record.trigger.setAttribute('data-pointer-focus', '');
+    record.trigger.focus({ preventScroll: true });
   }, { capture: true });
   listen(root, 'click', event => {
     if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return;
@@ -204,6 +203,9 @@ export function initInlineArtworkExpand(root = document) {
     activate(record);
   });
   listen(doc, 'click', event => { if (active && !active.trigger.contains(event.target)) collapse(); });
+  listen(doc, 'keydown', () => {
+    for (const trigger of doc.querySelectorAll('[data-pointer-focus]')) trigger.removeAttribute('data-pointer-focus');
+  }, { capture: true });
   listen(doc, 'keydown', event => {
     if (!active || event.defaultPrevented || event.key !== 'Escape') return;
     const ownsFocus = active.trigger.contains(doc.activeElement);

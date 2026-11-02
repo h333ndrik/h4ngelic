@@ -23,8 +23,8 @@ Verification:
   fallback all PASS.
 - No build, merge or deployment performed.
 
-Exact next action: V11 + V16 apply the global mouse/touch focus-outline reset,
-then verify header, rubric, footer, carousel and artwork controls across the six profiles.
+Exact next action: V12–V14 normalize the tattoos, jewellery and more category
+pages, then verify their shared structure and animations across the six profiles.
 
 ---
 

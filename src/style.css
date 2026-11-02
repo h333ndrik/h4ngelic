@@ -18,6 +18,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 * { box-sizing: border-box; }
+:where(a[href], button, summary, [role='button']) { -webkit-tap-highlight-color: transparent; }
+/* Pointer activation may focus a real control, but it never paints the
+   keyboard focus ring. :focus-visible remains the single visible contract. */
+:where(a[href], button, summary, [role='button'])[data-pointer-focus]:focus-visible { outline: none !important; }
+:where(a[href], button, summary, [role='button']):focus:not(:focus-visible) { outline: none; }
+:where(a[href], button, summary, [role='button']):active { outline: none; }
 /* One viewport-anchored field stays continuous through every transparent section. */
 body { margin: 0; background: transparent; }
 html[data-mode='xray'] { --normal-background-image: none; }
@@ -27,7 +33,7 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 [tabindex='-1']:focus { outline: none; }
 [hidden] { display: none !important; }
 .skip-link { position: fixed; left: 22px; top: 15px; padding: 14px 20px; background: #f0efeb; color: #303033; z-index: 10; transform: translateY(-160%); }
-.skip-link:focus { transform: translateY(0); }
+.skip-link:focus-visible { transform: translateY(0); }
 .hero { min-height: 540px; height: 100svh; position: relative; overflow: hidden; }
 .masthead { position: absolute; inset: 28px 35px auto; display: flex; justify-content: space-between; align-items: baseline; z-index: 1; pointer-events: none; }
 .masthead h1, .edition { margin: 0; font-size: clamp(13px, 1.32vw, 20px); font-weight: 400; letter-spacing: .06em; line-height: 1.5; }

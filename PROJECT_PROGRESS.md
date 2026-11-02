@@ -4,6 +4,31 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V11 + V16 — DONE — 2026-11-03
+
+Pointer and touch activation no longer paints a focus outline, translucent
+selection box or underline flash on header, INDEX, rubric, footer, carousel or
+artwork controls. The root rule uses `:focus:not(:focus-visible)` and suppresses
+the Safari/Chromium tap highlight. Programmatic pointer focus inside inline
+artwork uses a temporary marker that is cleared by the next keyboard event.
+Keyboard `:focus-visible` and Skip Link focus remain visible.
+
+Changed files: `src/style.css`, `src/interactions.css`,
+`src/artwork-transitions.css`, `src/horizontal-drift.css`,
+`src/inline-artwork-expand.js`, `tests/pointer-focus-browser.mjs` and
+`package.json`.
+
+Actual serial checks before builds:
+
+- New `npm run test:pointer-focus`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. It clicks/taps every sampled header, category, footer, INDEX,
+  carousel and artwork control and compares outline, box-shadow and
+  text-decoration before/after; it separately proves keyboard focus remains
+  visible. Evidence: `docs/validation/v3.1.2/V11/`.
+- Existing `npm run test:drift`: 6/6 profiles PASS after the inline-focus
+  change.
+- `npm test`: 369/369 PASS, 0 failures.
+
 ## V10 — DONE — 2026-11-03
 
 INDEX now contains only the stable 00–03 destinations. The 04 “the other
