@@ -206,6 +206,10 @@ test('about optional content renders only when configured', () => {
   }
 });
 
+test('About keeps its lower-case numbered route heading', () => {
+  assert.match(renderAboutPage(), /<h1 class="page-heading">03\/ about<\/h1>/);
+});
+
 test('approved About copy remains exact and does not invent a portrait or biography', () => {
   assert.equal(siteContent.artistName, 'Hendrik');
   assert.equal(siteContent.home.tagline, 'mixed media');

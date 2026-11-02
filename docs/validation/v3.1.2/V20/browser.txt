@@ -1,0 +1,7 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 H4_V20_ARTIFACTS=artifacts/v312/V20 npm run test:about-heading
+PASS V20 about heading 1440px reduced=false: 03/ about, lower-case, visible and contained.
+PASS V20 about heading 1440px reduced=true: 03/ about, lower-case, visible and contained.
+PASS V20 about heading 390px reduced=false: 03/ about, lower-case, visible and contained.
+PASS V20 about heading 390px reduced=true: 03/ about, lower-case, visible and contained.
+PASS V20 about heading 320px reduced=false: 03/ about, lower-case, visible and contained.
+PASS V20 about heading 320px reduced=true: 03/ about, lower-case, visible and contained.

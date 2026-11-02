@@ -23,8 +23,8 @@ Verification:
   fallback all PASS.
 - No build, merge or deployment performed.
 
-Exact next action: V20 changes the About heading to `03/ about`, verifies the
-About layout at all three widths and pushes the separate commit.
+Exact next action: V21 + V24 rename the Home section to `01 / creative`, make
+it static, and remove the `/work` landing route in favor of the category pages.
 
 ---
 

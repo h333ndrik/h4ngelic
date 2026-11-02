@@ -4,6 +4,17 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V20 — DONE — 2026-11-03
+
+The About page now reads exactly `03/ about`, retaining the lower-case route
+label and the existing page-heading treatment. There is no layout, copy or
+navigation change.
+
+Actual serial checks before builds: new `npm run test:about-heading` passed
+6/6 profiles at 1440/390/320px, full/reduced, with the exact text, lower-case
+rendering, no overflow and no first-paint transform. `npm test` passed 371/371.
+Evidence: `docs/validation/v3.1.2/V20/`.
+
 ## V12–V14 — DONE — 2026-11-03
 
 The tattoos, jewellery and more routes now share the corrected structure:

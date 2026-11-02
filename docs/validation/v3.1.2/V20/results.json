@@ -1,0 +1,89 @@
+{
+  "checkedAt": "2026-11-02T23:24:54.976Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "state": {
+        "text": "03/ about",
+        "lower": true,
+        "left": 35,
+        "right": 1405,
+        "fontSize": "86.4px",
+        "opacity": 1,
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "state": {
+        "text": "03/ about",
+        "lower": true,
+        "left": 35,
+        "right": 1405,
+        "fontSize": "86.4px",
+        "opacity": 1,
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "state": {
+        "text": "03/ about",
+        "lower": true,
+        "left": 22,
+        "right": 368,
+        "fontSize": "32px",
+        "opacity": 1,
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "state": {
+        "text": "03/ about",
+        "lower": true,
+        "left": 22,
+        "right": 368,
+        "fontSize": "32px",
+        "opacity": 1,
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "state": {
+        "text": "03/ about",
+        "lower": true,
+        "left": 22,
+        "right": 298,
+        "fontSize": "32px",
+        "opacity": 1,
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "state": {
+        "text": "03/ about",
+        "lower": true,
+        "left": 22,
+        "right": 298,
+        "fontSize": "32px",
+        "opacity": 1,
+        "transform": "none"
+      },
+      "errors": []
+    }
+  ]
+}
