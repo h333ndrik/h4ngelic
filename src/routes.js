@@ -6,7 +6,7 @@ export const contactURL = (artworkId = '') => `/${artworkId ? `?artwork=${encode
 
 export const categoryURL = (category) => `/work/${encodeURIComponent(category)}`;
 /** Compatibility export: rubric destinations are real routes, never hash tabs. */
-export const workAnchorURL = (category) => category === 'all' ? '/work' : categoryURL(category);
+export const workAnchorURL = (category) => categoryURL(category === 'all' ? 'tattoos' : category);
 export const categoryById = (id) => siteContent.categories.find((category) => category.id === id);
 export const groupById = (id) => siteContent.workGroups.find((group) => group.id === id);
 const knownCategory = (category) => Boolean(categoryById(category));
@@ -30,7 +30,8 @@ export function publishedProjects() {
 
 export function resolveRoute(input) {
   const url = input instanceof URL ? input : new URL(input, 'https://routing.invalid');
-  const path = url.pathname.replace(/\/+$/, '') || '/';
+  const requestedPath = url.pathname.replace(/\/+$/, '') || '/';
+  const path = requestedPath === '/work/index.html' ? '/work' : requestedPath;
   let kind = 'not-found';
   let category = 'all';
   let project;
@@ -44,7 +45,8 @@ export function resolveRoute(input) {
   } else if (path === '/work') {
     kind = 'work';
     const requested = url.searchParams.get('category');
-    if (knownArchive(requested)) { category = requested; canonicalPath = categoryURL(category); }
+    category = knownArchive(requested) ? requested : 'tattoos';
+    canonicalPath = categoryURL(category);
   } else {
     const segments = path.split('/').filter(Boolean);
     if (segments[0] === 'work' && knownArchive(segments[1])) {
@@ -63,7 +65,7 @@ export function resolveRoute(input) {
 
 /** Only genuine, published projects can produce detail routes. */
 export function routeDefinitions() {
-  const paths = ['/', '/work', ...new Set([...siteContent.categories, ...siteContent.workGroups].map(({ id }) => categoryURL(id))), '/about', ...publishedProjects().map(projectURL)];
+  const paths = ['/', ...new Set([...siteContent.categories, ...siteContent.workGroups].map(({ id }) => categoryURL(id))), '/about', ...publishedProjects().map(projectURL)];
   if (new Set(paths).size !== paths.length) throw new Error('Published artwork IDs must have unique category URLs.');
   return paths.map((path) => resolveRoute(path));
 }

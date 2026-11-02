@@ -409,8 +409,7 @@ try {
     await assertLocalVisit(page);
     await page.reload({ waitUntil: 'networkidle' });
     await assertLocalVisit(page);
-    await page.locator('[data-global-index] > summary').click();
-    await page.locator('[data-index-page="work"]').click();
+    await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
     await page.locator('.work-page').waitFor();
     await assertLocalVisit(page);
     if (!touch) await checkSeparatedReturn();

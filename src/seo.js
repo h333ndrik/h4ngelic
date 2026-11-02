@@ -94,9 +94,8 @@ function structuredData(route, metadata, config) {
   };
   const graph = [person, website, page];
   const crumbs = [{ name: 'h4ngelic', path: '/' }];
-  if (route.kind === 'work' || route.kind === 'artwork') crumbs.push({ name: 'work', path: '/work' });
-  if ((route.kind === 'work' || route.kind === 'artwork') && route.category !== 'all') {
-    crumbs.push({ name: route.category, path: categoryURL(route.category) });
+  if (route.kind === 'work' || route.kind === 'artwork') {
+    crumbs.push({ name: 'creative', path: categoryURL(route.category === 'all' ? 'tattoos' : route.category) });
   }
   if (route.kind === 'about') crumbs.push({ name: 'about', path: '/about' });
   if (route.kind === 'artwork') crumbs.push({ name: artworkLabel(route.project) || route.category, path: route.canonicalPath });

@@ -4,6 +4,33 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V21 + V24 + V27 — DONE — 2026-11-03
+
+The homepage section is now the static `01 / creative` title, with no route
+link or typographic hover. The rubric links beneath it remain the direct
+entries. `/work` is no longer a destination: it and `/work/index.html`
+permanently redirect to `/work/tattoos`, while `?category=` bookmarks map to
+their canonical category paths. Artwork detail URLs remain
+`/work/{category}/{id}` and the prerender/sitemap route set no longer contains
+an orphan `/work` page.
+
+INDEX now reads `00 / home`, static `01 / creative`, `02 / about`,
+`03 / contact`; the creative entry is not focusable. NAAVI uses `creative`
+and `creative / tattoos`. The status doc labels V21/V24/V27 as DONE.
+
+Actual serial checks before builds:
+
+- `node tests/portfolio-browser.mjs`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced motion, both realities. Confirmed the static title, direct
+  rubrik destinations, `/work` redirect, canonical query redirects, reload and
+  back navigation, and no Three.js on cold category routes.
+- `node tests/v31-navigation-browser.mjs`: 6/6 profiles PASS, including the
+  four INDEX entries, exact targets, non-focusable creative title, tab order,
+  panel geometry and reduced motion.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V21/`.
+
+
 ## V20 — DONE — 2026-11-03
 
 The About page now reads exactly `03/ about`, retaining the lower-case route

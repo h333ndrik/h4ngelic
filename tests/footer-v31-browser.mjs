@@ -154,8 +154,7 @@ try {
       assert.equal(await count.textContent(),'VISIT 0012');
       await page.screenshot({path:new URL(`other-${width}-${reduced}.png`,out).pathname});
       await mode(page,'normal');
-      await page.locator('[data-global-index] summary').click();
-      await page.locator('[data-global-index] [data-index-page="work"]').click();
+      await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
       await page.locator('html[data-page="work"]').waitFor();
       // Work mounts optional carousel enhancements before h4:pagechange
       // refreshes the newly rendered footer. data-page alone is not route completion.

@@ -86,10 +86,12 @@ try {
       assert.ok(Math.abs((await counterBox(page)).top - home.top) < 1, 'The counter returns to its normal bottom position.');
 
       await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+      assert.equal(new URL(page.url()).pathname, '/work/tattoos', 'The removed landing route redirects to tattoos.');
       await index.waitFor({ state: 'visible' });
       assert.equal(await chapter.isVisible(), false, 'Interiors must not show an inaccurate homepage chapter count.');
       await index.locator('summary').click();
-      assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(links => links.map(link => link.dataset.indexPage)), ['home', 'work', 'about', 'contact']);
+      assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(entries => entries.map(entry => entry.dataset.indexPage)), ['home', 'creative', 'about', 'contact']);
+      assert.equal(await index.locator('.index-static[data-index-page="creative"]').count(), 1);
       await index.locator('[data-index-page="about"]').click();
       await page.locator('html[data-page="about"]').waitFor();
       await page.waitForFunction(() => !document.querySelector('[data-global-index]').open);
@@ -111,7 +113,7 @@ try {
       await page.goto(new URL('/about', process.env.H4_PREVIEW_URL).href);
       assert.equal(await page.locator('[data-global-index]').isVisible(), true, 'No-JS interior keeps native navigation.');
       await page.locator('[data-global-index] summary').click();
-      assert.equal(await page.locator('[data-index-page="work"]').isVisible(), true);
+      assert.equal(await page.locator('[data-index-page="creative"]').isVisible(), true);
     } finally { await context.close(); }
   }
   await writeFile(new URL('navigation.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base,

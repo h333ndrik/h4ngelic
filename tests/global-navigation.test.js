@@ -33,7 +33,7 @@ test('Home includes the final h4 as 04 / 04 and cycles from it to the actual her
 
 test('Work numbers only the three main groups and HOME is a real route', () => {
   const stops = naaviStops('work');
-  assert.deepEqual(stops.map(stop => stop.label), ['home','works / tattoos','jewellery','more']);
+  assert.deepEqual(stops.map(stop => stop.label), ['home','creative / tattoos','jewellery','more']);
   assert.equal(naaviState(stops, 3).destination.href, '/');
   assert.equal(naaviState(stops, 1).total, 3);
   assert.equal(initialNaaviIndex({ kind:'artwork',category:'digital-artworks' }), 3);

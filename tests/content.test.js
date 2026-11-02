@@ -5,13 +5,14 @@ import { artworks } from '../src/data/artworks.js';
 import { contentURL, emailURL, escapeHTML } from '../src/content-utils.js';
 import { normalizeCategory, renderHomepageSections, renderWorkPage, renderProject, renderAboutPage, renderArtworkPage } from '../src/pages.js';
 
-test('homepage keeps three horizontal real category routes and a working Works heading', () => {
+test('homepage keeps three horizontal real category routes and a static creative heading', () => {
   const markup = renderHomepageSections();
   const selected = markup.split('</section>')[0];
   assert.deepEqual([...selected.matchAll(/class="category-link" href="([^"]+)"/g)].map((match) => match[1]), [
     '/work/tattoos', '/work/jewellery', '/work/more',
   ]);
-  assert.match(selected, /<a class="section-route-link" href="\/work">01 \/ WORKS<\/a>/);
+  assert.match(selected, /<span class="kinetic-heading-text">01 \/ creative<\/span>/);
+  assert.doesNotMatch(selected, /section-route-link/);
   assert.doesNotMatch(selected, /<img|<figure|placeholder/i);
   assert.match(markup, /id="contact"/);
   assert.match(markup, /href="\/about"/);
@@ -20,7 +21,7 @@ test('homepage keeps three horizontal real category routes and a working Works h
 
 test('real category pages select their own content while /work retains the complete archive', () => {
   const cases = [
-    ['all', ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'more'], 9, '01 / WORKS'],
+    ['all', ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'more'], 9, '01 / creative'],
     ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'tattoos'],
     ['flashes', ['flashes'], [], 0, 'FLASHES'],
     ['jewellery', ['jewellery'], ['jewellery'], 0, 'jewellery'],
@@ -242,7 +243,7 @@ test('content utilities reject script, protocol-relative and credential-bearing 
 
 test('Works has three unnumbered major rubrics, subordinate archive labels and an empty deferred model section', () => {
   const markup = renderWorkPage('all');
-  assert.match(markup, /<h1 class="page-heading" id="work-page-title">01 \/ WORKS<\/h1>/);
+  assert.match(markup, /<h1 class="page-heading" id="work-page-title">01 \/ creative<\/h1>/);
   const major = [...markup.matchAll(/<h2 class="work-group-heading"[^>]*><a[^>]*>([\s\S]*?)<\/a><\/h2>/g)].map(match => match[1].replace(/<[^>]*>/g, '').trim());
   assert.deepEqual(major, ['tattoos', 'jewellery', 'more']);
   const subordinate = [...markup.matchAll(/<h3 class="archive-category-heading"[^>]*>(?:<a[^>]*>)?([^<]+)(?:<\/a>)?<\/h3>/g)].map(match => match[1]);

@@ -29,7 +29,7 @@ export const siteContent = {
   ],
 
   home: {
-    selectedWorkLabel: '01 / WORKS',
+    selectedWorkLabel: '01 / creative',
     aboutLabel: '02 / ABOUT',
     contactLabel: '03 / CONTACT',
     tagline: 'mixed media',

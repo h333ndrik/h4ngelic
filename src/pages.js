@@ -27,7 +27,7 @@ function footer() {
 
 export function renderHomepageSections(context = '') {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
-    <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text"><a class="section-route-link" href="/work">${escape(siteContent.home.selectedWorkLabel)}</a></span></h2>
+    <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
     <div class="category-strip" role="navigation" aria-label="Works categories" tabindex="0">
       ${siteContent.workGroups.map((group) => `<a class="category-link" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`).join('')}
     </div>

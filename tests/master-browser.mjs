@@ -360,7 +360,7 @@ try {
     assert.ok(scrolled.scroll > anchored.scroll + 20, 'The ink-position check must exercise actual document scrolling.');
     assert.ok(Math.abs(scrolled.y + scrolled.scroll - anchored.y - anchored.scroll) < 1, 'Ink stays at its exact document position while the viewport moves.');
     const count = await page.locator('[data-ink-mark]').count();
-    await page.locator('.work-filters a[href="/work"]').click(); await pageKind(page, 'work');
+    await page.locator('.work-filters a[href="/work/tattoos"]').click(); await pageKind(page, 'work');
     assert.ok(await page.locator('[data-ink-mark]').count() <= count, 'Functional navigation must not add ink.');
     await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 13200 });
     await page.locator('.brand-link').click(); await pageKind(page, 'home');

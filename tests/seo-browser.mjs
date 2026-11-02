@@ -10,9 +10,12 @@ const originalPath = '/work/digital-artworks/green-black-original';
 const tattooPaths = Array.from({ length: 8 }, (_, index) => `/work/tattoos/tattoo-${String(index + 1).padStart(2, '0')}`);
 const artworkPaths = [originalPath, ...tattooPaths];
 const isArtwork = path => artworkPaths.includes(path);
-const paths = ['/', '/work', ...archiveIDs.map(id => `/work/${id}`), '/about', ...artworkPaths];
+const paths = ['/', ...archiveIDs.map(id => `/work/${id}`), '/about', ...artworkPaths];
 const route = (path) => new URL(path, baseURL).href;
 
+const landing = await fetch(route('/work'), { redirect: 'manual' });
+assert.equal(landing.status, 301, 'The removed Work landing route redirects permanently.');
+assert.equal(new URL(landing.headers.get('location'), baseURL).pathname, '/work/tattoos');
 for (const category of archiveIDs) {
   const response = await fetch(route(`/work?category=${category}`), { redirect: 'manual' });
   assert.equal(response.status, 301, 'Existing category-query bookmarks must redirect permanently to the canonical route.');
@@ -31,9 +34,10 @@ const manifestResponse = await fetch(route('/route-manifest.json'));
 assert.equal(manifestResponse.status, 200);
 const manifest = await manifestResponse.json();
 assert.equal(manifest.routes.some(entry => entry.path === '/contact'), false);
-assert.equal(manifest.routes.length, 19, 'The current build includes eight genuine Tattoo details, not fixture or empty-photo routes.');
+assert.equal(manifest.routes.length, 18, 'The build contains 18 real routes without an orphan Work landing page.');
 assert.deepEqual(manifest.routes.map(entry => entry.path).sort(), [...paths].sort());
-assert.deepEqual(manifest.routes.filter(entry => ['/', '/work', '/about'].includes(entry.path)).map(entry => entry.path), ['/', '/work', '/about']);
+assert.deepEqual(manifest.routes.filter(entry => ['/', '/about'].includes(entry.path)).map(entry => entry.path), ['/', '/about']);
+assert.equal(manifest.routes.some(entry => entry.path === '/work'), false);
 const missing = await fetch(route('/missing-page-for-seo-test'));
 assert.equal(missing.status, 404, 'Unknown page paths must return an actual HTTP 404.');
 const missingHTML = await missing.text();
@@ -123,7 +127,7 @@ try {
       assert.deepEqual(await page.locator('#selected-work .category-link').allTextContents(), ['tattoos', 'jewellery', 'more']);
       assert.equal(await page.locator('#selected-work .category-sublinks').count(), 0);
       assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
-      assert.match(metadata.text, /01 \/ WORKS/);
+      assert.match(metadata.text, /01 \/ creative/);
       assert.equal(await page.locator('.fallback').isVisible(), true, 'The no-JS homepage retains the accessible static wordmark.');
     } else {
       assert.equal(await page.locator('[data-global-index]').count(), 1);
@@ -171,7 +175,7 @@ try {
         }
         assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
           ['/work/tattoos', '/work/jewellery', '/work/more']);
-        const label = category === 'all' ? '01 / WORKS' : ['tattoos', 'jewellery', 'more'].includes(category)
+        const label = ['tattoos', 'jewellery', 'more'].includes(category)
           ? category : category.replaceAll('-', ' ').toUpperCase();
         assert.equal(await page.locator('.work-page .page-heading').innerText(), label);
         assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);

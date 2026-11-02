@@ -126,7 +126,7 @@ try {
 
       await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
       await frames(page);
-      await navigate(page, '.hero-nav a[href="/work"]', '/work', 'work');
+      await navigate(page, '.hero-nav a[href="/work"]', '/work/tattoos', 'work');
       captures.push(await captureNormal(page, 'work', name, baseline));
       await page.keyboard.down('4');
       try { await mode(page, 'xray'); } finally { await page.keyboard.up('4'); }

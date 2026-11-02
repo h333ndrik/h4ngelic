@@ -189,9 +189,8 @@ async function mobile(width, reduced = false) {
       assert.deepEqual(repeated.audio.map(event => event.mode), repeated.modes.map(event => event.mode));
     }
 
-    await page.locator('[data-global-index] > summary').tap();
-    await page.locator('[data-index-page="work"]').tap();
-    await page.waitForURL(value => value.pathname === '/work');
+    await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+    await page.waitForURL(value => value.pathname === '/work/tattoos');
     await settled(page, 'normal');
     await addBlankScrollSurface(page);
     const fixedBefore = await control.boundingBox();

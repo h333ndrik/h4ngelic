@@ -102,7 +102,8 @@ test('distinct category collections own their canonicals and only matching compl
     }
   }
   const xml = buildSitemap(routeDefinitions().map(route => getPageMetadata(route, options)));
-  for (const path of ['/work', '/work/more', '/work/digital-artworks']) assert.ok(xml.includes(`<loc>https://h4ngelic.com${path}</loc>`));
+  for (const path of ['/work/more', '/work/digital-artworks']) assert.ok(xml.includes(`<loc>https://h4ngelic.com${path}</loc>`));
+  assert.doesNotMatch(xml, /<loc>https:\/\/h4ngelic\.com\/work<\/loc>/);
   assert.doesNotMatch(xml, /\/work\/(?:tattoos|flashes|jewellery|analog-photography|paintings)<\/loc>/);
 });
 
@@ -194,7 +195,7 @@ test('production output and preview HTTP preserve canonical redirects, strict 40
   assert.equal(home.headers.get('x-robots-tag'), 'index, follow');
   assert.equal(home.headers.get('content-encoding'), 'gzip');
   assert.match(await home.text(), /data-prerendered="\/"/);
-  for (const [path, destination] of [['/contact', '/#contact'], ['/contact?artwork=green-black-original', '/?artwork=green-black-original#contact'], ['/work?category=tattoos', '/work/tattoos'], ['/about/', '/about'], ['/work/index.html', '/work'], ['/index.html', '/']]) {
+  for (const [path, destination] of [['/contact', '/#contact'], ['/contact?artwork=green-black-original', '/?artwork=green-black-original#contact'], ['/work?category=tattoos', '/work/tattoos'], ['/work', '/work/tattoos'], ['/work/index.html', '/work/tattoos'], ['/about/', '/about'], ['/index.html', '/']]) {
     const response = await fetch(`${base}${path}`, { redirect: 'manual' });
     assert.equal(response.status, 301, path);
     assert.equal(response.headers.get('location'), destination);

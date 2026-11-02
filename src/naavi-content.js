@@ -5,14 +5,14 @@ import { escapeHTML } from './content-utils.js';
 export function naaviStops(kind) {
   if (kind === 'home') return [
     { id: 'home-hero', label: 'home', href: '/' },
-    { id: 'selected-work', label: 'works', href: '/#selected-work' },
+    { id: 'selected-work', label: 'creative', href: '/#selected-work' },
     { id: 'about-preview', label: 'about', href: '/#about-preview' },
     { id: 'contact', label: 'contact', href: '/#contact' },
     { id: 'final-secret', selector: '[data-footer-secret-space]', label: 'the final h4', href: '/#final-secret' },
   ];
   if (kind === 'work' || kind === 'artwork') return [
     { label: 'home', href: '/' },
-    { id: 'tattoos', label: 'works / tattoos', href: '/work/tattoos' },
+    { id: 'tattoos', label: 'creative / tattoos', href: '/work/tattoos' },
     { id: 'jewellery', label: 'jewellery', href: '/work/jewellery' },
     { id: 'more', label: 'more', href: '/work/more' },
   ];

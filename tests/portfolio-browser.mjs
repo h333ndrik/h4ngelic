@@ -100,8 +100,8 @@ async function homepageCategories(page, width) {
   assert.deepEqual(await links.evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))), groups.map(id => `/work/${id}`));
   assert.equal(await section.locator('img, picture, video, canvas').count(), 0);
   assert.equal(await section.locator('.category-sublinks').count(), 0);
-  assert.equal(await page.locator('#selected-work-title .section-route-link').getAttribute('href'), '/work');
-  assert.equal(await page.locator('#selected-work-title').innerText(), '01 / WORKS');
+  assert.equal(await page.locator('#selected-work-title .section-route-link').count(), 0);
+  assert.equal(await page.locator('#selected-work-title').innerText(), '01 / creative');
   assert.equal(await page.locator('#about-preview-title').innerText(), '02 / ABOUT');
   assert.equal(await page.locator('#contact-title').innerText(), '03 / CONTACT');
   const boxes = await links.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width }; }));
@@ -146,13 +146,18 @@ try {
       }
       await page.screenshot({ path: new URL(`more-${profile.width}-${profile.reduced}-4.png`, output).pathname });
       await mode(page, 'normal');
-      await index(page, 'work', 'work'); observations.push(await work(page));
-      await page.screenshot({ path: new URL(`work-${profile.width}-${profile.reduced}-333.png`, output).pathname });
-      await index(page, 'home', 'home');
+      const menu = page.locator('[data-global-index]');
+      if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
+      assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.textContent.replace(/\s+/g, ' ').trim()), '01 / creative');
+      assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.tabIndex >= 0), false);
+      assert.equal(await menu.locator('a[href="/work"]').count(), 0);
+      await menu.locator('[data-index-page="home"]').click();
+      await page.locator('html[data-page="home"]').waitFor(); await settle(page);
       await homepageCategories(page, profile.width);
-      const heading = page.locator('#selected-work-title .section-route-link');
-      await heading.focus(); await page.keyboard.press('Enter'); observations.push(await work(page));
-      await page.goBack({ waitUntil: 'networkidle' }); await page.locator('html[data-page="home"]').waitFor(); await settle(page);
+      await page.goto(url('/work'), { waitUntil: 'networkidle' });
+      assert.equal(new URL(page.url()).pathname, '/work/tattoos');
+      observations.push(await work(page, 'tattoos'));
+      await page.goto(url('/'), { waitUntil: 'networkidle' }); await settle(page);
       for (const category of groups) {
         const target = page.locator(`#selected-work .category-link[href="/work/${category}"]`);
         await target.focus(); await page.keyboard.press('Enter'); observations.push(await work(page, category));

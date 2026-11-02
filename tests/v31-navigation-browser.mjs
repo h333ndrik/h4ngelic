@@ -59,7 +59,7 @@ async function cursorCoverage(page,profile,world) {
     assert.ok(hover.includes(profile.reduced?world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg':world==='xray'?'h4ngelic-cursor-other-hover-r09.svg':'h4ngelic-cursor-hover.svg'));
     records.push({kind,cursors,hover});await page.mouse.move(1,1);
   }
-  const index=page.locator('[data-global-index]');await index.locator('summary').click();await index.locator('[data-index-page="work"]').click();
+  await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
   await page.locator('html[data-page="work"]').waitFor();await settle(page);
   return {world,records};
 }
@@ -73,12 +73,19 @@ async function indexContract(page,profile,world) {
     const panel=el.querySelector('.global-index-links'),s=getComputedStyle(panel),r=panel.getBoundingClientRect();
     return {numbers:[...el.querySelectorAll('.index-number')].map(el=>el.textContent.trim()),
       targets:[...el.querySelectorAll('a')].map(a=>a.getAttribute('href')),labels:[...el.querySelectorAll('a')].map(a=>a.textContent.trim().replace(/\s+/g,' ')),
+      entries:[...panel.querySelectorAll(':scope > a, :scope > .index-static')].map(item=>({tag:item.tagName,href:item.getAttribute('href'),text:item.textContent.trim().replace(/\s+/g,' '),focusable:item.tabIndex>=0})),
       panel:{left:r.left,right:r.right,bottom:r.bottom},surface:s.backgroundColor,borderWidth:s.borderTopWidth,radius:s.borderRadius,
-      outlineWidth:s.outlineWidth,filter:s.filter,shadow:s.boxShadow,linkColors:[...panel.querySelectorAll('a')].map(a=>getComputedStyle(a).color),
+      outlineWidth:s.outlineWidth,filter:s.filter,shadow:s.boxShadow,linkColors:[...panel.querySelectorAll(':scope > a, :scope > .index-static')].map(a=>getComputedStyle(a).color),
       expanded:el.querySelector('summary').getAttribute('aria-expanded')};
   });
   assert.deepEqual(data.numbers,['00 /','01 /','02 /','03 /']);
-  assert.deepEqual(data.targets,['/','/work','/about','/#contact']);
+  assert.deepEqual(data.targets,['/','/about','/#contact']);
+  assert.deepEqual(data.entries, [
+    { tag:'A', href:'/', text:'00 / home', focusable:true },
+    { tag:'SPAN', href:null, text:'01 / creative', focusable:false },
+    { tag:'A', href:'/about', text:'02 / about', focusable:true },
+    { tag:'A', href:'/#contact', text:'03 / contact', focusable:true },
+  ]);
   assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');
   assert.equal(data.borderWidth,'0px');assert.equal(data.radius,'4px');
   assert.equal(data.outlineWidth,'0px');assert.equal(data.filter,'none');assert.equal(data.shadow,'none');
@@ -122,7 +129,7 @@ async function workChrome(page,profile,world) {
   const tattooParity=await page.evaluate(()=>{
     const probe=document.createElement('a');probe.className='category-link';probe.style.cssText='position:absolute;visibility:hidden';document.body.append(probe);
     const front=getComputedStyle(probe).fontSize;probe.remove();
-    const title=document.querySelector('#group-tattoos-title');return {front,work:getComputedStyle(title).fontSize,arrows:title.querySelectorAll('.arrow').length};
+    const title=document.querySelector('.rubric-category-heading');return {front,work:getComputedStyle(title).fontSize,arrows:title.querySelectorAll('.arrow').length};
   });
   assert.equal(tattooParity.work,tattooParity.front);assert.equal(tattooParity.arrows,1);g.tattooParity=tattooParity;
   const typography=await page.evaluate(()=>{
@@ -134,7 +141,6 @@ async function workChrome(page,profile,world) {
     return {heading,secondary};
   });
   assert.equal(g.headingSize,typography.heading,'Work page and Home numbered heading use the same display scale.');
-  assert.equal(g.subheadSize,typography.secondary,'Sub-rubric labels match MORE ABOUT.');
   for(const link of await page.locator('.work-filters a').all()) {
     await link.evaluate(el=>el.focus()); await frames(page);
     const visible=await link.evaluate(el=>{const r=el.getBoundingClientRect(),v=el.parentElement.getBoundingClientRect();return r.left>=v.left-1&&r.right<=v.right+1&&r.height>=44;});

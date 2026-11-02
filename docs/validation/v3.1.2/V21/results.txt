@@ -1,0 +1,22 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 H4_PORTFOLIO_ARTIFACTS=artifacts/v312/V21/portfolio node tests/portfolio-browser.mjs
+PASS F16 1440px reduced=false
+PASS F16 1440px reduced=true
+PASS F16 390px reduced=false
+PASS F16 390px reduced=true
+PASS F16 320px reduced=false
+PASS F16 320px reduced=true
+portfolio reports 6 failures 0
+
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 H4_NAV_ARTIFACTS=artifacts/v312/V21/navigation node tests/v31-navigation-browser.mjs
+PASS V3.1 navigation 1440px
+PASS V3.1 navigation 1440px (reduced motion)
+PASS V3.1 navigation 390px
+PASS V3.1 navigation 390px (reduced motion)
+PASS V3.1 navigation 320px
+PASS V3.1 navigation 320px (reduced motion)
+navigation reports 6 failures 0
+
+Command: npm test
+tests 371
+pass 371
+fail 0

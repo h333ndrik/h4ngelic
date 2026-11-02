@@ -39,9 +39,9 @@ export function initGlobalNavigation(doc = document) {
     if (focus) summary.focus({ preventScroll: true });
   }
   function paintIndex(chapter) {
-    const primary = routeKind === 'artwork' ? 'work' : routeKind;
+    const primary = routeKind === 'artwork' || routeKind === 'work' ? 'creative' : routeKind;
     for (const item of indexLinks) {
-      const homeDestination = ['home', 'work', 'about', 'contact'][chapter];
+      const homeDestination = ['home', 'creative', 'about', 'contact'][chapter];
       const active = item.dataset.indexPage === (primary === 'home' ? homeDestination : primary);
       if (active) item.setAttribute('aria-current', primary === 'home' && chapter > 0 ? 'location' : 'page');
       else item.removeAttribute('aria-current');

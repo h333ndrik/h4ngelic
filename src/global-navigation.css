@@ -59,10 +59,11 @@
   box-shadow: none;
 }
 .global-index[open] .global-index-links { animation: index-arrive 250ms cubic-bezier(.2,.8,.25,1); }
-.global-index-links a { display: flex; align-items: center; gap: 10px; min-height: 44px; color: #c3c3c0; text-decoration: none; }
+.global-index-links > :is(a, .index-static) { display: flex; align-items: center; gap: 10px; min-height: 44px; color: #c3c3c0; text-decoration: none; }
+.global-index-links .index-static { color: #c3c3c0; }
 .index-number { flex: 0 0 auto; font-variant-numeric: tabular-nums; }
 .global-index-links .interaction-visual { display: inline-flex; align-items: center; gap: 10px; }
-.global-index-links a[aria-current] { color: #fff; }
+.global-index-links [aria-current] { color: #fff; }
 .global-index summary:focus-visible, .global-index-links a:focus-visible, .floating-brand:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
 @keyframes index-arrive { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
 @media (max-width: 600px) {
