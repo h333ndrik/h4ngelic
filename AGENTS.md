@@ -18,7 +18,7 @@ Keep working chrome hero/physics, accepted memory-mosh, approved SMASH and1400ms
 
 Preserve all eight original JPEGs `public/images/tattoos/tattoo-01.jpg`…`tattoo-08.jpg` and approved MP3 byte-for-byte. Photo provenance: `docs/assets/tattoo-originals-v31.json`. MP3 SHA-256 `307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b`. The user has now explicitly confirmed all eight photographs remain in the carousel, resolving the continuation text’s old reference to five. No photo-count question remains open.
 
-Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, force-push, merge, close, deploy, launch, connect domains or enable analytics. Deferred WORLD/mannequin/Flowfield/Easter Eggs stay parked. Real moshlab URL, actual mail configuration/delivery and unpublished Loose Thread artwork are external inputs; do not invent substitutes. Actual Safari is unavailable on Linux; WebKit is not Safari. Record concrete installed-browser capabilities before claiming cross-browser success.
+Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, force-push, merge, close, deploy, launch, connect domains or enable analytics. Deferred WORLD/mannequin/Flowfield and other Easter Eggs stay parked; F17 returning-visitor recognition is now explicitly approved. Real moshlab URL, actual mail configuration/delivery and unpublished Loose Thread artwork are external inputs; do not invent substitutes. Actual Safari is unavailable on Linux; WebKit is not Safari. Record concrete installed-browser capabilities before claiming cross-browser success.
 
 Completed F9 uses configurable input-driven horizontal momentum/wrap, no ambient loops and one shared inline expansion. F5 is one equal gap across the actual Works header row; F10 is60% of pre-V3.1 original width. F16 intent is confirmed: preserve Home01/WORKS,02/ABOUT,03/CONTACT and give tattoos / jewellery / more real category routes; F16 is TODO, not REVIEW NEEDED. Do not claim unverified work DONE.
 
@@ -70,10 +70,14 @@ These are headlessChromium/SwiftShader software-renderer measurements, limited b
 
 ## Current verified checkpoint
 
-F14: **BLOCKED** (2026-11-02 17:11 UTC). Chromium pixel/navigation6 and Node363 pass; Safari/Firefox/real-mannequin unavailable, legacy corruption recovery test times out.
+F15: **DONE** (2026-11-02 17:17 UTC). Make4 entry-only and require triple3 for return; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F15.
 
-Next: F15: apply entry-only4/triple3 proposal, verify sixprofiles serially and npmtest. F14 implementation/pixels are verified in Chromium, but cross-browser/real-mannequin and the legacy corruption recovery contract remain explicitly blocked. Continue F16 realroutes and new F17 returning-visitor line, then build/export; no launch.
+Next: F16: clickable Works heading and real category pages. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## F10 viewport decision — confirmed 2026-11-02
 
 The user explicitly approved an additional responsive height cap in short browser windows. Keep the nominal60% original-width base, but reserve a visibly larger full-image view that fits the viewport. Report actual capped dimensions; do not claim a physical660px resting image in an844px-high window.
+
+## F17 approved history finding
+
+`git log -S "you know your way around"` identifies introduction in4feb4bf and removal in daeaff8. The exact sentence was one entry in the old seven-stage visitor-message array, rendered in the footer. V3.1 retired that phrase system when introducing the numeric-only VISIT counter; this removed the sentence. The newly approved placement is above the hero logo, with a fixed single returning-visitor sentence, not revival of the seven-stage system.

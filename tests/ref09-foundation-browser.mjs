@@ -74,12 +74,14 @@ try {
     assert.equal(activation.changes.length, 1);
     assert.ok(activation.changes[0].time - activation.starts[1] >= 999, 'A real continuous hold cannot activate before one second.');
     await page.keyboard.down('4');
-    try { await state(page, 'normal'); } finally { await page.keyboard.up('4'); }
+    try { await page.waitForTimeout(1250); } finally { await page.keyboard.up('4'); }
+    assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Another full 4 hold cannot reverse.');
+    await reverse(page);
     await enter(page);
     await page.mouse.move(2, 2);
     await page.waitForTimeout(3400);
     const visible = await hintState(page);
-    assert.equal(visible.text, 'HOLD 4 TO REVERSE.');
+    assert.equal(visible.text, 'press three times 3 to reverse');
     assert.equal(visible.opacity, 0, 'Reverse instruction is hidden again after its discovery timer.');
     assert.ok(visible.font >= 20 && visible.font <= 24);
     assert.equal(visible.color, 'rgb(255, 255, 255)');
@@ -109,7 +111,7 @@ try {
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
     await page.keyboard.down('4'); await page.waitForTimeout(1100); await page.keyboard.up('4');
     assert.equal(await page.locator('#test-input').inputValue(), '3334');
-    assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'The V6 reverse hold must not intercept a form field.');
+    assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'An entry-only 4 hold must not intercept a form field.');
     await page.locator('#test-editable').focus(); await page.keyboard.type('333');
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
     await page.evaluate(() => { document.activeElement.blur(); document.querySelector('#test-input').remove(); document.querySelector('#test-editable').remove(); });
@@ -132,7 +134,7 @@ try {
     }
     assert.deepEqual(errors, []);
     reports.push({ profile: 'desktop', errors, activationMs: activation.changes[0].time - activation.starts[1], instruction: visible });
-    console.log('PASS V6 desktop: real one-second 4 toggles both directions once per hold, released 333/window/repeat/numpad, editing/blur/navigation guards, timed faint reverse hint and exact established gray.');
+    console.log('PASS V6 desktop: real one-second 4 entry, ignored reverse 4, triple-3 return, released 333/window/repeat/numpad, editing/blur/navigation guards, timed faint reverse hint and exact established gray.');
     await context.close();
   }
   for (const width of [390, 320]) {
@@ -153,11 +155,23 @@ try {
     await touchHold('normal', true); await page.waitForTimeout(400); await normalGray(page);
     await touchHold('xray');
     const visible = await hintState(page);
-    assert.equal(visible.text, 'HOLD 4 TO REVERSE.');
+    assert.equal(visible.text, 'press three times 3 to reverse');
     assert.ok(visible.opacity >= 0 && visible.opacity <= .43, 'A touch hold does not turn the faint hint into a permanent white label.');
     assert.ok(visible.font >= 18 && visible.within);
     await page.screenshot({ path: new URL(`mobile-${width}-reverse.png`, out).pathname });
-    if (width === 390) await touchHold('normal'); else await reverse(page, 'Numpad3');
+    if (width === 390) {
+      const before = await page.evaluate(() => window.__ref09?.changes?.length ?? 0);
+      const box = await hint.boundingBox();
+      await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: box.x + box.width / 2, y: box.y + box.height / 2 }] });
+      await page.waitForTimeout(1250);
+      await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Footer touch holds cannot reverse.');
+      assert.equal(await page.evaluate(() => window.__ref09?.changes?.length ?? 0), before);
+      const mobile = page.locator('[data-mobile-mode]');
+      await mobile.tap(); await mobile.tap();
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Two taps cannot reverse.');
+      await mobile.tap(); await state(page, 'normal');
+    } else await reverse(page, 'Numpad3');
     await normalGray(page);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     assert.deepEqual(errors, []);

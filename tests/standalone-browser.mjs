@@ -264,12 +264,23 @@ try {
       assert.equal(released.snapshot.sourceInitializations, 1);
       assert.equal(released.snapshot.queued, false, 'Reduced-motion offline memory stays static.');
       assert.equal(released.snapshot.transition.claimedFrame, prepared.snapshot.frames);
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press three times 3 to reverse');
       await page.waitForTimeout(1100);
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Hold completion/release cannot toggle twice.');
+      const beforeIgnored4 = await page.evaluate(() => ({ mode: document.documentElement.dataset.mode,
+        handoffs: window.__offlineMemoryHandoffs.length }));
       await page.keyboard.down('4');
-      try { await waitMode(page, 'normal'); } finally { await page.keyboard.up('4'); }
-      assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal', 'V6 allows a fresh one-second 4 hold to reverse.');
+      try { await page.waitForTimeout(1250); } finally { await page.keyboard.up('4'); }
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'A fresh one-second 4 hold on The Other Side has no effect.');
+      assert.equal(await page.evaluate(() => document.documentElement.hasAttribute('data-mode-holding')
+        || document.documentElement.hasAttribute('data-mode-snapshot')
+        || document.documentElement.hasAttribute('data-memory-mosh-preparing')
+        || document.documentElement.hasAttribute('data-xray-transition')), false);
+      assert.equal(await page.evaluate(() => window.__offlineMemoryHandoffs.length), beforeIgnored4.handoffs,
+        'Ignored 4 cannot prepare or release another memory handoff.');
+      await page.keyboard.press('3'); await page.keyboard.press('3');
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Two presses cannot reverse.');
+      await page.keyboard.press('3'); await waitMode(page, 'normal');
       await enterWith4(page);
       await page.evaluate(() => document.activeElement?.blur());
       await page.mouse.move(2, 2);
@@ -355,7 +366,7 @@ try {
       await page.waitForFunction(() => document.documentElement.dataset.page === 'home'
         && location.hash === '#/#contact' && document.querySelector('#contact').getBoundingClientRect().top < innerHeight);
       assert.ok(await page.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press three times 3 to reverse');
       await reverseWith3(page);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
       const filters = await page.locator('#logo-canvas,.project-image img').evaluateAll(images => images.map(image => getComputedStyle(image).filter));
@@ -382,10 +393,10 @@ try {
       reports.push({ width, mobile, externalHttpRequests: requests.length, runtimeErrors: errors.length,
         footerBaselineDelta: identity.naavi.centerY - identity.row.centerY, footerGeometry: identity, reverseHint, memoryHandoff, offlineSmash,
         verified: ['WebGL hero', 'short hold cancellation', mobile ? 'native touch hold' : 'one-second 4 hold',
-          'one-second 4 reverse', 'released 333 return', 'temporary faint hint', 'embedded film',
+          'ignored one-second 4 on Other Side', 'exact released triple-3 return', 'temporary faint hint', 'embedded film',
           'retained transition pixels', 'two bounded memory buffers', 'no pristine CSS source', 'lower hero mute',
           'hidden four-digit right-cluster visit', 'numbered persistent INDEX', 'eight genuine embedded Tattoo photographs', 'inline photo enlargement', 'embedded SMASH availability', 'connected Work anchors', 'About', 'Home-only Contact inquiry', 'horizontal bounds'] });
-      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, 4/333 return, temporary faint hint, lower hero mute, hidden right-cluster visit, numbered INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.`);
+      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, hidden right-cluster visit, numbered INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL('../artifacts/control-offline-results.json', import.meta.url), JSON.stringify({

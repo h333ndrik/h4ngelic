@@ -6,6 +6,7 @@ function fixture() {
   let now = 0;
   let sequence = 0;
   let activations = 0;
+  let entryAllowed = true;
   const tasks = new Map();
   const starts = [];
   const ends = [];
@@ -16,7 +17,7 @@ function fixture() {
   });
   const button = { isConnected: true, disabled: false, getAttribute: () => null, closest: () => button };
   const doc = Object.assign(new EventTarget(), { defaultView: view, hidden: false });
-  const dispose = bindModeHold(doc, () => activations++, { onStart: (event) => starts.push(event.type), onEnd: (reason) => ends.push(reason) });
+  const dispose = bindModeHold(doc, () => activations++, { isEnabled: () => entryAllowed, onStart: (event) => starts.push(event.type), onEnd: (reason) => ends.push(reason) });
   function send(type, properties = {}, dispatchTarget = doc) {
     const event = new Event(type, { cancelable: true });
     for (const [key, value] of Object.entries({ target: button, ...properties })) Object.defineProperty(event, key, { value });
@@ -33,7 +34,7 @@ function fixture() {
     }
     now = end;
   }
-  return { doc, view, button, dispose, send, pointer, tick, starts, ends, get activations() { return activations; }, get pending() { return tasks.size; } };
+  return { doc, view, button, dispose, send, pointer, tick, starts, ends, setEntryAllowed(value) { entryAllowed = value; }, get activations() { return activations; }, get pending() { return tasks.size; } };
 }
 
 test('a touch hold requires one second and its release/click cannot toggle twice', () => {
@@ -106,4 +107,34 @@ test('disabled or removed controls and disposed listeners never activate', () =>
   f.send('click', { detail: 0 });
   assert.equal(f.activations, 0);
   assert.equal(f.pending, 0);
+});
+
+
+test('an unavailable entry gesture has no preparation, timer or accessible activation side effects', () => {
+  const f = fixture();
+  f.setEntryAllowed(false);
+  const down = f.pointer('pointerdown');
+  f.tick(1500); f.pointer('pointerup');
+  f.send('keydown', { key: 'Enter' });
+  f.send('click', { detail: 0 });
+  assert.equal(down.defaultPrevented, false);
+  assert.equal(f.activations, 0);
+  assert.equal(f.pending, 0);
+  assert.deepEqual(f.starts, [], 'Other Side entry gestures must not prime audio or snapshots.');
+  assert.deepEqual(f.ends, []);
+  f.dispose();
+});
+
+test('a pending pointer hold rechecks entry eligibility before completion', () => {
+  const f = fixture();
+  f.pointer('pointerdown'); f.tick(700);
+  f.setEntryAllowed(false); f.tick(400);
+  assert.equal(f.activations, 0);
+  assert.equal(f.pending, 0);
+  assert.deepEqual(f.ends, ['cancel']);
+  f.pointer('pointerup'); f.tick(700);
+  f.setEntryAllowed(true);
+  f.pointer('pointerdown'); f.tick(1000);
+  assert.equal(f.activations, 1, 'A new eligible entry gesture still works after cancellation.');
+  f.dispose();
 });

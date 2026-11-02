@@ -114,8 +114,12 @@ try {
     await page.locator('html[data-page="about"]').waitFor();
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
     await page.keyboard.down('4');
+    try { await page.waitForTimeout(1250); } finally { await page.keyboard.up('4'); }
+    assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'The Other Side ignores a new 4 hold.');
+    await page.keyboard.press('3'); await page.keyboard.press('3');
+    assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Two presses cannot reverse.');
+    await page.keyboard.press('3');
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal');
-    await page.keyboard.up('4');
     await page.locator('.brand-link').click();
     await page.locator('html[data-page="home"]').waitFor();
     await page.locator('#stage.is-ready, #stage.is-fallback').waitFor({ timeout: 60000 });
