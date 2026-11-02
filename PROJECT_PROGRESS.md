@@ -1,4 +1,4 @@
-# V3.1.1 progress — F7 done
+# V3.1.1 progress — F8 done
 
 ## Current committed checkpoint — 2026-11-02
 
@@ -19,7 +19,7 @@ Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest c
 | F5 | DONE | Use one gap throughout the Works floating row; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F5. |
 | F6 | DONE | Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6. |
 | F7 | DONE | TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved. |
-| F8 | TODO | Native h4 cursor across all interactive areas, including NAAVI/lower Home, both motion preferences; preserve size/feel and touch behavior. |
+| F8 | DONE | Cover every interactive area with the native h4 cursor; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F8. |
 | F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
 | F10 | TODO — clarified | Digital resting base is60% of pre-V3.1 original width, replacing V3.1's50% reduction (archive550→660px cap, detail600→720px cap before viewport constraints). Reuse F9 expansion, responsive sources and unified effects. |
 | F11 | TODO | Shared `--radius-soft`4px on carousel/Digital images; keep corruption/effects/page canvas square. F9 includes its required carousel subset. |
@@ -97,7 +97,7 @@ Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, fo
 
 ## Exact next checkpoint
 
-F8: apply the native h4 cursor coverage fix, verify all interactive surfaces with existing navigation suite6 and npm test, record actual results and commit separately. Then continue F10/F11/F13/F14/F15/F16; no launch.
+F10: Digital width base60% and shared inline expansion. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## Confirmed continuation answers — 2026-10-31
 
@@ -229,3 +229,18 @@ Exact next checkpoint: F8: apply the native h4 cursor coverage fix, verify all i
 ## F7 checkpoint correction
 
 The first F7 Node run retained a superseded prohibition on heading arrows. The approved Tattoo arrow and text parsing are now asserted explicitly; final `npm test` is363/363 PASS. The earlier DONE checkpoint was premature and has been corrected in the unpublished F7 commit. All failed Node attempts remain in `docs/validation/v3.1.1/F7/`; its previously successful navigation6 run is unchanged. F8 source is only staged later after its own serial checks.
+
+## F8 — DONE — 2026-11-02 16:27 UTC
+
+Cover every interactive area with the native h4 cursor.
+
+Changed files: `src/cursor.css`, `tests/v31-navigation-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-navigation-browser.mjs`: exit 0, 86.937s. Actual output: `docs/validation/v3.1.1/F8/browser.txt`.
+- `npm test`: exit 0, 6.254s. Actual output: `docs/validation/v3.1.1/F8/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F8`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F10: Digital width base60% and shared inline expansion. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.

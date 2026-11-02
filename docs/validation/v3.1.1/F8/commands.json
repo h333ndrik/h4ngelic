@@ -1,0 +1,14 @@
+[
+  {
+    "command": "node tests/v31-navigation-browser.mjs",
+    "exitCode": 0,
+    "seconds": 86.937,
+    "log": "docs/validation/v3.1.1/F8/browser.txt"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 6.254,
+    "log": "docs/validation/v3.1.1/F8/node.txt"
+  }
+]

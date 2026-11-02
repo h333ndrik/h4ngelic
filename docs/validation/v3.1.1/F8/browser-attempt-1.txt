@@ -1,0 +1,17 @@
+CHECK V3.1 navigation 1440px reduced=false
+PASS V3.1 navigation 1440px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+CHECK V3.1 navigation 1440px reduced=true
+PASS V3.1 navigation 1440px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+CHECK V3.1 navigation 390px reduced=false
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.waitForFunction: Target page, context or browser has been closed
+    at settle (/workspace/h4ngelic/tests/v31-navigation-browser.mjs:17:14)
+    at mode (/workspace/h4ngelic/tests/v31-navigation-browser.mjs:26:9)
+    at async file:///workspace/h4ngelic/tests/v31-navigation-browser.mjs:222:7 {
+  log: []
+}
+
+Node.js v24.19.0

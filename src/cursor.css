@@ -74,3 +74,31 @@
     cursor: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 9 2, pointer;
   }
 }
+
+/* Component styles load after this sheet. Anchor the native brand cursor at
+   the document root so form labels, file pickers, drag controls and child
+   glyphs cannot replace it with an OS pointer. These declarations only own
+   cursor coverage; the existing normal/reduced variant rules own its feel. */
+@media (hover: hover) and (pointer: fine) {
+  html { --h4-native-cursor: url('/assets/h4ngelic-cursor.svg') 9 2, auto; }
+  html[data-mode='xray'] { --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto; }
+  html body, html body * { cursor: var(--h4-native-cursor) !important; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), label):hover {
+    --h4-native-cursor: url('/assets/h4ngelic-cursor-hover.svg') 10 2, pointer;
+  }
+  html[data-mode='xray'] :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), label):hover {
+    --h4-native-cursor: url('/assets/h4ngelic-cursor-other-hover-r09.svg') 10 2, pointer;
+  }
+  html :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), label):active {
+    --h4-native-cursor: url('/assets/h4ngelic-cursor-pressed.svg') 9 2, pointer;
+  }
+  html[data-mode='xray'] :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), label):active {
+    --h4-native-cursor: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 9 2, pointer;
+  }
+  html canvas.is-hovering { --h4-native-cursor: url('/assets/h4ngelic-cursor-hover.svg') 10 2, pointer; }
+  html canvas.is-dragging { --h4-native-cursor: url('/assets/h4ngelic-cursor-pressed.svg') 9 2, pointer; }
+  html[data-mode='xray'] canvas.is-hovering { --h4-native-cursor: url('/assets/h4ngelic-cursor-other-hover-r09.svg') 10 2, pointer; }
+  html[data-mode='xray'] canvas.is-dragging { --h4-native-cursor: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 9 2, pointer; }
+}

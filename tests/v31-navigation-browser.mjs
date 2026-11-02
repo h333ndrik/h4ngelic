@@ -34,6 +34,34 @@ async function geometry(page) {
       headingSize:size('.work-page .page-heading'),filterSize:size('.work-filters .filter-link'),subheadSize:size('.archive-category-heading')};
   });
 }
+async function cursorCoverage(page,profile,world) {
+  if(!await page.evaluate(()=>matchMedia('(hover:hover) and (pointer:fine)').matches)) return {world,nativeTouch:true};
+  const selectors='a[href],summary,button,input,select,textarea,label,[role="button"],[data-naavi],canvas';
+  const expected=world==='xray'?'h4ngelic-cursor-other':'h4ngelic-cursor';
+  const records=[];
+  for(const [destination,kind] of [['work','work'],['contact','home'],['about','about']]) {
+    if(await page.locator('html').getAttribute('data-page')!==kind) {
+      const index=page.locator('[data-global-index]');
+      if(!await index.evaluate(el=>el.open)) await index.locator('summary').click();
+      await index.locator(`[data-index-page="${destination}"]`).click();
+      await page.locator(`html[data-page="${kind}"]`).waitFor();await settle(page);
+    }
+    const cursors=await page.locator(selectors).evaluateAll(elements=>elements.flatMap(el=>{
+      const style=getComputedStyle(el);if(style.display==='none'||style.visibility==='hidden')return [];
+      return [{tag:el.tagName,className:el.className?.baseVal??el.className,cursor:style.cursor}];
+    }));
+    assert.ok(cursors.length>0);
+    for(const item of cursors)assert.ok(item.cursor.includes(expected),`Every interactive ${kind} element retains the h4 cursor: ${JSON.stringify(item)}`);
+    const target=page.locator(kind==='home'?'[data-inquiry-submit]':kind==='about'?'[data-floating-brand]':'[data-naavi]');
+    await target.hover();
+    const hover=await target.evaluate(el=>getComputedStyle(el).cursor);
+    assert.ok(hover.includes(profile.reduced?world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg':world==='xray'?'h4ngelic-cursor-other-hover-r09.svg':'h4ngelic-cursor-hover.svg'));
+    records.push({kind,cursors,hover});await page.mouse.move(1,1);
+  }
+  const index=page.locator('[data-global-index]');await index.locator('summary').click();await index.locator('[data-index-page="work"]').click();
+  await page.locator('html[data-page="work"]').waitFor();await settle(page);
+  return {world,records};
+}
 async function indexContract(page,profile,world) {
   const menu=page.locator('[data-global-index]'),summary=menu.locator('summary');
   const scroll=await page.evaluate(()=>scrollY);
@@ -190,12 +218,14 @@ try {
       const normals=await indexContract(page,profile,'normal');const workNormal=await workChrome(page,profile,'normal');const contrastNormal=await contrastContract(page,'normal');
       assert.equal(await page.evaluate(()=>window.__v31GL),0,'Cold Work does not initialize a Three.js scene.');
       assert.ok(!requests.some(path=>/\/src\/main\.js$|\/three(?:[/.]|$)/i.test(path)));
+      const cursorNormal=await cursorCoverage(page,profile,'normal');
       await mode(page,'xray');
       const other=await indexContract(page,profile,'xray');const workOther=await workChrome(page,profile,'xray');const contrastOther=await contrastContract(page,'xray');
       await page.screenshot({path:new URL(`work-${profile.width}-${profile.reduced?'reduced':'active'}-4.png`,output).pathname});
+      const cursorOther=await cursorCoverage(page,profile,'xray');
       await mode(page,'normal');
       assert.deepEqual(errors,[]);
-      reports.push({...profile,normals,workNormal,contrastNormal,other,workOther,contrastOther,errors});await save();
+      reports.push({...profile,normals,workNormal,contrastNormal,other,workOther,contrastOther,cursorNormal,cursorOther,errors});await save();
       console.log(`PASS V3.1 navigation ${profile.width}px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.`);
     }catch(error){failures.push({...profile,message:error.stack,errors});await page.screenshot({path:new URL(`failure-${profile.width}.png`,output).pathname}).catch(()=>{});await save();throw error;}
     finally{await context.close();}

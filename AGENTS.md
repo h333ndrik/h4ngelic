@@ -70,9 +70,9 @@ These are headlessChromium/SwiftShader software-renderer measurements, limited b
 
 ## Current verified checkpoint
 
-F7: **DONE** (2026-11-02 16:24 UTC). TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved.
+F8: **DONE** (2026-11-02 16:27 UTC). Cover every interactive area with the native h4 cursor; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F8.
 
-Next: F8: apply the native h4 cursor coverage fix, verify all interactive surfaces with existing navigation suite6 and npm test, record actual results and commit separately. Then continue F10/F11/F13/F14/F15/F16; no launch.
+Next: F10: Digital width base60% and shared inline expansion. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
 ## F10 viewport decision — confirmed 2026-11-02
 
