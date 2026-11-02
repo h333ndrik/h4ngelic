@@ -29,8 +29,8 @@ test('new leaf archives and More group resolve while paintings and existing URLs
   assert.equal(matchesArchive({ category: 'analog-photography' }, 'more'), true);
   assert.equal(matchesArchive({ category: 'digital-artworks' }, 'more'), true);
   assert.equal(matchesArchive({ category: 'tattoos' }, 'more'), false);
-  assert.equal(matchesArchive({ category: 'flashes' }, 'tattoos'), false);
-  // A parent heading does not conflate finished tattoos with available flashes.
+  assert.equal(matchesArchive({ category: 'flashes' }, 'tattoos'), true);
+  // The real Tattoos group page includes its On Skin and Flashes children.
   assert.equal(matchesArchive({ category: 'flashes' }, 'flashes'), true);
   const original = resolveRoute('/work/digital-artworks/green-black-original');
   assert.equal(original.kind, 'artwork', 'The supplied original now has its real canonical detail route.');

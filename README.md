@@ -6,7 +6,7 @@
 
 # h4ngelic
 
-Artist website with an interactive chrome wordmark, a horizontal typographic category strip, a connected Work archive, an About page and the inquiry form at Home `03 / CONTACT`. It uses vanilla JavaScript, Vite and Three.js. Existing hero geometry, chrome, figure-eight movement, rotation physics and the accepted memory-mosh experience are retained.
+Artist website with an interactive chrome wordmark, a horizontal typographic category strip, the complete Work archive and distinct category pages, an About page and the inquiry form at Home `03 / CONTACT`. It uses vanilla JavaScript, Vite and Three.js. Existing hero geometry, chrome, figure-eight movement, rotation physics and the accepted memory-mosh experience are retained.
 
 INDEX and NAAVI are separate: the top-right `+` opens the numbered `00 /`–`04 /` menu; bottom-centre NAAVI follows the current page's section stops. Home exposes Home, Works, About, Contact and the final secret; Work follows Tattoos, Jewellery and More. Contact links return to the homepage form.
 
@@ -62,11 +62,11 @@ Browser tests default to `/usr/bin/chromium`; override `CHROMIUM_PATH` for anoth
 
 ## Pages and hosting
 
-Normal anchors navigate to `/work`, `/work/tattoos`, `/work/flashes`, `/work/jewellery`, `/work/more`, `/work/analog-photography`, `/work/digital-artworks`, `/about` and `/#contact`. `/work/paintings` remains a legacy archive. Existing `/work?category=…` bookmarks redirect to canonical category paths. Published artworks get `/work/{category}/{id}` URLs. The offline file alone uses hash routes.
+Home keeps `01 / WORKS`, `02 / ABOUT` and `03 / CONTACT`; `01 / WORKS` now links to the complete `/work` archive. The three horizontal rubric links open real `/work/tattoos`, `/work/jewellery` and `/work/more` pages, each with its own large heading and selected collection. `/work/flashes`, `/work/analog-photography`, `/work/digital-artworks` and the legacy `/work/paintings` remain directly addressable. Category changes mount their own page, support direct loading/reloading and browser Back, and use their own canonical/Open Graph URL. Existing `/work?category=…` bookmarks redirect to the corresponding category path. Published artworks get `/work/{category}/{id}` URLs. About stays `/about`; Contact stays exclusively at Home `/#contact`. Only the offline file encodes routes as hashes such as `#/work/tattoos`; the actual website uses ordinary paths.
 
 The build prerenders HTML for published routes, plus `404.html`, `sitemap.xml` and `robots.txt`. Work and About remain readable without JavaScript. `npm run preview` serves actual 404 responses and legacy redirects; a production host must serve generated directory indexes and its 404 document rather than rewrite every missing path to Home. See [SEO and hosting](docs/SEO.md) and [architecture](docs/ARCHITECTURE.md).
 
-Progressive navigation retains document state, keyboard focus and back/forward scroll restoration. Unsupported or reduced-motion browsers use simpler updates; failures fall back to normal navigation. Metadata lives in `src/data/seoContent.js`, with canonical origin `https://h4ngelic.com`. Builds default to preview `noindex`. `H4_DEPLOYMENT=production npm run build` only builds files; this pass does **not** merge or deploy. Empty archives and incomplete untitled projects stay excluded from indexing and the sitemap.
+Progressive navigation retains same-document state and supports keyboard focus and path-specific back/forward scroll restoration. A different category is a real page change, not a hash tab that retains unrelated archive contents. Unsupported or reduced-motion browsers use simpler updates; failures fall back to normal navigation. Metadata lives in `src/data/seoContent.js`, with canonical origin `https://h4ngelic.com`. Builds default to preview `noindex`. `H4_DEPLOYMENT=production npm run build` only builds files; this pass does **not** merge or deploy. Empty archives and incomplete untitled projects stay excluded from indexing and the sitemap.
 
 The Three.js hero is lazy-imported only for the visible homepage. Cold Work and About routes do not download or initialize it. Rendering pauses outside the viewport and while the document is hidden. An optional validated Flash mannequin has its own deferred path and remains inactive without genuine configured content. No CMS, database or authentication dependency is needed.
 

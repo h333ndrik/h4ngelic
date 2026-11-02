@@ -12,9 +12,9 @@ export function naaviStops(kind) {
   ];
   if (kind === 'work' || kind === 'artwork') return [
     { label: 'home', href: '/' },
-    { id: 'tattoos', label: 'works / tattoos', href: '/work#tattoos' },
-    { id: 'jewellery', label: 'jewellery', href: '/work#jewellery' },
-    { id: 'more', label: 'more', href: '/work#more' },
+    { id: 'tattoos', label: 'works / tattoos', href: '/work/tattoos' },
+    { id: 'jewellery', label: 'jewellery', href: '/work/jewellery' },
+    { id: 'more', label: 'more', href: '/work/more' },
   ];
   return [{ label: 'home', href: '/' }, { label: kind === 'about' ? 'about' : 'page', href: kind === 'about' ? '/about' : '/' }];
 }

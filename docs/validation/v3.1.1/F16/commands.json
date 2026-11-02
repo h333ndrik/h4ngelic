@@ -1,0 +1,14 @@
+[
+  {
+    "command": "node tests/portfolio-browser.mjs",
+    "exitCode": 0,
+    "seconds": 181.363,
+    "log": "docs/validation/v3.1.1/F16/browser.txt"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 3.435,
+    "log": "docs/validation/v3.1.1/F16/node.txt"
+  }
+]

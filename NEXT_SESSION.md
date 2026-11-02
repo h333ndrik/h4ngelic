@@ -14,9 +14,9 @@ Read all four root files and actual Git before work. F1/F9/F2/F3/F4 are committe
 
 ## First unfinished task
 
-F16: clickable Works heading and real category pages. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+F17: restore returning-visitor recognition above the hero. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
-Latest recorded result: **F15 DONE**, 2026-11-02 17:17 UTC. Make4 entry-only and require triple3 for return; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F15.
+Latest recorded result: **F16b DONE**, 2026-11-02 17:21 UTC. Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16.
 
 ## F1 — actual verification
 
@@ -47,8 +47,8 @@ F1 was committed as `f57f759`; no V3.1.1 build/export is claimed by this documen
 | F13 | DONE | Unify route-link and branding hover feedback; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F13. |
 | F14 | BLOCKED | Chromium pixel/navigation6 and Node363 pass; Safari/Firefox/real-mannequin unavailable, legacy corruption recovery test times out. |
 | F15 | DONE | Make4 entry-only and require triple3 for return; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F15. |
-| F16a | TODO | Make Home01/WORKS heading a real clickable route with unified hover. |
-| F16b | TODO — clarified | User confirmed tattoos / jewellery / more become real category routes with large headers, direct-load/back navigation and unified hover. Preserve Home01/WORKS,02/ABOUT,03/CONTACT; Contact remains Home-only. Intent is resolved. |
+| F16a | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
+| F16b | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
 | F17 | TODO | Restore exact muted hero line “you know your way around here.” only for returning local visitors; first visit/cleared storage hidden, no layout shift or pointer interception, six-profile screenshots/tests. |
 
 There is no F12. TODO means not started; PARTIAL means code/verification underway; DONE requires actual current checks. REVIEW NEEDED is intent uncertainty, not a missing V3.1 feature.

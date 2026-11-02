@@ -1,220 +1,164 @@
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
-const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
-const artifacts = new URL('../artifacts/', import.meta.url);
-await mkdir(artifacts, { recursive: true });
-const browser = await chromium.launch({
-  executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium',
-  headless: true,
-  args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
-});
-const categories = ['tattoos', 'jewellery', 'more'];
-const leaves = ['tattoos', 'flashes', 'jewellery', 'analog-photography', 'digital-artworks', 'paintings'];
-const route = (path) => new URL(path, baseURL).href;
-
-function errorsFor(page) {
-  const errors = [];
-  page.on('pageerror', (error) => errors.push(error.message));
-  page.on('console', (message) => {
-    if (message.type() === 'error') errors.push(message.text());
-  });
-  return errors;
+const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
+const output = new URL(`../${process.env.H4_PORTFOLIO_ARTIFACTS || 'artifacts/v311/F16/portfolio'}/`, import.meta.url);
+await mkdir(output, { recursive: true });
+const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })))
+  .filter(profile => !process.env.H4_PORTFOLIO_WIDTHS || process.env.H4_PORTFOLIO_WIDTHS.split(',').map(Number).includes(profile.width));
+const groups = ['tattoos', 'jewellery', 'more'];
+const leaves = ['flashes', 'analog-photography', 'digital-artworks', 'paintings'];
+const expectedCategories = {
+  all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
+  tattoos: ['tattoos', 'flashes'], jewellery: ['jewellery'], more: ['digital-artworks', 'analog-photography'],
+  flashes: ['flashes'], 'analog-photography': ['analog-photography'], 'digital-artworks': ['digital-artworks'], paintings: ['paintings'],
+};
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
+  args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+const reports = [], failures = [];
+const save = () => writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), reports, failures }, null, 2));
+const frames = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+const url = path => new URL(path, base).href;
+async function settle(page) {
+  await page.waitForFunction(() => !document.documentElement.hasAttribute('data-mode-snapshot')
+    && !document.documentElement.hasAttribute('data-xray-transition') && !document.documentElement.hasAttribute('data-memory-mosh-preparing'));
+  await page.evaluate(() => document.activeElement?.blur()); await frames(page);
 }
-
-async function readyHome(page) {
-  await page.goto(route('/?test=1'), { waitUntil: 'networkidle' });
-  await page.locator('#selected-work .category-strip .category-link').first().waitFor();
-  await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-}
-
-async function checkHorizontalCategories(page, width) {
-  const section = page.locator('#selected-work');
-  const links = section.locator('.category-strip .category-link');
-  assert.equal(await links.count(), 3, 'Selected work must contain exactly three category links.');
-  assert.equal(await section.locator('img, picture, video, canvas').count(), 0, 'Selected work must be purely typographic.');
-  const rectangles = [];
-  for (let index = 0; index < categories.length; index++) {
-    const link = links.nth(index);
-    assert.equal(await link.getAttribute('href'), `/work#${categories[index]}`);
-    rectangles.push(await link.boundingBox());
-  }
-  assert.ok(rectangles.every(Boolean));
-  assert.ok(Math.max(...rectangles.map((r) => r.y)) - Math.min(...rectangles.map((r) => r.y)) < 2, `Categories must share one horizontal row at ${width}px.`);
-  assert.ok(rectangles[0].x < rectangles[1].x && rectangles[1].x < rectangles[2].x, 'Main rubric order must be tattoos, jewellery, more.');
-  assert.ok(Math.max(...rectangles.map((r) => r.width)) - Math.min(...rectangles.map((r) => r.width)) < 2, 'Categories must occupy equal columns.');
-  const dimensions = await page.evaluate(() => ({ page: document.documentElement.scrollWidth, viewport: innerWidth }));
-  assert.ok(dimensions.page <= dimensions.viewport + 1, `The page must not overflow horizontally at ${width}px.`);
-  // Focusing the last link must bring it into its scroller rather than lose it
-  // beyond the viewport on narrow screens. This is real keyboard traversal.
-  await links.first().focus();
-  await page.keyboard.press('Tab');
-  await page.keyboard.press('Tab');
-  assert.equal(await links.last().evaluate((element) => element === document.activeElement), true, 'All three categories must be keyboard reachable.');
-  await links.last().scrollIntoViewIfNeeded();
-  const finalLink = await links.last().boundingBox();
-  assert.ok(finalLink.x < width && finalLink.x + finalLink.width > 0, 'The final category must remain reachable on narrow screens.');
-  assert.equal(await section.locator('.category-sublinks').count(), 0, 'V6 keeps subcategories inside Work, not under the frontpage rubrics.');
-}
-
-async function assertConnectedWork(page, category) {
-  const expected = category || 'all';
-  await page.locator('[data-connected-work]').waitFor();
-  await page.waitForFunction(() => document.querySelectorAll('.work-filters a[aria-current="location"]').length === 1);
-  const active = page.locator('.work-filters a[aria-current="location"]');
-  assert.equal(await active.count(), 1, 'Exactly one connected Work location must be active.');
-  assert.ok(['all', 'tattoos', 'jewellery', 'more'].includes((await active.textContent()).trim()));
-  const expectedEmpty = expected === 'paintings' ? 5 : 4;
-  assert.deepEqual(await page.locator('.archive-empty').allTextContents(), Array(expectedEmpty).fill('archive in progress.'));
-  assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)),
-    ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography', ...(expected === 'paintings' ? ['paintings'] : [])]);
-  assert.equal(await page.locator('.portfolio-archive img').count(), 1,
-    'The one original stays mounted in every connected context; empty leaves never invent artwork.');
-  const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
-  assert.equal(await original.getAttribute('width'), '1440');
-  assert.equal(await original.getAttribute('height'), '1920');
-  assert.match(await original.getAttribute('src'), /green-black-original/);
-  assert.equal(await page.locator('[data-project-url="/work/digital-artworks/green-black-original"]').count(), 1);
-  assert.equal(await page.locator('.work-page .page-heading').innerText(), '01 / WORKS');
-  const duplicateIDs = await page.locator('[data-connected-work] [id]').evaluateAll(nodes => {
-    const ids = nodes.map(node => node.id); return ids.filter((id, index) => ids.indexOf(id) !== index);
-  });
-  assert.deepEqual(duplicateIDs, []);
-  if (expected !== 'all') {
-    const target = await page.locator(`#${expected}`).boundingBox();
-    assert.ok(target && target.y < page.viewportSize().height && target.y + target.height > 0,
-      `Direct Work location ${expected} must be visible without a full entrance sequence.`);
-  }
-  assert.equal(await page.locator('#logo-canvas').isVisible(), false, 'Interior pages must not render the homepage WebGL canvas.');
-}
-
-async function navigateToContact(page, { touch = false } = {}) {
-  const activate = async target => touch ? target.tap() : target.click();
-  if (await page.locator('html').getAttribute('data-page') !== 'about') {
-    await activate(page.locator('.brand-link'));
-    await page.locator('html[data-page="home"]').waitFor();
-    await activate(page.locator('.hero-nav a[href="/about"]'));
-    await page.locator('html[data-page="about"]').waitFor();
-  }
-  await activate(page.locator('.about-copy a[href="/contact"]'));
-}
-
-try {
-  const desktop = await browser.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
-  const page = await desktop.newPage();
-  const desktopErrors = errorsFor(page);
-  await readyHome(page);
-  await checkHorizontalCategories(page, 1440);
-  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+async function mode(page, target) {
   await page.evaluate(() => document.activeElement?.blur());
-  await page.screenshot({ path: new URL('homepage-full.png', artifacts).pathname, fullPage: true });
-
-  assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
-  assert.equal(await page.locator('#contact .contact-link').count(), 0, 'The custom inquiry form replaces the old link collection.');
-  assert.equal(await page.locator('.footer-instagram').getAttribute('href'), 'https://www.instagram.com/h4ngelic/');
-
-  // Click every homepage category, including direct query reloads and back.
-  for (const category of categories) {
-    await readyHome(page);
-    await page.locator(`#selected-work .category-link[href="/work#${category}"]`).click();
-    await page.waitForURL((url) => url.pathname === '/work' && url.hash === `#${category}`);
-    await assertConnectedWork(page, category);
-    await page.reload({ waitUntil: 'networkidle' });
-    await assertConnectedWork(page, category);
-    await page.goBack({ waitUntil: 'networkidle' });
-    await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-    await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-    // Inspect the live hero if the development hook is available. A canvas
-    // restored from history must render again rather than keep a disposed GPU.
-    if (await page.evaluate(() => Boolean(window.__H4_TEST__))) {
-      const before = await page.evaluate(() => window.__H4_TEST__.snapshot().frameCount);
-      await page.waitForFunction((frame) => window.__H4_TEST__.snapshot().frameCount > frame, before, { timeout: 10000 });
-      assert.ok(await page.evaluate(() => window.__H4_TEST__.snapshot().frameCount) > before, 'Back navigation must restore a live homepage hero.');
-    }
-  }
-
-  await page.goto(route('/work?category=tattoos'), { waitUntil: 'networkidle' });
-  for (const category of ['jewellery', 'more', 'all']) {
-    const href = category === 'all' ? '/work' : `/work#${category}`;
-    await page.evaluate(() => { window.__portfolioWorkNode = document.querySelector('[data-connected-work]'); });
-    await page.locator(`.work-filters a[href="${href}"]`).click();
-    await page.waitForURL((url) => url.pathname === '/work' && url.hash === (category === 'all' ? '' : `#${category}`));
-    await assertConnectedWork(page, category === 'all' ? null : category);
-    assert.equal(await page.evaluate(() => window.__portfolioWorkNode === document.querySelector('[data-connected-work]')), true,
-      'Section navigation must retain the same mounted Work document.');
-  }
-  await page.screenshot({ path: new URL('work.png', artifacts).pathname, fullPage: true });
-  await page.goto(route('/work?category=unknown'), { waitUntil: 'networkidle' });
-  await assertConnectedWork(page, null);
-  // Every actual leaf remains directly addressable, including old painting
-  // bookmarks. Subcategories are not silently collapsed into their parent.
-  for (const category of leaves) {
-    await page.goto(route(`/work?category=${category}`), { waitUntil: 'networkidle' });
-    await page.waitForURL((url) => url.pathname === `/work/${category}`);
-    await assertConnectedWork(page, category);
-  }
-
-  await page.goto(route('/about'), { waitUntil: 'networkidle' });
-  await page.locator('.about-copy').waitFor();
-  assert.ok(await page.locator('.about-copy').getByText("hi, i'm hendrik.", { exact: true }).count());
-  assert.equal(await page.locator('.about-paragraph').count(), 5);
-  assert.ok(await page.locator('.about-copy').getByText('independent artist based in berlin.', { exact: true }).count());
-  assert.equal(await page.locator('#logo-canvas').isVisible(), false);
-  await page.screenshot({ path: new URL('about.png', artifacts).pathname, fullPage: true });
-  await navigateToContact(page);
-  await page.waitForURL((url) => url.pathname === '/contact');
-  await page.locator('#contact').waitFor();
-  await page.waitForFunction(() => document.getElementById('contact').getBoundingClientRect().top < innerHeight);
-  assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
-  assert.ok(await page.evaluate(() => scrollY) < 2, 'Dedicated Contact navigation must reveal the form immediately.');
-  assert.deepEqual(desktopErrors, [], 'Portfolio navigation must not throw JavaScript or WebGL errors.');
-  await desktop.close();
-  console.log('PASS portfolio desktop: equal horizontal columns, keyboard access, connected Work anchors and legacy URLs, preserved nodes, reload/back, approved About and inquiry Contact.');
-
-  // Interior routes start in a fresh context: no cached Three.js module can
-  // hide an accidental eager import of the hero on a lightweight content page.
-  const interior = await browser.newContext({ viewport: { width: 1200, height: 900 } });
-  const interiorPage = await interior.newPage();
-  const interiorErrors = errorsFor(interiorPage);
-  const requests = [];
-  interiorPage.on('request', (request) => requests.push(request.url()));
-  await interiorPage.goto(route('/work?category=jewellery'), { waitUntil: 'networkidle' });
-  await assertConnectedWork(interiorPage, 'jewellery');
-  await interiorPage.goto(route('/about'), { waitUntil: 'networkidle' });
-  await interiorPage.locator('.about-copy').waitFor();
-  await interiorPage.goto(route('/contact'), { waitUntil: 'networkidle' });
-  await interiorPage.locator('[data-inquiry-form]').waitFor();
-  assert.equal(requests.some((url) => /\/src\/main\.js(?:[?#]|$)|\/assets\/main-[^/]+\.js|\/three(?:\/|\.js)|\/deps\/three\.js/.test(url)), false, 'Work/about/contact must not load Three.js or the hero entry.');
-  assert.deepEqual(interiorErrors, []);
-  await interior.close();
-  console.log('PASS content performance: work/about render without loading the 3D scene.');
-
-  const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1, reducedMotion: 'reduce' });
-  const mobilePage = await mobile.newPage();
-  const mobileErrors = errorsFor(mobilePage);
-  await readyHome(mobilePage);
-  await checkHorizontalCategories(mobilePage, 390);
-  await mobilePage.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-  await mobilePage.evaluate(() => document.activeElement?.blur());
-  await mobilePage.screenshot({ path: new URL('mobile-homepage-full.png', artifacts).pathname, fullPage: true });
-  await mobilePage.setViewportSize({ width: 320, height: 740 });
-  await checkHorizontalCategories(mobilePage, 320);
-  await mobilePage.locator('#selected-work .category-link[href="/work#more"]').tap();
-  await mobilePage.waitForURL((url) => url.pathname === '/work' && url.hash === '#more');
-  await assertConnectedWork(mobilePage, 'more');
-  await mobilePage.locator('.archive-category-heading a[href="/work#digital-artworks"]').tap();
-  await mobilePage.waitForURL((url) => url.pathname === '/work' && url.hash === '#digital-artworks');
-  await assertConnectedWork(mobilePage, 'digital-artworks');
-  assert.ok(await mobilePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-  await navigateToContact(mobilePage, { touch: true });
-  await mobilePage.waitForURL((url) => url.pathname === '/contact');
-  await mobilePage.waitForFunction(() => document.getElementById('contact').getBoundingClientRect().top < innerHeight);
-  assert.deepEqual(mobileErrors, []);
-  assert.equal(await mobilePage.locator('[data-inquiry-form]').count(), 1);
-  await mobile.close();
-  console.log('PASS portfolio mobile: horizontal categories at 390/320px, scrollable keyboard access, connected anchor jumps and visible About/Contact navigation, no page overflow.');
-  console.log(`Screenshots saved in ${artifacts.pathname}`);
-} finally {
-  await browser.close();
+  if (target === 'xray') { await page.keyboard.down('4'); await page.waitForTimeout(1100); await page.keyboard.up('4'); }
+  else await page.keyboard.type('333', { delay: 65 });
+  await page.waitForFunction(expected => document.documentElement.dataset.mode === expected, target, { timeout: 60000 });
+  await settle(page);
 }
+async function index(page, target, kind) {
+  const menu = page.locator('[data-global-index]');
+  if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
+  await menu.locator(`[data-index-page="${target}"]`).click();
+  await page.locator(`html[data-page="${kind}"]`).waitFor(); await settle(page);
+}
+async function work(page, category = 'all') {
+  await page.locator(`[data-connected-work][data-work-context="${category}"]`).waitFor();
+  await settle(page);
+  const actual = await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory));
+  assert.deepEqual(actual, expectedCategories[category], 'A category URL renders only its selected real group/leaf.');
+  const expectedGroups = category === 'all' ? groups : groups.includes(category) ? [category] : [];
+  assert.deepEqual(await page.locator('[data-work-group]').evaluateAll(nodes => nodes.map(node => node.dataset.workGroup)), expectedGroups);
+  assert.equal(await page.locator('.work-page .page-heading').innerText(), category === 'all' ? '01 / WORKS' : category.replaceAll('-', ' ').toUpperCase());
+  assert.equal(await page.locator('#contact, [data-inquiry-form]').count(), 0, 'Contact remains exclusively on Home.');
+  assert.equal(await page.locator('#logo-canvas').isVisible(), false);
+  const links = await page.locator('.work-filters a').evaluateAll(nodes => nodes.map(node => ({ href: node.getAttribute('href'), text: node.textContent.trim() })));
+  assert.deepEqual(links, groups.map(id => ({ href: `/work/${id}`, text: id })));
+  const group = groups.includes(category) ? category : ['digital-artworks', 'analog-photography'].includes(category) ? 'more' : category === 'flashes' ? 'tattoos' : null;
+  const current = page.locator('.work-filters a[aria-current="page"]');
+  assert.equal(await current.count(), group ? 1 : 0);
+  if (group) assert.equal(await current.getAttribute('href'), `/work/${group}`);
+  const photos = actual.includes('tattoos') ? 8 : 0, digital = actual.includes('digital-artworks') ? 1 : 0;
+  assert.equal(await page.locator('.portfolio-archive .project-image img').count(), photos + digital);
+  if (photos) {
+    const sources = await page.locator('[data-horizontal-drift="tattoos"] img').evaluateAll(images => images.map(image => ({
+      alt: image.alt, srcset: image.getAttribute('srcset'), width: image.getAttribute('width'), height: image.getAttribute('height') })));
+    assert.equal(sources.length, 8);
+    assert.ok(sources.every(image => image.alt && image.srcset && Number(image.width) > 0 && Number(image.height) > 0));
+  }
+  if (digital) assert.match(await page.locator('[data-archive-category="digital-artworks"] img').getAttribute('src'), /green-black-original/);
+  const path = category === 'all' ? '/work' : `/work/${category}`;
+  assert.equal(new URL(page.url()).pathname, path);
+  assert.equal(new URL(page.url()).hash, '');
+  assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), `https://h4ngelic.com${path}`);
+  assert.equal(await page.locator('meta[property="og:url"]').getAttribute('content'), `https://h4ngelic.com${path}`);
+  const dimensions = await page.evaluate(() => ({ document: document.documentElement.scrollWidth, width: innerWidth }));
+  assert.ok(dimensions.document <= dimensions.width + 1, 'Category routes cannot widen the page.');
+  const ids = await page.locator('#page-content [id]').evaluateAll(nodes => nodes.map(node => node.id));
+  assert.equal(new Set(ids).size, ids.length, 'Route content has no duplicate IDs.');
+  return { category, path, groups: expectedGroups, categories: actual, images: photos + digital, dimensions };
+}
+async function homepageCategories(page, width) {
+  const section = page.locator('#selected-work'), links = section.locator('.category-link');
+  assert.deepEqual(await links.evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))), groups.map(id => `/work/${id}`));
+  assert.equal(await section.locator('img, picture, video, canvas').count(), 0);
+  assert.equal(await section.locator('.category-sublinks').count(), 0);
+  assert.equal(await page.locator('#selected-work-title .section-route-link').getAttribute('href'), '/work');
+  assert.equal(await page.locator('#selected-work-title').innerText(), '01 / WORKS');
+  assert.equal(await page.locator('#about-preview-title').innerText(), '02 / ABOUT');
+  assert.equal(await page.locator('#contact-title').innerText(), '03 / CONTACT');
+  const boxes = await links.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width }; }));
+  assert.ok(boxes.every(rect => Math.abs(rect.y - boxes[0].y) < 2), 'The Home category strip stays horizontal.');
+  assert.ok(boxes[0].x < boxes[1].x && boxes[1].x < boxes[2].x);
+  assert.ok(boxes.every(rect => Math.abs(rect.width - boxes[0].width) < 2));
+  await links.first().focus(); await page.keyboard.press('Tab'); await page.keyboard.press('Tab');
+  assert.ok(await links.last().evaluate(element => element === document.activeElement));
+  const last = await links.last().boundingBox();
+  assert.ok(last.x < width && last.x + last.width > 0, 'MORE remains keyboard-reachable on narrow viewports.');
+}
+try {
+  for (const profile of profiles) {
+    console.log(`CHECK F16 category routes ${profile.width}px reduced=${profile.reduced}`);
+    const context = await browser.newContext({ viewport: { width: profile.width, height: 844 }, deviceScaleFactor: 1,
+      isMobile: profile.width < 600, hasTouch: profile.width < 600, reducedMotion: profile.reduced ? 'reduce' : 'no-preference' });
+    const page = await context.newPage(), errors = [], requests = [], observations = [];
+    page.setDefaultTimeout(30000);
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    page.on('request', request => requests.push(request.url()));
+    try {
+      // Cold interior first: no cached hero/Three request can hide eager loading.
+      await page.goto(url('/work/tattoos'), { waitUntil: 'networkidle' });
+      observations.push(await work(page, 'tattoos'));
+      for (const category of ['jewellery', 'more']) {
+        await page.evaluate(() => { window.__portfolioPreviousNode = document.querySelector('[data-connected-work]'); });
+        await page.locator(`.work-filters a[href="/work/${category}"]`).click();
+        observations.push(await work(page, category));
+        assert.equal(await page.evaluate(() => window.__portfolioPreviousNode === document.querySelector('[data-connected-work]')), false,
+          'A different category mounts its own real page instead of retaining hidden tabs.');
+        await page.reload({ waitUntil: 'networkidle' }); observations.push(await work(page, category));
+      }
+      await page.goBack({ waitUntil: 'networkidle' }); observations.push(await work(page, 'jewellery'));
+      assert.ok(!requests.some(request => /\/src\/main\.js(?:[?#]|$)|\/assets\/main-[^/]+\.js|\/three(?:\/|\.js)|\/deps\/three\.js/.test(request)),
+        'Cold Works categories and their internal routes never download Three.js or the hero entry.');
+      assert.ok(!requests.some(request => /\.mp3(?:[?#]|$)/.test(request)), 'No soundtrack is fetched before a user plays it.');
+      await mode(page, 'xray');
+      for (const category of ['tattoos', 'more']) {
+        await page.locator(`.work-filters a[href="/work/${category}"]`).click(); observations.push(await work(page, category));
+        assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'The existing world survives real category page changes.');
+      }
+      await page.screenshot({ path: new URL(`more-${profile.width}-${profile.reduced}-4.png`, output).pathname });
+      await mode(page, 'normal');
+      await index(page, 'work', 'work'); observations.push(await work(page));
+      await page.screenshot({ path: new URL(`work-${profile.width}-${profile.reduced}-333.png`, output).pathname });
+      await index(page, 'home', 'home');
+      await homepageCategories(page, profile.width);
+      const heading = page.locator('#selected-work-title .section-route-link');
+      await heading.focus(); await page.keyboard.press('Enter'); observations.push(await work(page));
+      await page.goBack({ waitUntil: 'networkidle' }); await page.locator('html[data-page="home"]').waitFor(); await settle(page);
+      for (const category of groups) {
+        const target = page.locator(`#selected-work .category-link[href="/work/${category}"]`);
+        await target.focus(); await page.keyboard.press('Enter'); observations.push(await work(page, category));
+        await page.goBack({ waitUntil: 'networkidle' }); await page.locator('html[data-page="home"]').waitFor(); await settle(page);
+      }
+      for (const category of [...groups, ...leaves]) {
+        await page.goto(url(`/work?category=${category}`), { waitUntil: 'networkidle' });
+        observations.push(await work(page, category));
+        await page.reload({ waitUntil: 'networkidle' }); observations.push(await work(page, category));
+      }
+      await page.goto(url('/about'), { waitUntil: 'networkidle' });
+      assert.equal(await page.locator('.about-paragraph').count(), 5);
+      assert.equal(await page.locator('[data-inquiry-form]').count(), 0);
+      assert.equal(await page.locator('.about-copy a[href="/#contact"]').count(), 1);
+      await page.locator('.about-copy a[href="/#contact"]').click();
+      await page.locator('html[data-page="home"]').waitFor(); await settle(page);
+      await page.waitForFunction(() => document.querySelector('#contact').getBoundingClientRect().top < innerHeight);
+      assert.equal(new URL(page.url()).pathname, '/'); assert.equal(new URL(page.url()).hash, '#contact');
+      assert.equal(await page.locator('[data-inquiry-form]').count(), 1);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      assert.deepEqual(errors, []);
+      reports.push({ ...profile, observations, coldInteriorRequestsChecked: true, errors }); await save();
+      console.log(`PASS F16 ${profile.width}px reduced=${profile.reduced}: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.`);
+    } catch (error) {
+      failures.push({ ...profile, error: error.stack, errors });
+      await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});
+      await save(); throw error;
+    } finally { await context.close(); }
+  }
+} finally { await save(); await browser.close(); }

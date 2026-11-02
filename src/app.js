@@ -42,6 +42,7 @@ let heroObserver = null;
 let moshTransitions = null;
 let renderRevision = 0;
 let renderedKind = '';
+let renderedPath = '';
 let stopInquiry = () => {};
 let stopConnectedWork = () => {};
 // One scroll offset for each real carousel; route changes reuse these small
@@ -94,9 +95,6 @@ function scrollToTarget(url, { reset = false, restoreScroll, smoothAnchor = fals
   let target = null;
   if (url.hash) {
     try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { /* Ignore malformed fragments. */ }
-  } else {
-    const route = resolveRoute(url);
-    if (route.kind === 'work' && route.category !== 'all') target = document.getElementById(route.category);
   }
   if (restoreScroll) {
     scrollTo({ left: restoreScroll[0], top: restoreScroll[1], behavior: 'instant' });
@@ -121,11 +119,10 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
     else history.replaceState(history.state, '', route.redirectPath);
     url = new URL(route.redirectPath, url);
   }
-  // Anchors in Home/Work navigate the existing document. Retain canvas state,
-  // gallery positions and input values instead of remounting the page.
-  const workTargetExists = route.kind !== 'work' || route.category === 'all'
-    || document.getElementById(route.category);
-  if (renderedKind === route.kind && ['home', 'work'].includes(route.kind) && workTargetExists) {
+  // Same-document anchors retain canvas/input state; a different category is
+  // a real page and must mount its own content even if the old archive has it.
+  const sameDocument = route.kind === 'home' || route.kind === 'work' && renderedPath === route.canonicalPath;
+  if (renderedKind === route.kind && sameDocument) {
     stopInquiry.refreshContext?.(url);
     if (route.kind === 'work') content.querySelector('[data-connected-work]').dataset.workContext = route.category;
     const metadataOptions = typeof __H4_SEO_CONFIG__ === 'undefined' ? {} : __H4_SEO_CONFIG__;
@@ -139,6 +136,7 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
     carouselPositions.set(section.dataset.horizontalDrift, section.querySelector('.drift-viewport').scrollLeft);
   }
   renderedKind = '';
+  renderedPath = '';
   stopInteractions();
   stopGallery();
   stopMotion();
@@ -191,6 +189,7 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
     if (Number.isFinite(left)) section.querySelector('.drift-viewport').scrollTo({ left, behavior: 'instant' });
   }
   renderedKind = route.kind;
+  renderedPath = route.canonicalPath;
   scrollToTarget(url, { reset, restoreScroll, smoothAnchor });
   globalNavigation.refresh();
 }

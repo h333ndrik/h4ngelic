@@ -116,3 +116,8 @@
   .hero .controls button { padding-inline: 8px; font-size: 10px; }
   .hero .hero-nav { right: 22px; bottom: 64px; gap: clamp(12px, 4vw, 26px); font-size: var(--type-navigation); }
 }
+
+/* The Works heading is a real route anchor and receives the shared inner
+   hover exactly once; its scroll-owned outer wrapper does not scale again. */
+.kinetic-heading .section-route-link { display: inline-flex; max-width: 100%; }
+#selected-work-title:has(.section-route-link) > .kinetic-heading-text { scale: 1; filter: none; }

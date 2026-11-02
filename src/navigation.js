@@ -16,14 +16,12 @@ export function initNavigation({ render, moshTransitions } = {}) {
   let sharedArtwork = null;
   const positions = new Map([[key, [scrollX, scrollY]]]);
   const galleryPositions = new Map();
-  let lastGalleryPosition;
   history.replaceState({ ...history.state, h4NavigationKey: key }, '');
 
   function remember() {
     positions.set(key, [scrollX, scrollY]);
     if (renderedRoute.kind === 'work') {
-      lastGalleryPosition = [scrollX, scrollY];
-      galleryPositions.set(renderedRoute.canonicalPath, lastGalleryPosition);
+      galleryPositions.set(renderedRoute.canonicalPath, [scrollX, scrollY]);
     }
   }
 
@@ -89,7 +87,7 @@ export function initNavigation({ render, moshTransitions } = {}) {
     event.preventDefault();
     remember();
     const restoreScroll = route.kind === 'work' && renderedRoute.kind === 'artwork'
-      ? galleryPositions.get(route.canonicalPath) || lastGalleryPosition : undefined;
+      ? galleryPositions.get(route.canonicalPath) : undefined;
     key = ++nextKey;
     const destination = route.redirectPath || `${url.pathname}${url.search}${url.hash}`;
     history.pushState({ h4NavigationKey: key }, '', destination);

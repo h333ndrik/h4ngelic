@@ -145,11 +145,10 @@ export function getPageMetadata(route, options = {}) {
   const contentReady = route.kind === 'home' || route.kind === 'about'
     || (route.kind === 'artwork' && isIndexableProject(route.project))
     || (route.kind === 'work' && projects.some((project) => isIndexableProject(project) && matchesArchive(project, route.category)));
-  // Legacy category documents now contain the same connected archive. Retain
-  // their working URLs, but consolidate search indexing on the Work document.
-  const archiveAlias = route.kind === 'work' && route.category !== 'all';
-  const indexable = config.indexing && Boolean(contentReady) && !archiveAlias;
-  const canonicalURL = route.kind !== 'not-found' && config.productionURL ? `${config.productionURL}${archiveAlias ? '/work' : route.canonicalPath}` : '';
+  // Category pages now contain distinct real collections. Keep each canonical
+  // identity; previews and incomplete artist metadata still remain noindex.
+  const indexable = config.indexing && Boolean(contentReady);
+  const canonicalURL = route.kind !== 'not-found' && config.productionURL ? `${config.productionURL}${route.canonicalPath}` : '';
   const image = imageMetadata(route.project?.seo?.image || realImages(route.project)[0] || seoContent.openGraphImage, config.productionURL);
   const metadata = {
     path: route.canonicalPath, status: route.kind === 'not-found' ? 404 : 200,

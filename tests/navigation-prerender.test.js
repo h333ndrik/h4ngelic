@@ -11,7 +11,7 @@ const shell = `<!doctype html><html lang="en" data-page="home"><head><!--seo:sta
 test('static routes expose exactly one shared NAAVI with real next destinations before JavaScript', () => {
   const cases = [
     ['/', 'home', '0', '4', '/#selected-work'],
-    ['/work', 'work', '1', '3', '/work#jewellery'],
+    ['/work', 'work', '1', '3', '/work/jewellery'],
     ['/work/more', 'work', '3', '3', '/'],
     ['/about', 'about', '1', '1', '/'],
     ['/contact', 'home', '0', '4', '/#selected-work'],

@@ -199,6 +199,10 @@ export function initGlobalNavigation(doc = document) {
   listen(link, 'click', event => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const state = naaviState(stops, current);
+    const currentURL = doc.documentElement.dataset.preview === 'standalone'
+      ? new URL(view.location.hash.slice(1) || '/', 'https://preview.invalid') : new URL(view.location.href);
+    const destinationURL = new URL(state.destination.href, currentURL);
+    if (destinationURL.pathname !== currentURL.pathname || destinationURL.search !== currentURL.search) return;
     const target = stops.find(stop => stop.id === state.destination.id && stop.href === state.destination.href)?.element;
     if (!target) return; // The normal route enhancer handles cross-route HOME.
     event.preventDefault();

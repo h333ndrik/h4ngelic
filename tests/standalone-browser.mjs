@@ -305,9 +305,9 @@ try {
         if (mobile) await mute.tap(); else await mute.click();
         assert.equal(await mute.getAttribute('aria-pressed'), 'true');
       }
-      await page.locator('#selected-work a').first().click();
+      await page.locator('#selected-work .category-link[href="#/work/tattoos"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
-      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="location"]')?.textContent.trim() === 'tattoos');
+      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="page"]')?.textContent.trim() === 'tattoos');
       assert.equal(await page.locator('#logo-canvas').isVisible(), false);
       const tattoos = page.locator('[data-horizontal-drift="tattoos"]');
       assert.equal(await tattoos.getAttribute('data-carousel-total'), '8');
@@ -332,15 +332,18 @@ try {
         'Work does not acquire a visible duplicate sound control.');
       if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true');
 
-      await page.locator('.archive-category-heading a[href="#/work#flashes"]').click();
-      await page.waitForFunction(() => location.hash === '#/work#flashes' && document.querySelector('#flashes').getBoundingClientRect().top < innerHeight);
-      assert.equal(await page.locator('.work-page h1').textContent(), '01 / WORKS', 'Anchor navigation keeps the connected Work document.');
-      await page.locator('.work-filters a[href="#/work#more"]').click();
-      await page.waitForFunction(() => location.hash === '#/work#more' && document.querySelector('#more').getBoundingClientRect().top < innerHeight);
-      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography']);
-      await page.locator('.archive-category-heading a[href="#/work#digital-artworks"]').click();
-      await page.waitForFunction(() => location.hash === '#/work#digital-artworks' && document.querySelector('#digital-artworks').getBoundingClientRect().top < innerHeight);
-      assert.equal(await page.locator('.portfolio-archive img').count(), 9, 'All eight supplied Tattoo photographs and the digital original are embedded.');
+      await page.locator('.archive-category-heading a[href="#/work/flashes"]').click();
+      await page.waitForFunction(() => location.hash === '#/work/flashes' && document.querySelector('[data-work-context="flashes"]'));
+      assert.equal(await page.locator('.work-page h1').textContent(), 'FLASHES', 'The standalone Flash category is a real route with its own heading.');
+      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['flashes']);
+      await page.locator('.work-filters a[href="#/work/more"]').click();
+      await page.waitForFunction(() => location.hash === '#/work/more' && document.querySelector('[data-work-context="more"]'));
+      assert.equal(await page.locator('.work-page h1').textContent(), 'MORE');
+      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['digital-artworks', 'analog-photography']);
+      await page.locator('.archive-category-heading a[href="#/work/digital-artworks"]').click();
+      await page.waitForFunction(() => location.hash === '#/work/digital-artworks' && document.querySelector('[data-work-context="digital-artworks"]'));
+      assert.equal(await page.locator('.work-page h1').textContent(), 'DIGITAL ARTWORKS');
+      assert.equal(await page.locator('.portfolio-archive img').count(), 1, 'The Digital route embeds its real image without unrelated Tattoo slides.');
       const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
       await original.evaluate(image => image.decode());
       assert.match(await original.getAttribute('src'), /^data:image\//, 'Offline artwork uses an embedded image.');

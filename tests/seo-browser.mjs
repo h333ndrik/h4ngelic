@@ -93,8 +93,7 @@ try {
     assert.ok(metadata.title.length > 10);
     assert.equal(metadata.horizontalOverflow, 0, `${path} must fit the no-JS desktop viewport.`);
     assert.ok(metadata.description.length > 25);
-    const archiveAlias = path.startsWith('/work/') && !isArtwork(path);
-    assert.equal(metadata.canonical, `${origin}${archiveAlias ? '/work' : path}`);
+    assert.equal(metadata.canonical, `${origin}${path}`);
     assert.equal(metadata.ogTitle, metadata.title);
     assert.equal(metadata.ogDescription, metadata.description);
     assert.equal(metadata.ogURL, metadata.canonical);
@@ -120,7 +119,7 @@ try {
       assert.equal(await page.locator('[data-naavi]').isVisible(), true, 'The single NAAVI remains usable without JavaScript.');
       assert.equal(await page.locator('[data-naavi]').getAttribute('href'), '/#selected-work');
       assert.equal(await page.locator('.hero').count(), 1);
-      assert.equal(await page.locator('#selected-work .category-link[href="/work#tattoos"]').count(), 1);
+      assert.equal(await page.locator('#selected-work .category-link[href="/work/tattoos"]').count(), 1);
       assert.deepEqual(await page.locator('#selected-work .category-link').allTextContents(), ['tattoos', 'jewellery', 'more']);
       assert.equal(await page.locator('#selected-work .category-sublinks').count(), 0);
       assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
@@ -154,23 +153,26 @@ try {
         assert.equal(artwork.dateCreated, undefined, 'No creation year is inferred from the supplied photograph.');
       } else if (path.startsWith('/work')) {
         const category = path.split('/')[2] || 'all';
-        const expectedEmpty = category === 'paintings' ? 4 : 3;
-        assert.deepEqual(await page.locator('.archive-empty').allTextContents(), Array(expectedEmpty).fill('archive in progress.'));
-        assert.equal(await page.locator('.portfolio-archive img').count(), 9,
-          'Connected Work retains all eight supplied Tattoo photographs and the digital original in every category context.');
-        assert.equal(await page.locator('.portfolio-archive .project-image').count(), 9, 'Only the nine genuine supplied images have figures; remaining empty categories do not invent artwork.');
-        assert.equal(await page.locator('[data-horizontal-drift="tattoos"] [data-drift-item]').count(), 8);
-        assert.equal(await page.locator('[data-horizontal-drift="tattoos"]').getAttribute('data-carousel-total'), '8');
-        assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)),
-          ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography', ...(category === 'paintings' ? ['paintings'] : [])]);
-        assert.match(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('src'), /green-black-original/);
-        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('width'), '1440');
-        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('height'), '1920');
-        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').isVisible(), true,
-          'Without JavaScript, the actual original stays visible and needs no reveal interaction.');
+        const expected = {
+          all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
+          tattoos: ['tattoos', 'flashes'], flashes: ['flashes'], jewellery: ['jewellery'],
+          more: ['digital-artworks', 'analog-photography'], 'digital-artworks': ['digital-artworks'],
+          'analog-photography': ['analog-photography'], paintings: ['paintings'],
+        }[category];
+        assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)), expected);
+        const photos = expected.includes('tattoos') ? 8 : 0, digital = expected.includes('digital-artworks') ? 1 : 0;
+        assert.equal(await page.locator('.portfolio-archive .project-image').count(), photos + digital);
+        assert.equal(await page.locator('[data-horizontal-drift="tattoos"] [data-drift-item]').count(), photos);
+        if (digital) {
+          const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
+          assert.match(await original.getAttribute('src'), /green-black-original/);
+          assert.equal(await original.getAttribute('width'), '1440'); assert.equal(await original.getAttribute('height'), '1920');
+          assert.equal(await original.isVisible(), true, 'Real Digital artwork is visible without an ink reveal.');
+        }
         assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
-          ['/work#tattoos', '/work#jewellery', '/work#more']);
-        assert.equal(await page.locator('.work-page .page-heading').innerText(), '01 / WORKS');
+          ['/work/tattoos', '/work/jewellery', '/work/more']);
+        const label = category === 'all' ? '01 / WORKS' : category.replaceAll('-', ' ').toUpperCase();
+        assert.equal(await page.locator('.work-page .page-heading').innerText(), label);
         assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);
       } else {
         assert.match(metadata.text, /hi, i'm hendrik\./);

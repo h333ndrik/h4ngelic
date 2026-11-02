@@ -5,8 +5,8 @@ import { contentURL } from './content-utils.js';
 export const contactURL = (artworkId = '') => `/${artworkId ? `?artwork=${encodeURIComponent(artworkId)}` : ''}#contact`;
 
 export const categoryURL = (category) => `/work/${encodeURIComponent(category)}`;
-/** New navigation uses one connected Work document; old category URLs remain valid. */
-export const workAnchorURL = (category) => category === 'all' ? '/work' : `/work#${encodeURIComponent(category)}`;
+/** Compatibility export: rubric destinations are real routes, never hash tabs. */
+export const workAnchorURL = (category) => category === 'all' ? '/work' : categoryURL(category);
 export const categoryById = (id) => siteContent.categories.find((category) => category.id === id);
 export const groupById = (id) => siteContent.workGroups.find((group) => group.id === id);
 const knownCategory = (category) => Boolean(categoryById(category));
@@ -15,7 +15,7 @@ const knownArchive = (category) => knownCategory(category) || Boolean(groupById(
 /** Shared category matching for rendering, metadata and group navigation. */
 export function matchesArchive(project, category = 'all') {
   return category === 'all' || project.category === category
-    || (!knownCategory(category) && groupById(category)?.children.includes(project.category));
+    || Boolean(groupById(category)?.children.includes(project.category));
 }
 
 export function projectURL(project) {

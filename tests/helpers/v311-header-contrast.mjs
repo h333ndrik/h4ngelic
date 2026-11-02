@@ -112,17 +112,19 @@ export async function checkFloatingHeaderContrast(page, { profile, world, output
   } finally { await page.evaluate(() => document.querySelector('#f14-palette-probe')?.remove()); }
   // Existing suite verifies native INDEX geometry/open/focus and active routes.
   // Add explicit permanent blend checks while those real states are active.
-  if (route === 'work') {
-    await page.evaluate(() => document.querySelector('#tattoos').scrollIntoView({ behavior: 'instant', block: 'start' }));
-    await page.waitForFunction(() => document.querySelector('.work-filters [aria-current], .work-filters .is-active'));
-  }
-  const selected = page.locator(route === 'work' ? '.work-filters [aria-current], .work-filters .is-active' : '.hero-nav a').first();
+  // Real category routes expose a current page; the complete /work archive
+  // intentionally has no current category. Neither case becomes a scroll tab.
+  const current = page.locator('.work-filters [aria-current], .work-filters .is-active').first();
+  const selected = route === 'work'
+    ? await current.count() ? current : page.locator('.work-filters a').first()
+    : page.locator('.hero-nav a').first();
   await selected.focus(); await frames(page);
   const focus = await selected.evaluate(element => ({ focused: element === document.activeElement,
     color: getComputedStyle(element).color, underline: getComputedStyle(element).textDecorationLine,
-    outline: getComputedStyle(element).outlineStyle, blend: getComputedStyle(element.parentElement).mixBlendMode }));
+    outline: getComputedStyle(element).outlineStyle, blend: getComputedStyle(element.parentElement).mixBlendMode,
+    active: element.hasAttribute('aria-current') || element.classList.contains('is-active') }));
   assert.equal(focus.focused, true); assert.equal(focus.color, 'rgb(255, 255, 255)');
-  if (route === 'work') assert.ok(focus.underline.includes('underline'));
+  if (route === 'work' && focus.active) assert.ok(focus.underline.includes('underline'));
   assert.notEqual(focus.outline, 'none');
   assert.ok(['difference', 'exclusion'].includes(focus.blend));
   await page.evaluate(() => document.activeElement?.blur());

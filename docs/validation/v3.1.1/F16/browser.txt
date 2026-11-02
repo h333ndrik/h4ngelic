@@ -1,0 +1,12 @@
+CHECK F16 category routes 1440px reduced=false
+PASS F16 1440px reduced=false: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.
+CHECK F16 category routes 1440px reduced=true
+PASS F16 1440px reduced=true: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.
+CHECK F16 category routes 390px reduced=false
+PASS F16 390px reduced=false: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.
+CHECK F16 category routes 390px reduced=true
+PASS F16 390px reduced=true: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.
+CHECK F16 category routes 320px reduced=false
+PASS F16 320px reduced=false: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.
+CHECK F16 category routes 320px reduced=true
+PASS F16 320px reduced=true: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.

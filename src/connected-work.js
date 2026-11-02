@@ -1,25 +1,17 @@
-/** Observe actual major sections, without a pointer/scroll render loop. The
- * same Work nodes survive anchor navigation and preserve every carousel pose. */
+import { siteContent } from './data/siteContent.js';
+
+/** Route links keep a truthful current-page state. Scrolling cannot turn a
+ * different category destination into a tab or silently change the URL. */
 export function initConnectedWork(root = document) {
   const page = root.querySelector('[data-connected-work]');
-  if (!page || typeof IntersectionObserver === 'undefined') return () => {};
-  const links = [...page.querySelectorAll('.work-filters a')];
-  const sections = ['tattoos', 'jewellery', 'more'].map(id => page.querySelector(`#${id}`)).filter(Boolean);
-  const visible = new Set();
-  const observer = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) visible.add(entry.target);
-      else visible.delete(entry.target);
-    }
-    const section = sections.find(element => visible.has(element));
-    for (const link of links) {
-      const active = section ? link.hash === `#${section.id}` || link.hash.endsWith(`#${section.id}`)
-        : !link.hash || link.hash === '#/work';
-      link.classList.toggle('is-active', active);
-      if (active) link.setAttribute('aria-current', 'location');
-      else link.removeAttribute('aria-current');
-    }
-  }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
-  sections.forEach(section => observer.observe(section));
-  return () => { observer.disconnect(); visible.clear(); };
+  if (!page) return () => {};
+  const selected = page.dataset.workContext;
+  const group = siteContent.workGroups.find(entry => entry.id === selected || entry.children.includes(selected));
+  for (const link of page.querySelectorAll('.work-filters a')) {
+    const active = Boolean(group && link.getAttribute('href')?.replace(/^#(?=\/)/, '').split('#')[0] === `/work/${group.id}`);
+    link.classList.toggle('is-active', active);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  }
+  return () => {};
 }
