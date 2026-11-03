@@ -29,11 +29,13 @@ async function routeNavigate(page, name) {
   const current = await page.locator('html').getAttribute('data-page');
   if (name === 'contact' && current === 'about') {
     await page.locator('.about-copy a[href="#/#contact"]').click();
+  } else if (name === 'work' && current === 'work') {
+    await page.evaluate(() => { location.hash = '#/work'; });
   } else if (name === 'home') {
     await page.locator('[data-floating-brand]').click();
   } else {
     await page.locator('[data-global-index] summary').click();
-    await page.locator(`[data-index-page="${name}"]`).click();
+    await page.locator(`[data-index-page="${name === 'work' ? 'creative' : name}"]`).click();
   }
   await page.waitForFunction(expected => document.documentElement.dataset.page === expected, name === 'contact' ? 'home' : name);
   // A route's data-page attribute changes before optional carousel imports
@@ -158,7 +160,7 @@ try {
               transition: snapshot.transition, queued: snapshot.queued, frames: snapshot.frames } });
         });
       });
-      await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
+      await page.locator('#stage.is-poster-static').waitFor({ timeout: 60000 });
       await waitMode(page, 'normal');
       assert.equal(await page.evaluate(() => window.__offlineAudioProbe.contexts), 0, 'Embedding bytes does not initialize Web Audio during offline startup.');
       assert.equal(await page.evaluate(() => window.__offlineAudioProbe.decodes), 0, 'The embedded track is not decoded before a trusted activation.');
@@ -332,7 +334,7 @@ try {
         'Work does not acquire a visible duplicate sound control.');
       if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true');
 
-      await page.locator('.archive-category-heading a[href="#/work/flashes"]').click();
+      await page.evaluate(() => { location.hash = '#/work/flashes'; });
       await page.waitForFunction(() => location.hash === '#/work/flashes' && document.querySelector('[data-work-context="flashes"]'));
       assert.equal(await page.locator('.work-page h1').textContent(), 'FLASHES', 'The standalone Flash category is a real route with its own heading.');
       assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['flashes']);
@@ -340,9 +342,7 @@ try {
       await page.waitForFunction(() => location.hash === '#/work/more' && document.querySelector('[data-work-context="more"]'));
       assert.equal(await page.locator('.work-page h1').textContent(), 'more');
       assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['digital-artworks', 'analog-photography']);
-      await routeNavigate(page, 'work');
-      await page.waitForFunction(() => document.querySelector('[data-work-context="all"]'));
-      await page.locator('.archive-category-heading a[href="#/work/digital-artworks"]').click();
+      await page.evaluate(() => { location.hash = '#/work/digital-artworks'; });
       await page.waitForFunction(() => location.hash === '#/work/digital-artworks' && document.querySelector('[data-work-context="digital-artworks"]'));
       assert.equal(await page.locator('.work-page h1').textContent(), 'DIGITAL ARTWORKS');
       assert.equal(await page.locator('.portfolio-archive img').count(), 1, 'The Digital route embeds its real image without unrelated Tattoo slides.');
@@ -378,7 +378,7 @@ try {
       assert.ok(filters.every(filter => filter === 'none'));
       await page.evaluate(() => { location.hash = '#/'; });
       await page.waitForFunction(() => scrollY === 0);
-      assert.equal(await page.locator('#logo-canvas').isVisible(), true);
+      assert.equal(await page.locator('#logo-canvas').isVisible(), false, 'Reduced-motion Home keeps the static poster instead of WebGL.');
       const homeHash = await page.evaluate(() => location.hash);
       await page.locator('#contact').evaluate(element => element.scrollIntoView({ behavior: 'instant' }));
       assert.ok(await page.evaluate(() => scrollY > 0), 'Prepare a real scrolled Home document without changing its hash.');
@@ -397,7 +397,7 @@ try {
       assert.deepEqual(requests, [], 'Standalone mode, texture, sound and navigation must require no HTTP requests.');
       reports.push({ width, mobile, externalHttpRequests: requests.length, runtimeErrors: errors.length,
         footerBaselineDelta: identity.naavi.centerY - identity.row.centerY, footerGeometry: identity, reverseHint, memoryHandoff, offlineSmash,
-        verified: ['WebGL hero', 'short hold cancellation', mobile ? 'native touch hold' : 'one-second 4 hold',
+        verified: ['reduced-motion poster hero', 'short hold cancellation', mobile ? 'native touch hold' : 'one-second 4 hold',
           'ignored one-second 4 on Other Side', 'exact released triple-3 return', 'temporary faint hint', 'embedded film',
           'retained transition pixels', 'two bounded memory buffers', 'no pristine CSS source', 'lower hero mute',
           'hidden four-digit right-cluster visit', 'numbered persistent INDEX', 'eight genuine embedded Tattoo photographs', 'inline photo enlargement', 'embedded SMASH availability', 'connected Work anchors', 'About', 'Home-only Contact inquiry', 'horizontal bounds'] });

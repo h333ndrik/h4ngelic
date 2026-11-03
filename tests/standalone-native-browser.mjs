@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { writeFile, readFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
-const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', headless: true,
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const errors = [];
 const external = [];
