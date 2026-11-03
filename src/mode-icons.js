@@ -9,7 +9,6 @@ export function initModeIcons(doc = document) {
   if (controllers.has(doc)) return controllers.get(doc);
   const view = doc.defaultView;
   const finePointer = view.matchMedia('(hover: hover) and (pointer: fine)');
-  const reducedMotion = view.matchMedia('(prefers-reduced-motion: reduce)');
   const originals = new Map([...doc.querySelectorAll('[data-mode-icon]')].map(link => [link, link.getAttribute('href')]));
   const warmed = new Set();
   const images = new Set();
@@ -26,7 +25,6 @@ export function initModeIcons(doc = document) {
     const sources = Object.values(settings.favicon.other);
     if (finePointer.matches) {
       sources.push(settings.cursor.other.base);
-      if (!reducedMotion.matches) sources.push(settings.cursor.other.hover, settings.cursor.other.pressed);
     }
     for (const href of sources) {
       if (warmed.has(href)) continue;

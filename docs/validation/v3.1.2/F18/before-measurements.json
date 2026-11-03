@@ -1,0 +1,305 @@
+{
+  "capturedAt": "2026-11-03T04:21:28.571Z",
+  "base": "http://127.0.0.1:55173",
+  "reports": {
+    "F18": {
+      "body": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+      "summary": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer",
+      "target": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, pointer",
+      "targetHover": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer",
+      "summaryHover": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, pointer",
+      "targetActive": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-pressed.svg\") 9 2, pointer"
+    },
+    "F19": {
+      "cards": [
+        {
+          "width": 299.70184326171875,
+          "height": 736.577392578125,
+          "imgWidth": 299.70184326171875,
+          "imgHeight": 376.70574951171875,
+          "fit": "contain",
+          "scale": 0.99898,
+          "is3d": true
+        },
+        {
+          "width": 299.73931884765625,
+          "height": 715.98486328125,
+          "imgWidth": 283.1319580078125,
+          "imgHeight": 407.55303955078125,
+          "fit": "contain",
+          "scale": 0.944843,
+          "is3d": true
+        },
+        {
+          "width": 321.8582763671875,
+          "height": 700.3675537109375,
+          "imgWidth": 314.9202880859375,
+          "imgHeight": 398.825927734375,
+          "fit": "contain",
+          "scale": 0.899896,
+          "is3d": true
+        }
+      ],
+      "perspective": "900px"
+    },
+    "F20": {
+      "poster": 0,
+      "canvas": 1,
+      "cls": 0,
+      "head": []
+    },
+    "F21-1440": {
+      "top": 236.3125,
+      "bottom": 255.90625,
+      "left": 627.296875,
+      "right": 812.703125,
+      "position": "absolute",
+      "center": 720,
+      "brand": {
+        "left": 35,
+        "right": 114.90625,
+        "top": 21,
+        "bottom": 65
+      },
+      "index": {
+        "left": 1374,
+        "right": 1418,
+        "top": 21,
+        "bottom": 65
+      },
+      "viewport": 1440
+    },
+    "F21-390": {
+      "top": 74,
+      "bottom": 90.796875,
+      "left": 115.5390625,
+      "right": 274.4609375,
+      "position": "absolute",
+      "center": 195,
+      "brand": {
+        "left": 22,
+        "right": 84.328125,
+        "top": 16,
+        "bottom": 60
+      },
+      "index": {
+        "left": 336,
+        "right": 380,
+        "top": 16,
+        "bottom": 60
+      },
+      "viewport": 390
+    },
+    "F21-320": {
+      "top": 74,
+      "bottom": 90.796875,
+      "left": 80.5390625,
+      "right": 239.4609375,
+      "position": "absolute",
+      "center": 160,
+      "brand": {
+        "left": 22,
+        "right": 80.875,
+        "top": 16,
+        "bottom": 60
+      },
+      "index": {
+        "left": 266,
+        "right": 310,
+        "top": 16,
+        "bottom": 60
+      },
+      "viewport": 320
+    },
+    "F22": {
+      "heroBarShift": "",
+      "heroBarOpacity": "0.3779",
+      "bars": [
+        {
+          "opacity": "0.3779",
+          "transform": "none",
+          "inert": false
+        },
+        {
+          "opacity": "0.3779",
+          "transform": "none",
+          "inert": false
+        }
+      ]
+    },
+    "F23-1440": {
+      "intro": {
+        "left": 78.1875,
+        "right": 692.171875,
+        "top": 313.4375,
+        "bottom": 428.625
+      },
+      "form": {
+        "left": 78.1875,
+        "right": 1178.1875,
+        "top": 503.625,
+        "bottom": 1126.6875
+      },
+      "inquiry": {
+        "left": 78.1875,
+        "right": 1178.1875
+      },
+      "overflow": 0
+    },
+    "F23-390": {
+      "intro": {
+        "left": 34,
+        "right": 302.609375,
+        "top": 174.03125,
+        "bottom": 224.40625
+      },
+      "form": {
+        "left": 34,
+        "right": 368,
+        "top": 258.40625,
+        "bottom": 906.46875
+      },
+      "inquiry": {
+        "left": 34,
+        "right": 368
+      },
+      "overflow": 0
+    },
+    "F23-320": {
+      "intro": {
+        "left": 34,
+        "right": 298,
+        "top": 173.984375,
+        "bottom": 224.359375
+      },
+      "form": {
+        "left": 34,
+        "right": 298,
+        "top": 258.359375,
+        "bottom": 925.609375
+      },
+      "inquiry": {
+        "left": 34,
+        "right": 298
+      },
+      "overflow": 0
+    },
+    "F24": {
+      "minimumDurationMs": 1400,
+      "maximumDurationMs": 1400,
+      "framesPerSecond": 20,
+      "displacementPx": 180,
+      "smearPx": 220,
+      "channelOffsetPx": 9,
+      "colorStrength": 0.86,
+      "columns": 18,
+      "rows": 12,
+      "fallback": false
+    },
+    "F25": {
+      "title": "h4ngelic",
+      "headings": [
+        {
+          "text": "flashes",
+          "tag": "H3",
+          "id": "archive-flashes-title",
+          "anchor": "/work/flashes",
+          "arrow": true,
+          "className": "archive-category-heading rubric-category-heading"
+        },
+        {
+          "text": "3d model",
+          "tag": "H3",
+          "id": "archive-model-title",
+          "anchor": null,
+          "arrow": false,
+          "className": "archive-category-heading"
+        }
+      ],
+      "filters": [
+        "tattoos",
+        "jewellery",
+        "more"
+      ],
+      "viewWork": 0,
+      "cross": [
+        "jewellery",
+        "more"
+      ],
+      "hiddenH1": {
+        "width": 0,
+        "height": 0
+      }
+    },
+    "F26": {
+      "title": "h4ngelic",
+      "headings": [
+        {
+          "text": "digital artworks",
+          "tag": "H3",
+          "id": "archive-digital-artworks-title",
+          "anchor": "/work/digital-artworks",
+          "arrow": true,
+          "className": "archive-category-heading rubric-category-heading"
+        },
+        {
+          "text": "analog photography",
+          "tag": "H3",
+          "id": "archive-analog-photography-title",
+          "anchor": "/work/analog-photography",
+          "arrow": true,
+          "className": "archive-category-heading rubric-category-heading"
+        }
+      ],
+      "filters": [
+        "tattoos",
+        "jewellery",
+        "more"
+      ],
+      "viewWork": 1,
+      "cross": [
+        "tattoos",
+        "jewellery"
+      ],
+      "hiddenH1": {
+        "width": 0,
+        "height": 0
+      }
+    },
+    "F27": {
+      "title": "h4ngelic",
+      "headings": [
+        {
+          "text": "flashes",
+          "tag": "H3",
+          "id": "archive-flashes-title",
+          "anchor": "/work/flashes",
+          "arrow": true,
+          "className": "archive-category-heading rubric-category-heading"
+        },
+        {
+          "text": "3d model",
+          "tag": "H3",
+          "id": "archive-model-title",
+          "anchor": null,
+          "arrow": false,
+          "className": "archive-category-heading"
+        }
+      ],
+      "filters": [
+        "tattoos",
+        "jewellery",
+        "more"
+      ],
+      "viewWork": 0,
+      "cross": [
+        "jewellery",
+        "more"
+      ],
+      "hiddenH1": {
+        "width": 0,
+        "height": 0
+      }
+    }
+  }
+}

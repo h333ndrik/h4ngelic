@@ -56,7 +56,7 @@ async function cursorCoverage(page,profile,world) {
     const target=page.locator(kind==='home'?'[data-inquiry-submit]':kind==='about'?'[data-floating-brand]':'[data-naavi]');
     await target.hover();
     const hover=await target.evaluate(el=>getComputedStyle(el).cursor);
-    assert.ok(hover.includes(profile.reduced?world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg':world==='xray'?'h4ngelic-cursor-other-hover-r09.svg':'h4ngelic-cursor-hover.svg'));
+    assert.ok(hover.includes(world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg'),'Hover uses the same constant mode cursor.');
     records.push({kind,cursors,hover});await page.mouse.move(1,1);
   }
   await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
@@ -150,9 +150,7 @@ async function workChrome(page,profile,world) {
   if(profile.width>=600) {
     const naavi=page.locator('[data-naavi]');await naavi.hover();
     const cursors=await naavi.evaluate(el=>({outer:getComputedStyle(el).cursor,digit:getComputedStyle(el.querySelector('.chapter-digit')).cursor,total:getComputedStyle(el.querySelector('.chapter-total')).cursor}));
-    const expected=profile.reduced
-      ? world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg'
-      : world==='xray'?'h4ngelic-cursor-other-hover-r09.svg':'h4ngelic-cursor-hover.svg';
+    const expected=world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg';
     for(const value of Object.values(cursors)) assert.ok(value.includes(expected),'NAAVI and its slash use the primary interactive h4 cursor.');
     await page.mouse.move(1,1);
   }
