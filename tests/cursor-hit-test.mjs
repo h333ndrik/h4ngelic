@@ -37,17 +37,41 @@ function accepted(sample, mode) {
   return expected === 'none' ? sample.cursor === 'none' : expected.test(sample.cursor);
 }
 
+async function overlayAt(page, x, y) {
+  return page.evaluate(({ x, y }) => {
+    const overlay = document.querySelector('[data-h4-cursor]');
+    const image = overlay?.querySelector('img');
+    if (!overlay || !image) return { exists: false };
+    const style = getComputedStyle(overlay), box = overlay.getBoundingClientRect();
+    return { exists: true, opacity: Number(style.opacity), visibility: style.visibility, display: style.display,
+      pointerEvents: style.pointerEvents, left: box.left, top: box.top, width: box.width, height: box.height,
+      xError: box.left + 9 - x, yError: box.top + 2 - y,
+      containsPointer: x >= box.left && x <= box.right && y >= box.top && y <= box.bottom,
+      imageLoaded: image.complete && image.naturalWidth > 0, naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight };
+  }, { x, y });
+}
+
+function overlayAccepted(overlay, mode) {
+  if (mode === 'xray') return !overlay.exists || overlay.opacity === 0 || overlay.visibility === 'hidden';
+  return overlay.exists && overlay.opacity === 1 && overlay.visibility === 'visible' && overlay.display !== 'none'
+    && overlay.pointerEvents === 'none' && overlay.width > 0 && overlay.height > 0
+    && overlay.containsPointer && Math.abs(overlay.xError) <= .25 && Math.abs(overlay.yError) <= .25
+    && overlay.imageLoaded && overlay.naturalWidth > 0 && overlay.naturalHeight > 0;
+}
+
 async function checkPoint(page, { label, x, y, mode = 'blanket', offenders, counts }) {
   await page.mouse.move(x, y);
   const sample = await pointAt(page, x, y);
+  const overlay = await overlayAt(page, x, y);
   counts.points += 1;
   if (!label.includes(':')) counts.regions[label] = (counts.regions[label] || 0) + 1;
   counts.cursors[sample.cursor] = (counts.cursors[sample.cursor] || 0) + 1;
-  if (!accepted(sample, mode)) {
-    offenders.push({ label, ...sample,
+  counts.overlayVisible = (counts.overlayVisible || 0) + (overlayAccepted(overlay, mode) ? 1 : 0);
+  if (!accepted(sample, mode) || !overlayAccepted(overlay, mode)) {
+    offenders.push({ label, ...sample, overlay,
       className: sample.className, top: `${sample.tag}${sample.id ? `#${sample.id}` : ''}${sample.className ? `.${sample.className.trim().replace(/\s+/g, '.')}` : ''}` });
   }
-  return sample;
+  return { ...sample, overlay };
 }
 
 async function scanViewport(page, { label, width, height, mode, offenders, counts, step = 24 }) {
@@ -214,7 +238,7 @@ try {
     throw error;
   } finally { await context.close(); await save(); }
 
-  console.log(`PASS cursor hit map: ${report.profiles.map(item => `${item.width}px ${item.points}`).join(', ')}; xray ${report.xray.points}; zero foreign cursors.`);
+  console.log(`PASS cursor hit map: ${report.profiles.map(item => `${item.width}px ${item.points}`).join(', ')}; xray ${report.xray.points}; zero foreign cursors, logo overlay aligned at every blanket point.`);
 } catch (error) {
   await save();
   throw error;

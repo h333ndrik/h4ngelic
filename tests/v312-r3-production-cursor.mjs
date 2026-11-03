@@ -20,6 +20,8 @@ assert.ok(declarations.some(value => /^cursor:none!important$/.test(value)), 'Th
 assert.ok(css.endsWith(defense), 'The xray allowlist plus blanket rule are the final emitted CSS.');
 assert.match(css, /html\.h4-custom-cursor\{cursor:var\(--h4-native-cursor\)\}/);
 assert.doesNotMatch(index, /cursor:\s*(?:pointer|grab|grabbing|wait|auto|default)/i, 'The document contains no secondary cursor declaration.');
+assert.match(index, /data-h4-cursor/, 'The production shell contains the real pointer overlay.');
+assert.match(index, /data-cursor-preload/, 'The overlay artwork is preloaded before the app bundle.');
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage'] });
@@ -36,6 +38,22 @@ try {
   assert.match(marker.html, /^[a-f0-9]{7,40}$/i);
   assert.equal(marker.meta, marker.html);
   assert.equal(marker.cursorClass, true, 'Inline head JavaScript activates the blanket cursor contract without the app bundle.');
+  await page.mouse.move(240, 180);
+  const overlay = await page.evaluate(() => {
+    const node = document.querySelector('[data-h4-cursor]'), image = node?.querySelector('img'), style = node ? getComputedStyle(node) : null;
+    const box = node?.getBoundingClientRect();
+    return { exists: Boolean(node), opacity: Number(style?.opacity || 0), visibility: style?.visibility || 'missing',
+      display: style?.display || 'missing', pointerEvents: style?.pointerEvents || 'missing', box: box?.toJSON() || null,
+      xError: box ? box.left + 9 - 240 : Infinity, yError: box ? box.top + 2 - 180 : Infinity,
+      imageLoaded: Boolean(image?.complete && image?.naturalWidth > 0) };
+  });
+  assert.equal(overlay.exists, true);
+  assert.equal(overlay.opacity, 1);
+  assert.equal(overlay.visibility, 'visible');
+  assert.equal(overlay.pointerEvents, 'none');
+  assert.ok(overlay.box.width > 0 && overlay.box.height > 0);
+  assert.ok(Math.abs(overlay.xError) <= .25 && Math.abs(overlay.yError) <= .25, `The overlay hotspot follows the pointer: ${JSON.stringify(overlay)}`);
+  assert.equal(overlay.imageLoaded, true);
   const withClass = await findCursorOffenders(page);
   assert.equal(withClass.mode, 'blanket');
   assert.deepEqual(withClass.offenders, []);
@@ -57,7 +75,7 @@ try {
     assert.equal(active.ok, true, `${selector} active`);
     states.push({ selector, rest: rest.cursor, hover: hover.cursor, focus: focus.cursor, active: active.cursor });
   }
-  report.marker = marker; report.withClass = withClass; report.withoutClass = withoutClass; report.states = states;
+  report.marker = marker; report.overlay = overlay; report.withClass = withClass; report.withoutClass = withoutClass; report.states = states;
 
   const noScript = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1,
     javaScriptEnabled: false });
@@ -68,15 +86,18 @@ try {
     const sample = selector => getComputedStyle(document.querySelector(selector)).cursor;
     return { cursorClass: html.classList.contains('h4-custom-cursor'), dataCursor: html.dataset.cursor || '',
       body: getComputedStyle(body).cursor, link: sample('.floating-brand'), naavi: sample('[data-naavi]'),
-      footer: sample('.footer-moshlab') };
+      footer: sample('.footer-moshlab'), overlayOpacity: Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity),
+      overlayVisibility: getComputedStyle(document.querySelector('[data-h4-cursor]')).visibility };
   });
   assert.equal(staticReport.cursorClass, false, 'With all JavaScript disabled there is no custom-cursor class.');
   assert.equal(staticReport.dataCursor, '');
   for (const [label, cursor] of Object.entries(staticReport)) {
-    if (['cursorClass', 'dataCursor'].includes(label)) continue;
+    if (['cursorClass', 'dataCursor', 'overlayOpacity', 'overlayVisibility'].includes(label)) continue;
     assert.notEqual(cursor, 'none', `${label} keeps a system cursor without JavaScript.`);
     assert.doesNotMatch(cursor, /h4ngelic-cursor/, `${label} does not request the custom cursor without JavaScript.`);
   }
+  assert.equal(staticReport.overlayOpacity, 0);
+  assert.equal(staticReport.overlayVisibility, 'hidden');
   report.noScript = staticReport;
   await noScript.close();
 

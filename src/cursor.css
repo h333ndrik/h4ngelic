@@ -8,6 +8,7 @@
     --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto;
   }
   html.h4-custom-cursor { cursor: var(--h4-native-cursor); }
+  [data-h4-cursor] { pointer-events: none !important; }
   /* The mode-scoped material cursor is the sole allowlisted escape hatch. */
   html.h4-custom-cursor[data-cursor='xray'],
   html.h4-custom-cursor [data-cursor='xray'],
