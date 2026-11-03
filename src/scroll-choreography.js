@@ -90,7 +90,7 @@ export function initScrollChoreography(root = document) {
   function updateHeroBar(position) {
     if (!hero) return;
     const sample = sampleHeroBar((position - heroTop) / heroHeight, { reduced: !animated });
-    setValue(hero, '--hero-bar-opacity', sample.opacity.toFixed(4));
+    setValue(hero, '--hero-bar-shift', `${sample.shift.toFixed(4)}%`);
     if (sample.hidden !== barHidden) {
       barHidden = sample.hidden;
       hero.dataset.heroBarState = sample.hidden ? 'hidden' : 'visible';
@@ -257,7 +257,7 @@ export function initScrollChoreography(root = document) {
       values.delete(stage);
     }
     if (hero) {
-      hero.style.removeProperty('--hero-bar-opacity');
+      hero.style.removeProperty('--hero-bar-shift');
       hero.removeAttribute('data-hero-bar-state');
       values.delete(hero);
       barHidden = null;

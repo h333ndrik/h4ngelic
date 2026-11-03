@@ -45,9 +45,12 @@
   transform-origin: 50% 50%;
 }
 
-/* Both existing bar halves share opacity and remain in their original layout.
-   Reduced motion switches the value instantly through the same scroll clock. */
-.hero :is(.controls, .hero-nav) { opacity: var(--hero-bar-opacity, 1); }
+/* Both existing bar halves translate out without changing layout or opacity.
+   Reduced motion switches the same value instantly through the scroll clock. */
+.hero :is(.controls, .hero-nav) {
+  opacity: 1;
+  transform: translate3d(0, var(--hero-bar-shift, 0%), 0);
+}
 .hero[data-hero-bar-state='hidden'] :is(.controls, .hero-nav) { pointer-events: none; }
 
 @media (prefers-reduced-motion: reduce) {

@@ -71,18 +71,18 @@ test('all editorial sections use the same native About approach without a sticky
   assert.equal('pin' in motionSettings, false);
 });
 
-test('the whole hero bar fades reversibly and is hidden before the next section fills the screen', () => {
-  assert.deepEqual(sampleHeroBar(0), { opacity: 1, hidden: false });
-  assert.deepEqual(sampleHeroBar(.55), { opacity: 0, hidden: true });
-  assert.deepEqual(sampleHeroBar(1), { opacity: 0, hidden: true });
+test('the whole hero bar translates out reversibly and is hidden before the next section fills the screen', () => {
+  assert.deepEqual(sampleHeroBar(0), { shift: 0, hidden: false });
+  assert.deepEqual(sampleHeroBar(.55), { shift: -100, hidden: true });
+  assert.deepEqual(sampleHeroBar(1), { shift: -100, hidden: true });
   const progress = [0, .02, .1, .25, .4, .55, .8, 1];
   const down = progress.map(p => sampleHeroBar(p));
   assert.deepEqual(down, progress.toReversed().map(p => sampleHeroBar(p)).toReversed());
-  assert.ok(down.slice(1).every((pose, index) => pose.opacity <= down[index].opacity));
-  assert.ok(sampleHeroBar(.25).opacity > 0 && sampleHeroBar(.25).opacity < 1);
+  assert.ok(down.slice(1).every((pose, index) => pose.shift <= down[index].shift));
+  assert.ok(sampleHeroBar(.25).shift < 0 && sampleHeroBar(.25).shift > -100);
 });
 
 test('reduced motion switches the hero bar instantly and remains reversible', () => {
-  for (const progress of [-1, 0, .2, .54]) assert.deepEqual(sampleHeroBar(progress, { reduced: true }), { opacity: 1, hidden: false });
-  for (const progress of [.55, .8, 1, 2]) assert.deepEqual(sampleHeroBar(progress, { reduced: true }), { opacity: 0, hidden: true });
+  for (const progress of [-1, 0, .2, .54]) assert.deepEqual(sampleHeroBar(progress, { reduced: true }), { shift: 0, hidden: false });
+  for (const progress of [.55, .8, 1, 2]) assert.deepEqual(sampleHeroBar(progress, { reduced: true }), { shift: -100, hidden: true });
 });

@@ -75,11 +75,12 @@ export function sampleHero(progress, settings = motionSettings.hero) {
   return { scale: 1 + (settings.scale - 1) * local, opacity: 1 - local };
 }
 
-/** The bar is completely gone before the next section fills the viewport. */
+/** Both bar halves translate completely out before the next section fills the
+ * viewport. Opacity stays at 1, so the exit is a physical compositor movement. */
 export function sampleHeroBar(progress, { reduced = false, settings = motionSettings.heroBar } = {}) {
-  const opacity = reduced ? Number(progress < settings.end)
-    : 1 - smoothProgress(progressBetween(progress, settings.start, settings.end));
-  return { opacity, hidden: opacity <= .001 };
+  const amount = reduced ? Number(progress >= settings.end)
+    : smoothProgress(progressBetween(progress, settings.start, settings.end));
+  return { shift: amount ? -100 * amount : 0, hidden: amount >= 1 };
 }
 
 // Compatibility exports for existing consumers. The kinetic implementation,
