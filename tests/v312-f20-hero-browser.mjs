@@ -51,15 +51,17 @@ try {
     }
     first.paintSamples = paintSamples;
     first.fcpMedian = [...paintSamples].sort((a, b) => a - b)[1];
-      assert.equal(first.poster, true); assert.ok(first.opacity >= .54, `The boot poster is visible during its breathe cycle: ${first.opacity}`); assert.match(first.background, /wordmark-fallback\.svg/);
+      assert.equal(first.poster, true); assert.ok(first.opacity >= .54, `The boot poster is visible during its breathe cycle: ${first.opacity}`); if (profile.reduced) assert.match(first.background, /wordmark-fallback\.svg/);
+      else assert.equal(first.background, 'none', 'The boot surface never paints the 2D wordmark.');
       assert.ok(first.fcpMedian < 100, `The critical poster must paint before 100ms in the warmed median: ${JSON.stringify(paintSamples)}`);
       if (profile.reduced) {
         assert.deepEqual(first.preloads, [], 'Reduced motion activates no WebGL/font/texture preloads.');
         await page.waitForTimeout(250);
         const state = await page.evaluate(() => ({ stage: document.querySelector('#stage').className,
           canvas: getComputedStyle(document.querySelector('#logo-canvas')).display,
-          poster: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity), lcp: window.__f20Lcp }));
+          poster: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity), background: getComputedStyle(document.querySelector('[data-hero-poster]')).backgroundImage, lcp: window.__f20Lcp }));
         assert.match(state.stage, /is-poster-static/); assert.equal(state.canvas, 'none'); assert.equal(state.poster, 1);
+        assert.match(state.background, /wordmark-fallback\.svg/, 'Reduced motion retains the text poster.');
         assert.ok(state.lcp <= 200, `Reduced-motion Home LCP stays inside the 200ms guard: ${state.lcp}ms`);
         assert.ok(!requests.some(request => /\/src\/main\.js|wordmark\.typeface|tattoo-texture/.test(request.url)));
       } else {

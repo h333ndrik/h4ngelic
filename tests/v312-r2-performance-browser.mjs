@@ -67,8 +67,10 @@ try {
     document.addEventListener('h4:heroready', () => {
       const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
       const style = getComputedStyle(canvas);
+      const matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
       window.__r3Entrance = { entering: stage.classList.contains('is-entering'), transitionProperty: style.transitionProperty,
-        transitionDuration: style.transitionDuration, opacity: Number(style.opacity), transform: style.transform };
+        transitionDuration: style.transitionDuration, opacity: Number(style.opacity), transform: style.transform,
+        translateY: matrix.m42, height: canvas.getBoundingClientRect().height };
     });
   });
   const entranceWarm = await entranceContext.newPage();
@@ -95,15 +97,17 @@ try {
     build: document.documentElement.dataset.build || '',
   }));
   assert.equal(entranceStart.entering, true);
-  assert.equal(entranceStart.opacity, 0);
-  assert.match(entranceStart.transform, /matrix\(0\.96, 0, 0, 0\.96, 0, 14\)/);
-  assert.match(entranceStart.transitionProperty, /opacity.*transform/);
-  assert.match(entranceStart.transitionDuration, /0\.45s.*1\.1s/);
-  const transformMs = Number(entranceStart.transitionDuration.split(',')[1].trim().replace('s', '')) * 1000;
+  assert.equal(entranceStart.opacity, 1);
+  assert.ok(entranceStart.translateY < -entranceStart.height * .5, `The logo starts above the hero: ${JSON.stringify(entranceStart)}`);
+  assert.equal(entranceStart.transitionProperty, 'transform');
+  assert.equal(entranceStart.transitionDuration, '1.1s');
+  const transformMs = Number(entranceStart.transitionDuration.replace('s', '')) * 1000;
   assert.ok(Math.abs(transformMs - 1100) <= 110, `Entrance transform duration is 1100ms ±10%: ${transformMs}ms`);
   assert.equal(entranceEnd.entering, false);
   assert.equal(entranceEnd.opacity, 1);
-  assert.equal(entranceEnd.transform, 'matrix(1, 0, 0, 1, 0, 0)');
+  const endMatrix = entranceEnd.transform.match(/matrix\(([^)]+)\)/)?.[1].split(',').map(Number) || [];
+  assert.equal(endMatrix.length, 6);
+  assert.ok(endMatrix.every((value, index) => Math.abs(value - [1, 0, 0, 1, 0, 0][index]) < 1e-6), `Entrance reaches identity: ${entranceEnd.transform}`);
   assert.equal(entranceEnd.posterOpacity, 0);
   assert.ok(entranceEnd.fcp <= 200, `Home FCP stays inside the 200ms guard: ${entranceEnd.fcp}ms`);
   assert.ok(entranceEnd.lcp <= 200, `Home LCP stays inside the 200ms guard: ${entranceEnd.lcp}ms`);
@@ -117,7 +121,7 @@ try {
   const mainChunks = (await readdir(new URL('../dist/assets/', import.meta.url))).filter(name => /^main-.*\.js$/.test(name));
   assert.deepEqual(mainChunks, [href.split('/').at(-1)], 'The modulepreload points at the single emitted main chunk.');
   const manifest = JSON.parse(await readFile(new URL('../dist/route-manifest.json', import.meta.url), 'utf8'));
-  assert.equal(manifest.routes.length, 18, 'The build remains 18 canonical routes plus 404.');
+  assert.equal(manifest.routes.length, 19, 'The build remains 19 canonical routes plus 404.');
   const distBytes = await directoryBytes(new URL('../dist/', import.meta.url));
   console.log(`PASS performance: ${reports.map(result => `${result.route}@${result.width} ${result.median.toFixed(2)}ms`).join(', ')}; preload ${href}; ${mainChunks.length} main chunk; routes ${manifest.routes.length}.`);
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, reports,

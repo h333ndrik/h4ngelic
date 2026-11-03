@@ -33,12 +33,14 @@
       .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
       .hero { position: relative; min-height: 540px; height: 100svh; overflow: hidden; }
       .hero > .stage { position: absolute; inset: 0; }
-      .hero .fallback { position: absolute; inset: 0; background: var(--hero-poster-image) center / 67% auto no-repeat; opacity: 1; pointer-events: none; transition: opacity var(--hero-poster-fade) ease; }
-      .hero #logo-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; transform: translate3d(0, 14px, 0) scale(.96); transition: opacity 450ms ease, transform 1100ms cubic-bezier(.16, 1, .3, 1); }
-      .hero .stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-      .hero .stage.is-entering #logo-canvas { will-change: transform, opacity; }
+      .hero .fallback { position: absolute; inset: 0; background: #242424; opacity: 1; pointer-events: none; transition: opacity var(--hero-poster-fade) ease; }
+      .hero .stage.is-poster-static .fallback, .hero .stage.is-boot-failed .fallback,
+      html:not(.h4-custom-cursor) .hero .fallback { background: var(--hero-poster-image) center / 67% auto no-repeat #242424; }
+      .hero #logo-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 1; transform: translate3d(0, calc(-100% - 32px), 0); transition: transform 1100ms cubic-bezier(.16, 1, .3, 1); }
+      .hero .stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0); }
+      .hero .stage.is-entering #logo-canvas { will-change: transform; }
       .hero .stage.is-ready .fallback { opacity: 0; }
-      .hero .stage.is-boot-failed #logo-canvas, .hero .stage.is-fallback #logo-canvas { display: none; }
+      .hero .stage.is-boot-failed #logo-canvas, .hero .stage.is-fallback #logo-canvas, .hero .stage.is-poster-static #logo-canvas { display: none; }
       .hero .stage.is-boot-failed .fallback, .hero .stage.is-boot-slow .fallback { opacity: 1; }
       html[data-hero-loading='true'] .hero .stage:not(.is-ready):not(.is-poster-static):not(.is-boot-failed) .fallback {
         animation: hero-poster-breathe 2.8s ease-in-out infinite;

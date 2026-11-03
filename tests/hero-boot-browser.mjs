@@ -28,8 +28,10 @@ async function seedPage(context) {
       window.__h4HeroReady = true;
       const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
       const style = canvas ? getComputedStyle(canvas) : null;
+      const matrix = style ? new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform) : null;
       window.__h4Entrance = { entering: Boolean(stage?.classList.contains('is-entering')),
-        opacity: Number(style?.opacity || 0), transform: style?.transform || 'none',
+        opacity: Number(style?.opacity || 0), transform: style?.transform || 'none', translateY: matrix?.m42 ?? 0,
+        height: canvas?.getBoundingClientRect().height || 0,
         transitionProperty: style?.transitionProperty || 'none', transitionDuration: style?.transitionDuration || '0s',
         at: performance.now() };
     });
@@ -47,7 +49,7 @@ async function bootState(page) {
       build: document.documentElement.dataset.build || '', metaBuild: document.querySelector('meta[name="h4-build"]')?.content || '',
       status: document.querySelector('#scene-status')?.textContent || '',
       posterOpacity: Number(style?.opacity || 0), posterDisplay: style?.display || 'none',
-      animation: style?.animationName || 'none', canvasDisplay: canvasStyle?.display || 'none',
+      posterBackground: style?.backgroundImage || 'none', animation: style?.animationName || 'none', canvasDisplay: canvasStyle?.display || 'none',
       canvasOpacity: Number(canvasStyle?.opacity || 0), canvasAnimation: canvasStyle?.animationName || 'none',
       entering: Boolean(stage?.classList.contains('is-entering')), cursorClass: document.documentElement.classList.contains('h4-custom-cursor'),
       inlineCursorScript: [...document.head.querySelectorAll('script')].some(script => script.textContent.includes("classList.add('h4-custom-cursor')")),
@@ -196,6 +198,7 @@ try {
       assert.doesNotMatch(booting.stage, /is-ready/);
       assert.ok(booting.posterDisplay !== 'none' && booting.posterOpacity >= .54, `The poster is immediately visible: ${JSON.stringify(booting)}`);
       assert.equal(booting.animation, 'hero-poster-breathe');
+      assert.equal(booting.posterBackground, 'none', 'The boot surface contains no 2D wordmark artwork.');
       await page.screenshot({ path: new URL(`booting-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await page.waitForFunction(() => !document.querySelector('#stage').classList.contains('is-entering'), null, { timeout: 3000 });
@@ -207,10 +210,10 @@ try {
       assert.equal(ready.canvasOpacity, 1);
       assert.equal(ready.entering, false, 'The entrance class clears after its 1100 ms block.');
       assert.equal(ready.entrance?.entering, true, 'The ready event starts the entrance class timeline.');
-      assert.equal(ready.entrance?.opacity, 0);
-      assert.match(ready.entrance?.transform || '', /matrix\(0\.96, 0, 0, 0\.96, 0, 14\)/);
-      assert.match(ready.entrance?.transitionProperty || '', /opacity.*transform/);
-      assert.match(ready.entrance?.transitionDuration || '', /0\.45s.*1\.1s/);
+      assert.equal(ready.entrance?.opacity, 1, 'The logo arrives at constant opacity.');
+      assert.ok(ready.entrance?.translateY < -ready.entrance?.height * .5, `The logo starts above the hero: ${JSON.stringify(ready.entrance)}`);
+      assert.equal(ready.entrance?.transitionProperty, 'transform');
+      assert.equal(ready.entrance?.transitionDuration, '1.1s');
       assert.ok(messages.some(text => text === `[h4ngelic] build ${booting.build}`), 'The dev/preview build marker is logged once.');
       assert.deepEqual(errors, [], `Normal boot emits no page errors at ${width}px.`);
       await page.screenshot({ path: new URL(`ready-${width}.png`, output).pathname });
@@ -224,7 +227,8 @@ try {
       const slowState = await bootState(slow);
       assert.match(slowState.stage, /is-boot-slow/);
       assert.match(slowState.status, /taking longer than usual/);
-      assert.ok(slowState.posterOpacity >= .54 && slowState.canvasDisplay !== 'none', 'The slow state keeps the permanent poster visible.');
+      assert.ok(slowState.posterOpacity >= .54 && slowState.canvasDisplay !== 'none', 'The slow state keeps the atmospheric surface visible.');
+      assert.equal(slowState.posterBackground, 'none', 'Slow loading never reveals the 2D wordmark.');
       await slow.screenshot({ path: new URL(`slow-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       assert.ok(heldRoute, 'The slow fixture held the real hero module request.');
       await heldRoute.abort('failed');
@@ -234,6 +238,7 @@ try {
       assert.equal(slowFailed.loading, 'false');
       assert.equal(slowFailed.canvasDisplay, 'none');
       assert.equal(slowFailed.posterOpacity, 1);
+      assert.match(slowFailed.posterBackground, /wordmark-fallback\.svg/);
       await slow.close();
 
       const failed = await context.newPage(); failed.setDefaultTimeout(30000);
@@ -243,6 +248,7 @@ try {
       await failed.waitForTimeout(750);
       const failedState = await bootState(failed);
       assert.equal(failedState.posterOpacity, 1);
+      assert.match(failedState.posterBackground, /wordmark-fallback\.svg/, 'The failure path keeps the static text poster.');
       assert.equal(failedState.canvasDisplay, 'none');
       assert.equal(failedState.entering, false, 'Failure skips the entrance animation.');
       assert.equal(failedState.entrance, null);

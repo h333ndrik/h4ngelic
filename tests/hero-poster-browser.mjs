@@ -33,7 +33,8 @@ try {
         viewportHeight: innerHeight };
     });
     assert.equal(first.text, '', 'Poster contains no plain-text wordmark fallback.');
-    assert.match(first.background, /wordmark-fallback\.svg/);
+    if (reduced) assert.match(first.background, /wordmark-fallback\.svg/, 'Reduced motion retains the text poster.');
+    else assert.equal(first.background, 'none', 'Normal boot shows no 2D wordmark.');
     assert.equal(first.stylesReady, 'true');
     assert.ok(Math.abs(first.heroHeight - first.viewportHeight) < 1.5, 'Critical hero layout reserves the viewport before main CSS.');
     if (reduced) {
@@ -50,13 +51,13 @@ try {
     } else {
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity) < .05);
-      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('#logo-canvas')).opacity) > .95);
+      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('#logo-canvas')).opacity) === 1);
       const ready = await page.evaluate(() => ({
         poster: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity),
         canvas: Number(getComputedStyle(document.querySelector('#logo-canvas')).opacity),
         cls: window.__posterShifts.reduce((sum, entry) => sum + entry.value, 0), shifts: window.__posterShifts,
       }));
-      assert.ok(ready.canvas > .95, 'Rendered canvas completes the crossfade.');
+      assert.equal(ready.canvas, 1, 'Rendered canvas stays fully opaque through the entrance.');
       assert.ok(ready.poster < .05, 'Poster recedes after the first real frame.');
       assert.ok(ready.cls < .01, `Poster/layout handoff must not shift layout (CLS ${ready.cls}, ${JSON.stringify(ready.shifts)}).`);
     }
