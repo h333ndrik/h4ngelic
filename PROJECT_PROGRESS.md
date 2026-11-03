@@ -4,6 +4,24 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V15 — PARTIAL — 2026-11-03
+
+All mobile adaptations pass at 390x844 and 320x844 in Chromium touch
+emulation, full and reduced motion: centered one-line visitor memory,
+tap-revealed footer portal, no footer overlap, 00–03 INDEX, compact touch
+cursor off, mobile carousel drift/swipe/expansion, digital artwork fit,
+lowercase rubrics and fixed cross-links. Hero poster and reduced-motion
+crossfade pass all six profiles. Carousel drift remains at 0 LongTasks with
+p95 16.70–16.80ms in the headless renderer.
+
+REAL IPHONE SAFARI: BLOCKED. No physical iPhone is attached and this host has
+no iOS simulator or Playwright WebKit runtime. Chromium touch emulation is not
+Safari and does not prove real-device FPS/INP. This remains the one unresolved
+V15 acceptance check; no substitute evidence is claimed.
+
+Evidence: `docs/validation/v3.1.2/V15/` (screenshots, JSON and real logs).
+
+
 ## V7 — DONE — 2026-11-03
 
 The seven visitor tiers are restored through one exported

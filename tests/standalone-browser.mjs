@@ -175,7 +175,7 @@ try {
       assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), false);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
       assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1);
-      assert.equal(await page.locator('[data-visit-message], [data-visitor-hotspot]').count(), 0, 'The seven-stage phrase system is removed.');
+      assert.equal(await page.locator('[data-visit-message]').count(), 1, 'The shared seven-tier phrase node is present.');
       assert.match(await page.locator('[data-visit-number]').textContent(), /^VISIT \d{4,}$/);
       await footerAtRest(page);
       const identity = await identityGeometry(page);
@@ -390,7 +390,7 @@ try {
       if (mobile) await page.locator('[data-visit-counter-hotspot]').tap(); else await page.locator('[data-visit-counter-hotspot]').focus();
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity) > .2);
       assert.equal(await page.locator('[data-visit-number]').textContent(), finalCount, 'Discovering a count does not increment it.');
-      assert.equal(await page.locator('[data-visit-message], [data-visitor-hotspot]').count(), 0);
+      assert.equal(await page.locator('[data-visit-message]').count(), 1);
       assert.deepEqual(errors, []);
       assert.deepEqual(requests, [], 'Standalone mode, texture, sound and navigation must require no HTTP requests.');
       reports.push({ width, mobile, externalHttpRequests: requests.length, runtimeErrors: errors.length,

@@ -59,6 +59,7 @@
     "audit:fonts": "node scripts/audit-fonts.mjs",
     "test:performance-v17": "node tests/v17-performance-browser.mjs",
     "test:visitor-tiers": "node tests/v7-visitor-tiers-browser.mjs",
+    "test:mobile-v15": "node tests/v15-mobile-browser.mjs",
     "measure:v17": "node scripts/measure-v17.mjs",
     "test:hero-poster": "node tests/hero-poster-browser.mjs",
     "test:digital-ink": "node tests/digital-ink-browser.mjs",
