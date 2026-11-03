@@ -59,14 +59,14 @@ try {
     assert.equal(after.running, 0);
 
     // Use the genuine published image, rather than a synthetic gallery fixture.
-    await page.goto(`${base}/work#digital-artworks`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/work/more#digital-artworks`, { waitUntil: 'networkidle' });
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal');
     const thumbnail = page.locator('[data-archive-category="digital-artworks"] [data-artwork-open]').first();
     await thumbnail.locator('img').evaluate(image => image.decode());
     await thumbnail.scrollIntoViewIfNeeded();
     await thumbnail.click();
-    const expanded = page.locator('.artwork-dialog[open] .artwork-viewer-image');
-    await expanded.waitFor({ state: 'visible' });
+    await page.waitForFunction(element => element.hasAttribute('data-inline-expanded'), await thumbnail.elementHandle());
+    const expanded = thumbnail.locator('img');
     await expanded.hover();
     const cursor = await expanded.evaluate(image => ({
       cursor: getComputedStyle(image).cursor,
@@ -76,9 +76,10 @@ try {
     assert.equal(cursor.fine, true);
     assert.notEqual(cursor.cursor, 'zoom-out');
     assert.equal(cursor.cursor, 'none', 'An expanded photograph stays inside the blanket custom-pointer contract.');
-    assert.equal(cursor.width, 1440); assert.equal(cursor.height, 1920);
+    assert.ok(cursor.width >= 900 && cursor.width <= 1440, 'The inline expansion uses a genuine high-resolution published source.');
+    assert.ok(Math.abs(cursor.width / cursor.height - 1440 / 1920) < .01, 'The genuine artwork keeps its original proportions.');
     await page.keyboard.press('Escape');
-    await page.locator('.artwork-dialog').waitFor({ state: 'hidden' });
+    await page.waitForFunction(element => !element.hasAttribute('data-inline-expanded'), await thumbnail.elementHandle());
     assert.deepEqual(errors, []);
     await writeFile(new URL('accessibility.json', output), JSON.stringify({ checkedAt: new Date().toISOString(),
       width: 1440, actualAnimation: { before, after }, expandedOriginal: cursor, errors }, null, 2));

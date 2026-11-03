@@ -45,7 +45,7 @@ try {
   }, await link.elementHandle());
   await page.waitForTimeout(300);
   const hovered = await sample(link);
-  assert.ok(hovered.scale >= 1.019 && hovered.scale <= 1.021, `A roomy category uses the restrained 2% feedback (got ${hovered.scale}).`);
+  assert.ok(hovered.scale >= 1.024 && hovered.scale <= 1.026, `A roomy category uses the restrained 2.5% feedback (got ${hovered.scale}).`);
   assert.notEqual(hovered.glow, 'none', 'Normal hover retains a restrained localized glow.');
   const ordinary = await link.locator('.interaction-visual').evaluate(element => ({ duration: getComputedStyle(element).transitionDuration, filter: getComputedStyle(element).filter }));
   assert.ok(ordinary.duration.split(',').every(value => Math.abs(parseFloat(value) - .3) < .001), 'Hover and release share 300ms timing.');
@@ -63,7 +63,7 @@ try {
     const image = icon.getBoundingClientRect();
     return { gap: image.left - text.right, ratio: image.width / parseFloat(getComputedStyle(icon).fontSize), stroke: parseFloat(getComputedStyle(icon, '::before').height) };
   });
-  assert.ok(arrow.gap >= 7 && arrow.gap <= 18.1, 'The arrow must sit close to its own word rather than at the column edge.');
+  assert.ok(arrow.gap >= 7 && arrow.gap <= 18.1, `The arrow must sit close to its own word rather than at the column edge (got ${arrow.gap}).`);
   assert.ok(Math.abs(arrow.ratio - .72) < .01);
   assert.ok(Math.abs(arrow.stroke - 1.25) < .1);
   assert.ok(Number(await page.locator('.about-preview .text-link').evaluate((element) => parseFloat(getComputedStyle(element).fontSize))) >= 18, 'The smaller More About link remains readable.');
@@ -84,7 +84,7 @@ try {
   assert.equal(await speed.locator('.interaction-visual .interaction-visual').count(), 0, 'Text updates must not nest enhancement wrappers.');
   const speedAfter = await speed.boundingBox();
   assert.ok(Math.abs(speedBefore.height - speedAfter.height) < .25, 'Control label updates must retain the control height.');
-  const secret = page.locator('[data-visitor-hotspot]');
+  const secret = page.locator('[data-other-side-hint]');
   await secret.hover();
   assert.equal(await secret.getAttribute('data-ui-interactive'), null, 'Secret discovery must not gain a conventional glow or magnification.');
 

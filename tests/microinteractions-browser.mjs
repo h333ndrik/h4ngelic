@@ -31,7 +31,8 @@ async function settleSection(page, section) {
     // A previous keyboard check deliberately reveals the row through focus.
     // Release that override before sampling the ordinary scroll timeline again.
     document.activeElement?.blur();
-    scrollTo({ top: element.getBoundingClientRect().top + scrollY + parseFloat(getComputedStyle(element).getPropertyValue('--motion-run')), behavior: 'instant' });
+    const top = element.getBoundingClientRect().top + scrollY;
+    scrollTo({ top: Math.max(0, top - innerHeight * .08), behavior: 'instant' });
   });
   await page.waitForFunction((element) => element.dataset.motionState === 'settled', await section.elementHandle());
   const states = await section.locator('.kinetic-item').evaluateAll((items) => items.map((item) => {
@@ -48,23 +49,6 @@ const translation = (locator) => locator.evaluate((element) => {
   const matrix = new DOMMatrixReadOnly(transform === 'none' ? undefined : transform);
   return { x: matrix.m41, y: matrix.m42 };
 });
-
-async function nativeCursor(page, locator) {
-  const cursor = await locator.evaluate((element) => getComputedStyle(element).cursor);
-  const url = cursor.match(/url\(["']?([^"')]+)["']?\)/)?.[1];
-  assert.ok(url, `A native cursor image must be present: ${cursor}`);
-  const asset = await page.evaluate(async (source) => {
-    const document = new DOMParser().parseFromString(await (await fetch(source)).text(), 'image/svg+xml');
-    const svg = document.documentElement;
-    return {
-      width: Number(svg.getAttribute('width')),
-      height: Number(svg.getAttribute('height')),
-      paths: [...document.querySelectorAll('path')].map((path) => path.outerHTML),
-      viewBox: svg.getAttribute('viewBox'),
-    };
-  }, url);
-  return { cursor, url, ...asset };
-}
 
 async function assertHorizontal(page, width) {
   const links = page.locator('#selected-work .category-link');
@@ -105,7 +89,8 @@ try {
   await assertHorizontal(page, 1440);
   await page.mouse.move(1, 1);
   await page.evaluate(() => document.activeElement?.blur());
-  const defaultCursor = await nativeCursor(page, page.locator('body'));
+  const defaultCursor = await page.locator('body').evaluate(element => getComputedStyle(element).cursor);
+  assert.equal(defaultCursor, 'none', 'The runtime class enables the blanket custom pointer.');
   const link = page.locator('.category-link').first();
   const magnet = link.locator('.category-magnet');
   const before = await link.boundingBox();
@@ -120,22 +105,19 @@ try {
   await page.waitForFunction(() => {
     const visual = document.querySelector('#selected-work .category-magnet');
     const matrix = new DOMMatrixReadOnly(getComputedStyle(visual).transform);
-    return matrix.m11 >= 1.019;
+    return matrix.m11 >= 1.024;
   });
   const luminous = await magnet.evaluate((element) => ({ transform: new DOMMatrixReadOnly(getComputedStyle(element).transform).m11, filter: getComputedStyle(element).filter }));
-  assert.ok(luminous.transform <= 1.021, 'The large category label keeps restrained 2% feedback within its reserved hit area.');
+  assert.ok(luminous.transform >= 1.024 && luminous.transform <= 1.026, `The large category label keeps restrained 2.5% feedback within its reserved hit area (got ${luminous.transform}).`);
   assert.ok((luminous.filter.match(/drop-shadow/g) || []).length >= 3 && luminous.filter.includes('255, 255, 255'), 'Normal hover retains a subtle bounded white glow.');
   const after = await link.boundingBox();
   for (const property of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[property] - after[property]) < .25, 'Only the label/arrow wrapper may move, preserving the clickable area.');
-  const hoverCursor = await nativeCursor(page, magnet);
-  assert.ok(hoverCursor.width > defaultCursor.width && hoverCursor.width < defaultCursor.width * 1.1, 'Hover cursor feedback must be small.');
-  assert.deepEqual(hoverCursor.paths, defaultCursor.paths, 'Cursor feedback must retain the exact original symbol.');
-  assert.equal(hoverCursor.viewBox, defaultCursor.viewBox);
+  const hoverCursor = await magnet.evaluate(element => getComputedStyle(element).cursor);
+  assert.equal(hoverCursor, defaultCursor, 'Hover stays inside the blanket custom-pointer contract.');
   await link.evaluate((element) => element.addEventListener('click', (event) => event.preventDefault(), { once: true }));
   await page.mouse.down();
-  const pressedCursor = await nativeCursor(page, magnet);
-  assert.ok(pressedCursor.width < defaultCursor.width && pressedCursor.width > defaultCursor.width * .9, 'Click cursor feedback must be small.');
-  assert.deepEqual(pressedCursor.paths, defaultCursor.paths);
+  const pressedCursor = await magnet.evaluate(element => getComputedStyle(element).cursor);
+  assert.equal(pressedCursor, defaultCursor, 'Pressed state stays inside the blanket custom-pointer contract.');
   await page.mouse.up();
   await page.mouse.move(1, 1);
   await page.waitForFunction(() => {
@@ -154,8 +136,7 @@ try {
     const value = getComputedStyle(element).transform;
     return value === 'none' ? 1 : new DOMMatrixReadOnly(value).m11;
   }), 1, 'Reduced motion disables the new hover magnification.');
-  const reducedCursor = await nativeCursor(page, magnet);
-  assert.equal(reducedCursor.width, defaultCursor.width, 'Reduced motion must disable cursor scaling.');
+  assert.equal(await magnet.evaluate(element => getComputedStyle(element).cursor), defaultCursor, 'Reduced motion retains the blanket pointer.');
   await page.evaluate(() => document.activeElement?.blur());
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.locator('[data-scroll-choreography]').waitFor();
