@@ -244,3 +244,39 @@ report. No merge or deployment was performed.
 - Node: **374/374 PASS**, 0 fail, 0 skipped.
 - r3 prevention suite: **3/3** dev and **3/3** production profiles.
 - Production cursor no-JS audit: PASS; F20 6/6; performance 6/6 route-width combinations plus entrance/CLS guard; footer 6/6; About 6/6; navigation 6/6; SEO PASS; core WebGL suite PASS against Dev.
+
+## 11. V3.1.2-r3 addendum — F21-r3 greeting ghost treatment
+
+### Reproduction
+
+The r2 greeting still looked like bright interface copy: `#e8e8e4` at opacity
+`1`, `.28px` tracking, sentence case and a dark text shadow. It did not share the
+muted, uppercase, widely tracked look of `HOLD 4 TO SEE THE OTHER SIDE.`
+
+### Fix
+
+- One ghost token block now owns the contract consumed by the greeting:
+  `#f0efeb`, `.35` rest/hover opacity, `.84px` tracking and uppercase. The HOLD-4
+  hint rule itself remains untouched; its computed values are the reference, while
+  the greeting keeps its header-specific `14px` size (`11px` touch, `9px` at
+  `≤360px`).
+- Reveal remains opacity-only over 200 ms. Touch is permanently visible at `.35`;
+  reduced motion is instant. The focus-within step is `.52`, which measures
+  `4.71:1` against `#242424` and clears WCAG AA normal-text contrast. The hover
+  ghost remains `.35` (`2.91:1`), exactly matching the hint.
+- The longest phrase was checked at 320 px. Its text stays inside the
+  branding-to-INDEX slot with no wrap and no horizontal overflow.
+
+### Proof
+
+Production build `data-build="31832b86dfe0"` computed the greeting and HOLD-4
+hint identically for hover color, opacity and tracking; focus, touch and reduced
+motion matched their separate contracts. Greeting box dimensions were unchanged
+across hidden, hover and focus states and the reveal recorded CLS 0. Evidence:
+`F21-r3/`.
+
+### Verification totals
+
+- Node: **374/374 PASS**, 0 fail, 0 skipped.
+- Production greeting contract: PASS (desktop, 320 px, touch, reduced motion).
+- Development regressions: hero boot 3/3, footer 6/6, visitor tiers 6/6, mobile 4/4.
