@@ -193,11 +193,24 @@ body { position: relative; }
   .ink-tear { animation: none; }
 }
 
-/* Positioned above the sculpture without consuming layout or intercepting it. */
-.returning-visitor-line { position:absolute; top:28%; left:50%; transform:translateX(-50%); z-index:2; width:max-content; max-width:calc(100% - 44px); margin:0; color:#9a9a96; font-size:clamp(12px,1vw,14px); line-height:1.4; letter-spacing:.02em; text-align:center; pointer-events:none; transition:none; }
-
-@media (max-width: 600px) {
-  .returning-visitor-line {
-    top: max(74px, calc(env(safe-area-inset-top) + 62px));
-  }
+/* One fixed recognition line shares the floating-brand row. The navigation
+   measurement supplies the brand-to-INDEX gap; the text stays centered inside
+   that gap without consuming layout or intercepting the sculpture. */
+.returning-visitor-line {
+  position: fixed;
+  top: max(21px, env(safe-area-inset-top));
+  left: calc(var(--recognition-left, 50vw) + var(--recognition-width, 0px) / 2);
+  z-index: 12;
+  width: var(--recognition-width, max-content);
+  max-width: calc(100vw - 44px);
+  margin: 0;
+  transform: translateX(-50%);
+  color: #e8e8e4;
+  text-shadow: 0 1px 3px #151515, 0 0 5px #151515;
+  font-size: clamp(11px, 1vw, 14px);
+  line-height: 1.4;
+  letter-spacing: .02em;
+  text-align: center;
+  pointer-events: none;
+  transition: none;
 }

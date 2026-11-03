@@ -1,0 +1,12 @@
+CHECK V3.1 navigation 1440px reduced=false
+PASS V3.1 navigation 1440px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+CHECK V3.1 navigation 1440px reduced=true
+PASS V3.1 navigation 1440px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+CHECK V3.1 navigation 390px reduced=false
+PASS V3.1 navigation 390px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+CHECK V3.1 navigation 390px reduced=true
+PASS V3.1 navigation 390px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+CHECK V3.1 navigation 320px reduced=false
+PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.
+CHECK V3.1 navigation 320px reduced=true
+PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.

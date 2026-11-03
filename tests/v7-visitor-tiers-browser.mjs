@@ -42,13 +42,20 @@ try {
         const expected = visitorMessage(count);
         assert.equal(await line.textContent(), expected, `Hero tier ${count}`);
         assert.equal(await message.textContent(), expected, `Footer tier ${count}`);
-        if (profile.width < 600) {
-          const box = await line.evaluate(element => { const r = element.getBoundingClientRect(), s = getComputedStyle(element);
-            return { centre: r.left + r.width / 2, top: r.top, height: r.height, lineHeight: parseFloat(s.lineHeight), viewport: innerWidth, fontSize: parseFloat(s.fontSize) }; });
-          assert.ok(Math.abs(box.centre - box.viewport / 2) < 1, 'Recognition stays centered on mobile.');
-          assert.ok(box.top >= 60 && box.top <= 100, `Recognition sits one line below the mobile header row: ${JSON.stringify(box)}`);
-          assert.ok(box.height <= box.lineHeight + 1, 'Recognition stays on one line.');
-        }
+        const box = await line.evaluate(element => {
+          const r = element.getBoundingClientRect(), s = getComputedStyle(element);
+          const brand = document.querySelector('[data-floating-brand]').getBoundingClientRect();
+          const index = document.querySelector('[data-global-index] summary').getBoundingClientRect();
+          return { left: r.left, right: r.right, centre: r.left + r.width / 2, top: r.top, height: r.height,
+            lineHeight: parseFloat(s.lineHeight), fontSize: parseFloat(s.fontSize), position: s.position,
+            brand: { left: brand.left, right: brand.right }, index: { left: index.left, right: index.right } };
+        });
+        const gapCentre = (box.brand.right + box.index.left) / 2;
+        assert.ok(Math.abs(box.centre - gapCentre) < 1, `Recognition stays centered in the branding-to-INDEX gap: ${JSON.stringify(box)}`);
+        assert.equal(box.position, 'fixed');
+        assert.ok(Math.abs(box.top - 21) < 1, `Recognition shares the floating-brand top: ${JSON.stringify(box)}`);
+        assert.ok(box.left >= box.brand.right - .5 && box.right <= box.index.left + .5, `Recognition never overlaps branding or INDEX: ${JSON.stringify(box)}`);
+        assert.ok(box.height <= box.lineHeight + 1, 'The fixed recognition row remains one line.');
         tiers.push({ count, expected });
       }
       const visit = page.locator('[data-visit-counter-hotspot]');
@@ -71,7 +78,7 @@ try {
       assert.equal(await page.locator('[data-returning-visitor]').isVisible(), false, 'First visit keeps the recognition line hidden.');
       assert.deepEqual(errors, []);
       reports.push({ ...profile, tiers, reveal, before, after, errors }); await save();
-      console.log(`PASS V7 ${profile.width}px reduced=${profile.reduced}: nine count samples map to seven shared phrases, hero/footer match, ${profile.width < 600 ? 'tap' : 'hover'} reveals an absolute portal with no reflow, first visit hidden.`);
+      console.log(`PASS V7 ${profile.width}px reduced=${profile.reduced}: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, ${profile.width < 600 ? 'tap' : 'hover'} reveals an absolute portal with no reflow, first visit hidden.`);
     } catch (error) {
       failures.push({ ...profile, error: error.stack, errors }); await save();
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});

@@ -81,14 +81,22 @@ export function initGlobalNavigation(doc = document) {
     dockBounds = link.getBoundingClientRect();
     const brand = doc.querySelector('[data-floating-brand]');
     const filters = doc.querySelector('.work-filters');
-    if (brand && filters && index) {
+    const recognition = doc.querySelector('[data-returning-visitor]');
+    if (brand && index) {
       const brandBox = brand.getBoundingClientRect();
       const indexBox = (summary || index).getBoundingClientRect();
-      const gap = parseFloat(view.getComputedStyle(filters).columnGap) || 0;
+      const gap = filters ? parseFloat(view.getComputedStyle(filters).columnGap) || 0
+        : parseFloat(view.getComputedStyle(doc.documentElement).getPropertyValue('--header-item-gap')) || 10;
       const left = brandBox.right + gap;
-      filters.style.setProperty('--work-row-top', `${brandBox.top}px`);
-      filters.style.setProperty('--work-row-left', `${left}px`);
-      filters.style.setProperty('--work-row-width', `${Math.max(0, indexBox.left - left - gap)}px`);
+      if (filters) {
+        filters.style.setProperty('--work-row-top', `${brandBox.top}px`);
+        filters.style.setProperty('--work-row-left', `${left}px`);
+        filters.style.setProperty('--work-row-width', `${Math.max(0, indexBox.left - left - gap)}px`);
+      }
+      if (recognition) {
+        recognition.style.setProperty('--recognition-left', `${brandBox.right}px`);
+        recognition.style.setProperty('--recognition-width', `${Math.max(0, indexBox.left - brandBox.right)}px`);
+      }
     }
     displayBounds = [...doc.querySelectorAll(displaySelector)].flatMap(element => {
       const style = view.getComputedStyle(element);

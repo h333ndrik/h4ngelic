@@ -1,6 +1,6 @@
 # V3.1.2 final review state
 
-Updated 2026-11-03. Branch `v3.1.1-fixes`; F18–F20 are committed and pushed. F21 is the next live-review fix. The full
+Updated 2026-11-03. Branch `v3.1.1-fixes`; F18–F21 are committed and pushed. F22 is the next live-review fix. The full
 fix-by-fix result, real test outputs, performance numbers, screenshots and
 blockers are in [the final report](docs/V3.1.2-FINAL-REPORT.md). Do not
 restart completed work. Remaining blockers: real iPhone Safari (no device/iOS
