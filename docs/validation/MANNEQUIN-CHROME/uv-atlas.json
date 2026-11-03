@@ -1,0 +1,378 @@
+{
+  "version": 1,
+  "file": "uv-atlas.png",
+  "atlas": {
+    "width": 4096,
+    "height": 4096,
+    "transparent": true,
+    "lineColor": "#000000",
+    "lineAlpha": 0.35,
+    "lineWidthPx": 2
+  },
+  "scale": {
+    "bodyHeightMM": 1700,
+    "uvSpanMM": 2000,
+    "mmPerPixel": 0.48828125,
+    "pixelsPerMeter": 2048.0,
+    "bodyHeightPx": 3481.6
+  },
+  "seam": {
+    "body": "back centre",
+    "blenderBack": "+Y",
+    "gltfBack": "-Z",
+    "front": "+Z"
+  },
+  "parts": {
+    "torso": {
+      "label": "torso",
+      "uvRect": [
+        0.014,
+        0.014,
+        0.5480708,
+        0.344
+      ],
+      "pixelRect": [
+        57,
+        2687,
+        2188,
+        1352
+      ],
+      "anchorUV": [
+        0.2810354,
+        0.2384
+      ]
+    },
+    "head": {
+      "label": "head",
+      "uvRect": [
+        0.58,
+        0.014,
+        0.8470354,
+        0.109
+      ],
+      "pixelRect": [
+        2376,
+        3650,
+        1094,
+        389
+      ],
+      "anchorUV": [
+        0.7135176999999999,
+        0.0615
+      ]
+    },
+    "neck": {
+      "label": "neck",
+      "uvRect": [
+        0.58,
+        0.119,
+        0.72137165,
+        0.169
+      ],
+      "pixelRect": [
+        2376,
+        3404,
+        579,
+        205
+      ],
+      "anchorUV": [
+        0.650685825,
+        0.14400000000000002
+      ]
+    },
+    "left_upper_arm": {
+      "label": "left upper arm",
+      "uvRect": [
+        0.58,
+        0.179,
+        0.72137165,
+        0.339
+      ],
+      "pixelRect": [
+        2376,
+        2707,
+        579,
+        655
+      ],
+      "anchorUV": [
+        0.650685825,
+        0.259
+      ]
+    },
+    "right_upper_arm": {
+      "label": "right upper arm",
+      "uvRect": [
+        0.73,
+        0.179,
+        0.87137165,
+        0.339
+      ],
+      "pixelRect": [
+        2990,
+        2707,
+        579,
+        655
+      ],
+      "anchorUV": [
+        0.800685825,
+        0.259
+      ]
+    },
+    "left_forearm": {
+      "label": "left forearm",
+      "uvRect": [
+        0.58,
+        0.349,
+        0.6930973500000001,
+        0.489
+      ],
+      "pixelRect": [
+        2376,
+        2093,
+        463,
+        573
+      ],
+      "anchorUV": [
+        0.636548675,
+        0.419
+      ]
+    },
+    "right_forearm": {
+      "label": "right forearm",
+      "uvRect": [
+        0.73,
+        0.349,
+        0.84309735,
+        0.489
+      ],
+      "pixelRect": [
+        2990,
+        2093,
+        463,
+        573
+      ],
+      "anchorUV": [
+        0.7865486749999999,
+        0.419
+      ]
+    },
+    "left_hand": {
+      "label": "left hand",
+      "uvRect": [
+        0.58,
+        0.499,
+        0.655,
+        0.559
+      ],
+      "pixelRect": [
+        2376,
+        1806,
+        307,
+        246
+      ],
+      "anchorUV": [
+        0.6174999999999999,
+        0.529
+      ]
+    },
+    "right_hand": {
+      "label": "right hand",
+      "uvRect": [
+        0.675,
+        0.499,
+        0.75,
+        0.559
+      ],
+      "pixelRect": [
+        2765,
+        1806,
+        307,
+        246
+      ],
+      "anchorUV": [
+        0.7125,
+        0.529
+      ]
+    },
+    "left_thigh": {
+      "label": "left thigh",
+      "uvRect": [
+        0.014,
+        0.36,
+        0.2810354,
+        0.58
+      ],
+      "pixelRect": [
+        57,
+        1720,
+        1094,
+        901
+      ],
+      "anchorUV": [
+        0.1475177,
+        0.47
+      ]
+    },
+    "right_thigh": {
+      "label": "right thigh",
+      "uvRect": [
+        0.296,
+        0.36,
+        0.5630354,
+        0.58
+      ],
+      "pixelRect": [
+        1212,
+        1720,
+        1094,
+        901
+      ],
+      "anchorUV": [
+        0.4295177,
+        0.47
+      ]
+    },
+    "left_calf": {
+      "label": "left calf",
+      "uvRect": [
+        0.014,
+        0.59,
+        0.21820355,
+        0.815
+      ],
+      "pixelRect": [
+        57,
+        758,
+        836,
+        922
+      ],
+      "anchorUV": [
+        0.11610177499999999,
+        0.7024999999999999
+      ]
+    },
+    "right_calf": {
+      "label": "right calf",
+      "uvRect": [
+        0.296,
+        0.59,
+        0.50020355,
+        0.815
+      ],
+      "pixelRect": [
+        1212,
+        758,
+        836,
+        922
+      ],
+      "anchorUV": [
+        0.398101775,
+        0.7024999999999999
+      ]
+    },
+    "left_foot": {
+      "label": "left foot",
+      "uvRect": [
+        0.58,
+        0.57,
+        0.69,
+        0.62
+      ],
+      "pixelRect": [
+        2376,
+        1556,
+        451,
+        205
+      ],
+      "anchorUV": [
+        0.635,
+        0.595
+      ]
+    },
+    "right_foot": {
+      "label": "right foot",
+      "uvRect": [
+        0.705,
+        0.57,
+        0.815,
+        0.62
+      ],
+      "pixelRect": [
+        2888,
+        1556,
+        451,
+        205
+      ],
+      "anchorUV": [
+        0.76,
+        0.595
+      ]
+    },
+    "torso_front": {
+      "label": "front torso / chest",
+      "uvRect": [
+        0.1475177,
+        0.014,
+        0.4145531,
+        0.344
+      ],
+      "pixelRect": [
+        604,
+        2687,
+        1094,
+        1352
+      ],
+      "anchorUV": [
+        0.2810354,
+        0.2384
+      ]
+    },
+    "torso_back": {
+      "label": "back torso / split across the seam",
+      "uvRect": [
+        0.014,
+        0.014,
+        0.5480708,
+        0.344
+      ],
+      "pixelRect": [
+        57,
+        2687,
+        2188,
+        1352
+      ],
+      "uvRects": [
+        [
+          0.014,
+          0.014,
+          0.1475177,
+          0.344
+        ],
+        [
+          0.4145531,
+          0.014,
+          0.5480708,
+          0.344
+        ]
+      ],
+      "pixelRects": [
+        [
+          57,
+          2687,
+          547,
+          1352
+        ],
+        [
+          1698,
+          2687,
+          547,
+          1352
+        ]
+      ],
+      "anchorUV": [
+        0.08075885,
+        0.2384
+      ]
+    }
+  }
+}
