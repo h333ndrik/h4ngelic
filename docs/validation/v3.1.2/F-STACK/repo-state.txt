@@ -1,0 +1,92 @@
+branch: v3.1.1-fixes
+head: 0311a1f610648f35b7b1357fcf9f15cbd99bc730
+status:
+ M public/images/optimized/tattoo-01-3a01e970d48f-320.webp
+ M public/images/optimized/tattoo-01-3a01e970d48f-640.webp
+ M public/images/optimized/tattoo-02-85362ed687be-320.webp
+ M public/images/optimized/tattoo-03-d229e36ed059-320.webp
+ M public/images/optimized/tattoo-03-d229e36ed059-640.webp
+ M public/images/optimized/tattoo-04-fa329e382e06-320.webp
+ M public/images/optimized/tattoo-04-fa329e382e06-640.webp
+?? docs/validation/v3.1.2/F-STACK/
+
+log:
+0311a1f Record the final F18-F27 review state
+a161bda V23: read offscreen static titles by text
+aaf8d7c F8/F26: align the standalone preview checks
+17679b1 F20: preload the real hero chunk
+e2f44dd F20: keep Home anchor loads out of the hero preload path
+4a83701 F27: update the mobile archive heading assertion
+364da07 F21: align the mobile suite with the header and footer behavior
+b7765a0 F27: label the tattoo archive on skin
+6ae7468 F26: hide More heading and unlink child categories
+2f2b6e7 F25: give 3d model the category heading treatment
+200773b F24: shorten the Other Side transition to 900ms
+6124f7f F23: align the contact form to the right
+bf1e6c2 F22: translate the hero bar instead of fading
+f829048 F21: align recognition line in the header gap
+cd7f252 F20: defer hero tattoo texture after first frame
+903bc61 F19: fix carousel card geometry and wheel scope
+2976779 F18: keep one constant native cursor per mode
+3c5f9bd Record the final V3.1.2 review state
+4f3d41a V15: verify the mobile adaptations
+039e40b V7: restore the shared seven-tier visitor memory
+6eaf6f6 V2: set the compact global cursor
+7aa1a33 V17: defer idle work and optimize transitions
+fbd9af4 V26: enforce the honest 4 MB inquiry limit
+d5931cf V30: disable metallic mode cues
+85f1c6e V28: remove the hero tagline
+
+mail-01-diagnostics tip: fb57c57f819eb50b9bc03f741016e85fd47a8c61
+mail-only changed files since shared base 6ae7468:
+docs/validation/v3.1.2/MAIL-01/E2E-SMOKE.md
+docs/validation/v3.1.2/MAIL-01/README.md
+docs/validation/v3.1.2/MAIL-01/base-commit.txt
+docs/validation/v3.1.2/MAIL-01/baseline-npm-test.txt
+docs/validation/v3.1.2/MAIL-01/branch.txt
+docs/validation/v3.1.2/MAIL-01/diagnostic-lines.jsonl
+docs/validation/v3.1.2/MAIL-01/e2e-baseline-npm-test.txt
+docs/validation/v3.1.2/MAIL-01/e2e-inquiry-http.txt
+docs/validation/v3.1.2/MAIL-01/e2e-local-mock-output.txt
+docs/validation/v3.1.2/MAIL-01/e2e-npm-test.txt
+docs/validation/v3.1.2/MAIL-01/e2e-skip-output.txt
+docs/validation/v3.1.2/MAIL-01/e2e-smoke-unit.txt
+docs/validation/v3.1.2/MAIL-01/e2e-tooling.txt
+docs/validation/v3.1.2/MAIL-01/http-results.json
+docs/validation/v3.1.2/MAIL-01/inquiry-http.txt
+docs/validation/v3.1.2/MAIL-01/npm-test.txt
+package.json
+scripts/smoke-inquiry.mjs
+server/inquiry.mjs
+tests/inquiry-http.mjs
+tests/inquiry-smoke.test.js
+tests/inquiry.test.js
+
+v3.1.1-fixes changed files since 6ae7468:
+NEXT_SESSION.md
+docs/V3.1.2-FINAL-REPORT.md
+docs/V3.1.2-STATUS.md
+docs/validation/v3.1.2/F20/home-anchor.txt
+docs/validation/v3.1.2/F21/mobile-suite.txt
+docs/validation/v3.1.2/F27/README.md
+docs/validation/v3.1.2/F27/after-tattoos-1440.png
+docs/validation/v3.1.2/F27/after-work-filters-1440.png
+docs/validation/v3.1.2/F27/before-tattoos-1440.png
+docs/validation/v3.1.2/F27/browser.txt
+docs/validation/v3.1.2/F27/node.txt
+docs/validation/v3.1.2/F27/results.json
+src/app.js
+src/data/siteContent.js
+src/pages.js
+tests/content.test.js
+tests/portfolio-browser.mjs
+tests/seo-browser.mjs
+tests/standalone-browser.mjs
+tests/standalone-native-browser.mjs
+tests/v15-mobile-browser.mjs
+tests/v23-static-titles-browser.mjs
+tests/v25-cross-links-browser.mjs
+tests/v31-navigation-browser.mjs
+vite.config.js
+
+overlap:

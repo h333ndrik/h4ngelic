@@ -1,0 +1,12 @@
+CHECK V3 1440px reduced=false
+node:internal/modules/run_main:111
+    triggerUncaughtException(
+    ^
+
+page.waitForFunction: Timeout 20000ms exceeded.
+    at /Users/h4ngelic/Documents/Codex/2026-11-02/he-3/h4ngelic/tests/smart-v3-browser.mjs:125:18 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v26.13.0

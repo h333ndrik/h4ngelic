@@ -1,0 +1,23 @@
+Independent serial browser runs at HEAD 0311a1f.
+
+Production preview http://127.0.0.1:55178
+- portfolio-browser.mjs: 6/6 PASS (1440/390/320 x full/reduced).
+- v31-navigation-browser.mjs: 6/6 PASS.
+- v312-f20-hero-browser.mjs: 6/6 PASS; FCP medians 60/60/76/56/72/64 ms.
+
+Dev server http://127.0.0.1:55179
+- horizontal-drift-browser.mjs: 6/6 PASS. It imports /src/carouselSettings.js, so a
+  production-preview attempt fails in the test helper before any assertion; the dev run is
+  the valid source-level run.
+- v31-ui-browser.mjs: 6/6 PASS.
+- footer-v31-browser.mjs: 6/6 PASS.
+- hero-poster-browser.mjs: 6/6 PASS.
+- xray-browser.mjs: 6/6 PASS; all captured transitions report 900 ms.
+- ref09-icons-browser.mjs: desktop/reduced/touch-390/touch-320 plus SVG decode PASS.
+- mode-snapshot-browser.mjs: PASS; animationMs=900 desktop/390/320.
+
+Additional previous runs at the same source state:
+- v26-mail-limits 6/6, v19-index-glow 6/6, v23-static-titles 6/6,
+  v28-hero-tagline 6/6, v7-visitor-tiers 6/6, v17-performance 6/6,
+  v25-cross-links 6/6, v31-motion 6/6, master-inquiry 6/6,
+  v15-mobile 4/4, drift-performance 3/3.
