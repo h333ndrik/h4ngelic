@@ -29,6 +29,7 @@ import { initConnectedWork } from './connected-work.js';
 import { heroPosterSettings } from './data/heroPosterSettings.js';
 
 document.documentElement.dataset.h4StylesReady = 'true';
+document.documentElement.classList.add('h4-custom-cursor');
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');

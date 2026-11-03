@@ -10,6 +10,10 @@
     cursor: var(--h4-native-cursor);
   }
   html body * { cursor: var(--h4-native-cursor) !important; }
+  /* Last line of defence: state and component rules cannot swap in a native
+     pointer. The image and hotspot remain identical in hover/active states. */
+  html.h4-custom-cursor :is(a, button, summary, label, input, textarea, select,
+    canvas, [role='button'], [data-cursor]) { cursor: var(--h4-native-cursor) !important; }
 }
 
 [data-controls] button:focus-visible {
