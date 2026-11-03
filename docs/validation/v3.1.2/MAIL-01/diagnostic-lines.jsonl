@@ -1,0 +1,5 @@
+{"event":"resend_rejected","requestId":"32daf206-499a-41e7-933f-a084eaf67a3c","status":401,"error":"invalid_api_key"}
+{"event":"resend_rejected","requestId":"57e9a5d4-db4b-4725-89fe-c1ededf58d5f","status":403,"error":"domain_not_verified"}
+{"event":"resend_rejected","requestId":"75a3d16b-3fe7-41b7-9667-a6196f42740e","status":422,"error":"unparseable"}
+{"event":"resend_rejected","requestId":"44348193-5e95-40ef-be31-c9f575c197a2","status":500,"error":"internal_server_error"}
+{"event":"resend_unreachable","requestId":"d7adac7b-3c72-46d2-8101-a265fcc105fe","error":"TimeoutError"}

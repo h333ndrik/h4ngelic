@@ -199,9 +199,16 @@ export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl =
       let response;
       try {
         response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], ...(address(fields.email) ? { reply_to: fields.email } : {}), subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
-      } catch { throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.'); }
+      } catch (error) {
+        console.error(JSON.stringify({ event: 'resend_unreachable', requestId, error: error?.name || 'NetworkError' }));
+        throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.');
+      }
       const result = await response.json().catch(() => null);
-      if (!response.ok || typeof result?.id !== 'string' || !result.id) throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.');
+      if (!response.ok) {
+        console.error(JSON.stringify({ event: 'resend_rejected', requestId, status: response.status, error: result?.name ?? 'unparseable' }));
+        throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.');
+      }
+      if (typeof result?.id !== 'string' || !result.id) throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.');
       // Provider acceptance is not a claim of inbox delivery. Do not log the
       // email, contents, filenames or references, or persist them on disk.
       return respond(res, 202, { accepted: true, id: requestId });
