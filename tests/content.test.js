@@ -263,7 +263,7 @@ test('content utilities reject script, protocol-relative and credential-bearing 
 });
 
 
-test('Works has three unnumbered major rubrics, subordinate archive labels and an empty deferred model section', () => {
+test('Works has three unnumbered major rubrics, subordinate archive labels and a deferred model section', () => {
   const markup = renderWorkPage('all');
   assert.match(markup, /<h1 class="page-heading" id="work-page-title">01 \/ creative<\/h1>/);
   const major = [...markup.matchAll(/<h2 class="work-group-heading"[^>]*><a[^>]*>([\s\S]*?)<\/a><\/h2>/g)].map(match => match[1].replace(/<[^>]*>/g, '').trim());
@@ -277,8 +277,10 @@ test('Works has three unnumbered major rubrics, subordinate archive labels and a
   assert.match(markup, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow" aria-hidden="true"><\/i><\/a><\/h2>/);
   const model = markup.match(/<section[^>]+data-deferred-model>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(model);
-  assert.match(model, /^<h3[^>]+>3d model<\/h3>$/);
-  assert.doesNotMatch(model, /canvas|img|placeholder|loading|data-flash-mannequin/);
+  assert.match(model, /^<h3[^>]+>3d model<\/h3>/);
+  assert.match(model, /data-mannequin-preview data-mannequin-src="\/models\/mannequin\.glb" data-mannequin-state="deferred"/);
+  assert.match(model, /role="img" aria-label="White faceted dress form on a three-foot stand"/);
+  assert.doesNotMatch(model, /<canvas|<img|data-flash-mannequin|three\.js|GLTFLoader/);
 });
 
 test('homepage About copy remains one flowing paragraph and every relevant route exposes the same visit indicator', () => {

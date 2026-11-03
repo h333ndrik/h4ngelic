@@ -6,6 +6,7 @@ import { categoryURL, projectURL, categoryById, groupById, workAnchorURL, contac
 import { renderFooter } from './footer.js';
 import { renderHorizontalDrift } from './horizontal-drift-content.js';
 import { renderFlashMannequin } from './flash-mannequin-content.js';
+import { renderMannequinPreview } from './mannequin-preview-content.js';
 import { renderInquiryForm } from './inquiry-content.js';
 import { orderedArtworks, artworkImages, artworkLabel } from './artwork-content.js';
 
@@ -116,7 +117,7 @@ export function renderWorkPage(category = 'all') {
       ${collection(entry)}
     </section>`;
   };
-  const modelSection = '<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3></section>';
+  const modelSection = `<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3>${renderMannequinPreview()}</section>`;
   const content = groups.map(group => {
     if (selectedGroup) {
       const rubricCategories = group.children.map(id => categoryById(id)).filter(Boolean).map(entry => {
