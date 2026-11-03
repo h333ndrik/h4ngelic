@@ -1,0 +1,83 @@
+{
+  "capturedAt": "2026-11-03T05:41:18.525Z",
+  "reports": [
+    {
+      "width": 1440,
+      "intro": {
+        "left": 78.1875,
+        "right": 692.171875,
+        "top": 133.4375,
+        "bottom": 248.625,
+        "width": 613.984375,
+        "height": 115.1875
+      },
+      "form": {
+        "left": 423.78125,
+        "right": 1178.1875,
+        "top": 276.625,
+        "bottom": 899.6875,
+        "width": 754.40625,
+        "height": 623.0625
+      },
+      "marginLeft": "345.6px",
+      "introMarginBottom": "28px",
+      "offset": "clamp(60px, 24vw, 640px)",
+      "columns": "359.203px 359.203px",
+      "overflow": 0,
+      "submitHeight": 112,
+      "fileLabelHeight": 44
+    },
+    {
+      "width": 390,
+      "intro": {
+        "left": 34,
+        "right": 302.609375,
+        "top": 174.03125,
+        "bottom": 224.40625,
+        "width": 268.609375,
+        "height": 50.375
+      },
+      "form": {
+        "left": 34,
+        "right": 368,
+        "top": 238.40625,
+        "bottom": 886.46875,
+        "width": 334,
+        "height": 648.0625
+      },
+      "marginLeft": "0px",
+      "introMarginBottom": "14px",
+      "offset": "0px",
+      "columns": "334px",
+      "overflow": 0,
+      "submitHeight": 70,
+      "fileLabelHeight": 44
+    },
+    {
+      "width": 320,
+      "intro": {
+        "left": 34,
+        "right": 298,
+        "top": 167.984375,
+        "bottom": 218.359375,
+        "width": 264,
+        "height": 50.375
+      },
+      "form": {
+        "left": 34,
+        "right": 298,
+        "top": 232.359375,
+        "bottom": 899.609375,
+        "width": 264,
+        "height": 667.25
+      },
+      "marginLeft": "0px",
+      "introMarginBottom": "14px",
+      "offset": "0px",
+      "columns": "264px",
+      "overflow": 0,
+      "submitHeight": 70,
+      "fileLabelHeight": 44
+    }
+  ]
+}

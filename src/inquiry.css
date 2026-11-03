@@ -1,6 +1,6 @@
-.inquiry { width: calc(100% - clamp(12px, 3vw, 48px)); max-width: 1100px; margin-left: clamp(12px, 3vw, 48px); }
-.inquiry-intro { font-size: clamp(21px, 3.5vw, 48px); line-height: 1.2; letter-spacing: -.035em; margin: 0 0 clamp(34px, 6vw, 75px); max-width: 23ch; }
-.inquiry-form { position: relative; }
+.inquiry { --inquiry-form-offset: clamp(60px, 24vw, 640px); width: calc(100% - clamp(12px, 3vw, 48px)); max-width: 1100px; margin-left: clamp(12px, 3vw, 48px); }
+.inquiry-intro { font-size: clamp(21px, 3.5vw, 48px); line-height: 1.2; letter-spacing: -.035em; margin: 0 0 clamp(14px, 2vw, 28px); max-width: 23ch; }
+.inquiry-form { position: relative; margin-left: var(--inquiry-form-offset, clamp(60px, 24vw, 640px)); }
 .inquiry-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
 .inquiry-field { display: block; min-width: 0; }
 .inquiry-field > span, .inquiry-file-label { font-size: 12px; letter-spacing: .07em; line-height: 1.5; }
@@ -36,6 +36,7 @@
 .inquiry-email-fallback { font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
 .inquiry-email-fallback a { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 600px) {
+  .inquiry { --inquiry-form-offset: 0px; }
   .inquiry-fields { grid-template-columns: 1fr; gap: 30px; }
   .inquiry-field-message { grid-column: auto; }
   .inquiry-file-label { font-size: 11px; gap: 8px; }
