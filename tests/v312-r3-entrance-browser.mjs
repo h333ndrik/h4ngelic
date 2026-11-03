@@ -24,9 +24,22 @@ try {
   await context.addInitScript(() => {
     window.__r3Entrance = null;
     window.__r3Shifts = [];
+    window.__r4Timeline = [];
     new PerformanceObserver(list => { for (const entry of list.getEntries()) if (!entry.hadRecentInput) window.__r3Shifts.push(entry.value); })
       .observe({ type: 'layout-shift', buffered: true });
-    document.addEventListener('h4:heroready', () => { window.__r3Entrance = { at: performance.now() }; });
+    document.addEventListener('h4:heroready', () => {
+      const started = performance.now();
+      window.__r3Entrance = { at: started };
+      const sample = () => {
+        const canvas = document.querySelector('#logo-canvas');
+        const style = getComputedStyle(canvas), matrix = new DOMMatrixReadOnly(style.transform);
+        const at = performance.now() - started;
+        window.__r4Timeline.push({ at, opacity: Number(style.opacity), transform: style.transform,
+          scale: matrix.m11, translateY: matrix.m42 });
+        if (at < 1250) setTimeout(sample, 25);
+      };
+      sample();
+    });
   });
   const page = await context.newPage(); page.setDefaultTimeout(60000);
   await page.goto(new URL('/?test=1', base).href, { waitUntil: 'domcontentloaded' });
@@ -35,8 +48,6 @@ try {
   await page.waitForTimeout(250);
   const mid = await capture(page);
   await page.screenshot({ path: new URL('entrance-mid-1440.png', output).pathname });
-  await page.waitForTimeout(250);
-  const late = await capture(page);
   await page.waitForFunction(() => !document.querySelector('#stage').classList.contains('is-entering'));
   await page.waitForFunction(() => {
     const matrix = new DOMMatrixReadOnly(getComputedStyle(document.querySelector('#logo-canvas')).transform);
@@ -44,7 +55,10 @@ try {
       && Math.abs(matrix.m41) < .001 && Math.abs(matrix.m42) < .001;
   });
   const end = await capture(page);
+  await page.waitForTimeout(150);
+  const timeline = await page.evaluate(() => window.__r4Timeline);
   const shifts = await page.evaluate(() => window.__r3Shifts.reduce((sum, value) => sum + value, 0));
+  const build = await page.evaluate(() => document.documentElement.dataset.build || '');
   await page.screenshot({ path: new URL('entrance-end-1440.png', output).pathname });
   assert.equal(start.entering, true);
   assert.equal(start.opacity, 0);
@@ -58,8 +72,12 @@ try {
   assert.ok(Math.abs(transformDuration - 1100) <= 110, `Transform duration stays within 10% of 1100ms: ${transformDuration}`);
   assert.ok(mid.opacity > 0 && mid.opacity < 1, `Mid-entrance opacity is visibly between endpoints: ${mid.opacity}`);
   assert.notEqual(mid.transform, 'matrix(1, 0, 0, 1, 0, 0)');
-  assert.equal(late.opacity, 1, 'Opacity reaches its endpoint before the transform finishes.');
-  assert.notEqual(late.transform, 'matrix(1, 0, 0, 1, 0, 0)', 'The transform is still settling after opacity completes.');
+  const opacityDone = timeline.find(sample => sample.opacity >= .99)?.at;
+  const transformDone = timeline.find(sample => Math.abs(sample.scale - 1) < 1e-4
+    && Math.abs(sample.translateY) < 1e-3)?.at;
+  assert.ok(Number.isFinite(opacityDone) && Number.isFinite(transformDone));
+  assert.ok(opacityDone < transformDone - 100,
+    `Opacity finishes before the transform: opacity ${opacityDone.toFixed(1)}ms, transform ${transformDone.toFixed(1)}ms`);
   assert.equal(end.entering, false);
   assert.equal(end.opacity, 1);
   assert.equal(end.transform, 'matrix(1, 0, 0, 1, 0, 0)');
@@ -67,7 +85,8 @@ try {
   const elapsed = end.at - start.at;
   assert.ok(elapsed >= 990 && elapsed <= 1210, `The entrance marker lasts 1100ms ±10%: ${elapsed.toFixed(1)}ms`);
   assert.ok(shifts < .01, `Entrance is layout-shift-free: ${shifts}`);
-  results.normal = { start, mid, late, end, elapsed, shifts };
+  results.build = build;
+  results.normal = { start, mid, end, elapsed, shifts, opacityDone, transformDone, timeline };
   await context.close();
 
   const reducedContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1,
@@ -128,7 +147,7 @@ try {
   await heldRoute.abort('failed');
   await breathingContext.close();
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, results, passed: true }, null, 2) + '\n');
-  console.log(`PASS entrance: ${start.opacity} -> ${mid.opacity.toFixed(3)} -> ${late.opacity} -> ${end.opacity}; transform ${transformDuration}ms/${elapsed.toFixed(0)}ms; breathing ${results.breathing.minOpacity.toFixed(3)}–${results.breathing.maxOpacity.toFixed(3)}; CLS ${shifts}.`);
+  console.log(`PASS entrance: ${start.opacity} -> ${mid.opacity.toFixed(3)} -> ${end.opacity}; opacity done ${opacityDone.toFixed(0)}ms, transform done ${transformDone.toFixed(0)}ms; transform ${transformDuration}ms/${elapsed.toFixed(0)}ms; breathing ${results.breathing.minOpacity.toFixed(3)}–${results.breathing.maxOpacity.toFixed(3)}; CLS ${shifts}.`);
 } catch (error) {
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, results, error: error.stack }, null, 2) + '\n');
   throw error;

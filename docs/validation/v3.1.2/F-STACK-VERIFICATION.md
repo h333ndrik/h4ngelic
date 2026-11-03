@@ -280,3 +280,23 @@ across hidden, hover and focus states and the reveal recorded CLS 0. Evidence:
 - Node: **374/374 PASS**, 0 fail, 0 skipped.
 - Production greeting contract: PASS (desktop, 320 px, touch, reduced motion).
 - Development regressions: hero boot 3/3, footer 6/6, visitor tiers 6/6, mobile 4/4.
+
+## 12. V3.1.2-r4 addendum — greeting alignment and premium entrance
+
+### F21-r4 — greeting lowercase and shared header row
+
+- **Befund:** The uppercase greeting sat on its `19.6px` text box at the top edge, roughly 12px above the optical centre of the `44px` branding and INDEX controls.
+- **Fix:** Ghost type is now lowercase; the greeting shares the same `44px`, top-aligned row (`21px` desktop, `16px` mobile) with flex centring. Color, tracking, hover/focus opacity, touch and reduced-motion behaviour are unchanged.
+- **Beweis:** Build `78e3fc92f003`: 1440px centres `43/43/43px` with deltas `-0.80/-0.30px`; 320px centres `38px`, gaps `23.06/23.08px`, no wrap or overflow, CLS 0. Evidence: `F21-r4/`.
+
+### F29-c — smooth expo-out hero arrival
+
+- **Befund:** The old 700ms fade moved only 8px from `.985` scale and was visually indistinguishable from a brightness change on the dark poster.
+- **Fix:** Poster opacity now crossfades over 900ms; canvas opacity runs 450ms while the `translateY(14px) + scale(.96)` transform runs 1100ms with expo-out. The marker holds for the transform window, uses no blur filter, and reduced/failure paths remain instant/static.
+- **Beweis:** Build `78e3fc92f003`: opacity completed at 675ms, transform at 1016ms, marker 1150ms, identity end state, CLS 0; Home FCP/LCP 116/116ms. F20 6/6; interior FCP 48–140ms. Evidence: `F29-c/`.
+
+### Verification totals
+
+- Node: **374/374 PASS**, 0 fail, 0 skipped.
+- Production greeting and entrance contracts: PASS.
+- F20 six-profile suite: **6/6**; footer **6/6**; visitor tiers **6/6**; mobile **4/4**; hero boot **3/3**; performance route-width pairs **6/6**.
