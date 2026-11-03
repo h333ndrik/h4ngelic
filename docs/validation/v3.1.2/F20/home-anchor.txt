@@ -7,3 +7,10 @@ A direct /#contact anchor now stays cold until the hero approaches the viewport,
 because prepareHero activates preloads only when the initial fragment resolves to
 the hero (or no fragment is present). The IntersectionObserver also activates the
 template immediately before importing main.js when the hero later becomes visible.
+
+The production preload link now resolves to the emitted dynamic hero chunk
+(`main-*.js`) instead of the raw `/src/main.js` copy. Vite was copying that href
+as an untransformed raw asset, so it could not preload the actual Three.js chunk
+and broke the offline export. The build plugin rewrites the template href and
+removes the duplicate raw asset. Verified in dist: index.html and the app bundle
+both reference the same `main-*.js`, and only that file remains in assets.

@@ -29,6 +29,33 @@ export default defineConfig({
         .replace(/href="\/{0,2}(assets\/tattoo-texture[^"]*)"/g, 'href="/$1"');
     },
   }, {
+    // Vite copies a modulepreload href that points at /src as a raw asset.
+    // Point the Home template at the real emitted hero chunk instead, and drop
+    // the duplicate raw copy so the preload cannot execute stale source.
+    name: 'h4ngelic-hero-module-preload',
+    apply: 'build',
+    enforce: 'post',
+    generateBundle(_, bundle) {
+      const html = bundle['index.html'];
+      if (!html || html.type !== 'asset') return;
+      const heroChunk = Object.values(bundle).find(item => item.type === 'chunk'
+        && item.facadeModuleId?.replaceAll('\\', '/').endsWith('/src/main.js'));
+      if (!heroChunk?.fileName) return;
+      let rawFileName = '';
+      const source = String(html.source).replace(
+        /(<link rel="modulepreload" href=")([^"]+)(" data-hero-preload="module")/,
+        (_, before, href, after) => {
+          rawFileName = href.replace(/^\//, '');
+          return `${before}/${heroChunk.fileName}${after}`;
+        },
+      );
+      html.source = source;
+      if (!rawFileName) return;
+      for (const [key, item] of Object.entries(bundle)) {
+        if (item.type === 'asset' && item.fileName === rawFileName) delete bundle[key];
+      }
+    },
+  }, {
     name: 'h4ngelic-document-routes',
     configureServer(server) {
       const inquiry = createInquiryHandler();
