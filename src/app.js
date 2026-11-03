@@ -28,6 +28,7 @@ import { initInquiry } from './inquiry.js';
 import { initConnectedWork } from './connected-work.js';
 import { heroPosterSettings } from './data/heroPosterSettings.js';
 
+if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
 document.documentElement.dataset.h4StylesReady = 'true';
 document.documentElement.classList.add('h4-custom-cursor');
 

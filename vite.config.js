@@ -6,6 +6,7 @@ import { buildRobots, buildSitemap } from './scripts/prerender.mjs';
 import { flashMannequinConfig } from './src/flash-mannequin-content.js';
 import { createInquiryHandler } from './server/inquiry.mjs';
 import { heroPosterSettings } from './src/data/heroPosterSettings.js';
+import { applyBuildMarker, buildSha, shouldLogBuild } from './scripts/build-marker.mjs';
 
 const config = seoEnvironment(process.env);
 
@@ -15,8 +16,16 @@ export default defineConfig({
     // An absent optional model must not enlarge the hero's shared Three chunk.
     // Publishing a validated Flash placement enables this on the next build.
     __H4_HAS_MANNEQUINS__: JSON.stringify(publishedProjects().some(project => Boolean(flashMannequinConfig(project)))),
+    __H4_BUILD_SHA__: JSON.stringify(buildSha),
+    __H4_BUILD_LOG__: JSON.stringify(shouldLogBuild(process.env)),
   },
   plugins: [{
+    name: 'h4ngelic-build-marker',
+    enforce: 'pre',
+    transformIndexHtml(html) {
+      return applyBuildMarker(html, buildSha);
+    },
+  }, {
     name: 'h4ngelic-hero-poster',
     transformIndexHtml(html, context) {
       const path = context.path?.split('?')[0] || '/';
