@@ -21,6 +21,8 @@ try {
     try {
       await page.goto(`${base}/`, { waitUntil: 'networkidle' });
       await page.locator('#selected-work-title').waitFor();
+      await page.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true'
+        && /^\d/.test(getComputedStyle(document.documentElement).getPropertyValue('--slash-inset').trim()));
       const home = await page.evaluate(() => ({
         headings: [...document.querySelectorAll('.kinetic-heading-text')].map(node => node.textContent.trim()),
         index: [...document.querySelectorAll('[data-global-index] [data-index-page]')].map(node => node.textContent.replace(/\s+/g, ' ').trim()),
