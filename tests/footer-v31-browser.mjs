@@ -49,6 +49,7 @@ try {
       const recognitionPage = await recognitionContext.newPage();
       recognitionPage.setDefaultTimeout(60000);
       await recognitionPage.goto(new URL('/',base).href,{waitUntil:'networkidle'});
+      await recognitionPage.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
       const line=recognitionPage.locator('[data-returning-visitor]');
       assert.equal(await line.isVisible(),false,'The first visit has no recognition line.');
       const initialHeight=await recognitionPage.evaluate(()=>document.documentElement.scrollHeight);
@@ -63,6 +64,7 @@ try {
         assert.equal(await line.isVisible(),false,'The returning greeting rests hidden on a fine pointer.');
         await recognitionPage.mouse.move(width / 2,30);
         await recognitionPage.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) > .99);
+        await line.waitFor({state:'visible',timeout:2000});
         assert.equal(await line.isVisible(),true,'Hovering the header reveals the returning greeting.');
       }
       assert.equal(await recognitionPage.evaluate(()=>document.documentElement.scrollHeight),initialHeight,'Recognition never changes page layout.');
