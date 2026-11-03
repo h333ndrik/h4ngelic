@@ -1,4 +1,6 @@
 import { modeAudioSettings } from './data/modeAudioSettings.js';
+import { createWorldSound } from './audio/worldSound.js';
+import { worldSoundSettings, worldForMode, worldTransitionDurationSeconds } from './audio/worldSoundSettings.js';
 
 /** Inharmonic damped resonances, a short strike and two quiet early reflections.
  * Pure PCM generation also makes the actual browser sound exportable for review.
@@ -61,7 +63,8 @@ export function synthesizeModeSound(mode, { sampleRate = 48000, settings = modeA
  * trusted SMASH activation, then reused by this same route-persistent controller.
  * Independent cue/track buses let mute and volume act on the complete sound mix.
  */
-export function createModeAudio({ view = window, settings = modeAudioSettings, smashURL = settings.smashURL || '', privateURL } = {}) {
+export function createModeAudio({ view = window, settings = modeAudioSettings, smashURL = settings.smashURL || '', privateURL,
+  worldSettings = worldSoundSettings } = {}) {
   // Keep the old explicit override usable by existing integrations, without
   // exposing its former private-only URL in normal application configuration.
   const trackURL = privateURL === undefined ? smashURL : privateURL;
@@ -75,6 +78,8 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   let cueBus = null;
   let smashBus = null;
   let compressor = null;
+  let world = null;
+  let pageHidden = false;
   let active = null;
   let muted = !settings.enabled;
   const maximumVolume = Math.max(.01, Math.min(.5, settings.maximumVolume || .5));
@@ -114,10 +119,31 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     param.linearRampToValueAtTime(value, now + seconds);
   }
   function updateMaster() { ramp(master?.gain, muted ? 0 : volume * maximumVolume); }
+  function currentMode() { return view.document?.documentElement?.dataset.mode || 'normal'; }
+  function ensureWorld() {
+    if (world || !context || worldSettings.enabled === false) return world;
+    try {
+      world = createWorldSound({ context, destination: master, settings: worldSettings,
+        fetch: (...args) => view.fetch(...args) });
+    } catch { world = null; }
+    return world;
+  }
+  function suspendContext() {
+    if (!context || context.state !== 'running') return;
+    try { Promise.resolve(context.suspend()).catch(() => {}); } catch { /* An unavailable suspend must not mute the UI. */ }
+  }
+  function resumeContext() {
+    if (!context || muted || pageHidden || context.state === 'closed') return Promise.resolve(false);
+    if (context.state === 'running') return Promise.resolve(true);
+    if (!resume) resume = Promise.resolve(context.resume()).then(() => context.state === 'running', () => false)
+      .finally(() => { resume = null; });
+    return resume;
+  }
   function releasePriority() {
     smashActive = false;
     smashPhase = 'idle';
     ramp(cueBus?.gain, 1, settings.priorityFadeSeconds || .08);
+    world?.setDuck(1, settings.priorityFadeSeconds || .08);
     notify();
   }
 
@@ -152,8 +178,9 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     return buffer;
   }
 
-  function prime(event, { allowMuted = false } = {}) {
-    if (!modeSoundsEnabled && !allowMuted) return Promise.resolve(false);
+  function prime(event, { allowMuted = false, worldId = null } = {}) {
+    const wantsWorld = worldSettings.enabled !== false && Boolean(worldId || worldForMode(currentMode()));
+    if (!modeSoundsEnabled && !wantsWorld && !allowMuted) return Promise.resolve(false);
     if (disposed || (muted && !allowMuted) || failed || !AudioContext || event?.isTrusted !== true) return Promise.resolve(false);
     try {
       if (!context) {
@@ -176,11 +203,16 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
       }
       // Resume synchronously inside the original trusted gesture. Fetching the
       // track later never requires a second autoplay-sensitive media element.
-      if (context.state !== 'running' && context.state !== 'closed' && !resume) {
-        resume = Promise.resolve(context.resume()).then(() => context.state === 'running', () => false).finally(() => { resume = null; });
-      }
+      const resumed = resumeContext();
       if (modeSoundsEnabled) { bufferFor('xray'); bufferFor('normal'); }
-      return resume || Promise.resolve(context.state === 'running');
+      return resumed.then((running) => {
+        if (!running || muted || disposed) return running;
+        if (wantsWorld) {
+          const requested = worldId || worldForMode(currentMode());
+          void ensureWorld()?.activate(requested);
+        }
+        return true;
+      });
     } catch { failed = true; return Promise.resolve(false); }
   }
 
@@ -260,6 +292,11 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     smashActive = true;
     smashPhase = 'loading';
     ramp(cueBus.gain, 0, settings.priorityFadeSeconds || .08);
+    if (context.state === 'running' && !muted) {
+      const requested = worldForMode(currentMode());
+      void ensureWorld()?.activate(requested);
+      world?.setDuck(worldSettings.smashDuckGain, settings.priorityFadeSeconds || .08);
+    }
     notify();
     let loading;
     try { loading = trackBuffer(); }
@@ -298,10 +335,25 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     });
   }
 
+  function prepareWorld(worldId) {
+    if (disposed || muted || pageHidden || !context || context.state !== 'running') return Promise.resolve(false);
+    const target = worldId || worldForMode(currentMode());
+    return ensureWorld()?.preload(target) || Promise.resolve(false);
+  }
+  function switchMode(mode, durationMs) {
+    if (disposed || muted || pageHidden || !context || context.state !== 'running') return Promise.resolve(false);
+    const target = worldForMode(mode);
+    if (!target) return Promise.resolve(false);
+    const seconds = Number.isFinite(durationMs) && durationMs >= 0 ? durationMs : worldTransitionDurationSeconds() * 1000;
+    return ensureWorld()?.switchTo(target, { durationMs: seconds }) || Promise.resolve(false);
+  }
+
   return {
     prime,
     play,
     stop,
+    prepareWorld,
+    switchMode,
     toggleSmash,
     stopSmash,
     get supported() { return Boolean(AudioContext) && !failed; },
@@ -309,10 +361,32 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     get volume() { return volume; },
     get smashAvailable() { return Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed; },
     get smashPlaying() { return smashActive; },
-    setMuted(value) { muted = Boolean(value); if (muted) stop(); updateMaster(); save(); },
+    setMuted(value) {
+      muted = Boolean(value);
+      if (muted) {
+        stop();
+        if (context && master) {
+          const at = context.currentTime;
+          master.gain.cancelScheduledValues(at);
+          master.gain.setValueAtTime(0, at);
+        }
+        suspendContext();
+      } else {
+        updateMaster();
+        void resumeContext();
+      }
+      save();
+    },
     setVolume(value) { if (!Number.isFinite(value)) return; volume = Math.max(0, Math.min(1, value)); updateMaster(); save(); },
+    setPageHidden(hidden) {
+      pageHidden = Boolean(hidden);
+      if (pageHidden) suspendContext();
+      else if (!muted) void resumeContext();
+      notify();
+    },
     subscribe(listener) { subscribers.add(listener); return () => subscribers.delete(listener); },
-    snapshot: () => ({ initialized: Boolean(context), modeSoundsEnabled, state: context?.state || 'uninitialized', muted, volume,
+    snapshot: () => ({ initialized: Boolean(context), modeSoundsEnabled, state: context?.state || 'uninitialized', muted, volume, pageHidden,
+      world: world?.snapshot() || null,
       active: Boolean(active), allocatedVoices: voices.size, smashAvailable: Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed,
       smashPlaying: smashActive, smashPhase, smashCached: Boolean(smashBuffer), smashFetches,
       smash: smashVoice ? { started: smashVoice.started, tailStarts: smashVoice.tailStarts, ends: smashVoice.ends,
@@ -322,6 +396,8 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
       disposed = true;
       stopSmash({ immediate: true });
       stop();
+      world?.dispose();
+      world = null;
       for (const voice of voices) {
         try { voice.source.stop(); } catch { /* An already-ended source is harmless. */ }
         cleanVoice(voice);

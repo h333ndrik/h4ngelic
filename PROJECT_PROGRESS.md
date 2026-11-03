@@ -1,3 +1,65 @@
+# Current checkpoint — WORLD SOUND COMPLETION — 2026-11-04
+
+Status: **AUDIO COMPLETE / CHROMIUM VERIFIED / PARTIAL DEVICE COVERAGE**.
+Work remains isolated on `v3.2-world-sound` from base `11e78a1`. The original
+dirty checkout, V3.1-owned modules, `main` and `api/inquiry.js` were not changed.
+No merge, push or deployment occurred.
+
+## Delivered
+
+- Generated FLAC and 256 kbps AAC/M4A derivatives from the four local WAV
+  masters. Browser `decodeAudioData` proved exact master frame counts for all
+  three formats: loops 1,365,677 frames and transitions 61,740 frames.
+- Selected four M4A runtime files, the exact 2-loop + 2-transition manifest.
+  Payload fell from **17,129,180** to **2,087,514 bytes**, a **87.81%** saving.
+- Rewrote the unpushed branch commit so the WAV masters are absent from branch
+  history. Masters remain local-only; master and derivative SHA-256 values are
+  recorded in [WORLD-SOUND.md](docs/WORLD-SOUND.md).
+- Added ordered runtime candidates **M4A → FLAC → WAV** in
+  `src/audio/worldSoundSettings.js`. The engine validates sample rate, channel
+  count and exact frame count before accepting a candidate, automatically trying
+  the next format after fetch/decode/padding failure, then failing silent.
+- Added browser coverage for all 12 generated formats and no-double-fetch,
+  one-active-loop, full 1.4 s one-shot, crossfade alignment, arbitrary-phase
+  entry and asset-manifest contracts.
+- Added the required listening checklist for seam, visual tear, WORLD 4 density,
+  iOS silent switch, SMASH ducking and reload persistence.
+
+## Verification
+
+- `npm test`: **385 passed, 0 failed**.
+- `world-audio-formats-browser`: **12/12 format files PASS**, exact decoded
+  sample lengths, continuous non-zero loop boundaries, zero audio-path long
+  tasks.
+- `world-sound-browser`: **6/6 width/motion profiles PASS**, both modes, plus
+  missing-file degradation.
+- `mode-audio-browser`: PASS.
+- `sound-controls-browser`: **8/8 profiles PASS**.
+- `smash-v31-browser`: PASS at 1440/390/320.
+- `npm run build`: PASS; exactly four M4A files copied byte-for-byte.
+
+## OBSERVATION / limits
+
+- **OBSERVATION, not audio:** the preserved mobile test still fails its
+  no-cold-WebGL-on-About assertion on both this branch and base `11e78a1`; the
+  lazy mannequin preview creates the context. No V3.1/mannequin code was touched.
+- Real iOS Safari and hardware listening remain **BLOCKED**.
+- The visual controller still rejects a second gesture during an active visual
+  transition. Audio retargeting is directly tested but that user path is blocked.
+- Only primary M4A candidates are deployed. FLAC/WAV fallback URLs work if those
+  alternate files are added later; with the current four-file package, complete
+  primary failure degrades to silence.
+- The standalone preview does not embed the 2.1 MB world set.
+
+## Deferred
+
+Hero first-touch cue, color-mapped ink impacts and THE OTHER SIDE ambience remain
+TODO. Do not implement them in this pass.
+
+Exact next checkpoint: review the rewritten audio commit. After user action on
+PR #20, rebase `v3.2-world-sound` onto updated `origin/main` and merge. Nothing
+else is mergeable in this branch.
+
 # Current review checkpoint — V3.1.1
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.

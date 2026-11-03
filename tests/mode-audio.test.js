@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createModeAudio, synthesizeModeSound } from '../src/mode-audio.js';
 import { modeAudioSettings } from '../src/data/modeAudioSettings.js';
+import { worldSoundSettings } from '../src/audio/worldSoundSettings.js';
 
 const rms = (values) => Math.sqrt(values.reduce((sum, value) => sum + value * value, 0) / values.length);
 
@@ -26,7 +27,7 @@ test('the actual enter/leave PCM is short, bounded, stereo and decays without a 
   assert.throws(() => synthesizeModeSound('xray', { sampleRate: 0 }), RangeError);
 });
 
-function audioFixture({ rejectResume = false, throwConstruction = false, storage = new Map(), privateURL = '', rejectPlayback = false, deferredFetch = null, modeSoundsEnabled = true } = {}) {
+function audioFixture({ rejectResume = false, throwConstruction = false, storage = new Map(), privateURL = '', rejectPlayback = false, deferredFetch = null, modeSoundsEnabled = true, worldSettings = { ...worldSoundSettings, enabled: false } } = {}) {
   const contexts = [];
   const media = [];
   const fetches = [];
@@ -50,15 +51,23 @@ function audioFixture({ rejectResume = false, throwConstruction = false, storage
     end() { this.onended?.(); }
   }
   class Context {
-    state = 'suspended'; currentTime = 1; sampleRate = 24000; destination = {}; sources = []; gains = []; resumeCalls = 0;
+    state = 'suspended'; currentTime = 1; sampleRate = 44100; destination = {}; sources = []; gains = []; resumeCalls = 0;
     constructor() { if (throwConstruction) throw new Error('Audio unavailable.'); contexts.push(this); }
     createGain() { const node = Object.assign(new Node(), { gain: new Param() }); this.gains.push(node); return node; }
     createDynamicsCompressor() { return Object.assign(new Node(), Object.fromEntries(['threshold', 'knee', 'ratio', 'attack', 'release'].map(name => [name, new Param()]))); }
+    createBiquadFilter() { return Object.assign(new Node(), { type: 'lowpass', frequency: new Param(), Q: new Param() }); }
     createBuffer(channels, length) { return { channels: Array.from({ length: channels }, () => new Float32Array(length)), copyToChannel(data, index) { this.channels[index].set(data); } }; }
     createBufferSource() { const source = new Source(); this.sources.push(source); return source; }
     createMediaElementSource(element) { const node = new Node(); node.media = element; return node; }
-    decodeAudioData(bytes) { this.decodedBytes = bytes.byteLength; return Promise.resolve({ duration: 100.310204 }); }
+    decodeAudioData(bytes) {
+      this.decodedBytes = bytes.byteLength;
+      const label = new TextDecoder().decode(new Uint8Array(bytes));
+      if (label.includes('/assets/audio/loop-')) return Promise.resolve({ duration: 30.967732, length: 1365677, numberOfChannels: 2, sampleRate: 44100 });
+      if (label.includes('/assets/audio/x-')) return Promise.resolve({ duration: 1.4, length: 61740, numberOfChannels: 2, sampleRate: 44100 });
+      return Promise.resolve({ duration: 100.310204, length: 4420000, numberOfChannels: 2, sampleRate: 44100 });
+    }
     resume() { this.resumeCalls++; if (rejectResume) return Promise.reject(new Error('Gesture denied.')); this.state = 'running'; return Promise.resolve(); }
+    suspend() { this.suspendCalls++; this.state = 'suspended'; return Promise.resolve(); }
     close() { this.state = 'closed'; return Promise.resolve(); }
   }
   class Audio {
@@ -69,11 +78,17 @@ function audioFixture({ rejectResume = false, throwConstruction = false, storage
     load() {}
     removeAttribute(name) { delete this[name]; }
   }
-  const audio = createModeAudio({ settings: { ...modeAudioSettings, modeSoundsEnabled }, view: { AudioContext: Context, Audio,
+  const view = { AudioContext: Context, Audio,
+    document: { documentElement: { dataset: { mode: 'normal' } } },
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value) },
-    fetch(url, options) { fetches.push({ url, options }); return deferredFetch || Promise.resolve({ ok: !rejectPlayback, arrayBuffer: async () => new ArrayBuffer(8) }); },
-  }, privateURL });
-  return { audio, contexts, media, storage, fetches };
+    fetch(url, options) {
+      fetches.push({ url, options });
+      if (deferredFetch) return deferredFetch;
+      return Promise.resolve({ ok: !rejectPlayback, arrayBuffer: async () => new TextEncoder().encode(url).buffer });
+    },
+  };
+  const audio = createModeAudio({ settings: { ...modeAudioSettings, modeSoundsEnabled }, view, privateURL, worldSettings });
+  return { audio, contexts, media, storage, fetches, view };
 }
 
 test('Web Audio remains unallocated until a trusted user gesture, then primes before the hold timer', async () => {
@@ -277,4 +292,40 @@ test('mode switch cues are disabled by default while the re-enable path stays in
   assert.equal(await enabled.audio.prime({ isTrusted: true }), true);
   assert.equal(enabled.audio.play('xray'), true);
   assert.equal(enabled.contexts[0].sources.length, 1, 'The retained code path can still play the cue.');
+});
+
+
+test('the central controller owns one transport, retargeted crossfades, mute suspension and SMASH ducking', async () => {
+  const { audio, contexts, fetches, view } = audioFixture({ worldSettings: worldSoundSettings, privateURL: modeAudioSettings.smashURL });
+  assert.equal(await audio.prime({ isTrusted: true }, { worldId: '333' }), true);
+  await new Promise(resolve => setTimeout(resolve, 0));
+  const context = contexts[0];
+  assert.equal(fetches[0].url, worldSoundSettings.paths.loops['333'][0]);
+  assert.equal(audio.snapshot().world.currentWorld, '333');
+  context.currentTime = 10;
+  const transportStart = audio.snapshot().world.transportStart;
+  view.document.documentElement.dataset.mode = 'xray';
+  await audio.switchMode('xray', 900);
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(audio.snapshot().world.currentWorld, '4');
+  assert.equal(audio.snapshot().world.crossfade.durationSeconds, .9);
+  assert.ok(fetches.some(item => item.url === worldSoundSettings.paths.transitions['333>4'][0]));
+  view.document.documentElement.dataset.mode = 'normal';
+  context.currentTime = 10.2;
+  await audio.switchMode('normal', 900);
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(audio.snapshot().world.transportStart, transportStart, 'A retarget must not restart the shared transport.');
+  assert.ok(fetches.some(item => item.url === worldSoundSettings.paths.transitions['4>333'][0]));
+  audio.setMuted(true);
+  assert.equal(context.state, 'suspended');
+  assert.equal(context.gains[0].gain.value, 0);
+  audio.setMuted(false);
+  assert.equal(context.state, 'running');
+  await audio.toggleSmash({ isTrusted: true });
+  assert.ok(audio.snapshot().world.duck <= worldSoundSettings.smashDuckGain + 1e-9, 'SMASH ducks the whole world/transition bus.');
+  audio.setPageHidden(true);
+  assert.equal(context.state, 'suspended');
+  audio.setPageHidden(false);
+  assert.equal(context.state, 'running');
+  audio.dispose();
 });

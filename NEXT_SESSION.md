@@ -1,3 +1,51 @@
+# Current checkpoint — WORLD SOUND COMPLETION
+
+Updated 2026-11-04. Local branch `v3.2-world-sound`, based on `11e78a1`; never
+pushed. The previous local commit was rewritten to remove the WAV masters from
+branch history. Do not modify `main`, V3.1-owned modules or `api/inquiry.js`.
+
+## Status
+
+- Four committed runtime files only: two M4A loops and two M4A transitions.
+  Local WAV masters and generated FLAC derivatives are not in Git.
+- Payload: 17,129,180 → 2,087,514 bytes; 87.81% smaller.
+- Exact browser-decoded frames: loops 1,365,677; transitions 61,740 in every
+  generated format. M4A passed the seam law, so it is primary.
+- Ordered fallback: M4A → FLAC → WAV. Decode acceptance checks 44.1 kHz, stereo
+  and exact master frame count before use.
+- `npm test`: **385/385**. Format browser test: **12/12** with no audio-path
+  long tasks. World sound: **6/6** profiles plus degraded path. Mode audio,
+  sound controls **8/8**, and SMASH at 1440/390/320 all pass. Build passes.
+- Full design, hashes, payload comparison, decode evidence and user listening
+  checklist: [WORLD-SOUND.md](docs/WORLD-SOUND.md).
+
+## Merge path
+
+1. User merges PR #20 first.
+2. Fetch the updated `origin/main`.
+3. Rebase `v3.2-world-sound` onto updated `origin/main`.
+4. Merge the rebased audio branch.
+
+Nothing else merges with this branch.
+
+## Remaining checks / OBSERVATION
+
+- **BLOCKED:** real iPhone Safari silent-switch, route, interruption and resume
+  behavior. No iOS runtime/device is available.
+- **BLOCKED at visual boundary:** a second user gesture during a visual mode
+  transition is rejected by the unchanged visual controller. Audio retargeting
+  itself is tested and smooth.
+- **OBSERVATION:** the existing mobile no-cold-WebGL-on-About failure occurs on
+  base `11e78a1` and this branch; do not fix it in the audio scope.
+- Only M4A is deployed. FLAC/WAV fallback URLs are coded and tested but need
+  those alternate files added to become available in production.
+- Hero first-touch cue, ink impact mapping and THE OTHER SIDE ambience remain
+  TODO.
+
+Exact next checkpoint: review the rewritten commit and run the listening
+checklist when hardware is available. Do not push, merge or deploy from this
+task.
+
 # V3.1.2 final review state
 
 Updated 2026-11-03. Branch `v3.1.1-fixes`; F18–F27 are committed and pushed,

@@ -23,6 +23,7 @@ source = source.replace("'./mode-snapshot.js'", JSON.stringify(moduleURL('export
   // real controls and audio lifecycle are checked independently.
   .replace("'./sound-controls.js'", JSON.stringify(moduleURL('export const initSoundControls = () => { const dispose = () => {}; dispose.refresh = () => {}; return dispose; };')));
 for (const name of ['xraySettings.js', 'corruptionSettings.js', 'livingDecaySettings.js']) source = source.replace(`'./data/${name}'`, JSON.stringify(new URL(`../src/data/${name}`, import.meta.url).href));
+source = source.replace("'./audio/worldSoundSettings.js'", JSON.stringify(new URL('../src/audio/worldSoundSettings.js', import.meta.url).href));
 const { initXRay } = await import(moduleURL(`${source}\n//# sourceURL=xray-memory-handoff-fixture.js`));
 
 class Element {
@@ -65,7 +66,8 @@ function fixture({ reduced = false, native = true } = {}) {
     querySelectorAll: selector => selector === '[data-mode-status]' ? [status] : [],
     querySelector: () => null,
   });
-  view.__audio = { supported: true, muted: false, prime: () => Promise.resolve(), play: mode => audioModes.push(mode), stop() {}, dispose() {} };
+  view.__audio = { supported: true, muted: false, prime: () => Promise.resolve(), play: mode => audioModes.push(mode), stop() {}, dispose() {},
+    prepareWorld: () => Promise.resolve(), switchMode: () => Promise.resolve(), setPageHidden() {} };
   let active = null;
   doc.__snapshot = {
     prepare() {},

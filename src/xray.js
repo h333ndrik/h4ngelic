@@ -3,6 +3,7 @@ import { xraySettings, chooseXRayQuality, solarizedChannels } from './data/xrayS
 import { bindXRayShortcut, bindReverseShortcut } from './xray-shortcut.js';
 import { bindModeHold } from './mode-hold.js';
 import { createModeAudio } from './mode-audio.js';
+import { worldForMode } from './audio/worldSoundSettings.js';
 import { initSoundControls } from './sound-controls.js';
 import { corruptionSettings } from './data/corruptionSettings.js';
 import { createModeSnapshotTransition } from './mode-snapshot.js';
@@ -157,7 +158,10 @@ export function initXRay({ root = document, memory = null } = {}) {
     html.dataset.mode = mode;
     refresh();
     announce();
-    if (!doc.hidden) audio.play(mode);
+    if (!doc.hidden) {
+      audio.play(mode);
+      void audio.switchMode(mode, duration);
+    }
     doc.dispatchEvent(new view.CustomEvent('h4:modechange', { detail: { mode, captured, duration, variant } }));
     const theme = doc.querySelector('meta[name="theme-color"]');
     if (theme) theme.content = mode === 'xray' ? xraySettings.palette.background : normalThemeColor;
@@ -272,14 +276,35 @@ export function initXRay({ root = document, memory = null } = {}) {
   }
 
   const endHold = () => html.removeAttribute('data-mode-holding');
-  const prepare = (event, hold = true) => {
+  const prepare = (event, hold = true, targetMode = null) => {
     // Priming and preloading happen inside the original gesture, not its timer.
-    void audio.prime(event).then(refresh);
+    const targetWorld = targetMode ? worldForMode(targetMode) : null;
+    void audio.prime(event).then((ready) => {
+      if (ready && targetWorld) void audio.prepareWorld(targetWorld);
+      refresh();
+    });
     snapshot.prepare();
     if (hold) html.setAttribute('data-mode-holding', '');
     const source = event.type === 'keydown' ? 'keyboard' : event.type === 'click' ? 'accessible' : 'pointer';
     doc.dispatchEvent(new view.CustomEvent('h4:modeprepare', { detail: { source } }));
   };
+  let gestureUnlocked = false;
+  const unlockWorldSound = (event) => {
+    if (gestureUnlocked || event.isTrusted !== true || audio.muted) return;
+    void audio.prime(event, { worldId: worldForMode(mode) }).then((ready) => {
+      if (!ready) return;
+      gestureUnlocked = true;
+      doc.removeEventListener('pointerdown', unlockWorldSound, true);
+      doc.removeEventListener('keydown', unlockWorldSound, true);
+      refresh();
+    });
+  };
+  doc.addEventListener('pointerdown', unlockWorldSound, { capture: true, passive: true });
+  doc.addEventListener('keydown', unlockWorldSound, { capture: true });
+  removers.push(() => {
+    doc.removeEventListener('pointerdown', unlockWorldSound, true);
+    doc.removeEventListener('keydown', unlockWorldSound, true);
+  });
   let stopPointer;
   const inputReady = () => !pendingMode && !html.hasAttribute('data-xray-transition');
   const entryReady = () => mode === 'normal' && inputReady();
@@ -287,22 +312,22 @@ export function initXRay({ root = document, memory = null } = {}) {
   const enter = () => { if (entryReady()) setMode('xray'); };
   const stopKeyboard = bindXRayShortcut(doc, enter, {
     isEnabled: entryReady,
-    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); stopReverse.cancel(); prepare(event); }, onEnd: endHold,
+    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); stopReverse.cancel(); prepare(event, true, 'xray'); }, onEnd: endHold,
   });
   const stopReverse = bindReverseShortcut(doc, () => setMode('normal'), {
     isEnabled: () => mode === 'xray' && inputReady(),
-    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); stopKeyboard.cancel(); prepare(event, false); },
+    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); stopKeyboard.cancel(); prepare(event, false, 'normal'); },
   });
   stopPointer = bindModeHold(doc, enter, {
     isEnabled: entryReady,
-    onStart(event) { stopMobile?.cancel(); stopKeyboard.cancel(); stopReverse.cancel(); prepare(event); }, onEnd: endHold,
+    onStart(event) { stopMobile?.cancel(); stopKeyboard.cancel(); stopReverse.cancel(); prepare(event, true, 'xray'); }, onEnd: endHold,
   });
   removers.push(stopKeyboard, stopReverse, stopPointer);
   stopMobile = initMobileMode({ doc, getMode: () => pendingMode || mode,
     isBusy: () => Boolean(pendingMode || html.hasAttribute('data-xray-transition')),
     onPrepare(event) {
       stopKeyboard.cancel(); stopReverse.cancel(); stopPointer.cancel();
-      endHold(); prepare(event, false);
+      endHold(); prepare(event, false, mode === 'xray' ? 'normal' : 'xray');
     }, onChange: setMode });
   removers.push(stopMobile);
   listen(doc, 'click', (event) => {
@@ -310,7 +335,7 @@ export function initXRay({ root = document, memory = null } = {}) {
     if (!entryReady() || !button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
     stopKeyboard.cancel();
     stopPointer.cancel();
-    prepare(event);
+    prepare(event, true, 'xray');
     endHold();
     enter();
   });
@@ -322,10 +347,14 @@ export function initXRay({ root = document, memory = null } = {}) {
     view.cancelAnimationFrame(frame);
     finish(mode === 'xray' ? 1 : 0);
   });
-  listen(doc, 'visibilitychange', () => { if (doc.hidden) { audio.stop(); cancelPendingEntry(); } });
+  listen(doc, 'visibilitychange', () => {
+    audio.setPageHidden(doc.hidden);
+    if (doc.hidden) { audio.stop(); cancelPendingEntry(); }
+  });
   listen(doc, 'h4:navigationstart', cancelPendingEntry);
   listen(view, 'blur', cancelPendingEntry);
   updateQuality();
+  if (import.meta.env?.DEV && new URLSearchParams(view.location?.search).has('test')) view.__H4_AUDIO__ = audio;
   html.dataset.mode = 'normal';
   html.dataset.xrayReady = '';
   refresh();
@@ -340,6 +369,7 @@ export function initXRay({ root = document, memory = null } = {}) {
     releaseMemory();
     soundControls();
     audio.dispose();
+    if (view.__H4_AUDIO__ === audio) delete view.__H4_AUDIO__;
     for (const remove of removers) remove();
     defs.remove();
     overlay.remove();
