@@ -213,7 +213,6 @@ test('About keeps its lower-case numbered route heading', () => {
 
 test('approved About copy remains exact and does not invent a portrait or biography', () => {
   assert.equal(siteContent.artistName, 'Hendrik');
-  assert.equal(siteContent.home.tagline, 'mixed media');
   assert.equal(siteContent.about.intro, "hi, i'm hendrik.");
   assert.deepEqual(siteContent.about.paragraphs, [
     'i like making things, breaking things apart, and finding new ways to connect them.',

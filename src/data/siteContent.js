@@ -32,7 +32,6 @@ export const siteContent = {
     selectedWorkLabel: '01 / creative',
     aboutLabel: '02 / ABOUT',
     contactLabel: '03 / CONTACT',
-    tagline: 'mixed media',
     aboutPreview: 'mixed media. ink, metal and everything in between.',
     moreAboutLabel: 'MORE ABOUT',
   },

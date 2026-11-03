@@ -64,8 +64,6 @@ function ensureHero() {
   }
   const brand = document.querySelector('[data-floating-brand]');
   if (brand) brand.textContent = siteContent.name;
-  const tagline = hero.querySelector('.identity');
-  if (tagline) tagline.textContent = siteContent.home.tagline;
 }
 
 function configureHeroPoster() {

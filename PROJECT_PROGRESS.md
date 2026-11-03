@@ -4,6 +4,22 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V28 — DONE — 2026-11-03
+
+The `mixed media` hero tagline is gone from source, rendered knowledge and
+tests. The area below the logo is empty; the full stage keeps its previous
+geometry and the V8 poster/reduced-motion path is unchanged.
+
+Actual serial checks before builds:
+
+- New `npm run test:hero-tagline`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced, with no tagline element or visible copy, a full-stage hero,
+  no horizontal overflow and measured CLS 0.0000.
+- Existing `npm run test:hero-poster`: 6/6 profiles PASS.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V28/`.
+
+
 ## V19 — DONE — 2026-11-03
 
 The INDEX panel now has a soft dark two-layer depth halo while keeping its F1

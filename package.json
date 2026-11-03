@@ -54,6 +54,7 @@
     "test:static-titles": "node tests/v23-static-titles-browser.mjs",
     "test:cross-links": "node tests/v25-cross-links-browser.mjs",
     "test:index-glow": "node tests/v19-index-glow-browser.mjs",
+    "test:hero-tagline": "node tests/v28-hero-tagline-browser.mjs",
     "test:hero-poster": "node tests/hero-poster-browser.mjs",
     "test:digital-ink": "node tests/digital-ink-browser.mjs",
     "test:persistent-memory": "node tests/persistent-memory-browser.mjs",
