@@ -48,7 +48,8 @@ try {
         assert.equal(data.currentIndex, groups.indexOf(category));
         assert.equal(data.currentEmpty, true, 'The current rubric slot stays empty.');
         const expected = groups.filter(group => group !== category);
-        assert.deepEqual(data.entries.filter(entry => entry.tag === 'A').map(entry => entry.text), expected);
+        const label = group => group === 'tattoos' ? 'on skin' : group;
+        assert.deepEqual(data.entries.filter(entry => entry.tag === 'A').map(entry => entry.text), expected.map(label));
         assert.deepEqual(data.entries.filter(entry => entry.tag === 'A').map(entry => entry.href), expected.map(group => `/work/${group}`));
         assert.ok(data.scrollWidth <= data.clientWidth + 1, 'The fixed row never overflows the page at 320px.');
         for (const entry of data.entries.filter(entry => entry.tag === 'A')) {

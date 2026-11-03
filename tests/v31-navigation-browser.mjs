@@ -113,7 +113,7 @@ async function workChrome(page,profile,world) {
   assert.ok(g.filters.left>=g.brand.right+10 && g.filters.right<=g.index.left-10,'Work categories occupy the row between brand and INDEX.');
   assert.ok(Math.abs(g.filters.top-g.brand.top)<1 && g.filters.height>=44);
   assert.ok(!overlap(g.brand,g.filters)&&!overlap(g.index,g.filters));
-  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['tattoos','jewellery','more']);
+  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['on skin','jewellery','more']);
   const spacing=await page.evaluate(()=>{
     const strip=document.querySelector('.work-filters');strip.scrollLeft=0;
     const brand=document.querySelector('[data-floating-brand]').getBoundingClientRect();

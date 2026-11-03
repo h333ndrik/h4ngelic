@@ -307,7 +307,7 @@ try {
       }
       await page.locator('#selected-work .category-link[href="#/work/tattoos"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
-      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="page"]')?.textContent.trim() === 'tattoos');
+      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="page"]')?.textContent.trim() === 'on skin');
       assert.equal(await page.locator('#logo-canvas').isVisible(), false);
       const tattoos = page.locator('[data-horizontal-drift="tattoos"]');
       assert.equal(await tattoos.getAttribute('data-carousel-total'), '8');

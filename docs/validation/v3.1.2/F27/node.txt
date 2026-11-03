@@ -1,0 +1,4 @@
+npm test
+tests 373
+pass 373
+fail 0

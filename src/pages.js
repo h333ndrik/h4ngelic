@@ -101,7 +101,7 @@ export function renderWorkPage(category = 'all') {
   const selectedCategory = categoryById(selected);
   const groups = selected === 'all' ? siteContent.workGroups : selectedGroup ? [selectedGroup] : [];
   const title = selected === 'all' ? siteContent.home.selectedWorkLabel
-    : selectedGroup?.label || (selectedCategory?.label || '').toUpperCase();
+    : selectedGroup?.archiveLabel ?? selectedGroup?.label ?? (selectedCategory?.archiveLabel ?? selectedCategory?.label ?? '').toUpperCase();
   const activeGroup = selectedGroup?.id || siteContent.workGroups.find(group => group.children.includes(selected))?.id;
   const projects = orderedArtworks(artworks.filter(project => project.published !== false && categoryById(project.category)));
   const collection = entry => {
@@ -147,13 +147,13 @@ export function renderWorkPage(category = 'all') {
   const crossLinks = selectedGroup ? `<nav class="rubric-cross-links" aria-label="Other creative sections">
       ${siteContent.workGroups.map(group => group.id === selectedGroup.id
         ? '<span class="rubric-cross-gap" aria-hidden="true"></span>'
-        : `<a href="${categoryURL(group.id)}">${escape(group.label)} ${arrow}</a>`).join('')}
+        : `<a href="${categoryURL(group.id)}">${escape(group.archiveLabel ?? group.label)} ${arrow}</a>`).join('')}
     </nav>` : '';
   return `${header('work')}
   <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
     <h1 class="page-heading${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
     <nav class="work-filters" aria-label="Works sections">
-      ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.label)}</a>`).join('')}
+      ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
     </nav>
     <div class="portfolio-archive" aria-label="All artwork">${content}${standalone}</div>
     ${crossLinks}

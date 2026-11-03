@@ -23,7 +23,7 @@ export const siteContent = {
   // The frontpage remains exactly three horizontal rubrics. Children stay shared
   // with the work archive; changing worlds never mounts a different content tree.
   workGroups: [
-    { id: 'tattoos', label: 'tattoos', children: ['tattoos', 'flashes'] },
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'on skin', children: ['tattoos', 'flashes'] },
     { id: 'jewellery', label: 'jewellery', children: ['jewellery'] },
     { id: 'more', label: 'more', children: ['digital-artworks', 'analog-photography'] },
   ],

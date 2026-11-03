@@ -22,7 +22,7 @@ test('homepage keeps three horizontal real category routes and a static creative
 test('real category pages select their own content while /work retains the complete archive', () => {
   const cases = [
     ['all', ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'more'], 9, '01 / creative'],
-    ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'tattoos'],
+    ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'on skin'],
     ['flashes', ['flashes'], [], 0, 'FLASHES'],
     ['jewellery', ['jewellery'], ['jewellery'], 0, 'jewellery'],
     ['more', ['digital-artworks', 'analog-photography'], ['more'], 1, 'more'],
@@ -113,6 +113,23 @@ test('configured Instagram links remain safe, optional and separate from inquiry
   } finally {
     Object.assign(siteContent.contact, initial);
   }
+});
+
+test('on skin labels the Tattoo archive without changing its identity or Home copy', () => {
+  const group = siteContent.workGroups.find(entry => entry.id === 'tattoos');
+  assert.equal(group.label, 'tattoos');
+  assert.equal(group.archiveLabel, 'on skin');
+  const archive = renderWorkPage('tattoos');
+  assert.match(archive, /<h1 class="page-heading" id="work-page-title">on skin<\/h1>/);
+  assert.match(archive, /data-work-context="tattoos"/);
+  assert.match(archive, /<a class="filter-link is-active" href="\/work\/tattoos" aria-current="page">on skin<\/a>/);
+  assert.match(archive, /<a href="\/work\/jewellery">jewellery /);
+  assert.match(archive, /<a href="\/work\/more">more /);
+  const all = renderWorkPage('all');
+  assert.match(all, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow"/);
+  assert.match(all, /href="\/work\/tattoos"[^>]*>on skin<\/a>/);
+  const home = renderHomepageSections();
+  assert.match(home, /<a class="category-link" href="\/work\/tattoos"><span[^>]*>[^<]*<span[^>]*><span>tattoos<\/span>/);
 });
 
 test('category routes retain safe navigation, visible art and legacy unknown-category fallback', () => {
