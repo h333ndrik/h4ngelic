@@ -89,6 +89,14 @@ function configureHeroPoster() {
   stage?.style.setProperty('--hero-poster-fade', `${heroPosterSettings.fadeDurationMs}ms`);
 }
 
+function startsOnHero() {
+  if (!location.hash) return true;
+  let id = location.hash.slice(1);
+  try { id = decodeURIComponent(id); } catch { /* Use the literal fragment. */ }
+  const target = document.getElementById(id);
+  return !target || target === hero || hero.contains(target);
+}
+
 function prepareHero() {
   ensureHero();
   if (!hero) return;
@@ -102,13 +110,16 @@ function prepareHero() {
     return;
   }
   hero.querySelector('#stage')?.classList.remove('is-poster-static');
-  activateHeroPreloads();
+  // A direct Home anchor such as /#contact opens below the hero. Do not fetch
+  // the Three.js chunk, font or texture until the hero actually approaches.
+  if (startsOnHero()) activateHeroPreloads();
   if (heroLoaded) return;
   heroObserver?.disconnect();
   heroObserver = new IntersectionObserver(([entry]) => {
     if (!entry.isIntersecting || heroLoaded || hero.hidden) return;
     heroLoaded = true;
     heroObserver.disconnect();
+    activateHeroPreloads();
     import('./main.js').catch((error) => {
       console.error('Unable to load the interactive wordmark.', error);
     });
