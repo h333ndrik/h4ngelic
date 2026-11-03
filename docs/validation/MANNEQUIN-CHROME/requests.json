@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-03T22:41:53.229Z",
+  "checkedAt": "2026-11-03T22:47:55.205Z",
   "route": "/work/tattoos",
   "source": "production preview build",
   "profiles": [
@@ -53,7 +53,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.859375,
@@ -89,11 +92,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 1548,
+        "fcp": 1512,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": "variant-a-1440.png",
       "screenshotSha256": "114c124713bcd99ac702e1289b3c9558cac79d2226e9cdb1833451f7ddf93eff",
       "contrast": {
@@ -118,7 +121,78 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.859375,
+          "bottom": 223.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "figure": {
+          "top": 275.71875,
+          "bottom": 1037.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "frame": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "canvas": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 116,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": "variant-b-1440.png",
+      "screenshotSha256": "b8cf227dc2e89a4ed819046169f72dd745fc5de79f2983471bfb2f2ed4b69f97",
+      "contrast": {
+        "ratio": 1.543,
+        "bodyMedian": 57.71,
+        "backgroundMedian": 35.64,
+        "sampledBodyPixels": 37567
+      },
+      "servedModelBytes": null
+    },
+    {
+      "variant": "A",
+      "width": 1440,
+      "height": 1000,
+      "motion": "no-preference",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.859375,
@@ -158,72 +232,7 @@
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
-      "screenshot": "variant-b-1440.png",
-      "screenshotSha256": "b8cf227dc2e89a4ed819046169f72dd745fc5de79f2983471bfb2f2ed4b69f97",
-      "contrast": {
-        "ratio": 1.543,
-        "bodyMedian": 57.71,
-        "backgroundMedian": 35.64,
-        "sampledBodyPixels": 37567
-      },
-      "servedModelBytes": null
-    },
-    {
-      "variant": "A",
-      "width": 1440,
-      "height": 1000,
-      "motion": "no-preference",
-      "static": true,
-      "webglContexts": 1,
-      "glbRequestsBeforeVisibility": 0,
-      "glbRequestsAfterVisibility": 1,
-      "designRequestsBeforeAccess": 0,
-      "designRequestsAfterAccess": 1,
-      "previewModuleOnlyAfterVisibility": true,
-      "modelContentType": "model/gltf-binary",
-      "environment": "three-band-pmrem",
-      "envMapIntensity": 1.35,
-      "layout": {
-        "heading": {
-          "top": 139.859375,
-          "bottom": 223.71875,
-          "left": 35,
-          "right": 1405
-        },
-        "figure": {
-          "top": 275.71875,
-          "bottom": 1037.71875,
-          "left": 35,
-          "right": 1405
-        },
-        "frame": {
-          "top": 275.71875,
-          "bottom": 995.71875,
-          "left": 35,
-          "right": 1405,
-          "width": 1370,
-          "height": 720
-        },
-        "canvas": {
-          "top": 275.71875,
-          "bottom": 995.71875,
-          "left": 35,
-          "right": 1405,
-          "width": 1370,
-          "height": 720
-        },
-        "documentWidth": 1440,
-        "viewportWidth": 1440
-      },
-      "errors": [],
-      "browserMetrics": {
-        "cls": 0,
-        "fcp": 100,
-        "buildMarker": null
-      },
-      "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": null,
       "screenshotSha256": null,
       "contrast": null,
@@ -243,7 +252,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.859375,
@@ -279,11 +291,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 76,
+        "fcp": 112,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": null,
       "screenshotSha256": null,
       "contrast": null,
@@ -303,7 +315,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.5,
@@ -339,11 +354,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 88,
+        "fcp": 64,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": "variant-a-390.png",
       "screenshotSha256": "5e92e27ae6b4f0a975a99426e1da7ecd8495dc8e8459d67239704e118a82b1bf",
       "contrast": {
@@ -368,7 +383,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.5,
@@ -404,11 +422,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 100,
+        "fcp": 52,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": "variant-b-390.png",
       "screenshotSha256": "d483e2afe441a92412c8f68952166f8255bed7f9e30fd151d84d47d4b1328d1b",
       "contrast": {
@@ -433,7 +451,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.5,
@@ -469,11 +490,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 104,
+        "fcp": 44,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": null,
       "screenshotSha256": null,
       "contrast": null,
@@ -493,7 +514,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.5,
@@ -529,11 +553,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 152,
+        "fcp": 48,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": null,
       "screenshotSha256": null,
       "contrast": null,
@@ -553,7 +577,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.953125,
@@ -589,11 +616,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 76,
+        "fcp": 44,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": "variant-a-320.png",
       "screenshotSha256": "07a55fb0806ecb0fa13a1758aa2ceb656639f1cb1f2506f7ce249b09e584c67a",
       "contrast": {
@@ -618,7 +645,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.953125,
@@ -654,11 +684,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 76,
+        "fcp": 48,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": "variant-b-320.png",
       "screenshotSha256": "32dd565dc6643607972c13eaca20cef6f4773d8108df1b2f29bd379d9fdf5988",
       "contrast": {
@@ -683,7 +713,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.953125,
@@ -719,11 +752,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 40,
+        "fcp": 52,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": null,
       "screenshotSha256": null,
       "contrast": null,
@@ -743,7 +776,10 @@
       "previewModuleOnlyAfterVisibility": true,
       "modelContentType": "model/gltf-binary",
       "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
       "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
       "layout": {
         "heading": {
           "top": 139.953125,
@@ -779,11 +815,11 @@
       "errors": [],
       "browserMetrics": {
         "cls": 0,
-        "fcp": 68,
+        "fcp": 52,
         "buildMarker": null
       },
       "frameLayoutShift": 0,
-      "buildLog": "[h4ngelic] build 11e78a15b5cb",
+      "buildLog": "[h4ngelic] build 93f863a0214e",
       "screenshot": null,
       "screenshotSha256": null,
       "contrast": null,
@@ -808,10 +844,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -831,10 +867,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -854,10 +890,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -877,10 +913,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -900,10 +936,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -923,10 +959,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -946,10 +982,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -969,10 +1005,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -992,10 +1028,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -1015,10 +1051,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -1038,10 +1074,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     },
     {
@@ -1061,10 +1097,10 @@
         "decalModule": 1
       },
       "actualRequests": [
-        "http://127.0.0.1:52591/assets/three.module-seIrsAq9.js",
-        "http://127.0.0.1:52591/models/mannequin-female-b.glb",
-        "http://127.0.0.1:52591/assets/DecalGeometry-Cy3wIADv.js",
-        "http://127.0.0.1:52591/textures/designs/demo-mark.png"
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
       ]
     }
   ],

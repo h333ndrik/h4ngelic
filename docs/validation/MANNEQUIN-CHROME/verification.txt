@@ -11,4 +11,5 @@ Visible per run: 1 WebGL context, 1 GLB request, static canvas, no animation loo
 Design: 0 requests before explicit access; exactly 1 PNG and 1 DecalGeometry chunk after access; re-toggle does not refetch.
 Fallback: aborted GLB keeps 0.9-opacity poster in the same 720 px frame; model-local CLS 0.
 No horizontal overflow and no heading overlap at 1440 / 390 / 320 px.
-Console build marker captured: values are recorded in requests.json for each run.
+Console build marker captured: [h4ngelic] build 93f863a0214e; values are recorded in requests.json for each run.
+Static check: render counter stays at 2 before/after 250 ms in reduced and normal motion.

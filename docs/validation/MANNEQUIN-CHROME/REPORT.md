@@ -70,8 +70,9 @@ ratio would not describe the silhouette.
 | B faceted | ![](variant-b-1440.png) | ![](variant-b-390.png) | ![](variant-b-320.png) |
 
 Default is **B**. A is kept through the same central configuration path for
-comparison. The screenshots were captured serial against the production build,
-not development source.
+comparison. Its screenshot runs intercept the configured model URL and serve the
+A bytes; there is no second production loading path. The screenshots were
+captured serial against the production build, not development source.
 
 Demo decal applied after explicit access:
 
@@ -111,7 +112,7 @@ contract is in [`README-PROCREATE.md`](README-PROCREATE.md).
 - `npm run test:seo`: 18 semantic direct routes and 18 live cold-route checks; no Three.js scene, font or reflection requests; strict 404s, canonicals, sitemap and robots pass.
 - Browser: **12 production runs** = 1440/390/320 × normal/reduced × A/B.
 - Model-local CLS: **0** in every run; aborted-GLB fallback CLS **0**.
-- FCP observed in the local headless/Xvfb-like SwiftShader run: first cold context 1548 ms; subsequent runs 76–100 ms. These are raw local observations, not field data or a performance claim.
+- FCP observed in the local headless/Xvfb-like SwiftShader run: first cold context 1512 ms; subsequent runs 44–116 ms. These are raw local observations, not field data or a performance claim.
 - Build console marker captured in each run; value stored in `requests.json`.
 - Base GLB has one primitive/draw call. An explicitly activated demo adds the separate decal overlay draw, as required by the non-destructive decal contract.
 
@@ -122,6 +123,12 @@ Full numbers: [`requests.json`](requests.json), [`seo-results.json`](seo-results
 - Native Procreate import/compositing was **NICHT PRÜFBAR** because Procreate is unavailable in this environment. PNG/sRGB/alpha, dimensions, scale and the web re-import contract are verified.
 - Real-device GPU field performance is **NICHT PRÜFBAR** in the headless SwiftShader environment.
 - Browser screenshots include the existing fixed NAAVI page marker where it overlays the quiet frame footer; NAAVI was intentionally not modified.
+
+## Commits
+
+- Base: `11e78a15b5cb6951a67b38ddd3ae8fde6eba8e6c` (`v3.2-mannequin`).
+- Implementation and evidence: `93f863a0214e3fa95c59da208654c7633dc73526` (`V3.2-M0d: add procedural female chrome mannequin`, `TESTMODE: full`).
+- Browser evidence was regenerated from that commit; console marker `[h4ngelic] build 93f863a0214e`.
 
 ## Rollback
 

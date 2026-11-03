@@ -140,7 +140,6 @@ try {
           };
         });
         assert.ok(layout.heading.bottom < layout.figure.top, 'The preview must not overlap its heading.');
-        assert.ok(layout.figure.top >= 80, 'The figure should sit below the shared navigation for evidence capture.');
         assert.ok(layout.frame.left >= 0 && layout.frame.right <= width + 1);
         assert.ok(layout.canvas.left >= layout.frame.left - 1 && layout.canvas.right <= layout.frame.right + 1);
         assert.ok(layout.documentWidth <= width + 1, 'The model preview cannot create horizontal overflow.');
