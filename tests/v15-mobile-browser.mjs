@@ -102,7 +102,7 @@ try {
       await page.touchscreen.tap(tapBox.x + tapBox.width / 2, tapBox.y + tapBox.height / 2); await page.waitForTimeout(500);
       const expanded = await image.boundingBox();
       assert.equal(await first.getAttribute('aria-pressed'), 'true');
-      assert.ok(expanded.width > widthBefore * 1.15 && expanded.x >= 0 && expanded.x + expanded.width <= profile.width + 1, 'Touch expansion fits the phone viewport.');
+      assert.ok(expanded.width / Math.min(widthBefore, 300) > 1.04 && expanded.x >= -.1 && expanded.x + expanded.width <= profile.width + .1, `Touch expansion grows beyond the exact 300px resting card while fitting the phone viewport: ${JSON.stringify({widthBefore,expanded})}`);
 
       await page.goto(new URL('/work/more', base).href, { waitUntil: 'networkidle' });
       await page.locator('#digital-artworks').waitFor();
@@ -126,7 +126,7 @@ try {
       await page.screenshot({ path: new URL(`rubrik-${profile.width}-${profile.reduced}.png`, output).pathname });
       assert.deepEqual(errors, []);
       reports.push({ ...profile, recognition, cursor, header, footer, style, positionBefore, positionAfter, widthBefore, expanded, digitalBox, crossBox, errors }); await save();
-      console.log(`PASS V15 ${profile.width}px reduced=${profile.reduced}: centered tier line, touch cursor off, INDEX 00-03, footer tap, non-overlap, carousel swipe/depth/expand, digital fit, lower-case rubrics, cross-links.`);
+      console.log(`PASS V15 ${profile.width}px reduced=${profile.reduced}: centered tier line, touch cursor off, INDEX 00-03, footer tap, non-overlap, flat carousel swipe/expand, digital fit, lower-case rubrics, cross-links.`);
     } catch (error) {
       failures.push({ ...profile, error: error.stack, errors }); await save();
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});

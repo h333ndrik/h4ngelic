@@ -13,17 +13,20 @@
 .drift-status { top: 0; left: 0; margin: 0; }
 .drift-viewport { position: relative; max-width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior: auto; scrollbar-width: thin; scrollbar-color: #858580 transparent; touch-action: pan-x pan-y pinch-zoom; }
 .drift-track { position: relative; display: flex; align-items: flex-start; gap: var(--carousel-spacing); width: max-content; min-width: 100%; box-sizing: border-box; padding: max(32px, 3.2svh) var(--drift-trailing, 22px) max(32px, 3.2svh) var(--drift-leading, 22px); }
-.drift-item { flex: 0 0 auto; width: min(var(--carousel-card-width), calc(100vw - var(--carousel-inline-reservation))); min-width: 0; }
-.is-drift-enhanced .drift-viewport { overflow-x: hidden; touch-action: pan-y pinch-zoom; perspective: var(--carousel-perspective, 900px); perspective-origin: 50% 50%; }
-.is-drift-enhanced .drift-track { transform: translate3d(var(--carousel-position, 0px), 0, 0); transform-style: preserve-3d; }
-.is-drift-enhanced .drift-item { transform: translate3d(var(--carousel-cycle-offset, 0px), 0, 0) rotateY(var(--carousel-depth-rotate, 0deg)) scale(var(--carousel-depth-scale, 1)); transform-origin: 50% 50%; will-change: transform; }
+.drift-item { flex: 0 0 auto; width: var(--carousel-card-width); min-width: 0; }
+.is-drift-enhanced .drift-viewport { overflow-x: hidden; touch-action: pan-y pinch-zoom; }
+.is-drift-enhanced .drift-track { transform: translate3d(var(--carousel-position, 0px), 0, 0); }
+.is-drift-enhanced .drift-item { transform: translate3d(var(--carousel-cycle-offset, 0px), 0, 0); will-change: transform; }
 .drift-item > .drift-images { transform: translate3d(var(--carousel-neighbor-x, 0px), var(--carousel-lift-y, 0px), 0); transition: transform var(--ui-hover-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)); }
 .drift-images { display: block; }
-.drift-item .project-image { overflow: visible; }
-.drift-item .inline-artwork-frame { height: var(--carousel-expanded-height); aspect-ratio: auto; --inline-rest-width: min(100%, var(--carousel-card-width), calc((100vw - var(--carousel-inline-reservation)) / var(--carousel-expansion-scale)), calc(var(--carousel-card-height) * var(--drift-ratio)), calc(var(--carousel-expanded-height) * var(--carousel-resting-fraction) * var(--drift-ratio))); }
+.drift-item .project-image { width: var(--carousel-card-width); height: var(--carousel-card-height); aspect-ratio: auto; overflow: hidden; }
+.drift-item .inline-artwork-frame { display: block; height: var(--carousel-card-height); aspect-ratio: auto; --inline-rest-margin: calc((var(--carousel-card-width) - var(--inline-rest-width)) / 2); --inline-rest-width: var(--carousel-card-width); --inline-rest-margin: 0; --inline-rest-fraction: 1; --inline-artwork-fit: cover; }
 .drift-detail-image[hidden] { display: none; }
 .drift-artwork { position: relative; outline-offset: 2px; transform-origin: 50% 50%; }
-.drift-item .artwork-open img { object-fit: contain; }
+.horizontal-drift .drift-item .inline-artwork-frame > .artwork-open { width: var(--inline-rest-width); height: var(--carousel-card-height); max-width: none; margin: 0; aspect-ratio: auto; }
+.drift-item .artwork-open img { object-position: center; }
+.drift-item .artwork-open[data-inline-expanded] { --inline-artwork-fit: contain; }
+.drift-item.is-inline-expanded .project-image { overflow: visible; }
 .drift-meta { margin-top: max(18px, 3.2svh); color: #c5c5bf; }
 .drift-meta h2 { margin: 0; font-size: 13px; line-height: 1.5; font-weight: 400; }
 .drift-meta h2 a { text-decoration: none; }
@@ -38,13 +41,9 @@
   35% { box-shadow: 0 0 17px 1px #ffffff28; }
   100% { box-shadow: 0 0 26px 0 #ffffff00; }
 }
-@media (hover: hover) and (pointer: fine) {
-  /* The existing UI system owns the image zoom/glow. The outer card owns only
-     perspective depth, so hover never multiplies the depth scale. */
-}
 @media (max-width: 600px) {
-  .horizontal-drift { margin-top: 22px; }
-  .drift-toolbar { gap: 8px; }
+  .horizontal-drift { width: 100vw; max-width: 100vw; margin-top: 22px; margin-left: calc(50% - 50vw); }
+  .drift-toolbar { gap: 8px; padding-inline: 22px; }
   .drift-instruction { font-size: 10px; max-width: 16ch; }
   .drift-controls { gap: 0; }
   .drift-count { min-width: 40px; }

@@ -88,10 +88,10 @@ export function initInlineArtworkExpand(root = document) {
       bottom: Math.min(clipRect.top + clip.clientTop + clip.clientHeight,
         viewportTop + (viewport?.height || view.innerHeight) - pixels(style, '--inline-safe-end', 76)),
     };
-    // A carousel frame reserves vertical space before first paint. Expansion
-    // can occupy neighbouring horizontal space inside its actual scrollport;
-    // it never widens the flex item or changes the document's layout slots.
-    const maximum = record.section ? { width: bounds.right - bounds.left, height: frameRect.height } : frameRect;
+    // The carousel card reserves a fixed 300x420 resting window. Its expanded
+    // containing view can use the visible strip and viewport clearance without
+    // widening the flex item or changing document layout slots.
+    const maximum = record.section ? { width: bounds.right - bounds.left, height: bounds.bottom - bounds.top } : frameRect;
     const next = fitInlineArtwork({ preview, frame: maximum, bounds });
     if (!next) return null;
     return { ...next, radius: Number.parseFloat(style.borderTopLeftRadius) || 0 };

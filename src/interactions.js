@@ -129,6 +129,7 @@ export function initInteractions(root = document, { revealSections = true, setti
     // Measure only at entry/focus/resize. A scrollport or clipped pin may be
     // narrower than the viewport and must retain the entire enlarged label.
     for (let parent = element.parentElement, depth = 0; parent && depth < 16; parent = parent.parentElement, depth++) {
+      if (element.closest('[data-horizontal-drift]') && parent.matches('.inline-artwork-frame')) continue;
       if (!/^(auto|scroll|hidden|clip)$/.test(getComputedStyle(parent).overflowX)) continue;
       const rect = parent.getBoundingClientRect();
       const edge = rect.left + parent.clientLeft;

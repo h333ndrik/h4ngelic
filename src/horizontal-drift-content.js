@@ -8,9 +8,8 @@ export const horizontalDriftCategories = Object.freeze(['tattoos', 'flashes', 'a
 
 function imageMarkup(image, index, { hidden = false } = {}) {
   if (!contentURL(image?.src)) return '';
-  const previewWidth = Math.min(carouselSettings.cardWidth, carouselSettings.cardHeight * (image.width || 4) / (image.height || 5));
-  const asset = getImageAsset(image, { maximumPreviewWidth: 640,
-    sizes: `(max-width: ${Math.ceil(previewWidth * carouselSettings.expansionScale + carouselSettings.cardViewportInset * 2)}px) calc((100vw - ${carouselSettings.cardViewportInset * 2}px) / ${carouselSettings.expansionScale}), ${Math.ceil(previewWidth)}px` });
+  const coverWidth = Math.ceil(carouselSettings.cardHeight * (image.width || 4) / (image.height || 5));
+  const asset = getImageAsset(image, { maximumPreviewWidth: 640, sizes: `${coverWidth}px` });
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
   return `<figure class="project-image inline-artwork-frame${hidden ? ' drift-detail-image' : ''}" style="--artwork-ratio:${asset.width} / ${asset.height}"${hidden ? ' hidden' : ''}>
     <button class="artwork-open drift-artwork" type="button" data-artwork-open${carouselSettings.expandWithinLayout ? ' data-inline-expand' : ''} aria-pressed="false" aria-label="enlarge ${escape(image.alt || 'artwork image')} in place" style="--artwork-ratio:${asset.width} / ${asset.height}">

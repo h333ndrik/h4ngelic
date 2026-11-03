@@ -1,0 +1,12 @@
+START V3.1.1 F9 carousel 1440px reduced=false
+PASS F9/F19 1440px reduced=false: eight 300x420 covered cards, flat row, viewport wheel physics, touch escape, wrapping controls, unified hover, actual inline fit and no Three.js.
+START V3.1.1 F9 carousel 1440px reduced=true
+PASS F9/F19 1440px reduced=true: eight 300x420 covered cards, flat row, viewport wheel physics, touch escape, wrapping controls, unified hover, actual inline fit and no Three.js.
+START V3.1.1 F9 carousel 390px reduced=false
+PASS F9/F19 390px reduced=false: eight 300x420 covered cards, flat row, viewport wheel physics, touch escape, wrapping controls, unified hover, actual inline fit and no Three.js.
+START V3.1.1 F9 carousel 390px reduced=true
+PASS F9/F19 390px reduced=true: eight 300x420 covered cards, flat row, viewport wheel physics, touch escape, wrapping controls, unified hover, actual inline fit and no Three.js.
+START V3.1.1 F9 carousel 320px reduced=false
+PASS F9/F19 320px reduced=false: eight 300x420 covered cards, flat row, viewport wheel physics, touch escape, wrapping controls, unified hover, actual inline fit and no Three.js.
+START V3.1.1 F9 carousel 320px reduced=true
+PASS F9/F19 320px reduced=true: eight 300x420 covered cards, flat row, viewport wheel physics, touch escape, wrapping controls, unified hover, actual inline fit and no Three.js.

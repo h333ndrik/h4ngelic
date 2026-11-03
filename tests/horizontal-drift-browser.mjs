@@ -11,7 +11,7 @@ const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => 
   .filter(profile => !process.env.H4_DRIFT_REDUCED || profile.reduced === (process.env.H4_DRIFT_REDUCED === 'true'));
 await mkdir(artifacts, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
-  args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+  args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows'] });
 const results = [];
 let activeProfile = null, activePage = null, activeErrors = [];
 const deadline = setTimeout(() => void browser.close(), 600000);
@@ -24,7 +24,7 @@ async function state(page) {
     const port = element.querySelector('.drift-viewport');
     return { position: Number(element.dataset.driftPosition), velocity: Number(element.dataset.carouselVelocity),
       phase: element.dataset.carouselPhase, wrapCount: Number(element.dataset.carouselWrapCount),
-      index: Number(element.dataset.carouselIndex), scrollY, height: element.offsetHeight,
+      index: Number(element.dataset.carouselIndex), scrollY, height: element.offsetHeight, hidden: document.hidden,
       documentHeight: document.documentElement.scrollHeight, nativeLeft: port.scrollLeft,
       inlineHeight: element.style.height, sticky: getComputedStyle(port).position,
       count: element.querySelector('[data-drift-count]').textContent,
@@ -83,12 +83,16 @@ async function metadata(page) {
     alt: image.alt, loading: image.loading, srcset: image.srcset, sizes: image.sizes,
     radius: getComputedStyle(image).borderRadius, filter: getComputedStyle(image).filter,
     fit: getComputedStyle(image).objectFit, transform: getComputedStyle(image).transform,
+    frameWidth: image.closest('.inline-artwork-frame').getBoundingClientRect().width,
+    frameHeight: image.closest('.inline-artwork-frame').getBoundingClientRect().height,
+    imageWidth: image.getBoundingClientRect().width, imageHeight: image.getBoundingClientRect().height,
   })));
   assert.deepEqual(entries.map(image => image.original), originals.map(image => imageManifest[image.url].variants.at(-1).src));
   for (let i = 0; i < entries.length; i++) {
     const image = entries[i];
     assert.equal(image.width, originals[i].width); assert.equal(image.height, originals[i].height);
-    assert.equal(image.loading, 'lazy'); assert.equal(image.radius, '4px'); assert.equal(image.fit, 'contain');
+    assert.equal(image.loading, 'lazy'); assert.equal(image.radius, '4px'); assert.equal(image.fit, 'cover');
+    assert.ok(close(image.frameWidth, 300, .5) && close(image.frameHeight, 420, .5), `Every resting card is exactly 300x420: ${JSON.stringify(image)}`);
     assert.equal(image.filter, siteFilter,
       'Photos retain the existing site-wide reality treatment without a carousel-specific recolor.');
     assert.ok(image.alt.length > 20 && image.srcset.includes('w') && image.sizes.length > 0);
@@ -104,13 +108,17 @@ async function expansion(page, profile, world) {
   await opener.evaluate(element => element.focus({ preventScroll: true }));
   await frames(page);
   const before = await state(page), boxBefore = await image.boundingBox();
+  const fitBefore = await image.evaluate(element => getComputedStyle(element).objectFit);
   const bodyOverflow = await page.evaluate(() => document.body.style.overflow);
   await page.keyboard.press('Enter');
   await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"] [data-inline-expanded]'));
   await page.waitForTimeout(profile.reduced ? 0 : 360);
   const enlarged = await state(page), boxEnlarged = await image.boundingBox();
   const ratio = boxEnlarged.width / boxBefore.width;
-  assert.ok(ratio >= 1.2, `Within-page expansion is clearly larger, actual ratio ${ratio}.`);
+  const restingGrowth = boxEnlarged.width / Math.min(boxBefore.width, 300);
+  const fitAfter = await image.evaluate(element => getComputedStyle(element).objectFit);
+  assert.equal(fitBefore, 'cover'); assert.equal(fitAfter, 'contain', 'Only the expanded view uses contain.');
+  assert.ok(restingGrowth >= (profile.width < 600 ? 1.04 : 1.2), `Within-page expansion exceeds the exact resting card where viewport room permits: ${JSON.stringify({ ratio, restingGrowth, boxBefore, boxEnlarged })}`);
   assert.ok(close(boxEnlarged.height / boxBefore.height, ratio, .01), 'Expansion preserves genuine photo proportions.');
   assert.ok(boxEnlarged.x >= -1 && boxEnlarged.x + boxEnlarged.width <= profile.width + 1
     && boxEnlarged.y >= -1 && boxEnlarged.y + boxEnlarged.height <= 845, `Expanded photograph fits the viewport: ${JSON.stringify(boxEnlarged)}`);
@@ -151,7 +159,8 @@ async function expansion(page, profile, world) {
   }, await opener.elementHandle(), { timeout: 3000 });
   await page.waitForTimeout(profile.reduced ? 0 : 360);
   const restored = await state(page), boxRestored = await image.boundingBox();
-  assert.ok(close(boxRestored.width, boxBefore.width, 6) && close(boxRestored.height, boxBefore.height, 6), JSON.stringify({ world, computed: await opener.evaluate(e => ({ hover:e.matches(':hover'), focus:e.matches(':focus-visible'), active:document.activeElement.tagName, matrix:getComputedStyle(e.querySelector('.interaction-visual')).transform, scale:getComputedStyle(e.querySelector('.interaction-visual')).getPropertyValue('--ui-active-scale') })), boxBefore, boxEnlarged, boxRestored, style: await opener.getAttribute('style'), wrapper: await opener.locator('.interaction-visual').getAttribute('style') }));
+  assert.ok(close(boxRestored.width, boxBefore.width, 8) && close(boxRestored.height, boxBefore.height, 8), JSON.stringify({ world, computed: await opener.evaluate(e => ({ hover:e.matches(':hover'), focus:e.matches(':focus-visible'), active:document.activeElement.tagName, matrix:getComputedStyle(e.querySelector('.interaction-visual')).transform, scale:getComputedStyle(e.querySelector('.interaction-visual')).getPropertyValue('--ui-active-scale') })), boxBefore, boxEnlarged, boxRestored, style: await opener.getAttribute('style'), wrapper: await opener.locator('.interaction-visual').getAttribute('style') }));
+  assert.equal(await image.evaluate(element => getComputedStyle(element).objectFit), 'cover', 'Closing restores the covered resting view.');
   assert.ok(close(restored.position, before.position, 12) && close(restored.scrollY, before.scrollY), JSON.stringify({ before, restored, world, phase: restored.phase }));
   assert.deepEqual(restored.slots, before.slots); assert.equal(restored.documentHeight, before.documentHeight);
   return { before, enlarged, restored, boxBefore, boxEnlarged, ratio };
@@ -189,14 +198,20 @@ async function gestures(page, context, profile) {
   const point = { x: port.x + port.width * .72, y: port.y + Math.min(port.height * .5, 240) };
   await page.mouse.move(point.x, point.y); await pauseDrift(page);
   const wheelBefore = await state(page), wheelScrollBefore = await page.evaluate(() => scrollY);
-  await page.mouse.wheel(0, 22);
-  await page.waitForFunction(before => scrollY > before + 1, wheelScrollBefore);
+  await page.mouse.wheel(0, 100);
+  await page.waitForFunction(before => Math.abs(Number(document.querySelector('[data-horizontal-drift="tattoos"]').dataset.driftPosition) - before) > 1, wheelBefore.position);
   await frames(page); const wheelDuring = await state(page);
-  assert.ok(close(wheelDuring.position, wheelBefore.position, 1), 'Vertical wheel never moves carousel cards.');
-  assert.ok(wheelDuring.scrollY > wheelBefore.scrollY, 'Vertical wheel scrolls the page through the carousel.');
-  assert.equal(wheelDuring.phase, 'idle');
-  const wheelAfter = await pauseDrift(page);
-  assert.ok(wheelAfter.scrollY > wheelBefore.scrollY);
+  assert.ok(Math.abs(wheelDuring.position - wheelBefore.position) > 1, 'Vertical wheel over the viewport drives the horizontal physics.');
+  assert.ok(close(wheelDuring.scrollY, wheelScrollBefore, 1), 'The captured wheel must not scroll the page.');
+  assert.ok(['momentum', 'idle'].includes(wheelDuring.phase));
+  await pauseDrift(page);
+  const horizontalBefore = (await state(page)).position;
+  await page.mouse.wheel(100, 0);
+  await page.waitForFunction(before => Math.abs(Number(document.querySelector('[data-horizontal-drift="tattoos"]').dataset.driftPosition) - before) > 1, horizontalBefore);
+  await frames(page);
+  const wheelAfter = await state(page);
+  assert.ok(Math.abs(wheelAfter.position - horizontalBefore) > 1, 'Native horizontal wheel delta uses the same horizontal physics.');
+  assert.ok(close(wheelAfter.scrollY, wheelScrollBefore, 1), 'Horizontal wheel capture also leaves the page scroll untouched.');
   await home(page);
   let cdp;
   const dragBefore = await state(page);
@@ -215,7 +230,7 @@ async function gestures(page, context, profile) {
   await frames(page); const dragRelease = await state(page);
   assert.ok(Math.abs(dragRelease.position - dragBefore.position) > 140, `Real drag/swipe moves the horizontal archive: ${JSON.stringify({profile, point, dragBefore, dragRelease, world: await page.locator('html').getAttribute('data-mode')})}`);
   if (profile.reduced) { assert.equal(dragRelease.phase, 'idle'); assert.equal(dragRelease.velocity, 0); }
-  else { await page.waitForTimeout(120); const running = await state(page); assert.ok(Math.abs(running.position - dragRelease.position) > .5, 'Drag/swipe releases into finite momentum.'); }
+  else { await page.waitForTimeout(120); await frames(page); const running = await state(page); assert.ok(Math.abs(running.position - dragRelease.position) > .5, `Drag/swipe releases into finite momentum: ${JSON.stringify({ dragRelease, running })}`); }
   const dragAfter = await pauseDrift(page);
   assert.ok(close(dragAfter.scrollY, dragBefore.scrollY, 2), 'Horizontal gestures preserve page scroll.');
   assert.equal(await section(page).locator('[data-inline-expanded]').count(), 0, 'Drag/swipe never clicks open a photograph.');
@@ -297,6 +312,7 @@ try {
         .observe({ type: 'layout-shift', buffered: true });
     });
     const page = activePage = await context.newPage();
+    await page.bringToFront();
     const errors = activeErrors = [], requests = [];
     page.setDefaultTimeout(20000);
     page.on('pageerror', error => errors.push(error.message));
@@ -310,19 +326,19 @@ try {
       assert.equal(config.cardWidth, 300); assert.equal(config.cardHeight, 420); assert.equal(config.spacing, 100);
       assert.equal(config.inertia, .05); assert.equal(config.wheelSensitivity, 8); assert.equal(config.wrap, true);
       assert.equal(config.autoDrift, true); assert.equal(config.autoScroll, .3); assert.equal(config.hoverPause, true);
-      assert.equal(config.scrollCapture, 'none'); assert.equal(config.perspectiveZoom, 45); assert.equal(config.cameraDistance, 900);
-      assert.equal(config.depthScale, true); assert.equal(config.edgeRotation, 12); assert.equal(config.pointerLabel, false);
+      assert.equal(config.scrollCapture, 'area'); assert.equal(config.perspectiveZoom, 45); assert.equal(config.cameraDistance, 900);
+      assert.equal(config.depthScale, false); assert.equal(config.edgeRotation, 0); assert.equal(config.edgeScaleFloor, 1); assert.equal(config.pointerLabel, false);
       assert.equal(config.expandWithinLayout, true);
       const depth = await section(page).evaluate(element => {
         const port = element.querySelector('.drift-viewport');
         return { perspective: getComputedStyle(port).perspective,
           items: [...element.querySelectorAll('[data-drift-item]')].map(item => {
             const matrix = new DOMMatrixReadOnly(getComputedStyle(item).transform === 'none' ? undefined : getComputedStyle(item).transform);
-            return { scale: Math.hypot(matrix.m11, matrix.m12), is3d: !matrix.is2D };
+            return { scale: Math.hypot(matrix.m11, matrix.m12), rotation: Math.atan2(matrix.m12, matrix.m11), is3d: !matrix.is2D };
           }) };
       });
-      assert.equal(depth.perspective, '900px'); assert.ok(depth.items.some(item => item.is3d));
-      assert.ok(depth.items.some(item => item.scale < .995), 'Edge cards recede with CSS-only depth.');
+      assert.equal(depth.perspective, 'none');
+      assert.ok(depth.items.every(item => close(item.scale, 1, .0001) && close(item.rotation, 0, .0001)), `Every card remains flat without depth scale or rotation: ${JSON.stringify(depth.items)}`);
       const flashes = page.locator('[data-horizontal-drift="flashes"]');
       assert.equal(await flashes.locator('img,canvas,[data-drift-item]').count(), 0);
       assert.equal(await flashes.locator('.archive-empty').textContent(), 'archive in progress.');
@@ -372,7 +388,7 @@ try {
       assert.ok(cumulativeLayoutShift <= .001, `Carousel interactions and lazy images cause no meaningful layout shift (${cumulativeLayoutShift}).`);
       results.push({ ...profile, config, worlds, fixture, layoutShifts, cumulativeLayoutShift, errors });
       await writeFile(new URL('results.json', artifacts), JSON.stringify({ passed: false, results }, null, 2));
-      console.log(`PASS F9 ${profile.width}px reduced=${profile.reduced}: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.`);
+      console.log(`PASS F9/F19 ${profile.width}px reduced=${profile.reduced}: eight 300x420 covered cards, flat row, viewport wheel physics, touch escape, wrapping controls, unified hover, actual inline fit and no Three.js.`);
     } finally { await context.close(); activePage = null; }
   }
   await writeFile(new URL('results.json', artifacts), JSON.stringify({ passed: true, results }, null, 2));

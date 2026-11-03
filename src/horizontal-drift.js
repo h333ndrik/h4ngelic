@@ -223,9 +223,12 @@ export function initHorizontalDrift(root = document) {
       const raw = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
       const delta = clamp(raw * unit, -settings.maximumWheelDelta, settings.maximumWheelDelta);
       if (!delta || !state.wrap && (delta < 0 && state.position <= 0 || delta > 0 && state.position >= state.travel)) return;
+      // Only a wheel event over the enhanced strip is translated. Native page
+      // scrolling outside this element remains untouched.
       event.preventDefault();
-      if (reduced.matches) { state.position += delta * settings.wheelSensitivity; if (!state.wrap) state.position = clamp(state.position, 0, state.travel); }
-      else state.velocity = clamp(state.velocity + delta * settings.wheelSensitivity / 60, -settings.maximumVelocity, settings.maximumVelocity);
+      const impulse = delta * settings.wheelSensitivity / 60;
+      if (reduced.matches) { state.position += impulse; if (!state.wrap) state.position = clamp(state.position, 0, state.travel); }
+      else state.velocity = clamp(state.velocity + impulse, -settings.maximumVelocity, settings.maximumVelocity);
       schedule();
     }, { passive: false });
     listen(state.section, 'keydown', () => { state.keyboardPaused = true; schedule(); });

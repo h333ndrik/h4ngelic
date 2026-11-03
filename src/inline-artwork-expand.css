@@ -15,7 +15,7 @@
   display: block;
   width: var(--inline-rest-width, calc(100% * var(--inline-rest-fraction)));
   max-width: 100%;
-  margin: 0;
+  margin: var(--inline-rest-margin, 0);
   aspect-ratio: var(--artwork-ratio, 4 / 5);
   transform-origin: 50% 50%;
   transform: translate3d(var(--inline-view-x, 0px), var(--inline-view-y, 0px), 0)
@@ -29,7 +29,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: var(--inline-artwork-fit, contain);
   border-radius: inherit;
 }
 /* clip trims the rounded image without creating a nested scroll container,
