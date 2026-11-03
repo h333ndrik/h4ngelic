@@ -1,0 +1,6 @@
+PASS hero poster 1440px reduced=false
+PASS hero poster 1440px reduced=true
+PASS hero poster 390px reduced=false
+PASS hero poster 390px reduced=true
+PASS hero poster 320px reduced=false
+PASS hero poster 320px reduced=true

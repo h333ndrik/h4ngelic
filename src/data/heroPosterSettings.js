@@ -9,4 +9,9 @@ export const heroPosterSettings = Object.freeze({
   fadeDurationMs: 650,
   /** Reduced motion keeps this poster and never imports or initializes WebGL. */
   reducedMotionStatic: true,
+  /** Optional tattoo texture is loaded only after the chrome's first frame. */
+  artwork: Object.freeze({
+    desktop: '/assets/tattoo-texture.webp',
+    mobile: '/assets/tattoo-texture-640.webp',
+  }),
 });

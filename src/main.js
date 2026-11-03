@@ -7,6 +7,7 @@ import { LogoPhysics } from './physics.js';
 import { sampleBase } from './motion.js';
 import { bindControls } from './controls.js';
 import { attachArtwork, revealWeight } from './reveal.js';
+import { heroPosterSettings } from './data/heroPosterSettings.js';
 import { chooseRenderQuality, AdaptiveResolution } from './render-quality.js';
 import { featureFlags } from './data/featureFlags.js';
 import { createHeroDepth } from './hero-depth.js';
@@ -36,6 +37,11 @@ let previousPoint = null;
 let previousPointerTime = 0;
 let lastHit = -Infinity;
 let artwork = null;
+let artworkRequested = false;
+let firstFrameHadArtwork = null;
+let firstFrameAt = null;
+let artworkRequestedAt = null;
+let artworkReadyAt = null;
 let disposeScene = () => {};
 let stageIsVisible = false;
 let sceneReady = false;
@@ -123,16 +129,28 @@ async function initialize() {
   document.addEventListener('h4:pagechange', cancelInkGesture);
   window.addEventListener('blur', cancelInkGesture);
 
-  // Only an explicitly supplied original artwork is loaded. No substitute art.
-  const artworkUrl = import.meta.env.VITE_TATTOO_ARTWORK_URL || (quality.name === 'desktop' ? '/assets/tattoo-texture.webp' : '/assets/tattoo-texture-640.webp');
-  if (artworkUrl) {
+  // Only an explicitly supplied original artwork is loaded. It starts after
+  // the first chrome frame so texture decode and shader preparation cannot
+  // hold the poster or critical navigation. No substitute art is used.
+  const artworkUrl = import.meta.env.VITE_TATTOO_ARTWORK_URL
+    || (quality.name === 'desktop' ? heroPosterSettings.artwork.desktop : heroPosterSettings.artwork.mobile);
+  const startArtwork = async () => {
+    if (artworkRequested || !artworkUrl) return;
+    artworkRequested = true;
+    artworkRequestedAt = performance.now();
+    stage.dataset.artworkRequestedAt = String(artworkRequestedAt);
     try {
-      artwork = await attachArtwork(chrome, { url: artworkUrl, width: size.x, height: size.y });
+      const prepared = await attachArtwork(chrome, { url: artworkUrl, width: size.x, height: size.y });
+      if (!running) { prepared.dispose(); return; }
+      artwork = prepared;
+      artworkReadyAt = performance.now();
+      stage.dataset.artworkReady = 'true';
+      stage.dataset.artworkReadyAt = String(artworkReadyAt);
       controls.setRevealAvailable(true);
     } catch (error) {
       console.warn('Tattoo artwork could not be loaded; reveal remains unavailable.', error);
     }
-  }
+  };
   // Install after the artwork hook so both treatments share one mesh program.
   // Uniform updates leave the hero's existing visibility/RAF lifecycle intact.
   let wordmarkXRay = null;
@@ -362,8 +380,14 @@ async function initialize() {
     if (artwork) artwork.opacity.value = revealEnabled ? revealWeight(logo.quaternion, Number(import.meta.env.VITE_REVEAL_ANGLE || 150)) : 0;
     renderer.render(scene, camera);
     if (frameCount === 0) {
+      firstFrameHadArtwork = Boolean(artwork);
+      firstFrameAt = performance.now();
+      stage.dataset.firstFrameHadArtwork = String(firstFrameHadArtwork);
+      stage.dataset.firstFrameAt = String(firstFrameAt);
+      stage.dataset.artworkRequestedAt = String(artworkRequestedAt);
       stage.classList.add('is-ready');
       status.textContent = '3D wordmark ready. Use the animation controls below; pointer dragging is optional.';
+      void startArtwork();
     }
     const nextRatio = modeTransitioning ? null : resolution.sample(dt, timestamp);
     if (nextRatio !== null) {
@@ -414,7 +438,7 @@ async function initialize() {
 
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, substeps: physics.substepRate, modeTransitioning, xrayPrepared: Boolean(wordmarkXRay), position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
+      snapshot: () => ({ baseTime: animationTime, substeps: physics.substepRate, modeTransitioning, xrayPrepared: Boolean(wordmarkXRay), position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, artworkReady: Boolean(artwork), artworkRequested, firstFrameHadArtwork, firstFrameAt, artworkRequestedAt, artworkReadyAt, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
         heroInk: { ...heroInk.snapshot(), gpu: { ...renderer.info.memory } } }),
       hitPoint: ({ minFacing = 0, maxFacing = 1, minAbsNormalZ = 0, maxAbsNormalZ = 1 } = {}) => {
         // Search real geometry instead of guessing a point inside a glyph hole.

@@ -10,8 +10,15 @@ test('hero poster configuration is injected ahead of layout and application styl
   ]);
   assert.match(config, /src: '\/assets\/wordmark-fallback\.svg'/);
   assert.match(config, /fadeDurationMs: 650/);
+  assert.match(config, /desktop: '\/assets\/tattoo-texture\.webp'/);
+  assert.match(config, /mobile: '\/assets\/tattoo-texture-640\.webp'/);
   assert.match(html, /__H4_HERO_POSTER_URL__/);
   assert.match(html, /data-hero-poster-critical/);
+  assert.match(html, /id="hero-preloads"/);
+  assert.match(html, /rel="modulepreload" href="\/src\/main\.js"/);
+  assert.match(html, /wordmark\.typeface\.json" as="fetch"/);
+  assert.match(html, /__H4_HERO_ARTWORK_DESKTOP__.*fetchpriority="high"/);
+  assert.match(prerender, /route\.kind !== 'home'.*wordmark-fallback/s);
   assert.ok(html.indexOf('data-hero-poster-critical') < html.indexOf('<!--seo:start-->'));
   assert.match(vite, /name: 'h4ngelic-hero-poster'/);
   assert.match(vite, /replaceAll\('__H4_HERO_POSTER_URL__'/);

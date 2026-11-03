@@ -42,6 +42,7 @@ let stopEndReveal = () => {};
 let stopDrift = () => {};
 let stopMannequins = () => {};
 let heroObserver = null;
+let heroPreloadsActivated = false;
 const heroReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let moshTransitions = null;
 let renderRevision = 0;
@@ -66,6 +67,19 @@ function ensureHero() {
   if (brand) brand.textContent = siteContent.name;
 }
 
+
+function activateHeroPreloads() {
+  if (heroPreloadsActivated) return;
+  heroPreloadsActivated = true;
+  const template = document.getElementById('hero-preloads');
+  if (!template) return;
+  for (const link of template.content.querySelectorAll('[data-hero-preload]')) {
+    if (document.head.querySelector(`[data-hero-preload="${link.dataset.heroPreload}"]`)) continue;
+    document.head.append(link.cloneNode(true));
+  }
+  template.remove();
+}
+
 function configureHeroPoster() {
   const poster = hero?.querySelector('[data-hero-poster]');
   if (!poster) return;
@@ -88,6 +102,7 @@ function prepareHero() {
     return;
   }
   hero.querySelector('#stage')?.classList.remove('is-poster-static');
+  activateHeroPreloads();
   if (heroLoaded) return;
   heroObserver?.disconnect();
   heroObserver = new IntersectionObserver(([entry]) => {

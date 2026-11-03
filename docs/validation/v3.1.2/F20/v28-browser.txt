@@ -1,0 +1,12 @@
+CHECK V28 hero tagline 1440px reduced=false
+PASS V28 1440px reduced=false: no tagline element or copy, clean full-stage hero, no overflow and CLS 0.0000.
+CHECK V28 hero tagline 1440px reduced=true
+PASS V28 1440px reduced=true: no tagline element or copy, clean full-stage hero, no overflow and CLS 0.0000.
+CHECK V28 hero tagline 390px reduced=false
+PASS V28 390px reduced=false: no tagline element or copy, clean full-stage hero, no overflow and CLS 0.0000.
+CHECK V28 hero tagline 390px reduced=true
+PASS V28 390px reduced=true: no tagline element or copy, clean full-stage hero, no overflow and CLS 0.0000.
+CHECK V28 hero tagline 320px reduced=false
+PASS V28 320px reduced=false: no tagline element or copy, clean full-stage hero, no overflow and CLS 0.0000.
+CHECK V28 hero tagline 320px reduced=true
+PASS V28 320px reduced=true: no tagline element or copy, clean full-stage hero, no overflow and CLS 0.0000.

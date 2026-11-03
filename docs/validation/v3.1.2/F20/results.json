@@ -1,0 +1,310 @@
+{
+  "checkedAt": "2026-11-03T05:17:40.867Z",
+  "base": "http://127.0.0.1:55175",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "first": {
+        "poster": true,
+        "opacity": 1,
+        "background": "url(\"http://127.0.0.1:55175/assets/wordmark-fallback.svg\")",
+        "fcp": 64,
+        "preloads": [
+          {
+            "kind": "module",
+            "rel": "modulepreload",
+            "href": "http://127.0.0.1:55175/assets/main-CG75Y9Rd.js",
+            "as": "",
+            "priority": null,
+            "media": ""
+          },
+          {
+            "kind": "font",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/fonts/wordmark.typeface.json",
+            "as": "fetch",
+            "priority": null,
+            "media": ""
+          },
+          {
+            "kind": "artwork-desktop",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/assets/tattoo-texture.webp",
+            "as": "image",
+            "priority": "high",
+            "media": "(min-width: 601px)"
+          },
+          {
+            "kind": "artwork-mobile",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/assets/tattoo-texture-640.webp",
+            "as": "image",
+            "priority": "high",
+            "media": "(max-width: 600px)"
+          }
+        ],
+        "paintSamples": [
+          52,
+          60,
+          64
+        ],
+        "fcpMedian": 60
+      },
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55175/assets/wordmark-fallback.svg",
+          "at": 1793683051337
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/main-CG75Y9Rd.js",
+          "at": 1793683051372
+        },
+        {
+          "url": "http://127.0.0.1:55175/fonts/wordmark.typeface.json",
+          "at": 1793683051372
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/tattoo-texture.webp",
+          "at": 1793683051372
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/main-Bs6ntfv3.js",
+          "at": 1793683051380
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/tattoo-texture.webp",
+          "at": 1793683051471
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "first": {
+        "poster": true,
+        "opacity": 1,
+        "background": "url(\"http://127.0.0.1:55175/assets/wordmark-fallback.svg\")",
+        "fcp": 60,
+        "preloads": [],
+        "paintSamples": [
+          68,
+          64,
+          60
+        ],
+        "fcpMedian": 64
+      },
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55175/assets/wordmark-fallback.svg",
+          "at": 1793683052967
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "first": {
+        "poster": true,
+        "opacity": 1,
+        "background": "url(\"http://127.0.0.1:55175/assets/wordmark-fallback.svg\")",
+        "fcp": 68,
+        "preloads": [
+          {
+            "kind": "module",
+            "rel": "modulepreload",
+            "href": "http://127.0.0.1:55175/assets/main-CG75Y9Rd.js",
+            "as": "",
+            "priority": null,
+            "media": ""
+          },
+          {
+            "kind": "font",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/fonts/wordmark.typeface.json",
+            "as": "fetch",
+            "priority": null,
+            "media": ""
+          },
+          {
+            "kind": "artwork-desktop",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/assets/tattoo-texture.webp",
+            "as": "image",
+            "priority": "high",
+            "media": "(min-width: 601px)"
+          },
+          {
+            "kind": "artwork-mobile",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/assets/tattoo-texture-640.webp",
+            "as": "image",
+            "priority": "high",
+            "media": "(max-width: 600px)"
+          }
+        ],
+        "paintSamples": [
+          64,
+          32,
+          68
+        ],
+        "fcpMedian": 64
+      },
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55175/assets/wordmark-fallback.svg",
+          "at": 1793683055047
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/main-CG75Y9Rd.js",
+          "at": 1793683055075
+        },
+        {
+          "url": "http://127.0.0.1:55175/fonts/wordmark.typeface.json",
+          "at": 1793683055076
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/tattoo-texture-640.webp",
+          "at": 1793683055076
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/main-Bs6ntfv3.js",
+          "at": 1793683055083
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/tattoo-texture-640.webp",
+          "at": 1793683055176
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "first": {
+        "poster": true,
+        "opacity": 1,
+        "background": "url(\"http://127.0.0.1:55175/assets/wordmark-fallback.svg\")",
+        "fcp": 28,
+        "preloads": [],
+        "paintSamples": [
+          88,
+          40,
+          28
+        ],
+        "fcpMedian": 40
+      },
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55175/assets/wordmark-fallback.svg",
+          "at": 1793683056657
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "first": {
+        "poster": true,
+        "opacity": 1,
+        "background": "url(\"http://127.0.0.1:55175/assets/wordmark-fallback.svg\")",
+        "fcp": 48,
+        "preloads": [
+          {
+            "kind": "module",
+            "rel": "modulepreload",
+            "href": "http://127.0.0.1:55175/assets/main-CG75Y9Rd.js",
+            "as": "",
+            "priority": null,
+            "media": ""
+          },
+          {
+            "kind": "font",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/fonts/wordmark.typeface.json",
+            "as": "fetch",
+            "priority": null,
+            "media": ""
+          },
+          {
+            "kind": "artwork-desktop",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/assets/tattoo-texture.webp",
+            "as": "image",
+            "priority": "high",
+            "media": "(min-width: 601px)"
+          },
+          {
+            "kind": "artwork-mobile",
+            "rel": "preload",
+            "href": "http://127.0.0.1:55175/assets/tattoo-texture-640.webp",
+            "as": "image",
+            "priority": "high",
+            "media": "(max-width: 600px)"
+          }
+        ],
+        "paintSamples": [
+          36,
+          64,
+          48
+        ],
+        "fcpMedian": 48
+      },
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55175/assets/wordmark-fallback.svg",
+          "at": 1793683058305
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/main-CG75Y9Rd.js",
+          "at": 1793683058336
+        },
+        {
+          "url": "http://127.0.0.1:55175/fonts/wordmark.typeface.json",
+          "at": 1793683058336
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/tattoo-texture-640.webp",
+          "at": 1793683058336
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/main-Bs6ntfv3.js",
+          "at": 1793683058348
+        },
+        {
+          "url": "http://127.0.0.1:55175/assets/tattoo-texture-640.webp",
+          "at": 1793683058427
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "first": {
+        "poster": true,
+        "opacity": 1,
+        "background": "url(\"http://127.0.0.1:55175/assets/wordmark-fallback.svg\")",
+        "fcp": 64,
+        "preloads": [],
+        "paintSamples": [
+          44,
+          64,
+          64
+        ],
+        "fcpMedian": 64
+      },
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55175/assets/wordmark-fallback.svg",
+          "at": 1793683059763
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "failures": []
+}

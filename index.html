@@ -22,9 +22,16 @@
     <meta name="description" content="h4ngelic — independent tattooing, jewellery and painting. berlin, de." />
     <title>h4ngelic</title>
     <!--seo:end-->
+    <link rel="preload" href="/assets/wordmark-fallback.svg" as="image" fetchpriority="high" data-hero-poster-preload />
     <link rel="icon" href="/assets/h4ngelic-favicon-normal-r09-16.png" type="image/png" sizes="16x16" data-mode-icon="16" />
     <link rel="icon" href="/assets/h4ngelic-favicon-normal-r09-32.png" type="image/png" sizes="32x32" data-mode-icon="32" />
     <link rel="icon" href="/assets/h4ngelic-cursor.svg" type="image/svg+xml" sizes="any" data-mode-icon="svg" />
+    <template id="hero-preloads">
+      <link rel="modulepreload" href="/src/main.js" data-hero-preload="module" />
+      <link rel="preload" href="/fonts/wordmark.typeface.json" as="fetch" type="application/json" crossorigin data-hero-preload="font" />
+      <link rel="preload" href="__H4_HERO_ARTWORK_DESKTOP__" as="image" media="(min-width: 601px)" fetchpriority="high" data-hero-preload="artwork-desktop" />
+      <link rel="preload" href="__H4_HERO_ARTWORK_MOBILE__" as="image" media="(max-width: 600px)" fetchpriority="high" data-hero-preload="artwork-mobile" />
+    </template>
     <script type="speculationrules">
       {"prefetch":[
         {"source":"document","where":{"href_matches":"/about"},"eagerness":"moderate"},

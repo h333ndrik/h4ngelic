@@ -18,10 +18,15 @@ export default defineConfig({
   },
   plugins: [{
     name: 'h4ngelic-hero-poster',
-    transformIndexHtml(html) {
+    transformIndexHtml(html, context) {
+      const path = context.path?.split('?')[0] || '/';
+      if (path !== '/' && path !== '/index.html') html = html.replace(/\s*<link rel="preload" href="\/assets\/wordmark-fallback\.svg"[^>]*data-hero-poster-preload[^>]*>/,'');
       return html
         .replaceAll('__H4_HERO_POSTER_URL__', heroPosterSettings.src)
-        .replaceAll('__H4_HERO_POSTER_FADE_MS__', String(heroPosterSettings.fadeDurationMs));
+        .replaceAll('__H4_HERO_POSTER_FADE_MS__', String(heroPosterSettings.fadeDurationMs))
+        .replaceAll('__H4_HERO_ARTWORK_DESKTOP__', heroPosterSettings.artwork.desktop)
+        .replaceAll('__H4_HERO_ARTWORK_MOBILE__', heroPosterSettings.artwork.mobile)
+        .replace(/href="\/{0,2}(assets\/tattoo-texture[^"]*)"/g, 'href="/$1"');
     },
   }, {
     name: 'h4ngelic-document-routes',
