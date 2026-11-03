@@ -306,3 +306,38 @@ across hidden, hover and focus states and the reveal recorded CLS 0. Evidence:
 - Node: **374/374 PASS**, 0 fail, 0 skipped.
 - Production greeting and entrance contracts: PASS.
 - F20 six-profile suite: **6/6**; footer **6/6**; visitor tiers **6/6**; mobile **4/4**; hero boot **3/3**; performance route-width pairs **6/6**.
+
+## 13. Release-fixes addendum — visible pointer, no hero flash, tools/creative, NN/ labels
+
+Verified product build: `data-build="8351205c4d79"` (`R2: label format NN/ x incl. naavi`). The following test-only reconciliation is `c5a938f`; it does not change the emitted application.
+
+### Cursor-visible
+
+- **Befund:** On baseline build `d4d65d17da58`, `html.h4-custom-cursor` and blanket `cursor:none` were active and the SVG returned HTTP 200, but no cursor overlay existed in the DOM. The result was a lost pointer rather than a visible h4 logo.
+- **Fix:** The production shell now contains a fixed `[data-h4-cursor]` image with a `2147483647` layer, pointer-events none and transform-only `9 2` hotspot tracking. Cursor CSS and a synchronous image preload are present before application hydration; xray retains its single native material cursor, while no-JS keeps ordinary system cursors.
+- **Beweis:** The 24 px production hit map passed 4,460 / 1,140 / 930 blanket points at 1440/390/320 and 2,221 xray points with zero foreign cursors. Every blanket point also had opacity 1, non-zero image dimensions, a loaded SVG and hotspot coordinates within 0.25 px of the pointer. Evidence: `CURSOR-VISIBLE/` including `phase0.json` and `results.json`.
+
+### Hero-noflash
+
+- **Befund:** With an empty cache and throttled/held hero module, the loading poster painted `wordmark-fallback.svg` at opacity `.756`, so the 2D lettering appeared before WebGL.
+- **Fix:** The boot surface is now dark atmosphere only. The canvas keeps opacity 1 and travels from `translateY(-100% - 32px)` to identity over 1100 ms expo-out, with no scale or blur. Reduced motion and WebGL failure retain the static text poster; no-JS does too.
+- **Beweis:** Loading/slow states computed `background-image: none`; the entrance measured Y `-876 → -795 → 0`, duration `1113 ms`, opacity constantly 1 and CLS 0. Failure screenshots retain the text poster. F20 FCP medians stayed 32–64 ms. Evidence: `HERO-NOFLASH/`.
+
+### R1-tools-creative
+
+- **Befund:** The archive exposed only tattoos, jewellery and more; `/work/tools` did not exist and the main `/work` identity still said Works.
+- **Fix:** `tools` sits between jewellery and more, the archive heading is `01/ creative`, and prerendered `/work/tools` contains the two supplied external cards. The legacy query redirects to `/work/tools`; filters, cross-links, NAAVI and Home all include tools.
+- **Beweis:** Production build has 19 routes plus 404. Both cards expose the exact supplied URLs/copy, `target=_blank`, `noopener noreferrer`, ↗ and 4px radius. The Home row is four equal labels on desktop and a slash-aligned 2×2 grid at 390/320 with no overflow. Evidence: `TOOLS-RUBRIC/`.
+
+### R2-labels
+
+- **Befund:** Visible numbered labels used spaced slashes (`01 / creative`, `04 / 04`) across independent templates.
+- **Fix:** One `formatIndexedLabel` / `formatCounter` source now emits `NN/ label` and `NN/ MM`; Home, About, INDEX, work headings and dynamically painted NAAVI consume it.
+- **Beweis:** INDEX reads `00/ home … 04/ the other side`; NAAVI measured `00/ 04`, then `01/ 04`, `02/ 04`, `03/ 04`, `04/ 04` on the four work rubrics and `01/ 01` on About. F28 alignment remained within 2 px at 1440/390/320. Evidence: `LABEL-FORMAT/`.
+
+### Verification totals
+
+- Node: **374/374 PASS**, 0 fail, 0 skipped.
+- Production cursor hit map: **3/3** normal viewports + xray PASS; production cursor/no-JS contract PASS.
+- Hero: boot **3/3**, entrance PASS, poster **6/6**, F20 **6/6**, performance **6/6** route-width pairs plus entrance/CLS, FCP 48–112 ms and LCP under 200 ms.
+- Navigation **6/6**, footer **6/6**, mobile **4/4**, portfolio **6/6**, SEO **19/19** routes PASS, tools **3/3**, labels **3/3**.
