@@ -33,7 +33,7 @@ try {
       await page.locator('#selected-work-title').waitFor();
       const expected = ['01 / creative', '02 / ABOUT', '03 / CONTACT'];
       const headings = page.locator('.content-section .kinetic-heading');
-      assert.deepEqual(await headings.evaluateAll(nodes => nodes.map(node => node.innerText.replace(/\s+/g, ' ').trim())), expected);
+      assert.deepEqual(await headings.evaluateAll(nodes => nodes.map(node => node.textContent.replace(/\s+/g, ' ').trim())), expected, 'Offscreen content-visibility sections retain their static title text.');
       assert.equal(await headings.locator('a').count(), 0, 'Static section titles are not links.');
       assert.equal(await headings.evaluateAll(nodes => nodes.some(node => node.hasAttribute('tabindex'))), false, 'Static titles are not focusable.');
       const observations = [];
