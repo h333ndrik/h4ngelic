@@ -1,0 +1,6 @@
+vercel CLI: unavailable
+SMOKE_URL: unset
+GitHub CLI: authenticated
+GitHub deployment API: no deployment records returned
+GitHub check metadata: Vercel check present; exposes a dashboard deployment ID, not a preview hostname
+Live preview URL: unavailable to this isolated run

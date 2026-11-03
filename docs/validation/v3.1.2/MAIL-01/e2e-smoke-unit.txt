@@ -1,0 +1,11 @@
+✔ smoke script skips cleanly without SMOKE_URL (42.5985ms)
+✔ smoke script sends exactly one PII-safe inquiry and checks the 502 body byte-for-byte (66.390417ms)
+✔ smoke script reports mail flow success for a 201 response (50.469583ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 213.925167

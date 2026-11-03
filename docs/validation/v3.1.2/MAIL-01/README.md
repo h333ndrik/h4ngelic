@@ -47,3 +47,4 @@ function log.
   detail are absent (`inquiry-http.txt`, `http-results.json`).
 - No screenshots apply: the assertion target is server stderr, captured above.
 - No real Resend request or email delivery was performed.
+See [E2E-SMOKE.md](E2E-SMOKE.md) for the repeatable preview smoke, failure mapping and the remaining manual Vercel-log step.

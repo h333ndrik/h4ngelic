@@ -1,0 +1,2 @@
+{"event":"inquiry_smoke","status":null,"bodyEqual":false,"requestId":null,"outcome":"skipped","reason":"SMOKE_URL not set"}
+Inquiry smoke skipped: set SMOKE_URL to a preview base URL.

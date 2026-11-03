@@ -1,0 +1,3 @@
+{"event":"inquiry_smoke","status":502,"bodyEqual":true,"requestId":null,"outcome":"error_observed","conclusion":"Inquiry failure observed; read resend_rejected/resend_unreachable from Vercel function logs.","submittedFields":["artwork","started","name","email","message","website"],"attachments":0}
+Inquiry smoke: HTTP 502; body-equal=true; requestId=not exposed; Inquiry failure observed; read resend_rejected/resend_unreachable from Vercel function logs.
+Local mock requests: 1

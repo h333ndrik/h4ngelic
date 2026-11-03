@@ -3,9 +3,9 @@ import { createServer } from 'node:http';
 import { once } from 'node:events';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { createInquiryHandler } from '../server/inquiry.mjs';
+import { createInquiryHandler, GENERIC_INQUIRY_FAILURE } from '../server/inquiry.mjs';
 
-const genericFailure = 'your inquiry could not be sent. please try again or email instead.';
+const genericFailure = GENERIC_INQUIRY_FAILURE;
 
 async function captureConsole(run) {
   const stdout = [], stderr = [];

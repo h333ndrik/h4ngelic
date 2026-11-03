@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
 import { renderInquiryForm, inquiryArtwork, refreshInquiryContext } from '../src/inquiry-content.js';
 import { validateInquiryFiles, validateInquiryContact } from '../src/inquiry-validation.js';
-import { createInquiryHandler, detectAttachmentType, parseInquiryMultipart, readInquiryConfig, validateInquiryFields } from '../server/inquiry.mjs';
+import { createInquiryHandler, detectAttachmentType, GENERIC_INQUIRY_FAILURE, parseInquiryMultipart, readInquiryConfig, validateInquiryFields } from '../server/inquiry.mjs';
 import { inquirySettings } from '../src/data/inquirySettings.js';
 
 const origin = 'https://h4ngelic.com';
@@ -26,7 +26,7 @@ async function request(handler, { values = fields, files = [], headers = {}, met
   req.headers = { origin, 'sec-fetch-site': 'same-origin', 'content-type': contentType, ...headers };
   const res = { headersSent: false, destroyed: false,
     writeHead(status, sentHeaders) { this.status = status; this.headers = sentHeaders; this.headersSent = true; },
-    end(value) { this.body = JSON.parse(value); },
+    end(value) { this.rawBody = value; this.body = JSON.parse(value); },
   };
   await handler(req, res);
   return res;
@@ -226,6 +226,27 @@ test('provider rejection, missing acceptance ID and transport failure never clai
     const result = await request(createInquiryHandler({ config, now, fetchImpl }));
     assert.equal(result.status, 502); assert.equal(result.body.accepted, undefined);
     assert.doesNotMatch(JSON.stringify(result.body), /private provider/);
+  }
+});
+
+test('every provider failure returns the byte-identical generic 502 body', async () => {
+  const expected = JSON.stringify({ error: GENERIC_INQUIRY_FAILURE });
+  const failures = [
+    async () => ({ ok: false, status: 401, json: async () => ({ name: 'invalid_api_key' }) }),
+    async () => ({ ok: false, status: 403, json: async () => ({ name: 'domain_not_verified' }) }),
+    async () => ({ ok: false, status: 422, json: async () => ({ name: 'validation_error' }) }),
+    async () => ({ ok: false, status: 429, json: async () => ({ name: 'rate_limit_exceeded' }) }),
+    async () => ({ ok: false, status: 500, json: async () => ({ name: 'internal_server_error' }) }),
+    async () => ({ ok: false, status: 422, json: async () => { throw new SyntaxError('unparseable provider body'); } }),
+    async () => ({ ok: true, status: 200, json: async () => ({}) }),
+    async () => { throw Object.assign(new Error('private provider diagnostic'), { name: 'TimeoutError' }); },
+  ];
+  for (const fetchImpl of failures) {
+    const result = await request(createInquiryHandler({ config, now, fetchImpl }));
+    assert.equal(result.status, 502);
+    assert.equal(result.rawBody, expected);
+    assert.equal(Buffer.byteLength(result.rawBody, 'utf8'), Buffer.byteLength(expected, 'utf8'));
+    assert.doesNotMatch(result.rawBody, /private provider diagnostic|unparseable provider body/);
   }
 });
 
