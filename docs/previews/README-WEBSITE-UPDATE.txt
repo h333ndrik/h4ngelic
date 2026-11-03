@@ -88,7 +88,7 @@ Taste 4 oder Numpad 4 mindestens eine Sekunde halten, um THE OTHER SIDE zu
 betreten. Erneutes Halten von 4 dort bewirkt nichts. Zurück ausschließlich mit
 drei schnellen 3-/Numpad-3-Tastendrücken innerhalb von zwei Sekunden; zwei
 Tastendrücke reichen nicht. Der Rückkehrhinweis lautet genau:
-press three times 3 to reverse
+press 3 times 3 to reverse
 Auf Touch-Geräten den h4-Schalter viermal antippen, zum Zurückkehren dreimal.
 Der 1400-ms-Korruptionsübergang bleibt unverändert. Eingabefelder vorher
 verlassen. Reduzierte Bewegung wird respektiert. Bestehender Chrome-Hero,

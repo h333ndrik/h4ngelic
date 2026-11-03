@@ -1,0 +1,8 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 H4_XRAY_ARTIFACTS=artifacts/v312/V18/xray node tests/xray-browser.mjs
+PASS F15 public realities (1440px full)
+PASS F15 public realities (1440px reduced)
+PASS F15 public realities (390px full)
+PASS F15 public realities (390px reduced)
+PASS F15 public realities (320px full)
+PASS F15 public realities (320px reduced)
+Actual text in every profile: press 3 times 3 to reverse

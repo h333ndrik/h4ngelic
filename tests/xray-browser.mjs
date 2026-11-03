@@ -111,7 +111,7 @@ try {
       assert.equal(await page.locator('.page-footer [data-mode-mute]').count(), 0);
       await page.locator('[data-floating-brand]').click();
       await page.waitForURL((url) => url.pathname === '/');
-      await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
+      await page.locator(options.reducedMotion === 'reduce' ? '#stage.is-poster-static' : '#stage.is-ready').waitFor({ timeout: 60000 });
       await waitMode(page, 'xray');
       const mute = page.locator('[data-controls] [data-mode-mute]');
       assert.equal(await mute.count(), 1, 'The sound control belongs to the upper wordmark controls.');
@@ -122,7 +122,7 @@ try {
       }
       const hint = page.locator('[data-other-side-hint][data-mode-hold]');
       const text = page.locator('[data-xray-hint-text]');
-      assert.equal(await text.textContent(), 'press three times 3 to reverse');
+      assert.equal(await text.textContent(), 'press 3 times 3 to reverse');
       await hint.scrollIntoViewIfNeeded();
       await page.mouse.move(1, 1);
       await hint.evaluate(element => element.blur());

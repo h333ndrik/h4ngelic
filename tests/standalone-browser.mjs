@@ -264,7 +264,7 @@ try {
       assert.equal(released.snapshot.sourceInitializations, 1);
       assert.equal(released.snapshot.queued, false, 'Reduced-motion offline memory stays static.');
       assert.equal(released.snapshot.transition.claimedFrame, prepared.snapshot.frames);
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press three times 3 to reverse');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 times 3 to reverse');
       await page.waitForTimeout(1100);
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Hold completion/release cannot toggle twice.');
       const beforeIgnored4 = await page.evaluate(() => ({ mode: document.documentElement.dataset.mode,
@@ -369,7 +369,7 @@ try {
       await page.waitForFunction(() => document.documentElement.dataset.page === 'home'
         && location.hash === '#/#contact' && document.querySelector('#contact').getBoundingClientRect().top < innerHeight);
       assert.ok(await page.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press three times 3 to reverse');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 times 3 to reverse');
       await reverseWith3(page);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
       const filters = await page.locator('#logo-canvas,.project-image img').evaluateAll(images => images.map(image => getComputedStyle(image).filter));

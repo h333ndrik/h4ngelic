@@ -4,6 +4,23 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V18 — DONE — 2026-11-03
+
+The Other Side hint now reads exactly `press 3 times 3 to reverse` in text and
+accessible labels. Reverse behavior is unchanged: three released 3 presses
+inside the fixed two-second window, never two, and holding 4 on the Other Side
+remains inert.
+
+Actual serial checks before builds:
+
+- `node tests/xray-browser.mjs`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced motion, including the exact hint text, ignored reverse 4,
+  double-press rejection, triple-3 return, touch triple-tap and both 1400ms
+  transitions.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V18/`.
+
+
 ## V25 — DONE — 2026-11-03
 
 Each rubric page now ends with one fixed three-column cross-link row. Tattoos

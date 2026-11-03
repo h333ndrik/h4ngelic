@@ -121,10 +121,10 @@ export function initXRay({ root = document, memory = null } = {}) {
     for (const button of doc.querySelectorAll('[data-xray-toggle]')) button.setAttribute('aria-pressed', String(mode === 'xray'));
     for (const button of doc.querySelectorAll('[data-mode-hold]')) {
       button.setAttribute('aria-pressed', String(mode === 'xray'));
-      button.setAttribute('aria-label', mode === 'xray' ? 'press three times 3 to reverse' : 'hold for one second to enter the other side');
+      button.setAttribute('aria-label', mode === 'xray' ? 'press 3 times 3 to reverse' : 'hold for one second to enter the other side');
       button.setAttribute('aria-keyshortcuts', mode === 'xray' ? '3' : '4');
     }
-    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'press three times 3 to reverse' : 'HOLD 4 TO SEE THE OTHER SIDE.';
+    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'press 3 times 3 to reverse' : 'HOLD 4 TO SEE THE OTHER SIDE.';
     soundControls.refresh();
   }
 
