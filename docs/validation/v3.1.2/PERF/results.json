@@ -1,0 +1,103 @@
+{
+  "checkedAt": "2026-11-03T11:52:16.387Z",
+  "base": "http://127.0.0.1:55183",
+  "reports": [
+    {
+      "width": 1440,
+      "route": "/work/tattoos",
+      "samples": [
+        100,
+        112,
+        108,
+        144,
+        104
+      ],
+      "median": 108,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "route": "/contact",
+      "samples": [
+        88,
+        128,
+        88,
+        180,
+        116
+      ],
+      "median": 116,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "route": "/work/tattoos",
+      "samples": [
+        32,
+        144,
+        64,
+        60,
+        44
+      ],
+      "median": 60,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "route": "/contact",
+      "samples": [
+        60,
+        100,
+        88,
+        48,
+        92
+      ],
+      "median": 88,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "route": "/work/tattoos",
+      "samples": [
+        64,
+        56,
+        44,
+        68,
+        56
+      ],
+      "median": 56,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "route": "/contact",
+      "samples": [
+        88,
+        124,
+        76,
+        72,
+        96
+      ],
+      "median": 88,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    }
+  ],
+  "distBytes": 31436581,
+  "modulepreload": "/assets/main-D_-iotOp.js",
+  "mainChunks": [
+    "main-D_-iotOp.js"
+  ],
+  "routes": 18,
+  "failures": []
+}

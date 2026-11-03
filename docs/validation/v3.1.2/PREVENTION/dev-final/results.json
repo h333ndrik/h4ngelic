@@ -1,0 +1,526 @@
+{
+  "checkedAt": "2026-11-03T09:47:47.522Z",
+  "base": "http://127.0.0.1:55180",
+  "reports": [
+    {
+      "width": 1440,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.8,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.908137,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 143.4375,
+          "token": 108.44
+        },
+        "values": {
+          "works": 143.421875,
+          "about": 143.4375,
+          "more": 143.4375,
+          "intro": 143.4375,
+          "form": 143.4375
+        },
+        "offsets": {
+          "works": -0.015625,
+          "about": 0,
+          "more": 0,
+          "intro": 0,
+          "form": 0
+        },
+        "pageWidth": 1440,
+        "innerWidth": 1440
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 32,
+          "position": 3194.599
+        },
+        "over": {
+          "scrollY": 32,
+          "position": 116.636
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "cursor": {
+        "home": {
+          "total": 223,
+          "offenders": []
+        },
+        "work": {
+          "total": 254,
+          "offenders": []
+        },
+        "contact": {
+          "total": 223,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.801372,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.924246,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 62.156253051757815,
+          "token": 40.16
+        },
+        "values": {
+          "works": 62.140625,
+          "about": 62.15625,
+          "more": 62.15625,
+          "intro": 62.15625,
+          "form": 62.15625
+        },
+        "offsets": {
+          "works": -0.015628051757815342,
+          "about": -0.000003051757815342171,
+          "more": -0.000003051757815342171,
+          "intro": -0.000003051757815342171,
+          "form": -0.000003051757815342171
+        },
+        "pageWidth": 390,
+        "innerWidth": 390
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 0,
+          "position": 3189.201
+        },
+        "over": {
+          "scrollY": 0,
+          "position": 241.255
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "cursor": {
+        "home": {
+          "total": 223,
+          "offenders": []
+        },
+        "work": {
+          "total": 254,
+          "offenders": []
+        },
+        "contact": {
+          "total": 223,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.80199,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.920277,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 62.15625152587891,
+          "token": 40.16
+        },
+        "values": {
+          "works": 62.15625,
+          "about": 62.15625,
+          "more": 62.15625,
+          "intro": 62.15625,
+          "form": 62.15625
+        },
+        "offsets": {
+          "works": -0.0000015258789076710855,
+          "about": -0.0000015258789076710855,
+          "more": -0.0000015258789076710855,
+          "intro": -0.0000015258789076710855,
+          "form": -0.0000015258789076710855
+        },
+        "pageWidth": 320,
+        "innerWidth": 320
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 0,
+          "position": 3189.201
+        },
+        "over": {
+          "scrollY": 0,
+          "position": 271.845
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "cursor": {
+        "home": {
+          "total": 223,
+          "offenders": []
+        },
+        "work": {
+          "total": 254,
+          "offenders": []
+        },
+        "contact": {
+          "total": 223,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

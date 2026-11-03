@@ -1,0 +1,14 @@
+Remote reproduction attempt
+URL: https://h4ngelic-git-v311-fixes-h333ndrik.vercel.app/
+
+HTTP/2 302
+cache-control: no-store, max-age=0
+content-type: text/plain
+date: Tue, 03 Nov 2026 08:55:30 GMT
+location: https://vercel.com/sso-api?url=https%3A%2F%2Fh4ngelic-git-v311-fixes-h333ndrik.vercel.app%2F&nonce=5f9b04736f986963b95925ed1a3b6cc4d67939fe055a2f8ae82723e9ee3f233f
+server: Vercel
+set-cookie: _vercel_sso_nonce=94b7f9250765d44dd48b707a5584ebc68e169ed1dc277131; Max-Age=3600; Path=/; Secure; HttpOnly; SameSite=Lax
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-frame-options: DENY
+x-robots-tag: noindex
+x-vercel-id: lhr1::9r4gj-1793696130747-3dfb16560bd0

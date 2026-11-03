@@ -174,3 +174,47 @@ The reservations are the disclosed F14 cross-browser/mannequin gap, real iPhone
 Safari, the legacy smart-v3 suite that conflicts with later Home/Contact
 behavior, and the non-reproducible exact FCP/wall-clock samples in the narrative
 report. No merge or deployment was performed.
+
+## 9. V3.1.2-r2 addendum — reproduction → fix → proof
+
+### F29 hero boot guard
+
+- **Reproduction:** Slow 3G left the boot state without feedback for over six seconds; a blocked `main-*.js` produced no failure copy or persistent fallback class. The Vercel preview remained behind SSO.
+- **Fix:** `data-hero-loading` now drives `booting → ready | slow | failed`; the critical poster breathes with transform/opacity, announces slow boot after 6 s, and becomes the permanent static wordmark on import failure.
+- **Proof:** Production preview at 1440/390/320 measured poster opacity 0.800 at boot, 0 when ready, 0.904 with slow text after 6.3 s, and 1 with `is-boot-failed` plus hidden canvas on failure; the failed state survives leaving and returning Home. Evidence: `F29/`.
+
+### F18-r2 cursor
+
+- **Reproduction:** The local baseline had zero cursor offenders on `/`, `/work/tattoos` and `/#contact`, but the Vercel-reported footer switch could not be replayed behind SSO; state-scoped rules remained an unguarded override path.
+- **Fix:** The app marks `html.h4-custom-cursor`, and the final CSS rule binds every interactive element to the same mode cursor image and `9 2` hotspot; the cursor is never set to `none`.
+- **Proof:** Exact image/hotspot enumeration found zero offenders at three widths and three routes, including footer moshlab, VISIT, SMASH, Instagram and NAAVI at rest, hover and active. Evidence: `F18-r2/`.
+
+### F21-r2 greeting
+
+- **Reproduction:** The returning-visitor line painted permanently at fine-pointer rest; the old footer test explicitly expected that state.
+- **Fix:** Fixed-position opacity/visibility now rests hidden and reveals on the top header band, `.site-chrome` hover or focus-within over 200 ms; `(hover: none)` keeps the touch fallback permanently visible without layout shift.
+- **Proof:** Fine-pointer runs measured opacity 0/hidden at rest and 1/visible on hover and focus; touch runs at 390/320 measured 1/visible. Footer, visitor-tier and mobile suites pass. Evidence: `F21-r2/`.
+
+### F19 wheel contract
+
+- **Reproduction:** The listener was scoped to `.drift-viewport`, but there was no direct assertion separating carousel response from page scrolling.
+- **Fix:** No product change was needed; the existing 8.0-sensitivity, carousel-only wheel handler was retained.
+- **Proof:** Wheel over the carousel changed only `data-drift-position` with unchanged `scrollY`; outside input scrolled the page 0 → 520 at all widths. Evidence: `WHEEL-CONTRACT/`.
+
+### F28 slash column
+
+- **Reproduction:** Works, About and Contact used three different insets, and the Contact form retained `--inquiry-form-offset`.
+- **Fix:** One `--slash-inset` is measured from the `01 / creative` slash glyph with a text Range, corrected for scroll translation, rAF-throttled on resize and refreshed once after fonts load; all subordinate blocks consume it and the old offset token is removed.
+- **Proof:** All block offsets are ≤0.016 px from the canonical slash at 1440/390/320, with no page overflow at 320. Evidence: `F28/`.
+
+### Performance and prevention
+
+- **Reproduction:** The earlier fixed FCP claim was not reproducible as a constant; interior routes needed a fresh multi-sample guard.
+- **Fix:** Boot animation work is transform/opacity-only, slash measurement is bounded, and `tests/v312-r2-performance-browser.mjs` guards cold payloads plus 3× warmed FCP.
+- **Proof:** Five warmed samples per route gave `/work/tattoos` 108/60/56 ms and `/contact` 116/88/88 ms at 1440/390/320; no hero module/font/texture request occurred on interiors. Build is 32,540 KB (`du -k`), 18 routes + 404, one main chunk with matching modulepreload. Evidence: `PERF/` and `PREVENTION/`.
+
+### Verification totals
+
+- Node: **373/373 PASS**, 0 fail, 0 skipped.
+- New browser prevention suite: **3/3 profiles PASS** on dev and **3/3 PASS** on the production preview.
+- Affected/core suites: footer 6/6, About 6/6, inquiry 6/6, visitor tiers 6/6, mobile 4/4, static titles 6/6, navigation 6/6, portfolio 6/6, UI 6/6, drift 6/6, poster 6/6, motion 6/6, cross-links 6/6, F20 6/6, SEO PASS, performance 6/6 route-width combinations.

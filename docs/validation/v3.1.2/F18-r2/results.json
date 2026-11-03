@@ -1,0 +1,157 @@
+{
+  "checkedAt": "2026-11-03T09:49:32.784Z",
+  "base": "http://127.0.0.1:55183",
+  "note": "Desktop fine-pointer contexts at 1440/390/320. Every painted element was enumerated; footer/NAAVI/VISIT were checked at rest, hover and active.",
+  "profiles": [
+    {
+      "width": 1440,
+      "cursor": {
+        "home": {
+          "total": 222,
+          "offenders": []
+        },
+        "work": {
+          "total": 209,
+          "offenders": []
+        },
+        "contact": {
+          "total": 222,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "cursor": {
+        "home": {
+          "total": 222,
+          "offenders": []
+        },
+        "work": {
+          "total": 209,
+          "offenders": []
+        },
+        "contact": {
+          "total": 222,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "cursor": {
+        "home": {
+          "total": 222,
+          "offenders": []
+        },
+        "work": {
+          "total": 209,
+          "offenders": []
+        },
+        "contact": {
+          "total": 222,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55183/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "errors": []
+    }
+  ]
+}
