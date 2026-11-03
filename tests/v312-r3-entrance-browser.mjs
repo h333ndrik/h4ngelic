@@ -3,16 +3,20 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL(`../${process.env.H4_ENTRANCE_ARTIFACTS || 'artifacts/v312/r3-entrance'}/`, import.meta.url);
+const output = new URL(`../${process.env.H4_ENTRANCE_ARTIFACTS || 'artifacts/v312/F29-c'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const heroModule = /\/src\/main\.js(?:\?|$)|\/assets\/main-[^/]+\.js(?:\?|$)/;
 const capture = page => page.evaluate(() => {
   const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
-  const style = getComputedStyle(canvas);
+  const poster = document.querySelector('[data-hero-poster]');
+  const style = getComputedStyle(canvas), posterStyle = getComputedStyle(poster);
   return { entering: stage.classList.contains('is-entering'), opacity: Number(style.opacity), transform: style.transform,
-    animation: style.animationName, duration: style.animationDuration, stage: stage.className };
+    filter: style.filter, transitionProperty: style.transitionProperty, transitionDuration: style.transitionDuration,
+    posterOpacity: Number(posterStyle.opacity), posterTransitionProperty: posterStyle.transitionProperty,
+    posterTransitionDuration: posterStyle.transitionDuration,
+    at: performance.now(), stage: stage.className };
 });
 const results = {};
 try {
@@ -31,20 +35,39 @@ try {
   await page.waitForTimeout(250);
   const mid = await capture(page);
   await page.screenshot({ path: new URL('entrance-mid-1440.png', output).pathname });
+  await page.waitForTimeout(250);
+  const late = await capture(page);
   await page.waitForFunction(() => !document.querySelector('#stage').classList.contains('is-entering'));
+  await page.waitForFunction(() => {
+    const matrix = new DOMMatrixReadOnly(getComputedStyle(document.querySelector('#logo-canvas')).transform);
+    return Math.abs(matrix.m11 - 1) < .001 && Math.abs(matrix.m22 - 1) < .001
+      && Math.abs(matrix.m41) < .001 && Math.abs(matrix.m42) < .001;
+  });
   const end = await capture(page);
   const shifts = await page.evaluate(() => window.__r3Shifts.reduce((sum, value) => sum + value, 0));
   await page.screenshot({ path: new URL('entrance-end-1440.png', output).pathname });
   assert.equal(start.entering, true);
-  assert.equal(start.animation, 'hero-wordmark-arrive');
-  assert.equal(start.duration, '0.7s');
+  assert.equal(start.opacity, 0);
+  assert.match(start.transform, /matrix\(0\.96, 0, 0, 0\.96, 0, 14\)/);
+  assert.match(start.transitionProperty, /opacity.*transform/);
+  assert.match(start.transitionDuration, /0\.45s.*1\.1s/);
+  assert.equal(start.filter, 'none', 'The entrance never adds a blur filter.');
+  assert.equal(start.posterTransitionProperty, 'opacity');
+  assert.equal(start.posterTransitionDuration, '0.9s');
+  const transformDuration = Number(start.transitionDuration.split(',')[1].trim().replace('s', '')) * 1000;
+  assert.ok(Math.abs(transformDuration - 1100) <= 110, `Transform duration stays within 10% of 1100ms: ${transformDuration}`);
   assert.ok(mid.opacity > 0 && mid.opacity < 1, `Mid-entrance opacity is visibly between endpoints: ${mid.opacity}`);
   assert.notEqual(mid.transform, 'matrix(1, 0, 0, 1, 0, 0)');
+  assert.equal(late.opacity, 1, 'Opacity reaches its endpoint before the transform finishes.');
+  assert.notEqual(late.transform, 'matrix(1, 0, 0, 1, 0, 0)', 'The transform is still settling after opacity completes.');
   assert.equal(end.entering, false);
   assert.equal(end.opacity, 1);
   assert.equal(end.transform, 'matrix(1, 0, 0, 1, 0, 0)');
+  assert.equal(end.posterOpacity, 0);
+  const elapsed = end.at - start.at;
+  assert.ok(elapsed >= 990 && elapsed <= 1210, `The entrance marker lasts 1100ms ±10%: ${elapsed.toFixed(1)}ms`);
   assert.ok(shifts < .01, `Entrance is layout-shift-free: ${shifts}`);
-  results.normal = { start, mid, end, shifts };
+  results.normal = { start, mid, late, end, elapsed, shifts };
   await context.close();
 
   const reducedContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1,
@@ -105,7 +128,7 @@ try {
   await heldRoute.abort('failed');
   await breathingContext.close();
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, results, passed: true }, null, 2) + '\n');
-  console.log(`PASS entrance: ${start.opacity} -> ${mid.opacity.toFixed(3)} -> ${end.opacity}; breathing ${results.breathing.minOpacity.toFixed(3)}–${results.breathing.maxOpacity.toFixed(3)}; CLS ${shifts}.`);
+  console.log(`PASS entrance: ${start.opacity} -> ${mid.opacity.toFixed(3)} -> ${late.opacity} -> ${end.opacity}; transform ${transformDuration}ms/${elapsed.toFixed(0)}ms; breathing ${results.breathing.minOpacity.toFixed(3)}–${results.breathing.maxOpacity.toFixed(3)}; CLS ${shifts}.`);
 } catch (error) {
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, results, error: error.stack }, null, 2) + '\n');
   throw error;

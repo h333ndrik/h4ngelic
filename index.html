@@ -13,13 +13,9 @@
       .hero { position: relative; min-height: 540px; height: 100svh; overflow: hidden; }
       .hero > .stage { position: absolute; inset: 0; }
       .hero .fallback { position: absolute; inset: 0; background: var(--hero-poster-image) center / 67% auto no-repeat; opacity: 1; pointer-events: none; transition: opacity var(--hero-poster-fade) ease; }
-      .hero #logo-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; transform: translate3d(0, 8px, 0) scale(.985); transition: opacity var(--hero-poster-fade) ease; }
+      .hero #logo-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; transform: translate3d(0, 14px, 0) scale(.96); transition: opacity 450ms ease, transform 1100ms cubic-bezier(.16, 1, .3, 1); }
       .hero .stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-      .hero .stage.is-entering #logo-canvas { will-change: transform, opacity; animation: hero-wordmark-arrive 700ms ease-out both; }
-      @keyframes hero-wordmark-arrive {
-        from { opacity: 0; transform: translate3d(0, 8px, 0) scale(.985); }
-        to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-      }
+      .hero .stage.is-entering #logo-canvas { will-change: transform, opacity; }
       .hero .stage.is-ready .fallback { opacity: 0; }
       .hero .stage.is-boot-failed #logo-canvas, .hero .stage.is-fallback #logo-canvas { display: none; }
       .hero .stage.is-boot-failed .fallback, .hero .stage.is-boot-slow .fallback { opacity: 1; }
@@ -34,7 +30,8 @@
       }
       @media (prefers-reduced-motion: reduce) {
         html[data-hero-loading='true'] .hero .stage .fallback { animation: none; will-change: auto; }
-        .hero .stage.is-entering #logo-canvas { animation: none; will-change: auto; }
+        .hero .fallback, .hero #logo-canvas { transition: none; }
+        .hero .stage.is-entering #logo-canvas { will-change: auto; }
       }
       html:not([data-h4-styles-ready]) .hero > :not(.stage) { visibility: hidden; }
       :root { --hero-poster-image: url("__H4_HERO_POSTER_URL__"); --hero-poster-fade: __H4_HERO_POSTER_FADE_MS__ms; }

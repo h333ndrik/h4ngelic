@@ -35,15 +35,17 @@ try {
       await line.waitFor({ state: 'visible' });
       assert.equal(await line.textContent(), visitorMessage(5));
       const recognition = await line.evaluate(element => { const r = element.getBoundingClientRect(), s = getComputedStyle(element);
-        return { centre: r.left + r.width / 2, top: r.top, height: r.height, lineHeight: parseFloat(s.lineHeight) }; });
+        const range = document.createRange(); range.selectNodeContents(element);
+        return { centre: r.left + r.width / 2, top: r.top, height: r.height, textHeight: range.getBoundingClientRect().height,
+          lineHeight: parseFloat(s.lineHeight) }; });
       const gap = await page.evaluate(() => {
         const brand = document.querySelector('[data-floating-brand]').getBoundingClientRect();
         const index = document.querySelector('[data-global-index] summary').getBoundingClientRect();
         return { top: brand.top, centre: (brand.right + index.left) / 2 };
       });
       assert.ok(Math.abs(recognition.centre - gap.centre) < 1, `Recognition line is centred inside the branding-to-INDEX gap; line=${recognition.centre}, gap=${gap.centre}.`);
-      assert.ok(Math.abs(recognition.top - 21) < 1, `Recognition line uses the F21 fixed header top (21px without a safe-area inset); line=${recognition.top}.`);
-      assert.ok(recognition.height <= recognition.lineHeight + 1);
+      assert.ok(Math.abs(recognition.top - 16) < 1, `Recognition line shares the mobile header top (16px without a safe-area inset); line=${recognition.top}.`);
+      assert.ok(recognition.textHeight <= recognition.lineHeight + 1);
       const index = page.locator('[data-global-index]');
       await index.locator('summary').click();
       assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(nodes => nodes.map(node => node.dataset.indexPage)), ['home', 'creative', 'about', 'contact']);

@@ -48,18 +48,21 @@ try {
         assert.equal(await message.textContent(), expected, `Footer tier ${count}`);
         const box = await line.evaluate(element => {
           const r = element.getBoundingClientRect(), s = getComputedStyle(element);
+          const range = document.createRange(); range.selectNodeContents(element);
+          const textBox = range.getBoundingClientRect();
           const brand = document.querySelector('[data-floating-brand]').getBoundingClientRect();
           const index = document.querySelector('[data-global-index] summary').getBoundingClientRect();
           return { left: r.left, right: r.right, centre: r.left + r.width / 2, top: r.top, height: r.height,
+            textHeight: textBox.height,
             lineHeight: parseFloat(s.lineHeight), fontSize: parseFloat(s.fontSize), position: s.position,
             brand: { left: brand.left, right: brand.right }, index: { left: index.left, right: index.right } };
         });
         const gapCentre = (box.brand.right + box.index.left) / 2;
         assert.ok(Math.abs(box.centre - gapCentre) < 1, `Recognition stays centered in the branding-to-INDEX gap: ${JSON.stringify(box)}`);
         assert.equal(box.position, 'fixed');
-        assert.ok(Math.abs(box.top - 21) < 1, `Recognition shares the floating-brand top: ${JSON.stringify(box)}`);
+        assert.ok(Math.abs(box.top - (profile.width < 600 ? 16 : 21)) < 1, `Recognition shares the floating-brand top: ${JSON.stringify(box)}`);
         assert.ok(box.left >= box.brand.right - .5 && box.right <= box.index.left + .5, `Recognition never overlaps branding or INDEX: ${JSON.stringify(box)}`);
-        assert.ok(box.height <= box.lineHeight + 1, 'The fixed recognition row remains one line.');
+        assert.ok(box.textHeight <= box.lineHeight + 1, 'The fixed recognition row remains one line.');
         tiers.push({ count, expected });
       }
       const visit = page.locator('[data-visit-counter-hotspot]');

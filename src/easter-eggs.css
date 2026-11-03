@@ -201,7 +201,11 @@ body { position: relative; }
   top: max(21px, env(safe-area-inset-top));
   left: calc(var(--recognition-left, 50vw) + var(--recognition-width, 0px) / 2);
   z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: var(--recognition-width, max-content);
+  height: 44px;
   max-width: calc(100vw - 44px);
   margin: 0;
   transform: translateX(-50%);
@@ -237,6 +241,9 @@ body:has(.site-chrome:focus-within) .returning-visitor-line {
 }
 @media (max-width: 360px) {
   .returning-visitor-line { font-size: var(--h4-ghost-header-narrow-size); }
+}
+@media (max-width: 600px) {
+  .returning-visitor-line { top: max(16px, env(safe-area-inset-top)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .returning-visitor-line { transition: none; }

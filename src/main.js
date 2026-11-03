@@ -76,7 +76,7 @@ function markHeroReady() {
   heroEntranceTimer = setTimeout(() => {
     heroEntranceTimer = 0;
     stage.classList.remove('is-entering');
-  }, 760);
+  }, 1100);
   document.dispatchEvent(new CustomEvent('h4:heroready'));
 }
 

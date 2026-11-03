@@ -18,8 +18,11 @@ try {
     await context.addInitScript(() => {
       localStorage.setItem('h4ngelic.audio.v1', JSON.stringify({ muted: true, volume: .2 }));
       window.__f20Shifts = [];
+      window.__f20Lcp = 0;
       new PerformanceObserver(list => { for (const entry of list.getEntries()) if (!entry.hadRecentInput) window.__f20Shifts.push(entry.value); })
         .observe({ type: 'layout-shift', buffered: true });
+      new PerformanceObserver(list => { for (const entry of list.getEntries()) window.__f20Lcp = Math.max(window.__f20Lcp, entry.startTime); })
+        .observe({ type: 'largest-contentful-paint', buffered: true });
     });
     let page, requests = [], errors = [];
     try {
@@ -55,8 +58,9 @@ try {
         await page.waitForTimeout(250);
         const state = await page.evaluate(() => ({ stage: document.querySelector('#stage').className,
           canvas: getComputedStyle(document.querySelector('#logo-canvas')).display,
-          poster: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity) }));
+          poster: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity), lcp: window.__f20Lcp }));
         assert.match(state.stage, /is-poster-static/); assert.equal(state.canvas, 'none'); assert.equal(state.poster, 1);
+        assert.ok(state.lcp <= 200, `Reduced-motion Home LCP stays inside the 200ms guard: ${state.lcp}ms`);
         assert.ok(!requests.some(request => /\/src\/main\.js|wordmark\.typeface|tattoo-texture/.test(request.url)));
       } else {
         assert.equal(first.preloads.length, 4, 'Home activates module, font and both responsive artwork preloads.');
@@ -78,11 +82,13 @@ try {
             artworkRequestedAt: snapshot?.artworkRequestedAt ?? Number(stage.dataset.artworkRequestedAt),
             artworkReadyAt: snapshot?.artworkReadyAt ?? Number(stage.dataset.artworkReadyAt),
             posterOpacity: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity),
+            lcp: window.__f20Lcp,
             cls: window.__f20Shifts.reduce((sum, value) => sum + value, 0) };
         });
         assert.equal(ready.firstFrameHadArtwork, false, 'The first chrome frame renders without the tattoo texture.');
         assert.ok(ready.firstFrameAt > 0 && ready.artworkRequestedAt >= ready.firstFrameAt, 'Texture loading starts only after the first frame.');
         assert.ok(ready.artworkReadyAt > ready.firstFrameAt, 'The texture resolves asynchronously after the first frame.');
+        assert.ok(ready.lcp <= 200, `Home LCP stays inside the 200ms guard: ${ready.lcp}ms`);
         assert.ok(ready.cls < .01, `Poster/chrome/texture handoff remains shift-free: ${ready.cls}`);
         await frames(page);
       }

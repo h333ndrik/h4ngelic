@@ -59,33 +59,54 @@ try {
   await entranceContext.addInitScript(() => {
     window.__r3Entrance = null;
     window.__r3Shifts = [];
+    window.__r3Lcp = 0;
     new PerformanceObserver(list => { for (const entry of list.getEntries()) if (!entry.hadRecentInput) window.__r3Shifts.push(entry.value); })
       .observe({ type: 'layout-shift', buffered: true });
+    new PerformanceObserver(list => { for (const entry of list.getEntries()) window.__r3Lcp = Math.max(window.__r3Lcp, entry.startTime); })
+      .observe({ type: 'largest-contentful-paint', buffered: true });
     document.addEventListener('h4:heroready', () => {
       const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
       const style = getComputedStyle(canvas);
-      window.__r3Entrance = { entering: stage.classList.contains('is-entering'), animation: style.animationName,
-        duration: style.animationDuration, opacity: Number(style.opacity), transform: style.transform };
+      window.__r3Entrance = { entering: stage.classList.contains('is-entering'), transitionProperty: style.transitionProperty,
+        transitionDuration: style.transitionDuration, opacity: Number(style.opacity), transform: style.transform };
     });
   });
+  const entranceWarm = await entranceContext.newPage();
+  await entranceWarm.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+  await entranceWarm.close();
   const entrancePage = await entranceContext.newPage(); entrancePage.setDefaultTimeout(60000);
   await entrancePage.goto(new URL('/?test=1', base).href, { waitUntil: 'domcontentloaded' });
   await entrancePage.waitForFunction(() => Boolean(window.__r3Entrance), null, { timeout: 60000 });
   const entranceStart = await entrancePage.evaluate(() => window.__r3Entrance);
-  await entrancePage.waitForTimeout(900);
+  await entrancePage.waitForFunction(() => !document.querySelector('#stage').classList.contains('is-entering'));
+  await entrancePage.waitForFunction(() => {
+    const matrix = new DOMMatrixReadOnly(getComputedStyle(document.querySelector('#logo-canvas')).transform);
+    return Math.abs(matrix.m11 - 1) < .001 && Math.abs(matrix.m22 - 1) < .001
+      && Math.abs(matrix.m41) < .001 && Math.abs(matrix.m42) < .001;
+  });
   const entranceEnd = await entrancePage.evaluate(() => ({
     entering: document.querySelector('#stage').classList.contains('is-entering'),
     opacity: Number(getComputedStyle(document.querySelector('#logo-canvas')).opacity),
     transform: getComputedStyle(document.querySelector('#logo-canvas')).transform,
+    posterOpacity: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity),
+    fcp: performance.getEntriesByType('paint').find(entry => entry.name === 'first-contentful-paint')?.startTime || Infinity,
+    lcp: window.__r3Lcp,
     cls: window.__r3Shifts.reduce((sum, value) => sum + value, 0),
     build: document.documentElement.dataset.build || '',
   }));
   assert.equal(entranceStart.entering, true);
-  assert.equal(entranceStart.animation, 'hero-wordmark-arrive');
-  assert.equal(entranceStart.duration, '0.7s');
+  assert.equal(entranceStart.opacity, 0);
+  assert.match(entranceStart.transform, /matrix\(0\.96, 0, 0, 0\.96, 0, 14\)/);
+  assert.match(entranceStart.transitionProperty, /opacity.*transform/);
+  assert.match(entranceStart.transitionDuration, /0\.45s.*1\.1s/);
+  const transformMs = Number(entranceStart.transitionDuration.split(',')[1].trim().replace('s', '')) * 1000;
+  assert.ok(Math.abs(transformMs - 1100) <= 110, `Entrance transform duration is 1100ms ±10%: ${transformMs}ms`);
   assert.equal(entranceEnd.entering, false);
   assert.equal(entranceEnd.opacity, 1);
   assert.equal(entranceEnd.transform, 'matrix(1, 0, 0, 1, 0, 0)');
+  assert.equal(entranceEnd.posterOpacity, 0);
+  assert.ok(entranceEnd.fcp <= 200, `Home FCP stays inside the 200ms guard: ${entranceEnd.fcp}ms`);
+  assert.ok(entranceEnd.lcp <= 200, `Home LCP stays inside the 200ms guard: ${entranceEnd.lcp}ms`);
   assert.ok(entranceEnd.cls < .01, `The compositor-only entrance has no layout shift: ${entranceEnd.cls}`);
   assert.match(entranceEnd.build, /^[a-f0-9]{7,40}$/i);
   await entranceContext.close();

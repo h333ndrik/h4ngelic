@@ -6,7 +6,7 @@ export const heroPosterSettings = Object.freeze({
   /** Accessible description retained by the poster and failure fallback. */
   alt: 'h4ngelic wordmark',
   /** Poster and canvas crossfade duration after the first rendered 3D frame. */
-  fadeDurationMs: 650,
+  fadeDurationMs: 900,
   /** Reduced motion keeps this poster and never imports or initializes WebGL. */
   reducedMotionStatic: true,
   /** Optional tattoo texture is loaded only after the chrome's first frame. */

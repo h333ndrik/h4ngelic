@@ -4,9 +4,9 @@ import { chromium } from 'playwright';
 import { visitorMessage } from '../src/data/easterSettings.js';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL(`../${process.env.H4_GREETING_ARTIFACTS || 'artifacts/v312/f21-r3'}/`, import.meta.url);
+const output = new URL(`../${process.env.H4_GREETING_ARTIFACTS || 'artifacts/v312/f21-r4'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
-await copyFile(new URL('../docs/validation/v3.1.2/F21-r2/footer-r3/returning-1440-true.png', import.meta.url),
+await copyFile(new URL('../docs/validation/v3.1.2/F21-r3/after-1440-hover.png', import.meta.url),
   new URL('before-1440.png', output)).catch(() => {});
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -27,9 +27,31 @@ const styles = locator => locator.evaluate(element => {
     fontSize: style.fontSize, lineHeight: style.lineHeight, textTransform: style.textTransform,
     textShadow: style.textShadow, whiteSpace: style.whiteSpace, transitionProperty: style.transitionProperty,
     transitionDuration: style.transitionDuration, visibility: style.visibility,
-    left: box.left, right: box.right, width: box.width, height: box.height,
+    left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: box.width, height: box.height,
     textLeft: textBox.left, textRight: textBox.right, textWidth: textBox.width, textHeight: textBox.height,
     clientWidth: element.clientWidth, scrollWidth: element.scrollWidth };
+});
+const alignment = page => page.evaluate(() => {
+  const rectOf = element => {
+    const range = document.createRange(); range.selectNodeContents(element);
+    const box = range.getBoundingClientRect();
+    return { left: box.left, right: box.right, top: box.top, bottom: box.bottom,
+      centerX: box.left + box.width / 2, centerY: box.top + box.height / 2 };
+  };
+  const boxOf = element => { const box = element.getBoundingClientRect(); return {
+    left: box.left, right: box.right, top: box.top, bottom: box.bottom,
+    centerX: box.left + box.width / 2, centerY: box.top + box.height / 2 }; };
+  const brand = document.querySelector('[data-floating-brand]');
+  const greeting = document.querySelector('[data-returning-visitor]');
+  const index = document.querySelector('[data-global-index] > summary');
+  const sign = index.querySelector('.index-sign');
+  const brandBox = boxOf(brand), brandText = rectOf(brand), greetingBox = boxOf(greeting), greetingText = rectOf(greeting);
+  const indexBox = boxOf(index), indexText = rectOf(sign);
+  return { brandBox, brandText, greetingBox, greetingText, indexBox, indexText,
+    centerDelta: { brand: greetingText.centerY - brandText.centerY, index: greetingText.centerY - indexText.centerY },
+    topDelta: { brand: greetingBox.top - brandBox.top, index: greetingBox.top - indexBox.top },
+    gaps: { left: greetingText.left - brandBox.right, right: indexBox.left - greetingText.right },
+    gapDelta: (indexBox.left - greetingText.right) - (greetingText.left - brandBox.right) };
 });
 const waitForGreetingOpacity = (page, minimum) => page.waitForFunction(value =>
   Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) >= value, minimum);
@@ -58,11 +80,19 @@ try {
   assert.equal(greeting.color, hint.color, 'The greeting uses the exact HOLD-4 ghost color.');
   assert.equal(greeting.letterSpacing, hint.letterSpacing, 'Tracking matches the HOLD-4 hint exactly.');
   assert.equal(greeting.opacity, hint.opacity, 'The hover state shares the HOLD-4 ghost opacity.');
-  assert.equal(greeting.textTransform, 'uppercase');
+  assert.equal(greeting.textTransform, 'lowercase');
   assert.equal(greeting.textShadow, 'none');
   assert.match(greeting.transitionProperty, /opacity/);
   assert.doesNotMatch(greeting.transitionProperty, /color|letter-spacing|text-transform/);
+  const aligned = await alignment(page);
+  assert.ok(Math.abs(aligned.centerDelta.brand) < 1.5 && Math.abs(aligned.centerDelta.index) < 1.5,
+    `Greeting shares the brand/INDEX optical centre line: ${JSON.stringify(aligned.centerDelta)}`);
+  assert.ok(Math.abs(aligned.topDelta.brand) < .5 && Math.abs(aligned.topDelta.index) < .5,
+    `Greeting starts on the same 44px header row: ${JSON.stringify(aligned.topDelta)}`);
+  assert.ok(Math.abs(aligned.gapDelta) < 1.5,
+    `Branding and INDEX gaps stay symmetric: ${JSON.stringify(aligned.gaps)}`);
   await page.screenshot({ path: new URL('after-1440-hover.png', output).pathname });
+  await page.screenshot({ path: new URL('header-1440.png', output).pathname, clip: { x: 0, y: 0, width: 1440, height: 88 } });
   await page.locator('[data-floating-brand]').focus();
   await waitForGreetingOpacity(page, .519999);
   const focused = await styles(page.locator('[data-returning-visitor]'));
@@ -80,7 +110,7 @@ try {
   const contrasts = { hover: contrast([240, 239, 235], [36, 36, 36], greeting.opacity),
     focus: contrast([240, 239, 235], [36, 36, 36], focused.opacity) };
   assert.ok(contrasts.focus >= 4.5, `Focused greeting meets WCAG AA normal-text contrast: ${contrasts.focus}`);
-  results.desktop = { rest, greeting, hint, focused, layoutShifts, contrast: contrasts };
+  results.desktop = { rest, greeting, hint, focused, aligned, layoutShifts, contrast: contrasts };
   await desktopContext.close();
 
   const narrowContext = await browser.newContext({ viewport: { width: 320, height: 844 }, deviceScaleFactor: 1 });
@@ -92,17 +122,21 @@ try {
   await narrow.mouse.move(160, 30);
   await waitForGreetingOpacity(narrow, .349999);
   const narrowGreeting = await styles(narrow.locator('[data-returning-visitor]'));
+  const narrowAligned = await alignment(narrow);
   assert.equal(narrowGreeting.whiteSpace, 'nowrap');
-  assert.ok(narrowGreeting.height <= parseFloat(narrowGreeting.lineHeight) + 1
-    && narrowGreeting.textHeight <= parseFloat(narrowGreeting.lineHeight) + 1, 'The longest 320px greeting stays on one line.');
+  assert.equal(narrowGreeting.height, 44, 'The greeting keeps the shared 44px header row at 320px.');
+  assert.ok(narrowGreeting.textHeight <= parseFloat(narrowGreeting.lineHeight) + 1, 'The longest 320px greeting stays on one line.');
   assert.ok(narrowGreeting.left >= -.5 && narrowGreeting.right <= 320.5
     && narrowGreeting.textLeft >= -.5 && narrowGreeting.textRight <= 320.5,
     `The longest 320px greeting text stays inside the viewport: ${narrowGreeting.textLeft}–${narrowGreeting.textRight}.`);
   assert.ok(narrowGreeting.textLeft >= narrowGreeting.left - .5 && narrowGreeting.textRight <= narrowGreeting.right + .5,
     `The longest 320px greeting text stays inside its header slot: slot ${narrowGreeting.left}–${narrowGreeting.right}, text ${narrowGreeting.textLeft}–${narrowGreeting.textRight}.`);
+  assert.ok(Math.abs(narrowAligned.centerDelta.brand) < 1.5 && Math.abs(narrowAligned.centerDelta.index) < 1.5,
+    `The 320px greeting shares the brand/INDEX centre line: ${JSON.stringify(narrowAligned.centerDelta)}`);
   assert.ok(await narrow.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
   await narrow.screenshot({ path: new URL('after-320-hover.png', output).pathname });
-  results.narrow = narrowGreeting;
+  await narrow.screenshot({ path: new URL('header-320.png', output).pathname, clip: { x: 0, y: 0, width: 320, height: 72 } });
+  results.narrow = { greeting: narrowGreeting, aligned: narrowAligned };
   await narrowContext.close();
 
   const touchContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1,

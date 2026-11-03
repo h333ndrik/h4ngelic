@@ -9,10 +9,12 @@ test('hero poster configuration is injected ahead of layout and application styl
     source('index.html'), source('src/data/heroPosterSettings.js'), source('vite.config.js'), source('scripts/prerender.mjs'),
   ]);
   assert.match(config, /src: '\/assets\/wordmark-fallback\.svg'/);
-  assert.match(config, /fadeDurationMs: 650/);
+  assert.match(config, /fadeDurationMs: 900/);
   assert.match(config, /desktop: '\/assets\/tattoo-texture\.webp'/);
   assert.match(config, /mobile: '\/assets\/tattoo-texture-640\.webp'/);
   assert.match(html, /__H4_HERO_POSTER_URL__/);
+  assert.match(html, /translate3d\(0, 14px, 0\) scale\(\.96\)/);
+  assert.match(html, /opacity 450ms ease, transform 1100ms cubic-bezier\(\.16, 1, \.3, 1\)/);
   assert.match(html, /data-hero-poster-critical/);
   assert.match(html, /id="hero-preloads"/);
   assert.match(html, /rel="modulepreload" href="\/src\/main\.js"/);

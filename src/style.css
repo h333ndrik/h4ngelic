@@ -38,17 +38,15 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 .masthead h1, .edition { margin: 0; font-size: clamp(13px, 1.32vw, 20px); font-weight: 400; letter-spacing: .06em; line-height: 1.5; }
 .stage { position: absolute; inset: 0; }
 #logo-canvas { width: 100%; height: 100%; display: block; position: absolute; inset: 0; touch-action: pan-y; }
-#logo-canvas { opacity: 0; transform: translate3d(0, 8px, 0) scale(.985); transition: opacity var(--hero-poster-fade, 650ms) ease; }
+#logo-canvas {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0) scale(.96);
+  transition: opacity var(--hero-wordmark-opacity-fade, 450ms) ease,
+    transform var(--hero-wordmark-transform-fade, 1100ms) var(--hero-wordmark-easing, cubic-bezier(.16, 1, .3, 1));
+}
 .stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-.stage.is-entering #logo-canvas {
-  will-change: transform, opacity;
-  animation: hero-wordmark-arrive 700ms ease-out both;
-}
-@keyframes hero-wordmark-arrive {
-  from { opacity: 0; transform: translate3d(0, 8px, 0) scale(.985); }
-  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-}
-.fallback { position: absolute; inset: 0; background: var(--hero-poster-image, url('/assets/wordmark-fallback.svg')) center / 67% auto no-repeat; color: transparent; font-size: 0; pointer-events: none; transition: opacity var(--hero-poster-fade, 650ms) ease; }
+.stage.is-entering #logo-canvas { will-change: transform, opacity; }
+.fallback { position: absolute; inset: 0; background: var(--hero-poster-image, url('/assets/wordmark-fallback.svg')) center / 67% auto no-repeat; color: transparent; font-size: 0; pointer-events: none; transition: opacity var(--hero-poster-fade, 900ms) ease; }
 .stage.is-ready .fallback { opacity: 0; }
 .stage.is-poster-static #logo-canvas { display: none; }
 .stage.is-poster-static .fallback { opacity: 1; }
@@ -169,7 +167,7 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
   html[data-hero-loading='true'] .stage .fallback { animation: none !important; will-change: auto; }
-  .stage.is-entering #logo-canvas { animation: none !important; will-change: auto; }
+  .stage.is-entering #logo-canvas { will-change: auto; }
 }
 
 /* V17: defer below-fold rendering work without reserving the hero or header. */

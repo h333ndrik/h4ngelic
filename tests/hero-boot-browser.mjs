@@ -29,7 +29,9 @@ async function seedPage(context) {
       const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
       const style = canvas ? getComputedStyle(canvas) : null;
       window.__h4Entrance = { entering: Boolean(stage?.classList.contains('is-entering')),
-        animation: style?.animationName || 'none', duration: style?.animationDuration || '0s', at: performance.now() };
+        opacity: Number(style?.opacity || 0), transform: style?.transform || 'none',
+        transitionProperty: style?.transitionProperty || 'none', transitionDuration: style?.transitionDuration || '0s',
+        at: performance.now() };
     });
   });
 }
@@ -196,17 +198,19 @@ try {
       assert.equal(booting.animation, 'hero-poster-breathe');
       await page.screenshot({ path: new URL(`booting-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-      await page.waitForTimeout(900);
+      await page.waitForFunction(() => !document.querySelector('#stage').classList.contains('is-entering'), null, { timeout: 3000 });
       const ready = await bootState(page);
       assert.equal(ready.loading, 'false');
       assert.equal(ready.heroReady, true);
       assert.equal(ready.posterOpacity, 0);
       assert.equal(ready.canvasDisplay, 'block');
       assert.equal(ready.canvasOpacity, 1);
-      assert.equal(ready.entering, false, 'The entrance class clears after its 700 ms block.');
+      assert.equal(ready.entering, false, 'The entrance class clears after its 1100 ms block.');
       assert.equal(ready.entrance?.entering, true, 'The ready event starts the entrance class timeline.');
-      assert.equal(ready.entrance?.animation, 'hero-wordmark-arrive');
-      assert.equal(ready.entrance?.duration, '0.7s');
+      assert.equal(ready.entrance?.opacity, 0);
+      assert.match(ready.entrance?.transform || '', /matrix\(0\.96, 0, 0, 0\.96, 0, 14\)/);
+      assert.match(ready.entrance?.transitionProperty || '', /opacity.*transform/);
+      assert.match(ready.entrance?.transitionDuration || '', /0\.45s.*1\.1s/);
       assert.ok(messages.some(text => text === `[h4ngelic] build ${booting.build}`), 'The dev/preview build marker is logged once.');
       assert.deepEqual(errors, [], `Normal boot emits no page errors at ${width}px.`);
       await page.screenshot({ path: new URL(`ready-${width}.png`, output).pathname });
