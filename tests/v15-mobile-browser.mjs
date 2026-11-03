@@ -36,8 +36,13 @@ try {
       assert.equal(await line.textContent(), visitorMessage(5));
       const recognition = await line.evaluate(element => { const r = element.getBoundingClientRect(), s = getComputedStyle(element);
         return { centre: r.left + r.width / 2, top: r.top, height: r.height, lineHeight: parseFloat(s.lineHeight) }; });
-      assert.ok(Math.abs(recognition.centre - profile.width / 2) < 1);
-      assert.ok(recognition.top >= 60 && recognition.top <= 100);
+      const gap = await page.evaluate(() => {
+        const brand = document.querySelector('[data-floating-brand]').getBoundingClientRect();
+        const index = document.querySelector('[data-global-index] summary').getBoundingClientRect();
+        return { top: brand.top, centre: (brand.right + index.left) / 2 };
+      });
+      assert.ok(Math.abs(recognition.centre - gap.centre) < 1, `Recognition line is centred inside the branding-to-INDEX gap; line=${recognition.centre}, gap=${gap.centre}.`);
+      assert.ok(Math.abs(recognition.top - 21) < 1, `Recognition line uses the F21 fixed header top (21px without a safe-area inset); line=${recognition.top}.`);
       assert.ok(recognition.height <= recognition.lineHeight + 1);
       const index = page.locator('[data-global-index]');
       await index.locator('summary').click();
@@ -53,15 +58,21 @@ try {
 
       await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' })); await frames(page);
       const counter = page.locator('[data-visit-counter-hotspot]');
-      await counter.tap();
-      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-visit-message]')).opacity) > .45);
+      await page.locator('.footer-left').evaluate(element => { element.scrollLeft = element.scrollWidth; });
+      await frames(page);
+      const counterBox = await counter.boundingBox();
+      await page.touchscreen.tap(counterBox.x + counterBox.width / 2, counterBox.y + counterBox.height / 2);
+      await page.waitForFunction(() => document.querySelector('[data-visit-message]')?.classList.contains('is-discovered'));
+      await page.waitForTimeout(800);
       const footer = await page.evaluate(() => {
         const box = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; };
         return { moshlab: box('.footer-moshlab'), counter: box('[data-visit-counter-hotspot]'), smash: box('.footer-smash'),
           instagram: box('.footer-instagram'), location: box('.footer-location'), naavi: box('[data-naavi]'),
-          phrase: document.querySelector('[data-visit-message]').textContent, pageWidth: document.documentElement.scrollWidth };
+          phrase: document.querySelector('[data-visit-message]').textContent, pageWidth: document.documentElement.scrollWidth,
+          messageOpacity: Number(getComputedStyle(document.querySelector('[data-visit-message]')).opacity) };
       });
       assert.equal(footer.phrase, visitorMessage(5));
+      assert.ok(footer.messageOpacity > .3, `The discovered footer message is visibly painted; opacity=${footer.messageOpacity}.`);
       assert.equal(overlap(footer.moshlab, footer.counter), false, 'VISIT and moshlab stay separate.');
       assert.equal(overlap(footer.smash, footer.instagram), false);
       assert.equal(overlap(footer.instagram, footer.location), false);
