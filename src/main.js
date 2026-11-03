@@ -51,6 +51,7 @@ let pendingPointer = null;
 let syncRendering = () => {};
 let modeTransitioning = false;
 let modeTransitionTimer = 0;
+let heroEntranceTimer = 0;
 const quality = chooseRenderQuality({
   pixelRatio: devicePixelRatio,
   coarsePointer: matchMedia('(pointer: coarse)').matches,
@@ -69,14 +70,21 @@ const controls = bindControls({
 
 function markHeroReady() {
   document.documentElement.dataset.heroLoading = 'false';
-  stage.classList.remove('is-boot-slow', 'is-boot-failed');
-  stage.classList.add('is-ready');
+  clearTimeout(heroEntranceTimer);
+  stage.classList.remove('is-boot-slow', 'is-boot-failed', 'is-entering');
+  stage.classList.add('is-ready', 'is-entering');
+  heroEntranceTimer = setTimeout(() => {
+    heroEntranceTimer = 0;
+    stage.classList.remove('is-entering');
+  }, 760);
   document.dispatchEvent(new CustomEvent('h4:heroready'));
 }
 
 function fallback(message) {
   running = false;
-  stage.classList.remove('is-ready', 'is-boot-slow');
+  clearTimeout(heroEntranceTimer);
+  heroEntranceTimer = 0;
+  stage.classList.remove('is-ready', 'is-boot-slow', 'is-entering');
   stage.classList.add('is-fallback', 'is-boot-failed');
   document.documentElement.dataset.heroLoading = 'false';
   document.dispatchEvent(new CustomEvent('h4:herofailed', { detail: { message } }));
@@ -523,6 +531,7 @@ canvas.addEventListener('webglcontextlost', (event) => {
 addEventListener('pagehide', (event) => {
   if (event.persisted) return;
   running = false;
+  clearTimeout(heroEntranceTimer);
   startupObserver.disconnect();
   document.removeEventListener('visibilitychange', startVisibleHero);
   controls.destroy();

@@ -4,7 +4,7 @@ import { chromium } from 'playwright';
 import { findCursorOffenders, cursorOf } from './helpers/cursor-contract.mjs';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL(`../${process.env.H4_HERO_BOOT_ARTIFACTS || 'artifacts/v312/r2'}/`, import.meta.url);
+const output = new URL(`../${process.env.H4_HERO_BOOT_ARTIFACTS || 'artifacts/v312/r3'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -24,7 +24,13 @@ async function seedPage(context) {
     localStorage.setItem('h4ngelic.visits.v1', JSON.stringify({ count: 5, lastSeen: Date.now() }));
     localStorage.setItem('h4ngelic.audio.v1', JSON.stringify({ muted: true, volume: .2 }));
     window.__h4HeroReady = false;
-    document.addEventListener('h4:heroready', () => { window.__h4HeroReady = true; });
+    document.addEventListener('h4:heroready', () => {
+      window.__h4HeroReady = true;
+      const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
+      const style = canvas ? getComputedStyle(canvas) : null;
+      window.__h4Entrance = { entering: Boolean(stage?.classList.contains('is-entering')),
+        animation: style?.animationName || 'none', duration: style?.animationDuration || '0s', at: performance.now() };
+    });
   });
 }
 
@@ -32,12 +38,18 @@ async function bootState(page) {
   return page.evaluate(() => {
     const poster = document.querySelector('[data-hero-poster]');
     const stage = document.querySelector('#stage');
+    const canvas = document.querySelector('#logo-canvas');
     const style = poster ? getComputedStyle(poster) : null;
+    const canvasStyle = canvas ? getComputedStyle(canvas) : null;
     return { loading: document.documentElement.dataset.heroLoading, stage: stage?.className || '',
+      build: document.documentElement.dataset.build || '', metaBuild: document.querySelector('meta[name="h4-build"]')?.content || '',
       status: document.querySelector('#scene-status')?.textContent || '',
       posterOpacity: Number(style?.opacity || 0), posterDisplay: style?.display || 'none',
-      animation: style?.animationName || 'none', canvasDisplay: getComputedStyle(document.querySelector('#logo-canvas')).display,
-      heroReady: Boolean(window.__h4HeroReady), scrollY };
+      animation: style?.animationName || 'none', canvasDisplay: canvasStyle?.display || 'none',
+      canvasOpacity: Number(canvasStyle?.opacity || 0), canvasAnimation: canvasStyle?.animationName || 'none',
+      entering: Boolean(stage?.classList.contains('is-entering')), cursorClass: document.documentElement.classList.contains('h4-custom-cursor'),
+      inlineCursorScript: [...document.head.querySelectorAll('script')].some(script => script.textContent.includes("classList.add('h4-custom-cursor')")),
+      entrance: window.__h4Entrance || null, heroReady: Boolean(window.__h4HeroReady), scrollY };
   });
 }
 
@@ -118,8 +130,7 @@ async function cursorAudit(page, route, width) {
   return report;
 }
 
-async function footerCursorStates(page) {
-  const selectors = ['.footer-moshlab', '[data-visit-counter-hotspot]', '.footer-smash', '.footer-instagram', '[data-naavi]'];
+async function cursorStates(page, selectors) {
   const states = [];
   for (const selector of selectors) {
     const target = page.locator(selector);
@@ -130,46 +141,73 @@ async function footerCursorStates(page) {
     await target.hover();
     const hover = await cursorOf(target);
     assert.equal(hover.ok, true, `${selector} keeps the cursor image and hotspot on hover: ${hover.cursor}`);
+    await target.focus();
+    const focus = await cursorOf(target);
+    assert.equal(focus.ok, true, `${selector} keeps the cursor image and hotspot on focus: ${focus.cursor}`);
     let active = hover;
-    if (await target.isDisabled()) { states.push({ selector, rest: rest.cursor, hover: hover.cursor, active: null }); continue; }
+    if (await target.isDisabled()) { states.push({ selector, rest: rest.cursor, hover: hover.cursor, focus: focus.cursor, active: null }); continue; }
     const box = await target.boundingBox();
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
     await page.mouse.down();
     active = await cursorOf(target);
     await page.mouse.move(4, 4); await page.mouse.up();
     assert.equal(active.ok, true, `${selector} keeps the cursor image and hotspot while active: ${active.cursor}`);
-    states.push({ selector, rest: rest.cursor, hover: hover.cursor, active: active.cursor });
+    states.push({ selector, rest: rest.cursor, hover: hover.cursor, focus: focus.cursor, active: active.cursor });
   }
+  return states;
+}
+
+async function footerCursorStates(page) {
+  return cursorStates(page, ['.floating-brand', '.footer-moshlab', '[data-visit-counter-hotspot]',
+    '.footer-smash', '.footer-instagram', '[data-naavi]']);
+}
+
+async function indexCursorStates(page) {
+  const index = page.locator('[data-global-index]');
+  if (!await index.evaluate(element => element.open)) await index.locator('summary').click();
+  const links = await index.locator('[data-index-page]:is(a)').evaluateAll(nodes => nodes.map(node => node.dataset.indexPage));
+  const states = await cursorStates(page, ['[data-global-index] summary', ...links.map(pageName => `[data-index-page="${pageName}"]`)]);
+  await page.keyboard.press('Escape');
   return states;
 }
 
 try {
   for (const width of [1440, 390, 320]) {
-    console.log(`CHECK V3.1.2-r2 browser suite ${width}px`);
+    console.log(`CHECK V3.1.2-r3 browser suite ${width}px`);
     const context = await seededContext(width);
     await seedPage(context);
     const page = await context.newPage();
     page.setDefaultTimeout(60000);
-    const errors = [];
+    const errors = [], messages = [];
     page.on('pageerror', error => errors.push(error.message));
-    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    page.on('console', message => { messages.push(message.text()); if (message.type() === 'error') errors.push(message.text()); });
     const route = async pending => { await delay(350); await pending.continue(); };
     await page.route(heroModule, route);
     try {
       await page.goto(new URL('/?test=1', base).href, { waitUntil: 'domcontentloaded' });
       const booting = await bootState(page);
+      assert.match(booting.build, /^[a-f0-9]{7,40}$/i, 'Every document carries a non-empty build SHA.');
+      assert.equal(booting.build, booting.metaBuild, 'html[data-build] and the h4-build meta agree.');
+      assert.equal(booting.cursorClass, true);
+      assert.equal(booting.inlineCursorScript, true, 'The cursor class is set by inline head JavaScript.');
       assert.equal(booting.loading, 'true');
       assert.doesNotMatch(booting.stage, /is-ready/);
-      assert.ok(booting.posterDisplay !== 'none' && booting.posterOpacity >= .79, `The poster is immediately visible: ${JSON.stringify(booting)}`);
+      assert.ok(booting.posterDisplay !== 'none' && booting.posterOpacity >= .54, `The poster is immediately visible: ${JSON.stringify(booting)}`);
       assert.equal(booting.animation, 'hero-poster-breathe');
       await page.screenshot({ path: new URL(`booting-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-      await page.waitForTimeout(750);
+      await page.waitForTimeout(900);
       const ready = await bootState(page);
       assert.equal(ready.loading, 'false');
       assert.equal(ready.heroReady, true);
       assert.equal(ready.posterOpacity, 0);
       assert.equal(ready.canvasDisplay, 'block');
+      assert.equal(ready.canvasOpacity, 1);
+      assert.equal(ready.entering, false, 'The entrance class clears after its 700 ms block.');
+      assert.equal(ready.entrance?.entering, true, 'The ready event starts the entrance class timeline.');
+      assert.equal(ready.entrance?.animation, 'hero-wordmark-arrive');
+      assert.equal(ready.entrance?.duration, '0.7s');
+      assert.ok(messages.some(text => text === `[h4ngelic] build ${booting.build}`), 'The dev/preview build marker is logged once.');
       assert.deepEqual(errors, [], `Normal boot emits no page errors at ${width}px.`);
       await page.screenshot({ path: new URL(`ready-${width}.png`, output).pathname });
       await page.unroute(heroModule, route);
@@ -182,7 +220,7 @@ try {
       const slowState = await bootState(slow);
       assert.match(slowState.stage, /is-boot-slow/);
       assert.match(slowState.status, /taking longer than usual/);
-      assert.ok(slowState.posterOpacity >= .79 && slowState.canvasDisplay !== 'none', 'The slow state keeps the permanent poster visible.');
+      assert.ok(slowState.posterOpacity >= .54 && slowState.canvasDisplay !== 'none', 'The slow state keeps the permanent poster visible.');
       await slow.screenshot({ path: new URL(`slow-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       assert.ok(heldRoute, 'The slow fixture held the real hero module request.');
       await heldRoute.abort('failed');
@@ -202,6 +240,8 @@ try {
       const failedState = await bootState(failed);
       assert.equal(failedState.posterOpacity, 1);
       assert.equal(failedState.canvasDisplay, 'none');
+      assert.equal(failedState.entering, false, 'Failure skips the entrance animation.');
+      assert.equal(failedState.entrance, null);
       assert.match(failedState.status, /Static h4ngelic wordmark\. The interactive version could not be loaded\./);
       await failed.screenshot({ path: new URL(`failed-${width}.png`, output).pathname });
       await failed.locator('[data-global-index] summary').click();
@@ -243,9 +283,17 @@ try {
       await page.screenshot({ path: new URL(`slash-contact-${width}.png`, output).pathname });
       const wheel = await wheelContract(page, width);
       const footerCursors = await footerCursorStates(page);
+      const indexCursors = await indexCursorStates(page);
       const auditedWork = await findCursorOffenders(page);
       assert.deepEqual(auditedWork.offenders, [], `The whole Work page keeps one cursor at ${width}px.`);
+      await page.evaluate(() => document.documentElement.classList.remove('h4-custom-cursor'));
+      const noClass = await findCursorOffenders(page);
+      assert.deepEqual(noClass.offenders, [], 'The CSS defense also works before the cursor class exists.');
+      await page.evaluate(() => document.documentElement.classList.add('h4-custom-cursor'));
       const auditedContact = await cursorAudit(page, '/contact', width);
+      const formCursors = await cursorStates(page, ['.inquiry-field input[name="name"]',
+        '.inquiry-field input[name="email"]', '.inquiry-field textarea[name="message"]',
+        '[data-inquiry-submit]', '.inquiry-file-input']);
 
       const touchContext = await seededContext(width, { touch: true });
       await seedPage(touchContext);
@@ -258,10 +306,26 @@ try {
       await touch.screenshot({ path: new URL(`greeting-touch-${width}.png`, output).pathname });
       await touchContext.close();
 
+      const reducedContext = await seededContext(width, { reduced: true });
+      await seedPage(reducedContext);
+      const reduced = await reducedContext.newPage(); reduced.setDefaultTimeout(60000);
+      await reduced.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+      await reduced.locator('#stage.is-poster-static').waitFor({ timeout: 10000 });
+      const reducedState = await reduced.evaluate(() => ({
+        poster: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity),
+        animation: getComputedStyle(document.querySelector('[data-hero-poster]')).animationName,
+        canvas: getComputedStyle(document.querySelector('#logo-canvas')).display,
+      }));
+      assert.equal(reducedState.poster, 1, 'Reduced motion shows the final poster immediately.');
+      assert.equal(reducedState.animation, 'none');
+      assert.equal(reducedState.canvas, 'none');
+      await reducedContext.close();
+
       reports.push({ width, booting, ready, slow: slowState, slowFailed, failed: failedState,
         greeting: { rest: lineRest, hover: lineHover, focus: lineFocus, touch: touchLine }, slash, wheel,
-        cursor: { home: auditedHome, work: auditedWork, contact: auditedContact, footerStates: footerCursors }, errors });
-      console.log(`PASS ${width}px: boot/slow/failure, cursor, greeting, slash ${slash.canonical.token.toFixed(2)}px, wheel contract.`);
+        reduced: reducedState, cursor: { home: auditedHome, work: auditedWork, noClass, contact: auditedContact,
+          footerStates: footerCursors, indexStates: indexCursors, formStates: formCursors }, messages, errors });
+      console.log(`PASS ${width}px: build marker, entrance, cursor, greeting, slash ${slash.canonical.token.toFixed(2)}px, wheel contract.`);
     } catch (error) {
       failures.push({ width, error: error.stack, errors }); throw error;
     } finally {

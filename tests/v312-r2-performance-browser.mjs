@@ -55,6 +55,41 @@ try {
     } finally { await context.close(); }
   }
 
+  const entranceContext = await browser.newContext({ viewport: { width: 1440, height: 844 }, deviceScaleFactor: 1 });
+  await entranceContext.addInitScript(() => {
+    window.__r3Entrance = null;
+    window.__r3Shifts = [];
+    new PerformanceObserver(list => { for (const entry of list.getEntries()) if (!entry.hadRecentInput) window.__r3Shifts.push(entry.value); })
+      .observe({ type: 'layout-shift', buffered: true });
+    document.addEventListener('h4:heroready', () => {
+      const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
+      const style = getComputedStyle(canvas);
+      window.__r3Entrance = { entering: stage.classList.contains('is-entering'), animation: style.animationName,
+        duration: style.animationDuration, opacity: Number(style.opacity), transform: style.transform };
+    });
+  });
+  const entrancePage = await entranceContext.newPage(); entrancePage.setDefaultTimeout(60000);
+  await entrancePage.goto(new URL('/?test=1', base).href, { waitUntil: 'domcontentloaded' });
+  await entrancePage.waitForFunction(() => Boolean(window.__r3Entrance), null, { timeout: 60000 });
+  const entranceStart = await entrancePage.evaluate(() => window.__r3Entrance);
+  await entrancePage.waitForTimeout(900);
+  const entranceEnd = await entrancePage.evaluate(() => ({
+    entering: document.querySelector('#stage').classList.contains('is-entering'),
+    opacity: Number(getComputedStyle(document.querySelector('#logo-canvas')).opacity),
+    transform: getComputedStyle(document.querySelector('#logo-canvas')).transform,
+    cls: window.__r3Shifts.reduce((sum, value) => sum + value, 0),
+    build: document.documentElement.dataset.build || '',
+  }));
+  assert.equal(entranceStart.entering, true);
+  assert.equal(entranceStart.animation, 'hero-wordmark-arrive');
+  assert.equal(entranceStart.duration, '0.7s');
+  assert.equal(entranceEnd.entering, false);
+  assert.equal(entranceEnd.opacity, 1);
+  assert.equal(entranceEnd.transform, 'matrix(1, 0, 0, 1, 0, 0)');
+  assert.ok(entranceEnd.cls < .01, `The compositor-only entrance has no layout shift: ${entranceEnd.cls}`);
+  assert.match(entranceEnd.build, /^[a-f0-9]{7,40}$/i);
+  await entranceContext.close();
+
   const index = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
   const href = index.match(/<link rel="modulepreload" href="([^"]+main-[^"]+\.js)"/)?.[1];
   assert.ok(href, 'The Home document preloads a hashed main chunk.');
@@ -65,7 +100,8 @@ try {
   const distBytes = await directoryBytes(new URL('../dist/', import.meta.url));
   console.log(`PASS performance: ${reports.map(result => `${result.route}@${result.width} ${result.median.toFixed(2)}ms`).join(', ')}; preload ${href}; ${mainChunks.length} main chunk; routes ${manifest.routes.length}.`);
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, reports,
-    distBytes, modulepreload: href, mainChunks, routes: manifest.routes.length, failures }, null, 2) + '\n');
+    entrance: { start: entranceStart, end: entranceEnd }, distBytes, modulepreload: href, mainChunks,
+    routes: manifest.routes.length, failures }, null, 2) + '\n');
 } catch (error) {
   failures.push({ error: error.stack });
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, reports, failures }, null, 2) + '\n');

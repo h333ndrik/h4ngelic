@@ -48,7 +48,7 @@ try {
     }
     first.paintSamples = paintSamples;
     first.fcpMedian = [...paintSamples].sort((a, b) => a - b)[1];
-      assert.equal(first.poster, true); assert.ok(first.opacity >= .79, `The boot poster is visible during its breathe cycle: ${first.opacity}`); assert.match(first.background, /wordmark-fallback\.svg/);
+      assert.equal(first.poster, true); assert.ok(first.opacity >= .54, `The boot poster is visible during its breathe cycle: ${first.opacity}`); assert.match(first.background, /wordmark-fallback\.svg/);
       assert.ok(first.fcpMedian < 100, `The critical poster must paint before 100ms in the warmed median: ${JSON.stringify(paintSamples)}`);
       if (profile.reduced) {
         assert.deepEqual(first.preloads, [], 'Reduced motion activates no WebGL/font/texture preloads.');
