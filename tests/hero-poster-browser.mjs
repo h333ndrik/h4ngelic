@@ -50,6 +50,7 @@ try {
     } else {
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity) < .05);
+      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('#logo-canvas')).opacity) > .95);
       const ready = await page.evaluate(() => ({
         poster: Number(getComputedStyle(document.querySelector('[data-hero-poster]')).opacity),
         canvas: Number(getComputedStyle(document.querySelector('#logo-canvas')).opacity),
