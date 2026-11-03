@@ -135,7 +135,7 @@ async function formContract(page, profile) {
   });
   assert.equal(panel.surface, fields[0].surface);
   assert.equal(panel.borderWidth, '0px'); assert.equal(panel.radius, '4px');
-  assert.equal(panel.outline,'0px');assert.equal(panel.shadow,'none');assert.equal(panel.filter,'none');
+  assert.equal(panel.outline,'0px');assert.match(panel.shadow,/rgba\(0, 0, 0/,'The INDEX panel keeps its subtle dark depth halo.');assert.equal(panel.filter,'none');
   const menuHover = await hovered(page, '[data-global-index] [data-index-page="home"]', profile);
   await page.keyboard.press('Escape');
   const targets = await coverage(page, ['[data-global-index] summary', '[data-global-index] a', '[data-naavi]',

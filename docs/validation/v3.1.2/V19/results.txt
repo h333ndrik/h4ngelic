@@ -1,0 +1,18 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:index-glow
+PASS V19 1440px reduced=false
+PASS V19 1440px reduced=true
+PASS V19 390px reduced=false
+PASS V19 390px reduced=true
+PASS V19 320px reduced=false
+PASS V19 320px reduced=true
+Each profile: dark depth halo, F1 surface, >=4.5:1 contrast, flat form boxes, measured pixel falloff over a bright surface and screenshot over a bright photograph.
+
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 H4_NAV_ARTIFACTS=artifacts/v312/V19/navigation node tests/v31-navigation-browser.mjs
+PASS V3.1 navigation 1440px (both motion preferences)
+PASS V3.1 navigation 390px (both motion preferences)
+PASS V3.1 navigation 320px (both motion preferences)
+
+Command: npm test
+tests 371
+pass 371
+fail 0

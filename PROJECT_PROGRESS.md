@@ -4,6 +4,24 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V19 — DONE — 2026-11-03
+
+The INDEX panel now has a soft dark two-layer depth halo while keeping its F1
+form-color surface, 4px radius, zero border and zero outline. Contact form
+fields remain flat. Readability is unchanged.
+
+Actual serial checks before builds:
+
+- New `npm run test:index-glow`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Verified the dark shadow layers, unchanged surface/radius,
+  contrast >= 4.5:1, flat form boxes, pixel falloff without a hard band over a
+  bright surface, and screenshots over a bright photograph.
+- `node tests/v31-navigation-browser.mjs`: 6/6 profiles PASS with the updated
+  depth-halo contract.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V19/`.
+
+
 ## V18 — DONE — 2026-11-03
 
 The Other Side hint now reads exactly `press 3 times 3 to reverse` in text and

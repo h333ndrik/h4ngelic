@@ -88,7 +88,7 @@ async function indexContract(page,profile,world) {
   ]);
   assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');
   assert.equal(data.borderWidth,'0px');assert.equal(data.radius,'4px');
-  assert.equal(data.outlineWidth,'0px');assert.equal(data.filter,'none');assert.equal(data.shadow,'none');
+  assert.equal(data.outlineWidth,'0px');assert.equal(data.filter,'none');assert.match(data.shadow,/rgba\(0, 0, 0/,'The INDEX panel keeps its subtle dark depth halo.');
   const luminance = color => color.match(/[\d.]+/g).slice(0,3).map(Number).map(value => value / 255)
     .map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4)
     .reduce((sum,value,index) => sum + value * [.2126,.7152,.0722][index],0);

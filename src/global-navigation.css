@@ -56,7 +56,7 @@
   border: 0;
   outline: 0;
   border-radius: var(--radius-soft);
-  box-shadow: none;
+  box-shadow: 0 24px 60px -20px rgb(0 0 0 / .82), 0 8px 24px -10px rgb(0 0 0 / .55);
 }
 .global-index[open] .global-index-links { animation: index-arrive 250ms cubic-bezier(.2,.8,.25,1); }
 .global-index-links > :is(a, .index-static) { display: flex; align-items: center; gap: 10px; min-height: 44px; color: #c3c3c0; text-decoration: none; }
