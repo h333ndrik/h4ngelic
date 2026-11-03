@@ -9,6 +9,7 @@
   --type-category-link: clamp(18px, 5.2vw, 84px);
   --type-navigation: clamp(13px, 1.32vw, 20px);
   --type-secondary-link: clamp(18px, 1.8vw, 27px);
+  --slash-inset: clamp(52px, 16vw, 138px);
   --ui-hover-glow-normal: drop-shadow(0 0 1px rgb(255 255 255 / calc(.95 * var(--ui-glow-strength, .2))))
     drop-shadow(0 0 3px rgb(255 255 255 / calc(.62 * var(--ui-glow-strength, .2))))
     drop-shadow(0 0 6px rgb(255 255 255 / calc(.38 * var(--ui-glow-strength, .2))));

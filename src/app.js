@@ -54,10 +54,46 @@ let renderedKind = '';
 let renderedPath = '';
 let stopInquiry = () => {};
 let stopConnectedWork = () => {};
+let slashInsetFrame = 0;
 // One scroll offset for each real carousel; route changes reuse these small
 // records rather than retaining detached gallery nodes or image resources.
 const carouselPositions = new Map();
 const globalNavigation = initGlobalNavigation(document);
+
+function measureSlashInset() {
+  const heading = document.querySelector('#selected-work-title .kinetic-heading-text');
+  const section = heading?.closest('.content-section');
+  if (!heading || !section) return;
+  const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+  let node, slashOffset = -1;
+  while ((node = walker.nextNode())) {
+    const index = node.textContent.indexOf('/');
+    if (index >= 0) { slashOffset = index; break; }
+  }
+  if (slashOffset < 0) return;
+  const range = document.createRange();
+  range.setStart(node, slashOffset);
+  range.setEnd(node, slashOffset + 1);
+  const transform = getComputedStyle(heading).transform;
+  const translation = transform === 'none' ? 0 : new DOMMatrixReadOnly(transform).m41;
+  const sectionBox = section.getBoundingClientRect();
+  const contentLeft = sectionBox.left + parseFloat(getComputedStyle(section).paddingLeft || '0');
+  const inset = range.getBoundingClientRect().left - translation - contentLeft;
+  if (Number.isFinite(inset) && inset > 0) {
+    document.documentElement.style.setProperty('--slash-inset', `${Math.round(inset * 100) / 100}px`);
+  }
+}
+
+function scheduleSlashInset() {
+  if (slashInsetFrame) return;
+  slashInsetFrame = requestAnimationFrame(() => {
+    slashInsetFrame = 0;
+    measureSlashInset();
+  });
+}
+
+addEventListener('resize', scheduleSlashInset, { passive: true });
+document.fonts?.ready.then(scheduleSlashInset);
 
 function clearHeroBootTimer() {
   if (!heroBootTimer) return;
@@ -275,6 +311,7 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopInquiry = initInquiry(content);
   stopInquiry.refreshContext?.(url);
   stopConnectedWork = initConnectedWork(content);
+  if (route.kind === 'home') scheduleSlashInset();
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {

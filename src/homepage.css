@@ -25,6 +25,13 @@
   min-width: 0;
   gap: inherit;
 }
+/* The subordinate row begins on the shared slash column. The strip keeps its
+   own scrollport on narrow screens, so only the first content edge moves. */
+.category-strip {
+  --category-link-inline-padding: clamp(4px, 1.2vw, 20px);
+  padding-left: max(0px, calc(var(--slash-inset) - var(--category-link-inline-padding)));
+}
+.category-link { padding-inline-start: var(--category-link-inline-padding); }
 .about-preview { display: block; border: 0; background: transparent; }
 .about-preview > .section-pin {
   display: block;
@@ -35,14 +42,14 @@
    room beside the editorial title without recreating the old right column. */
 .about-preview-copy {
   grid-column: auto;
-  max-width: min(1100px, 100% - clamp(12px, 3vw, 48px));
-  margin: 0 0 18px clamp(12px, 3vw, 48px);
+  max-width: min(1100px, calc(100% - var(--slash-inset)));
+  margin: 0 0 18px var(--slash-inset);
   text-align: left;
 }
 .about-preview .text-link {
   grid-column: auto;
   justify-self: start;
-  margin-left: clamp(12px, 3vw, 48px);
+  margin-left: var(--slash-inset);
   font-size: var(--type-secondary-link);
   line-height: 1.3;
   letter-spacing: -.015em;
