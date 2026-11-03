@@ -65,6 +65,21 @@ export default defineConfig({
       }
     },
   }, {
+    // Component styles are imported from many modules. Append the cursor
+    // contract to the emitted stylesheet so no later source rule can win.
+    name: 'h4ngelic-cursor-last',
+    apply: 'build',
+    enforce: 'post',
+    generateBundle(_, bundle) {
+      const defense = '@media (hover:hover) and (pointer:fine){html,html body,html body *,html body :is(a,button,summary,label,input,textarea,select,canvas,[role="button"],[data-cursor],[data-cursor-target]){cursor:var(--h4-native-cursor)!important}}';
+      for (const item of Object.values(bundle)) {
+        if (item.type !== 'asset' || !item.fileName.endsWith('.css')) continue;
+        const source = String(item.source);
+        if (!source.includes('--h4-native-cursor')) continue;
+        if (!source.endsWith(defense)) item.source = `${source}${defense}`;
+      }
+    },
+  }, {
     name: 'h4ngelic-document-routes',
     configureServer(server) {
       const inquiry = createInquiryHandler();

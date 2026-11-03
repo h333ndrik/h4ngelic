@@ -9,11 +9,19 @@
     --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto;
     cursor: var(--h4-native-cursor);
   }
+  html,
+  html body,
   html body * { cursor: var(--h4-native-cursor) !important; }
   /* Last line of defence: state and component rules cannot swap in a native
      pointer. The image and hotspot remain identical in hover/active states. */
-  html.h4-custom-cursor :is(a, button, summary, label, input, textarea, select,
-    canvas, [role='button'], [data-cursor]) { cursor: var(--h4-native-cursor) !important; }
+  html :is(a, button, summary, label, input, textarea, select, canvas,
+    [role='button'], [data-cursor], [data-cursor-target]),
+  html:not(.h4-custom-cursor) :is(a, button, summary, label, input, textarea,
+    select, canvas, [role='button'], [data-cursor], [data-cursor-target]),
+  html body :is(a, button, summary, label, input, textarea, select, canvas,
+    [role='button'], [data-cursor], [data-cursor-target]):is(:hover, :active, :focus, :focus-visible) {
+    cursor: var(--h4-native-cursor) !important;
+  }
 }
 
 [data-controls] button:focus-visible {
