@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-11-03T06:07:27.579Z",
+  "more": {
+    "text": "more",
+    "className": "page-heading sr-only",
+    "visible": false,
+    "rect": {
+      "width": 1,
+      "height": 1
+    },
+    "headings": [
+      {
+        "id": "archive-digital-artworks-title",
+        "text": "digital artworks",
+        "links": 0,
+        "arrows": 0
+      },
+      {
+        "id": "archive-analog-photography-title",
+        "text": "analog photography",
+        "links": 0,
+        "arrows": 0
+      }
+    ],
+    "viewWork": 0,
+    "fallback": false,
+    "digitalLinks": 1,
+    "crossLinks": [
+      {
+        "text": "tattoos",
+        "href": "/work/tattoos"
+      },
+      {
+        "text": "jewellery",
+        "href": "/work/jewellery"
+      }
+    ],
+    "title": "more — analog photography & digital artworks — h4ngelic"
+  },
+  "tattoos": {
+    "headings": [
+      {
+        "text": "flashes",
+        "links": 0,
+        "arrows": 0
+      },
+      {
+        "text": "3d model",
+        "links": 0,
+        "arrows": 0
+      }
+    ],
+    "shifts": [
+      1051,
+      1545.65625
+    ]
+  }
+}

@@ -59,9 +59,9 @@ async function work(page, category = 'all') {
   if (rubric) {
     assert.equal(await page.locator('.work-group-heading').count(), 0, 'Rubric pages do not retain a self-link header.');
     assert.equal(await page.locator('.work-page.is-rubric-page').count(), 1);
-    const promoted = await page.locator('.portfolio-archive .rubric-category-heading a').evaluateAll(nodes => nodes.map(node => ({ href: node.getAttribute('href'),
-      text: node.textContent.trim(), arrows: node.querySelectorAll('.arrow').length })));
-    assert.ok(promoted.every(link => link.href !== `/work/${category}` && link.arrows === 1), JSON.stringify(promoted));
+    const promoted = await page.locator('.portfolio-archive .rubric-category-heading').evaluateAll(nodes => nodes.map(node => ({
+      id: node.id, text: node.textContent.trim(), links: node.querySelectorAll('a').length, arrows: node.querySelectorAll('.arrow').length })));
+    assert.ok(promoted.every(heading => heading.id && heading.text && heading.links === 0 && heading.arrows === 0), JSON.stringify(promoted));
     const staticPose = await page.locator('.portfolio-archive .rubric-category-heading').evaluateAll(nodes => nodes.map(node => {
       const style = getComputedStyle(node);
       return { flag: node.hasAttribute('data-motion-static'), transform: style.transform, opacity: Number(style.opacity), size: style.fontSize };

@@ -131,7 +131,7 @@ async function workChrome(page,profile,world) {
     const front=getComputedStyle(probe).fontSize;probe.remove();
     const title=document.querySelector('.rubric-category-heading');return {front,work:getComputedStyle(title).fontSize,arrows:title.querySelectorAll('.arrow').length};
   });
-  assert.equal(tattooParity.work,tattooParity.front);assert.equal(tattooParity.arrows,1);g.tattooParity=tattooParity;
+  assert.equal(tattooParity.work,tattooParity.front);assert.equal(tattooParity.arrows,0,'Child category headings are plain text.');g.tattooParity=tattooParity;
   const typography=await page.evaluate(()=>{
     const h=document.createElement('h2');h.className='kinetic-heading';h.style.cssText='position:absolute;visibility:hidden;pointer-events:none';document.body.append(h);
     const heading=getComputedStyle(h).fontSize;h.remove();

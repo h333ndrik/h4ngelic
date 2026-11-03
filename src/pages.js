@@ -89,7 +89,6 @@ export function renderProject(project) {
       <p class="project-index">${escape(label)}${project.year ? ` <span aria-hidden="true">/</span> ${escape(project.year)}` : ''}</p>
       ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}
       ${details ? `<dl class="project-details">${details}</dl>` : ''}
-      ${!project.title && projectURL(project) ? `<a class="text-link" href="${projectURL(project)}">view work</a>` : ''}
     </div>
   </article>`;
 }
@@ -124,7 +123,7 @@ export function renderWorkPage(category = 'all') {
         const primary = entry.id === group.id;
         const sectionId = primary ? `finished-${entry.id}` : entry.id;
         const titleId = primary ? 'work-page-title' : `archive-${entry.id}-title`;
-        const heading = primary ? '' : `<h3 class="archive-category-heading rubric-category-heading" id="${escape(titleId)}" data-motion-static><a href="${categoryURL(entry.id)}">${escape(entry.archiveLabel || entry.label)} ${arrow}</a></h3>`;
+        const heading = primary ? '' : `<h3 class="archive-category-heading rubric-category-heading" id="${escape(titleId)}" data-motion-static>${escape(entry.archiveLabel || entry.label)}</h3>`;
         return `<section class="archive-category${primary ? ' rubric-primary' : ''}" id="${escape(sectionId)}" tabindex="-1" aria-labelledby="${escape(titleId)}" data-archive-category="${escape(entry.id)}">
           ${heading}${collection(entry)}
         </section>`;
@@ -152,7 +151,7 @@ export function renderWorkPage(category = 'all') {
     </nav>` : '';
   return `${header('work')}
   <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
-    <h1 class="page-heading" id="work-page-title">${escape(title)}</h1>
+    <h1 class="page-heading${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
     <nav class="work-filters" aria-label="Works sections">
       ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.label)}</a>`).join('')}
     </nav>

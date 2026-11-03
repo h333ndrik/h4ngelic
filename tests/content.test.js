@@ -36,7 +36,8 @@ test('real category pages select their own content while /work retains the compl
     assert.deepEqual([...markup.matchAll(/data-archive-category="([^"]+)"/g)].map(match => match[1]), categories);
     assert.deepEqual([...markup.matchAll(/data-work-group="([^"]+)"/g)].map(match => match[1]), groups);
     assert.equal((markup.match(/<img /g) || []).length, imageCount, 'Only real supplied images from the selected route render.');
-    assert.ok(markup.includes(`<h1 class="page-heading" id="work-page-title">${heading}</h1>`));
+    const headingClass = context === 'more' ? 'page-heading sr-only' : 'page-heading';
+    assert.ok(markup.includes(`<h1 class="${headingClass}" id="work-page-title">${heading}</h1>`));
     for (const category of ['tattoos', 'jewellery', 'more']) assert.ok(markup.includes(`href="/work/${category}"`));
     assert.doesNotMatch(markup, /href="\/work#/);
     const ids = [...markup.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
@@ -44,22 +45,25 @@ test('real category pages select their own content while /work retains the compl
   }
 });
 
-test('the three rubric pages promote their real categories without self-link headers', () => {
+test('rubric pages render plain child category headings and keep cross-links', () => {
   const expected = {
-    tattoos: ['/work/flashes'],
+    tattoos: [['archive-flashes-title', 'flashes'], ['archive-model-title', '3d model']],
     jewellery: [],
-    more: ['/work/digital-artworks', '/work/analog-photography'],
+    more: [['archive-digital-artworks-title', 'digital artworks'], ['archive-analog-photography-title', 'analog photography']],
   };
-  for (const [context, hrefs] of Object.entries(expected)) {
+  for (const [context, headings] of Object.entries(expected)) {
     const markup = renderWorkPage(context);
     assert.match(markup, new RegExp(`<div class="page-shell work-page is-rubric-page"[^>]*>`));
     assert.doesNotMatch(markup, /work-group-heading/);
-    const links = [...markup.matchAll(/<h3 class="archive-category-heading rubric-category-heading"[^>]*data-motion-static[^>]*><a href="([^"]+)">([\s\S]*?)<\/a><\/h3>/g)]
-      .map(match => ({ href: match[1], text: match[2].replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(),
-        arrows: (match[2].match(/class="arrow"/g) || []).length }));
-    assert.deepEqual(links.map(link => link.href), hrefs);
-    assert.ok(links.every(link => link.text && link.arrows === 1 && link.href !== `/work/${context}`), 'Promoted categories never duplicate the page self-route and always carry one arrow.');
-    for (const link of links) assert.ok(markup.includes(`href="${link.href}"`));
+    const rendered = [...markup.matchAll(/<h3 class="archive-category-heading rubric-category-heading" id="([^"]+)" data-motion-static>([^<]+)<\/h3>/g)]
+      .map(match => [match[1], match[2]]);
+    assert.deepEqual(rendered, headings);
+    const headingMarkup = [...markup.matchAll(/<h3 class="archive-category-heading rubric-category-heading"[^>]*>[\s\S]*?<\/h3>/g)].map(match => match[0]);
+    assert.ok(headingMarkup.every(heading => !heading.includes('<a') && !heading.includes('class="arrow"')), 'Child categories are plain text, not links.');
+    for (const [id] of headings) assert.ok(markup.includes(`aria-labelledby="${id}"`), 'Section anchors keep their heading IDs.');
+    const crossLinks = [...markup.matchAll(/<nav class="rubric-cross-links"[^>]*>([\s\S]*?)<\/nav>/g)][0]?.[1] || '';
+    assert.equal((crossLinks.match(/<a href="\/work\//g) || []).length, 2, 'The other two rubric routes remain available as navigation.');
+    assert.doesNotMatch(crossLinks, new RegExp(`href="/work/${context}"`));
   }
 });
 
