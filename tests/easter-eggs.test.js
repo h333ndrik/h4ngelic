@@ -1,14 +1,20 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { easterSettings, formatVisitCount, nextVisit, canRememberVisits } from '../src/data/easterSettings.js';
+import { easterSettings, formatVisitCount, visitorMessage, visitorMessages, nextVisit, canRememberVisits } from '../src/data/easterSettings.js';
 import { renderFooter } from '../src/footer.js';
 import { createInkImprint } from '../src/ink-imprint.js';
 
-test('personal visit counter keeps real values with a four-digit minimum and no phrase stages', () => {
+test('personal visit counter keeps real values with a four-digit minimum and the shared seven-tier memory', () => {
   for (const [count, expected] of [[0,'VISIT 0000'],[1,'VISIT 0001'],[9,'VISIT 0009'],[42,'VISIT 0042'],[9999,'VISIT 9999'],[10000,'VISIT 10000']]) {
     assert.equal(formatVisitCount(count), expected);
   }
   for (const invalid of [-1,NaN,Infinity,'3']) assert.equal(formatVisitCount(invalid),'VISIT 0001');
+  assert.equal(visitorMessages.length, 7);
+  assert.deepEqual([1,2,3,4,5,6,9,10,42].map(visitorMessage), [
+    'nice to meet you.', 'you came back.', "we're practically friends now.", "getting familiar, aren't we?",
+    'you know your way around here.', 'some things are worth returning to.',
+    'some things are worth returning to.', "you're part of this place now.", "you're part of this place now.",
+  ]);
 });
 
 test('ordinary page views and reloads are one visit until separated inactivity', () => {
@@ -38,11 +44,11 @@ test('shared footer groups contain the hidden count, matching arrows and explici
   assert.match(html, /h4ngelic © 2026/);
   assert.match(html, /berlin, de/);
   assert.match(html, /data-footer-secret-space/);
-  assert.doesNotMatch(html, /data-visit-message|footer-visit-memory|nice to meet you/, 'The phrase system is retired.');
+  assert.match(html, /data-visit-message id="footer-visit-memory">nice to meet you\./);
   assert.match(html, /data-other-side-hint data-secret-hotspot data-mode-hold/);
   assert.match(html, />HOLD 4 TO SEE THE OTHER SIDE\.<\/span>/);
   assert.match(html, /data-visit-counter-hotspot/);
-  assert.match(html, /aria-describedby="footer-visit-count"/);
+  assert.match(html, /aria-describedby="footer-visit-count footer-visit-memory"/);
   assert.match(html, /data-visit-number id="footer-visit-count"/);
   assert.match(html, />VISIT 0001<\/span>/);
   assert.ok(html.indexOf('data-smash') < html.indexOf('class="footer-instagram"'));

@@ -23,7 +23,7 @@ async function assertLocalVisit(page, count = 1) {
   assert.ok(Number.isFinite(record.lastSeen));
   if (await page.locator('[data-visit-message]').count()) assert.equal(await page.locator('[data-visit-message]').first().textContent(), visitorMessage(count));
   if (await page.locator('[data-visit-number]').count()) assert.equal(await page.locator('[data-visit-number]').textContent(), `VISIT ${String(count).padStart(3, '0')}`);
-  assert.equal(await page.locator('.page-footer [data-visit-message]').count(), 0, 'The returning message stays on the frontpage header.');
+  assert.equal(await page.locator('.page-footer [data-visit-message]').count(), 1, 'The footer shares the seven-tier memory.');
 }
 
 async function waitForNoMarks(page) {

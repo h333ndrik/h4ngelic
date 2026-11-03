@@ -4,6 +4,26 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V7 — DONE — 2026-11-03
+
+The seven visitor tiers are restored through one exported
+`visitorMessage(count)` table. The recognition line above the hero and the
+floating footer phrase use that same source. The footer phrase reveals on
+hover, keyboard focus or tap, floats above the counter without reflow and
+keeps the numeric VISIT counter. On mobile the recognition line is centered
+one line below the header row.
+
+Actual serial checks before builds:
+
+- New `npm run test:visitor-tiers`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Nine count samples map to the exact seven phrases, hero and
+  footer match, the portal has no reflow or overflow, and first visit stays
+  hidden.
+- `node tests/footer-v31-browser.mjs`: 6/6 PASS.
+- `npm test`: 372/372 PASS.
+- Evidence: `docs/validation/v3.1.2/V7/`.
+
+
 ## V2 — DONE — 2026-11-03
 
 All six normal/other cursor SVGs now use the approved compact viewport:

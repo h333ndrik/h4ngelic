@@ -47,13 +47,14 @@ try {
       isMobile:width<600, hasTouch:width<600, reducedMotion:reduced?'reduce':'no-preference' });
     try {
       const recognitionPage = await recognitionContext.newPage();
+      recognitionPage.setDefaultTimeout(60000);
       await recognitionPage.goto(new URL('/',base).href,{waitUntil:'networkidle'});
       const line=recognitionPage.locator('[data-returning-visitor]');
       assert.equal(await line.isVisible(),false,'The first visit has no recognition line.');
       const initialHeight=await recognitionPage.evaluate(()=>document.documentElement.scrollHeight);
       await recognitionPage.reload({waitUntil:'networkidle'});
       await line.waitFor({state:'visible'});
-      assert.equal(await line.textContent(),'you know your way around here.');
+      assert.equal(await line.textContent(),'nice to meet you.');
       assert.equal(await line.evaluate(el=>getComputedStyle(el).pointerEvents),'none');
       assert.equal(await line.evaluate(el=>getComputedStyle(el).transitionDuration),'0s');
       assert.equal(await recognitionPage.evaluate(()=>document.documentElement.scrollHeight),initialHeight,'Recognition never changes page layout.');
@@ -80,10 +81,11 @@ try {
       await page.goto(new URL('/#final-secret',base).href,{waitUntil:'networkidle'});
       await page.evaluate(() => scrollTo({ top:document.documentElement.scrollHeight, behavior:'instant' }));
       await settled(page);
-      assert.equal(await page.locator('[data-visit-message]').count(),0,'All seven phrase-stage nodes are retired.');
+      assert.equal(await page.locator('[data-visit-message]').count(),1,'One shared seven-tier phrase node exists in the footer.');
+      assert.equal(await page.locator('[data-visit-message]').textContent(), "you're part of this place now.");
       const count = page.locator('[data-visit-number]'), visit = page.locator('[data-visit-counter-hotspot]');
       assert.equal(await count.textContent(),'VISIT 0012');
-      assert.equal(await visit.getAttribute('aria-describedby'),'footer-visit-count');
+      assert.equal(await visit.getAttribute('aria-describedby'),'footer-visit-count footer-visit-memory');
       assert.equal(await count.evaluate(el=>el.closest('.footer-left')!==null),true,'The counter belongs to the left cluster.');
       assert.equal(await visit.evaluate(el=>el.previousElementSibling?.matches('.footer-moshlab')),true,'VISIT follows moshlab directly.');
       assert.equal(await page.locator('.footer-moshlab').getAttribute('href'),'#');
@@ -160,7 +162,7 @@ try {
       // refreshes the newly rendered footer. data-page alone is not route completion.
       await page.waitForFunction(() => document.querySelector('[data-visit-number]')?.textContent === 'VISIT 0012');
       assert.equal(await count.textContent(),'VISIT 0012','Internal route changes do not increment personal visits.');
-      assert.equal(await page.locator('[data-visit-message]').count(),0);
+      assert.equal(await page.locator('[data-visit-message]').count(),1);
       await page.evaluate(()=>document.activeElement?.blur());
       await page.mouse.move(width/2,100); await counterVisible(page,false);
       await page.locator('[data-global-index] summary').click();

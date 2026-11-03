@@ -10,8 +10,8 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
       <span class="secret-message" data-secret-message data-xray-hint id="footer-other-side-message"><span data-xray-hint-text>HOLD 4 TO SEE THE OTHER SIDE.</span></span>
     </button>` : '';
   const arrow = '<i class="arrow" aria-hidden="true"></i>';
-  const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count" aria-describedby="footer-visit-count">
-      <span class="secret-message" data-secret-message data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span>
+  const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count and visitor memory" aria-describedby="footer-visit-count footer-visit-memory">
+      <span class="secret-message" data-secret-message data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span><span class="secret-message footer-visit-memory" data-secret-message data-visit-message id="footer-visit-memory">nice to meet you.</span>
     </button>` : '';
   return `${home ? `<div class="footer-secret-space end-reveal" id="final-secret" data-footer-secret-space data-end-reveal>
     <div class="end-reveal-mark" aria-hidden="true">

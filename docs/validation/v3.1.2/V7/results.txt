@@ -1,0 +1,15 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:visitor-tiers
+PASS V7 1440px reduced=false: nine count samples map to seven shared phrases, hero/footer match, hover reveals an absolute portal with no reflow, first visit hidden.
+PASS V7 1440px reduced=true
+PASS V7 390px reduced=false: mobile line centered one line below the header; tap reveals the portal.
+PASS V7 390px reduced=true
+PASS V7 320px reduced=false
+PASS V7 320px reduced=true
+
+Command: node tests/footer-v31-browser.mjs
+PASS V3.1 footer 1440/390/320px full/reduced (6/6)
+
+Command: npm test
+tests 372
+pass 372
+fail 0
