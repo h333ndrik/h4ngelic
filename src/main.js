@@ -15,6 +15,7 @@ import { sampleHero } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 import { createHeroInk, isHeroInkClick } from './hero-ink.js';
 import { registerHeroInkHitTest, rememberHeroInkHit } from './hero-background-ink.js';
+import { corruptionSettings } from './data/corruptionSettings.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
@@ -399,7 +400,7 @@ async function initialize() {
 
   function beginModeTransition(event) {
     if (!renderer || !sceneReady || reducedMotion.matches) return;
-    const duration = Math.max(0, Math.min(2000, Number(event?.detail?.duration) || 1400));
+    const duration = Math.max(0, Math.min(2000, Number(event?.detail?.duration) || corruptionSettings.transition.minimumDurationMs));
     modeTransitioning = true;
     clearTimeout(modeTransitionTimer);
     resolveRatio = resolution.pixelRatio;

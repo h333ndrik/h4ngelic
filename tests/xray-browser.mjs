@@ -192,14 +192,14 @@ try {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mode controls and effects cannot cause horizontal page overflow.');
       assert.deepEqual(errors, []);
       const modeTransitions = await page.evaluate(() => window.__modeTransitions);
-      assert.ok(modeTransitions.every(event => event.duration === 1400), 'Captured mode transitions retain the approved 1400ms duration.');
+      assert.ok(modeTransitions.every(event => event.duration === 900), 'Captured mode transitions use the approved 900ms duration.');
       if (options.reducedMotion === 'no-preference' && await page.evaluate(() => typeof document.startViewTransition === 'function')) {
         assert.ok(modeTransitions.length >= 2, 'Normal-motion native captures were exercised in both directions.');
       }
       reports.push({ label, width: options.viewport.width, reducedMotion: options.reducedMotion, ignored,
         modes: await page.evaluate(() => window.__modeChanges), modeTransitions, touchThreeTapReturn: options.hasTouch, errors });
       await save();
-      console.log(`PASS F15 public realities (${label}): one-second entry, ignored reverse 4/hold without preparation, exact triple-3, recorded1400ms captured transition metadata, INDEX/route continuity${options.hasTouch ? ', native touch three-tap return' : ''}, clean restoration and no errors/overflow.`);
+      console.log(`PASS F15 public realities (${label}): one-second entry, ignored reverse 4/hold without preparation, exact triple-3, recorded900ms captured transition metadata, INDEX/route continuity${options.hasTouch ? ', native touch three-tap return' : ''}, clean restoration and no errors/overflow.`);
     } catch (error) {
       failures.push({ label, error: error.stack, errors });
       await page.screenshot({ path: new URL(`failure-${label.replaceAll(' ', '-')}.png`, output).pathname }).catch(() => {});

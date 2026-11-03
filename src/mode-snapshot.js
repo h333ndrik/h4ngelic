@@ -4,8 +4,8 @@ const svgNS = 'http://www.w3.org/2000/svg';
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const mix = (a, b, t) => a + (b - a) * t;
 const defaults = Object.freeze({
-  minimumDurationMs: 1400, maximumDurationMs: 1400,
-  framesPerSecond: 20, displacementPx: 180, smearPx: 220,
+  minimumDurationMs: 900, maximumDurationMs: 900,
+  framesPerSecond: 30, displacementPx: 180, smearPx: 220,
   channelOffsetPx: 9, colorStrength: .86, columns: 18, rows: 12,
 });
 // Mode and interaction controllers share the one native document capture. A

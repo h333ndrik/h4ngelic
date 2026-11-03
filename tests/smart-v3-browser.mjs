@@ -51,7 +51,7 @@ async function switchMode(page, next, reduced) {
   assert.equal(result.modeFlag,next);
   assert.ok(result.width<=result.viewport+1,'Reality switching must not change page width.');
   assert.ok(result.event,'A real keyboard switch must dispatch the existing mode event.');
-  if(!reduced && result.event.captured) assert.equal(result.event.duration,1400,'Captured transitions use the approved 1.4-second target in both directions.');
+  if(!reduced && result.event.captured) assert.equal(result.event.duration,900,'Captured transitions use the approved 900ms target in both directions.');
   return {...result,observedGestureToCleanupMs:Date.now()-started};
 }
 

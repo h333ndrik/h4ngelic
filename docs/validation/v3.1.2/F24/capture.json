@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-11-03T05:56:02.157Z",
+  "events": [
+    {
+      "mode": "xray",
+      "captured": true,
+      "duration": 900,
+      "variant": 4054173348
+    }
+  ],
+  "transition": {
+    "durationVariable": "900ms",
+    "midFrame": "after-transition-mid-1440.png",
+    "final": "after-other-side-1440.png"
+  },
+  "gestureToCleanupMs": 2984,
+  "reduced": {
+    "mode": "xray",
+    "snapshot": false,
+    "duration": ""
+  }
+}

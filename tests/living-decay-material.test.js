@@ -4,11 +4,13 @@ import { livingDecayDefaults, livingDecaySchema, createLivingDecaySettings, getL
   configureLivingDecay, subscribeLivingDecay, normalizeLivingSeed } from '../src/data/livingDecaySettings.js';
 import { createLivingComposition, sampleLivingField, createLivingField, renderLivingMaterial, livingRegion, livingCodecFragment,
   livingNoise } from '../src/living-decay-material.js';
+import { corruptionSettings } from '../src/data/corruptionSettings.js';
 
-test('mode and frozen-memory handoff share the 1.4 second target without lengthening local gestures', () => {
-  assert.equal(livingDecayDefaults.modeTransitionMs, 1400);
-  assert.equal(createLivingDecaySettings({ modeTransitionMs: 1400 }).modeTransitionMs, 1400);
-  assert.equal(createLivingDecaySettings({ modeTransitionMs: Infinity }).modeTransitionMs, 1400);
+test('mode and frozen-memory handoff share the 900ms target without lengthening local gestures', () => {
+  assert.equal(livingDecayDefaults.modeTransitionMs, corruptionSettings.transition.minimumDurationMs);
+  assert.equal(livingDecayDefaults.modeTransitionMs, 900);
+  assert.equal(createLivingDecaySettings({ modeTransitionMs: 900 }).modeTransitionMs, 900);
+  assert.equal(createLivingDecaySettings({ modeTransitionMs: Infinity }).modeTransitionMs, 900);
   assert.equal(createLivingDecaySettings({ modeTransitionMs: 9999 }).modeTransitionMs, 1600);
   assert.equal(livingDecayDefaults.navigationTransitionMs, 340);
 });
