@@ -4,6 +4,22 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V2 — DONE — 2026-11-03
+
+All six normal/other cursor SVGs now use the approved compact viewport:
+23.26 x 34.88px base, 24.65136 x 36.97704px hover and 22.32576 x
+33.48864px pressed. Supplied path bytes are unchanged. The native cursor
+covers the complete page on fine pointers, keeps a pointer fallback in reduced
+motion, and is absent on touch devices.
+
+Actual serial checks before builds:
+
+- `node --test tests/mode-icon-assets.test.js`: 4/4 PASS.
+- `node tests/ref09-icons-browser.mjs`: desktop, reduced, touch-390 and
+  touch-320 PASS, plus the browser SVG decode comparison.
+- Evidence: `docs/validation/v3.1.2/V2/`.
+
+
 ## V17 — DONE — 2026-11-03
 
 The page now defers easter-egg and ink initialization until after first paint

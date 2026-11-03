@@ -82,7 +82,7 @@ try {
           await page.mouse.down();
           assert.equal(await cursor(target), expected(settings.cursor.other.pressed, '9 2'));
           await page.mouse.move(10, 600); await page.mouse.up();
-          assert.equal(new URL(page.url()).pathname, '/work', 'A cancelled press must preserve navigation.');
+          assert.equal(new URL(page.url()).pathname, '/work/tattoos', 'A cancelled press must preserve navigation.');
         }
       } else {
         assert.equal(await cursor(page.locator('body')), 'auto');

@@ -1,4 +1,4 @@
-/* V3.1 reduces every native variant by a further 5%; base is 25.84 × 38.76 px.
+/* V2 uses the approved compact variants; base is 23.26 × 34.88 px.
    Its top tip lands near (9.4, 1.1), including aspect-ratio padding.
    A native cursor keeps WebGL picking aligned with the actual pointer. */
 @media (hover: hover) and (pointer: fine) {
@@ -82,6 +82,12 @@
 @media (hover: hover) and (pointer: fine) {
   html { --h4-native-cursor: url('/assets/h4ngelic-cursor.svg') 9 2, auto; }
   html[data-mode='xray'] { --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto; }
+  html body :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)) {
+    --h4-native-cursor: url('/assets/h4ngelic-cursor.svg') 9 2, pointer;
+  }
+  html[data-mode='xray'] body :is(a[href], summary, button:not(:disabled), [role='button']:not([aria-disabled='true']), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)) {
+    --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, pointer;
+  }
   html body, html body * { cursor: var(--h4-native-cursor) !important; }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
