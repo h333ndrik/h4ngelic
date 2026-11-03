@@ -212,5 +212,24 @@ body { position: relative; }
   letter-spacing: .02em;
   text-align: center;
   pointer-events: none;
-  transition: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-out, visibility 0s linear 200ms;
+}
+html[data-header-hover='true'] .returning-visitor-line,
+body:has(.site-chrome:hover) .returning-visitor-line,
+body:has(.site-chrome:focus-within) .returning-visitor-line {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease-out, visibility 0s;
+}
+@media (hover: none) {
+  .returning-visitor-line {
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .returning-visitor-line { transition: none; }
 }

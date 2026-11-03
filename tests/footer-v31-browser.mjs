@@ -53,10 +53,18 @@ try {
       assert.equal(await line.isVisible(),false,'The first visit has no recognition line.');
       const initialHeight=await recognitionPage.evaluate(()=>document.documentElement.scrollHeight);
       await recognitionPage.reload({waitUntil:'networkidle'});
-      await line.waitFor({state:'visible'});
+      await recognitionPage.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
       assert.equal(await line.textContent(),'nice to meet you.');
       assert.equal(await line.evaluate(el=>getComputedStyle(el).pointerEvents),'none');
-      assert.equal(await line.evaluate(el=>getComputedStyle(el).transitionDuration),'0s');
+      if (width < 600) {
+        await line.waitFor({state:'visible'});
+        assert.equal(await line.evaluate(el=>getComputedStyle(el).transitionDuration),'0s','Touch devices show the greeting permanently.');
+      } else {
+        assert.equal(await line.isVisible(),false,'The returning greeting rests hidden on a fine pointer.');
+        await recognitionPage.mouse.move(width / 2,30);
+        await recognitionPage.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) > .99);
+        assert.equal(await line.isVisible(),true,'Hovering the header reveals the returning greeting.');
+      }
       assert.equal(await recognitionPage.evaluate(()=>document.documentElement.scrollHeight),initialHeight,'Recognition never changes page layout.');
       assert.ok(await recognitionPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
       await recognitionPage.screenshot({path:new URL(`returning-${width}-${reduced}.png`,out).pathname});

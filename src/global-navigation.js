@@ -23,6 +23,7 @@ export function initGlobalNavigation(doc = document) {
   let stops = [], measured = [], frame = 0, dirty = true, disposed = false;
   let current = -1, digitAnimation, routeKind = '', initialIndex = 0, resizeObserver;
   let displayBounds = [], quietBounds = [], footerBounds = null, dockBounds = null;
+  let headerHover = null;
   const displaySelector = '.kinetic-heading, .page-heading, .work-group-heading > a, .archive-category-heading > a, .about-preview-copy, .category-link .interaction-visual';
   const quietSelector = '.inquiry, [data-inquiry-form], [data-controls], [data-global-index], .work-filters, [data-footer-row]';
   const listen = (target, name, handler, options) => {
@@ -30,6 +31,21 @@ export function initGlobalNavigation(doc = document) {
     listeners.push(() => target.removeEventListener(name, handler, options));
   };
   const href = value => doc.documentElement.dataset.preview === 'standalone' ? `#${value}` : value;
+
+  // The returning-visitor line is deliberately hover-only. Track the real
+  // pointer position instead of adding an invisible click-blocking band.
+  const setHeaderHover = active => {
+    if (headerHover === active) return;
+    headerHover = active;
+    doc.documentElement.dataset.headerHover = String(active);
+  };
+  if (doc.querySelector('[data-returning-visitor]')) {
+    listen(doc, 'pointermove', event => {
+      if (event.pointerType === 'touch') return;
+      setHeaderHover(event.clientY <= 76);
+    }, { passive: true });
+    listen(doc, 'pointerleave', () => setHeaderHover(false), { passive: true });
+  }
 
   function closeIndex({ focus = false } = {}) {
     if (!index?.open) return;

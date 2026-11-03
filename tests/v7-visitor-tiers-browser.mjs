@@ -38,6 +38,10 @@ try {
         await page.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
         const line = page.locator('[data-returning-visitor]');
         const message = page.locator('[data-visit-message]');
+        if (profile.width >= 600) {
+          await page.mouse.move(profile.width / 2, 30);
+          await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) > .99);
+        }
         assert.equal(await line.isVisible(), true);
         const expected = visitorMessage(count);
         assert.equal(await line.textContent(), expected, `Hero tier ${count}`);
