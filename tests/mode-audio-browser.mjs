@@ -58,7 +58,7 @@ try {
   await page.waitForTimeout(700);
   await page.keyboard.up('4');
   await page.waitForTimeout(400);
-  assert.equal(await page.evaluate(() => window.__audioProbe.contexts), 1, 'Accepted real input primes audio before the delayed mode change.');
+  assert.equal(await page.evaluate(() => window.__audioProbe.contexts), 0, 'Disabled mode cues allocate no audio context for a hold.');
   assert.equal(await page.evaluate(() => window.__audioProbe.starts.length), 0, 'A cancelled hold must never make a sound.');
 
   await page.keyboard.down('4');
@@ -67,12 +67,10 @@ try {
   await page.waitForTimeout(900);
   await page.keyboard.up('4');
   const first = await page.evaluate(() => window.__audioProbe);
-  assert.equal(first.starts.length, 1, 'A sustained/repeated key produces exactly one sound.');
-  assert.equal(first.ends, 1, 'The short cue ends and releases its source.');
-  assert.equal(first.starts[0].mode, 'xray');
-  assert.ok(first.starts[0].duration >= .4 && first.starts[0].duration <= .8);
-  assert.ok(first.starts[0].peak <= .681, 'The actual AudioBuffer has controlled amplitude.');
-  assert.ok(Math.abs(first.starts[0].time - first.changes[0].time) < 100, 'The cue begins with the actual mode transition.');
+  assert.equal(first.starts.length, 0, 'Mode transitions are silent.');
+  assert.equal(first.ends, 0);
+  assert.equal(first.contexts, 0, 'Mode transitions do not allocate Web Audio.');
+  assert.equal(first.changes[0].mode, 'xray', 'The visual mode transition still runs.');
 
   assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0, 'Work cannot duplicate the relocated frontpage sound control.');
   await page.locator('[data-global-index] > summary').click();
@@ -83,7 +81,7 @@ try {
 
   // Exercise the real relocated button. It is never clicked through a hidden
   // hero or manufactured footer fixture on an interior page.
-  await page.locator('.brand-link').click();
+  await page.locator('[data-floating-brand]').click();
   await pageKind(page, 'home');
   const mute = page.locator('[data-controls] [data-mode-mute]');
   assert.equal(await mute.isVisible(), true);
@@ -91,29 +89,25 @@ try {
   await mute.click();
   assert.equal(await mute.getAttribute('aria-pressed'), 'true');
   await changeMode(page, 'normal');
-  assert.equal(await page.evaluate(() => window.__audioProbe.starts.length), 1, 'Muting prevents the 333 reverse-transition sound.');
+  assert.equal(await page.evaluate(() => window.__audioProbe.starts.length), 0, 'The reverse transition remains silent.');
   await page.locator('.hero-nav a[href="/about"]').click();
   await pageKind(page, 'about');
   assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0);
   assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true', 'The retained Home control reflects mute across enhanced navigation.');
   await changeMode(page, 'xray');
   await changeMode(page, 'normal');
-  assert.equal(await page.evaluate(() => window.__audioProbe.starts.length), 1, 'Mute remains effective for both transitions after leaving the frontpage.');
+  assert.equal(await page.evaluate(() => window.__audioProbe.starts.length), 0, 'Both transitions remain silent after leaving the frontpage.');
 
-  await page.locator('.brand-link').click();
+  await page.locator('[data-floating-brand]').click();
   await pageKind(page, 'home');
   await mute.click();
-  assert.equal(await mute.getAttribute('aria-pressed'), 'false');
-  await page.locator('.hero-nav a[href="/work"]').click();
-  await pageKind(page, 'work');
-  await changeMode(page, 'xray');
-  await changeMode(page, 'normal');
+  assert.equal(await mute.getAttribute('aria-pressed'), 'false', 'Global mute still toggles back off.');
   const final = await page.evaluate(() => window.__audioProbe);
-  assert.deepEqual(final.starts.map((start) => start.mode), ['xray', 'xray', 'normal']);
-  assert.equal(final.contexts, 1, 'Navigation and the relocated mute button reuse one audio context.');
+  assert.deepEqual(final.starts, [], 'Mode cues stay disabled through every transition.');
+  assert.equal(final.contexts, 0, 'Mode-only use never allocates Web Audio.');
   assert.deepEqual(errors, []);
   await context.close();
-  console.log('PASS mode audio: trusted-gesture priming, silent short holds, actual transition timing, bounded 0.7s buffers, repeat latch, source cleanup, visible upper mute across navigation, strict 333 return and no direct interior 3D scene.');
+  console.log('PASS mode audio V30: all mode transitions silent, no Web Audio allocation, visible upper mute state persists across navigation, strict 333 return and no direct interior 3D scene.');
 
   const unsupported = await browser.newContext({ reducedMotion: 'reduce' });
   await unsupported.addInitScript(() => { window.AudioContext = undefined; window.webkitAudioContext = undefined; });
@@ -125,10 +119,10 @@ try {
   assert.equal(await fallback.locator('[data-mode-mute]:visible').count(), 0);
   await changeMode(fallback, 'xray');
   await changeMode(fallback, 'normal');
-  await fallback.locator('.brand-link').click();
+  await fallback.locator('[data-floating-brand]').click();
   await pageKind(fallback, 'home');
   assert.equal(await fallback.locator('[data-controls] [data-mode-mute]').isDisabled(), true, 'The relocated control announces unavailable audio.');
   assert.deepEqual(fallbackErrors, [], 'Unavailable audio must not prevent either mode transition.');
   await unsupported.close();
-  console.log('PASS unavailable audio: both visual mode transitions and accessible mute status remain reliable.');
+  console.log('PASS unavailable audio: disabled cues and both visual mode transitions remain reliable.');
 } finally { await browser.close(); }

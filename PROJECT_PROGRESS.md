@@ -4,6 +4,25 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V30 — DONE — 2026-11-03
+
+Metallic 333/4 mode-switch cues are disabled through
+`modeAudioSettings.modeSoundsEnabled: false`. The synthesis and playback path
+remain in the controller and can be re-enabled by changing that field. Mode
+changes no longer allocate Web Audio. SMASH playback, deferred fetch/cache,
+global mute and volume remain unchanged.
+
+Actual serial checks before builds:
+
+- `node tests/mode-audio-browser.mjs`: PASS for silent mode transitions, zero
+  Web Audio allocation, persistent mute state and both visual realities.
+- `node tests/smash-v31-browser.mjs` (desktop, full natural end): PASS for the
+  exact approved MP3, deferred fetch, attack/tail/stop, global mute/volume,
+  route and mode continuity.
+- `npm test`: 372/372 PASS, 0 failures, including the re-enable-path unit test.
+- Evidence: `docs/validation/v3.1.2/V30/`.
+
+
 ## V28 — DONE — 2026-11-03
 
 The `mixed media` hero tagline is gone from source, rendered knowledge and

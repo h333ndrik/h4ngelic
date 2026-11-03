@@ -26,7 +26,7 @@ test('the actual enter/leave PCM is short, bounded, stereo and decays without a 
   assert.throws(() => synthesizeModeSound('xray', { sampleRate: 0 }), RangeError);
 });
 
-function audioFixture({ rejectResume = false, throwConstruction = false, storage = new Map(), privateURL = '', rejectPlayback = false, deferredFetch = null } = {}) {
+function audioFixture({ rejectResume = false, throwConstruction = false, storage = new Map(), privateURL = '', rejectPlayback = false, deferredFetch = null, modeSoundsEnabled = true } = {}) {
   const contexts = [];
   const media = [];
   const fetches = [];
@@ -69,7 +69,7 @@ function audioFixture({ rejectResume = false, throwConstruction = false, storage
     load() {}
     removeAttribute(name) { delete this[name]; }
   }
-  const audio = createModeAudio({ view: { AudioContext: Context, Audio,
+  const audio = createModeAudio({ settings: { ...modeAudioSettings, modeSoundsEnabled }, view: { AudioContext: Context, Audio,
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value) },
     fetch(url, options) { fetches.push({ url, options }); return deferredFetch || Promise.resolve({ ok: !rejectPlayback, arrayBuffer: async () => new ArrayBuffer(8) }); },
   }, privateURL });
@@ -262,4 +262,19 @@ test('stopping during the scheduled final tail cannot extend the track past its 
   audio.stopSmash();
   assert.equal(track.stopped, 101.310204);
   audio.dispose();
+});
+
+
+test('mode switch cues are disabled by default while the re-enable path stays intact', async () => {
+  assert.equal(modeAudioSettings.modeSoundsEnabled, false);
+  const disabled = audioFixture({ modeSoundsEnabled: false });
+  assert.equal(await disabled.audio.prime({ isTrusted: true }), false);
+  assert.equal(disabled.audio.play('xray'), false);
+  assert.equal(disabled.audio.play('normal'), false);
+  assert.equal(disabled.contexts.length, 0, 'Disabled cues allocate no audio context.');
+  assert.equal(disabled.audio.snapshot().modeSoundsEnabled, false);
+  const enabled = audioFixture({ modeSoundsEnabled: true });
+  assert.equal(await enabled.audio.prime({ isTrusted: true }), true);
+  assert.equal(enabled.audio.play('xray'), true);
+  assert.equal(enabled.contexts[0].sources.length, 1, 'The retained code path can still play the cue.');
 });

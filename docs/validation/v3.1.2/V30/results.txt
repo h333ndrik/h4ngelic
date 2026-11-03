@@ -1,0 +1,14 @@
+Command: node tests/mode-audio-browser.mjs
+PASS mode audio V30: all mode transitions silent, no Web Audio allocation, visible upper mute state persists across navigation, strict 333 return and no direct interior 3D scene.
+PASS unavailable audio: disabled cues and both visual mode transitions remain reliable.
+
+Command: H4_SMASH_WIDTHS=1440 H4_SMASH_NATURAL_END=1 node tests/smash-v31-browser.mjs
+START actual SMASH 1440px including full natural end
+WAIT actual SMASH natural end: 100.270s, no seeking or substituted buffer
+SMASH natural progress: 20s / 40s / 60s / 80s / 95s
+PASS actual SMASH 1440px: exact file, deferred fetch/cache, native attack/tail/stop, global state, routes and both realities, complete real natural end
+
+Command: npm test
+tests 372
+pass 372
+fail 0

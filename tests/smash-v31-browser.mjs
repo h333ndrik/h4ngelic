@@ -30,6 +30,11 @@ async function mode(page, next) {
     && !document.documentElement.hasAttribute('data-xray-transition'), next, { timeout: 30000 });
 }
 async function indexRoute(page, name) {
+  if (name === 'work') {
+    await page.locator('.hero-nav a[href="/work"]').click();
+    await page.waitForFunction(() => document.documentElement.dataset.page === 'work' && location.pathname === '/work/tattoos');
+    return;
+  }
   const menu = page.locator('[data-global-index]');
   if (!await menu.evaluate(el => el.open)) await menu.locator('summary').click();
   await menu.locator(`[data-index-page="${name}"]`).click();
@@ -188,7 +193,8 @@ try {
         assert.equal(ended.stopped.length, 0, 'The complete natural-end observation never seeks or manually stops the original track.');
         natural = { tailFour, tailLast, ended, observedMs: ended.endedAt - ended.startedAt };
         await mode(page, 'xray');
-        assert.ok(await page.evaluate(() => window.__smashProbe.sources.some(source => source.duration < 1)), 'A real post-track mode change resumes the existing site cue.');
+        assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
+        assert.equal(await page.evaluate(() => window.__smashProbe.sources.some(source => source.duration < 1)), false, 'V30 keeps mode-change cues silent after the track.');
       } else {
         await activate(page, width < 600);
         await page.waitForFunction(() => window.__smashProbe.sources.filter(source => source.duration > 90).at(-1)?.ended);

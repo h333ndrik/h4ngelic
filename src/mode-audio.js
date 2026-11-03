@@ -66,6 +66,7 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   // exposing its former private-only URL in normal application configuration.
   const trackURL = privateURL === undefined ? smashURL : privateURL;
   const AudioContext = view.AudioContext || view.webkitAudioContext;
+  const modeSoundsEnabled = settings.modeSoundsEnabled === true;
   const buffers = new Map();
   const voices = new Set();
   const subscribers = new Set();
@@ -152,6 +153,7 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   }
 
   function prime(event, { allowMuted = false } = {}) {
+    if (!modeSoundsEnabled && !allowMuted) return Promise.resolve(false);
     if (disposed || (muted && !allowMuted) || failed || !AudioContext || event?.isTrusted !== true) return Promise.resolve(false);
     try {
       if (!context) {
@@ -177,14 +179,13 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
       if (context.state !== 'running' && context.state !== 'closed' && !resume) {
         resume = Promise.resolve(context.resume()).then(() => context.state === 'running', () => false).finally(() => { resume = null; });
       }
-      bufferFor('xray');
-      bufferFor('normal');
+      if (modeSoundsEnabled) { bufferFor('xray'); bufferFor('normal'); }
       return resume || Promise.resolve(context.state === 'running');
     } catch { failed = true; return Promise.resolve(false); }
   }
 
   function play(mode) {
-    if (disposed || muted || smashActive || failed || !context || context.state !== 'running' || !['normal', 'xray'].includes(mode)) return false;
+    if (!modeSoundsEnabled || disposed || muted || smashActive || failed || !context || context.state !== 'running' || !['normal', 'xray'].includes(mode)) return false;
     try {
       const available = stop();
       const source = context.createBufferSource();
@@ -311,7 +312,7 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     setMuted(value) { muted = Boolean(value); if (muted) stop(); updateMaster(); save(); },
     setVolume(value) { if (!Number.isFinite(value)) return; volume = Math.max(0, Math.min(1, value)); updateMaster(); save(); },
     subscribe(listener) { subscribers.add(listener); return () => subscribers.delete(listener); },
-    snapshot: () => ({ initialized: Boolean(context), state: context?.state || 'uninitialized', muted, volume,
+    snapshot: () => ({ initialized: Boolean(context), modeSoundsEnabled, state: context?.state || 'uninitialized', muted, volume,
       active: Boolean(active), allocatedVoices: voices.size, smashAvailable: Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed,
       smashPlaying: smashActive, smashPhase, smashCached: Boolean(smashBuffer), smashFetches,
       smash: smashVoice ? { started: smashVoice.started, tailStarts: smashVoice.tailStarts, ends: smashVoice.ends,
