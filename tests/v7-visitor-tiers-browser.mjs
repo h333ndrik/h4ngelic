@@ -40,7 +40,7 @@ try {
         const message = page.locator('[data-visit-message]');
         if (profile.width >= 600) {
           await page.mouse.move(profile.width / 2, 30);
-          await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) > .99);
+          await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) >= .349);
         }
         assert.equal(await line.isVisible(), true);
         const expected = visitorMessage(count);

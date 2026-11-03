@@ -63,7 +63,7 @@ try {
       } else {
         assert.equal(await line.isVisible(),false,'The returning greeting rests hidden on a fine pointer.');
         await recognitionPage.mouse.move(width / 2,30);
-        await recognitionPage.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) > .99);
+        await recognitionPage.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) >= .349);
         await line.waitFor({state:'visible',timeout:2000});
         assert.equal(await line.isVisible(),true,'Hovering the header reveals the returning greeting.');
       }

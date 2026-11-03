@@ -265,18 +265,18 @@ try {
       await page.mouse.move(width / 2, 30); await page.waitForTimeout(260);
       await page.waitForFunction(() => {
         const style = getComputedStyle(document.querySelector('[data-returning-visitor]'));
-        return Number(style.opacity) > .99 && style.visibility === 'visible';
+        return Number(style.opacity) >= .349 && style.visibility === 'visible';
       }, null, { timeout: 2000 });
       const lineHover = await returningLineState(page);
-      assert.equal(lineHover.opacity, 1); assert.equal(lineHover.visibility, 'visible');
+      assert.equal(lineHover.opacity, .35); assert.equal(lineHover.visibility, 'visible');
       await page.mouse.move(width / 2, 420); await page.waitForTimeout(260);
       await page.locator('[data-floating-brand]').focus(); await page.waitForTimeout(260);
       await page.waitForFunction(() => {
         const style = getComputedStyle(document.querySelector('[data-returning-visitor]'));
-        return Number(style.opacity) > .99 && style.visibility === 'visible';
+        return Number(style.opacity) >= .52 && style.visibility === 'visible';
       }, null, { timeout: 2000 });
       const lineFocus = await returningLineState(page);
-      assert.equal(lineFocus.opacity, 1); assert.equal(lineFocus.visibility, 'visible');
+      assert.equal(lineFocus.opacity, .52); assert.equal(lineFocus.visibility, 'visible');
       assert.ok(Math.abs(lineHover.height - lineRest.height) < .5, 'Revealing the fixed greeting never changes its box.');
 
       const slash = await slashReport(page, width);
@@ -301,7 +301,7 @@ try {
       await touch.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
       await touch.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
       const touchLine = await returningLineState(touch);
-      assert.equal(touchLine.opacity, 1, 'Touch devices show the greeting permanently as a readable fallback.');
+      assert.equal(touchLine.opacity, .35, 'Touch devices show the ghost greeting permanently.');
       assert.equal(touchLine.visibility, 'visible');
       await touch.screenshot({ path: new URL(`greeting-touch-${width}.png`, output).pathname });
       await touchContext.close();

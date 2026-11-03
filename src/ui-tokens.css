@@ -10,6 +10,15 @@
   --type-navigation: clamp(13px, 1.32vw, 20px);
   --type-secondary-link: clamp(18px, 1.8vw, 27px);
   --slash-inset: clamp(52px, 16vw, 138px);
+  /* Mirrors the HOLD-4 hint's computed ghost treatment: #f0efeb at .35,
+     .84px tracking and uppercase. The greeting uses a smaller header size. */
+  --h4-ghost-color: #f0efeb;
+  --h4-ghost-opacity: .35;
+  --h4-ghost-focus-opacity: .52;
+  --h4-ghost-tracking: .84px;
+  --h4-ghost-transform: uppercase;
+  --h4-ghost-header-size: clamp(11px, 1vw, 14px);
+  --h4-ghost-header-narrow-size: 9px;
   --ui-hover-glow-normal: drop-shadow(0 0 1px rgb(255 255 255 / calc(.95 * var(--ui-glow-strength, .2))))
     drop-shadow(0 0 3px rgb(255 255 255 / calc(.62 * var(--ui-glow-strength, .2))))
     drop-shadow(0 0 6px rgb(255 255 255 / calc(.38 * var(--ui-glow-strength, .2))));
