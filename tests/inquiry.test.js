@@ -4,6 +4,7 @@ import { Readable } from 'node:stream';
 import { renderInquiryForm, inquiryArtwork, refreshInquiryContext } from '../src/inquiry-content.js';
 import { validateInquiryFiles, validateInquiryContact } from '../src/inquiry-validation.js';
 import { createInquiryHandler, detectAttachmentType, parseInquiryMultipart, readInquiryConfig, validateInquiryFields } from '../server/inquiry.mjs';
+import { inquirySettings } from '../src/data/inquirySettings.js';
 
 const origin = 'https://h4ngelic.com';
 const now = () => 1800000000000;
@@ -89,11 +90,13 @@ test('client checks attachment count, total size, per-file size and allowed type
   const valid = { name: 'reference.jpg', type: 'image/jpeg', size: 1024 };
   assert.equal(validateInquiryFiles([valid]), '');
   assert.match(validateInquiryFiles(Array(6).fill(valid)), /up to 5/);
-  assert.match(validateInquiryFiles([{ ...valid, size: 6 * 1024 * 1024 }]), /5 MB/);
-  assert.match(validateInquiryFiles(Array(3).fill({ ...valid, size: 5 * 1024 * 1024 })), /12 MB/);
+  assert.match(validateInquiryFiles([{ ...valid, size: inquirySettings.maximumFileBytes + 1 }]), /4 MB/);
+  assert.match(validateInquiryFiles(Array(2).fill({ ...valid, size: Math.ceil(inquirySettings.maximumTotalBytes / 2) + 1 })), /4 MB in total/);
   assert.match(validateInquiryFiles([{ ...valid, name: 'script.svg', type: 'image/svg+xml' }]), /choose jpg/);
   assert.match(validateInquiryFiles([{ ...valid, name: 'image.jpg.exe' }]), /choose jpg/);
   assert.match(validateInquiryFiles([{ ...valid, size: 0 }]), /choose jpg/);
+  assert.equal(validateInquiryFiles([{ ...valid, size: inquirySettings.maximumFileBytes }]), '', 'A file at the real limit passes.');
+  assert.match(validateInquiryFiles([{ ...valid, size: inquirySettings.maximumFileBytes }], { message: 'x'.repeat(100000) }), /whole message/);
 });
 
 test('server recognizes supported binary signatures and rejects SVG or disguised HTML', () => {
@@ -141,11 +144,22 @@ test('binary parser enforces actual file and total-byte limits independently of 
   const small = { name: 'reference.jpg', type: 'image/jpeg', bytes: Buffer.from([255, 216, 255]) };
   const many = multipart(fields, Array(6).fill(small));
   assert.throws(() => parseInquiryMultipart(many.body, many.contentType), /up to 5 files/);
-  const tooLarge = multipart(fields, [{ ...small, bytes: Buffer.concat([small.bytes, Buffer.alloc(5 * 1024 * 1024)]) }]);
-  assert.throws(() => parseInquiryMultipart(tooLarge.body, tooLarge.contentType), /5 MB/);
-  const fourMiB = Buffer.alloc(4 * 1024 * 1024 + 1); small.bytes.copy(fourMiB);
-  const tooMuch = multipart(fields, Array(3).fill({ ...small, bytes: fourMiB }));
-  assert.throws(() => parseInquiryMultipart(tooMuch.body, tooMuch.contentType), /12 MB in total/);
+  const tooLargeBytes = Buffer.alloc(inquirySettings.maximumFileBytes + 1);
+  Buffer.from('%PDF-1.7').copy(tooLargeBytes);
+  const tooLarge = multipart(fields, [{ ...small, bytes: tooLargeBytes }]);
+  assert.throws(() => parseInquiryMultipart(tooLarge.body, tooLarge.contentType), /4 MB/);
+  const tooMuch = multipart(fields, [{ ...small, bytes: Buffer.concat([small.bytes, Buffer.alloc(Math.ceil(inquirySettings.maximumTotalBytes / 2))]) },
+    { ...small, bytes: Buffer.concat([small.bytes, Buffer.alloc(Math.ceil(inquirySettings.maximumTotalBytes / 2))]) }]);
+  assert.throws(() => parseInquiryMultipart(tooMuch.body, tooMuch.contentType), /4 MB in total/);
+  const reference = { name: 'reference.pdf', type: 'application/pdf', bytes: Buffer.alloc(0) };
+  const each = Math.floor(inquirySettings.maximumTotalBytes / 2);
+  const atLimitBytes = Buffer.alloc(each); Buffer.from('%PDF-1.7').copy(atLimitBytes);
+  const atLimit = multipart(fields, [{ ...reference, bytes: atLimitBytes }, { ...reference, bytes: atLimitBytes }]);
+  assert.ok(atLimit.body.length <= inquirySettings.maximumRequestBytes);
+  assert.equal(parseInquiryMultipart(atLimit.body, atLimit.contentType).attachments.length, 2, 'A file payload at the real limit succeeds.');
+  const over = Buffer.concat([atLimit.body, Buffer.alloc(inquirySettings.maximumRequestBytes - atLimit.body.length + 1, 0x78)]);
+  assert.equal(over.length, inquirySettings.maximumRequestBytes + 1);
+  assert.throws(() => parseInquiryMultipart(over, atLimit.contentType), /whole request below 4 MB/);
 });
 
 test('filename handling preserves Unicode and strips path/control hazards', () => {

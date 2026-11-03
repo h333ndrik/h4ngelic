@@ -1,0 +1,16 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:mail-limits
+PASS V26 1440px reduced=false: 4 MB hint, at-limit file accepted, one byte over rejected before upload.
+PASS V26 1440px reduced=true: 4 MB hint, at-limit file accepted, one byte over rejected before upload.
+PASS V26 390px reduced=false: 4 MB hint, at-limit file accepted, one byte over rejected before upload.
+PASS V26 390px reduced=true: 4 MB hint, at-limit file accepted, one byte over rejected before upload.
+PASS V26 320px reduced=false: 4 MB hint, at-limit file accepted, one byte over rejected before upload.
+PASS V26 320px reduced=true: 4 MB hint, at-limit file accepted, one byte over rejected before upload.
+
+Command: node tests/inquiry-http.mjs
+{"status":{"accepted":202,"crossOrigin":403,"providerFailure":502,"spoofedAttachment":415,"rateLimit":429,"unconfigured":503},"bytesPreserved":true,"liveDeliveryVerified":false}
+
+Command: npm test
+tests 372
+pass 372
+fail 0
+Server boundary coverage: exact 4 MB configured file payload passes; 4 MB + 1 request body rejected with a clear message.

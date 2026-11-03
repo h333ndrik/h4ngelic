@@ -79,7 +79,9 @@ export function initInquiry(root = document) {
         setStatus('sending is unavailable in this downloaded preview. please email your inquiry instead.', 'error');
         fallback.hidden = false; return;
       }
-      const message = validateInquiryFiles(files);
+      const fields = {};
+      for (const [key, value] of new FormData(form)) if (typeof value === 'string') fields[key] = value;
+      const message = validateInquiryFiles(files, fields);
       if (message) { error.textContent = message; input.setAttribute('aria-invalid', 'true'); input.focus(); return; }
       const body = new FormData(form);
       body.delete('attachments');

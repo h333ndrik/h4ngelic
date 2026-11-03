@@ -4,6 +4,27 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V26 — DONE — 2026-11-03
+
+The form now advertises and enforces the honest limit: up to 5 files and
+4 MB total. The client rejects oversized files and request payloads before
+upload. The server caps the raw request body at exactly 4 MB and independently
+checks each file and the total file bytes. Original attachment bytes remain
+untouched.
+
+Actual serial checks before builds:
+
+- New `npm run test:mail-limits`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. The hint reads `up to 5 files, 4 MB total`; a file at the
+  configured limit is accepted; one byte over shows a clear 4 MB error before
+  any network request.
+- `node tests/inquiry-http.mjs`: loopback HTTP integration PASS, including
+  accepted bytes and existing 403/415/429/502/503 behavior.
+- `npm test`: 372/372 PASS. Boundary unit tests accept the exact configured
+  payload and reject a 4 MB + 1 byte request.
+- Evidence: `docs/validation/v3.1.2/V26/`.
+
+
 ## V30 — DONE — 2026-11-03
 
 Metallic 333/4 mode-switch cues are disabled through

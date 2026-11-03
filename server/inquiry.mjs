@@ -7,7 +7,7 @@ import { inquiryArtwork } from '../src/inquiry-content.js';
 import { validateInquiryContact } from '../src/inquiry-validation.js';
 
 const RECIPIENT = 'h4ngelic@gmail.com';
-const MAX_BODY = limits.maximumTotalBytes + 64 * 1024;
+const MAX_BODY = limits.maximumRequestBytes;
 const ALLOWED_FIELDS = new Set(['name', 'email', 'message', 'artwork', 'started', 'website']);
 const RATE_WINDOW = 10 * 60 * 1000;
 const MIME_EXTENSIONS = { 'image/jpeg': ['jpg', 'jpeg'], 'image/png': ['png'], 'image/webp': ['webp'], 'image/avif': ['avif'], 'image/gif': ['gif'], 'application/pdf': ['pdf'] };
@@ -53,7 +53,7 @@ function safeFilename(name) {
 /** A bounded, strict multipart parser. Binary content is never converted into
  * strings; only a valid delimiter line ends a part. No disk files are created. */
 export function parseInquiryMultipart(body, contentType) {
-  if (body.length > MAX_BODY) throw new InquiryError(413, 'please keep the references below 12 MB in total.');
+  if (body.length > MAX_BODY) throw new InquiryError(413, 'please keep the whole request below 4 MB.');
   const match = /^multipart\/form-data\s*;\s*boundary=(?:"([^"\r\n]+)"|([^;\s]+))\s*$/i.exec(contentType || '');
   const boundary = match?.[1] || match?.[2];
   if (!boundary || !/^[0-9A-Za-z'()+_,\-./:=?]{1,70}$/.test(boundary)) throw new InquiryError(400, 'invalid form encoding.');
@@ -102,9 +102,9 @@ export function parseInquiryMultipart(body, contentType) {
       // Browsers include an empty multipart file when no attachment was chosen.
       if (filename || data.length) {
         if (attachments.length >= limits.maximumFiles) throw new InquiryError(413, 'please choose up to 5 files.');
-        if (!data.length || data.length > limits.maximumFileBytes) throw new InquiryError(413, 'each reference must be between 1 byte and 5 MB.');
+        if (!data.length || data.length > limits.maximumFileBytes) throw new InquiryError(413, 'each reference must be between 1 byte and 4 MB.');
         totalFileBytes += data.length;
-        if (totalFileBytes > limits.maximumTotalBytes) throw new InquiryError(413, 'please keep the references below 12 MB in total.');
+        if (totalFileBytes > limits.maximumTotalBytes) throw new InquiryError(413, 'please keep the references below 4 MB in total.');
         const type = detectAttachmentType(data);
         const extension = filename.split('.').at(-1).toLowerCase();
         if (!type || !MIME_EXTENSIONS[type].includes(extension)
@@ -179,7 +179,7 @@ export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl =
     rates.set(ip, rate);
     if (++rate.count > 3) return respond(res, 429, { error: 'please wait a little before trying again.' }, { 'Retry-After': String(Math.ceil((RATE_WINDOW - (time - rate.started)) / 1000)) });
     const declared = req.headers['content-length'];
-    if (declared && (!/^\d+$/.test(declared) || Number(declared) > MAX_BODY)) return respond(res, 413, { error: 'please keep the references below 12 MB in total.' });
+    if (declared && (!/^\d+$/.test(declared) || Number(declared) > MAX_BODY)) return respond(res, 413, { error: 'please keep the whole request below 4 MB.' });
     inFlight++;
     let timer;
     try {
@@ -188,7 +188,7 @@ export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl =
       timer = setTimeout(() => req.destroy(new InquiryError(408, 'the upload took too long.')), 15000);
       for await (const chunk of req) {
         bytes += chunk.length;
-        if (bytes > MAX_BODY) throw new InquiryError(413, 'please keep the references below 12 MB in total.');
+        if (bytes > MAX_BODY) throw new InquiryError(413, 'please keep the whole request below 4 MB.');
         chunks.push(chunk);
       }
       clearTimeout(timer);

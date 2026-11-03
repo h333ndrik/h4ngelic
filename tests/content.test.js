@@ -75,6 +75,8 @@ test('only Home exposes the accessible inquiry form; interior Contact links targ
     assert.match(markup, /<textarea[^>]+name="message"/);
     assert.doesNotMatch(markup, /<textarea[^>]+required/);
     assert.match(markup, /type="file" name="attachments"[^>]+multiple/);
+    assert.match(markup, /up to 5 files, 4 MB total/);
+    assert.doesNotMatch(markup, /5 MB each|12 MB/);
     assert.match(markup, /ATTACH REFERENCES \/ IMAGES/);
     assert.match(markup, /SEND MESSAGE/);
     assert.match(markup, /data-inquiry-status role="status" aria-live="polite"/);
