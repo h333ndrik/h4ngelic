@@ -363,7 +363,7 @@ try {
     await page.locator('.work-filters a[href="/work/tattoos"]').click(); await pageKind(page, 'work');
     assert.ok(await page.locator('[data-ink-mark]').count() <= count, 'Functional navigation must not add ink.');
     await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 13200 });
-    await page.locator('.brand-link').click(); await pageKind(page, 'home');
+    await page.locator('[data-floating-brand]').click(); await pageKind(page, 'home');
     await page.locator('#stage.is-ready').waitFor();
     assert.equal(await page.locator('[data-visit-message]').textContent(), 'nice to meet you.');
     const remembered = await page.evaluate(() => JSON.parse(localStorage.getItem('h4ngelic.visits.v1')));

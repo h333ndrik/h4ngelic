@@ -183,7 +183,7 @@ async function revealCycle(page, button, { touch }) {
 }
 
 async function checkHeaderAndFooterSecrets(page, { touch }) {
-  await page.locator('.brand-link').click();
+  await page.locator('[data-floating-brand]').click();
   await page.waitForFunction(() => document.documentElement.dataset.page === 'home');
   await page.evaluate(() => { document.activeElement?.blur(); scrollTo({ top: 0, behavior: 'instant' }); });
   const button = page.locator('[data-visitor-hotspot]');

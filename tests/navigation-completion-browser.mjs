@@ -96,7 +96,7 @@ try {
       await page.locator('html[data-page="about"]').waitFor();
       await page.waitForFunction(() => !document.querySelector('[data-global-index]').open);
       assert.equal(await index.isVisible(), true);
-      await page.locator('.brand-link').click();
+      await page.locator('[data-floating-brand]').click();
       await page.locator('html[data-page="home"]').waitFor();
       await page.waitForFunction(() => document.querySelector('[data-global-index]').hidden);
       assert.deepEqual(errors, []);

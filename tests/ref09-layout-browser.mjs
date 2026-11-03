@@ -77,7 +77,7 @@ try {
       await page.locator('.page-nav a[href="/about"]').click();
       await page.waitForURL(url => url.pathname === '/about');
       assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0);
-      await page.locator('.brand-link').click();
+      await page.locator('[data-floating-brand]').click();
       await page.waitForURL(url => url.pathname === '/');
       assert.equal(await page.locator('[data-mode-mute]').count(), 1);
       assert.equal(await sound.getAttribute('aria-pressed'), 'true', 'Mute remains selected after Home/Work/About/Home navigation.');

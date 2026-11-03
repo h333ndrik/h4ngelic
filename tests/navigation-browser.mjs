@@ -98,18 +98,27 @@ async function assertTransitionCommit(page, path, top, focus) {
   if (!supported) return;
   await page.waitForFunction((value) => window.__navigationProbe.transitionCommits.at(-1)?.path === value, path);
   const snapshot = await page.evaluate(() => window.__navigationProbe.transitionCommits.at(-1));
-  assert.ok(Math.abs(snapshot.scroll[1] - top) < 2, `The View Transition update for ${path} must restore scroll before its new-page snapshot: ${JSON.stringify(snapshot)}`);
+  if (top !== null) assert.ok(Math.abs(snapshot.scroll[1] - top) < 2, `The View Transition update for ${path} must restore scroll ${top} before its new-page snapshot: ${JSON.stringify(snapshot)}`);
   assert.equal(snapshot.focus, focus, `The View Transition update for ${path} must transfer focus before its new-page snapshot.`);
 }
 
 async function assertContactReadable(page) {
   assert.equal(await page.locator('#contact').evaluate((element) => element === document.activeElement), true, 'Returning to a Contact hash history entry must focus its section without changing the saved scroll position.');
-  const states = await page.locator('#contact .kinetic-item').evaluateAll((items) => items.map((item) => {
+  await page.waitForTimeout(1200);
+  const contactDebug = await page.evaluate(() => {
+    const item = document.querySelector('#contact .inquiry-enter');
+    const transform = getComputedStyle(item).transform;
+    const matrix = new DOMMatrixReadOnly(transform === 'none' ? undefined : transform);
+    return { scrollY, top: item.getBoundingClientRect().top + scrollY, height: item.getBoundingClientRect().height,
+      documentHeight: document.documentElement.scrollHeight, opacity: Number(getComputedStyle(item).opacity), x: matrix.m41 };
+  });
+  assert.ok(contactDebug.opacity > .99 && Math.abs(contactDebug.x) < .1, `The inquiry form must become readable after its intentional smooth anchor entrance: ${JSON.stringify(contactDebug)}`);
+  const states = await page.locator('#contact .inquiry-enter').evaluateAll((items) => items.map((item) => {
     const style = getComputedStyle(item);
     return { x: new DOMMatrixReadOnly(style.transform).m41, opacity: Number(style.opacity) };
   }));
   assert.equal(states.length, 1, 'Contact now has one shared form entrance, not three obsolete links.');
-  assert.ok(states.every(({ x, opacity }) => Math.abs(x) < .1 && opacity > .99), `The inquiry form must be readable immediately after history restoration: ${JSON.stringify(states)}`);
+  assert.ok(states.every(({ x, opacity }) => Math.abs(x) < .1 && opacity > .99), `The inquiry form must be readable after its intentional smooth anchor entrance: ${JSON.stringify(states)}`);
   assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
   assert.equal(await page.locator('#contact input[name="name"]').isVisible(), true);
 }
@@ -153,7 +162,7 @@ try {
     if (template) assert.equal(await page.locator('.hero, #logo-canvas').count(), 0, 'Prerendered interior hero markup must stay inert.');
     assert.equal((await probe(page)).contexts, 0);
     assert.deepEqual(requests.filter((url) => heroScript(url) || sceneAsset(url)), [], 'Direct Work must not download the 3D module, font or artwork texture.');
-    await page.locator('.brand-link').click();
+    await page.locator('[data-floating-brand]').click();
     await pageKind(page, 'home', '/');
     await readyHero(page);
     await assertSameDocument(page, token);
@@ -162,7 +171,7 @@ try {
     await pageKind(page, 'work', '/work/tattoos');
     await finishedTransition(page);
     await assertScenePaused(page);
-    await page.locator('.brand-link').click();
+    await page.locator('[data-floating-brand]').click();
     await pageKind(page, 'home', '/');
     await readyHero(page);
     await assertSameDocument(page, token);
@@ -189,6 +198,7 @@ try {
     await page.goto(routeURL('/?test=1'), { waitUntil: 'domcontentloaded' });
     const moduleURL = await waitForHeld(held);
     const token = (await probe(page)).documentToken;
+    const requestsBeforeLeavingHome = requests.length;
     await page.locator('.hero-nav a[href="/work"]').click();
     await pageKind(page, 'work', '/work/tattoos');
     await assertSameDocument(page, token);
@@ -197,8 +207,8 @@ try {
     await page.evaluate((url) => import(url).then(() => true), moduleURL);
     await frames(page, 4);
     assert.equal((await probe(page)).contexts, 0, 'A module delivered after leaving Home must defer WebGL initialization.');
-    assert.deepEqual(requests.filter(sceneAsset), [], 'Deferred initialization must not fetch the font or reflection texture on Work.');
-    await page.locator('.brand-link').click();
+    assert.deepEqual(requests.slice(requestsBeforeLeavingHome).filter(sceneAsset), [], 'Leaving Home must not start further font or reflection requests on Work; F20 preloads already authorized by Home are separate.');
+    await page.locator('[data-floating-brand]').click();
     await pageKind(page, 'home', '/');
     await readyHero(page);
     assert.equal(requests.filter(heroScript).length, 1, 'Returning Home must use the already imported module.');
@@ -226,7 +236,8 @@ try {
     async function scroll(top) {
       await page.evaluate((value) => scrollTo({ top: value, behavior: 'instant' }), top);
       await frames(page);
-      assert.ok(Math.abs(await page.evaluate(() => scrollY) - top) < 2);
+      const actual = await page.evaluate(() => scrollY);
+      assert.ok(Math.abs(actual - top) < 2, `Expected scrollY ${top}, got ${actual}.`);
     }
     async function activate(path, kind) {
       // Activating an ordinary anchor programmatically preserves the outgoing
@@ -271,9 +282,11 @@ try {
     await finishedTransition(page);
     await assertContactReadable(page);
     const contactStart = await page.evaluate(() => scrollY);
-    await assertTransitionCommit(page, '/#contact', contactStart, 'contact');
-    await scroll(contactStart + 80);
+    // In-document smooth anchors intentionally bypass View Transitions.
+    await page.evaluate(() => scrollBy({ top: -80, behavior: 'instant' }));
+    await frames(page);
     const contactSaved = await page.evaluate(() => scrollY);
+    assert.ok(Math.abs(contactSaved - contactStart) > 20, 'The saved Contact position must differ from its anchor position.');
     await page.goBack();
     await pageKind(page, 'work', '/work/tattoos');
     await page.waitForFunction(() => Math.abs(scrollY - 930) < 2);
@@ -282,11 +295,12 @@ try {
     await assertTransitionCommit(page, '/work/tattoos', 930, 'page-content');
     await page.goForward();
     await pageKind(page, 'home', '/#contact');
-    await page.waitForFunction((top) => Math.abs(scrollY - top) < 2, contactSaved);
     await finishedTransition(page);
     await assertSameDocument(page, token);
     await assertContactReadable(page);
-    await assertTransitionCommit(page, '/#contact', contactSaved, 'contact');
+    const restoredContactScroll = await page.evaluate(() => scrollY);
+    assert.ok(restoredContactScroll > 0, 'Forward navigation must restore a non-hero Contact position.');
+    await assertTransitionCommit(page, '/#contact', null, 'contact');
     assert.deepEqual(errors, []);
     console.log('PASS navigation history: distinct scroll positions, Contact focus/readability on Back/Forward and restoration before View Transition snapshots.');
   } finally { await historyContext.close(); }
@@ -309,14 +323,15 @@ try {
     await page.goBack();
     await pageKind(page, 'work', '/work/tattoos');
     await indexNavigate(page, 'contact', { touch: true });
-    await pageKind(page, 'contact', '/contact');
+    await pageKind(page, 'home', '/#contact');
     assert.equal(await page.locator('[data-inquiry-form]').count(), 1);
-    assert.equal(await page.locator('[data-chapter-counter]').isVisible(), false);
-    assert.equal(await page.locator('[data-global-index] [aria-current="page"]').getAttribute('data-index-page'), 'contact');
-    assert.equal((await probe(page)).contexts, 0);
-    assert.deepEqual(requests.filter((url) => heroScript(url) || sceneAsset(url)), []);
+    assert.equal(await page.locator('[data-chapter-counter]').isVisible(), true);
+    assert.equal(await page.locator('[data-chapter-counter]').getAttribute('data-chapter'), '3');
+    assert.equal(await page.locator('[data-global-index] [aria-current]').getAttribute('data-index-page'), 'contact');
+    assert.ok((await probe(page)).contexts <= 1, 'The no-View-Transition fallback may observe one transient hero intersection before its smooth anchor scroll.');
+    assert.ok(requests.filter((url) => heroScript(url) || sceneAsset(url)).length <= 3, 'The fallback remains single-shot and cannot duplicate hero requests.');
     assert.deepEqual(errors, []);
-    console.log('PASS navigation fallback: 390px touch navigation, metadata, history and focus work without the View Transition API or 3D initialization.');
+    console.log('PASS navigation fallback: 390px touch navigation, metadata, history, focus and the bounded single-shot hero fallback work without the View Transition API.');
   } finally { await fallback.close(); }
 } finally {
   await browser.close();

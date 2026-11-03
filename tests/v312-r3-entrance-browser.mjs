@@ -80,7 +80,11 @@ try {
     `Opacity finishes before the transform: opacity ${opacityDone.toFixed(1)}ms, transform ${transformDone.toFixed(1)}ms`);
   assert.equal(end.entering, false);
   assert.equal(end.opacity, 1);
-  assert.equal(end.transform, 'matrix(1, 0, 0, 1, 0, 0)');
+  const endMatrix = end.transform.match(/matrix\(([^)]+)\)/)?.[1].split(',').map(Number) || [];
+  assert.equal(endMatrix.length, 6, `The entrance ends with a readable matrix: ${end.transform}`);
+  assert.ok(Math.abs(endMatrix[0] - 1) < 1e-6 && Math.abs(endMatrix[1]) < 1e-6 && Math.abs(endMatrix[2]) < 1e-6
+    && Math.abs(endMatrix[3] - 1) < 1e-6 && Math.abs(endMatrix[4]) < 1e-6 && Math.abs(endMatrix[5]) < 1e-6,
+  `The entrance reaches identity within compositor float tolerance: ${end.transform}`);
   assert.equal(end.posterOpacity, 0);
   const elapsed = end.at - start.at;
   assert.ok(elapsed >= 990 && elapsed <= 1210, `The entrance marker lasts 1100ms ±10%: ${elapsed.toFixed(1)}ms`);

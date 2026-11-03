@@ -276,7 +276,7 @@ async function mobile(width, reduced = false) {
       for (let index = 0; index < 3; index++) await page.keyboard.press('Space');
       await settled(page, 'normal');
     }
-    await page.locator('.brand-link').tap();
+    await page.locator('[data-floating-brand]').tap();
     await page.waitForURL(value => value.pathname === '/');
     await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
     assert.equal(await control.count(), 1);

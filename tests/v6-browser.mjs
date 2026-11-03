@@ -102,7 +102,7 @@ try {
     assert.equal(await page.locator('[data-inquiry-context]').isVisible(), true);
     assert.equal(await page.evaluate(() => window.__v6WebGL), 0);
     assert.ok(!scripts.some(url => /\/main\.js|three|GLTFLoader/.test(url)), 'Cold interior navigation never loads the hero or mannequin.');
-    await page.locator('.brand-link').focus();
+    await page.locator('[data-floating-brand]').focus();
     await page.keyboard.down('4');
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray');
     await page.keyboard.up('4');
@@ -120,7 +120,7 @@ try {
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Two presses cannot reverse.');
     await page.keyboard.press('3');
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal');
-    await page.locator('.brand-link').click();
+    await page.locator('[data-floating-brand]').click();
     await page.locator('html[data-page="home"]').waitFor();
     await page.locator('#stage.is-ready, #stage.is-fallback').waitFor({ timeout: 60000 });
     await page.locator('[data-chapter-counter]:not([hidden])').waitFor();

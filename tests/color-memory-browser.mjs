@@ -206,7 +206,7 @@ try {
       await page.screenshot({ path: new URL(`other-about-${width}.png`, destination).pathname });
 
       // Return to the actual homepage through the existing internal link.
-      await page.locator('.brand-link').click();
+      await page.locator('[data-floating-brand]').click();
       await page.waitForURL(url => url.pathname === '/');
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await settleNavigation(page, '#selected-work');
