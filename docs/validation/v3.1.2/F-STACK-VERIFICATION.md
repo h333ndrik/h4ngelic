@@ -239,6 +239,12 @@ report. No merge or deployment was performed.
 - **Fix:** Ready adds a 760 ms `is-entering` window with a 700 ms transform/opacity entrance (`opacity 0→1`, `y 8→0`, `scale .985→1`); breathing is now `.55↔1` and `scale .988↔1.012`; reduced motion and failure stay instant/static.
 - **Proof:** Production starts at opacity 0/scale `.985`/y 8px, reaches opacity 1 and `matrix(1,0,0,1,0,0)` with a partially visible mid-frame and CLS 0; breathing sampled `.550–1.000` and `.988–1.012`. FCP medians remained 44–108 ms under the 200 ms guard. Evidence: `F29-b/` and `PERF/`.
 
+## 11. V3.1.2-r4 addendum — blanket cursor
+
+- **Reproduction:** NAAVI/footer still exposed a native pointer because selector-list audits missed the element actually under the pointer, including generated wrappers and cursor writes in component code; production build `4a05f1a60f2a` was required for proof.
+- **Fix:** The final emitted CSS now applies `html.h4-custom-cursor * { cursor:none!important }`, with xray as the sole allowlisted mode cursor; NAAVI decoration defers to its anchor, and no `style.cursor` writes remain in `src/`.
+- **Proof:** The production 24 px hit map passed 4,459/1,139/929 normal points at 1440/390/320 and 2,221 xray points with zero foreign cursors, including NAAVI slash, footer, VISIT, open INDEX, five form controls and canvas drag; no-JS keeps system cursors and the emitted CSS has exactly the root fallback, xray allowlist and blanket declaration. Evidence: `F18-r4/`.
+
 ### Verification totals
 
 - Node: **374/374 PASS**, 0 fail, 0 skipped.

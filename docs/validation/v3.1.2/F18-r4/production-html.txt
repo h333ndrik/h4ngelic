@@ -1,0 +1,11 @@
+source: dist/index.html
+inline class script present: True
+build marker present: True
+
+head excerpt:
+8" />
+    <meta name="h4-build" content="4a05f1a60f2a" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#242424" />
+    <script>document.documentElement.classList.add('h4-custom-cursor');</script>
+    <style data-hero-poster-critical>html,body{color:#f0efeb;background:#242424;margin:0;font-family:Arial,Helvetica,sans-serif}.skip-link,.floating-brand,.global-index{z-index:10;position:fixed}.skip-link{top:15px;l

@@ -5,6 +5,7 @@ import { findCursorOffenders, cursorOf } from './helpers/cursor-contract.mjs';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_CURSOR_ARTIFACTS || 'artifacts/v312/r4-cursor'}/`, import.meta.url);
+const reportName = process.env.H4_CURSOR_REPORT_NAME || 'results.json';
 await mkdir(output, { recursive: true });
 const index = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 const cssName = [...await readdir(new URL('../dist/assets/', import.meta.url))].find(name => /^index-.*\.css$/.test(name));
@@ -79,9 +80,9 @@ try {
   report.noScript = staticReport;
   await noScript.close();
 
-  await writeFile(new URL('results.json', output), JSON.stringify({ ...report, passed: true }, null, 2) + '\n');
+  await writeFile(new URL(reportName, output), JSON.stringify({ ...report, passed: true }, null, 2) + '\n');
   console.log(`PASS production cursor ${marker.html}: 3 declarations, final blanket rule, xray allowlist and no-JS system fallback.`);
 } catch (error) {
-  await writeFile(new URL('results.json', output), JSON.stringify({ ...report, passed: false, error: error.stack }, null, 2) + '\n');
+  await writeFile(new URL(reportName, output), JSON.stringify({ ...report, passed: false, error: error.stack }, null, 2) + '\n');
   throw error;
 } finally { await context.close(); await browser.close(); }

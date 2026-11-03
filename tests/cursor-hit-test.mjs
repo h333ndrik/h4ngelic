@@ -4,11 +4,12 @@ import { chromium } from 'playwright';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_CURSOR_HIT_ARTIFACTS || 'artifacts/v312/r4-hit'}/`, import.meta.url);
+const reportName = process.env.H4_CURSOR_HIT_REPORT_NAME || 'results.json';
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const report = { checkedAt: new Date().toISOString(), base, build: '', profiles: [], xray: null, failures: [] };
-const save = () => writeFile(new URL('results.json', output), JSON.stringify(report, null, 2) + '\n');
+const save = () => writeFile(new URL(reportName, output), JSON.stringify(report, null, 2) + '\n');
 const expectedCursor = mode => mode === 'xray' ? /url\(["']?[^"')]*h4ngelic-cursor-other-r09\.svg["']?\)\s+9\s+2/ : 'none';
 
 async function seed(context) {
