@@ -89,7 +89,7 @@ try {
         heading: document.querySelector('.work-page .page-heading').textContent,
         categorySize: getComputedStyle(document.querySelector('.rubric-category-heading')).fontSize,
         frontSize: (() => { const probe = document.createElement('a'); probe.className = 'category-link'; probe.style.cssText = 'position:absolute;visibility:hidden'; document.body.append(probe); const size = getComputedStyle(probe).fontSize; probe.remove(); return size; })() }));
-      assert.equal(style.heading, 'tattoos');
+      assert.equal(style.heading, 'on skin');
       assert.equal(style.categorySize, style.frontSize);
       const positionBefore = Number(await carousel.getAttribute('data-drift-position'));
       let positionAfter = positionBefore;
