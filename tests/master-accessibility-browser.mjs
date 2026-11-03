@@ -75,13 +75,13 @@ try {
     }));
     assert.equal(cursor.fine, true);
     assert.notEqual(cursor.cursor, 'zoom-out');
-    assert.match(cursor.cursor, /h4ngelic-cursor\.svg/, 'An expanded photograph keeps the exact native h4 cursor.');
+    assert.equal(cursor.cursor, 'none', 'An expanded photograph stays inside the blanket custom-pointer contract.');
     assert.equal(cursor.width, 1440); assert.equal(cursor.height, 1920);
     await page.keyboard.press('Escape');
     await page.locator('.artwork-dialog').waitFor({ state: 'hidden' });
     assert.deepEqual(errors, []);
     await writeFile(new URL('accessibility.json', output), JSON.stringify({ checkedAt: new Date().toISOString(),
       width: 1440, actualAnimation: { before, after }, expandedOriginal: cursor, errors }, null, 2));
-    console.log('PASS dynamic accessibility: reduced-motion cancels an active NAAVI animation; the genuine expanded artwork retains the native h4 cursor.');
+    console.log('PASS dynamic accessibility: reduced-motion cancels an active NAAVI animation; the genuine expanded artwork stays inside the blanket cursor contract.');
   } finally { await context.close(); }
 } finally { await browser.close(); }

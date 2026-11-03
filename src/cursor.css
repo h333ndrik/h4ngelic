@@ -1,27 +1,22 @@
-/* One native cursor image per mode keeps pointer tracking and its hotspot
-   constant across every interactive state. */
+/* The custom pointer is class-gated so a blocked script leaves the site with
+   ordinary system cursors. The xray material cursor is the only exception. */
 @media (hover: hover) and (pointer: fine) {
   html {
     --h4-native-cursor: url('/assets/h4ngelic-cursor.svg') 9 2, auto;
-    cursor: var(--h4-native-cursor);
   }
   html[data-mode='xray'] {
     --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto;
-    cursor: var(--h4-native-cursor);
   }
-  html,
-  html body,
-  html body * { cursor: var(--h4-native-cursor) !important; }
-  /* Last line of defence: state and component rules cannot swap in a native
-     pointer. The image and hotspot remain identical in hover/active states. */
-  html :is(a, button, summary, label, input, textarea, select, canvas,
-    [role='button'], [data-cursor], [data-cursor-target]),
-  html:not(.h4-custom-cursor) :is(a, button, summary, label, input, textarea,
-    select, canvas, [role='button'], [data-cursor], [data-cursor-target]),
-  html body :is(a, button, summary, label, input, textarea, select, canvas,
-    [role='button'], [data-cursor], [data-cursor-target]):is(:hover, :active, :focus, :focus-visible) {
+  html.h4-custom-cursor { cursor: var(--h4-native-cursor); }
+  /* The mode-scoped material cursor is the sole allowlisted escape hatch. */
+  html.h4-custom-cursor[data-cursor='xray'],
+  html.h4-custom-cursor [data-cursor='xray'],
+  html.h4-custom-cursor[data-cursor='xray'] *,
+  html.h4-custom-cursor [data-cursor='xray'] * {
     cursor: var(--h4-native-cursor) !important;
   }
+  /* Blanket contract: no element may replace the custom pointer. */
+  html.h4-custom-cursor * { cursor: none !important; }
 }
 
 [data-controls] button:focus-visible {

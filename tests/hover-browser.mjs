@@ -45,13 +45,13 @@ try {
   }, await link.elementHandle());
   await page.waitForTimeout(300);
   const hovered = await sample(link);
-  assert.ok(hovered.scale >= 1.019 && hovered.scale <= 1.021, 'A roomy category uses the restrained 2% feedback.');
+  assert.ok(hovered.scale >= 1.019 && hovered.scale <= 1.021, `A roomy category uses the restrained 2% feedback (got ${hovered.scale}).`);
   assert.notEqual(hovered.glow, 'none', 'Normal hover retains a restrained localized glow.');
   const ordinary = await link.locator('.interaction-visual').evaluate(element => ({ duration: getComputedStyle(element).transitionDuration, filter: getComputedStyle(element).filter }));
   assert.ok(ordinary.duration.split(',').every(value => Math.abs(parseFloat(value) - .3) < .001), 'Hover and release share 300ms timing.');
   const alphas = [...ordinary.filter.matchAll(/rgba\([^)]*,\s*([\d.]+)\)/g)].map(match => Number(match[1]));
   assert.ok(alphas.length >= 3 && alphas.every(alpha => alpha <= .2), 'White hover layers retain at most 20% opacity.');
-  assert.match(await link.evaluate(element => getComputedStyle(element).cursor), /h4ngelic-cursor\.svg/, 'Navigation keeps the standard h4 cursor while hovered.');
+  assert.equal(await link.evaluate(element => getComputedStyle(element).cursor), 'none', 'Navigation stays inside the blanket cursor contract while hovered.');
   for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[key] - hovered[key]) < .25, 'Magnification must not move or resize the real link target.');
   await page.mouse.move(1, 1);
   await page.waitForTimeout(380);

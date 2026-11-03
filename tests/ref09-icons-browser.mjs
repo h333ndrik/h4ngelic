@@ -67,35 +67,35 @@ try {
       const index = page.locator('[data-global-index]'), indexSummary = index.locator('summary');
       await indexSummary.click();
       const target = page.locator('[data-index-page="about"]');
-      const constantCursor = async (path, fallback = 'auto') => {
+      const constantCursor = async expectedCursor => {
         const value = await cursor(page.locator('body'));
-        assert.equal(value, expected(path, '9 2', fallback), 'Body and every pointer target share one cursor image and hotspot.');
+        assert.equal(value, expectedCursor, 'Body and every pointer target share one mode cursor contract.');
         for (const selector of ['[data-floating-brand]', '[data-global-index] summary', '[data-naavi]', '[data-index-page="about"]']) {
           const sample = page.locator(selector).first();
           await sample.hover();
-          assert.equal(await cursor(sample), expected(path, '9 2', fallback), `Hover must not swap the h4 cursor: ${selector}`);
+          assert.equal(await cursor(sample), expectedCursor, `Hover must not swap the mode cursor: ${selector}`);
         }
         await indexSummary.hover();
-        assert.equal(await cursor(indexSummary), expected(path, '9 2', fallback), 'INDEX summary keeps the mode cursor while hovered.');
+        assert.equal(await cursor(indexSummary), expectedCursor, 'INDEX summary keeps the mode cursor while hovered.');
         await page.mouse.down();
-        assert.equal(await cursor(indexSummary), expected(path, '9 2', fallback), 'INDEX summary keeps the mode cursor while pressed.');
+        assert.equal(await cursor(indexSummary), expectedCursor, 'INDEX summary keeps the mode cursor while pressed.');
         await page.mouse.move(10, 600); await page.mouse.up();
         if (!await index.evaluate(element => element.open)) await indexSummary.click();
         for (const link of await index.locator('.global-index-links a').all()) {
-          await link.hover(); assert.equal(await cursor(link), expected(path, '9 2', fallback), 'Open INDEX links keep the same cursor.');
+          await link.hover(); assert.equal(await cursor(link), expectedCursor, 'Open INDEX links keep the same cursor.');
         }
         return value;
       };
       if (!touch) {
-        assert.equal(await cursor(page.locator('body')), expected(settings.cursor.normal.base, '9 2', 'auto'));
-        await constantCursor(settings.cursor.normal.base);
+        assert.equal(await cursor(page.locator('body')), 'none');
+        await constantCursor('none');
       } else assert.equal(await cursor(page.locator('body')), 'auto');
 
       await enter(page);
       assert.deepEqual(await icons(page), settings.favicon.other, 'Every favicon variant follows the authoritative mode without reload.');
       if (!touch) {
         assert.equal(await cursor(page.locator('body')), expected(settings.cursor.other.base, '9 2', 'auto'));
-        await constantCursor(settings.cursor.other.base);
+        await constantCursor(expected(settings.cursor.other.base, '9 2', 'auto'));
         await target.hover(); await page.mouse.down();
         assert.equal(await cursor(target), expected(settings.cursor.other.base, '9 2', 'auto'));
         await page.mouse.move(10, 600); await page.mouse.up();
@@ -124,11 +124,11 @@ try {
       const warmed = await page.evaluate(() => window.__iconWarm);
       const preloadPaths = [...Object.values(settings.favicon.other), ...(!touch ? [settings.cursor.other.base] : [])];
       for (const href of preloadPaths) assert.equal(warmed.filter(value => value === href).length, 1, 'Each appropriate icon is warmed once, even across repeated mode changes.');
-      if (!touch) assert.equal(await cursor(page.locator('body')), expected(settings.cursor.normal.base, '9 2', 'auto'));
+      if (!touch) assert.equal(await cursor(page.locator('body')), 'none');
       assert.ok(!requests.some(href => /\/src\/main\.js|\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans/.test(href)), 'Icon switching on Work/About must never load the hero.');
       assert.deepEqual(errors, []);
-      reports.push({ label, iconsRestored: true, cursor: touch ? 'native touch, no custom cursor' : 'one base image and 9 2 hotspot in every state', appropriatePrefetchCount: preloadPaths.length, runtimeErrors: errors.length });
-      console.log(`PASS Phase3 ${label}: one constant native cursor per mode, favicon switching and restoration, one-time appropriate prefetch, navigation and no interior hero.`);
+      reports.push({ label, iconsRestored: true, cursor: touch ? 'native touch, no custom cursor' : 'blanket none in normal mode; xray allowlist keeps one image and 9 2 hotspot', appropriatePrefetchCount: preloadPaths.length, runtimeErrors: errors.length });
+      console.log(`PASS Phase3 ${label}: blanket normal cursor, xray allowlist, favicon switching and restoration, one-time appropriate prefetch, navigation and no interior hero.`);
     } finally { await context.close(); }
   }
 

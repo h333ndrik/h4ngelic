@@ -38,7 +38,7 @@ async function geometry(page) {
 async function cursorCoverage(page,profile,world) {
   if(!await page.evaluate(()=>matchMedia('(hover:hover) and (pointer:fine)').matches)) return {world,nativeTouch:true};
   const selectors='a[href],summary,button,input,select,textarea,label,[role="button"],[data-naavi],canvas';
-  const expected=world==='xray'?'h4ngelic-cursor-other':'h4ngelic-cursor';
+  const expected=world==='xray'?'h4ngelic-cursor-other-r09.svg':'none';
   const records=[];
   for(const [destination,kind] of [['work','work'],['contact','home'],['about','about']]) {
     if(await page.locator('html').getAttribute('data-page')!==kind) {
@@ -56,7 +56,8 @@ async function cursorCoverage(page,profile,world) {
     const target=page.locator(kind==='home'?'[data-inquiry-submit]':kind==='about'?'[data-floating-brand]':'[data-naavi]');
     await target.hover();
     const hover=await target.evaluate(el=>getComputedStyle(el).cursor);
-    assert.ok(hover.includes(world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg'),'Hover uses the same constant mode cursor.');
+    if(world==='xray') assert.ok(hover.includes(expected),'Hover uses the same constant mode cursor.');
+    else assert.equal(hover,expected,'Hover uses the same constant mode cursor.');
     records.push({kind,cursors,hover});await page.mouse.move(1,1);
   }
   await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
@@ -150,8 +151,11 @@ async function workChrome(page,profile,world) {
   if(profile.width>=600) {
     const naavi=page.locator('[data-naavi]');await naavi.hover();
     const cursors=await naavi.evaluate(el=>({outer:getComputedStyle(el).cursor,digit:getComputedStyle(el.querySelector('.chapter-digit')).cursor,total:getComputedStyle(el.querySelector('.chapter-total')).cursor}));
-    const expected=world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg';
-    for(const value of Object.values(cursors)) assert.ok(value.includes(expected),'NAAVI and its slash use the primary interactive h4 cursor.');
+    const expected=world==='xray'?'h4ngelic-cursor-other-r09.svg':'none';
+    for(const value of Object.values(cursors)) {
+      if(world==='xray') assert.ok(value.includes(expected),'NAAVI and its slash use the same mode cursor.');
+      else assert.equal(value,expected,'NAAVI and its slash use the same mode cursor.');
+    }
     await page.mouse.move(1,1);
   }
   await page.evaluate(()=>scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));await frames(page);

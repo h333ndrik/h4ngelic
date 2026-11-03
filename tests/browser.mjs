@@ -63,7 +63,7 @@ try {
   const desktopErrors = collectErrors(page);
   await ready(page);
 
-  assert.match(await page.locator('body').evaluate((element) => getComputedStyle(element).cursor), /h4ngelic-cursor\.svg/);
+  assert.equal(await page.locator('body').evaluate((element) => getComputedStyle(element).cursor), 'none', 'The runtime cursor class enables the blanket transparent pointer.');
   assert.equal(await page.locator('#reveal-control').count(), 0, 'V3 removes the obsolete Reveal button while preserving angle-based artwork rendering.');
   const first = await snapshot(page);
   await page.waitForFunction(frame => window.__H4_TEST__.snapshot().frameCount > frame, first.frameCount, { timeout: 10000 });

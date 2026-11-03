@@ -65,18 +65,19 @@ export default defineConfig({
       }
     },
   }, {
-    // Component styles are imported from many modules. Append the cursor
-    // contract to the emitted stylesheet so no later source rule can win.
+    // Component styles are imported from many modules. Move the source cursor
+    // tail to the very end of the emitted stylesheet so no later rule can win.
     name: 'h4ngelic-cursor-last',
     apply: 'build',
     enforce: 'post',
     generateBundle(_, bundle) {
-      const defense = '@media (hover:hover) and (pointer:fine){html,html body,html body *,html body :is(a,button,summary,label,input,textarea,select,canvas,[role="button"],[data-cursor],[data-cursor-target]){cursor:var(--h4-native-cursor)!important}}';
+      const defense = '@media (hover:hover) and (pointer:fine){html.h4-custom-cursor[data-cursor="xray"],html.h4-custom-cursor [data-cursor="xray"],html.h4-custom-cursor[data-cursor="xray"] *,html.h4-custom-cursor [data-cursor="xray"] *{cursor:var(--h4-native-cursor)!important}html.h4-custom-cursor *{cursor:none!important}}';
       for (const item of Object.values(bundle)) {
         if (item.type !== 'asset' || !item.fileName.endsWith('.css')) continue;
         const source = String(item.source);
         if (!source.includes('--h4-native-cursor')) continue;
-        if (!source.endsWith(defense)) item.source = `${source}${defense}`;
+        const sourceDefense = /html\.h4-custom-cursor\[data-cursor=["']?xray["']?\][\s\S]*?html\.h4-custom-cursor \*\{cursor:none!important\}/;
+        item.source = `${source.replace(sourceDefense, '')}${defense}`;
       }
     },
   }, {

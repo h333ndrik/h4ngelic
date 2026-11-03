@@ -6,8 +6,8 @@
 .drift-instruction { margin: 0; color: #b5b4b0; font-size: 12px; line-height: 1.5; }
 .drift-instruction > span[aria-hidden] { margin-inline: 5px; }
 .drift-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
-.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: var(--radius-soft); padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; cursor: pointer; transition: text-shadow 300ms cubic-bezier(.2,.8,.25,1); }
-.drift-controls button:disabled { opacity: .28; cursor: default; }
+.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: var(--radius-soft); padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; transition: text-shadow 300ms cubic-bezier(.2,.8,.25,1); }
+.drift-controls button:disabled { opacity: .28; }
 .drift-controls button:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
 .drift-count { min-width: 45px; text-align: center; font-size: 12px; letter-spacing: .05em; font-variant-numeric: tabular-nums; color: #bdbcb8; }
 .drift-status { top: 0; left: 0; margin: 0; }
@@ -32,7 +32,7 @@
 .drift-meta h2 a { text-decoration: none; }
 .drift-meta .project-index { margin: 3px 0 0; font-size: 11px; }
 .drift-description { margin: 8px 0 0; font-size: 12px; line-height: 1.5; max-width: 34em; }
-.horizontal-drift.is-drift-dragging { cursor: grabbing; user-select: none; }
+.horizontal-drift.is-drift-dragging { user-select: none; }
 .horizontal-drift.is-empty .drift-track { min-height: 128px; align-items: center; padding-inline: 0; }
 .horizontal-drift.is-empty .archive-empty { margin: 0; padding: 28px 0; font-size: clamp(18px, 2.3vw, 28px); }
 .drift-artwork.is-artwork-selected { animation: drift-selection-light 360ms ease-out; }

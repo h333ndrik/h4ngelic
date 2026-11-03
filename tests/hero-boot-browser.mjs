@@ -292,7 +292,8 @@ try {
       assert.deepEqual(auditedWork.offenders, [], `The whole Work page keeps one cursor at ${width}px.`);
       await page.evaluate(() => document.documentElement.classList.remove('h4-custom-cursor'));
       const noClass = await findCursorOffenders(page);
-      assert.deepEqual(noClass.offenders, [], 'The CSS defense also works before the cursor class exists.');
+      assert.equal(noClass.mode, 'system');
+      assert.deepEqual(noClass.offenders, [], 'Without the runtime class the page returns to ordinary system cursors.');
       await page.evaluate(() => document.documentElement.classList.add('h4-custom-cursor'));
       const auditedContact = await cursorAudit(page, '/contact', width);
       const formCursors = await cursorStates(page, ['.inquiry-field input[name="name"]',

@@ -48,7 +48,7 @@ export function initXRay({ root = document, memory = null } = {}) {
   const reduced = view.matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = view.matchMedia('(pointer: coarse)');
   const removers = [];
-  const previousAttributes = new Map(['data-mode', 'data-xray-quality', 'data-xray-ready', 'data-xray-transition', 'data-mode-holding', 'data-memory-mosh-preparing'].map((name) => [name, html.getAttribute(name)]));
+  const previousAttributes = new Map(['data-mode', 'data-cursor', 'data-xray-quality', 'data-xray-ready', 'data-xray-transition', 'data-mode-holding', 'data-memory-mosh-preparing'].map((name) => [name, html.getAttribute(name)]));
   const previousProperties = new Map();
   const audio = createModeAudio({ view });
   const soundControls = initSoundControls({ doc, audio });
@@ -155,6 +155,8 @@ export function initXRay({ root = document, memory = null } = {}) {
     if (mode === 'xray' && !html.hasAttribute('data-memory-mosh-ready') && !overlay.style.backgroundImage) overlay.style.backgroundImage = 'url("/assets/xray-distress.webp")';
     const target = mode === 'xray' ? 1 : 0;
     html.dataset.mode = mode;
+    if (mode === 'xray') html.dataset.cursor = 'xray';
+    else html.removeAttribute('data-cursor');
     refresh();
     announce();
     if (!doc.hidden) audio.play(mode);
@@ -327,6 +329,7 @@ export function initXRay({ root = document, memory = null } = {}) {
   listen(view, 'blur', cancelPendingEntry);
   updateQuality();
   html.dataset.mode = 'normal';
+  html.removeAttribute('data-cursor');
   html.dataset.xrayReady = '';
   refresh();
 
