@@ -1,11 +1,13 @@
 # V3.1.2 final review state
 
-Updated 2026-11-03. Branch `v3.1.1-fixes`; F18–F23 are committed and pushed. F24 is the next live-review fix. The full
-fix-by-fix result, real test outputs, performance numbers, screenshots and
-blockers are in [the final report](docs/V3.1.2-FINAL-REPORT.md). Do not
-restart completed work. Remaining blockers: real iPhone Safari (no device/iOS
-runtime), missing V3–V6/V22 acceptance criteria, and F14's real cross-browser /
-mannequin / legacy recovery checks. No merge or deployment.
+Updated 2026-11-03. Branch `v3.1.1-fixes`; F18–F27 are committed and pushed,
+the final build prerenders 18 routes + 404, `npm test` is 373/373 and the
+six-profile browser suites are green. The full fix-by-fix result, changed
+assertions, real test outputs, performance numbers, screenshots and blockers
+are in [the final report](docs/V3.1.2-FINAL-REPORT.md). Do not restart completed
+work. Remaining blockers: real iPhone Safari (no device/iOS runtime), missing
+V3–V6/V22 acceptance criteria, and F14's real cross-browser / mannequin /
+legacy recovery checks. No merge or deployment.
 
 ---
 
