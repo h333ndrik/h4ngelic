@@ -49,6 +49,10 @@ export const seoContent = {
       title: 'jewellery — h4ngelic, berlin',
       description: 'Jewellery by h4ngelic, the creative identity of independent Berlin artist Hendrik.',
     },
+    tools: {
+      title: 'tools — m4shlab & thr4ce — h4ngelic',
+      description: 'Browser tools by h333ndrik: m4shlab for real-time H.264 bitstream moshing and thr4ce for deterministic image and stencil editing.',
+    },
     flashes: {
       title: 'tattoo flashes — h4ngelic, berlin',
       description: 'Tattoo flash artwork by h4ngelic, the creative identity of independent Berlin artist Hendrik.',

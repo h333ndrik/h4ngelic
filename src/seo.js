@@ -141,7 +141,8 @@ export function getPageMetadata(route, options = {}) {
       description: cleanText(route.project.seo?.description) || cleanText(route.project.description) || seoContent.categories[route.category]?.description,
     };
   }
-  const contentReady = route.kind === 'home' || route.kind === 'about'
+  const externalRubric = route.kind === 'work' && route.category === 'tools' && (siteContent.tools || []).length > 0;
+  const contentReady = route.kind === 'home' || route.kind === 'about' || externalRubric
     || (route.kind === 'artwork' && isIndexableProject(route.project))
     || (route.kind === 'work' && projects.some((project) => isIndexableProject(project) && matchesArchive(project, route.category)));
   // Category pages now contain distinct real collections. Keep each canonical

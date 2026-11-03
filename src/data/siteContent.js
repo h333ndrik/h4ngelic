@@ -20,12 +20,20 @@ export const siteContent = {
     { id: 'paintings', label: 'paintings', legacy: true, presentation: 'existing' },
   ],
 
-  // The frontpage remains exactly three horizontal rubrics. Children stay shared
-  // with the work archive; changing worlds never mounts a different content tree.
+  // Four horizontal rubrics stay shared with the work archive. The tools
+  // rubric is intentionally external: its cards describe real project URLs.
   workGroups: [
     { id: 'tattoos', label: 'tattoos', archiveLabel: 'on skin', children: ['tattoos', 'flashes'] },
     { id: 'jewellery', label: 'jewellery', children: ['jewellery'] },
+    { id: 'tools', label: 'tools', archiveLabel: 'tools', children: ['tools'] },
     { id: 'more', label: 'more', children: ['digital-artworks', 'analog-photography'] },
+  ],
+
+  tools: [
+    { id: 'm4shlab', title: 'm4shlab', url: 'https://github.com/h333ndrik/m4shlab',
+      teaser: 'real h.264 bitstream moshing in the browser. up to 12 clips, five boundary methods, your footage never leaves the device.' },
+    { id: 'thr4ce', title: 'thr4ce', url: 'https://h333ndrik.github.io/thr4ce',
+      teaser: 'image & stencil editor. black ink or no ink — deterministic morphology brush, print-exact export.' },
   ],
 
   home: {

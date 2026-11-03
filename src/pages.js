@@ -25,6 +25,20 @@ function footer() {
   return renderFooter();
 }
 
+function renderToolCards() {
+  const cards = (siteContent.tools || []).map(tool => {
+    const href = contentURL(tool.url);
+    if (!href) return '';
+    return `<article class="tool-card" data-tool-entry="${escape(tool.id)}">
+      <a class="tool-card-link" href="${escape(href)}" target="_blank" rel="noopener noreferrer">
+        <h3>${escape(tool.title)} ${arrow}</h3>
+        <p>${escape(tool.teaser)}</p>
+      </a>
+    </article>`;
+  }).filter(Boolean).join('');
+  return `<div class="tool-grid" data-tool-rubric>${cards || '<p class="archive-empty">archive in progress.</p>'}</div>`;
+}
+
 export function renderHomepageSections(context = '') {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
     <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
@@ -118,6 +132,12 @@ export function renderWorkPage(category = 'all') {
   };
   const modelSection = '<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3></section>';
   const content = groups.map(group => {
+    if (group.id === 'tools') {
+      return `<section class="work-group${selectedGroup ? ' is-rubric-archive tool-rubric' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="${selectedGroup ? 'work-page-title' : `group-${escape(group.id)}-title`}" data-work-group="${escape(group.id)}">
+        ${selectedGroup ? '' : `<h2 class="work-group-heading" id="group-${escape(group.id)}-title" data-motion-static><a href="${workAnchorURL(group.id)}">${escape(group.label)} ${arrow}</a></h2>`}
+        ${renderToolCards()}
+      </section>`;
+    }
     if (selectedGroup) {
       const rubricCategories = group.children.map(id => categoryById(id)).filter(Boolean).map(entry => {
         const primary = entry.id === group.id;
