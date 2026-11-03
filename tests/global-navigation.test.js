@@ -31,19 +31,19 @@ test('Home includes the final h4 as 04 / 04 and cycles from it to the actual her
   assert.equal(naaviState(stops, 4).destination.id, 'home-hero');
 });
 
-test('Work numbers only the three main groups and HOME is a real route', () => {
+test('Work numbers the four main groups and HOME is a real route', () => {
   const stops = naaviStops('work');
-  assert.deepEqual(stops.map(stop => stop.label), ['home','creative / tattoos','jewellery','more']);
-  assert.equal(naaviState(stops, 3).destination.href, '/');
-  assert.equal(naaviState(stops, 1).total, 3);
-  assert.equal(initialNaaviIndex({ kind:'artwork',category:'digital-artworks' }), 3);
+  assert.deepEqual(stops.map(stop => stop.label), ['home','creative / tattoos','jewellery','tools','more']);
+  assert.equal(naaviState(stops, 4).destination.href, '/');
+  assert.equal(naaviState(stops, 1).total, 4);
+  assert.equal(initialNaaviIndex({ kind:'artwork',category:'digital-artworks' }), 4);
 });
 
-test('About renders one reusable accessible no-JS link with active 01 / 01', () => {
+test('About renders one reusable accessible no-JS link with active 01/ 01', () => {
   const html = renderNAAVI({ kind: 'about' });
   assert.match(html, /href="\/"/);
   assert.match(html, /data-chapter="1" data-chapter-total="1"/);
-  assert.match(html, /NAAVI: 01 \/ 01, about. go to home/);
+  assert.match(html, /NAAVI: 01\/ 01, about. go to home/);
   assert.doesNotMatch(html, /details|summary|data-no-hover/);
 });
 

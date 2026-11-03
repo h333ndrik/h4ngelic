@@ -7,11 +7,11 @@ const output = new URL(`../${process.env.H4_PORTFOLIO_ARTIFACTS || 'artifacts/v3
 await mkdir(output, { recursive: true });
 const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })))
   .filter(profile => !process.env.H4_PORTFOLIO_WIDTHS || process.env.H4_PORTFOLIO_WIDTHS.split(',').map(Number).includes(profile.width));
-const groups = ['tattoos', 'jewellery', 'more'];
+const groups = ['tattoos', 'jewellery', 'tools', 'more'];
 const leaves = ['flashes', 'analog-photography', 'digital-artworks', 'paintings'];
 const expectedCategories = {
   all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
-  tattoos: ['tattoos', 'flashes'], jewellery: ['jewellery'], more: ['digital-artworks', 'analog-photography'],
+  tattoos: ['tattoos', 'flashes'], jewellery: ['jewellery'], tools: [], more: ['digital-artworks', 'analog-photography'],
   flashes: ['flashes'], 'analog-photography': ['analog-photography'], 'digital-artworks': ['digital-artworks'], paintings: ['paintings'],
 };
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
@@ -46,7 +46,7 @@ async function work(page, category = 'all') {
   const expectedGroups = category === 'all' ? groups : groups.includes(category) ? [category] : [];
   assert.deepEqual(await page.locator('[data-work-group]').evaluateAll(nodes => nodes.map(node => node.dataset.workGroup)), expectedGroups);
   const rubric = groups.includes(category);
-  assert.equal(await page.locator('.work-page .page-heading').innerText(), category === 'all' ? '01 / WORKS'
+  assert.equal(await page.locator('.work-page .page-heading').innerText(), category === 'all' ? '01/ creative'
     : rubric ? (category === 'tattoos' ? 'on skin' : category) : category.replaceAll('-', ' ').toUpperCase());
   assert.equal(await page.locator('#contact, [data-inquiry-form]').count(), 0, 'Contact remains exclusively on Home.');
   assert.equal(await page.locator('#logo-canvas').isVisible(), false);
@@ -102,14 +102,21 @@ async function homepageCategories(page, width) {
   assert.equal(await section.locator('.category-sublinks').count(), 0);
   assert.equal(await page.locator('#selected-work-title .section-route-link').count(), 0);
   const title = selector => page.locator(selector).evaluate(element => element.textContent.replace(/\s+/g, ' ').trim());
-  assert.equal(await title('#selected-work-title'), '01 / creative');
-  assert.equal(await title('#about-preview-title'), '02 / ABOUT');
-  assert.equal(await title('#contact-title'), '03 / CONTACT');
+  assert.equal(await title('#selected-work-title'), '01/ creative');
+  assert.equal(await title('#about-preview-title'), '02/ more about');
+  assert.equal(await title('#contact-title'), '03/ contact');
   const boxes = await links.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width }; }));
-  assert.ok(boxes.every(rect => Math.abs(rect.y - boxes[0].y) < 2), 'The Home category strip stays horizontal.');
-  assert.ok(boxes[0].x < boxes[1].x && boxes[1].x < boxes[2].x);
+  if (width > 600) {
+    assert.ok(boxes.every(rect => Math.abs(rect.y - boxes[0].y) < 2), 'The Home category strip stays in one row on desktop.');
+    assert.ok(boxes.every((rect, index) => index === 0 || rect.x > boxes[index - 1].x));
+    assert.ok(boxes.every(rect => Math.abs(rect.width - boxes[0].width) < 2));
+  } else {
+    assert.ok(Math.abs(boxes[0].y - boxes[1].y) < 2 && Math.abs(boxes[2].y - boxes[3].y) < 2, 'Mobile uses two aligned rows.');
+    assert.ok(boxes[2].y > boxes[0].y + 20 && Math.abs(boxes[0].x - boxes[2].x) < 2 && Math.abs(boxes[1].x - boxes[3].x) < 2, 'Both mobile rows share the slash-aligned columns.');
+  }
   assert.ok(boxes.every(rect => Math.abs(rect.width - boxes[0].width) < 2));
-  await links.first().focus(); await page.keyboard.press('Tab'); await page.keyboard.press('Tab');
+  await links.first().focus();
+  for (let index = 1; index < boxes.length; index += 1) await page.keyboard.press('Tab');
   assert.ok(await links.last().evaluate(element => element === document.activeElement));
   const last = await links.last().boundingBox();
   assert.ok(last.x < width && last.x + last.width > 0, 'MORE remains keyboard-reachable on narrow viewports.');
@@ -149,7 +156,7 @@ try {
       await mode(page, 'normal');
       const menu = page.locator('[data-global-index]');
       if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
-      assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.textContent.replace(/\s+/g, ' ').trim()), '01 / creative');
+      assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.textContent.replace(/\s+/g, ' ').trim()), '01/ creative');
       assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.tabIndex >= 0), false);
       assert.equal(await menu.locator('a[href="/work"]').count(), 0);
       await menu.locator('[data-index-page="home"]').click();

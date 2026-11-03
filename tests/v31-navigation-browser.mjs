@@ -79,13 +79,14 @@ async function indexContract(page,profile,world) {
       outlineWidth:s.outlineWidth,filter:s.filter,shadow:s.boxShadow,linkColors:[...panel.querySelectorAll(':scope > a, :scope > .index-static')].map(a=>getComputedStyle(a).color),
       expanded:el.querySelector('summary').getAttribute('aria-expanded')};
   });
-  assert.deepEqual(data.numbers,['00 /','01 /','02 /','03 /']);
-  assert.deepEqual(data.targets,['/','/about','/#contact']);
+  assert.deepEqual(data.numbers,['00/','01/','02/','03/','04/']);
+  assert.deepEqual(data.targets,['/','/about','/#contact','/#final-secret']);
   assert.deepEqual(data.entries, [
-    { tag:'A', href:'/', text:'00 / home', focusable:true },
-    { tag:'SPAN', href:null, text:'01 / creative', focusable:false },
-    { tag:'A', href:'/about', text:'02 / about', focusable:true },
-    { tag:'A', href:'/#contact', text:'03 / contact', focusable:true },
+    { tag:'A', href:'/', text:'00/ home', focusable:true },
+    { tag:'SPAN', href:null, text:'01/ creative', focusable:false },
+    { tag:'A', href:'/about', text:'02/ more about', focusable:true },
+    { tag:'A', href:'/#contact', text:'03/ contact', focusable:true },
+    { tag:'A', href:'/#final-secret', text:'04/ the other side', focusable:true },
   ]);
   assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');
   assert.equal(data.borderWidth,'0px');assert.equal(data.radius,'4px');
@@ -111,10 +112,10 @@ async function workChrome(page,profile,world) {
   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await frames(page);
   const g=await geometry(page);
   assert.ok(g.documentWidth<=profile.width+1,'The connected Work strip cannot enlarge the whole page.');
-  assert.ok(g.filters.left>=g.brand.right+10 && g.filters.right<=g.index.left-10,'Work categories occupy the row between brand and INDEX.');
+  assert.ok(g.filters.left>g.brand.right && g.filters.right<g.index.left,'Work categories occupy the row between brand and INDEX.');
   assert.ok(Math.abs(g.filters.top-g.brand.top)<1 && g.filters.height>=44);
   assert.ok(!overlap(g.brand,g.filters)&&!overlap(g.index,g.filters));
-  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['on skin','jewellery','more']);
+  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['on skin','jewellery','tools','more']);
   const spacing=await page.evaluate(()=>{
     const strip=document.querySelector('.work-filters');strip.scrollLeft=0;
     const brand=document.querySelector('[data-floating-brand]').getBoundingClientRect();

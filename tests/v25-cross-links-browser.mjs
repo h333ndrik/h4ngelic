@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_CROSS_LINKS_ARTIFACTS || 'artifacts/v312/V25'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
-const groups = ['tattoos', 'jewellery', 'more'];
+const groups = ['tattoos', 'jewellery', 'tools', 'more'];
 const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })));
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -44,7 +44,7 @@ try {
           };
         }, groups.indexOf(category));
         assert.equal(data.tag, 'NAV');
-        assert.equal(data.children, 3);
+        assert.equal(data.children, 4);
         assert.equal(data.currentIndex, groups.indexOf(category));
         assert.equal(data.currentEmpty, true, 'The current rubric slot stays empty.');
         const expected = groups.filter(group => group !== category);
@@ -57,11 +57,13 @@ try {
           assert.ok(entry.height <= parseFloat(data.lineHeight) * 1.5 + 44, `Cross-link stays on one line: ${JSON.stringify(entry)}`);
         }
         const links = page.locator('.rubric-cross-links a');
-        assert.equal(await links.count(), 2);
+        assert.equal(await links.count(), 3);
         await links.first().focus();
         assert.equal(await links.first().evaluate(link => link === document.activeElement), true, 'The first cross-link accepts keyboard focus.');
         await page.keyboard.press('Tab');
         assert.equal(await links.nth(1).evaluate(link => link === document.activeElement), true, 'Tab moves to the second cross-link in logical order.');
+        await page.keyboard.press('Tab');
+        assert.equal(await links.nth(2).evaluate(link => link === document.activeElement), true, 'Tab moves to the third cross-link in logical order.');
         const before = await links.first().evaluate(link => getComputedStyle(link.querySelector('.interaction-visual')).transform);
         if (!profile.reduced && profile.width >= 1000) {
           const box = await links.first().boundingBox();

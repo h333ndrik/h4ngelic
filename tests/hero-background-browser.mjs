@@ -87,7 +87,7 @@ try {
     const strip = page.locator('.category-strip');
     await strip.scrollIntoViewIfNeeded();
     const labels = await strip.locator('.category-link').allTextContents();
-    assert.deepEqual(labels.map(value => value.trim()), ['tattoos', 'jewellery', 'more']);
+    assert.deepEqual(labels.map(value => value.trim()), ['tattoos', 'jewellery', 'tools', 'more']);
     const bounds = await strip.locator('.category-link').evaluateAll(links => links.map(link => {
       const { x, y, width, height } = link.getBoundingClientRect(); return { x, y, width, height };
     }));

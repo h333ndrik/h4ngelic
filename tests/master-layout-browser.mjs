@@ -59,7 +59,7 @@ try {
           documentWidth: document.documentElement.scrollWidth, images: document.querySelectorAll('.work-page .project-image img').length };
       });
       assert.equal(work.heading, 'tattoos');
-      assert.deepEqual(work.groups, ['tattoos', 'jewellery', 'more']);
+      assert.deepEqual(work.groups, ['tattoos', 'jewellery', 'tools', 'more']);
       assert.deepEqual(work.subheads, ['on skin', 'flashes', '3d model', 'digital artworks', 'analog photography']);
       assert.ok(work.subordinateSize < work.majorSize * .67 && work.digitalSize < work.subordinateSize);
       assert.ok(work.noArrows && work.noMiniNav);

@@ -1,4 +1,5 @@
 import { escapeHTML } from './content-utils.js';
+import { formatCounter } from './labels.js';
 
 /** One shared route model for the prerendered link and live scroll navigation.
  * HOME is a real route destination on interiors, never a missing DOM target. */
@@ -14,6 +15,7 @@ export function naaviStops(kind) {
     { label: 'home', href: '/' },
     { id: 'tattoos', label: 'creative / tattoos', href: '/work/tattoos' },
     { id: 'jewellery', label: 'jewellery', href: '/work/jewellery' },
+    { id: 'tools', label: 'tools', href: '/work/tools' },
     { id: 'more', label: 'more', href: '/work/more' },
   ];
   return [{ label: 'home', href: '/' }, { label: kind === 'about' ? 'about' : 'page', href: kind === 'about' ? '/about' : '/' }];
@@ -21,8 +23,9 @@ export function naaviStops(kind) {
 
 export function initialNaaviIndex(route) {
   if (route.kind === 'home') return 0;
-  if (['work', 'artwork'].includes(route.kind)) return ['jewellery'].includes(route.category) ? 2
-    : ['more', 'digital-artworks', 'analog-photography', 'paintings'].includes(route.category) ? 3 : 1;
+  if (['work', 'artwork'].includes(route.kind)) return route.category === 'jewellery' ? 2
+    : route.category === 'tools' ? 3
+      : ['more', 'digital-artworks', 'analog-photography', 'paintings'].includes(route.category) ? 4 : 1;
   return 1;
 }
 
@@ -30,10 +33,10 @@ export function naaviState(stops, current) {
   const index = Math.max(0, Math.min(stops.length - 1, current));
   const next = (index + 1) % stops.length;
   return { current: index, total: stops.length - 1, destination: stops[next],
-    label: `NAAVI: ${String(index).padStart(2, '0')} / ${String(stops.length - 1).padStart(2, '0')}, ${stops[index].label}. go to ${stops[next].label}` };
+    label: `NAAVI: ${formatCounter(index, stops.length - 1)}, ${stops[index].label}. go to ${stops[next].label}` };
 }
 
 export function renderNAAVI(route) {
   const state = naaviState(naaviStops(route.kind), initialNaaviIndex(route));
-  return `<a class="chapter-counter naavi" data-naavi data-chapter-counter data-no-ink data-corruption-protected href="${escapeHTML(state.destination.href)}" aria-label="${escapeHTML(state.label)}" data-chapter="${state.current}" data-chapter-total="${state.total}"><span class="chapter-digit-window" aria-hidden="true"><span class="chapter-digit">${String(state.current).padStart(2, '0')}</span></span><span class="chapter-total" aria-hidden="true"> / ${String(state.total).padStart(2, '0')}</span></a>`;
+  return `<a class="chapter-counter naavi" data-naavi data-chapter-counter data-no-ink data-corruption-protected href="${escapeHTML(state.destination.href)}" aria-label="${escapeHTML(state.label)}" data-chapter="${state.current}" data-chapter-total="${state.total}"><span class="chapter-digit-window" aria-hidden="true"><span class="chapter-digit">${formatCounter(state.current, state.total).slice(0, 2)}</span></span><span class="chapter-total" aria-hidden="true">${formatCounter(state.current, state.total).slice(2)}</span></a>`;
 }

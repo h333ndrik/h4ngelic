@@ -8,6 +8,7 @@ import { renderHorizontalDrift } from './horizontal-drift-content.js';
 import { renderFlashMannequin } from './flash-mannequin-content.js';
 import { renderInquiryForm } from './inquiry-content.js';
 import { orderedArtworks, artworkImages, artworkLabel } from './artwork-content.js';
+import { formatIndexedLabel } from './labels.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
 
@@ -191,7 +192,7 @@ export function renderAboutPage() {
   }).filter(Boolean).join('');
   return `${header('about')}
   <div class="page-shell about-page">
-    <h1 class="page-heading">03/ about</h1>
+    <h1 class="page-heading">${formatIndexedLabel(2, 'more about')}</h1>
     <div class="about-layout${portraitURL ? ' has-portrait' : ''}">
       <div class="about-copy">
         <p class="about-intro">${escape(about.intro)}</p>

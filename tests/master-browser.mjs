@@ -14,7 +14,7 @@ const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
-const categories = ['tattoos', 'jewellery', 'more'];
+const categories = ['tattoos', 'jewellery', 'tools', 'more'];
 const frames = (page) => page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 const snapshot = (page) => page.evaluate(() => window.__H4_TEST__.snapshot());
 const errorsFor = (page) => {
@@ -125,7 +125,7 @@ try {
   const errors = errorsFor(page);
   await readyHome(page);
   assert.equal(await page.locator('.identity').count(), 0, 'The hero tagline is removed entirely.');
-  assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01 / SELECTED WORKS', '02 / ABOUT', '03 / CONTACT']);
+  assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01/ CREATIVE', '02/ MORE ABOUT', '03/ CONTACT']);
   assert.equal(await page.locator('#page-content > .content-section').count(), 3);
   const headerLabels = await page.evaluate(() => [document.querySelector('.masthead h1'), document.querySelector('.global-index > summary')].map((item) => {
     const box = item.getBoundingClientRect(); return { text: item.textContent.trim(), left: box.left, right: box.right };
@@ -175,7 +175,7 @@ try {
     const echoes = await echoStates(page, selector);
     assert.ok(midway[0].x < midway[1].x && midway[1].x < midway[2].x, 'The three arrivals remain staggered.');
     assert.ok(midway[0].top < 1000 && midway[0].bottom > 0 && midway[0].x > 5, 'The visitor sees a genuine moving word as the section enters.');
-    assert.equal(echoes.length, 6, 'Each of the three real links has at most two decorative copies.');
+    assert.equal(echoes.length, 8, 'Each of the four real links has at most two decorative copies.');
     assert.ok(echoes.some((echo) => echo.opacity >= .1 && echo.opacity <= .25 && echo.x > 0));
     const semantics = await page.locator(`${selector} .motion-echo`).evaluateAll((items) => items.map((item) => ({ aria: item.getAttribute('aria-hidden'), text: item.textContent, label: item.dataset.echoText, generated: getComputedStyle(item, '::before').content, events: getComputedStyle(item).pointerEvents, blur: getComputedStyle(item).filter, color: getComputedStyle(item).color, controls: item.querySelectorAll('a,button,[tabindex]').length })));
     assert.ok(semantics.every((item) => item.aria === 'true' && item.text === '' && item.label && item.generated.includes(item.label) && item.events === 'none' && item.blur === 'none' && item.color === 'rgb(240, 239, 235)' && item.controls === 0), 'Monochrome echoes are empty decorative spans with generated text and no duplicate semantic text or interaction.');

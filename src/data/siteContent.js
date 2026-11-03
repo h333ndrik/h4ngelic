@@ -1,3 +1,5 @@
+import { formatIndexedLabel } from '../labels.js';
+
 /**
  * Edit this file for website copy, categories and contact destinations.
  * Leave a contact value empty until you are ready to publish that link.
@@ -37,9 +39,9 @@ export const siteContent = {
   ],
 
   home: {
-    selectedWorkLabel: '01 / creative',
-    aboutLabel: '02 / ABOUT',
-    contactLabel: '03 / CONTACT',
+    selectedWorkLabel: formatIndexedLabel(1, 'creative'),
+    aboutLabel: formatIndexedLabel(2, 'more about'),
+    contactLabel: formatIndexedLabel(3, 'contact'),
     aboutPreview: 'mixed media. ink, metal and everything in between.',
     moreAboutLabel: 'MORE ABOUT',
   },

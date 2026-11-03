@@ -12,7 +12,7 @@ const browser = await chromium.launch({
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
 
-const categories = ['tattoos', 'jewellery', 'more'];
+const categories = ['tattoos', 'jewellery', 'tools', 'more'];
 const errorsFor = (page) => {
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -90,7 +90,7 @@ try {
   const errors = errorsFor(page);
   await readyHome(page);
   assert.equal(await page.locator('.identity').count(), 0, 'The hero tagline is removed entirely.');
-  assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01 / SELECTED WORKS', '02 / ABOUT', '03 / CONTACT']);
+  assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01/ CREATIVE', '02/ MORE ABOUT', '03/ CONTACT']);
   assert.equal(await page.locator('#page-content > .content-section').count(), 3, 'The homepage contains exactly three major sections.');
   const headingStyles = await page.locator('.kinetic-heading').evaluateAll((headings) => headings.map((heading) => {
     const style = getComputedStyle(heading);

@@ -5,13 +5,13 @@ import { artworks } from '../src/data/artworks.js';
 import { contentURL, emailURL, escapeHTML } from '../src/content-utils.js';
 import { normalizeCategory, renderHomepageSections, renderWorkPage, renderProject, renderAboutPage, renderArtworkPage } from '../src/pages.js';
 
-test('homepage keeps three horizontal real category routes and a static creative heading', () => {
+test('homepage keeps four horizontal real category routes and a static creative heading', () => {
   const markup = renderHomepageSections();
   const selected = markup.split('</section>')[0];
   assert.deepEqual([...selected.matchAll(/class="category-link" href="([^"]+)"/g)].map((match) => match[1]), [
-    '/work/tattoos', '/work/jewellery', '/work/more',
+    '/work/tattoos', '/work/jewellery', '/work/tools', '/work/more',
   ]);
-  assert.match(selected, /<span class="kinetic-heading-text">01 \/ creative<\/span>/);
+  assert.match(selected, /<span class="kinetic-heading-text">01\/ creative<\/span>/);
   assert.doesNotMatch(selected, /section-route-link/);
   assert.doesNotMatch(selected, /<img|<figure|placeholder/i);
   assert.match(markup, /id="contact"/);
@@ -21,7 +21,7 @@ test('homepage keeps three horizontal real category routes and a static creative
 
 test('real category pages select their own content while /work retains the complete archive', () => {
   const cases = [
-    ['all', ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'more'], 9, '01 / creative'],
+    ['all', ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'tools', 'more'], 9, '01/ creative'],
     ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'on skin'],
     ['flashes', ['flashes'], [], 0, 'FLASHES'],
     ['jewellery', ['jewellery'], ['jewellery'], 0, 'jewellery'],
@@ -38,7 +38,7 @@ test('real category pages select their own content while /work retains the compl
     assert.equal((markup.match(/<img /g) || []).length, imageCount, 'Only real supplied images from the selected route render.');
     const headingClass = context === 'more' ? 'page-heading sr-only' : 'page-heading';
     assert.ok(markup.includes(`<h1 class="${headingClass}" id="work-page-title">${heading}</h1>`));
-    for (const category of ['tattoos', 'jewellery', 'more']) assert.ok(markup.includes(`href="/work/${category}"`));
+    for (const category of ['tattoos', 'jewellery', 'tools', 'more']) assert.ok(markup.includes(`href="/work/${category}"`));
     assert.doesNotMatch(markup, /href="\/work#/);
     const ids = [...markup.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
     assert.equal(new Set(ids).size, ids.length, `Duplicate anchors in ${context} context`);
@@ -49,6 +49,7 @@ test('rubric pages render plain child category headings and keep cross-links', (
   const expected = {
     tattoos: [['archive-flashes-title', 'flashes'], ['archive-model-title', '3d model']],
     jewellery: [],
+    tools: [],
     more: [['archive-digital-artworks-title', 'digital artworks'], ['archive-analog-photography-title', 'analog photography']],
   };
   for (const [context, headings] of Object.entries(expected)) {
@@ -62,7 +63,7 @@ test('rubric pages render plain child category headings and keep cross-links', (
     assert.ok(headingMarkup.every(heading => !heading.includes('<a') && !heading.includes('class="arrow"')), 'Child categories are plain text, not links.');
     for (const [id] of headings) assert.ok(markup.includes(`aria-labelledby="${id}"`), 'Section anchors keep their heading IDs.');
     const crossLinks = [...markup.matchAll(/<nav class="rubric-cross-links"[^>]*>([\s\S]*?)<\/nav>/g)][0]?.[1] || '';
-    assert.equal((crossLinks.match(/<a href="\/work\//g) || []).length, 2, 'The other two rubric routes remain available as navigation.');
+    assert.equal((crossLinks.match(/<a href="\/work\//g) || []).length, 3, 'The other three rubric routes remain available as navigation.');
     assert.doesNotMatch(crossLinks, new RegExp(`href="/work/${context}"`));
   }
 });
@@ -231,7 +232,7 @@ test('about optional content renders only when configured', () => {
 });
 
 test('About keeps its lower-case numbered route heading', () => {
-  assert.match(renderAboutPage(), /<h1 class="page-heading">03\/ about<\/h1>/);
+  assert.match(renderAboutPage(), /<h1 class="page-heading">02\/ more about<\/h1>/);
 });
 
 test('approved About copy remains exact and does not invent a portrait or biography', () => {
@@ -263,17 +264,18 @@ test('content utilities reject script, protocol-relative and credential-bearing 
 });
 
 
-test('Works has three unnumbered major rubrics, subordinate archive labels and an empty deferred model section', () => {
+test('Works has four unnumbered major rubrics, subordinate archive labels and an empty deferred model section', () => {
   const markup = renderWorkPage('all');
-  assert.match(markup, /<h1 class="page-heading" id="work-page-title">01 \/ creative<\/h1>/);
+  assert.match(markup, /<h1 class="page-heading" id="work-page-title">01\/ creative<\/h1>/);
   const major = [...markup.matchAll(/<h2 class="work-group-heading"[^>]*><a[^>]*>([\s\S]*?)<\/a><\/h2>/g)].map(match => match[1].replace(/<[^>]*>/g, '').trim());
-  assert.deepEqual(major, ['tattoos', 'jewellery', 'more']);
+  assert.deepEqual(major, ['tattoos', 'jewellery', 'tools', 'more']);
   const subordinate = [...markup.matchAll(/<h3 class="archive-category-heading(?: rubric-category-heading)?"[^>]*>(?:<a[^>]*>)?([^<]+)(?:<\/a>)?<\/h3>/g)].map(match => match[1]);
   assert.deepEqual(subordinate, ['on skin', 'flashes', '3d model', 'digital artworks', 'analog photography']);
+  assert.deepEqual([...markup.matchAll(/data-tool-entry="([^"]+)"/g)].map(match => match[1]), ['m4shlab', 'thr4ce']);
   assert.doesNotMatch(markup, /work-subfilters|SELECTED WORKS|selected works/i);
   const numberedAndCategoryHeadings = [...markup.matchAll(/<h[123]\b[^>]*>[\s\S]*?<\/h[123]>/g)].map(match => match[0]).join('');
-  assert.equal((numberedAndCategoryHeadings.match(/class="arrow"/g) || []).length, 1,
-    'Only the approved TATTOOS heading receives the shared directional arrow.');
+  assert.equal((numberedAndCategoryHeadings.match(/class="arrow"/g) || []).length, 4,
+    'The TATTOOS rubric and both external tool cards keep the shared directional arrow.');
   assert.match(markup, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow" aria-hidden="true"><\/i><\/a><\/h2>/);
   const model = markup.match(/<section[^>]+data-deferred-model>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(model);

@@ -38,7 +38,7 @@ test('metadata describes distinct self-canonical category pages while incomplete
   assert.equal(original.canonicalURL, 'https://h4ngelic.com/work/digital-artworks/green-black-original');
   assert.equal(original.description, getPageMetadata(resolveRoute('/work/digital-artworks'), production).description,
     'An incomplete noindex detail uses the truthful existing category description.');
-  assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/about']);
+  assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/work/tools', '/about']);
   assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/work/tattoos');
   const missing = getPageMetadata(resolveRoute('/no-such-page'), production);
   assert.equal(missing.status, 404);
@@ -94,7 +94,7 @@ test('distinct category collections own their canonicals and only matching compl
   for (const route of routeDefinitions().filter(route => route.kind === 'work')) {
     for (const configuration of [options, production]) {
       const metadata = getPageMetadata(route, configuration);
-      const expectedIndexable = configuration === options && ['all', 'more', 'digital-artworks'].includes(route.category);
+      const expectedIndexable = route.category === 'tools' || (configuration === options && ['all', 'more', 'digital-artworks'].includes(route.category));
       assert.equal(metadata.indexable, expectedIndexable, route.path);
       assert.equal(metadata.robots, expectedIndexable ? 'index, follow' : 'noindex, follow', route.path);
       assert.equal(metadata.canonicalURL, `https://h4ngelic.com${route.canonicalPath}`, route.path);
@@ -165,7 +165,8 @@ test('sitemap only includes indexable canonical pages and robots preserves exist
   const xml = buildSitemap(pages);
   assert.match(xml, /https:\/\/h4ngelic.com\/about/);
   assert.doesNotMatch(xml, /https:\/\/h4ngelic.com\/contact/);
-  assert.doesNotMatch(xml, /\/work/);
+  assert.match(xml, /https:\/\/h4ngelic\.com\/work\/tools/);
+  assert.doesNotMatch(xml, /\/work(?:<|\/tattoos<|\/jewellery<|\/more<)/);
   assert.doesNotMatch(buildSitemap(routeDefinitions().map((route) => getPageMetadata(route))), /<url>/);
   assert.equal(buildRobots(getSEOConfig()), 'User-agent: *\nDisallow: /\n');
   const existing = 'User-agent: GPTBot\nDisallow: /\n';

@@ -48,7 +48,7 @@ try {
       assert.ok(recognition.textHeight <= recognition.lineHeight + 1);
       const index = page.locator('[data-global-index]');
       await index.locator('summary').click();
-      assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(nodes => nodes.map(node => node.dataset.indexPage)), ['home', 'creative', 'about', 'contact']);
+      assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(nodes => nodes.map(node => node.dataset.indexPage)), ['home', 'creative', 'about', 'contact', 'other-side']);
       assert.equal(await index.locator('[data-index-page="creative"]').evaluate(element => element.tagName), 'SPAN');
       await page.keyboard.press('Escape');
       const cursor = await page.evaluate(() => ({ body: getComputedStyle(document.body).cursor, link: getComputedStyle(document.querySelector('.hero-nav a')).cursor }));
@@ -127,7 +127,7 @@ try {
       await page.screenshot({ path: new URL(`more-${profile.width}-${profile.reduced}.png`, output).pathname });
 
       await page.goto(new URL('/about', base).href, { waitUntil: 'networkidle' });
-      assert.equal(await page.locator('.about-page .page-heading').textContent(), '03/ about');
+      assert.equal(await page.locator('.about-page .page-heading').textContent(), '02/ more about');
       await page.screenshot({ path: new URL(`about-${profile.width}-${profile.reduced}.png`, output).pathname });
 
       await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
@@ -135,7 +135,7 @@ try {
       await cross.scrollIntoViewIfNeeded(); await frames(page);
       const crossBox = await cross.evaluate(nav => { const r = nav.getBoundingClientRect(); return { width: r.width, height: r.height, scrollWidth: nav.scrollWidth, labels: [...nav.querySelectorAll('a')].map(a => a.textContent.replace(/\s+/g, ' ').trim()) }; });
       assert.ok(crossBox.scrollWidth <= crossBox.width + 1);
-      assert.deepEqual(crossBox.labels, ['jewellery', 'more']);
+      assert.deepEqual(crossBox.labels, ['jewellery', 'tools', 'more']);
       await page.screenshot({ path: new URL(`rubrik-${profile.width}-${profile.reduced}.png`, output).pathname });
       assert.deepEqual(errors, []);
       reports.push({ ...profile, recognition, cursor, header, footer, style, positionBefore, positionAfter, widthBefore, expanded, digitalBox, crossBox, errors }); await save();

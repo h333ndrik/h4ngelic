@@ -3,6 +3,7 @@ import { initHeaderContrast } from './header-contrast.js';
 import { resolveRoute } from './routes.js';
 import { activeChapter, naaviUsesDisplayContrast } from './global-navigation-state.js';
 import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from './naavi-content.js';
+import { formatCounter } from './labels.js';
 
 /** Persistent shared NAAVI. Geometry is cached on layout changes; ordinary
  * scrolling schedules one paint, with no frame loop or scroll measurements. */
@@ -57,7 +58,7 @@ export function initGlobalNavigation(doc = document) {
   function paintIndex(chapter) {
     const primary = routeKind === 'artwork' || routeKind === 'work' ? 'creative' : routeKind;
     for (const item of indexLinks) {
-      const homeDestination = ['home', 'creative', 'about', 'contact'][chapter];
+      const homeDestination = ['home', 'creative', 'about', 'contact', 'other-side'][chapter];
       const active = item.dataset.indexPage === (primary === 'home' ? homeDestination : primary);
       if (active) item.setAttribute('aria-current', primary === 'home' && chapter > 0 ? 'location' : 'page');
       else item.removeAttribute('aria-current');
@@ -74,8 +75,9 @@ export function initGlobalNavigation(doc = document) {
     link.dataset.chapterTotal = String(state.total);
     const digit = link.querySelector('.chapter-digit');
     const total = link.querySelector('.chapter-total');
-    const currentText = String(state.current).padStart(2, '0');
-    const totalText = ` / ${String(state.total).padStart(2, '0')}`;
+    const counter = formatCounter(state.current, state.total);
+    const currentText = counter.slice(0, 2);
+    const totalText = counter.slice(2);
     if (digit && digit.textContent !== currentText) digit.textContent = currentText;
     if (total && total.textContent !== totalText) total.textContent = totalText;
     if (index !== current && current >= 0 && !reduced.matches && digit?.animate) {
