@@ -1,18 +1,18 @@
 {
-  "checkedAt": "2026-11-03T11:52:16.387Z",
-  "base": "http://127.0.0.1:55183",
+  "checkedAt": "2026-11-03T13:23:41.640Z",
+  "base": "http://127.0.0.1:55186",
   "reports": [
     {
       "width": 1440,
       "route": "/work/tattoos",
       "samples": [
-        100,
-        112,
-        108,
-        144,
-        104
+        80,
+        104,
+        72,
+        104,
+        116
       ],
-      "median": 108,
+      "median": 104,
       "finalPath": "/work/tattoos",
       "forbidden": [],
       "errors": []
@@ -21,13 +21,13 @@
       "width": 1440,
       "route": "/contact",
       "samples": [
-        88,
-        128,
-        88,
-        180,
-        116
+        112,
+        108,
+        108,
+        120,
+        104
       ],
-      "median": 116,
+      "median": 108,
       "finalPath": "/",
       "forbidden": [],
       "errors": []
@@ -36,13 +36,13 @@
       "width": 390,
       "route": "/work/tattoos",
       "samples": [
-        32,
-        144,
-        64,
-        60,
+        56,
+        52,
+        40,
+        48,
         44
       ],
-      "median": 60,
+      "median": 48,
       "finalPath": "/work/tattoos",
       "forbidden": [],
       "errors": []
@@ -52,12 +52,12 @@
       "route": "/contact",
       "samples": [
         60,
-        100,
-        88,
         48,
-        92
+        100,
+        96,
+        96
       ],
-      "median": 88,
+      "median": 96,
       "finalPath": "/",
       "forbidden": [],
       "errors": []
@@ -66,13 +66,13 @@
       "width": 320,
       "route": "/work/tattoos",
       "samples": [
-        64,
-        56,
+        40,
         44,
-        68,
-        56
+        44,
+        48,
+        68
       ],
-      "median": 56,
+      "median": 44,
       "finalPath": "/work/tattoos",
       "forbidden": [],
       "errors": []
@@ -81,22 +81,38 @@
       "width": 320,
       "route": "/contact",
       "samples": [
-        88,
-        124,
+        44,
         76,
-        72,
-        96
+        40,
+        92,
+        44
       ],
-      "median": 88,
+      "median": 44,
       "finalPath": "/",
       "forbidden": [],
       "errors": []
     }
   ],
-  "distBytes": 31436581,
-  "modulepreload": "/assets/main-D_-iotOp.js",
+  "entrance": {
+    "start": {
+      "entering": true,
+      "animation": "hero-wordmark-arrive",
+      "duration": "0.7s",
+      "opacity": 0,
+      "transform": "matrix(0.985, 0, 0, 0.985, 0, 8)"
+    },
+    "end": {
+      "entering": false,
+      "opacity": 1,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "cls": 0,
+      "build": "cf7141342e18"
+    }
+  },
+  "distBytes": 31447961,
+  "modulepreload": "/assets/main-CaEcmoVl.js",
   "mainChunks": [
-    "main-D_-iotOp.js"
+    "main-CaEcmoVl.js"
   ],
   "routes": 18,
   "failures": []

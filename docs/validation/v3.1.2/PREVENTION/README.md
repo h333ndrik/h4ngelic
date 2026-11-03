@@ -9,4 +9,6 @@ two-sided wheel contract.
 The earlier top-level `results.json` and screenshots are from the first dev run.
 `dev-final/` contains the final source run; `production/` is the first production
 build and `production-final/` is the last build, including the failed-hero
-navigation case. All three profiles passed in every run.
+navigation case. `r3-dev/` and `r3-production/` contain the r3 build-marker,
+entrance-timeline, expanded cursor-state and reduced-motion checks. All three
+profiles passed in every run.

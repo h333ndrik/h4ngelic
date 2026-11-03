@@ -1,0 +1,4 @@
+index-DyJvM4Hy.css
+
+er-outline] [data-outline-visual]{transition:none;transform:none!important}[data-outline-index-sign]{transition:none}[data-header-outline] [data-outline-arrow]{transition:none;transform:none}}
+@media (hover:hover) and (pointer:fine){html,html body,html body *,html body :is(a,button,summary,label,input,textarea,select,canvas,[role="button"],[data-cursor],[data-cursor-target]){cursor:var(--h4-native-cursor)!important}}

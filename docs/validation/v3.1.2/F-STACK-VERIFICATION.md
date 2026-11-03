@@ -218,3 +218,29 @@ report. No merge or deployment was performed.
 - Node: **373/373 PASS**, 0 fail, 0 skipped.
 - New browser prevention suite: **3/3 profiles PASS** on dev and **3/3 PASS** on the production preview.
 - Affected/core suites: footer 6/6, About 6/6, inquiry 6/6, visitor tiers 6/6, mobile 4/4, static titles 6/6, navigation 6/6, portfolio 6/6, UI 6/6, drift 6/6, poster 6/6, motion 6/6, cross-links 6/6, F20 6/6, SEO PASS, performance 6/6 route-width combinations.
+
+## 10. V3.1.2-r3 addendum — deployed visibility, cursor, entrance
+
+### Build marker
+
+- **Reproduction:** The Vercel preview is SSO-blocked and a loaded document had no externally or visually readable build SHA.
+- **Fix:** A Vite pre-plugin stamps `data-build` and `<meta name="h4-build">` from `git rev-parse --short=12 HEAD`; app startup logs `[h4ngelic] build <sha>` only outside `VERCEL_ENV=production`.
+- **Proof:** Verification build `cf7141342e18` is present as both attributes on all tested routes, the preview log was observed, and the Node guard verifies production suppresses the log. Evidence: `BUILD-MARKER/`.
+
+### F18-r3 cursor final
+
+- **Reproduction:** The emitted r2 CSS contained the cursor rule, but it preceded later component CSS and its strict path required the runtime class; the footer/NAAVI switch remained user-visible.
+- **Fix:** Inline head JavaScript activates the class before hydration, the defense works with or without that class and includes `[data-cursor-target]`, and a post-build Vite plugin appends the defense as the final emitted CSS rule.
+- **Proof:** With every JS bundle blocked, the production page still had zero cursor offenders with and without the class and exact image/hotspot on footer/NAAVI rest, hover, focus and active states. Full production runs also covered VISIT, SMASH, INDEX and form fields. Evidence: `F18-r3/`.
+
+### F29-b hero entrance
+
+- **Reproduction:** The ready moment only faded the canvas; on the dark poster the arrival was not perceptible, and the old breath was only `.8↔1` with ±0.4% scale.
+- **Fix:** Ready adds a 760 ms `is-entering` window with a 700 ms transform/opacity entrance (`opacity 0→1`, `y 8→0`, `scale .985→1`); breathing is now `.55↔1` and `scale .988↔1.012`; reduced motion and failure stay instant/static.
+- **Proof:** Production starts at opacity 0/scale `.985`/y 8px, reaches opacity 1 and `matrix(1,0,0,1,0,0)` with a partially visible mid-frame and CLS 0; breathing sampled `.550–1.000` and `.988–1.012`. FCP medians remained 44–108 ms under the 200 ms guard. Evidence: `F29-b/` and `PERF/`.
+
+### Verification totals
+
+- Node: **374/374 PASS**, 0 fail, 0 skipped.
+- r3 prevention suite: **3/3** dev and **3/3** production profiles.
+- Production cursor no-JS audit: PASS; F20 6/6; performance 6/6 route-width combinations plus entrance/CLS guard; footer 6/6; About 6/6; navigation 6/6; SEO PASS; core WebGL suite PASS against Dev.
