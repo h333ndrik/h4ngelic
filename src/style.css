@@ -152,3 +152,10 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
 }
+
+/* V17: defer below-fold rendering work without reserving the hero or header. */
+.about-preview, .contact-section,
+.work-page .archive-category, .work-page .project-grid {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}

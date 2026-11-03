@@ -11,7 +11,8 @@ const RETURN_DELAY = 4;
  * All points, velocities and hit lever arms are in world coordinates.
  */
 export class LogoPhysics {
-  constructor({ random = Math.random } = {}) {
+  constructor({ random = Math.random, substepRate = 120 } = {}) {
+    this.substepRate = substepRate;
     this.offset = new Vector3();
     this.orientation = new Quaternion();
     this.velocity = new Vector3();
@@ -29,6 +30,11 @@ export class LogoPhysics {
     this._torque = new Vector3();
     this._axis = new Vector3();
     this._delta = new Quaternion();
+  }
+
+  /** Reduce integration cadence only while a mode transition owns the frame. */
+  setSubstepRate(rate) {
+    if (Number.isFinite(rate)) this.substepRate = Math.max(30, Math.min(120, rate));
   }
 
   /** Cursor velocity in world units/second; impact is relative to logo center. */
@@ -100,7 +106,7 @@ export class LogoPhysics {
   update(dt, now, bounds = { x: Infinity, y: Infinity }, basePosition = ZERO) {
     if (!Number.isFinite(dt) || dt <= 0) return;
     const elapsed = Math.min(dt, 0.25);
-    const steps = Math.max(1, Math.ceil(elapsed * 120));
+    const steps = Math.max(1, Math.ceil(elapsed * this.substepRate));
     const step = elapsed / steps;
     for (let i = 0; i < steps; i += 1) {
       const time = now - elapsed + (i + 1) * step;

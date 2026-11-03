@@ -1,0 +1,32 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:performance-v17
+PASS V17 1440px reduced=false: idle easter-egg start after FCP, speculation rules, content visibility, shader prewarm, transition quality (1x/30Hz), draft restore/clear and idle carousel warmup. LCP 1856.0ms, long tasks 2.
+PASS V17 1440px reduced=true: ... reduced path, no WebGL import. LCP 84.0ms, long tasks 0.
+PASS V17 390px reduced=false: ... LCP 48.0ms, long tasks 2.
+PASS V17 390px reduced=true: ... LCP 40.0ms, long tasks 0.
+PASS V17 320px reduced=false: ... LCP 40.0ms, long tasks 2.
+PASS V17 320px reduced=true: ... LCP 48.0ms, long tasks 0.
+
+Command: node tests/portfolio-browser.mjs
+PASS F16 1440/390/320px full/reduced (6/6)
+
+Command: node tests/v31-navigation-browser.mjs
+PASS V3.1 navigation 1440/390/320px full/reduced (6/6)
+
+Command: npm run test:drift
+PASS F9 1440/390/320px full/reduced (6/6), including idle carousel warmup
+
+Command: node tests/v31-ui-browser.mjs
+PASS V3.1 UI 1440/390/320px full/reduced (6/6), both realities
+
+Command: npm test
+tests 372
+pass 372
+fail 0
+
+Performance medians (3 runs, headless Chromium/SwiftShader):
+1440px FCP 192.0 -> 176.0ms, LCP 204.0 -> 176.0ms, hero ready 1548.6 -> 1505.5ms, long-task total 1263.0 -> 1243.0ms
+390px  FCP 36.0 -> 48.0ms, LCP 52.0 -> 52.0ms, hero ready 1129.6 -> 1100.5ms, long-task total 712.0 -> 701.0ms
+320px  FCP 44.0 -> 36.0ms, LCP 48.0 -> 44.0ms, hero ready 878.1 -> 894.8ms, long-task total 691.0 -> 708.0ms
+These are synthetic software-renderer measurements, not device FPS or INP.
+
+Font audit: source TTF 414,568 bytes; served wordmark JSON 3,414 bytes; 10 runtime glyphs with zero unused; no further subsetting needed.

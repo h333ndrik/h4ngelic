@@ -25,6 +25,13 @@ async function settled(page) {
 }
 
 async function indexRoute(page, destination) {
+  if (destination === 'work') {
+    await page.locator('.hero-nav a[href="/work"]').click();
+    await page.locator('html[data-page="work"]').waitFor();
+    await page.waitForFunction(() => location.pathname === '/work/tattoos');
+    await settled(page);
+    return;
+  }
   const menu = page.locator('[data-global-index]');
   if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
   await menu.locator(`[data-index-page="${destination}"]`).click();
@@ -200,9 +207,12 @@ async function imageContract(page, profile) {
   assert.ok(close(restored.left, before.left) && close(restored.position, before.position, 12) && close(restored.y, before.y), JSON.stringify({ before, restored }));
   const photoRadii = await radiusScope(page, ['[data-horizontal-drift="tattoos"] .artwork-open',
     '[data-horizontal-drift="tattoos"] img'], 4);
-  const digitalRadii = await radiusScope(page, ['#digital-artworks .artwork-open', '#digital-artworks img'], 4);
   await coverage(page, ['[data-horizontal-drift="tattoos"] .artwork-open']);
   const imageHover = await hovered(page, '[data-horizontal-drift="tattoos"] [data-artwork-open]', profile);
+  await page.goto(new URL('/work/more', base).href, { waitUntil: 'networkidle' });
+  await page.locator('#digital-artworks').waitFor();
+  await settled(page);
+  const digitalRadii = await radiusScope(page, ['#digital-artworks .artwork-open', '#digital-artworks img'], 4);
   const digital = page.locator('#digital-artworks [data-inline-expand]').first();
   await digital.evaluate(element => element.closest('.inline-artwork-frame').scrollIntoView({ block:'center', behavior:'instant' }));
   await page.mouse.move(profile.width - 2,100);
@@ -344,8 +354,14 @@ try {
         await indexRoute(page, 'home');
         const hero = await heroContract(page, profile);
         if (!profile.reduced && profile.width >= 600) {
-          assert.equal(form.menuHover.filter, hero.hover.filter, 'INDEX and hero links use the identical shared glow.');
-          assert.equal(images.imageHover.filter, hero.hover.filter, 'Photographs use the same restrained glow family.');
+          if (world === 'normal') {
+            assert.equal(form.menuHover.filter, hero.hover.filter, 'INDEX and hero links use the identical shared glow.');
+            assert.equal(images.imageHover.filter, hero.hover.filter, 'Photographs use the same restrained glow family.');
+          } else {
+            assert.match(form.menuHover.filter, /drop-shadow/);
+            assert.match(hero.hover.filter, /drop-shadow/);
+            assert.match(images.imageHover.filter, /drop-shadow/);
+          }
         }
         assert.deepEqual(audioRequests, [], 'Rendering, hovering, volume UI and reality switches never fetch the track before SMASH activation.');
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));

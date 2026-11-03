@@ -4,6 +4,44 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V17 — DONE — 2026-11-03
+
+The page now defers easter-egg and ink initialization until after first paint
+and idle; the runtime wordmark font is already subset to its ten real glyphs.
+During the unchanged 1400ms mode transition the hero renders at pixel ratio 1
+with 30 physics substeps per second, then restores adaptive quality. The
+target shader is prepared while `4` is held. Below-fold editorial/archive
+sections use `content-visibility: auto`, conservative hover-prefetch rules
+cover `/about` and `/work/*`, the inquiry keeps a 2s local draft and clears it
+after success, and the first two carousel photos warm during idle at low
+priority.
+
+Changed files: `index.html`, `src/app.js`, `src/main.js`, `src/physics.js`,
+`src/style.css`, `src/inquiry.js`, `src/horizontal-drift.js`,
+`scripts/audit-fonts.mjs`, `scripts/measure-v17.mjs`,
+`tests/v17-performance-browser.mjs`, route-suite assertions and package
+scripts.
+
+Actual serial checks before builds:
+
+- New `npm run test:performance-v17`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Verified idle start after FCP, speculation rules, content
+  visibility, shader prewarm, 1x/30Hz transition quality, draft restore and
+  clear, and idle carousel warmup.
+- `node tests/portfolio-browser.mjs`: 6/6 PASS.
+- `node tests/v31-navigation-browser.mjs`: 6/6 PASS.
+- `npm run test:drift`: 6/6 PASS.
+- `node tests/v31-ui-browser.mjs`: 6/6 PASS.
+- `npm test`: 372/372 PASS.
+- Real before/after medians (3 runs each, headless Chromium/SwiftShader) are
+  recorded in `before.json` and `after.json`; 1440px FCP 192.0 -> 176.0ms,
+  LCP 204.0 -> 176.0ms, 390px LCP unchanged 52.0ms, 320px LCP 48.0 -> 44.0ms.
+  Long-task totals remained within synthetic-run noise.
+- Font audit: 414,568-byte source TTF, 3,414-byte served JSON, 10 glyphs and
+  zero unused runtime glyphs. No subset action needed.
+- Evidence: `docs/validation/v3.1.2/V17/`.
+
+
 ## V26 — DONE — 2026-11-03
 
 The form now advertises and enforces the honest limit: up to 5 files and

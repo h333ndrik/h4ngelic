@@ -101,9 +101,10 @@ async function homepageCategories(page, width) {
   assert.equal(await section.locator('img, picture, video, canvas').count(), 0);
   assert.equal(await section.locator('.category-sublinks').count(), 0);
   assert.equal(await page.locator('#selected-work-title .section-route-link').count(), 0);
-  assert.equal(await page.locator('#selected-work-title').innerText(), '01 / creative');
-  assert.equal(await page.locator('#about-preview-title').innerText(), '02 / ABOUT');
-  assert.equal(await page.locator('#contact-title').innerText(), '03 / CONTACT');
+  const title = selector => page.locator(selector).evaluate(element => element.textContent.replace(/\s+/g, ' ').trim());
+  assert.equal(await title('#selected-work-title'), '01 / creative');
+  assert.equal(await title('#about-preview-title'), '02 / ABOUT');
+  assert.equal(await title('#contact-title'), '03 / CONTACT');
   const boxes = await links.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width }; }));
   assert.ok(boxes.every(rect => Math.abs(rect.y - boxes[0].y) < 2), 'The Home category strip stays horizontal.');
   assert.ok(boxes[0].x < boxes[1].x && boxes[1].x < boxes[2].x);

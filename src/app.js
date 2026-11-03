@@ -5,6 +5,7 @@ import './horizontal-drift.css';
 import './flash-mannequin.css';
 import './inquiry.css';
 import './v6-polish.css';
+import './easter-eggs.css';
 import { siteContent } from './data/siteContent.js';
 import { renderRoutePage } from './pages.js';
 import { resolveRoute } from './routes.js';
@@ -13,7 +14,6 @@ import { initInteractions } from './interactions.js';
 import { initGallery } from './gallery.js';
 import { initScrollChoreography } from './scroll-choreography.js';
 import { initNavigation } from './navigation.js';
-import { initEasterEggs } from './easter-eggs.js';
 import { initImageReveals } from './image-reveals.js';
 import { featureFlags } from './data/featureFlags.js';
 import { initCorruptionLifecycle } from './corruption-lifecycle.js';
@@ -214,8 +214,28 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   globalNavigation.refresh();
 }
 
+function afterFirstPaint(task) {
+  const schedule = () => {
+    if ('requestIdleCallback' in window) requestIdleCallback(() => task(), { timeout: 500 });
+    else setTimeout(task, 120);
+  };
+  const wait = () => requestAnimationFrame(() => requestAnimationFrame(schedule));
+  if (document.readyState === 'complete') wait();
+  else addEventListener('load', wait, { once: true });
+}
+
 render();
-initEasterEggs(document);
+// Ink sampling, visitor memory and the remaining easter-egg bindings are not
+// needed for the first frame. Their module and initialization wait for idle,
+// while hero input and the main navigation stay immediately responsive.
+afterFirstPaint(() => {
+  import('./easter-eggs.js').then(({ initEasterEggs }) => {
+    if (!document.documentElement.dataset.h4EasterEggsReady) {
+      document.documentElement.dataset.h4EasterEggsReady = 'true';
+      initEasterEggs(document);
+    }
+  }).catch(() => {});
+});
 if (featureFlags.otherSideEnabled) {
   const corruptionLifecycle = initCorruptionLifecycle();
   // Input handling is needed from startup. Bundle it with the entry stylesheet

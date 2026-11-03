@@ -1,0 +1,179 @@
+{
+  "checkedAt": "2026-11-03T00:47:44.259Z",
+  "base": "http://127.0.0.1:55181",
+  "runs": 3,
+  "widths": [
+    1440,
+    390,
+    320
+  ],
+  "results": [
+    {
+      "width": 1440,
+      "samples": [
+        {
+          "fcp": 992,
+          "lcp": 992,
+          "longTasks": [
+            50,
+            2296,
+            1015,
+            55
+          ],
+          "heroReady": 4315.9000000059605,
+          "domContentLoaded": 182.5,
+          "load": 186.7000000178814,
+          "heap": 23509313,
+          "wall": 14929
+        },
+        {
+          "fcp": 192,
+          "lcp": 204,
+          "longTasks": [
+            304,
+            959
+          ],
+          "heroReady": 1548.5999999940395,
+          "domContentLoaded": 75,
+          "load": 77.59999999403954,
+          "heap": 28822186,
+          "wall": 12155
+        },
+        {
+          "fcp": 48,
+          "lcp": 72,
+          "longTasks": [
+            323,
+            866
+          ],
+          "heroReady": 1393.1000000238419,
+          "domContentLoaded": 82.2000000178814,
+          "load": 87,
+          "heap": 28832918,
+          "wall": 12000
+        }
+      ],
+      "summary": {
+        "fcp": 192,
+        "lcp": 204,
+        "domContentLoaded": 82.2000000178814,
+        "load": 87,
+        "heroReady": 1548.5999999940395,
+        "wall": 12155,
+        "longTaskCount": 2,
+        "longTaskTotal": 1263,
+        "longTaskMaximum": 959
+      }
+    },
+    {
+      "width": 390,
+      "samples": [
+        {
+          "fcp": 28,
+          "lcp": 28,
+          "longTasks": [
+            454,
+            304
+          ],
+          "heroReady": 1175,
+          "domContentLoaded": 76.09999999403954,
+          "load": 80.7000000178814,
+          "heap": 29741370,
+          "wall": 11782
+        },
+        {
+          "fcp": 52,
+          "lcp": 52,
+          "longTasks": [
+            480,
+            189
+          ],
+          "heroReady": 1129.5999999940395,
+          "domContentLoaded": 73.90000000596046,
+          "load": 78.2999999821186,
+          "heap": 29850210,
+          "wall": 11738
+        },
+        {
+          "fcp": 36,
+          "lcp": 56,
+          "longTasks": [
+            528,
+            184
+          ],
+          "heroReady": 910.5,
+          "domContentLoaded": 74.7999999821186,
+          "load": 79.19999998807907,
+          "heap": 29353106,
+          "wall": 11518
+        }
+      ],
+      "summary": {
+        "fcp": 36,
+        "lcp": 52,
+        "domContentLoaded": 74.7999999821186,
+        "load": 79.19999998807907,
+        "heroReady": 1129.5999999940395,
+        "wall": 11738,
+        "longTaskCount": 2,
+        "longTaskTotal": 712,
+        "longTaskMaximum": 480
+      }
+    },
+    {
+      "width": 320,
+      "samples": [
+        {
+          "fcp": 44,
+          "lcp": 52,
+          "longTasks": [
+            89,
+            616
+          ],
+          "heroReady": 878.0999999940395,
+          "domContentLoaded": 71.59999999403954,
+          "load": 77.40000000596046,
+          "heap": 24519129,
+          "wall": 11486
+        },
+        {
+          "fcp": 40,
+          "lcp": 40,
+          "longTasks": [
+            493,
+            188
+          ],
+          "heroReady": 860,
+          "domContentLoaded": 73.59999999403954,
+          "load": 79.5,
+          "heap": 24040797,
+          "wall": 11467
+        },
+        {
+          "fcp": 48,
+          "lcp": 48,
+          "longTasks": [
+            384,
+            307
+          ],
+          "heroReady": 1091.7999999821186,
+          "domContentLoaded": 74.59999999403954,
+          "load": 79,
+          "heap": 29717774,
+          "wall": 11700
+        }
+      ],
+      "summary": {
+        "fcp": 44,
+        "lcp": 48,
+        "domContentLoaded": 73.59999999403954,
+        "load": 79,
+        "heroReady": 878.0999999940395,
+        "wall": 11486,
+        "longTaskCount": 2,
+        "longTaskTotal": 691,
+        "longTaskMaximum": 493
+      }
+    }
+  ]
+}

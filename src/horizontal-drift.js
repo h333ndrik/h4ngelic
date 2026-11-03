@@ -24,6 +24,25 @@ export function initHorizontalDrift(root = document) {
     position: 0, velocity: 0, width: 0, cardWidth: 0, step: 0, cycle: 0, leading: 0,
     travel: 0, index: 0, near: false, wrap: false, drag: null, hover: -1, pointerInside: false, keyboardPaused: false,
     announcement: 0, suppressClickUntil: 0 }));
+  let preloadHandle = 0;
+  const preloadPhotos = () => {
+    if (disposed) return;
+    for (const state of states) {
+      const photos = [...state.section.querySelectorAll('.drift-track img')].slice(0, 2);
+      for (const photo of photos) {
+        if (photo.complete && photo.naturalWidth) continue;
+        const image = new view.Image();
+        image.decoding = 'async';
+        image.fetchPriority = 'low';
+        image.src = photo.currentSrc || photo.src;
+      }
+      state.section.dataset.carouselPreload = 'idle';
+    }
+  };
+  // Warm only the first two photos per archive, after the first paint and in
+  // idle time. Low priority keeps the hero and navigation ahead of them.
+  preloadHandle = typeof view.requestIdleCallback === 'function'
+    ? view.requestIdleCallback(preloadPhotos, { timeout: 2000 }) : view.setTimeout(preloadPhotos, 800);
   const listen = (target, type, handler, options) => {
     if (!target) return;
     target.addEventListener(type, handler, options);
@@ -313,6 +332,7 @@ export function initHorizontalDrift(root = document) {
   return () => {
     disposed = true;
     if (frame) view.cancelAnimationFrame(frame);
+    if (preloadHandle) { if (typeof view.cancelIdleCallback === 'function') view.cancelIdleCallback(preloadHandle); else view.clearTimeout(preloadHandle); }
     observer.disconnect(); resize.disconnect(); publisher.reset();
     for (const remove of removers) remove();
     for (const state of states) {

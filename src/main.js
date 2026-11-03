@@ -42,6 +42,8 @@ let sceneReady = false;
 let animationFrame = 0;
 let pendingPointer = null;
 let syncRendering = () => {};
+let modeTransitioning = false;
+let modeTransitionTimer = 0;
 const quality = chooseRenderQuality({
   pixelRatio: devicePixelRatio,
   coarsePointer: matchMedia('(pointer: coarse)').matches,
@@ -363,13 +365,33 @@ async function initialize() {
       stage.classList.add('is-ready');
       status.textContent = '3D wordmark ready. Use the animation controls below; pointer dragging is optional.';
     }
-    const nextRatio = resolution.sample(dt, timestamp);
+    const nextRatio = modeTransitioning ? null : resolution.sample(dt, timestamp);
     if (nextRatio !== null) {
       renderer.setPixelRatio(nextRatio);
       resize();
     }
     frameCount++;
   }
+
+  function beginModeTransition(event) {
+    if (!renderer || !sceneReady || reducedMotion.matches) return;
+    const duration = Math.max(0, Math.min(2000, Number(event?.detail?.duration) || 1400));
+    modeTransitioning = true;
+    clearTimeout(modeTransitionTimer);
+    resolveRatio = resolution.pixelRatio;
+    renderer.setPixelRatio(1);
+    resize();
+    physics.setSubstepRate(30);
+    modeTransitionTimer = setTimeout(() => {
+      if (!modeTransitioning) return;
+      modeTransitioning = false;
+      physics.setSubstepRate(120);
+      renderer.setPixelRatio(resolveRatio || resolution.pixelRatio);
+      resize();
+    }, duration);
+  }
+  let resolveRatio = 0;
+  document.addEventListener('h4:modechange', beginModeTransition);
 
   syncRendering = () => {
     if (!running || !sceneReady || document.hidden || !stageIsVisible) {
@@ -392,7 +414,7 @@ async function initialize() {
 
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
+      snapshot: () => ({ baseTime: animationTime, substeps: physics.substepRate, modeTransitioning, xrayPrepared: Boolean(wordmarkXRay), position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
         heroInk: { ...heroInk.snapshot(), gpu: { ...renderer.info.memory } } }),
       hitPoint: ({ minFacing = 0, maxFacing = 1, minAbsNormalZ = 0, maxAbsNormalZ = 1 } = {}) => {
         // Search real geometry instead of guessing a point inside a glyph hole.
@@ -436,6 +458,8 @@ async function initialize() {
     materialDisposed = true;
     document.removeEventListener('h4:modeprepare', prepareMaterial);
     document.removeEventListener('h4:modechange', cancelInkGesture);
+    document.removeEventListener('h4:modechange', beginModeTransition);
+    clearTimeout(modeTransitionTimer);
     document.removeEventListener('h4:pagechange', cancelInkGesture);
     window.removeEventListener('blur', cancelInkGesture);
     heroInk.dispose();

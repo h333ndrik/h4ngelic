@@ -1,0 +1,873 @@
+{
+  "checkedAt": "2026-11-03T00:38:49.543Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "metrics": {
+        "idleRuns": [
+          3162.4000000059605
+        ],
+        "longTasks": [
+          {
+            "start": 848.9000000059605,
+            "duration": 2300
+          },
+          {
+            "start": 3179.199999988079,
+            "duration": 1029
+          }
+        ],
+        "lcp": 1856,
+        "fcp": 1856,
+        "paints": [
+          {
+            "name": "first-paint",
+            "start": 1856
+          },
+          {
+            "name": "first-contentful-paint",
+            "start": 1856
+          }
+        ],
+        "navigation": {
+          "domContentLoadedEventEnd": 76.19999998807907,
+          "loadEventEnd": 78.7999999821186
+        }
+      },
+      "initial": {
+        "baseTime": 0.6240000000059609,
+        "substeps": 120,
+        "modeTransitioning": false,
+        "xrayPrepared": false,
+        "position": [
+          0.2713351371639791,
+          0.1597677775628403,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 0,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            14.189679987026313
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "desktop",
+        "frameCount": 4,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 6,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 3
+          }
+        }
+      },
+      "prepared": {
+        "baseTime": 1.0740000000059609,
+        "substeps": 120,
+        "modeTransitioning": false,
+        "xrayPrepared": true,
+        "position": [
+          0.45659663338566553,
+          0.25061529946532657,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 0,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            14.189679987026313
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "desktop",
+        "frameCount": 7,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 6,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 4
+          }
+        }
+      },
+      "during": {
+        "baseTime": 1.8240000000059606,
+        "substeps": 30,
+        "modeTransitioning": true,
+        "xrayPrepared": true,
+        "position": [
+          0.7264328220891961,
+          0.31970796730435586,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 1,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            14.189679987026313
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "desktop",
+        "frameCount": 18,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 6,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 5
+          }
+        }
+      },
+      "carousel": {
+        "preload": "idle",
+        "images": 8,
+        "contentVisibility": "auto"
+      },
+      "draft": {
+        "name": "draft visitor",
+        "email": "draft@example.com",
+        "message": "a saved draft",
+        "updated": 1793666295726
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "metrics": {
+        "idleRuns": [
+          89.7000000178814
+        ],
+        "longTasks": [],
+        "lcp": 84,
+        "fcp": 84,
+        "paints": [
+          {
+            "name": "first-paint",
+            "start": 84
+          },
+          {
+            "name": "first-contentful-paint",
+            "start": 84
+          }
+        ],
+        "navigation": {
+          "domContentLoadedEventEnd": 75.2000000178814,
+          "loadEventEnd": 80.2000000178814
+        }
+      },
+      "initial": null,
+      "prepared": null,
+      "during": null,
+      "carousel": {
+        "preload": "idle",
+        "images": 8,
+        "contentVisibility": "auto"
+      },
+      "draft": {
+        "name": "draft visitor",
+        "email": "draft@example.com",
+        "message": "a saved draft",
+        "updated": 1793666302048
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "metrics": {
+        "idleRuns": [
+          97.09999999403954
+        ],
+        "longTasks": [
+          {
+            "start": 129.5,
+            "duration": 97
+          },
+          {
+            "start": 242.40000000596046,
+            "duration": 600
+          }
+        ],
+        "lcp": 48,
+        "fcp": 48,
+        "paints": [
+          {
+            "name": "first-paint",
+            "start": 48
+          },
+          {
+            "name": "first-contentful-paint",
+            "start": 48
+          }
+        ],
+        "navigation": {
+          "domContentLoadedEventEnd": 75.09999999403954,
+          "loadEventEnd": 79.90000000596046
+        }
+      },
+      "initial": {
+        "baseTime": 0.5746999999821186,
+        "substeps": 120,
+        "modeTransitioning": false,
+        "xrayPrepared": false,
+        "position": [
+          0.25033199032324005,
+          0.14818345383182271,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 0,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            40.578326614913706
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "mobile",
+        "frameCount": 2,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 3,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 3
+          }
+        }
+      },
+      "prepared": {
+        "baseTime": 0.8246999999821187,
+        "substeps": 120,
+        "modeTransitioning": false,
+        "xrayPrepared": true,
+        "position": [
+          0.35555066714949757,
+          0.20391370192260844,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 0,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            40.578326614913706
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "mobile",
+        "frameCount": 5,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 3,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 4
+          }
+        }
+      },
+      "during": {
+        "baseTime": 1.6413999999821172,
+        "substeps": 30,
+        "modeTransitioning": true,
+        "xrayPrepared": true,
+        "position": [
+          0.6663764037716333,
+          0.3138917563190655,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 1,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            40.578326614913706
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "mobile",
+        "frameCount": 41,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 3,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 5
+          }
+        }
+      },
+      "carousel": {
+        "preload": "idle",
+        "images": 8,
+        "contentVisibility": "auto"
+      },
+      "draft": {
+        "name": "draft visitor",
+        "email": "draft@example.com",
+        "message": "a saved draft",
+        "updated": 1793666310264
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "metrics": {
+        "idleRuns": [
+          111.7000000178814
+        ],
+        "longTasks": [],
+        "lcp": 40,
+        "fcp": 40,
+        "paints": [
+          {
+            "name": "first-paint",
+            "start": 40
+          },
+          {
+            "name": "first-contentful-paint",
+            "start": 40
+          }
+        ],
+        "navigation": {
+          "domContentLoadedEventEnd": 79,
+          "loadEventEnd": 84.90000000596046
+        }
+      },
+      "initial": null,
+      "prepared": null,
+      "during": null,
+      "carousel": {
+        "preload": "idle",
+        "images": 8,
+        "contentVisibility": "auto"
+      },
+      "draft": {
+        "name": "draft visitor",
+        "email": "draft@example.com",
+        "message": "a saved draft",
+        "updated": 1793666315290
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "metrics": {
+        "idleRuns": [
+          112.19999998807907
+        ],
+        "longTasks": [
+          {
+            "start": 124.89999997615814,
+            "duration": 311
+          },
+          {
+            "start": 452.19999998807907,
+            "duration": 395
+          }
+        ],
+        "lcp": 40,
+        "fcp": 40,
+        "paints": [
+          {
+            "name": "first-paint",
+            "start": 40
+          },
+          {
+            "name": "first-contentful-paint",
+            "start": 40
+          }
+        ],
+        "navigation": {
+          "domContentLoadedEventEnd": 68.89999997615814,
+          "loadEventEnd": 75.5
+        }
+      },
+      "initial": {
+        "baseTime": 0.582400000011921,
+        "substeps": 120,
+        "modeTransitioning": false,
+        "xrayPrepared": false,
+        "position": [
+          0.2536196631892875,
+          0.15000993152101594,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 0,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            49.45483556192608
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "mobile",
+        "frameCount": 3,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 3,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 3
+          }
+        }
+      },
+      "prepared": {
+        "baseTime": 0.8490000000119211,
+        "substeps": 120,
+        "modeTransitioning": false,
+        "xrayPrepared": true,
+        "position": [
+          0.3655883794459526,
+          0.2088915827453278,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 0,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            49.45483556192608
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "mobile",
+        "frameCount": 7,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 3,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 4
+          }
+        }
+      },
+      "during": {
+        "baseTime": 1.7157000000119194,
+        "substeps": 30,
+        "modeTransitioning": true,
+        "xrayPrepared": true,
+        "position": [
+          0.6913039780565812,
+          0.31715459509482513,
+          0
+        ],
+        "offset": [
+          0,
+          0,
+          0
+        ],
+        "orientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "velocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "isDragging": false,
+        "revealOpacity": 0,
+        "xrayAmount": 1,
+        "camera": {
+          "amount": 0,
+          "position": [
+            0,
+            0,
+            49.45483556192608
+          ],
+          "fov": 35
+        },
+        "pixelRatio": 1,
+        "qualityName": "mobile",
+        "frameCount": 49,
+        "heroInk": {
+          "count": 0,
+          "pending": 0,
+          "maxMarks": 3,
+          "created": 0,
+          "disposed": 0,
+          "failed": 0,
+          "rejected": 0,
+          "destroyed": false,
+          "resourcesDisposed": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          },
+          "marks": [],
+          "gpu": {
+            "geometries": 1,
+            "textures": 5
+          }
+        }
+      },
+      "carousel": {
+        "preload": "idle",
+        "images": 8,
+        "contentVisibility": "auto"
+      },
+      "draft": {
+        "name": "draft visitor",
+        "email": "draft@example.com",
+        "message": "a saved draft",
+        "updated": 1793666323471
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "metrics": {
+        "idleRuns": [
+          91.40000000596046
+        ],
+        "longTasks": [],
+        "lcp": 48,
+        "fcp": 48,
+        "paints": [
+          {
+            "name": "first-paint",
+            "start": 48
+          },
+          {
+            "name": "first-contentful-paint",
+            "start": 48
+          }
+        ],
+        "navigation": {
+          "domContentLoadedEventEnd": 62.900000005960464,
+          "loadEventEnd": 67.40000000596046
+        }
+      },
+      "initial": null,
+      "prepared": null,
+      "during": null,
+      "carousel": {
+        "preload": "idle",
+        "images": 8,
+        "contentVisibility": "auto"
+      },
+      "draft": {
+        "name": "draft visitor",
+        "email": "draft@example.com",
+        "message": "a saved draft",
+        "updated": 1793666328485
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}
