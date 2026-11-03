@@ -1,0 +1,876 @@
+{
+  "checkedAt": "2026-11-03T00:01:47.822Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "pages": [
+        {
+          "category": "tattoos",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 0,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 0,
+              "width": 456.65625,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 457,
+              "width": 218.921875,
+              "height": 58.0625,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 913,
+              "width": 147.03125,
+              "height": 58.0625,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 35,
+            "width": 1370,
+            "height": 112
+          },
+          "scrollWidth": 1370,
+          "clientWidth": 1370,
+          "fontSize": "51.84px",
+          "lineHeight": "58.0608px"
+        },
+        {
+          "category": "jewellery",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 1,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 177.546875,
+              "height": 58.0625,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 457,
+              "width": 456.671875,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 913,
+              "width": 147.03125,
+              "height": 58.0625,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 35,
+            "width": 1370,
+            "height": 112
+          },
+          "scrollWidth": 1370,
+          "clientWidth": 1370,
+          "fontSize": "51.84px",
+          "lineHeight": "58.0608px"
+        },
+        {
+          "category": "more",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 2,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 177.546875,
+              "height": 58.0625,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 457,
+              "width": 218.921875,
+              "height": 58.0625,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 913,
+              "width": 456.65625,
+              "height": 44,
+              "tableIndex": -1
+            }
+          ],
+          "box": {
+            "left": 35,
+            "width": 1370,
+            "height": 112
+          },
+          "scrollWidth": 1370,
+          "clientWidth": 1370,
+          "fontSize": "51.84px",
+          "lineHeight": "58.0608px"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "pages": [
+        {
+          "category": "tattoos",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 0,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 0,
+              "width": 456.65625,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 457,
+              "width": 218.921875,
+              "height": 58.0625,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 913,
+              "width": 147.03125,
+              "height": 58.0625,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 35,
+            "width": 1370,
+            "height": 112
+          },
+          "scrollWidth": 1370,
+          "clientWidth": 1370,
+          "fontSize": "51.84px",
+          "lineHeight": "58.0608px"
+        },
+        {
+          "category": "jewellery",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 1,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 177.546875,
+              "height": 58.0625,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 457,
+              "width": 456.671875,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 913,
+              "width": 147.03125,
+              "height": 58.0625,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 35,
+            "width": 1370,
+            "height": 112
+          },
+          "scrollWidth": 1370,
+          "clientWidth": 1370,
+          "fontSize": "51.84px",
+          "lineHeight": "58.0608px"
+        },
+        {
+          "category": "more",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 2,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 177.546875,
+              "height": 58.0625,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 457,
+              "width": 218.921875,
+              "height": 58.0625,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 913,
+              "width": 456.65625,
+              "height": 44,
+              "tableIndex": -1
+            }
+          ],
+          "box": {
+            "left": 35,
+            "width": 1370,
+            "height": 112
+          },
+          "scrollWidth": 1370,
+          "clientWidth": 1370,
+          "fontSize": "51.84px",
+          "lineHeight": "58.0608px"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "pages": [
+        {
+          "category": "tattoos",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 0,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 0,
+              "width": 115.328125,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 115,
+              "width": 71.046875,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 231,
+              "width": 48.859375,
+              "height": 44,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 346,
+            "height": 68
+          },
+          "scrollWidth": 346,
+          "clientWidth": 346,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        },
+        {
+          "category": "jewellery",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 1,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 58.28125,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 115,
+              "width": 115.328125,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 231,
+              "width": 48.859375,
+              "height": 44,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 346,
+            "height": 68
+          },
+          "scrollWidth": 346,
+          "clientWidth": 346,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        },
+        {
+          "category": "more",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 2,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 58.28125,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 115,
+              "width": 71.046875,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 231,
+              "width": 115.34375,
+              "height": 44,
+              "tableIndex": -1
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 346,
+            "height": 68
+          },
+          "scrollWidth": 346,
+          "clientWidth": 346,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "pages": [
+        {
+          "category": "tattoos",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 0,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 0,
+              "width": 115.328125,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 115,
+              "width": 71.046875,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 231,
+              "width": 48.859375,
+              "height": 44,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 346,
+            "height": 68
+          },
+          "scrollWidth": 346,
+          "clientWidth": 346,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        },
+        {
+          "category": "jewellery",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 1,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 58.28125,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 115,
+              "width": 115.328125,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 231,
+              "width": 48.859375,
+              "height": 44,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 346,
+            "height": 68
+          },
+          "scrollWidth": 346,
+          "clientWidth": 346,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        },
+        {
+          "category": "more",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 2,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 58.28125,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 115,
+              "width": 71.046875,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 231,
+              "width": 115.34375,
+              "height": 44,
+              "tableIndex": -1
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 346,
+            "height": 68
+          },
+          "scrollWidth": 346,
+          "clientWidth": 346,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "pages": [
+        {
+          "category": "tattoos",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 0,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 0,
+              "width": 92,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 92,
+              "width": 71.046875,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 184,
+              "width": 48.859375,
+              "height": 44,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 276,
+            "height": 68
+          },
+          "scrollWidth": 276,
+          "clientWidth": 276,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        },
+        {
+          "category": "jewellery",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 1,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 58.28125,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 92,
+              "width": 92,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 184,
+              "width": 48.859375,
+              "height": 44,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 276,
+            "height": 68
+          },
+          "scrollWidth": 276,
+          "clientWidth": 276,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        },
+        {
+          "category": "more",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 2,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 58.28125,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 92,
+              "width": 71.046875,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 184,
+              "width": 92,
+              "height": 44,
+              "tableIndex": -1
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 276,
+            "height": 68
+          },
+          "scrollWidth": 276,
+          "clientWidth": 276,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "pages": [
+        {
+          "category": "tattoos",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 0,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 0,
+              "width": 92,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 92,
+              "width": 71.046875,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 184,
+              "width": 48.859375,
+              "height": 44,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 276,
+            "height": 68
+          },
+          "scrollWidth": 276,
+          "clientWidth": 276,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        },
+        {
+          "category": "jewellery",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 1,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 58.28125,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 92,
+              "width": 92,
+              "height": 44,
+              "tableIndex": -1
+            },
+            {
+              "tag": "A",
+              "text": "more",
+              "href": "/work/more",
+              "left": 184,
+              "width": 48.859375,
+              "height": 44,
+              "tableIndex": 0
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 276,
+            "height": 68
+          },
+          "scrollWidth": 276,
+          "clientWidth": 276,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        },
+        {
+          "category": "more",
+          "tag": "NAV",
+          "label": "Other creative sections",
+          "children": 3,
+          "currentIndex": 2,
+          "currentEmpty": true,
+          "entries": [
+            {
+              "tag": "A",
+              "text": "tattoos",
+              "href": "/work/tattoos",
+              "left": 0,
+              "width": 58.28125,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "A",
+              "text": "jewellery",
+              "href": "/work/jewellery",
+              "left": 92,
+              "width": 71.046875,
+              "height": 44,
+              "tableIndex": 0
+            },
+            {
+              "tag": "SPAN",
+              "text": "",
+              "href": null,
+              "left": 184,
+              "width": 92,
+              "height": 44,
+              "tableIndex": -1
+            }
+          ],
+          "box": {
+            "left": 22,
+            "width": 276,
+            "height": 68
+          },
+          "scrollWidth": 276,
+          "clientWidth": 276,
+          "fontSize": "16px",
+          "lineHeight": "17.92px"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "failures": []
+}

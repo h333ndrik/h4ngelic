@@ -4,6 +4,28 @@ All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 
 
 # V3.1.1 progress — V3.1.2 continuation
 
+## V25 — DONE — 2026-11-03
+
+Each rubric page now ends with one fixed three-column cross-link row. Tattoos
+is always left, jewellery middle and more right; the current page's column
+stays empty. The two remaining destinations are real links with the shared
+arrow, magnetic label hover, keyboard focus and reduced-motion rest state. The
+row scales down without wrapping at 320px.
+
+Changed files: `src/pages.js`, `src/archive-structure.css`,
+`src/rubric-activation.js`, `tests/v25-cross-links-browser.mjs`,
+`package.json` and this checkpoint set.
+
+Actual serial checks before builds:
+
+- New `npm run test:cross-links`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Verified equal line height, fixed relative columns, empty
+  current slot, exact labels/hrefs, no overflow or wrapping, logical Tab order,
+  desktop unified hover and reduced-motion rest states.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V25/`.
+
+
 ## V23 — DONE — 2026-11-03
 
 Only real links receive the typographic hover now. `01 / creative`,

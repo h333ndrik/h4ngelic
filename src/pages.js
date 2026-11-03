@@ -144,6 +144,11 @@ export function renderWorkPage(category = 'all') {
     ? leaf(selectedCategory, { nested: false })
     : selected === 'all' ? siteContent.categories.filter(entry => entry.legacy
       && projects.some(project => project.category === entry.id)).map(entry => leaf(entry, { nested: false })).join('') : '';
+  const crossLinks = selectedGroup ? `<nav class="rubric-cross-links" aria-label="Other creative sections">
+      ${siteContent.workGroups.map(group => group.id === selectedGroup.id
+        ? '<span class="rubric-cross-gap" aria-hidden="true"></span>'
+        : `<a href="${categoryURL(group.id)}">${escape(group.label)} ${arrow}</a>`).join('')}
+    </nav>` : '';
   return `${header('work')}
   <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
     <h1 class="page-heading" id="work-page-title">${escape(title)}</h1>
@@ -151,6 +156,7 @@ export function renderWorkPage(category = 'all') {
       ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.label)}</a>`).join('')}
     </nav>
     <div class="portfolio-archive" aria-label="All artwork">${content}${standalone}</div>
+    ${crossLinks}
   </div>${footer()}`;
 }
 

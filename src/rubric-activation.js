@@ -1,4 +1,4 @@
-export const rubricSelector = '.category-link, .category-sublinks a, .work-subfilters a, .filter-link, .archive-category-heading a, .hero-nav a, .page-nav a, .text-link';
+export const rubricSelector = '.category-link, .category-sublinks a, .work-subfilters a, .filter-link, .archive-category-heading a, .hero-nav a, .page-nav a, .text-link, .rubric-cross-links a';
 
 /** A selected label participates in the existing native page transition. No
  * delayed navigation, detached label clone, or extra frame loop is necessary. */
