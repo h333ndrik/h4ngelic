@@ -79,6 +79,7 @@ function fallback(message) {
   stage.classList.remove('is-ready', 'is-boot-slow');
   stage.classList.add('is-fallback', 'is-boot-failed');
   document.documentElement.dataset.heroLoading = 'false';
+  document.dispatchEvent(new CustomEvent('h4:herofailed', { detail: { message } }));
   status.textContent = message;
   document.getElementById('interaction-hint').textContent = 'h4ngelic';
   for (const id of ['pause-control', 'speed-control', 'reveal-control']) {

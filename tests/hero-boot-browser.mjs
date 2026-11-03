@@ -162,7 +162,7 @@ try {
       assert.doesNotMatch(booting.stage, /is-ready/);
       assert.ok(booting.posterDisplay !== 'none' && booting.posterOpacity >= .79, `The poster is immediately visible: ${JSON.stringify(booting)}`);
       assert.equal(booting.animation, 'hero-poster-breathe');
-      await page.screenshot({ path: new URL(`booting-${width}.png`, output).pathname });
+      await page.screenshot({ path: new URL(`booting-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await page.waitForTimeout(750);
       const ready = await bootState(page);
@@ -183,7 +183,7 @@ try {
       assert.match(slowState.stage, /is-boot-slow/);
       assert.match(slowState.status, /taking longer than usual/);
       assert.ok(slowState.posterOpacity >= .79 && slowState.canvasDisplay !== 'none', 'The slow state keeps the permanent poster visible.');
-      await slow.screenshot({ path: new URL(`slow-${width}.png`, output).pathname });
+      await slow.screenshot({ path: new URL(`slow-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       assert.ok(heldRoute, 'The slow fixture held the real hero module request.');
       await heldRoute.abort('failed');
       await slow.locator('#stage.is-boot-failed').waitFor({ timeout: 5000 });
@@ -204,6 +204,14 @@ try {
       assert.equal(failedState.canvasDisplay, 'none');
       assert.match(failedState.status, /Static h4ngelic wordmark\. The interactive version could not be loaded\./);
       await failed.screenshot({ path: new URL(`failed-${width}.png`, output).pathname });
+      await failed.locator('[data-global-index] summary').click();
+      await failed.locator('[data-index-page="about"]').click();
+      await failed.locator('html[data-page="about"]').waitFor();
+      await failed.locator('[data-floating-brand]').click();
+      await failed.locator('html[data-page="home"]').waitFor();
+      await failed.locator('#stage.is-boot-failed').waitFor({ timeout: 5000 });
+      const failedAgain = await bootState(failed);
+      assert.equal(failedAgain.posterOpacity, 1, 'A failed hero stays failed after leaving and returning Home.');
       await failed.close();
 
       const auditedHome = await cursorAudit(page, '/', width);

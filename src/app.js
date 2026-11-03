@@ -48,6 +48,7 @@ const heroReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const heroBootTimeoutMs = 6000;
 let heroBootTimer = 0;
 let heroSceneReady = false;
+let heroBootFailed = false;
 let moshTransitions = null;
 let renderRevision = 0;
 let renderedKind = '';
@@ -112,26 +113,32 @@ function setHeroStatus(message) {
 
 function markHeroReady() {
   heroSceneReady = true;
+  heroBootFailed = false;
   clearHeroBootTimer();
   document.documentElement.dataset.heroLoading = 'false';
   const stage = heroStage();
   stage?.classList.remove('is-boot-slow', 'is-boot-failed', 'is-fallback');
 }
 
-function markHeroFailed(error) {
+function showHeroFailure(message = 'Static h4ngelic wordmark. The interactive version could not be loaded.') {
   clearHeroBootTimer();
   heroSceneReady = true;
+  heroBootFailed = true;
   document.documentElement.dataset.heroLoading = 'false';
   const stage = heroStage();
   stage?.classList.remove('is-ready', 'is-boot-slow');
   stage?.classList.add('is-boot-failed', 'is-fallback');
-  setHeroStatus('Static h4ngelic wordmark. The interactive version could not be loaded.');
+  setHeroStatus(message);
   const hint = hero?.querySelector('#interaction-hint');
   if (hint) hint.textContent = 'h4ngelic';
   for (const id of ['pause-control', 'speed-control', 'reveal-control']) {
     const control = document.getElementById(id);
     if (control) control.disabled = true;
   }
+}
+
+function markHeroFailed(error) {
+  showHeroFailure();
   console.error('Unable to load the interactive wordmark.', error);
 }
 
@@ -194,6 +201,10 @@ function prepareHero() {
   if (!hero) return;
   hero.hidden = false;
   configureHeroPoster();
+  if (heroBootFailed) {
+    showHeroFailure();
+    return;
+  }
   clearHeroBootTimer();
   const stage = heroStage();
   stage?.classList.remove('is-boot-slow', 'is-boot-failed');
@@ -228,6 +239,7 @@ function prepareHero() {
 }
 
 document.addEventListener('h4:heroready', markHeroReady);
+document.addEventListener('h4:herofailed', event => showHeroFailure(event.detail?.message));
 
 function currentURL() {
   // The downloadable preview uses hash routes so its pages work without a server.
