@@ -44,6 +44,9 @@ let stopMannequins = () => {};
 let heroObserver = null;
 let heroPreloadsActivated = false;
 const heroReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const heroBootTimeoutMs = 6000;
+let heroBootTimer = 0;
+let heroSceneReady = false;
 let moshTransitions = null;
 let renderRevision = 0;
 let renderedKind = '';
@@ -54,6 +57,58 @@ let stopConnectedWork = () => {};
 // records rather than retaining detached gallery nodes or image resources.
 const carouselPositions = new Map();
 const globalNavigation = initGlobalNavigation(document);
+
+function clearHeroBootTimer() {
+  if (!heroBootTimer) return;
+  clearTimeout(heroBootTimer);
+  heroBootTimer = 0;
+}
+
+function heroStage() {
+  return hero?.querySelector('#stage') || null;
+}
+
+function setHeroStatus(message) {
+  const status = hero?.querySelector('#scene-status');
+  if (status) status.textContent = message;
+}
+
+function markHeroReady() {
+  heroSceneReady = true;
+  clearHeroBootTimer();
+  document.documentElement.dataset.heroLoading = 'false';
+  const stage = heroStage();
+  stage?.classList.remove('is-boot-slow', 'is-boot-failed', 'is-fallback');
+}
+
+function markHeroFailed(error) {
+  clearHeroBootTimer();
+  heroSceneReady = true;
+  document.documentElement.dataset.heroLoading = 'false';
+  const stage = heroStage();
+  stage?.classList.remove('is-ready', 'is-boot-slow');
+  stage?.classList.add('is-boot-failed', 'is-fallback');
+  setHeroStatus('Static h4ngelic wordmark. The interactive version could not be loaded.');
+  const hint = hero?.querySelector('#interaction-hint');
+  if (hint) hint.textContent = 'h4ngelic';
+  for (const id of ['pause-control', 'speed-control', 'reveal-control']) {
+    const control = document.getElementById(id);
+    if (control) control.disabled = true;
+  }
+  console.error('Unable to load the interactive wordmark.', error);
+}
+
+function startHeroBoot() {
+  if (heroReducedMotion.matches || heroSceneReady) return;
+  document.documentElement.dataset.heroLoading = 'true';
+  if (heroBootTimer) return;
+  heroBootTimer = setTimeout(() => {
+    heroBootTimer = 0;
+    if (heroSceneReady || !hero || hero.hidden) return;
+    heroStage()?.classList.add('is-boot-slow');
+    setHeroStatus('The interactive wordmark is taking longer than usual.');
+  }, heroBootTimeoutMs);
+}
 
 function ensureHero() {
   if (!hero) {
@@ -102,30 +157,40 @@ function prepareHero() {
   if (!hero) return;
   hero.hidden = false;
   configureHeroPoster();
+  clearHeroBootTimer();
+  const stage = heroStage();
+  stage?.classList.remove('is-boot-slow', 'is-boot-failed');
+  heroSceneReady = Boolean(stage?.classList.contains('is-ready') || stage?.classList.contains('is-poster-static'));
+  document.documentElement.dataset.heroLoading = heroSceneReady ? 'false' : 'true';
   if (heroReducedMotion.matches && heroPosterSettings.reducedMotionStatic) {
-    const stage = hero.querySelector('#stage');
     stage?.classList.add('is-poster-static');
     const status = hero.querySelector('#scene-status');
     if (status) status.textContent = 'Static h4ngelic wordmark. Motion is disabled by your device preference.';
+    heroSceneReady = true;
+    document.documentElement.dataset.heroLoading = 'false';
     return;
   }
-  hero.querySelector('#stage')?.classList.remove('is-poster-static');
+  stage?.classList.remove('is-poster-static');
   // A direct Home anchor such as /#contact opens below the hero. Do not fetch
   // the Three.js chunk, font or texture until the hero actually approaches.
   if (startsOnHero()) activateHeroPreloads();
-  if (heroLoaded) return;
+  if (heroLoaded) {
+    if (!heroSceneReady) startHeroBoot();
+    return;
+  }
   heroObserver?.disconnect();
   heroObserver = new IntersectionObserver(([entry]) => {
     if (!entry.isIntersecting || heroLoaded || hero.hidden) return;
     heroLoaded = true;
     heroObserver.disconnect();
     activateHeroPreloads();
-    import('./main.js').catch((error) => {
-      console.error('Unable to load the interactive wordmark.', error);
-    });
+    startHeroBoot();
+    import('./main.js').catch(markHeroFailed);
   });
   heroObserver.observe(hero);
 }
+
+document.addEventListener('h4:heroready', markHeroReady);
 
 function currentURL() {
   // The downloadable preview uses hash routes so its pages work without a server.

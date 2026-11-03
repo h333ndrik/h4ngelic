@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-page="home">
+<html lang="en" data-page="home" data-hero-loading="true">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,6 +15,19 @@
       .hero #logo-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; transition: opacity var(--hero-poster-fade) ease; }
       .hero .stage.is-ready #logo-canvas { opacity: 1; }
       .hero .stage.is-ready .fallback { opacity: 0; }
+      .hero .stage.is-boot-failed #logo-canvas, .hero .stage.is-fallback #logo-canvas { display: none; }
+      .hero .stage.is-boot-failed .fallback, .hero .stage.is-boot-slow .fallback { opacity: 1; }
+      html[data-hero-loading='true'] .hero .stage:not(.is-ready):not(.is-poster-static):not(.is-boot-failed) .fallback {
+        animation: hero-poster-breathe 2.8s ease-in-out infinite;
+        will-change: transform, opacity;
+      }
+      @keyframes hero-poster-breathe {
+        0%, 100% { opacity: .8; transform: scale(.996); }
+        50% { opacity: 1; transform: scale(1.004); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html[data-hero-loading='true'] .hero .stage .fallback { animation: none; will-change: auto; }
+      }
       html:not([data-h4-styles-ready]) .hero > :not(.stage) { visibility: hidden; }
       :root { --hero-poster-image: url("__H4_HERO_POSTER_URL__"); --hero-poster-fade: __H4_HERO_POSTER_FADE_MS__ms; }
     </style>

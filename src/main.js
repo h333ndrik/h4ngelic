@@ -67,10 +67,18 @@ const controls = bindControls({
   onReveal: (value) => { revealEnabled = value; },
 });
 
+function markHeroReady() {
+  document.documentElement.dataset.heroLoading = 'false';
+  stage.classList.remove('is-boot-slow', 'is-boot-failed');
+  stage.classList.add('is-ready');
+  document.dispatchEvent(new CustomEvent('h4:heroready'));
+}
+
 function fallback(message) {
   running = false;
-  stage.classList.remove('is-ready');
-  stage.classList.add('is-fallback');
+  stage.classList.remove('is-ready', 'is-boot-slow');
+  stage.classList.add('is-fallback', 'is-boot-failed');
+  document.documentElement.dataset.heroLoading = 'false';
   status.textContent = message;
   document.getElementById('interaction-hint').textContent = 'h4ngelic';
   for (const id of ['pause-control', 'speed-control', 'reveal-control']) {
@@ -386,7 +394,7 @@ async function initialize() {
       stage.dataset.firstFrameHadArtwork = String(firstFrameHadArtwork);
       stage.dataset.firstFrameAt = String(firstFrameAt);
       stage.dataset.artworkRequestedAt = String(artworkRequestedAt);
-      stage.classList.add('is-ready');
+      markHeroReady();
       status.textContent = '3D wordmark ready. Use the animation controls below; pointer dragging is optional.';
       void startArtwork();
     }
