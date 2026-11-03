@@ -1,3 +1,14 @@
+# V3.1.2 final review state
+
+Updated 2026-11-03. Branch `v3.1.1-fixes` is pushed and clean. The full
+fix-by-fix result, real test outputs, performance numbers, screenshots and
+blockers are in [the final report](docs/V3.1.2-FINAL-REPORT.md). Do not
+restart completed work. Remaining blockers: real iPhone Safari (no device/iOS
+runtime), missing V3–V6/V22 acceptance criteria, and F14's real cross-browser /
+mannequin / legacy recovery checks. No merge or deployment.
+
+---
+
 # V3.1.2 — current continuation
 
 Updated 2026-11-02. Work continues on `v3.1.1-fixes`; every commit is pushed to
