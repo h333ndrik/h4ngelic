@@ -99,6 +99,7 @@ export function initSectionEntrance(root = document, selector = '[data-section-e
       armed = entries.some((entry) => entry.isIntersecting);
       measured = false;
       if (armed) schedule();
+      else stop();
     }, { rootMargin: ARM_MARGIN })
     : null;
   if (observer) for (const target of targets) observer.observe(target.element);
@@ -120,8 +121,7 @@ export function initSectionEntrance(root = document, selector = '[data-section-e
 
   return () => {
     disposed = true;
-    if (frame) owner.defaultView.cancelAnimationFrame(frame);
-    frame = 0;
+    stop();
     observer?.disconnect();
     for (const remove of listeners.splice(0)) remove();
   };
