@@ -16,7 +16,9 @@ build passed with exactly the four M4A files and unchanged hashes. Evidence:
 `docs/validation/world-sound/merge-pass/`.
 
 No V3.1-owned code changed. The known mobile cold-WebGL failure remains an
-OBSERVATION on base and branch. Push and PR handoff are next; no merge/deploy.
+OBSERVATION on base and branch. `v3.2-world-sound` was pushed and
+[PR #22](https://github.com/h333ndrik/h4ngelic/pull/22) opened against `main`.
+No merge or deployment occurred.
 
 ## Delivered
 
@@ -69,8 +71,9 @@ OBSERVATION on base and branch. Push and PR handoff are next; no merge/deploy.
 Hero first-touch cue, color-mapped ink impacts and THE OTHER SIDE ambience remain
 TODO. Do not implement them in this pass.
 
-Exact next checkpoint: push `v3.2-world-sound` and open the sound PR against
-`main`. Do not merge until the user explicitly requests it.
+Exact next checkpoint: user review and merge of PR #22. After explicit merge
+authorization, Vercel deploys `main` automatically; the automation must not merge
+it independently.
 
 # Current review checkpoint — V3.1.1
 

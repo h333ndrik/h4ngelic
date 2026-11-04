@@ -222,8 +222,9 @@ Post-merge-gate serial verification:
 - Production build: PASS, exactly four M4A files with unchanged hashes.
 
 Evidence is under `docs/validation/world-sound/merge-pass/`. The pre-existing
-mobile cold-WebGL failure remains an OBSERVATION outside audio scope. Push and
-PR handoff are the next checkpoint; this branch has not been merged.
+mobile cold-WebGL failure remains an OBSERVATION outside audio scope. Branch
+`v3.2-world-sound` was pushed and [PR #22](https://github.com/h333ndrik/h4ngelic/pull/22)
+opened against `main`. This branch has not been merged.
 
 ## Limitations and blockers
 

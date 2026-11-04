@@ -25,7 +25,8 @@ branch history. Do not modify `main`, V3.1-owned modules or `api/inquiry.js`.
 2. `git rebase origin/main` is complete: clean no-op, no conflicts.
 3. Post-rebase serial tests and production build are green; evidence is in
    `docs/validation/world-sound/merge-pass/`.
-4. Push `v3.2-world-sound` and open the PR against `main`.
+4. `v3.2-world-sound` is pushed and
+   [PR #22](https://github.com/h333ndrik/h4ngelic/pull/22) is open against `main`.
 5. User reviews and merges; Vercel then deploys `main` automatically.
 
 Nothing else merges with this branch. Do not merge without the user's explicit
@@ -45,8 +46,8 @@ request.
 - Hero first-touch cue, ink impact mapping and THE OTHER SIDE ambience remain
   TODO.
 
-Exact next checkpoint: complete the push/PR handoff, then run the live listening
-checklist after the user merges and Vercel deploys.
+Exact next checkpoint: user review and merge of PR #22. Do not merge from this
+task. After the user merges and Vercel deploys, run the live listening checklist.
 
 # V3.1.2 final review state
 
