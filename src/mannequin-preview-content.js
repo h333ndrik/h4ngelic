@@ -1,13 +1,22 @@
-import { mannequinPreviewConfig, mannequinVariant } from './mannequin-preview-config.js';
+import { mannequinPreviewConfig, mannequinVariant, mannequinVariantList } from './mannequin-preview-config.js';
 
 const defaultVariant = mannequinPreviewConfig.defaultVariant;
 const defaultProfile = mannequinVariant(defaultVariant);
 const design = mannequinPreviewConfig.design;
 
+function variantButtons() {
+  return mannequinVariantList().map((variant) => `<button
+        class="mannequin-preview-variant"
+        type="button"
+        data-mannequin-variant-option="${variant.key}"
+        aria-pressed="${String(variant.key === defaultVariant)}"
+        disabled>${variant.key} · ${variant.label}</button>`).join('');
+}
+
 /** Server-rendered placeholder. No canvas, Three.js module, GLB or design request. */
 export function renderMannequinPreview() {
   return `<figure class="mannequin-preview">
-    <div class="mannequin-preview-frame" data-mannequin-preview data-mannequin-variant="${defaultVariant}" data-mannequin-src="${defaultProfile.model}" data-mannequin-design-src="${design.url}" data-mannequin-state="deferred" role="img" aria-label="Female silver-chrome mannequin in a static A-pose preview">
+    <div class="mannequin-preview-frame" data-mannequin-preview data-mannequin-variant="${defaultVariant}" data-mannequin-src="${defaultProfile.model}" data-mannequin-design-src="${design.url}" data-mannequin-state="deferred" role="img" aria-label="Female mannequin preview in a static A-pose, three switchable shading variants">
       <svg class="mannequin-preview-poster" viewBox="0 0 220 600" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="mannequin-poster-silver" x1="0" y1="0" x2="1" y2="1">
@@ -26,11 +35,15 @@ export function renderMannequinPreview() {
         </g>
       </svg>
       <span class="mannequin-preview-ground" aria-hidden="true"></span>
-      <p class="sr-only" data-mannequin-status role="status">Static mannequin preview waits until it is visible.</p>
+      <p class="sr-only" data-mannequin-status role="status">Mannequin preview waits until it is visible.</p>
     </div>
     <figcaption>
-      <span class="mannequin-preview-meta"><span>procedural female form</span><button class="mannequin-preview-design" type="button" data-mannequin-design-toggle aria-pressed="false" disabled>${design.label}</button></span>
-      <span class="mannequin-preview-status">static / ${defaultVariant.toLowerCase()} · ${defaultProfile.label}</span>
+      <span class="mannequin-preview-meta">
+        <span class="mannequin-preview-variants" role="group" aria-label="Mannequin variant">${variantButtons()}</span>
+        <button class="mannequin-preview-design" type="button" data-mannequin-design-toggle aria-pressed="false" aria-disabled="true" aria-describedby="mannequin-design-hint" disabled>${design.label}</button>
+        <span class="mannequin-preview-hint" id="mannequin-design-hint" data-mannequin-design-hint>no decals on the sculpted uv layout</span>
+      </span>
+      <span class="mannequin-preview-status">${defaultVariant.toLowerCase()} · ${defaultProfile.label} · drag to turn</span>
     </figcaption>
   </figure>`;
 }

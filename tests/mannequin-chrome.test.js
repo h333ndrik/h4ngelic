@@ -174,12 +174,16 @@ test('the 4096 atlas preserves the 0.48828125 mm-per-pixel scale and transparent
   assert.equal(design.wrap, 'clamp');
 });
 
-test('one config is the source for default B, both variants and the deferred design', () => {
-  assert.equal(mannequinPreviewConfig.defaultVariant, 'B');
-  assert.equal(mannequinVariant().model, '/models/mannequin-female-b.glb');
+test('one config is the source for default C, all three variants and the deferred design', () => {
+  assert.equal(mannequinPreviewConfig.defaultVariant, 'C');
+  assert.match(mannequinVariant().model, /^\/models\/mannequin-c\.[a-f0-9]+\.glb$/);
   assert.equal(mannequinVariant('A').model, '/models/mannequin-female-a.glb');
-  assert.equal(mannequinVariant('missing').shading, 'B');
-  assert.equal(mannequinPreviewConfig.chrome.envMapIntensity, 1.35);
+  assert.equal(mannequinVariant('B').model, '/models/mannequin-female-b.glb');
+  assert.equal(mannequinVariant('missing').shading, 'C');
+  assert.equal(mannequinVariant('A').envMapIntensity, 1.35);
+  assert.equal(mannequinVariant('B').envMapIntensity, 1.35);
+  assert.equal(mannequinVariant('C').envMapIntensity, 0.85);
+  assert.equal(mannequinVariant('C').design, false);
   assert.equal(mannequinPreviewConfig.chrome.environmentSigma, 0.035);
   assert.deepEqual(mannequinPreviewConfig.chrome.environmentSizes, { desktop: 256, compact: 128 });
   assert.equal(mannequinPreviewConfig.design.placement.widthMM, 120);

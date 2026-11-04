@@ -278,8 +278,8 @@ test('Works has three unnumbered major rubrics, subordinate archive labels and a
   const model = markup.match(/<section[^>]+data-deferred-model>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(model);
   assert.match(model, /^<h3[^>]+>3d model<\/h3>/);
-  assert.match(model, /data-mannequin-preview data-mannequin-variant="B" data-mannequin-src="\/models\/mannequin-female-b\.glb" data-mannequin-design-src="\/textures\/designs\/demo-mark\.png" data-mannequin-state="deferred"/);
-  assert.match(model, /role="img" aria-label="Female silver-chrome mannequin in a static A-pose preview"/);
+  assert.match(model, /data-mannequin-preview data-mannequin-variant="C" data-mannequin-src="\/models\/mannequin-c\.[a-f0-9]+\.glb" data-mannequin-design-src="\/textures\/designs\/demo-mark\.png" data-mannequin-state="deferred"/);
+  assert.match(model, /role="img" aria-label="Female mannequin preview in a static A-pose, three switchable shading variants"/);
   assert.doesNotMatch(model, /<canvas|<img|data-flash-mannequin|three\.js|GLTFLoader/);
 });
 
