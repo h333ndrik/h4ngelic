@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-11-04T19:12:53.689Z",
+  "gesture": "extreme 12-step touch fling, 120 Hz",
+  "limitDegrees": 39.599999999999994,
+  "returnDelaySeconds": 2.5,
+  "before": {
+    "maximumRotationDegrees": 179.9912881313889,
+    "peakAtMs": 3850,
+    "maximumLinearVelocity": 7.000000000000002,
+    "maximumAngularVelocity": 5.000000000000001,
+    "settledAtMs": null
+  },
+  "after": {
+    "maximumRotationDegrees": 39.600000000000044,
+    "peakAtMs": 500,
+    "maximumLinearVelocity": 4.200000000000001,
+    "maximumAngularVelocity": 1.7409574831719534,
+    "settledAtMs": 3408.333333333333
+  },
+  "assertions": {
+    "legacyOver90Degrees": true,
+    "boundedRotation": true,
+    "boundedVelocities": true,
+    "settlesInWindow": true
+  }
+}

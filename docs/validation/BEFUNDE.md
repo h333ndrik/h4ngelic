@@ -1,7 +1,8 @@
 # Befund-Registry — V3.2
 
-Verification baseline: `945b551` (`origin/v3.1.1-fixes`), production build
-`945b5515b0a0`. A registry entry is evidence, not a promise: `fixed` means the
+Verification baseline: `831737c` (`origin/v3.1.1-fixes`), production build
+`831737ce85e6`. Batch 1 commits: `735ea49`, `ba5f3a3`, `f12423a`, `53df27c`,
+`e3028c8`. A registry entry is evidence, not a promise: `fixed` means the
 implementation exists and its named automated proof passes at this baseline.
 `verified-by-user` is used only after the user explicitly confirms the result.
 
@@ -39,17 +40,43 @@ implementation exists and its named automated proof passes at this baseline.
 | B-019 | `--rubric-gap` | Shared spacing must prevent rubrics from sticking together. | fixed | `1e78966` | `docs/validation/R2B-HEADINGS/results.json`; `tokens.json` | Structure contract at 1440/390/320 plus scoped token audit. |
 | B-020 | Artwork viewer | Arrows flank the counter; counter uses `NN/ NN`, including `07/ 08`. | fixed | `4ada015` | `docs/validation/R3B-URLS/ARTWORK-NAVI.json`; `typography.json` | Typography contract: disjoint flanking columns and `07/ 08`. |
 
+## Findings B-F1…B-F16 — seeded 2026-11-04
+
+These are new user-reported findings from the 2026-11-04 review. They are
+deliberately seeded as `open`; no implementation or verification evidence exists
+at seed time. Every row references the user's chat/preview report and the
+screenshot supplied there.
+
+| ID | Ort/Element | Befund (User-Wortlaut kurz) | Status | Fix-Commit | Evidence | Verifiziert-durch |
+| --- | --- | --- | --- | --- | --- | --- |
+| B-F1 | Custom cursor overlay | Cursor friert beim Fenster-Verlassen ein; hide-on-leave ist unwirksam. | fixed | `ba5f3a3` | `docs/validation/GATEPREP/BATCH-1/phase0/results.json` (`after: "true"` = vorher); `gallery/results.json` | `tests/cursor-kernel-browser.mjs` (pointerout/idle/leave/blur/visibility); `tests/gateprep-batch1-browser.mjs` @1440/390/320. |
+| B-F2 | Hero bottom bar | `creative/about/contact` plus controls sollen nicht mehr fixed sein, sondern normal im Hero-Flow mitscrollen; R7-Vertrag entfällt (B-007/B-008 damit überholt). | fixed | `f12423a` | `docs/validation/GATEPREP/BATCH-1/gallery/results.json`; `after-bar-top-*.png` / `after-bar-scrolled-*.png`; vorher `phase0/bar-scrolled-*.png` | `tests/v32-micro-browser.mjs`, `tests/v31-motion-browser.mjs`; batch-1 suite: `position: absolute`, `insideHero: true`, `navTop 832 → 652` bei 180 px Scroll. |
+| B-F3 | Hero logo physics | Mobile Touch-Fling schleudert das Logo edge-on. | fixed | `53df27c` | `docs/validation/GATEPREP/BATCH-1/gallery/fling-physics.json`; `after-fling-*-{350,650,1000}.png`; vorher `phase0/fling-*-650.png` | `tests/physics.test.js`; `tests/gateprep-batch1-physics.mjs`: 179,99° → 39,60°, Ruhe nach 3,408 s, Geschwindigkeiten ≤ Token. |
+| B-F4 | Creative rubric row | `jewellery`/`tools` kleben; `--rubric-gap` greift live nicht. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F5 | Slash alignment/type | Slash-Abstand zwischen Headings inkonsistent; Größen unvollständig. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F6 | NAAVI total/format | `03 / 03` soll `04/ 04` werden; Other Side bleibt viertes Kapitel, nur der INDEX-Eintrag wurde entfernt. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F7 | Creative tattoo route | `/creative/onskin` soll `/creative/tattoos` heißen und `on skin` zu `tattoos` werden; 301 inklusive Deep-Links. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F8 | VISIT counter | `visit 0000` soll permanent im Ghost-Stil wie der HOLD-4-Hinweis erscheinen, ohne Link oder Hover. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F9 | Inquiry submit | `SEND MESSAGE` soll `send message` heißen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F10 | Inquiry labels | Labels sollen `your name`, `how to reach you`, `what's on your mind?` lauten. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F11 | About link | `MORE ABOUT` soll `more about` heißen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F12 | Cross-link rows | Unterrubrik-Cross-Links sollen bündig und mit gleichen Abständen stehen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F13 | Artwork viewer arrows | Pfeile haben falschen Abstand/Seite oder überschneiden sich. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F14 | Tool detail heading | `/creative/tools/m4shlab` rendert möglicherweise fälschlich `3d model`. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F15 | Tool detail navigation | Tool-Seiten brauchen die obere Unterrubriken-Leiste wie `/creative/onskin`; Breadcrumb `home / tools` entfernen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F16 | Tool detail footer line | Weißen Trennstrich und Fakten-Punkte-Zeile unten entfernen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+
+**B-016 remains open:** the dual Impressum links exist, but `VOLLNAME`, address,
+email and USt./§19 data are still user-supplied launch prerequisites.
+
 ## Not fixed
 
 - **B-016 remains open.** The dual-footer link requirement is fixed, but the
   public legal page intentionally still contains unresolved placeholders. It
   must not be marked complete until real legal details are supplied.
-- The token audit additionally reports three non-registry hardcodes:
-  `.footer-smash { text-transform: lowercase; }` and the two
-  `.secret-message.is-discovered { opacity: .35; }` rules in
-  `src/easter-eggs.css`. They duplicate `--h4-ghost-transform` and
-  `--h4-ghost-opacity`; this STRUCT run documents them instead of changing
-  product behavior.
+- Token cleanup is no longer open: `735ea49` removed the three hardcodes in
+  `src/easter-eggs.css`; `tests/tokens-audit.mjs` reports `passed: true` with
+  0 duplicated literals and the visual snapshot shows 0 changed channels.
 
 No entry is marked `verified-by-user` without a fresh explicit user
 confirmation.

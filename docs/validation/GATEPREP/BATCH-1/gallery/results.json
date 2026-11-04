@@ -1,0 +1,143 @@
+{
+  "checkedAt": "2026-11-04T19:13:14.815Z",
+  "base": "http://127.0.0.1:55230",
+  "build": "831737ce85e6",
+  "profiles": [
+    {
+      "width": 1440,
+      "cursor": {
+        "opacity": 0,
+        "visibility": "hidden",
+        "visible": "false"
+      },
+      "bar": {
+        "insideHero": true,
+        "position": "absolute",
+        "controlsPosition": "absolute",
+        "nav": {
+          "top": 832,
+          "bottom": 876,
+          "left": 1083.828125,
+          "right": 1405
+        },
+        "controls": {
+          "top": 832,
+          "bottom": 876,
+          "left": 35,
+          "right": 237.9375
+        },
+        "heroHeight": 900,
+        "docHeight": 4213
+      },
+      "scrolled": {
+        "scrollY": 180,
+        "navTop": 652,
+        "controlsTop": 652,
+        "docHeight": 4213,
+        "heroBarState": null
+      },
+      "hit": {
+        "x": 374.40000000000003,
+        "y": 359.99999999999994
+      },
+      "released": {
+        "dragging": false,
+        "width": 1440,
+        "height": 900
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "cursor": {
+        "opacity": 0,
+        "visibility": "hidden",
+        "visible": "false"
+      },
+      "bar": {
+        "insideHero": true,
+        "position": "absolute",
+        "controlsPosition": "absolute",
+        "nav": {
+          "top": 736,
+          "bottom": 780,
+          "left": 120.265625,
+          "right": 368
+        },
+        "controls": {
+          "top": 684,
+          "bottom": 728,
+          "left": 22,
+          "right": 368
+        },
+        "heroHeight": 844,
+        "docHeight": 3401
+      },
+      "scrolled": {
+        "scrollY": 180,
+        "navTop": 556,
+        "controlsTop": 504,
+        "docHeight": 3401,
+        "heroBarState": null
+      },
+      "hit": {
+        "x": 89.7,
+        "y": 402.3887106132507
+      },
+      "released": {
+        "dragging": false,
+        "width": 390,
+        "height": 844
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "cursor": {
+        "opacity": 0,
+        "visibility": "hidden",
+        "visible": "false"
+      },
+      "bar": {
+        "insideHero": true,
+        "position": "absolute",
+        "controlsPosition": "absolute",
+        "nav": {
+          "top": 736,
+          "bottom": 780,
+          "left": 66.15625,
+          "right": 298
+        },
+        "controls": {
+          "top": 684,
+          "bottom": 728,
+          "left": 22,
+          "right": 298
+        },
+        "heroHeight": 844,
+        "docHeight": 3436
+      },
+      "scrolled": {
+        "scrollY": 180,
+        "navTop": 556,
+        "controlsTop": 504,
+        "docHeight": 3436,
+        "heroBarState": null
+      },
+      "hit": {
+        "x": 73.60000000000001,
+        "y": 395.1483336639404
+      },
+      "released": {
+        "dragging": false,
+        "width": 320,
+        "height": 844
+      },
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failures": []
+}
