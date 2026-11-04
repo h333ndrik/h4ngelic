@@ -9,7 +9,7 @@ test('homepage keeps four horizontal real category routes and a static creative 
   const markup = renderHomepageSections();
   const selected = markup.split('</section>')[0];
   assert.deepEqual([...selected.matchAll(/class="category-link" href="([^"]+)"/g)].map((match) => match[1]), [
-    '/creative/onskin', '/creative/jewellery', '/creative/tools', '/creative/more',
+    '/creative/tattoos', '/creative/jewellery', '/creative/tools', '/creative/more',
   ]);
   assert.match(selected, /<span class="kinetic-heading-text">01\/ creative<\/span>/);
   assert.doesNotMatch(selected, /section-route-link/);
@@ -22,7 +22,7 @@ test('homepage keeps four horizontal real category routes and a static creative 
 test('real category pages select their own content while /creative retains the complete archive', () => {
   const cases = [
     ['all', ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'tools', 'more'], 9, '01/ creative'],
-    ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'on skin'],
+    ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'tattoos'],
     ['flashes', ['flashes'], [], 0, 'FLASHES'],
     ['jewellery', ['jewellery'], ['jewellery'], 0, 'jewellery'],
     ['more', ['digital-artworks', 'analog-photography'], ['more'], 1, 'more'],
@@ -38,7 +38,7 @@ test('real category pages select their own content while /creative retains the c
     assert.equal((markup.match(/<img /g) || []).length, imageCount, 'Only real supplied images from the selected route render.');
     const headingClass = context === 'more' ? 'page-heading sr-only' : context === 'all' ? 'page-heading numbered-heading' : 'page-heading';
     assert.ok(markup.includes(`<h1 class="${headingClass}" id="work-page-title">${heading}</h1>`));
-    for (const href of ['/creative/onskin', '/creative/jewellery', '/creative/tools', '/creative/more']) assert.ok(markup.includes(`href="${href}"`));
+    for (const href of ['/creative/tattoos', '/creative/jewellery', '/creative/tools', '/creative/more']) assert.ok(markup.includes(`href="${href}"`));
     assert.doesNotMatch(markup, /href="\/work(?:\/|#)/);
     const ids = [...markup.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
     assert.equal(new Set(ids).size, ids.length, `Duplicate anchors in ${context} context`);
@@ -116,21 +116,21 @@ test('configured Instagram links remain safe, optional and separate from inquiry
   }
 });
 
-test('on skin labels the Tattoo archive without changing its identity or Home copy', () => {
+test('tattoos labels the Tattoo archive without changing its identity or Home copy', () => {
   const group = siteContent.workGroups.find(entry => entry.id === 'tattoos');
   assert.equal(group.label, 'tattoos');
-  assert.equal(group.archiveLabel, 'on skin');
+  assert.equal(group.archiveLabel, 'tattoos');
   const archive = renderWorkPage('tattoos');
-  assert.match(archive, /<h1 class="page-heading" id="work-page-title">on skin<\/h1>/);
+  assert.match(archive, /<h1 class="page-heading" id="work-page-title">tattoos<\/h1>/);
   assert.match(archive, /data-work-context="tattoos"/);
-  assert.match(archive, /<a class="filter-link is-active" href="\/creative\/onskin" aria-current="page">on skin<\/a>/);
+  assert.match(archive, /<a class="filter-link is-active" href="\/creative\/tattoos" aria-current="page">tattoos<\/a>/);
   assert.match(archive, /<a href="\/creative\/jewellery">jewellery /);
   assert.match(archive, /<a href="\/creative\/more">more /);
   const all = renderWorkPage('all');
   assert.match(all, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow"/);
-  assert.match(all, /href="\/creative\/onskin"[^>]*>on skin<\/a>/);
+  assert.match(all, /href="\/creative\/tattoos"[^>]*>tattoos<\/a>/);
   const home = renderHomepageSections();
-  assert.match(home, /<a class="category-link" href="\/creative\/onskin"><span[^>]*>[^<]*<span[^>]*><span>tattoos<\/span>/);
+  assert.match(home, /<a class="category-link" href="\/creative\/tattoos"><span[^>]*>[^<]*<span[^>]*><span>tattoos<\/span>/);
 });
 
 test('category routes retain safe navigation, visible art and legacy unknown-category fallback', () => {
@@ -272,7 +272,7 @@ test('Works has four unnumbered major rubrics, subordinate archive labels and an
   assert.match(markup, /id="group-tools-title"[^>]*><span class="archive-scroll-label">tools<\/span><\/h2>/);
   assert.doesNotMatch(markup, /id="group-tools-title"[^>]*><a/);
   const subordinate = [...markup.matchAll(/<h3 class="archive-category-heading(?: rubric-category-heading)?"[^>]*>(?:<a[^>]*>)?([^<]+)(?:<\/a>)?<\/h3>/g)].map(match => match[1]);
-  assert.deepEqual(subordinate, ['on skin', 'flashes', '3d model', 'digital artworks', 'analog photography']);
+  assert.deepEqual(subordinate, ['tattoos', 'flashes', '3d model', 'digital artworks', 'analog photography']);
   assert.deepEqual([...markup.matchAll(/data-tool-entry="([^"]+)"/g)].map(match => match[1]), ['m4shlab', 'thr4ce']);
   assert.doesNotMatch(markup, /work-subfilters|SELECTED WORKS|selected works/i);
   const numberedAndCategoryHeadings = [...markup.matchAll(/<h[123]\b[^>]*>[\s\S]*?<\/h[123]>/g)].map(match => match[0]).join('');

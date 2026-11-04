@@ -177,8 +177,8 @@ try {
 
       if (path === '/creative') {
         const filters = links.filter(link => link.surface === 'filter');
-        assert.deepEqual(filters.map(link => link.text), ['on skin', 'jewellery', 'tools', 'more']);
-        assert.deepEqual(filters.map(link => link.href), ['/creative/onskin', '/creative/jewellery', '/creative/tools', '/creative/more']);
+        assert.deepEqual(filters.map(link => link.text), ['tattoos', 'jewellery', 'tools', 'more']);
+        assert.deepEqual(filters.map(link => link.href), ['/creative/tattoos', '/creative/jewellery', '/creative/tools', '/creative/more']);
         assert.ok(filters.every(link => link.arrows === 0), 'Filter links never use the outbound arrow.');
       }
       if (path === '/about') {

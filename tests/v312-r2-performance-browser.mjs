@@ -26,7 +26,7 @@ try {
       isMobile: width < 600, hasTouch: width < 600, reducedMotion: 'no-preference' });
     await context.addInitScript(() => localStorage.setItem('h4ngelic.audio.v1', JSON.stringify({ muted: true, volume: .2 })));
     try {
-      for (const route of ['/creative/onskin', '/contact']) {
+      for (const route of ['/creative/tattoos', '/contact']) {
         const samples = [], requests = [], errors = [];
         let page;
         for (let warmup = 0; warmup < 2; warmup++) {

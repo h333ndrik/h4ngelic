@@ -8,8 +8,8 @@ test('canonical creative categories preserve legacy query links and redirect eve
   const legacy = resolveRoute('/work?category=tattoos#project');
   assert.equal(legacy.kind, 'work');
   assert.equal(legacy.category, 'tattoos');
-  assert.equal(legacy.canonicalPath, '/creative/onskin');
-  assert.equal(legacy.redirectPath, '/creative/onskin#project');
+  assert.equal(legacy.canonicalPath, '/creative/tattoos');
+  assert.equal(legacy.redirectPath, '/creative/tattoos#project');
   assert.equal(resolveRoute('/work/jewellery').category, 'jewellery');
   assert.equal(resolveRoute('/work?category=unknown').redirectPath, '/creative');
   assert.equal(resolveRoute('/work').redirectPath, '/creative');
@@ -24,7 +24,7 @@ test('canonical creative categories preserve legacy query links and redirect eve
 });
 
 test('new leaf archives, More and tool groups resolve while paintings remain reachable', () => {
-  for (const [category, path] of [['tattoos', '/creative/onskin'], ['flashes', '/creative/flashes'],
+  for (const [category, path] of [['tattoos', '/creative/tattoos'], ['flashes', '/creative/flashes'],
     ['jewellery', '/creative/jewellery'], ['analog-photography', '/creative/analog-photography'],
     ['digital-artworks', '/creative/digital-artworks'], ['paintings', '/creative/paintings'], ['more', '/creative/more']]) {
     const route = resolveRoute(path);
@@ -47,7 +47,7 @@ test('new leaf archives, More and tool groups resolve while paintings remain rea
   assert.equal(original.project, artworks.find(project => project.id === 'green-black-original'));
   assert.ok(routeDefinitions().some(route => route.canonicalPath === original.canonicalPath));
   assert.equal(resolveRoute('/work/digital-artworks/green-black-original').redirectPath, '/creative/green-black-original');
-  assert.equal(resolveRoute('/creative/onskin/tattoo-01').redirectPath, '/creative/tattoo-01');
+  assert.equal(resolveRoute('/creative/tattoos/tattoo-01').redirectPath, '/creative/tattoo-01');
 });
 
 test('only genuine published artwork can have a detail URL and duplicate URLs fail the build', () => {

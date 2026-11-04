@@ -16,7 +16,7 @@ const browser = await chromium.launch({
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 });
 const categories = ['tattoos', 'jewellery', 'tools', 'more'];
-const categoryPaths = ['/creative/onskin', '/creative/jewellery', '/creative/tools', '/creative/more'];
+const categoryPaths = ['/creative/tattoos', '/creative/jewellery', '/creative/tools', '/creative/more'];
 const frames = (page) => page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 const snapshot = (page) => page.evaluate(() => window.__H4_TEST__.snapshot());
 const errorsFor = (page) => {
@@ -263,7 +263,7 @@ try {
       artworks.push({ id: 'master-browser-fixture', slug: 'master-browser-fixture', category: 'tattoos', title: 'temporary browser fixture', description: 'Supplied reflection artwork used only in a browser test.', year: 2026,
         images: [{ src: '/assets/tattoo-texture.webp', alt: 'supplied artwork first test view', width: 1024, height: 1448 }, { src: '/assets/tattoo-texture.webp?detail=1', alt: 'supplied artwork second test view', width: 1024, height: 1448 }] });
     });
-    await page.locator('#selected-work .category-link[href="/creative/onskin"]').click();
+    await page.locator('#selected-work .category-link[href="/creative/tattoos"]').click();
     await pageKind(page, 'work');
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     const imageButton = page.locator('[data-horizontal-drift="tattoos"] .drift-artwork').first();
@@ -277,7 +277,7 @@ try {
     await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"] [data-inline-expanded]'));
     assert.equal(await imageButton.getAttribute('aria-pressed'), 'true');
     assert.equal(await page.locator('dialog[open]').count(), 0, 'Spatial enlargement stays inside the archive without a modal.');
-    assert.equal(new URL(page.url()).pathname + new URL(page.url()).hash, '/creative/onskin', 'Spatial enlargement keeps its archive and position mounted.');
+    assert.equal(new URL(page.url()).pathname + new URL(page.url()).hash, '/creative/tattoos', 'Spatial enlargement keeps its archive and position mounted.');
     await page.keyboard.press('Escape');
     assert.equal(await imageButton.getAttribute('aria-pressed'), 'false');
     assert.ok(Math.abs(await page.evaluate(() => scrollY) - focusedY) < 2, 'Closing spatial enlargement restores the exact archive scroll position.');
@@ -332,7 +332,7 @@ try {
     assert.ok(scrolled.scroll > anchored.scroll + 20, 'The ink-position check must exercise actual document scrolling.');
     assert.ok(Math.abs(scrolled.y + scrolled.scroll - anchored.y - anchored.scroll) < 1, 'Ink stays at its exact document position while the viewport moves.');
     const count = await page.locator('[data-ink-mark]').count();
-    await page.locator('.work-filters a[href="/creative/onskin"]').click(); await pageKind(page, 'work');
+    await page.locator('.work-filters a[href="/creative/tattoos"]').click(); await pageKind(page, 'work');
     assert.ok(await page.locator('[data-ink-mark]').count() <= count, 'Functional navigation must not add ink.');
     await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 13200 });
     await page.locator('[data-floating-brand]').click(); await pageKind(page, 'home');

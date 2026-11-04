@@ -22,7 +22,7 @@ async function assertLocalVisit(page, count = 1) {
   assert.equal(record.count, count);
   assert.ok(Number.isFinite(record.lastSeen));
   if (await page.locator('[data-visit-message]').count()) assert.equal(await page.locator('[data-visit-message]').first().textContent(), visitorMessage(count));
-  if (await page.locator('[data-visit-number]').count()) assert.equal(await page.locator('[data-visit-number]').textContent(), `visit ${String(count).padStart(3, '0')}`);
+  if (await page.locator('[data-visit-number]').count()) assert.equal(await page.locator('[data-visit-number]').textContent(), `visit ${String(count).padStart(4, '0')}`);
   assert.equal(await page.locator('.page-footer [data-visit-message]').count(), 1, 'The footer shares the seven-tier memory.');
 }
 
@@ -244,7 +244,7 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   assert.ok(Math.abs((hintBox.y + hintBox.height / 2 - spaceBox.y) / spaceBox.height - .48) < .01, 'Instruction stays centered over the final h4 reveal.');
   const counter = page.locator('[data-visit-counter-hotspot]');
   await counter.scrollIntoViewIfNeeded();
-  assert.equal((await counter.textContent()).trim(), 'visit 001');
+  assert.equal((await counter.textContent()).trim(), 'visit 0001');
   await revealCycle(page, counter, { touch });
   const counterBox = await counter.boundingBox();
   assert.ok(Math.abs(counterBox.x + counterBox.width / 2 - width / 2) < .6);
@@ -409,7 +409,7 @@ try {
     await assertLocalVisit(page);
     await page.reload({ waitUntil: 'networkidle' });
     await assertLocalVisit(page);
-    await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
+    await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
     await page.locator('.work-page').waitFor();
     await assertLocalVisit(page);
     if (!touch) await checkSeparatedReturn();

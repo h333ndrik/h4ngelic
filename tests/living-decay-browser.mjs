@@ -168,7 +168,7 @@ try {
       assert.ok((afterNavigation.ambient.memory.byKind.navigation || 0) > (beforeNavigation.ambient.memory.byKind.navigation || 0),
         'Native route capture also drives the existing shared image field.');
       await page.locator('.page-nav a[href="/creative"]').click();
-      await page.waitForURL(url => url.pathname === '/creative/onskin');
+      await page.waitForURL(url => url.pathname === '/creative/tattoos');
       await settled(page, 'xray');
       assert.equal((await state(page)).ambient.seed, first.ambient.seed);
 

@@ -77,8 +77,8 @@ try {
         build: document.documentElement.dataset.build || '',
       }));
       assert.equal(tools.heading, 'tools');
-      assert.deepEqual(tools.filters.map(item => item.text), ['on skin', 'jewellery', 'tools', 'more']);
-      assert.deepEqual(tools.filters.map(item => item.href), ['/creative/onskin', '/creative/jewellery', '/creative/tools', '/creative/more']);
+      assert.deepEqual(tools.filters.map(item => item.text), ['tattoos', 'jewellery', 'tools', 'more']);
+      assert.deepEqual(tools.filters.map(item => item.href), ['/creative/tattoos', '/creative/jewellery', '/creative/tools', '/creative/more']);
       assert.equal(tools.filters.find(item => item.current === 'page').href, '/creative/tools');
       assert.deepEqual(tools.cards.map(card => ({ id: card.id, href: card.href, externalHref: card.externalHref, target: card.target, teaser: card.teaser })), expected.map(card => ({
         id: card.id, href: `/creative/tools/${card.id}`, externalHref: card.href, target: '_blank', teaser: card.teaser })));

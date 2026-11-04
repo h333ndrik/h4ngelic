@@ -99,7 +99,7 @@ try {
         await target.hover(); await page.mouse.down();
         assert.equal(await cursor(target), expected(settings.cursor.other.base, '9 2', 'auto'));
         await page.mouse.move(10, 600); await page.mouse.up();
-        assert.equal(new URL(page.url()).pathname, '/creative/onskin', 'A cancelled press must preserve navigation.');
+        assert.equal(new URL(page.url()).pathname, '/creative/tattoos', 'A cancelled press must preserve navigation.');
       } else {
         assert.equal(await cursor(page.locator('body')), 'auto');
         assert.ok(!requests.some(href => /h4ngelic-cursor-other-(?:hover|pressed)/.test(href)),

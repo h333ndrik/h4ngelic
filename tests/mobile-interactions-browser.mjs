@@ -189,8 +189,8 @@ async function mobile(width, reduced = false) {
       assert.deepEqual(repeated.audio.map(event => event.mode), repeated.modes.map(event => event.mode));
     }
 
-    await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
-    await page.waitForURL(value => value.pathname === '/creative/onskin');
+    await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
+    await page.waitForURL(value => value.pathname === '/creative/tattoos');
     await settled(page, 'normal');
     await addBlankScrollSurface(page);
     const fixedBefore = await control.boundingBox();

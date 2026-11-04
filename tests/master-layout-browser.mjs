@@ -60,7 +60,7 @@ try {
       });
       assert.equal(work.heading, '01/ creative');
       assert.deepEqual(work.groups, ['tattoos', 'jewellery', 'tools', 'more']);
-      assert.deepEqual(work.subheads, ['on skin', 'flashes', '3d model', 'digital artworks', 'analog photography']);
+      assert.deepEqual(work.subheads, ['tattoos', 'flashes', '3d model', 'digital artworks', 'analog photography']);
       assert.equal(work.digitalSize, work.subordinateSize);
       if (width >= 800) assert.ok(work.subordinateSize < work.majorSize * .67);
       else assert.ok(work.majorSize >= work.subordinateSize);

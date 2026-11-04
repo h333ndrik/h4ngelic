@@ -60,7 +60,7 @@ async function cursorCoverage(page,profile,world) {
     else assert.equal(hover,expected,'Hover uses the same constant mode cursor.');
     records.push({kind,cursors,hover});await page.mouse.move(1,1);
   }
-  await page.goto(new URL('/creative/onskin',base).href,{waitUntil:'networkidle'});
+  await page.goto(new URL('/creative/tattoos',base).href,{waitUntil:'networkidle'});
   await page.locator('html[data-page="work"]').waitFor();await settle(page);
   return {world,records};
 }
@@ -114,7 +114,7 @@ async function workChrome(page,profile,world) {
   assert.ok(g.filters.left>g.brand.right && g.filters.right<g.index.left,'Work categories occupy the row between brand and INDEX.');
   assert.ok(Math.abs(g.filters.top-g.brand.top)<1 && g.filters.height>=44);
   assert.ok(!overlap(g.brand,g.filters)&&!overlap(g.index,g.filters));
-  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['on skin','jewellery','tools','more']);
+  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['tattoos','jewellery','tools','more']);
   const spacing=await page.evaluate(()=>{
     const strip=document.querySelector('.work-filters');strip.scrollLeft=0;
     const brand=document.querySelector('[data-floating-brand]').getBoundingClientRect();

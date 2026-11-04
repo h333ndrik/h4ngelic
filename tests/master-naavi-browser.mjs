@@ -58,20 +58,20 @@ try {
       assert.match(about.label,/01\/ 01, about/); assert.equal(about.href,'/'); assert.ok(about.hover);
       assert.ok(Math.abs(about.center-width/2)<1 && about.bottom<=844 && about.bottom>=824);
       await page.locator('[data-naavi]').focus(); await page.keyboard.press('Enter');
-      await page.locator('html[data-page="home"]').waitFor(); await at(page,0,3);
+      await page.locator('html[data-page="home"]').waitFor(); await at(page,0,4);
       assert.equal(await page.locator('.masthead .edition,.hero .identity').count(),0);
       const sequence=[];
-      for (const [current,selector] of [[1,'#selected-work'],[2,'#about-preview'],[3,'#contact'],[0,'#home-hero']]) {
+      for (const [current,selector] of [[1,'#selected-work'],[2,'#about-preview'],[3,'#contact'],[4,'[data-end-reveal]'],[0,'#home-hero']]) {
         await page.locator('[data-naavi]').click();
-        await at(page,current,3); await restingAt(page,selector);
+        await at(page,current,4); await restingAt(page,selector);
         const pose=await state(page); assert.ok(Math.abs(pose.center-width/2)<1 && Math.abs(pose.bottom-about.bottom)<1);
         sequence.push(pose);
       }
       // Reverse ordinary scroll must update the same component, without a click.
       await page.locator('#about-preview').evaluate(element => { document.activeElement?.blur(); element.scrollIntoView({behavior:'instant',block:'start'}); });
-      await at(page,2,3);
+      await at(page,2,4);
       await page.locator('#contact').evaluate(element => { element.focus({preventScroll:true}); element.scrollIntoView({behavior:'instant',block:'start'}); });
-      await at(page,3,3);
+      await at(page,3,4);
       const field = page.locator('#contact [data-inquiry-contact]');
       await field.evaluate(element => { const r=element.getBoundingClientRect(); scrollTo({top:scrollY+r.bottom-(innerHeight-40),behavior:'instant'}); element.focus({preventScroll:true}); });
       const fieldBottom = await field.evaluate(element => element.getBoundingClientRect().bottom);
@@ -89,10 +89,10 @@ try {
       }
       assert.equal((await state(page)).href,'/');
       assert.equal(await page.locator('.work-subfilters').count(),0);
-      await page.locator('[data-naavi]').click(); await page.locator('html[data-page="home"]').waitFor(); await at(page,0,3);
+      await page.locator('[data-naavi]').click(); await page.locator('html[data-page="home"]').waitFor(); await at(page,0,4);
       assert.deepEqual(errors,[]);
       reports.push({width,reduced,about,sequence,work,fieldBottom,errors});
-      console.log(`PASS NAAVI ${width}px reduced=${reduced}: Home00→03→00, Work01→04→Home incl. tools, About01/01, scroll sync, fixed dock, focus/input and cold-interior safety.`);
+      console.log(`PASS NAAVI ${width}px reduced=${reduced}: Home00→04→00, Work01→04→Home incl. tools, About01/01, scroll sync, fixed dock, focus/input and cold-interior safety.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL(process.env.H4_NAAVI_REDUCED_ONLY ? 'naavi-focus.json' : 'naavi.json',output),JSON.stringify({checkedAt:new Date().toISOString(),reports},null,2));

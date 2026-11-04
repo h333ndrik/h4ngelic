@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 const baseURL = process.env.H4_PREVIEW_URL || 'http://127.0.0.1:4173';
 const production = process.env.H4_EXPECT_DEPLOYMENT === 'production';
 const origin = process.env.H4_CANONICAL_ORIGIN || 'https://h4ngelic.com';
-const archiveIDs = ['onskin', 'flashes', 'jewellery', 'tools', 'more', 'analog-photography', 'digital-artworks', 'paintings'];
+const archiveIDs = ['tattoos', 'flashes', 'jewellery', 'tools', 'more', 'analog-photography', 'digital-artworks', 'paintings'];
 const archivePaths = archiveIDs.map(id => `/creative/${id}`);
 const toolPaths = ['/creative/tools/m4shlab', '/creative/tools/thr4ce'];
 const originalPath = '/creative/green-black-original';
@@ -17,12 +17,12 @@ const route = (path) => new URL(path, baseURL).href;
 
 const landing = await fetch(route('/creative'), { redirect: 'manual' });
 assert.equal(landing.status, 200, 'The Creative archive remains a real canonical landing route.');
-for (const [category, slug] of [['tattoos', 'onskin'], ['flashes', 'flashes'], ['jewellery', 'jewellery'], ['tools', 'tools'], ['more', 'more'], ['analog-photography', 'analog-photography'], ['digital-artworks', 'digital-artworks'], ['paintings', 'paintings']]) {
+for (const [category, slug] of [['onskin', 'tattoos'], ['tattoos', 'tattoos'], ['flashes', 'flashes'], ['jewellery', 'jewellery'], ['tools', 'tools'], ['more', 'more'], ['analog-photography', 'analog-photography'], ['digital-artworks', 'digital-artworks'], ['paintings', 'paintings']]) {
   const response = await fetch(route(`/creative?category=${category}`), { redirect: 'manual' });
   assert.equal(response.status, 301, 'Existing category-query bookmarks must redirect permanently to the canonical route.');
   assert.equal(new URL(response.headers.get('location'), baseURL).pathname, `/creative/${slug}`);
 }
-for (const [source, destination] of [['/work', '/creative'], ['/work/tattoos', '/creative/onskin'], ['/work/tools/m4shlab', '/creative/tools/m4shlab']]) {
+for (const [source, destination] of [['/work', '/creative'], ['/work/tattoos', '/creative/tattoos'], ['/work/onskin', '/creative/tattoos'], ['/creative/onskin', '/creative/tattoos'], ['/work/tools/m4shlab', '/creative/tools/m4shlab']]) {
   const response = await fetch(route(source), { redirect: 'manual' });
   assert.equal(response.status, 301, `${source} must permanently redirect.`);
   assert.equal(new URL(response.headers.get('location'), baseURL).pathname, destination);
@@ -129,7 +129,7 @@ try {
       assert.equal(await page.locator('[data-naavi]').isVisible(), true, 'The single NAAVI remains usable without JavaScript.');
       assert.equal(await page.locator('[data-naavi]').getAttribute('href'), '/#selected-work');
       assert.equal(await page.locator('.hero').count(), 1);
-      assert.equal(await page.locator('#selected-work .category-link[href="/creative/onskin"]').count(), 1);
+      assert.equal(await page.locator('#selected-work .category-link[href="/creative/tattoos"]').count(), 1);
       assert.deepEqual(await page.locator('#selected-work .category-link').allTextContents(), ['tattoos', 'jewellery', 'tools', 'more']);
       assert.equal(await page.locator('#selected-work .category-sublinks').count(), 0);
       assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
@@ -173,7 +173,7 @@ try {
         assert.equal(await page.locator('[data-naavi]').count(), 1);
       } else if (path.startsWith('/creative')) {
         const slug = path.split('/')[2] || 'all';
-        const category = slug === 'onskin' ? 'tattoos' : slug;
+        const category = slug;
         const expected = {
           all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
           tattoos: ['tattoos', 'flashes'], flashes: ['flashes'], jewellery: ['jewellery'], tools: [],
@@ -191,9 +191,9 @@ try {
           assert.equal(await original.isVisible(), true, 'Real Digital artwork is visible without an ink reveal.');
         }
         assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
-          ['/creative/onskin', '/creative/jewellery', '/creative/tools', '/creative/more']);
+          ['/creative/tattoos', '/creative/jewellery', '/creative/tools', '/creative/more']);
         const label = ['tattoos', 'jewellery', 'tools', 'more'].includes(category)
-          ? (category === 'tattoos' ? 'on skin' : category) : category === 'all' ? '01/ creative' : category.replaceAll('-', ' ').toUpperCase();
+          ? (category === 'tattoos' ? 'tattoos' : category) : category === 'all' ? '01/ creative' : category.replaceAll('-', ' ').toUpperCase();
         assert.equal(await page.locator('.work-page .page-heading').innerText(), label);
         assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);
         if (category === 'tools') {
@@ -219,7 +219,7 @@ try {
   console.log(`PASS SEO HTTP/no-JS (${production ? 'production' : 'preview'}): ${paths.length} semantic direct routes, unique metadata, confirmed canonicals, structured artist identity, legacy redirects, strict 404s, sitemap and robots.`);
 
   const live = await browser.newContext({ viewport: { width: 390, height: 844 } });
-  for (const path of ['/creative', '/creative/onskin', '/creative/tools', ...toolPaths, '/creative/more', '/creative/digital-artworks', ...artworkPaths, '/about', '/impressum', '/contact', '/contact?artwork=green-black-original', '/contact?artwork=tattoo-08', '/#contact']) {
+  for (const path of ['/creative', '/creative/tattoos', '/creative/tools', ...toolPaths, '/creative/more', '/creative/digital-artworks', ...artworkPaths, '/about', '/impressum', '/contact', '/contact?artwork=green-black-original', '/contact?artwork=tattoo-08', '/#contact']) {
     const livePage = await live.newPage();
     const errors = [];
     const requests = [];

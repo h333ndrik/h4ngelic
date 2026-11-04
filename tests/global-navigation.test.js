@@ -23,18 +23,19 @@ test('jumping to a short mobile section does not skip its chapter', () => {
   assert.equal(activeChapter([0, 900, 1180, 1560], 1180, 900), 2);
 });
 
-test('Home numbers the four visible chapters from 00 / 03 and cycles back to the hero', () => {
+test('Home numbers the four chapters plus the other side from 00 / 04 and cycles back to the hero', () => {
   const stops = naaviStops('home');
-  assert.deepEqual(stops.map(stop => stop.id), ['home-hero','selected-work','about-preview','contact']);
-  assert.equal(naaviState(stops, 0).total, 3);
-  assert.equal(naaviState(stops, 3).destination.id, 'home-hero');
+  assert.deepEqual(stops.map(stop => stop.id), ['home-hero','selected-work','about-preview','contact','other-side']);
+  assert.equal(naaviState(stops, 0).total, 4);
+  assert.equal(naaviState(stops, 4).destination.id, 'home-hero');
+  assert.equal(naaviState(stops, 4).label.startsWith('NAAVI: 04/ 04, the other side.'), true);
 });
 
 test('Work numbers the four main groups and HOME is a real route', () => {
   const stops = naaviStops('work');
-  assert.deepEqual(stops.map(stop => stop.label), ['home','creative / on skin','jewellery','tools','more']);
+  assert.deepEqual(stops.map(stop => stop.label), ['home','creative / tattoos','jewellery','tools','more']);
   assert.equal(naaviState(stops, 4).destination.href, '/');
-  assert.equal(stops[1].href, '/creative/onskin');
+  assert.equal(stops[1].href, '/creative/tattoos');
   assert.equal(stops[3].href, '/creative/tools');
   assert.equal(naaviState(stops, 1).total, 4);
   assert.equal(initialNaaviIndex({ kind:'artwork',category:'digital-artworks' }), 4);

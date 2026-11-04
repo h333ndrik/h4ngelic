@@ -51,7 +51,13 @@ try {
       await recognitionPage.goto(new URL('/',base).href,{waitUntil:'networkidle'});
       await recognitionPage.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
       const line=recognitionPage.locator('[data-returning-visitor]');
-      assert.equal(await line.isVisible(),false,'The first visit has no recognition line.');
+      if (width < 600) {
+        // B-F17/21: touch keeps the ghost greeting visible from the first visit.
+        await line.waitFor({state:'visible'});
+        assert.equal(await line.evaluate(el=>Number(getComputedStyle(el).opacity)),.35,'Touch starts with the ghost greeting.');
+      } else {
+        assert.equal(await line.isVisible(),false,'The first visit keeps the desktop greeting at rest hidden.');
+      }
       const initialHeight=await recognitionPage.evaluate(()=>document.documentElement.scrollHeight);
       await recognitionPage.reload({waitUntil:'networkidle'});
       await recognitionPage.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
@@ -72,7 +78,13 @@ try {
       await recognitionPage.screenshot({path:new URL(`returning-${width}-${reduced}.png`,out).pathname});
       await recognitionPage.evaluate(()=>localStorage.clear());
       await recognitionPage.reload({waitUntil:'networkidle'});
-      assert.equal(await line.isVisible(),false,'Clearing local memory restores first-visit behaviour.');
+      await recognitionPage.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
+      if (width < 600) {
+        await line.waitFor({state:'visible'});
+        assert.equal((await line.textContent()).trim(),'nice to meet you.','Clearing local memory restores the first-visit ghost greeting.');
+      } else {
+        assert.equal(await line.isVisible(),false,'Clearing local memory restores first-visit behaviour.');
+      }
     } finally { await recognitionContext.close(); }
     const context = await browser.newContext({ viewport:{width,height:844}, deviceScaleFactor:1,
       isMobile:width<600, hasTouch:width<600, reducedMotion:reduced?'reduce':'no-preference' });
@@ -169,7 +181,7 @@ try {
       assert.equal(await page.locator('.footer-impressum').count(),2,'Both mode footers expose Impressum.');
       await page.screenshot({path:new URL(`other-${width}-${reduced}.png`,out).pathname});
       await mode(page,'normal');
-      await page.goto(new URL('/creative/onskin',base).href,{waitUntil:'networkidle'});
+      await page.goto(new URL('/creative/tattoos',base).href,{waitUntil:'networkidle'});
       await page.locator('html[data-page="work"]').waitFor();
       // Work mounts optional carousel enhancements before h4:pagechange
       // refreshes the newly rendered footer. data-page alone is not route completion.

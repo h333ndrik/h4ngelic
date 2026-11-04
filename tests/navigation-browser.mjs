@@ -155,8 +155,8 @@ try {
   try {
     const page = await direct.newPage();
     const { requests, errors } = track(page);
-    await page.goto(routeURL('/creative/onskin'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/creative/onskin');
+    await page.goto(routeURL('/creative/tattoos'), { waitUntil: 'domcontentloaded' });
+    await pageKind(page, 'work', '/creative/tattoos');
     const token = (await probe(page)).documentToken;
     const template = await page.locator('#hero-template').count();
     if (template) assert.equal(await page.locator('.hero, #logo-canvas').count(), 0, 'Prerendered interior hero markup must stay inert.');
@@ -227,8 +227,8 @@ try {
   try {
     const page = await historyContext.newPage();
     const { errors } = track(page);
-    await page.goto(routeURL('/creative/onskin'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/creative/onskin');
+    await page.goto(routeURL('/creative/tattoos'), { waitUntil: 'domcontentloaded' });
+    await pageKind(page, 'work', '/creative/tattoos');
     const token = (await probe(page)).documentToken;
     // Give an empty real archive a deterministic scroll range without adding
     // fake artwork or changing repository content. The style survives SPA renders.
@@ -256,11 +256,11 @@ try {
     await scroll(340);
     await activate('/about', 'about');
     await scroll(620);
-    await activate('/creative/onskin', 'work');
+    await activate('/creative/tattoos', 'work');
     await scroll(930);
     for (const [direction, path, kind, top] of [
-      ['back', '/about', 'about', 620], ['back', '/creative/onskin', 'work', 340],
-      ['forward', '/about', 'about', 620], ['forward', '/creative/onskin', 'work', 930],
+      ['back', '/about', 'about', 620], ['back', '/creative/tattoos', 'work', 340],
+      ['forward', '/about', 'about', 620], ['forward', '/creative/tattoos', 'work', 930],
     ]) {
       if (direction === 'back') await page.goBack(); else await page.goForward();
       await pageKind(page, kind, path);
@@ -288,11 +288,11 @@ try {
     const contactSaved = await page.evaluate(() => scrollY);
     assert.ok(Math.abs(contactSaved - contactStart) > 20, 'The saved Contact position must differ from its anchor position.');
     await page.goBack();
-    await pageKind(page, 'work', '/creative/onskin');
+    await pageKind(page, 'work', '/creative/tattoos');
     await page.waitForFunction(() => Math.abs(scrollY - 930) < 2);
     await finishedTransition(page);
     await assertSameDocument(page, token);
-    await assertTransitionCommit(page, '/creative/onskin', 930, 'page-content');
+    await assertTransitionCommit(page, '/creative/tattoos', 930, 'page-content');
     await page.goForward();
     await pageKind(page, 'home', '/#contact');
     await finishedTransition(page);
@@ -311,8 +311,8 @@ try {
     await fallback.addInitScript(() => { Object.defineProperty(document, 'startViewTransition', { value: undefined, configurable: true }); });
     const page = await fallback.newPage();
     const { requests, errors } = track(page);
-    await page.goto(routeURL('/creative/onskin'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/creative/onskin');
+    await page.goto(routeURL('/creative/tattoos'), { waitUntil: 'domcontentloaded' });
+    await pageKind(page, 'work', '/creative/tattoos');
     const token = (await probe(page)).documentToken;
     await indexNavigate(page, 'about', { touch: true });
     await pageKind(page, 'about', '/about');
@@ -321,7 +321,7 @@ try {
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://h4ngelic.com/about');
     assert.equal(await page.locator('#page-content').evaluate((element) => element === document.activeElement), true);
     await page.goBack();
-    await pageKind(page, 'work', '/creative/onskin');
+    await pageKind(page, 'work', '/creative/tattoos');
     await indexNavigate(page, 'contact', { touch: true });
     await pageKind(page, 'home', '/#contact');
     assert.equal(await page.locator('[data-inquiry-form]').count(), 1);

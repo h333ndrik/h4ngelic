@@ -34,8 +34,8 @@ try {
       }));
       assert.deepEqual(home.headings, ['01/ creative', '02/ more about', '03/ contact']);
       assert.deepEqual(home.index, ['00/ home', '01/ creative', '02/ more about', '03/ contact']);
-      assert.equal(home.naavi, '00/ 03');
-      assert.equal(home.naaviLabel, 'NAAVI: 00/ 03, home. go to creative');
+      assert.equal(home.naavi, '00/ 04');
+      assert.equal(home.naaviLabel, 'NAAVI: 00/ 04, home. go to creative');
       assert.ok(home.slashInset > 0);
       assert.ok(Math.abs(home.categoryLefts[0] - home.slash) <= 2, 'F28 slash measurement still aligns the rubric start.');
       if (width <= 600) assert.ok(Math.abs(home.categoryLefts[2] - home.slash) <= 2, 'The second mobile row shares the F28 slash column.');
@@ -44,7 +44,7 @@ try {
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
       await page.screenshot({ path: new URL(`home-labels-${width}.png`, output).pathname });
       const work = {};
-      for (const [path, current] of [['/creative/onskin', '01/ 04'], ['/creative/jewellery', '02/ 04'], ['/creative/tools', '03/ 04'], ['/creative/more', '04/ 04']]) {
+      for (const [path, current] of [['/creative/tattoos', '01/ 04'], ['/creative/jewellery', '02/ 04'], ['/creative/tools', '03/ 04'], ['/creative/more', '04/ 04']]) {
         await page.goto(`${base}${path}`, { waitUntil: 'networkidle' });
         work[path] = await page.evaluate(() => ({
           counter: document.querySelector('[data-naavi]').textContent.replace(/\s+/g, ' ').trim(),
@@ -55,7 +55,7 @@ try {
         assert.equal(work[path].counter, current, `${path} keeps the dynamic NAAVI chapter value.`);
         assert.match(work[path].build, /^[a-f0-9]{7,40}$/i);
       }
-      assert.equal(work['/creative/onskin'].heading, 'on skin');
+      assert.equal(work['/creative/tattoos'].heading, 'tattoos');
       assert.equal(work['/creative/jewellery'].heading, 'jewellery');
       assert.equal(work['/creative/tools'].heading, 'tools');
       assert.equal(work['/creative/more'].heading, 'more');

@@ -44,7 +44,7 @@ for (const width of [1440, 390, 320]) {
     assert.ok(Math.abs(filterGap.computed - gapToken) <= .1);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
 
-    await page.goto(`${base}/creative/onskin`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
     const crossGap = await page.locator('.rubric-cross-links').evaluate(element => ({
       computed: parseFloat(getComputedStyle(element).columnGap),
       arrows: [...element.querySelectorAll('a')].map(link => parseFloat(getComputedStyle(link).columnGap)),
@@ -146,7 +146,7 @@ for (const width of [1440, 390, 320]) {
 
 const request = await browser.newPage();
 const redirectCases = [
-  ['/work', '/creative'], ['/work?category=tools', '/creative/tools'], ['/work/tattoos', '/creative/onskin'],
+  ['/work', '/creative'], ['/work?category=tools', '/creative/tools'], ['/work/tattoos', '/creative/tattoos'],
   ['/work/flashes', '/creative/flashes'], ['/work/jewellery', '/creative/jewellery'], ['/work/tools', '/creative/tools'],
   ['/work/tools/m4shlab', '/creative/tools/m4shlab'], ['/work/more', '/creative/more'],
   ['/work/analog-photography', '/creative/analog-photography'], ['/work/digital-artworks', '/creative/digital-artworks'],
@@ -158,7 +158,7 @@ for (const [source, destination] of redirectCases) {
   assert.equal(new URL(response.headers().location, base).pathname + new URL(response.headers().location, base).search, destination);
   report.redirects.push({ source, status: response.status(), destination: response.headers().location });
 }
-for (const path of ['/creative', '/creative/onskin', '/creative/flashes', '/creative/jewellery', '/creative/tools', '/creative/tools/m4shlab', '/creative/tools/thr4ce', '/creative/more', '/creative/tattoo-01', '/creative/green-black-original', '/impressum']) {
+for (const path of ['/creative', '/creative/tattoos', '/creative/flashes', '/creative/jewellery', '/creative/tools', '/creative/tools/m4shlab', '/creative/tools/thr4ce', '/creative/more', '/creative/tattoo-01', '/creative/green-black-original', '/impressum']) {
   const response = await request.request.get(`${base}${path}`, { failOnStatusCode: false });
   assert.equal(response.status(), 200, `${path} must be a canonical 200.`);
 }

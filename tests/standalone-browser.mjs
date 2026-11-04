@@ -308,9 +308,9 @@ try {
         if (mobile) await mute.tap(); else await mute.click();
         assert.equal(await mute.getAttribute('aria-pressed'), 'true');
       }
-      await page.locator('#selected-work .category-link[href="#/creative/onskin"]').click();
+      await page.locator('#selected-work .category-link[href="#/creative/tattoos"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
-      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="page"]')?.textContent.trim() === 'on skin');
+      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="page"]')?.textContent.trim() === 'tattoos');
       assert.equal(await page.locator('#logo-canvas').isVisible(), false);
       const tattoos = page.locator('[data-horizontal-drift="tattoos"]');
       assert.equal(await tattoos.getAttribute('data-carousel-total'), '8');

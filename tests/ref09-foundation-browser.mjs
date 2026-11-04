@@ -129,7 +129,7 @@ try {
     await page.keyboard.press('3');
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Enhanced navigation cancels the unfinished sequence.');
     await page.keyboard.press('3'); await page.keyboard.press('3'); await normalGray(page);
-    for (const path of ['/creative', '/creative/onskin', '/about', '/#contact']) {
+    for (const path of ['/creative', '/creative/tattoos', '/about', '/#contact']) {
       await page.goto(url(path), { waitUntil: 'networkidle' }); await normalGray(page);
     }
     assert.deepEqual(errors, []);

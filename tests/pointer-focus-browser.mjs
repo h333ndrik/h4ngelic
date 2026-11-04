@@ -92,7 +92,7 @@ try {
       const home = await auditPointer(page, profile, ['[data-floating-brand]', '.hero-nav a',
         '#selected-work .category-link', '#about-preview .text-link', '#contact .contact-link', '.page-footer a']);
 
-      await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
       const section = page.locator('[data-horizontal-drift="tattoos"]');
       await section.evaluate(element => {
         element.focus({ preventScroll: true });

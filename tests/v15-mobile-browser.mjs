@@ -86,7 +86,7 @@ try {
       assert.ok(footer.pageWidth <= profile.width + 1);
       await page.screenshot({ path: new URL(`footer-${profile.width}-${profile.reduced}.png`, output).pathname });
 
-      await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"]')?.dataset.carouselPreload === 'idle');
       const carousel = page.locator('[data-horizontal-drift="tattoos"]');
       if (profile.reduced) assert.equal(await carousel.getAttribute('data-carousel-phase'), 'idle');
@@ -95,7 +95,7 @@ try {
         heading: document.querySelector('.work-page .page-heading').textContent,
         categorySize: getComputedStyle(document.querySelector('.rubric-category-heading')).fontSize,
         frontSize: (() => { const probe = document.createElement('a'); probe.className = 'category-link'; probe.style.cssText = 'position:absolute;visibility:hidden'; document.body.append(probe); const size = getComputedStyle(probe).fontSize; probe.remove(); return size; })() }));
-      assert.equal(style.heading, 'on skin');
+      assert.equal(style.heading, 'tattoos');
       assert.equal(style.categorySize, style.frontSize);
       const positionBefore = Number(await carousel.getAttribute('data-drift-position'));
       let positionAfter = positionBefore;
@@ -134,7 +134,7 @@ try {
       assert.equal(await page.locator('.about-page .page-heading').textContent(), '02/ more about');
       await page.screenshot({ path: new URL(`about-${profile.width}-${profile.reduced}.png`, output).pathname });
 
-      await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
       const cross = page.locator('.rubric-cross-links');
       await cross.scrollIntoViewIfNeeded(); await frames(page);
       const crossBox = await cross.evaluate(nav => { const r = nav.getBoundingClientRect(); return { width: r.width, height: r.height, scrollWidth: nav.scrollWidth, labels: [...nav.querySelectorAll('a')].map(a => a.textContent.replace(/\s+/g, ' ').trim()) }; });

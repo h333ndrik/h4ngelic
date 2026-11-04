@@ -39,7 +39,7 @@ test('metadata describes distinct self-canonical category pages while incomplete
   assert.equal(original.description, getPageMetadata(resolveRoute('/creative/digital-artworks'), production).description,
     'An incomplete noindex detail uses the truthful existing category description.');
   assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/creative/tools', '/creative/tools/m4shlab', '/creative/tools/thr4ce', '/about']);
-  assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/creative/onskin');
+  assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/creative/tattoos');
   const missing = getPageMetadata(resolveRoute('/no-such-page'), production);
   assert.equal(missing.status, 404);
   assert.equal(missing.indexable, false);
@@ -71,7 +71,7 @@ test('only complete supplied projects make canonical Work and genuine details in
   const project = { id: 'line-study', category: 'tattoos', title: 'line study', description: 'A supplied description.', year: 2026, images: [{ src: '/images/line-study.webp', alt: 'Blackwork lines on an arm', width: 800, height: 1000 }] };
   const archive = resolveRoute('/creative');
   assert.equal(getPageMetadata(archive, { ...production, projects: [project] }).indexable, true);
-  assert.equal(getPageMetadata(resolveRoute('/creative/onskin'), { ...production, projects: [project] }).indexable, true,
+  assert.equal(getPageMetadata(resolveRoute('/creative/tattoos'), { ...production, projects: [project] }).indexable, true,
     'A genuine complete supplied work may make its distinct category collection indexable.');
   assert.equal(getPageMetadata(resolveRoute('/creative/paintings'), { ...production, projects: [project] }).indexable, false);
   const detail = { kind: 'artwork', category: 'tattoos', project, path: '/creative/line-study', canonicalPath: '/creative/line-study' };
@@ -197,16 +197,16 @@ test('production output and preview HTTP preserve canonical redirects, strict 40
   assert.equal(home.headers.get('x-robots-tag'), 'index, follow');
   assert.equal(home.headers.get('content-encoding'), 'gzip');
   assert.match(await home.text(), /data-prerendered="\/"/);
-  for (const [path, destination] of [['/contact', '/#contact'], ['/contact?artwork=green-black-original', '/?artwork=green-black-original#contact'], ['/work?category=tattoos', '/creative/onskin'], ['/work', '/creative'], ['/work/index.html', '/creative'], ['/about/', '/about'], ['/index.html', '/']]) {
+  for (const [path, destination] of [['/contact', '/#contact'], ['/contact?artwork=green-black-original', '/?artwork=green-black-original#contact'], ['/work?category=tattoos', '/creative/tattoos'], ['/creative/onskin', '/creative/tattoos'], ['/creative/onskin/tattoo-01', '/creative/tattoo-01'], ['/work', '/creative'], ['/work/index.html', '/creative'], ['/about/', '/about'], ['/index.html', '/']]) {
     const response = await fetch(`${base}${path}`, { redirect: 'manual' });
     assert.equal(response.status, 301, path);
     assert.equal(response.headers.get('location'), destination);
   }
-  const work = await fetch(`${base}/creative/onskin`);
+  const work = await fetch(`${base}/creative/tattoos`);
   assert.equal(work.status, 200);
   assert.equal(work.headers.get('x-robots-tag'), 'noindex, follow');
   const aliasHTML = await work.text();
-  assert.match(aliasHTML, /rel="canonical" href="https:\/\/h4ngelic.com\/creative\/onskin"/);
+  assert.match(aliasHTML, /rel="canonical" href="https:\/\/h4ngelic.com\/creative\/tattoos"/);
   assert.match(aliasHTML, /data-connected-work/);
   assert.match(aliasHTML, /data-archive-category="tattoos"/);
   assert.doesNotMatch(aliasHTML, /data-archive-category="digital-artworks"/);
@@ -217,7 +217,7 @@ test('production output and preview HTTP preserve canonical redirects, strict 40
   assert.equal(contact.status, 200);
   assert.equal(contact.headers.get('x-robots-tag'), 'index, follow');
   assert.match(await contact.text(), /data-inquiry-form/);
-  for (const path of ['/does-not-exist', '/creative/onskin/fake-project', '/404.html']) {
+  for (const path of ['/does-not-exist', '/creative/tattoos/fake-project', '/404.html']) {
     const response = await fetch(`${base}${path}`);
     assert.equal(response.status, 404, path);
     assert.equal(response.headers.get('x-robots-tag'), 'noindex, follow');

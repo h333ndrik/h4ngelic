@@ -21,7 +21,7 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     try {
-      await page.goto(new URL('/creative/onskin?performance=1', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos?performance=1', base).href, { waitUntil: 'networkidle' });
       const section = page.locator('[data-horizontal-drift="tattoos"]');
       await section.evaluate(element => {
         const port = element.querySelector('.drift-viewport').getBoundingClientRect();

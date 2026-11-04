@@ -72,7 +72,7 @@ try {
       const count = await page.locator('[data-visit-number]').textContent();
       await page.screenshot({ path: new URL(`hero-${width}.png`, out).pathname });
       await page.locator('.hero-nav a[href="/creative"]').click();
-      await page.waitForURL(url => url.pathname === '/creative/onskin');
+      await page.waitForURL(url => url.pathname === '/creative/tattoos');
       assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0, 'Interior pages do not add a duplicate or misplaced sound control.');
       await page.locator('.page-nav a[href="/about"]').click();
       await page.waitForURL(url => url.pathname === '/about');

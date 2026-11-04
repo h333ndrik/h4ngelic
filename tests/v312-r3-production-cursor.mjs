@@ -31,7 +31,7 @@ await page.route('**/*.js', route => route.abort('failed'));
 const report = { checkedAt: new Date().toISOString(), base, css: cssName, declarations,
   inlineCursor: index.includes("classList.add('h4-custom-cursor')") };
 try {
-  await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'domcontentloaded' });
+  await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'domcontentloaded' });
   const marker = await page.evaluate(() => ({ html: document.documentElement.dataset.build || '',
     meta: document.querySelector('meta[name="h4-build"]')?.content || '',
     cursorClass: document.documentElement.classList.contains('h4-custom-cursor') }));
@@ -80,7 +80,7 @@ try {
   const noScript = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1,
     javaScriptEnabled: false });
   const staticPage = await noScript.newPage();
-  await staticPage.goto(new URL('/creative/onskin', base).href, { waitUntil: 'domcontentloaded' });
+  await staticPage.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'domcontentloaded' });
   const staticReport = await staticPage.locator('body').evaluate(body => {
     const html = document.documentElement;
     const sample = selector => getComputedStyle(document.querySelector(selector)).cursor;
