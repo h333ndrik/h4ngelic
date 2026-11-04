@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
-import { mannequinPreviewConfig, mannequinVariant, mannequinVariantOrder } from './mannequin-preview-config.js';
+import { mannequinPreviewConfig, mannequinDevVariant, mannequinVariant, mannequinVariantOrder } from './mannequin-preview-config.js';
 
 const safePreviewURL = (value, pattern) => typeof value === 'string' && pattern.test(value);
 const MODEL_PATTERN = /^\/models\/[a-z0-9.-]+\.glb$/;
@@ -27,7 +27,6 @@ export function initMannequinPreview(container) {
   const status = container.querySelector('[data-mannequin-status]');
   const figure = container.closest('.mannequin-preview');
   const designButton = figure?.querySelector('[data-mannequin-design-toggle]');
-  const variantButtons = [...(figure?.querySelectorAll('[data-mannequin-variant-option]') || [])];
   const captionStatus = figure?.querySelector('.mannequin-preview-status');
   const designHint = figure?.querySelector('[data-mannequin-design-hint]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -37,7 +36,8 @@ export function initMannequinPreview(container) {
   let environmentTarget = null;
   let frame = 0;
   let renderCount = 0;
-  let variant = container.dataset.mannequinVariant || config.defaultVariant;
+  // Dev-Server: ?variant=a|b laedt eine versteckte Variante. Production bleibt C.
+  let variant = mannequinDevVariant(window.location?.search) || container.dataset.mannequinVariant || config.defaultVariant;
   let modelRoot = null;
   let baseMesh = null;
   let activeVariant = null;
@@ -309,11 +309,6 @@ export function initMannequinPreview(container) {
 
   function updateControls() {
     const profile = mannequinVariant(variant);
-    for (const button of variantButtons) {
-      const active = button.dataset.mannequinVariantOption === variant;
-      button.setAttribute('aria-pressed', String(active));
-      button.disabled = false;
-    }
     container.dataset.mannequinVariant = variant;
     container.dataset.mannequinModel = profile.model;
     if (captionStatus) captionStatus.textContent = `${variant.toLowerCase()} · ${profile.label} · drag to turn`;
@@ -378,6 +373,10 @@ export function initMannequinPreview(container) {
       pivot.add(root);
       modelRoot = root;
       activeVariant = key;
+      // Startblick je Variante (C: +Z-Front), Konstanten in der Config.
+      view.angle = profile.initialYaw || 0;
+      view.velocity = 0;
+      pivot.rotation.y = view.angle;
       fitCamera();
       setData('mannequinState', 'ready');
       setData('mannequinLoads', Number(container.dataset.mannequinLoads || 0) + 1);
@@ -464,13 +463,7 @@ export function initMannequinPreview(container) {
   }
 
   const onDesignClick = () => { void applyDemoDesign(); };
-  const onVariantClick = (event) => {
-    const key = event.currentTarget.dataset.mannequinVariantOption;
-    if (!key || key === variant) return;
-    void selectVariant(key);
-  };
   designButton?.addEventListener('click', onDesignClick);
-  for (const button of variantButtons) button.addEventListener('click', onVariantClick);
 
   const ready = selectVariant(variant, { announce: false });
 
@@ -489,7 +482,6 @@ export function initMannequinPreview(container) {
     container.removeEventListener('pointerenter', onPointerEnter);
     container.removeEventListener('pointerleave', onPointerLeave);
     designButton?.removeEventListener('click', onDesignClick);
-    for (const button of variantButtons) button.removeEventListener('click', onVariantClick);
     disposeModel();
     pivot.removeFromParent();
     environmentTarget?.texture.dispose();

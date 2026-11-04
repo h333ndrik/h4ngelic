@@ -1,22 +1,17 @@
-import { mannequinPreviewConfig, mannequinVariant, mannequinVariantList } from './mannequin-preview-config.js';
+import { mannequinPreviewConfig, mannequinVariant } from './mannequin-preview-config.js';
 
 const defaultVariant = mannequinPreviewConfig.defaultVariant;
 const defaultProfile = mannequinVariant(defaultVariant);
 const design = mannequinPreviewConfig.design;
 
-function variantButtons() {
-  return mannequinVariantList().map((variant) => `<button
-        class="mannequin-preview-variant"
-        type="button"
-        data-mannequin-variant-option="${variant.key}"
-        aria-pressed="${String(variant.key === defaultVariant)}"
-        disabled>${variant.key} · ${variant.label}</button>`).join('');
-}
-
-/** Server-rendered placeholder. No canvas, Three.js module, GLB or design request. */
+/**
+ * Server-rendered placeholder. No canvas, Three.js module, GLB or design request.
+ * Sichtbar ist nur Variante C; A/B bleiben in der Registry (siehe config.js) und
+ * sind ausschliesslich im Dev-Server ueber ?variant=a|b erreichbar.
+ */
 export function renderMannequinPreview() {
   return `<figure class="mannequin-preview">
-    <div class="mannequin-preview-frame" data-mannequin-preview data-mannequin-variant="${defaultVariant}" data-mannequin-src="${defaultProfile.model}" data-mannequin-design-src="${design.url}" data-mannequin-state="deferred" role="img" aria-label="Female mannequin preview in a static A-pose, three switchable shading variants">
+    <div class="mannequin-preview-frame" data-mannequin-preview data-mannequin-variant="${defaultVariant}" data-mannequin-src="${defaultProfile.model}" data-mannequin-design-src="${design.url}" data-mannequin-state="deferred" role="img" aria-label="Female sculpted mannequin in a static A-pose preview">
       <svg class="mannequin-preview-poster" viewBox="0 0 220 600" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="mannequin-poster-silver" x1="0" y1="0" x2="1" y2="1">
@@ -39,7 +34,6 @@ export function renderMannequinPreview() {
     </div>
     <figcaption>
       <span class="mannequin-preview-meta">
-        <span class="mannequin-preview-variants" role="group" aria-label="Mannequin variant">${variantButtons()}</span>
         <button class="mannequin-preview-design" type="button" data-mannequin-design-toggle aria-pressed="false" aria-disabled="true" aria-describedby="mannequin-design-hint" disabled>${design.label}</button>
         <span class="mannequin-preview-hint" id="mannequin-design-hint" data-mannequin-design-hint>no decals on the sculpted uv layout</span>
       </span>

@@ -5,6 +5,10 @@
  * Mannequin: 49.838 Tris, Draco + KTX2, gebaut von scripts/build-mannequin-c.mjs.
  * Wegen der hohen Tris-Zahl laedt C nur, wenn die Variante aktiv ist.
  */
+// A/B: verborgen, NICHT loeschen (V3.2). Die Registry bleibt vollstaendig, damit
+// die prozeduralen Chrome-Puppen fuer spaetere Laeufe erreichbar sind. Sichtbar
+// in der Rubrik ist nur C; A/B laden ausschliesslich ueber ?variant=a|b im
+// Dev-Server (kein Link, keine Navigation).
 const variants = Object.freeze({
   A: Object.freeze({
     model: '/models/mannequin-female-a.glb',
@@ -13,6 +17,8 @@ const variants = Object.freeze({
     design: true,
     compression: null,
     envMapIntensity: 1.35,
+    // A/B sind mit -Z nach vorn modelliert; 0 zeigt ihre Rueckseite.
+    initialYaw: 0,
   }),
   B: Object.freeze({
     model: '/models/mannequin-female-b.glb',
@@ -21,6 +27,7 @@ const variants = Object.freeze({
     design: true,
     compression: null,
     envMapIntensity: 1.35,
+    initialYaw: 0,
   }),
   C: Object.freeze({
     model: '/models/mannequin-c.d8306c2b1b08.glb',
@@ -29,6 +36,10 @@ const variants = Object.freeze({
     design: false,
     compression: 'draco-ktx2',
     envMapIntensity: 0.85,
+    // Startblick der Rubrik: C ist mit +Z nach vorn modelliert und die Kamera
+    // steht auf +Z, deshalb 0 rad = frontale Ansicht. Hier justierbar, ohne die
+    // GLB-Assets anzufassen.
+    initialYaw: 0,
   }),
 });
 
@@ -89,4 +100,15 @@ export function mannequinVariant(variant = mannequinPreviewConfig.defaultVariant
 /** Alle drei Varianten als Array fuer die UI (Reihenfolge ist stabil). */
 export function mannequinVariantList() {
   return mannequinVariantOrder.map((key) => ({ key, ...mannequinPreviewConfig.variants[key] }));
+}
+
+/**
+ * Nur Dev-Server: ?variant=a|b laedt A/B intern zum Vergleich. Im Production-
+ * Build ist der Zweig tot (import.meta.env.DEV === false) und die Rubrik zeigt
+ * ausschliesslich C.
+ */
+export function mannequinDevVariant(search) {
+  if (!import.meta.env?.DEV) return null;
+  const requested = new URLSearchParams(search ?? '').get('variant')?.toUpperCase();
+  return requested && mannequinPreviewConfig.variants[requested] ? requested : null;
 }

@@ -5,7 +5,8 @@ import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { mannequinPreviewConfig, mannequinVariant, mannequinVariantList } from '../src/mannequin-preview-config.js';
+import { mannequinDevVariant, mannequinPreviewConfig, mannequinVariant, mannequinVariantList } from '../src/mannequin-preview-config.js';
+import { renderMannequinPreview } from '../src/mannequin-preview-content.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const manifestURL = new URL('../docs/validation/MANNEQUIN-C/asset-manifest.json', import.meta.url);
@@ -26,6 +27,23 @@ function readGLB(bytes) {
   assert.ok(json, 'GLB must contain a JSON chunk.');
   return json;
 }
+
+test('only variant C is visible; A/B stay registered but hidden', () => {
+  const markup = renderMannequinPreview();
+  assert.match(markup, /data-mannequin-variant="C"/);
+  assert.doesNotMatch(markup, /data-mannequin-variant-option/, 'No visible variant switcher.');
+  assert.doesNotMatch(markup, />\s*A · |B · /, 'A/B labels are not rendered.');
+  for (const key of ['A', 'B']) {
+    assert.ok(mannequinPreviewConfig.variants[key], `${key} stays in the registry.`);
+    assert.equal(typeof mannequinVariant(key).model, 'string');
+  }
+  // ?variant= ist ausschliesslich im Dev-Server aktiv (import.meta.env.DEV).
+  assert.equal(mannequinDevVariant('?variant=a'), null);
+  assert.equal(mannequinDevVariant('?variant=b'), null);
+  assert.equal(mannequinPreviewConfig.defaultVariant, 'C');
+  assert.equal(mannequinVariant('C').initialYaw, 0, 'C starts front-on (+Z) with a documented yaw constant.');
+  assert.equal(typeof mannequinVariant('C').initialYaw, 'number');
+});
 
 test('variant C is the default and every variant points at an existing GLB', async () => {
   assert.equal(mannequinPreviewConfig.defaultVariant, 'C');

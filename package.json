@@ -68,6 +68,7 @@
     "test:persistent-memory": "node tests/persistent-memory-browser.mjs",
     "test:mannequin": "node tests/flash-mannequin-browser.mjs",
     "test:mannequin-preview": "node tests/mannequin-preview-browser.mjs",
+    "test:mannequin-variants-dev": "node tests/mannequin-variants-dev-browser.mjs",
     "inquiry:serve": "node server/inquiry.mjs",
     "test:inquiry-http": "node tests/inquiry-http.mjs",
     "test:v6": "node tests/v6-browser.mjs",

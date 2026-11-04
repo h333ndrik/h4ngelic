@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { createPreviewServer } from '../scripts/serve-preview.mjs';
-import { mannequinVariant, mannequinVariantList } from '../src/mannequin-preview-config.js';
+import { mannequinVariant } from '../src/mannequin-preview-config.js';
 import { artworks } from '../src/data/artworks.js';
 
+const root = fileURLToPath(new URL('..', import.meta.url));
 const evidence = new URL('../docs/validation/MANNEQUIN-C/', import.meta.url);
 await mkdir(evidence, { recursive: true });
 
@@ -21,6 +23,7 @@ const browser = await chromium.launch({ executablePath, headless: true, args: ['
 const profiles = [{ width: 1440, height: 1000 }, { width: 390, height: 900 }, { width: 320, height: 900 }];
 const mockupCount = artworks.filter((artwork) => artwork.published !== false && artwork.category === 'tattoos'
   && Array.isArray(artwork.images) && artwork.images.length).length;
+const glbRequests = (requests) => requests.filter((url) => /\/models\/mannequin-[a-z0-9.-]+\.glb$/.test(url));
 
 const trackPage = async (context) => {
   const page = await context.newPage();
@@ -40,17 +43,51 @@ const trackPage = async (context) => {
   return { page, errors, requests };
 };
 
-const scrollToModel = async (page) => {
-  await page.evaluate(() => {
-    const section = document.querySelector('#model-3d');
-    scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - 120), behavior: 'instant' });
-  });
-};
+const scrollSectionTo = async (page, selector, top) => page.evaluate(([name, position]) => {
+  const element = document.querySelector(name);
+  scrollTo({ top: Math.max(0, element.getBoundingClientRect().top + scrollY - position), behavior: 'instant' });
+}, [selector, top]);
 
 const waitReady = (page) => page.waitForFunction(
   () => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'ready',
   null, { timeout: 60000 },
 );
+
+/** Liesst die Einfahrt-Pose der Modell-Section. */
+const sectionPose = (page) => page.evaluate(() => {
+  const section = document.querySelector('#model-3d');
+  const style = getComputedStyle(section);
+  const read = (name, fallback) => {
+    const value = Number.parseFloat(style.getPropertyValue(name));
+    return Number.isFinite(value) ? value : fallback;
+  };
+  return {
+    x: read('--entrance-x', 0),
+    opacity: read('--entrance-opacity', 1),
+    transform: style.transform,
+    top: section.getBoundingClientRect().top,
+  };
+});
+
+/**
+ * Liesst die Pose des Frontpage-Elements "01 / creative": dort laeuft die
+ * Einfahrt ueber die Rubrik-Links (--kinetic-x/--kinetic-opacity), waehrend der
+ * Titel statisch bleibt.
+ */
+const homepagePose = (page) => page.evaluate(() => {
+  const section = document.querySelector('#selected-work');
+  const item = section.querySelector('.category-link .kinetic-item');
+  const style = getComputedStyle(item);
+  const read = (name, fallback) => {
+    const value = Number.parseFloat(style.getPropertyValue(name));
+    return Number.isFinite(value) ? value : fallback;
+  };
+  return {
+    x: read('--kinetic-x', 0),
+    opacity: read('--kinetic-opacity', 1),
+    top: section.getBoundingClientRect().top,
+  };
+});
 
 const results = [];
 try {
@@ -63,28 +100,34 @@ try {
 
     const preview = page.locator('[data-mannequin-preview]');
     assert.equal(await preview.getAttribute('data-mannequin-state'), 'deferred');
-    assert.equal(await preview.getAttribute('data-mannequin-variant'), 'C', 'C must be the default variant.');
+    assert.equal(await preview.getAttribute('data-mannequin-variant'), 'C', 'C is the only visible variant.');
+    assert.equal(await page.locator('[data-mannequin-variant-option]').count(), 0, 'There is no visible variant switcher.');
     assert.equal(await page.evaluate(() => window.__webglContexts), 0, 'Cold Work must not create a WebGL context.');
-    assert.equal(requests.filter((url) => url.endsWith('.glb')).length, 0, 'Cold Work must not request a GLB.');
+    assert.equal(glbRequests(requests).length, 0, 'Cold Work must not request a GLB.');
     assert.equal(requests.filter((url) => url.endsWith('/textures/designs/demo-mark.png')).length, 0);
     assert.ok(!requests.some((url) => /mannequin-preview-|three\.module|DracoLoader|KTX2Loader/.test(url)), 'The Three.js stack waits for visibility.');
 
-    // Reduced Motion fuer die Screenshots: die drei Varianten werden front-on
-    // fotografiert, die Rotationspruefung folgt danach mit voller Bewegung.
+    // Einfahrt: Startpose vor dem Viewport ist unsichtbar und eingerueckt.
+    const startPose = await sectionPose(page);
+    assert.ok(startPose.opacity < 0.05, `The section starts hidden (${startPose.opacity}).`);
+    const expectedInset = Math.min(28, width * 0.045);
+    assert.ok(Math.abs(startPose.x - expectedInset) < 0.5, `The section starts inset by ${expectedInset}px (got ${startPose.x}).`);
+
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await scrollToModel(page);
+    await scrollSectionTo(page, '#model-3d', 120);
     await waitReady(page);
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(250);
     assert.deepEqual(errors, [], `no console errors at ${width}px`);
 
-    const glbRequests = () => requests.filter((url) => /\/models\/mannequin-[a-z0-9.-]+\.glb$/.test(url));
+    const glbs = glbRequests(requests);
     assert.equal(await page.evaluate(() => window.__webglContexts), 1, 'Exactly one WebGL context.');
     assert.equal(await page.locator('.mannequin-preview-canvas').count(), 1);
-    assert.equal(glbRequests().length, 1, 'Exactly one GLB request for the default variant.');
-    assert.match(glbRequests()[0], /mannequin-c\.[a-f0-9]+\.glb$/);
+    assert.equal(glbs.length, 1, 'Exactly one GLB request for the visible variant.');
+    assert.match(glbs[0], /mannequin-c\.[a-f0-9]+\.glb$/);
+    assert.equal(glbs.filter((url) => /mannequin-female-[ab]\.glb$/.test(url)).length, 0, 'A/B stay unrequested in the production build.');
     assert.equal(await preview.getAttribute('data-mannequin-polygons'), '49838');
     assert.equal(await preview.getAttribute('data-mannequin-design'), 'unsupported');
-    assert.match(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-material'), /skincolor/);
+    assert.match(await preview.getAttribute('data-mannequin-material'), /skincolor/);
 
     const layout = await page.evaluate(() => {
       const section = document.querySelector('#model-3d');
@@ -104,46 +147,28 @@ try {
     assert.ok(Math.abs(layout.canvas.width - layout.frame.width) <= 1);
     assert.ok(layout.documentWidth <= width + 1, 'No horizontal overflow.');
 
-    const screenshots = {};
-    const variantList = mannequinVariantList();
-    for (const variant of variantList) {
-      const previousVariant = await preview.getAttribute('data-mannequin-variant');
-      const disposedBefore = Number(await preview.getAttribute('data-mannequin-disposed') || 0);
-      if (previousVariant !== variant.key) {
-        await page.locator(`[data-mannequin-variant-option="${variant.key}"]`).click();
-        await waitReady(page);
-        await page.waitForTimeout(300);
-        assert.equal(await preview.getAttribute('data-mannequin-variant'), variant.key);
-        assert.equal(await page.evaluate(() => window.__webglContexts), 1, 'Variant switches reuse the single renderer.');
-        const glbs = glbRequests();
-        assert.equal(new Set(glbs).size, glbs.length, 'No GLB is fetched twice.');
-        const visited = new Set(['C', ...variantList.slice(0, variantList.indexOf(variant) + 1).map((entry) => entry.key)]);
-        assert.equal(glbs.length, visited.size, 'Exactly one request per visited variant, never a refetch.');
-        assert.equal(Number(await preview.getAttribute('data-mannequin-disposed')), disposedBefore + 1, 'The previous model buffers are disposed.');
-        assert.equal(await page.locator('.mannequin-preview-canvas').count(), 1);
-      }
-      const designButton = page.locator('[data-mannequin-design-toggle]');
-      if (mannequinVariant(variant.key).design) {
-        assert.equal(await designButton.isEnabled(), true, `${variant.key} keeps the demo design.`);
-        assert.equal(await designButton.getAttribute('aria-disabled'), 'false');
-        assert.equal(await page.locator('[data-mannequin-design-hint]').isVisible(), false);
-      } else {
-        assert.equal(await designButton.isEnabled(), false, 'C disables the demo design.');
-        assert.equal(await designButton.getAttribute('aria-disabled'), 'true');
-        assert.equal(await page.locator('[data-mannequin-design-hint]').isVisible(), true);
-        assert.match(await page.locator('[data-mannequin-design-hint]').textContent(), /no decals/i);
-      }
-      const file = `variant-${variant.key.toLowerCase()}-${width}.png`;
-      await page.locator('.mannequin-preview').screenshot({ path: fileURLToPath(new URL(file, evidence)) });
-      screenshots[variant.key] = file;
-    }
+    const designButton = page.locator('[data-mannequin-design-toggle]');
+    assert.equal(await designButton.isEnabled(), false, 'C disables the demo design.');
+    assert.equal(await designButton.getAttribute('aria-disabled'), 'true');
+    assert.equal(await page.locator('[data-mannequin-design-hint]').isVisible(), true);
+    assert.match(await page.locator('[data-mannequin-design-hint]').textContent(), /no decals/i);
+
+    const file = `variant-c-${width}.png`;
+    await page.locator('.mannequin-preview').screenshot({ path: fileURLToPath(new URL(file, evidence)) });
+
+    // Reduced Motion: Section steht sofort, keine Auto-Rotation.
+    assert.equal((await sectionPose(page)).opacity, 1);
+    assert.equal((await sectionPose(page)).x, 0);
+    await page.waitForTimeout(2200);
+    assert.equal(Number(await preview.getAttribute('data-mannequin-angle')), mannequinVariant('C').initialYaw);
 
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    // Auto-Rotation laeuft und pausiert waehrend des Ziehens.
+
+    // Auto-Rotation, Drag-Pause, Flick und Rueckkehr.
     const angle = async () => Number(await preview.getAttribute('data-mannequin-angle'));
     await page.waitForTimeout(2600);
     const angleAuto = await angle();
-    assert.ok(angleAuto > 0.02, `Auto rotation must run (${angleAuto} rad).`);
+    assert.ok(angleAuto > mannequinVariant('C').initialYaw + 0.02, `Auto rotation must run (${angleAuto} rad).`);
     const box = await page.locator('.mannequin-preview-frame').boundingBox();
     const centerX = box.x + box.width / 2;
     const centerY = box.y + box.height / 2;
@@ -155,8 +180,7 @@ try {
     assert.ok(Math.abs(angleHeldB - angleHeldA) < 0.02, `Rotation pauses while dragging (${angleHeldA} -> ${angleHeldB}).`);
     await page.mouse.move(centerX + 240, centerY, { steps: 6 });
     await page.waitForTimeout(60);
-    const angleDragged = await angle();
-    assert.ok(Math.abs(angleDragged - angleHeldB) > 0.1, 'Dragging rotates the model.');
+    assert.ok(Math.abs(await angle() - angleHeldB) > 0.1, 'Dragging rotates the model.');
     await page.mouse.up();
     await page.waitForTimeout(120);
     assert.equal(await preview.getAttribute('data-mannequin-flicks'), '1',
@@ -165,64 +189,48 @@ try {
     await page.waitForTimeout(1800);
     assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'idle', 'The model returns into the viewport.');
 
-    // Variantenwechsel ohne Reload, alter Buffer wird disposed.
-    // Zurueck zu A: kein zweiter Request, Buffer-Cache greift.
-    const before = glbRequests().length;
-    await page.locator('[data-mannequin-variant-option="A"]').click();
-    await waitReady(page);
-    await page.waitForTimeout(200);
-    assert.equal(glbRequests().length, before, 'Switching back must not refetch a cached variant.');
-    assert.equal(await page.evaluate(() => window.__webglContexts), 1);
-    await page.locator('[data-mannequin-variant-option="C"]').click();
-    await waitReady(page);
-
-    // Demo-Design bleibt an A/B funktional (Deferred, genau ein PNG-Request).
-    await page.locator('[data-mannequin-variant-option="B"]').click();
-    await waitReady(page);
-    const designButton = page.locator('[data-mannequin-design-toggle]');
-    await designButton.click();
-    await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinDecal === 'applied', null, { timeout: 30000 });
-    assert.equal(requests.filter((url) => url.endsWith('/textures/designs/demo-mark.png')).length, 1);
-    await designButton.click();
-    assert.equal(await designButton.getAttribute('aria-pressed'), 'false');
-    await page.locator('[data-mannequin-variant-option="C"]').click();
-    await waitReady(page);
-    assert.equal(await preview.getAttribute('data-mannequin-design'), 'unsupported');
-
-    // Mockups bleiben unangetastet.
     const figureCount = await page.locator('figure.project-image').count();
     assert.ok(figureCount >= mockupCount, `The tattoo mockups stay mounted (${figureCount} >= ${mockupCount}).`);
     assert.deepEqual(errors, [], `no console errors after interactions at ${width}px`);
 
     results.push({
-      width, height, defaultVariant: 'C', glbRequests: glbRequests().length,
-      variants: mannequinVariantList().map((variant) => variant.key),
-      screenshots, webglContexts: await page.evaluate(() => window.__webglContexts),
-      autoAngle: angleAuto, mockups: figureCount, errors,
+      width, height, variant: 'C', glbRequests: glbs.length,
+      switcherButtons: 0, screenshot: file, autoAngle: angleAuto, mockups: figureCount, errors,
     });
     await context.close();
   }
 
-  // Reduced motion: keine Auto-Rotation, Drag bleibt.
+  // Einfahrt identisch zur Frontpage: gleiche Progress-Werte, gleiche Pose.
   {
-    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page, errors } = await trackPage(context);
+    const offsets = [-160, -260, -380, -620];
+    const samples = [];
+    await page.goto(`${base}/`, { waitUntil: 'networkidle' });
+    for (const offset of offsets) {
+      await page.evaluate((position) => {
+        const section = document.querySelector('#selected-work');
+        scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - position), behavior: 'instant' });
+      }, -offset);
+      await page.waitForTimeout(120);
+      samples.push({ offset, home: await homepagePose(page) });
+    }
     await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
-    await scrollToModel(page);
-    await waitReady(page);
-    await page.waitForTimeout(2400);
-    const preview = page.locator('[data-mannequin-preview]');
-    assert.equal(Number(await preview.getAttribute('data-mannequin-angle')), 0, 'Reduced motion disables auto rotation.');
-    const box = await page.locator('.mannequin-preview-frame').boundingBox();
-    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
-    await page.mouse.down();
-    await page.mouse.move(box.x + box.width / 2 + 120, box.y + box.height / 2, { steps: 4 });
-    await page.mouse.up();
-    await page.waitForTimeout(150);
-    assert.ok(Number(await preview.getAttribute('data-mannequin-angle')) > 0.5, 'Drag still rotates with reduced motion.');
-    assert.equal(await preview.getAttribute('data-mannequin-flicks'), null, 'Reduced motion disables the flick.');
+    for (const sample of samples) {
+      await page.evaluate((position) => {
+        const section = document.querySelector('#model-3d');
+        scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - position), behavior: 'instant' });
+      }, -sample.offset);
+      await page.waitForTimeout(150);
+      sample.model = await sectionPose(page);
+      assert.ok(Math.abs(sample.model.x - sample.home.x) <= 0.6,
+        `Entrance x must match the frontpage curve at ${sample.offset}px (${sample.model.x} vs ${sample.home.x}).`);
+      assert.ok(Math.abs(sample.model.opacity - sample.home.opacity) <= 0.02,
+        `Entrance opacity must match the frontpage curve at ${sample.offset}px (${sample.model.opacity} vs ${sample.home.opacity}).`);
+    }
+    assert.ok(samples.some((sample) => sample.model.opacity > 0 && sample.model.opacity < 1), 'The entrance must pass through a visible intermediate state.');
     assert.deepEqual(errors, []);
-    results.push({ reducedMotion: true, angle: await preview.getAttribute('data-mannequin-angle'), errors });
+    results.push({ entrance: samples.map((sample) => ({ offset: sample.offset, home: sample.home.x, model: sample.model.x, opacity: sample.model.opacity })) });
     await context.close();
   }
 
@@ -238,7 +246,7 @@ try {
       };
     });
     await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
-    await scrollToModel(page);
+    await scrollSectionTo(page, '#model-3d', 120);
     await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'failed', null, { timeout: 30000 });
     const fallback = await page.locator('[data-mannequin-preview]').evaluate((node) => ({
       webgl: node.dataset.mannequinWebgl,
@@ -253,26 +261,19 @@ try {
     await context.close();
   }
 
-  // Leak-Probe: 5 Route-Wechsel (Mount/Unmount) + 10 Variantenwechsel.
+  // Leak-Probe: 5 Route-Wechsel (Mount/Unmount) mit erneutem Laden.
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page, errors } = await trackPage(context);
     await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
-    await scrollToModel(page);
+    await scrollSectionTo(page, '#model-3d', 120);
     await waitReady(page);
-    const preview = page.locator('[data-mannequin-preview]');
-    let switches = 0;
     for (let cycle = 0; cycle < 5; cycle += 1) {
-      for (const key of ['A', 'C']) {
-        await page.locator(`[data-mannequin-variant-option="${key}"]`).click();
-        await waitReady(page);
-        switches += 1;
-      }
       await page.evaluate(() => { history.pushState({}, '', '/about'); dispatchEvent(new PopStateEvent('popstate')); });
       await page.waitForFunction(() => !document.querySelector('[data-mannequin-preview]'), null, { timeout: 30000 });
       await page.evaluate(() => { history.pushState({}, '', '/work/tattoos'); dispatchEvent(new PopStateEvent('popstate')); });
       await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'deferred', null, { timeout: 30000 });
-      await scrollToModel(page);
+      await scrollSectionTo(page, '#model-3d', 120);
       await waitReady(page);
     }
     await page.waitForTimeout(400);
@@ -283,37 +284,65 @@ try {
     assert.equal(leaked.canvases, 1, 'Exactly one canvas survives the cycles.');
     assert.ok(leaked.contexts <= 6, `WebGL contexts must not grow unbounded (${leaked.contexts} for 5 mounts).`);
     assert.deepEqual(errors, [], 'No console errors during the leak probe.');
-    results.push({ leak: { switches, mounts: 5, ...leaked } });
+    results.push({ leak: { mounts: 5, ...leaked } });
     await context.close();
   }
 
-  // B-F14-Regression: der Viewer bleibt in der Tattoo-Rubrik.
+  // Der Viewer bleibt in der Tattoo-Rubrik.
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page } = await trackPage(context);
-    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
-    assert.equal(await page.locator('[data-mannequin-preview]').count(), 1);
     for (const route of ['/work/jewellery', '/work/digital-artworks', '/tools/m4shlab']) {
       const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle' });
       assert.ok(response.status() === 200 || response.status() === 404);
       assert.equal(await page.locator('[data-mannequin-preview]').count(), 0, `${route} must not mount the mannequin viewer.`);
     }
-    results.push({ isolation: ['/work/tattoos', '/work/jewellery', '/work/digital-artworks', '/tools/m4shlab'] });
+    results.push({ isolation: ['/work/jewellery', '/work/digital-artworks', '/tools/m4shlab'] });
     await context.close();
   }
 
-  await writeFile(new URL('requests.json', evidence), JSON.stringify({
-    checkedAt: new Date().toISOString(),
-    route: '/work/tattoos',
-    source: 'production preview build',
-    profiles,
-    variants: mannequinVariantList().map((variant) => variant.model),
-    results,
-    passed: true,
-  }, null, 2) + '\n');
-  const screenshots = results.filter((entry) => entry.screenshots).flatMap((entry) => Object.values(entry.screenshots));
-  console.log(`PASS mannequin preview: ${profiles.length} viewports × A/B/C, ${screenshots.length} screenshots, rotation + drag + flick + reduced motion + no-WebGL fallback + leak probe.`);
+  // ?variant=a|b ist Production tot: keine A/B-Anfrage, C bleibt sichtbar.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const { page, requests } = await trackPage(context);
+    await page.goto(`${base}/work/tattoos?variant=b`, { waitUntil: 'networkidle' });
+    await scrollSectionTo(page, '#model-3d', 120);
+    await waitReady(page);
+    assert.equal(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-variant'), 'C');
+    assert.equal(glbRequests(requests).filter((url) => /mannequin-female-[ab]\.glb$/.test(url)).length, 0);
+    results.push({ variantQueryInProduction: 'ignored' });
+    await context.close();
+  }
 } finally {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));
 }
+
+// Bundle-Nachweis: kein LICENSE-NOTE-String und kein docs-Ordner im Build.
+{
+  const dist = join(root, 'dist');
+  const hits = [];
+  const walk = async (directory) => {
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) await walk(path);
+      else if (/\.(js|css|html|json|txt|xml|map)$/.test(entry.name) && (await readFile(path, 'utf8')).includes('LICENSE-NOTE')) hits.push(path);
+    }
+  };
+  await walk(dist);
+  assert.deepEqual(hits, [], 'The built output must not mention LICENSE-NOTE.');
+  assert.equal(existsSync(join(dist, 'docs')), false, 'Validation docs are never bundled.');
+  results.push({ bundle: { licenseNoteHits: hits.length, docsBundled: false } });
+}
+
+await writeFile(new URL('requests.json', evidence), JSON.stringify({
+  checkedAt: new Date().toISOString(),
+  route: '/work/tattoos',
+  source: 'production preview build',
+  profiles,
+  visibleVariant: mannequinVariant('C').model,
+  hiddenVariants: ['A', 'B'],
+  results,
+  passed: true,
+}, null, 2) + '\n');
+console.log(`PASS mannequin preview: ${profiles.length} viewports, nur C sichtbar, Einfahrt identisch zur Frontpage, reduced motion, no-WebGL, Leak-Probe, Bundle ohne LICENSE-NOTE.`);

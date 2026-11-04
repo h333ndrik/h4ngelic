@@ -275,11 +275,11 @@ test('Works has three unnumbered major rubrics, subordinate archive labels and a
   assert.equal((numberedAndCategoryHeadings.match(/class="arrow"/g) || []).length, 1,
     'Only the approved TATTOOS heading receives the shared directional arrow.');
   assert.match(markup, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow" aria-hidden="true"><\/i><\/a><\/h2>/);
-  const model = markup.match(/<section[^>]+data-deferred-model>([\s\S]*?)<\/section>/)?.[1];
+  const model = markup.match(/<section[^>]+data-deferred-model[^>]*>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(model);
   assert.match(model, /^<h3[^>]+>3d model<\/h3>/);
   assert.match(model, /data-mannequin-preview data-mannequin-variant="C" data-mannequin-src="\/models\/mannequin-c\.[a-f0-9]+\.glb" data-mannequin-design-src="\/textures\/designs\/demo-mark\.png" data-mannequin-state="deferred"/);
-  assert.match(model, /role="img" aria-label="Female mannequin preview in a static A-pose, three switchable shading variants"/);
+  assert.match(model, /role="img" aria-label="Female sculpted mannequin in a static A-pose preview"/);
   assert.doesNotMatch(model, /<canvas|<img|data-flash-mannequin|three\.js|GLTFLoader/);
 });
 
