@@ -46,6 +46,13 @@ for (const width of [1440, 390, 320]) {
     assert.deepEqual(bar.links, [{ text: 'creative', href: '/creative' }, { text: 'about', href: '/about' }, { text: 'contact', href: '/#contact' }]);
     assert.equal(bar.position, 'absolute');
     assert.equal(bar.insideHero, true, 'The route bar belongs to the hero flow.');
+    const barHit = await page.evaluate(() => {
+      const link = [...document.querySelectorAll('.hero-nav a')].find(element => element.textContent.trim() === 'creative');
+      const box = link.getBoundingClientRect();
+      const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+      return top?.closest('.hero-nav a')?.textContent.trim() || null;
+    });
+    assert.equal(barHit, 'creative', 'The route bar must stay clickable in the hero flow.');
     await page.evaluate(() => scrollTo({ top: 180, behavior: 'instant' }));
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     const barScrolled = await page.locator('.hero-nav').evaluate(element => ({ top: element.getBoundingClientRect().top,
@@ -115,5 +122,5 @@ await writeFile(new URL('../docs/validation/R9-CARET/results.json', import.meta.
   JSON.stringify({ build: report.build, profiles: report.profiles.map(({ width, caret }) => ({ width, caret })), passed: true }, null, 2) + '\n');
 await writeFile(new URL('../docs/validation/R5-VISIT/results.json', import.meta.url),
   JSON.stringify({ build: report.build, profiles: report.profiles.map(({ width, visit }) => ({ width, visit })), passed: true }, null, 2) + '\n');
-console.log(`PASS V3.2 micro ${report.build}: equal headings, shared arrow, clickable hero-flow bar at five scroll fractions, 300ms caret and permanent visit ghost at 1440/390/320.`);
+console.log(`PASS V3.2 micro ${report.build}: equal headings, shared arrow, clickable hero-flow bar, 300ms caret and permanent visit ghost at 1440/390/320.`);
 await browser.close();
