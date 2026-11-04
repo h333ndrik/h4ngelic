@@ -84,7 +84,7 @@ try {
       document.addEventListener('h4:modechange',event=>window.__v3ModeEvents.push({...event.detail,at:performance.now()}));
     });
     try {
-      await page.goto(new URL('/work',base).href,{waitUntil:'networkidle'});
+      await page.goto(new URL('/creative',base).href,{waitUntil:'networkidle'});
       await chapter(page,1,3);
       assert.equal(await page.locator('[data-inquiry-form]').count(),0,'Work cannot mount a second contact form.');
       assert.equal(await page.locator('[data-global-index]').count(),1);

@@ -59,7 +59,7 @@ try {
     assert.equal(after.running, 0);
 
     // Use the genuine published image, rather than a synthetic gallery fixture.
-    await page.goto(`${base}/work/more#digital-artworks`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/more#digital-artworks`, { waitUntil: 'networkidle' });
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal');
     const thumbnail = page.locator('[data-archive-category="digital-artworks"] [data-artwork-open]').first();
     await thumbnail.locator('img').evaluate(image => image.decode());

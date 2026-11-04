@@ -51,7 +51,7 @@ try {
   const requests = [];
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('request', (request) => requests.push(request.url()));
-  await page.goto(route('/work'), { waitUntil: 'networkidle' });
+  await page.goto(route('/creative'), { waitUntil: 'networkidle' });
   await mode(page, 'normal');
   assert.equal(await page.evaluate(() => window.__audioProbe.contexts), 0, 'Browsing without discovery must allocate no audio context.');
   await page.keyboard.down('4');
@@ -114,7 +114,7 @@ try {
   const fallback = await unsupported.newPage();
   const fallbackErrors = [];
   fallback.on('pageerror', (error) => fallbackErrors.push(error.message));
-  await fallback.goto(route('/work'), { waitUntil: 'networkidle' });
+  await fallback.goto(route('/creative'), { waitUntil: 'networkidle' });
   await mode(fallback, 'normal');
   assert.equal(await fallback.locator('[data-mode-mute]:visible').count(), 0);
   await changeMode(fallback, 'xray');

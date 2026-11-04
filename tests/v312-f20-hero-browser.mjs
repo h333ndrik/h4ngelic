@@ -105,7 +105,7 @@ try {
   {
     const page = await browser.newPage({ viewport: { width: 1440, height: 844 } });
     const requests = []; page.on('request', request => requests.push(request.url()));
-    await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+    await page.goto(new URL('/creative', base).href, { waitUntil: 'networkidle' });
     assert.ok(!requests.some(url => /wordmark-fallback|\/src\/main\.js|wordmark\.typeface|tattoo-texture/.test(url)), `Cold Work must not preload hero assets: ${JSON.stringify(requests)}`);
     assert.equal(await page.locator('[data-hero-poster]').count(), 0);
     await page.close();

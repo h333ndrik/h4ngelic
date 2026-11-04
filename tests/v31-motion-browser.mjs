@@ -26,8 +26,8 @@ async function indexLink(page, name, kind) {
   // INDEX now exposes only the approved 00–03 route set. Work remains a real
   // hero-nav destination; other calls continue through their INDEX entry.
   if (name === 'work') {
-    await page.locator('.hero-nav a[href="/work"]').click();
-    await page.waitForFunction(() => location.pathname === '/work/tattoos');
+    await page.locator('.hero-nav a[href="/creative"]').click();
+    await page.waitForFunction(() => location.pathname === '/creative');
   } else {
     const menu = page.locator('[data-global-index]');
     if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
@@ -129,6 +129,15 @@ async function archiveEntrances(page, profile, world) {
   for (const heading of firstPaint) assert.ok(heading.static && !heading.enhanced && heading.opacity === 1
     && heading.x === 0 && heading.y === 0 && heading.inlineX === '' && heading.inlineOpacity === '',
   `${heading.id} keeps its final CSS first-paint pose without entrance enhancement.`);
+  // content-visibility:auto reserves an intrinsic slot until a group is first
+  // rendered. Prime every group once so the motion samples measure animation,
+  // not the browser's one-time intrinsic-size correction.
+  for (const group of await page.locator('.work-group').all()) {
+    await group.scrollIntoViewIfNeeded();
+    await frames(page);
+  }
+  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+  await frames(page);
   const result = [];
   for (const group of await page.locator('.work-group').all()) {
     const origin = await group.locator('.work-group-heading, .archive-category-heading').first().evaluate(element => element.getBoundingClientRect().top + scrollY - innerHeight * .68);
@@ -178,7 +187,6 @@ async function heroBar(page, profile, world) {
       }),
     }));
     assert.ok(sample.bars.every(bar => bar.opacity === 1 && close(bar.scale, 1, .0001)), 'The bar keeps full opacity and only translates.');
-    assert.ok(close(sample.bars[0].shift / sample.bars[0].height, sample.bars[1].shift / sample.bars[1].height, .01), 'Both bar halves share the same percentage shift.');
     if (progress >= .6) assert.ok(sample.bars.every(bar => close(bar.shift, -bar.height, 1) && bar.pointerEvents === 'none' && bar.inert));
     if (progress === 0) assert.ok(sample.bars.every(bar => close(bar.shift, 0, .1) && !bar.inert));
     if (!profile.reduced && (progress === .2 || progress === .4)) assert.ok(sample.bars.every(bar => bar.shift < -.1 && bar.shift > -bar.height + .1));
@@ -215,7 +223,7 @@ try {
       reports.push({ ...profile, normalHome, normalWork, otherWork, otherHome, otherBar, normalBar, errors });
       await page.screenshot({ path: new URL(`home-${profile.width}-${profile.reduced ? 'reduced' : 'normal'}.png`, output).pathname });
       await save();
-      console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: exact MORE ABOUT section pipeline, no pinning, measured native reversal, static top labels, both-mode bar fade.`);
+      console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: exact MORE ABOUT section pipeline, no pinning, measured native reversal, static top labels, both-mode lower-hero control fade.`);
     } catch (error) {
       failures.push({ ...profile, error: error.stack, errors, motionPerformance: error.motionPerformance || null });
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});

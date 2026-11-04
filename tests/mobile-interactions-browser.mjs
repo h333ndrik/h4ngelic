@@ -126,7 +126,7 @@ async function mobile(width, reduced = false) {
   const cdp = await context.newCDPSession(page);
   page.on('pageerror', error => errors.push(error.message));
   try {
-    await page.goto(url('/work?test=1'), { waitUntil: 'networkidle' });
+    await page.goto(url('/creative?test=1'), { waitUntil: 'networkidle' });
     await settled(page, 'normal');
     const control = page.locator('[data-mobile-mode]');
     assert.equal(await control.count(), 1);
@@ -189,8 +189,8 @@ async function mobile(width, reduced = false) {
       assert.deepEqual(repeated.audio.map(event => event.mode), repeated.modes.map(event => event.mode));
     }
 
-    await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
-    await page.waitForURL(value => value.pathname === '/work/tattoos');
+    await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
+    await page.waitForURL(value => value.pathname === '/creative/onskin');
     await settled(page, 'normal');
     await addBlankScrollSurface(page);
     const fixedBefore = await control.boundingBox();
@@ -246,13 +246,9 @@ async function mobile(width, reduced = false) {
       scrollTo({ top: document.querySelector('[data-mobile-ink-fixture]').getBoundingClientRect().top + scrollY, behavior: 'instant' });
     });
     await pan(cdp, page);
-    const otherMark = await page.locator('[data-ink-mark][data-touch-ink]').first().evaluate(mark => ({
-      saturation: getComputedStyle(mark).filter,
-      texture: Number(getComputedStyle(mark.querySelector('.ink-film')).opacity),
-      channels: Number(getComputedStyle(mark.querySelector('.ink-channel')).opacity),
-    }));
-    assert.match(otherMark.saturation, /saturate/);
-    assert.ok(otherMark.texture > .54 && otherMark.channels >= .9, 'Other Side gesture ink keeps stronger distressed material.');
+    await page.waitForTimeout(300);
+    assert.equal(await page.locator('[data-ink-mark]').count(), 0,
+      'Other Side uses its persistent pixel memory and does not synthesize gesture ink.');
     await taps(page, cdp, 3);
     await settled(page, 'normal');
 
@@ -278,10 +274,10 @@ async function mobile(width, reduced = false) {
     }
     await page.locator('[data-floating-brand]').tap();
     await page.waitForURL(value => value.pathname === '/');
-    await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
+    await page.locator('#stage.is-ready, #stage.is-poster-static').waitFor({ timeout: 60000 });
     assert.equal(await control.count(), 1);
     assert.equal(await control.isVisible(), true);
-    assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.', 'Phase 2 message has not been introduced.');
+    assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'hold 4 to see the other side.', 'Phase 2 message has not been introduced.');
     assert.equal(await page.getByText('TAP HERE 4 TIMES.', { exact: true }).count(), 0);
     assert.equal(await page.getByText('TAP HERE 3 TIMES TO REVERSE.', { exact: true }).count(), 0);
     assert.deepEqual(errors, []);
@@ -297,7 +293,7 @@ async function desktop() {
   const page = await context.newPage(), errors = [];
   page.on('pageerror', error => errors.push(error.message));
   try {
-    await page.goto(url('/work?test=1'), { waitUntil: 'networkidle' });
+    await page.goto(url('/creative?test=1'), { waitUntil: 'networkidle' });
     await settled(page, 'normal');
     assert.equal(await page.locator('[data-mobile-mode]:visible').count(), 0, 'Desktop does not gain a mobile overlay.');
     await page.keyboard.down('4');

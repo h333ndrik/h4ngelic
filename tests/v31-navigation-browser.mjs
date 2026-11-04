@@ -60,7 +60,7 @@ async function cursorCoverage(page,profile,world) {
     else assert.equal(hover,expected,'Hover uses the same constant mode cursor.');
     records.push({kind,cursors,hover});await page.mouse.move(1,1);
   }
-  await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
+  await page.goto(new URL('/creative/onskin',base).href,{waitUntil:'networkidle'});
   await page.locator('html[data-page="work"]').waitFor();await settle(page);
   return {world,records};
 }
@@ -79,14 +79,13 @@ async function indexContract(page,profile,world) {
       outlineWidth:s.outlineWidth,filter:s.filter,shadow:s.boxShadow,linkColors:[...panel.querySelectorAll(':scope > a, :scope > .index-static')].map(a=>getComputedStyle(a).color),
       expanded:el.querySelector('summary').getAttribute('aria-expanded')};
   });
-  assert.deepEqual(data.numbers,['00/','01/','02/','03/','04/']);
-  assert.deepEqual(data.targets,['/','/about','/#contact','/#final-secret']);
+  assert.deepEqual(data.numbers,['00/','01/','02/','03/']);
+  assert.deepEqual(data.targets,['/','/about','/#contact']);
   assert.deepEqual(data.entries, [
     { tag:'A', href:'/', text:'00/ home', focusable:true },
     { tag:'SPAN', href:null, text:'01/ creative', focusable:false },
     { tag:'A', href:'/about', text:'02/ more about', focusable:true },
     { tag:'A', href:'/#contact', text:'03/ contact', focusable:true },
-    { tag:'A', href:'/#final-secret', text:'04/ the other side', focusable:true },
   ]);
   assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');
   assert.equal(data.borderWidth,'0px');assert.equal(data.radius,'4px');
@@ -131,9 +130,12 @@ async function workChrome(page,profile,world) {
   const tattooParity=await page.evaluate(()=>{
     const probe=document.createElement('a');probe.className='category-link';probe.style.cssText='position:absolute;visibility:hidden';document.body.append(probe);
     const front=getComputedStyle(probe).fontSize;probe.remove();
-    const title=document.querySelector('.rubric-category-heading');return {front,work:getComputedStyle(title).fontSize,arrows:title.querySelectorAll('.arrow').length};
+    const headings=[...document.querySelectorAll('.rubric-category-heading')];
+    return {front,count:headings.length,arrows:headings.reduce((sum,title)=>sum+title.querySelectorAll('.arrow').length,0),
+      links:headings.reduce((sum,title)=>sum+title.querySelectorAll('a').length,0),texts:headings.map(title=>title.textContent.trim())};
   });
-  assert.equal(tattooParity.work,tattooParity.front);assert.equal(tattooParity.arrows,0,'Child category headings are plain text.');g.tattooParity=tattooParity;
+  assert.ok(tattooParity.count>=1);assert.equal(tattooParity.arrows,0,'Child category headings are plain text.');
+  assert.equal(tattooParity.links,0,'Child category headings are not links.');g.tattooParity=tattooParity;
   const typography=await page.evaluate(()=>{
     const h=document.createElement('h2');h.className='kinetic-heading';h.style.cssText='position:absolute;visibility:hidden;pointer-events:none';document.body.append(h);
     const heading=getComputedStyle(h).fontSize;h.remove();
@@ -224,7 +226,7 @@ try {
     page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(new URL(r.url()).pathname));
     await page.addInitScript(()=>{localStorage.setItem('h4ngelic.audio.v1',JSON.stringify({muted:true,volume:.2}));window.__v31GL=0;const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){if(/webgl/i.test(type))window.__v31GL++;return get.call(this,type,...args);};});
     try {
-      await page.goto(new URL('/work',base).href,{waitUntil:'networkidle'});await settle(page);
+      await page.goto(new URL('/creative',base).href,{waitUntil:'networkidle'});await settle(page);
       const normals=await indexContract(page,profile,'normal');const workNormal=await workChrome(page,profile,'normal');const contrastNormal=await contrastContract(page,'normal');
       assert.equal(await page.evaluate(()=>window.__v31GL),0,'Cold Work does not initialize a Three.js scene.');
       assert.ok(!requests.some(path=>/\/src\/main\.js$|\/three(?:[/.]|$)/i.test(path)));

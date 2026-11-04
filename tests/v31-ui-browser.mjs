@@ -26,9 +26,9 @@ async function settled(page) {
 
 async function indexRoute(page, destination) {
   if (destination === 'work') {
-    await page.locator('.hero-nav a[href="/work"]').click();
+    await page.locator('.hero-nav a[href="/creative"]').click();
     await page.locator('html[data-page="work"]').waitFor();
-    await page.waitForFunction(() => location.pathname === '/work/tattoos');
+    await page.waitForFunction(() => location.pathname === '/creative');
     await settled(page);
     return;
   }
@@ -146,12 +146,19 @@ async function formContract(page, profile) {
   const menuHover = await hovered(page, '[data-global-index] [data-index-page="home"]', profile);
   await page.keyboard.press('Escape');
   const targets = await coverage(page, ['[data-global-index] summary', '[data-global-index] a', '[data-naavi]',
-    '.about-preview .text-link', '.footer-moshlab', '.footer-smash', '.footer-instagram', '.footer-location',
+    '.about-preview .text-link', '.footer-moshlab', '.footer-details > .footer-impressum:not(.footer-impressum-other-side)',
+    '.footer-instagram', '.footer-location',
     '[data-visit-counter-hotspot]', '[data-inquiry-submit]', '[data-controls] button']);
+  const smash = await page.locator('.footer-smash').count();
+  if (await page.locator('html').getAttribute('data-mode') === 'xray') {
+    assert.equal(smash, 1, 'Other Side owns the only SMASH control.');
+    assert.equal(await page.locator('.footer-smash').innerText(), 'smash');
+    assert.equal(await page.locator('.footer-smash .arrow').count(), 0);
+  } else assert.equal(smash, 0, 'Normal mode keeps SMASH out of the DOM.');
   const surfaces = await radiusScope(page, ['.inquiry-field input', '.inquiry-field textarea', '.global-index-links',
     '[data-naavi]', '[data-other-side-hint]', '[data-visit-counter-hotspot]'], 4);
   await page.screenshot({ path: new URL(`form-${profile.width}-${profile.reduced}-${await page.locator('html').getAttribute('data-mode')}.png`, output).pathname });
-  return { fields, focused, panel, targets, surfaces, menuHover };
+  return { fields, focused, panel, targets, surfaces, menuHover, smash };
 }
 
 async function imageContract(page, profile) {
@@ -210,7 +217,7 @@ async function imageContract(page, profile) {
     '[data-horizontal-drift="tattoos"] img'], 4);
   await coverage(page, ['[data-horizontal-drift="tattoos"] .artwork-open']);
   const imageHover = await hovered(page, '[data-horizontal-drift="tattoos"] [data-artwork-open]', profile);
-  await page.goto(new URL('/work/more', base).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative/more', base).href, { waitUntil: 'networkidle' });
   await page.locator('#digital-artworks').waitFor();
   await settled(page);
   const digitalRadii = await radiusScope(page, ['#digital-artworks .artwork-open', '#digital-artworks img'], 4);
@@ -291,12 +298,12 @@ async function heroContract(page, profile) {
     const label = await button.getAttribute('aria-label');
     const resting = await button.evaluate(inspect);
     if (profile.width >= 600) await button.hover();
-    await button.focus(); await page.keyboard.press('Tab'); await page.keyboard.press('Shift+Tab');
+    await button.evaluate(element => element.focus({ focusVisible: true }));
     const focused = await button.evaluate(inspect);
     for (const state of [resting, focused]) {
       assert.deepEqual(state.border, ['0px', '0px', '0px', '0px']); assert.equal(state.outline, '0px'); assert.equal(state.radius, '4px');
     }
-    assert.equal(focused.focus, true, 'Hero control keyboard focus is observable.');
+    assert.equal(focused.focus, true, `Hero control keyboard focus is observable: ${label || await button.innerText()}.`);
     assert.ok(focused.underline.includes('underline'), 'Borderless hero controls retain their subtle keyboard underline.');
     controls.push({ label, resting, focused });
   }

@@ -30,7 +30,7 @@ async function routeNavigate(page, name) {
   if (name === 'contact' && current === 'about') {
     await page.locator('.about-copy a[href="#/#contact"]').click();
   } else if (name === 'work' && current === 'work') {
-    await page.evaluate(() => { location.hash = '#/work'; });
+    await page.evaluate(() => { location.hash = '#/creative'; });
   } else if (name === 'home') {
     await page.locator('[data-floating-brand]').click();
   } else {
@@ -172,13 +172,13 @@ try {
       assert.equal(await page.locator('[data-global-index] summary').textContent(), '+');
       await page.locator('[data-global-index] summary').click();
       assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), true);
-      assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00/', '01/', '02/', '03/', '04/']);
+      assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00/', '01/', '02/', '03/']);
       await page.keyboard.press('Escape');
       assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), false);
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'hold 4 to see the other side.');
       assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1);
       assert.equal(await page.locator('[data-visit-message]').count(), 1, 'The shared seven-tier phrase node is present.');
-      assert.match(await page.locator('[data-visit-number]').textContent(), /^VISIT \d{4,}$/);
+      assert.match(await page.locator('[data-visit-number]').textContent(), /^visit \d{4,}$/);
       await footerAtRest(page);
       const identity = await identityGeometry(page);
       assert.equal(identity.counterInLeftCluster, true, 'The local count follows moshlab in the left footer cluster.');
@@ -187,35 +187,18 @@ try {
         'The middle reservation keeps the shared NAAVI clear of both footer clusters.');
       assert.equal(await page.locator('.footer-moshlab').getAttribute('href'), '#');
       assert.equal(await page.locator('.footer-moshlab .arrow').count(), 1);
-      assert.equal(await page.locator('.footer-smash .arrow').count(), 1);
+      assert.equal(await page.locator('.footer-smash .arrow').count(), 0, 'SMASH is mode-only and carries no arrow in the normal footer.');
       assert.equal(await page.locator('.footer-instagram .arrow').count(), 1);
-      assert.equal(await page.locator('[data-visit-number]').evaluate(element => Number(getComputedStyle(element).opacity)), 0,
-        'The new four-digit count is a hidden reveal target, not a permanently visible phrase.');
+      assert.equal(await page.locator('[data-visit-number]').evaluate(element => Number(getComputedStyle(element).opacity)), 0.35,
+        'The four-digit count is permanently visible in the ghost footer.');
       const visit = page.locator('[data-visit-counter-hotspot]');
       await visit.focus();
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity) > .2);
       const revealedIdentity = await identityGeometry(page);
       assert.equal(revealedIdentity.pageHeight, identity.pageHeight, 'Counter discovery never adds page height.');
       assert.deepEqual(revealedIdentity.row, identity.row, 'Counter discovery never reflows the footer row.');
-      assert.equal(await page.locator('[data-smash]').isEnabled(), true, 'The approved embedded soundtrack is available without an external fetch.');
+      assert.equal(await page.locator('[data-smash]').count(), 0, 'SMASH renders only on The Other Side, never as hidden normal-mode DOM.');
       let offlineSmash = { played: false };
-      if (width === 390) {
-        await page.locator('[data-smash]').tap();
-        await page.waitForFunction(() => window.__offlineAudioProbe.tracks.length === 1, null, { timeout: 20000 });
-        const firstTrack = await page.evaluate(() => window.__offlineAudioProbe.tracks[0]);
-        assert.ok(firstTrack.duration > 100 && firstTrack.duration < 101, 'The actual approved track plays from its embedded data URL.');
-        assert.equal(await page.evaluate(() => window.__offlineAudioProbe.decodes), 1);
-        await page.locator('[data-smash]').tap();
-        await page.waitForFunction(() => window.__offlineAudioProbe.tracks[0].ended
-          && document.querySelector('[data-smash]').getAttribute('aria-pressed') === 'false', null, { timeout: 10000 });
-        await page.locator('[data-smash]').tap();
-        await page.waitForFunction(() => window.__offlineAudioProbe.tracks.length === 2);
-        assert.equal(await page.evaluate(() => window.__offlineAudioProbe.decodes), 1, 'Repeated offline playback reuses the decoded cache.');
-        await page.locator('[data-smash]').tap();
-        await page.waitForFunction(() => window.__offlineAudioProbe.tracks[1].ended
-          && document.querySelector('[data-smash]').getAttribute('aria-pressed') === 'false');
-        offlineSmash = await page.evaluate(() => ({ played: true, ...window.__offlineAudioProbe }));
-      }
       await routeNavigate(page, 'home');
       await page.waitForFunction(() => scrollY < 2);
       assert.equal(await page.locator('.corruption-background,[data-corruption-region]').count(), 0,
@@ -266,8 +249,26 @@ try {
       assert.equal(released.snapshot.sourceInitializations, 1);
       assert.equal(released.snapshot.queued, false, 'Reduced-motion offline memory stays static.');
       assert.equal(released.snapshot.transition.claimedFrame, prepared.snapshot.frames);
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 times 3 to reverse');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 three times to reverse.');
       await page.waitForTimeout(1100);
+      assert.equal(await page.locator('[data-smash]').isEnabled(), true, 'The approved embedded soundtrack is available without an external fetch.');
+      if (width === 390) {
+        await page.locator('[data-smash]').tap();
+        await page.waitForFunction(() => window.__offlineAudioProbe.tracks.length === 1, null, { timeout: 20000 });
+        const firstTrack = await page.evaluate(() => window.__offlineAudioProbe.tracks[0]);
+        assert.ok(firstTrack.duration > 100 && firstTrack.duration < 101, 'The actual approved track plays from its embedded data URL.');
+        assert.equal(await page.evaluate(() => window.__offlineAudioProbe.decodes), 1);
+        await page.locator('[data-smash]').tap();
+        await page.waitForFunction(() => window.__offlineAudioProbe.tracks[0].ended
+          && document.querySelector('[data-smash]').getAttribute('aria-pressed') === 'false', null, { timeout: 10000 });
+        await page.locator('[data-smash]').tap();
+        await page.waitForFunction(() => window.__offlineAudioProbe.tracks.length === 2);
+        assert.equal(await page.evaluate(() => window.__offlineAudioProbe.decodes), 1, 'Repeated offline playback reuses the decoded cache.');
+        await page.locator('[data-smash]').tap();
+        await page.waitForFunction(() => window.__offlineAudioProbe.tracks[1].ended
+          && document.querySelector('[data-smash]').getAttribute('aria-pressed') === 'false');
+        offlineSmash = await page.evaluate(() => ({ played: true, ...window.__offlineAudioProbe }));
+      }
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Hold completion/release cannot toggle twice.');
       const beforeIgnored4 = await page.evaluate(() => ({ mode: document.documentElement.dataset.mode,
         handoffs: window.__offlineMemoryHandoffs.length }));
@@ -307,7 +308,7 @@ try {
         if (mobile) await mute.tap(); else await mute.click();
         assert.equal(await mute.getAttribute('aria-pressed'), 'true');
       }
-      await page.locator('#selected-work .category-link[href="#/work/tattoos"]').click();
+      await page.locator('#selected-work .category-link[href="#/creative/onskin"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
       await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="page"]')?.textContent.trim() === 'on skin');
       assert.equal(await page.locator('#logo-canvas').isVisible(), false);
@@ -316,7 +317,7 @@ try {
       assert.equal(await tattoos.locator('[data-drift-item]').count(), 8);
       assert.equal(await tattoos.locator('img').count(), 8);
       assert.equal(await tattoos.locator('.archive-empty').count(), 0, 'Actual supplied photographs replace the formerly empty archive.');
-      assert.equal(await tattoos.locator('[data-drift-count]').textContent(), '1 / 8');
+      assert.equal(await tattoos.locator('[data-drift-count]').textContent(), '01/ 08');
       const tattooImage = tattoos.locator('img').first();
       await tattooImage.evaluate(image => { image.loading = 'eager'; return image.decode(); });
       assert.match(await tattooImage.getAttribute('src'), /^data:image\//);
@@ -334,16 +335,16 @@ try {
         'Work does not acquire a visible duplicate sound control.');
       if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true');
 
-      await page.evaluate(() => { location.hash = '#/work/flashes'; });
-      await page.waitForFunction(() => location.hash === '#/work/flashes' && document.querySelector('[data-work-context="flashes"]'));
+      await page.evaluate(() => { location.hash = '#/creative/flashes'; });
+      await page.waitForFunction(() => location.hash === '#/creative/flashes' && document.querySelector('[data-work-context="flashes"]'));
       assert.equal(await page.locator('.work-page h1').textContent(), 'FLASHES', 'The standalone Flash category is a real route with its own heading.');
       assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['flashes']);
-      await page.locator('.work-filters a[href="#/work/more"]').click();
-      await page.waitForFunction(() => location.hash === '#/work/more' && document.querySelector('[data-work-context="more"]'));
+      await page.locator('.work-filters a[href="#/creative/more"]').click();
+      await page.waitForFunction(() => location.hash === '#/creative/more' && document.querySelector('[data-work-context="more"]'));
       assert.equal(await page.locator('.work-page h1').textContent(), 'more');
       assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['digital-artworks', 'analog-photography']);
-      await page.evaluate(() => { location.hash = '#/work/digital-artworks'; });
-      await page.waitForFunction(() => location.hash === '#/work/digital-artworks' && document.querySelector('[data-work-context="digital-artworks"]'));
+      await page.evaluate(() => { location.hash = '#/creative/digital-artworks'; });
+      await page.waitForFunction(() => location.hash === '#/creative/digital-artworks' && document.querySelector('[data-work-context="digital-artworks"]'));
       assert.equal(await page.locator('.work-page h1').textContent(), 'DIGITAL ARTWORKS');
       assert.equal(await page.locator('.portfolio-archive img').count(), 1, 'The Digital route embeds its real image without unrelated Tattoo slides.');
       const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
@@ -354,7 +355,7 @@ try {
       assert.ok(await original.evaluate(image => image.naturalWidth > 0
         && Math.abs(image.naturalWidth * 4 - image.naturalHeight * 3) <= 4),
       'Responsive image density rounds intrinsic CSS dimensions by at most one pixel.');
-      assert.equal(await page.locator('[data-project-url="/work/digital-artworks/green-black-original"]').count(), 1);
+      assert.equal(await page.locator('[data-project-url="/creative/green-black-original"]').count(), 1);
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'New archive navigation keeps the current visual world.');
 
       await routeNavigate(page, 'about');
@@ -371,9 +372,9 @@ try {
       await page.waitForFunction(() => document.documentElement.dataset.page === 'home'
         && location.hash === '#/#contact' && document.querySelector('#contact').getBoundingClientRect().top < innerHeight);
       assert.ok(await page.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 times 3 to reverse');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 three times to reverse.');
       await reverseWith3(page);
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'hold 4 to see the other side.');
       const filters = await page.locator('#logo-canvas,.project-image img').evaluateAll(images => images.map(image => getComputedStyle(image).filter));
       assert.ok(filters.every(filter => filter === 'none'));
       await page.evaluate(() => { location.hash = '#/'; });
@@ -388,7 +389,7 @@ try {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
       await footerAtRest(page);
       const finalCount = await page.locator('[data-visit-number]').textContent();
-      assert.match(finalCount, /^VISIT \d{4,}$/);
+      assert.match(finalCount, /^visit \d{4,}$/);
       if (mobile) await page.locator('[data-visit-counter-hotspot]').tap(); else await page.locator('[data-visit-counter-hotspot]').focus();
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity) > .2);
       assert.equal(await page.locator('[data-visit-number]').textContent(), finalCount, 'Discovering a count does not increment it.');
@@ -401,7 +402,7 @@ try {
           'ignored one-second 4 on Other Side', 'exact released triple-3 return', 'temporary faint hint', 'embedded film',
           'retained transition pixels', 'two bounded memory buffers', 'no pristine CSS source', 'lower hero mute',
           'hidden four-digit right-cluster visit', 'numbered persistent INDEX', 'eight genuine embedded Tattoo photographs', 'inline photo enlargement', 'embedded SMASH availability', 'connected Work anchors', 'About', 'Home-only Contact inquiry', 'horizontal bounds'] });
-      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, hidden right-cluster visit, numbered INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.`);
+      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, permanent left-cluster visit, four-entry INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL('../artifacts/control-offline-results.json', import.meta.url), JSON.stringify({

@@ -50,13 +50,16 @@ try {
       }
       const category = page.locator('#selected-work .category-link').first();
       await category.scrollIntoViewIfNeeded(); await frames(page);
-      const categoryBefore = await category.evaluate(element => getComputedStyle(element.querySelector('.interaction-visual') || element).transform);
+      const categoryVisual = () => category.evaluate(element => { const style = getComputedStyle(element.querySelector('.interaction-visual') || element);
+        return { transform: style.transform, filter: style.filter }; });
+      const categoryBefore = await categoryVisual();
       const categoryBox = await category.boundingBox();
       await page.mouse.move(categoryBox.x + categoryBox.width / 2, categoryBox.y + categoryBox.height / 2); await frames(page);
       await page.waitForTimeout(350);
-      const categoryAfter = await category.evaluate(element => getComputedStyle(element.querySelector('.interaction-visual') || element).transform);
-      if (!profile.reduced && profile.width >= 1000) assert.notEqual(categoryAfter, categoryBefore, 'Rubric links retain the unified hover.');
-      else assert.equal(categoryAfter, categoryBefore, 'Coarse pointers and reduced motion keep instant/static states.');
+      const categoryAfter = await categoryVisual();
+      if (!profile.reduced && profile.width >= 1000) assert.ok(categoryAfter.transform !== categoryBefore.transform || categoryAfter.filter !== categoryBefore.filter,
+        'Rubric links retain the unified hover.');
+      else assert.equal(categoryAfter.transform, categoryBefore.transform, 'Coarse pointers and reduced motion keep the transform instant/static.');
       assert.deepEqual(errors, []);
       await page.screenshot({ path: new URL(`titles-${profile.width}-${profile.reduced}.png`, output).pathname });
       reports.push({ ...profile, observations, categoryHover: { before: categoryBefore, after: categoryAfter }, errors }); await save();

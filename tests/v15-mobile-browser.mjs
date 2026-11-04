@@ -48,7 +48,7 @@ try {
       assert.ok(recognition.textHeight <= recognition.lineHeight + 1);
       const index = page.locator('[data-global-index]');
       await index.locator('summary').click();
-      assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(nodes => nodes.map(node => node.dataset.indexPage)), ['home', 'creative', 'about', 'contact', 'other-side']);
+      assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(nodes => nodes.map(node => node.dataset.indexPage)), ['home', 'creative', 'about', 'contact']);
       assert.equal(await index.locator('[data-index-page="creative"]').evaluate(element => element.tagName), 'SPAN');
       await page.keyboard.press('Escape');
       const cursor = await page.evaluate(() => ({ body: getComputedStyle(document.body).cursor, link: getComputedStyle(document.querySelector('.hero-nav a')).cursor }));
@@ -67,22 +67,26 @@ try {
       await page.waitForFunction(() => document.querySelector('[data-visit-message]')?.classList.contains('is-discovered'));
       await page.waitForTimeout(800);
       const footer = await page.evaluate(() => {
-        const box = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; };
+        const box = selector => { const element = document.querySelector(selector); if (!element) return null;
+          const r = element.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; };
         return { moshlab: box('.footer-moshlab'), counter: box('[data-visit-counter-hotspot]'), smash: box('.footer-smash'),
-          instagram: box('.footer-instagram'), location: box('.footer-location'), naavi: box('[data-naavi]'),
+          instagram: box('.footer-instagram'), impressum: box('.footer-details .footer-impressum:not(.footer-impressum-other-side)'),
+          location: box('.footer-location'), naavi: box('[data-naavi]'),
           phrase: document.querySelector('[data-visit-message]').textContent, pageWidth: document.documentElement.scrollWidth,
           messageOpacity: Number(getComputedStyle(document.querySelector('[data-visit-message]')).opacity) };
       });
       assert.equal(footer.phrase, visitorMessage(5));
       assert.ok(footer.messageOpacity > .3, `The discovered footer message is visibly painted; opacity=${footer.messageOpacity}.`);
-      assert.equal(overlap(footer.moshlab, footer.counter), false, 'VISIT and moshlab stay separate.');
-      assert.equal(overlap(footer.smash, footer.instagram), false);
+      assert.equal(overlap(footer.moshlab, footer.counter), false, 'visit and moshlab stay separate.');
+      assert.equal(footer.smash, null, 'Normal mode keeps SMASH out of the DOM.');
+      assert.equal(overlap(footer.instagram, footer.impressum), false);
+      assert.equal(overlap(footer.impressum, footer.location), false);
       assert.equal(overlap(footer.instagram, footer.location), false);
       assert.equal(overlap(footer.counter, footer.naavi), false);
       assert.ok(footer.pageWidth <= profile.width + 1);
       await page.screenshot({ path: new URL(`footer-${profile.width}-${profile.reduced}.png`, output).pathname });
 
-      await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"]')?.dataset.carouselPreload === 'idle');
       const carousel = page.locator('[data-horizontal-drift="tattoos"]');
       if (profile.reduced) assert.equal(await carousel.getAttribute('data-carousel-phase'), 'idle');
@@ -117,7 +121,7 @@ try {
       assert.equal(await first.getAttribute('aria-pressed'), 'true');
       assert.ok(expanded.width / Math.min(widthBefore, 300) > 1.04 && expanded.x >= -.1 && expanded.x + expanded.width <= profile.width + .1, `Touch expansion grows beyond the exact 300px resting card while fitting the phone viewport: ${JSON.stringify({widthBefore,expanded})}`);
 
-      await page.goto(new URL('/work/more', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/more', base).href, { waitUntil: 'networkidle' });
       await page.locator('#digital-artworks').waitFor();
       const digital = page.locator('#digital-artworks .artwork-open').first();
       await digital.scrollIntoViewIfNeeded(); await frames(page);
@@ -130,7 +134,7 @@ try {
       assert.equal(await page.locator('.about-page .page-heading').textContent(), '02/ more about');
       await page.screenshot({ path: new URL(`about-${profile.width}-${profile.reduced}.png`, output).pathname });
 
-      await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
       const cross = page.locator('.rubric-cross-links');
       await cross.scrollIntoViewIfNeeded(); await frames(page);
       const crossBox = await cross.evaluate(nav => { const r = nav.getBoundingClientRect(); return { width: r.width, height: r.height, scrollWidth: nav.scrollWidth, labels: [...nav.querySelectorAll('a')].map(a => a.textContent.replace(/\s+/g, ' ').trim()) }; });

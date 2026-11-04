@@ -26,7 +26,7 @@ try {
       isMobile: width < 600, hasTouch: width < 600, reducedMotion: 'no-preference' });
     await context.addInitScript(() => localStorage.setItem('h4ngelic.audio.v1', JSON.stringify({ muted: true, volume: .2 })));
     try {
-      for (const route of ['/work/tattoos', '/contact']) {
+      for (const route of ['/creative/onskin', '/contact']) {
         const samples = [], requests = [], errors = [];
         let page;
         for (let warmup = 0; warmup < 2; warmup++) {
@@ -121,7 +121,7 @@ try {
   const mainChunks = (await readdir(new URL('../dist/assets/', import.meta.url))).filter(name => /^main-.*\.js$/.test(name));
   assert.deepEqual(mainChunks, [href.split('/').at(-1)], 'The modulepreload points at the single emitted main chunk.');
   const manifest = JSON.parse(await readFile(new URL('../dist/route-manifest.json', import.meta.url), 'utf8'));
-  assert.equal(manifest.routes.length, 19, 'The build remains 19 canonical routes plus 404.');
+  assert.equal(manifest.routes.length, 23, 'The build contains 23 canonical routes plus 404.');
   const distBytes = await directoryBytes(new URL('../dist/', import.meta.url));
   console.log(`PASS performance: ${reports.map(result => `${result.route}@${result.width} ${result.median.toFixed(2)}ms`).join(', ')}; preload ${href}; ${mainChunks.length} main chunk; routes ${manifest.routes.length}.`);
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, reports,

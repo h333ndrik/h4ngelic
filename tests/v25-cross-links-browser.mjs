@@ -6,6 +6,7 @@ const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_CROSS_LINKS_ARTIFACTS || 'artifacts/v312/V25'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
 const groups = ['tattoos', 'jewellery', 'tools', 'more'];
+const groupHref = id => `/creative/${id === 'tattoos' ? 'onskin' : id}`;
 const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })));
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -24,7 +25,7 @@ try {
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     try {
       for (const category of groups) {
-        await page.goto(new URL(`/work/${category}`, base).href, { waitUntil: 'networkidle' });
+        await page.goto(new URL(groupHref(category), base).href, { waitUntil: 'networkidle' });
         await page.locator('.rubric-cross-links').waitFor();
         await page.locator('.rubric-cross-links').scrollIntoViewIfNeeded(); await frames(page);
         const data = await page.locator('.rubric-cross-links').evaluate((nav, current) => {
@@ -50,7 +51,7 @@ try {
         const expected = groups.filter(group => group !== category);
         const label = group => group === 'tattoos' ? 'on skin' : group;
         assert.deepEqual(data.entries.filter(entry => entry.tag === 'A').map(entry => entry.text), expected.map(label));
-        assert.deepEqual(data.entries.filter(entry => entry.tag === 'A').map(entry => entry.href), expected.map(group => `/work/${group}`));
+        assert.deepEqual(data.entries.filter(entry => entry.tag === 'A').map(entry => entry.href), expected.map(groupHref));
         assert.ok(data.scrollWidth <= data.clientWidth + 1, 'The fixed row never overflows the page at 320px.');
         for (const entry of data.entries.filter(entry => entry.tag === 'A')) {
           assert.ok(entry.tableIndex >= 0, 'Cross-links are keyboard focusable.');

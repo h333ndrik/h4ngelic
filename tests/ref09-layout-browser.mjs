@@ -71,8 +71,8 @@ try {
       assert.equal(await sound.getAttribute('aria-pressed'), 'true');
       const count = await page.locator('[data-visit-number]').textContent();
       await page.screenshot({ path: new URL(`hero-${width}.png`, out).pathname });
-      await page.locator('.hero-nav a[href="/work"]').click();
-      await page.waitForURL(url => url.pathname === '/work/tattoos');
+      await page.locator('.hero-nav a[href="/creative"]').click();
+      await page.waitForURL(url => url.pathname === '/creative/onskin');
       assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0, 'Interior pages do not add a duplicate or misplaced sound control.');
       await page.locator('.page-nav a[href="/about"]').click();
       await page.waitForURL(url => url.pathname === '/about');

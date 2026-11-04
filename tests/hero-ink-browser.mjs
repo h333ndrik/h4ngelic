@@ -217,7 +217,7 @@ async function desktop() {
     await mode(page, 'normal');
     assert.equal((await ink(page)).count, 0);
     await stamp(page);
-    await page.locator('.hero-nav a[href="/work"]').click();
+    await page.locator('.hero-nav a[href="/creative"]').click();
     await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
     // render() commits the route attribute before awaiting its enhancements;
     // lifecycle cleanup follows h4:pagechange once that async commit finishes.

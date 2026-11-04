@@ -9,6 +9,7 @@ const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => 
   .filter(profile => !process.env.H4_PORTFOLIO_WIDTHS || process.env.H4_PORTFOLIO_WIDTHS.split(',').map(Number).includes(profile.width));
 const groups = ['tattoos', 'jewellery', 'tools', 'more'];
 const leaves = ['flashes', 'analog-photography', 'digital-artworks', 'paintings'];
+const groupHref = id => `/creative/${id === 'tattoos' ? 'onskin' : id}`;
 const expectedCategories = {
   all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
   tattoos: ['tattoos', 'flashes'], jewellery: ['jewellery'], tools: [], more: ['digital-artworks', 'analog-photography'],
@@ -51,11 +52,11 @@ async function work(page, category = 'all') {
   assert.equal(await page.locator('#contact, [data-inquiry-form]').count(), 0, 'Contact remains exclusively on Home.');
   assert.equal(await page.locator('#logo-canvas').isVisible(), false);
   const links = await page.locator('.work-filters a').evaluateAll(nodes => nodes.map(node => ({ href: node.getAttribute('href'), text: node.textContent.trim() })));
-  assert.deepEqual(links, groups.map(id => ({ href: `/work/${id}`, text: id === 'tattoos' ? 'on skin' : id })));
+  assert.deepEqual(links, groups.map(id => ({ href: groupHref(id), text: id === 'tattoos' ? 'on skin' : id })));
   const group = groups.includes(category) ? category : ['digital-artworks', 'analog-photography'].includes(category) ? 'more' : category === 'flashes' ? 'tattoos' : null;
   const current = page.locator('.work-filters a[aria-current="page"]');
   assert.equal(await current.count(), group ? 1 : 0);
-  if (group) assert.equal(await current.getAttribute('href'), `/work/${group}`);
+  if (group) assert.equal(await current.getAttribute('href'), groupHref(group));
   if (rubric) {
     assert.equal(await page.locator('.work-group-heading').count(), 0, 'Rubric pages do not retain a self-link header.');
     assert.equal(await page.locator('.work-page.is-rubric-page').count(), 1);
@@ -84,7 +85,7 @@ async function work(page, category = 'all') {
     assert.ok(sources.every(image => image.alt && image.srcset && Number(image.width) > 0 && Number(image.height) > 0));
   }
   if (digital) assert.match(await page.locator('[data-archive-category="digital-artworks"] img').getAttribute('src'), /green-black-original/);
-  const path = category === 'all' ? '/work' : `/work/${category}`;
+  const path = category === 'all' ? '/creative' : groupHref(category);
   assert.equal(new URL(page.url()).pathname, path);
   assert.equal(new URL(page.url()).hash, '');
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), `https://h4ngelic.com${path}`);
@@ -97,7 +98,7 @@ async function work(page, category = 'all') {
 }
 async function homepageCategories(page, width) {
   const section = page.locator('#selected-work'), links = section.locator('.category-link');
-  assert.deepEqual(await links.evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))), groups.map(id => `/work/${id}`));
+  assert.deepEqual(await links.evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))), groups.map(groupHref));
   assert.equal(await section.locator('img, picture, video, canvas').count(), 0);
   assert.equal(await section.locator('.category-sublinks').count(), 0);
   assert.equal(await page.locator('#selected-work-title .section-route-link').count(), 0);
@@ -133,11 +134,11 @@ try {
     page.on('request', request => requests.push(request.url()));
     try {
       // Cold interior first: no cached hero/Three request can hide eager loading.
-      await page.goto(url('/work/tattoos'), { waitUntil: 'networkidle' });
+      await page.goto(url('/creative/onskin'), { waitUntil: 'networkidle' });
       observations.push(await work(page, 'tattoos'));
       for (const category of ['jewellery', 'more']) {
         await page.evaluate(() => { window.__portfolioPreviousNode = document.querySelector('[data-connected-work]'); });
-        await page.locator(`.work-filters a[href="/work/${category}"]`).click();
+        await page.locator(`.work-filters a[href="${groupHref(category)}"]`).click();
         observations.push(await work(page, category));
         assert.equal(await page.evaluate(() => window.__portfolioPreviousNode === document.querySelector('[data-connected-work]')), false,
           'A different category mounts its own real page instead of retaining hidden tabs.');
@@ -149,7 +150,7 @@ try {
       assert.ok(!requests.some(request => /\.mp3(?:[?#]|$)/.test(request)), 'No soundtrack is fetched before a user plays it.');
       await mode(page, 'xray');
       for (const category of ['tattoos', 'more']) {
-        await page.locator(`.work-filters a[href="/work/${category}"]`).click(); observations.push(await work(page, category));
+        await page.locator(`.work-filters a[href="${groupHref(category)}"]`).click(); observations.push(await work(page, category));
         assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'The existing world survives real category page changes.');
       }
       await page.screenshot({ path: new URL(`more-${profile.width}-${profile.reduced}-4.png`, output).pathname });
@@ -158,21 +159,21 @@ try {
       if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
       assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.textContent.replace(/\s+/g, ' ').trim()), '01/ creative');
       assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.tabIndex >= 0), false);
-      assert.equal(await menu.locator('a[href="/work"]').count(), 0);
+      assert.equal(await menu.locator('a[href="/creative"]').count(), 0);
       await menu.locator('[data-index-page="home"]').click();
       await page.locator('html[data-page="home"]').waitFor(); await settle(page);
       await homepageCategories(page, profile.width);
-      await page.goto(url('/work'), { waitUntil: 'networkidle' });
-      assert.equal(new URL(page.url()).pathname, '/work/tattoos');
-      observations.push(await work(page, 'tattoos'));
+      await page.goto(url('/creative'), { waitUntil: 'networkidle' });
+      assert.equal(new URL(page.url()).pathname, '/creative');
+      observations.push(await work(page, 'all'));
       await page.goto(url('/'), { waitUntil: 'networkidle' }); await settle(page);
       for (const category of groups) {
-        const target = page.locator(`#selected-work .category-link[href="/work/${category}"]`);
+        const target = page.locator(`#selected-work .category-link[href="${groupHref(category)}"]`);
         await target.focus(); await page.keyboard.press('Enter'); observations.push(await work(page, category));
         await page.goBack({ waitUntil: 'networkidle' }); await page.locator('html[data-page="home"]').waitFor(); await settle(page);
       }
       for (const category of [...groups, ...leaves]) {
-        await page.goto(url(`/work?category=${category}`), { waitUntil: 'networkidle' });
+        await page.goto(url(`/creative?category=${category}`), { waitUntil: 'networkidle' });
         observations.push(await work(page, category));
         await page.reload({ waitUntil: 'networkidle' }); observations.push(await work(page, category));
       }

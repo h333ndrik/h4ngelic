@@ -19,7 +19,7 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative', baseURL).href, { waitUntil: 'networkidle' });
   await page.evaluate(async () => {
     const { createModeSnapshotTransition } = await import('/src/mode-snapshot.js');
     window.__snapshotProbe = {
@@ -144,7 +144,7 @@ try {
     const mobilePage = await mobileContext.newPage();
     const mobileErrors = [];
     mobilePage.on('pageerror', error => mobileErrors.push(error.message));
-    await mobilePage.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
+    await mobilePage.goto(new URL('/creative', baseURL).href, { waitUntil: 'networkidle' });
     const transitions = await mobilePage.evaluate(async () => {
       const { createModeSnapshotTransition } = await import('/src/mode-snapshot.js');
       const controller = createModeSnapshotTransition();
@@ -186,7 +186,7 @@ try {
 
   const reducedContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
   const reducedPage = await reducedContext.newPage();
-  await reducedPage.goto(new URL('/work', baseURL).href, { waitUntil: 'networkidle' });
+  await reducedPage.goto(new URL('/creative', baseURL).href, { waitUntil: 'networkidle' });
   const reduced = await reducedPage.evaluate(async () => {
     const { createModeSnapshotTransition } = await import('/src/mode-snapshot.js');
     const controller = createModeSnapshotTransition();

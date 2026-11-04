@@ -72,7 +72,7 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   // Enter through the real category route: the dev server correctly returns a
   // static 404 for a fixture-only detail URL that does not exist on the server.
-  await page.goto(new URL('/work/jewellery', baseURL).href, { waitUntil: 'networkidle', timeout: 10000 });
+  await page.goto(new URL('/creative/jewellery', baseURL).href, { waitUntil: 'networkidle', timeout: 10000 });
   // Enhanced published-image links open the current in-page viewer; their real
   // detail URLs remain available to no-JS and modified-click navigation.
   await page.locator('[data-artwork-open]').first().click({ timeout: 3000 });

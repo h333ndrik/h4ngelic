@@ -53,7 +53,7 @@ try {
       };
     });
     try {
-      await page.goto(`${base}/work/tattoos?test=1`, { waitUntil: 'networkidle' });
+      await page.goto(`${base}/creative/onskin?test=1`, { waitUntil: 'networkidle' });
       await enter(page);
       const initial = await state(page);
       assert.equal(initial.ambient.memory.persistent, true);

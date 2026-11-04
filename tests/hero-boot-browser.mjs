@@ -106,7 +106,7 @@ async function slashReport(page, width) {
 }
 
 async function wheelContract(page, width) {
-  await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"]')?.classList.contains('is-drift-enhanced'));
   const carousel = page.locator('[data-horizontal-drift="tattoos"]');
   await carousel.scrollIntoViewIfNeeded(); await frames(page);

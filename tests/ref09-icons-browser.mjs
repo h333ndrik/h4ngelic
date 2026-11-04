@@ -56,7 +56,7 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     page.on('request', request => requests.push(request.url()));
     try {
-      await page.goto(url('/work'), { waitUntil: 'networkidle' });
+      await page.goto(url('/creative'), { waitUntil: 'networkidle' });
       await state(page, 'normal');
       assert.deepEqual(await icons(page), settings.favicon.normal);
       assert.equal(await page.locator('link[rel="icon"]').count(), 3, 'Mode changes must not accumulate favicon links.');
@@ -99,7 +99,7 @@ try {
         await target.hover(); await page.mouse.down();
         assert.equal(await cursor(target), expected(settings.cursor.other.base, '9 2', 'auto'));
         await page.mouse.move(10, 600); await page.mouse.up();
-        assert.equal(new URL(page.url()).pathname, '/work/tattoos', 'A cancelled press must preserve navigation.');
+        assert.equal(new URL(page.url()).pathname, '/creative/onskin', 'A cancelled press must preserve navigation.');
       } else {
         assert.equal(await cursor(page.locator('body')), 'auto');
         assert.ok(!requests.some(href => /h4ngelic-cursor-other-(?:hover|pressed)/.test(href)),
@@ -136,7 +136,7 @@ try {
   // embedded PNG correctly; screenshots do not capture the operating-system cursor.
   {
     const page = await browser.newPage({ viewport: { width: 900, height: 700 } });
-    await page.goto(url('/work'), { waitUntil: 'networkidle' });
+    await page.goto(url('/creative'), { waitUntil: 'networkidle' });
     const comparison = await page.evaluate(async pairs => {
       const result = [];
       for (const [normal, other] of pairs) {

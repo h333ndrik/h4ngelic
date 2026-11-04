@@ -155,8 +155,8 @@ try {
   try {
     const page = await direct.newPage();
     const { requests, errors } = track(page);
-    await page.goto(routeURL('/work'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/work/tattoos');
+    await page.goto(routeURL('/creative/onskin'), { waitUntil: 'domcontentloaded' });
+    await pageKind(page, 'work', '/creative/onskin');
     const token = (await probe(page)).documentToken;
     const template = await page.locator('#hero-template').count();
     if (template) assert.equal(await page.locator('.hero, #logo-canvas').count(), 0, 'Prerendered interior hero markup must stay inert.');
@@ -167,8 +167,8 @@ try {
     await readyHero(page);
     await assertSameDocument(page, token);
     if (template) assert.equal(await page.locator('#hero-template').count(), 0, 'The inert template is consumed exactly once.');
-    await page.locator('.hero-nav a[href="/work"]').click();
-    await pageKind(page, 'work', '/work/tattoos');
+    await page.locator('.hero-nav a[href="/creative"]').click();
+    await pageKind(page, 'work', '/creative');
     await finishedTransition(page);
     await assertScenePaused(page);
     await page.locator('[data-floating-brand]').click();
@@ -199,8 +199,8 @@ try {
     const moduleURL = await waitForHeld(held);
     const token = (await probe(page)).documentToken;
     const requestsBeforeLeavingHome = requests.length;
-    await page.locator('.hero-nav a[href="/work"]').click();
-    await pageKind(page, 'work', '/work/tattoos');
+    await page.locator('.hero-nav a[href="/creative"]').click();
+    await pageKind(page, 'work', '/creative');
     await assertSameDocument(page, token);
     release();
     // Resolving this import proves that the held module has actually evaluated.
@@ -227,8 +227,8 @@ try {
   try {
     const page = await historyContext.newPage();
     const { errors } = track(page);
-    await page.goto(routeURL('/work'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/work/tattoos');
+    await page.goto(routeURL('/creative/onskin'), { waitUntil: 'domcontentloaded' });
+    await pageKind(page, 'work', '/creative/onskin');
     const token = (await probe(page)).documentToken;
     // Give an empty real archive a deterministic scroll range without adding
     // fake artwork or changing repository content. The style survives SPA renders.
@@ -256,11 +256,11 @@ try {
     await scroll(340);
     await activate('/about', 'about');
     await scroll(620);
-    await activate('/work/tattoos', 'work');
+    await activate('/creative/onskin', 'work');
     await scroll(930);
     for (const [direction, path, kind, top] of [
-      ['back', '/about', 'about', 620], ['back', '/work/tattoos', 'work', 340],
-      ['forward', '/about', 'about', 620], ['forward', '/work/tattoos', 'work', 930],
+      ['back', '/about', 'about', 620], ['back', '/creative/onskin', 'work', 340],
+      ['forward', '/about', 'about', 620], ['forward', '/creative/onskin', 'work', 930],
     ]) {
       if (direction === 'back') await page.goBack(); else await page.goForward();
       await pageKind(page, kind, path);
@@ -288,11 +288,11 @@ try {
     const contactSaved = await page.evaluate(() => scrollY);
     assert.ok(Math.abs(contactSaved - contactStart) > 20, 'The saved Contact position must differ from its anchor position.');
     await page.goBack();
-    await pageKind(page, 'work', '/work/tattoos');
+    await pageKind(page, 'work', '/creative/onskin');
     await page.waitForFunction(() => Math.abs(scrollY - 930) < 2);
     await finishedTransition(page);
     await assertSameDocument(page, token);
-    await assertTransitionCommit(page, '/work/tattoos', 930, 'page-content');
+    await assertTransitionCommit(page, '/creative/onskin', 930, 'page-content');
     await page.goForward();
     await pageKind(page, 'home', '/#contact');
     await finishedTransition(page);
@@ -311,8 +311,8 @@ try {
     await fallback.addInitScript(() => { Object.defineProperty(document, 'startViewTransition', { value: undefined, configurable: true }); });
     const page = await fallback.newPage();
     const { requests, errors } = track(page);
-    await page.goto(routeURL('/work'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/work/tattoos');
+    await page.goto(routeURL('/creative/onskin'), { waitUntil: 'domcontentloaded' });
+    await pageKind(page, 'work', '/creative/onskin');
     const token = (await probe(page)).documentToken;
     await indexNavigate(page, 'about', { touch: true });
     await pageKind(page, 'about', '/about');
@@ -321,7 +321,7 @@ try {
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://h4ngelic.com/about');
     assert.equal(await page.locator('#page-content').evaluate((element) => element === document.activeElement), true);
     await page.goBack();
-    await pageKind(page, 'work', '/work/tattoos');
+    await pageKind(page, 'work', '/creative/onskin');
     await indexNavigate(page, 'contact', { touch: true });
     await pageKind(page, 'home', '/#contact');
     assert.equal(await page.locator('[data-inquiry-form]').count(), 1);

@@ -111,7 +111,7 @@ try {
   await page.locator('#stage.is-fallback').waitFor({ timeout: 60000 });
   await page.touchscreen.tap(4, 2);
   await page.locator('[data-ink-mark]').waitFor();
-  assert.ok(await page.locator('.hero-nav a[href="/work"]').isVisible());
+  assert.ok(await page.locator('.hero-nav a[href="/creative"]').isVisible());
   reports.push({ profile: 'no-webgl', topBackgroundInk: true });
   await context.close();
   await writeFile(new URL('hero-background-results.json', destination), JSON.stringify({ passed: true, reports }, null, 2));

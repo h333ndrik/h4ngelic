@@ -81,7 +81,7 @@ try {
     await page.mouse.move(2, 2);
     await page.waitForTimeout(3400);
     const visible = await hintState(page);
-    assert.equal(visible.text, 'press 3 times 3 to reverse');
+    assert.equal(visible.text, 'press 3 three times to reverse.');
     assert.equal(visible.opacity, 0, 'Reverse instruction is hidden again after its discovery timer.');
     assert.ok(visible.font >= 20 && visible.font <= 24);
     assert.equal(visible.color, 'rgb(255, 255, 255)');
@@ -129,7 +129,7 @@ try {
     await page.keyboard.press('3');
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Enhanced navigation cancels the unfinished sequence.');
     await page.keyboard.press('3'); await page.keyboard.press('3'); await normalGray(page);
-    for (const path of ['/work', '/work/tattoos', '/about', '/#contact']) {
+    for (const path of ['/creative', '/creative/onskin', '/about', '/#contact']) {
       await page.goto(url(path), { waitUntil: 'networkidle' }); await normalGray(page);
     }
     assert.deepEqual(errors, []);
@@ -155,7 +155,7 @@ try {
     await touchHold('normal', true); await page.waitForTimeout(400); await normalGray(page);
     await touchHold('xray');
     const visible = await hintState(page);
-    assert.equal(visible.text, 'press 3 times 3 to reverse');
+    assert.equal(visible.text, 'press 3 three times to reverse.');
     assert.ok(visible.opacity >= 0 && visible.opacity <= .43, 'A touch hold does not turn the faint hint into a permanent white label.');
     assert.ok(visible.font >= 14 && visible.within);
     await page.screenshot({ path: new URL(`mobile-${width}-reverse.png`, out).pathname });

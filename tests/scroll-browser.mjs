@@ -269,7 +269,7 @@ try {
     const formFields = await responsivePage.locator('#contact .inquiry-fields').boundingBox();
     assert.ok(formFields.x >= 0 && formFields.x + formFields.width <= width + 1,
       `The inquiry fits its ${width}px viewport.`);
-    assert.deepEqual(await responsivePage.locator('#selected-work .category-link').evaluateAll((links) => links.map((link) => new URL(link.href).pathname + new URL(link.href).hash)), categories.map((category) => `/work#${category}`));
+    assert.deepEqual(await responsivePage.locator('#selected-work .category-link').evaluateAll((links) => links.map((link) => new URL(link.href).pathname + new URL(link.href).hash)), categories.map((category) => `/creative#${category}`));
     await responsivePage.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
     const layout = await responsivePage.evaluate(() => {
       const navigation = document.querySelector('.hero-nav').getBoundingClientRect();
