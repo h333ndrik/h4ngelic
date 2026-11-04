@@ -36,7 +36,7 @@ test('real category pages select their own content while /creative retains the c
     assert.deepEqual([...markup.matchAll(/data-archive-category="([^"]+)"/g)].map(match => match[1]), categories);
     assert.deepEqual([...markup.matchAll(/data-work-group="([^"]+)"/g)].map(match => match[1]), groups);
     assert.equal((markup.match(/<img /g) || []).length, imageCount, 'Only real supplied images from the selected route render.');
-    const headingClass = context === 'more' ? 'page-heading sr-only' : 'page-heading';
+    const headingClass = context === 'more' ? 'page-heading sr-only' : context === 'all' ? 'page-heading numbered-heading' : 'page-heading';
     assert.ok(markup.includes(`<h1 class="${headingClass}" id="work-page-title">${heading}</h1>`));
     for (const href of ['/creative/onskin', '/creative/jewellery', '/creative/tools', '/creative/more']) assert.ok(markup.includes(`href="${href}"`));
     assert.doesNotMatch(markup, /href="\/work(?:\/|#)/);
@@ -232,7 +232,7 @@ test('about optional content renders only when configured', () => {
 });
 
 test('About keeps its lower-case numbered route heading', () => {
-  assert.match(renderAboutPage(), /<h1 class="page-heading">02\/ more about<\/h1>/);
+  assert.match(renderAboutPage(), /<h1 class="page-heading numbered-heading">02\/ more about<\/h1>/);
 });
 
 test('approved About copy remains exact and does not invent a portrait or biography', () => {
@@ -266,7 +266,7 @@ test('content utilities reject script, protocol-relative and credential-bearing 
 
 test('Works has four unnumbered major rubrics, subordinate archive labels and an empty deferred model section', () => {
   const markup = renderWorkPage('all');
-  assert.match(markup, /<h1 class="page-heading" id="work-page-title">01\/ creative<\/h1>/);
+  assert.match(markup, /<h1 class="page-heading numbered-heading" id="work-page-title">01\/ creative<\/h1>/);
   const major = [...markup.matchAll(/<h2 class="work-group-heading"[^>]*>([\s\S]*?)<\/h2>/g)].map(match => match[1].replace(/<[^>]*>/g, '').trim());
   assert.deepEqual(major, ['tattoos', 'jewellery', 'tools', 'more']);
   assert.match(markup, /id="group-tools-title"[^>]*><span class="archive-scroll-label">tools<\/span><\/h2>/);

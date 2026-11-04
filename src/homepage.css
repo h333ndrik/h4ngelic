@@ -6,9 +6,9 @@
   margin: 0 0 clamp(40px, 6vw, 90px);
   color: #f0efeb;
   font-size: var(--type-display);
-  line-height: 1.08;
+  line-height: var(--type-display-leading);
   font-weight: 400;
-  letter-spacing: -.045em;
+  letter-spacing: var(--type-display-tracking);
   overflow: clip;
 }
 .kinetic-heading-text { display: block; }

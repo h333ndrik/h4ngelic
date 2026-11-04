@@ -99,6 +99,38 @@ try {
       const rubrics = sameTypography(await measure(page, '#selected-work .category-link .interaction-visual'), `${profile.width}px rubric labels`);
       assert.deepEqual(rubrics.map(row => row.text), ['tattoos', 'jewellery', 'tools', 'more']);
 
+      // B-F5: every numbered display heading uses one scale, so the slash sits
+      // on the same column on the home exhibition and its own subpages.
+      const slashColumn = path => async () => {
+        await route(page, path);
+        return page.locator('.kinetic-heading-text, .numbered-heading').first().evaluate(element => {
+          const style = getComputedStyle(element);
+          const range = document.createRange();
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          let node; let slashRel = null;
+          while ((node = walker.nextNode())) {
+            const index = node.textContent.indexOf('/');
+            if (index < 0) continue;
+            range.setStart(node, index);
+            range.setEnd(node, index + 1);
+            slashRel = Math.round((range.getBoundingClientRect().left - element.getBoundingClientRect().left) * 100) / 100;
+            break;
+          }
+          return { text: element.textContent.trim().replace(/\s+/g, ' '), fontSize: style.fontSize,
+            lineHeight: style.lineHeight, letterSpacing: style.letterSpacing, slashRel };
+        });
+      };
+      const slashRows = [];
+      for (const path of ['/', '/about', '/creative']) slashRows.push(await slashColumn(path)());
+      for (const row of slashRows.slice(1)) {
+        assert.equal(row.fontSize, slashRows[0].fontSize, `Numbered heading size differs on ${row.text}.`);
+        assert.equal(row.lineHeight, slashRows[0].lineHeight, `Numbered heading leading differs on ${row.text}.`);
+        assert.equal(row.letterSpacing, slashRows[0].letterSpacing, `Numbered heading tracking differs on ${row.text}.`);
+        assert.ok(Math.abs(row.slashRel - slashRows[0].slashRel) <= .5,
+          `Slash column shifted on ${row.text}: ${row.slashRel} vs ${slashRows[0].slashRel}.`);
+      }
+
+      await route(page, '/');
       await page.locator('[data-floating-brand]').hover();
       await page.waitForTimeout(240);
       const headerRows = await page.locator('[data-floating-brand], .returning-visitor-line, [data-global-index] > summary').evaluateAll(elements => elements.map(element => {

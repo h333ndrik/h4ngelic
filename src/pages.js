@@ -175,7 +175,7 @@ export function renderWorkPage(category = 'all') {
     </nav>` : '';
   return `${header('work')}
   <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
-    <h1 class="page-heading${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
+    <h1 class="page-heading${selected === 'all' ? ' numbered-heading' : ''}${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
     <nav class="work-filters" aria-label="Works sections">
       ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
     </nav>
@@ -225,7 +225,7 @@ export function renderAboutPage() {
   }).filter(Boolean).join('');
   return `${header('about')}
   <div class="page-shell about-page">
-    <h1 class="page-heading">${formatIndexedLabel(2, 'more about')}</h1>
+    <h1 class="page-heading numbered-heading">${formatIndexedLabel(2, 'more about')}</h1>
     <div class="about-layout${portraitURL ? ' has-portrait' : ''}">
       <div class="about-copy">
         <p class="about-intro">${escape(about.intro)}</p>

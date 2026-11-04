@@ -41,6 +41,9 @@
 }
 .archive-model { min-height: clamp(120px, 16vw, 240px); }
 .page-shell .page-heading { font-size: var(--type-display); overflow-wrap: anywhere; }
+/* Numbered page headings reuse the exact home exhibition scale, so their
+   slash column never shifts between sections. */
+.page-shell .numbered-heading { line-height: var(--type-display-leading); letter-spacing: var(--type-display-tracking); }
 .work-group { scroll-margin-top: 90px; }
 .work-group + .work-group, .archive-category + .work-group, .work-group + .archive-category { margin-top: clamp(90px, 14vw, 210px); }
 .work-group-heading { margin: clamp(50px, 8vw, 110px) 0 12px; font-size: clamp(48px, 9vw, 138px); font-weight: 400; line-height: 1.05; letter-spacing: -.055em; }
