@@ -80,7 +80,11 @@ for (const width of [1440, 390, 320]) {
     assert.equal(caretOpen.duration, '0.3s');
     assert.match(caretOpen.easing, /cubic-bezier/);
     await glyph.click();
-    await page.waitForTimeout(360);
+    await page.waitForFunction(() => {
+      const transform = getComputedStyle(document.querySelector('[data-sound-volume-toggle] span[aria-hidden="true"]')).transform;
+      const matrix = transform.match(/matrix\(([^)]+)\)/)?.[1].split(',').map(Number) || [];
+      return matrix[0] > .999 && matrix[3] > .999 && Math.abs(matrix[1]) < 1e-6 && Math.abs(matrix[2]) < 1e-6;
+    });
     const closed = await page.evaluate(() => ({ expanded: document.querySelector('[data-sound-volume-toggle]').getAttribute('aria-expanded'),
       open: document.querySelector('[data-sound-control]').hasAttribute('data-volume-open'),
       transform: getComputedStyle(document.querySelector('[data-sound-volume-toggle] span[aria-hidden="true"]')).transform }));
