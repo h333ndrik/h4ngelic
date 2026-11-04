@@ -1,7 +1,7 @@
 # Batch 2 — Slash-Spalte, Lowercase, Viewer-Pfeile
 
-Build-Marker: `data-build="1569731030b2"` (Arbeitsstand vor den Batch-2-Commits
-`93372c6`…`a2f973b`; der Code dieser Commits ist identisch zum vermessenen Build).
+Build-Marker: `data-build="b11e4c3f383a"` — neu gebaut aus dem committeten
+Batch-2-Stand (`93372c6`…`b11e4c3`) und gegen diesen Marker verifiziert.
 
 ## B-F5 — eine Slash-Spalte
 
