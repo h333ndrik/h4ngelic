@@ -97,7 +97,7 @@ try {
       assert.ok(probe.fetches.some(url => url.endsWith('loop-333.m4a')), 'The first gesture fetches the active world loop.');
       const initialTransport = state.world.transportStart;
       const firstLoop = probe.sources.find(source => source.loop);
-      assert.ok(firstLoop && firstLoop.duration > 30 && firstLoop.duration < 32, 'The real 16-bar M4A is decoded into the loop source.');
+      assert.ok(firstLoop && firstLoop.duration > 89.9 && firstLoop.duration < 90.1, 'The real 90 s M4A is decoded into the loop source.');
       assert.equal(firstLoop.offset, 0);
       assert.equal(state.world.assets['loops:333'].path, '/assets/audio/loop-333.m4a');
       assert.equal(probe.fetches.filter(url => url.endsWith('loop-333.m4a')).length, 1, 'The active loop is fetched once.');

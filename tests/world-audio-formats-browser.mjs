@@ -6,8 +6,8 @@ const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const output = new URL('../artifacts/world-audio-formats/', import.meta.url);
 await mkdir(output, { recursive: true });
 const masters = [
-  { name: 'loop-333', frames: 1365677, loop: true },
-  { name: 'loop-4', frames: 1365677, loop: true },
+  { name: 'loop-333', frames: 3969000, loop: true },
+  { name: 'loop-4', frames: 3969000, loop: true },
   { name: 'x-333-4', frames: 61740, loop: false },
   { name: 'x-4-333', frames: 61740, loop: false },
 ];
@@ -50,12 +50,16 @@ try {
       const buffer = await context.decodeAudioData(await response.arrayBuffer());
       const channels = Array.from({ length: buffer.numberOfChannels }, (_, index) => buffer.getChannelData(index));
       const boundaries = channels.map(channel => {
-        let head = 0, tail = 0, step = 0;
+        let head = 0, tail = 0, step = 0, head2 = 0, tail2 = 0;
         const headFrames = Math.min(441, channel.length);
         const tailStart = Math.max(0, channel.length - 441);
+        const twoSeconds = Math.min(88200, Math.floor(channel.length / 2));
+        const tail2Start = Math.max(0, channel.length - twoSeconds);
         for (let index = 0; index < channel.length; index++) {
           if (index < headFrames) head += channel[index] ** 2;
           if (index >= tailStart) tail += channel[index] ** 2;
+          if (index < twoSeconds) head2 += channel[index] ** 2;
+          if (index >= tail2Start) tail2 += channel[index] ** 2;
           if (index) step += Math.abs(channel[index] - channel[index - 1]);
         }
         return {
@@ -64,6 +68,8 @@ try {
           meanStep: step / Math.max(1, channel.length - 1),
           head20msRms: Math.sqrt(head / headFrames),
           tail20msRms: Math.sqrt(tail / Math.max(1, channel.length - tailStart)),
+          head2sRms: Math.sqrt(head2 / twoSeconds),
+          tail2sRms: Math.sqrt(tail2 / Math.max(1, channel.length - tail2Start)),
         };
       });
       results.push({ path: asset.path, format: asset.format, sampleRate: buffer.sampleRate, channels: buffer.numberOfChannels,
@@ -83,6 +89,9 @@ try {
         assert.ok(channel.head20msRms > .001 && channel.tail20msRms > .001, `${asset.path} cannot have a zero head/tail fade.`);
         assert.ok(channel.seam <= Math.max(.1, channel.meanStep * 6),
           `${asset.path} wrap step must stay within ordinary sample-to-sample movement.`);
+        const tailRatioDb = 20 * Math.log10(channel.head2sRms / channel.tail2sRms);
+        assert.ok(Math.abs(tailRatioDb) <= 2,
+          `${asset.path} first and last two seconds must sit at the same level (${tailRatioDb.toFixed(2)} dB).`);
       }
     }
   }

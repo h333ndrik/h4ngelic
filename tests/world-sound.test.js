@@ -5,7 +5,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import { createWorldSound } from '../src/audio/worldSound.js';
 import { worldSoundSettings, worldForMode, worldTransitionDurationSeconds } from '../src/audio/worldSoundSettings.js';
 
-function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSettings } = {}) {
+function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSettings, contextRate = worldSoundSettings.sampleRate } = {}) {
   const fetches = [], sources = [], gains = [], filters = [], compressors = [], timers = [];
   class Param {
     value = 1;
@@ -28,7 +28,7 @@ function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSett
     end() { this.onended?.(); }
   }
   class Context {
-    state = 'running'; currentTime = 4; sampleRate = 44100; destination = {};
+    state = 'running'; currentTime = 4; sampleRate = contextRate; destination = {};
     createGain() { const node = new Gain(); gains.push(node); return node; }
     createBiquadFilter() { const node = Object.assign(new Node(), { type: 'lowpass', frequency: new Param(), Q: new Param() }); filters.push(node); return node; }
     createDynamicsCompressor() { const node = Object.assign(new Node(), Object.fromEntries(['threshold', 'knee', 'ratio', 'attack', 'release'].map(name => [name, new Param()]))); compressors.push(node); return node; }
@@ -36,8 +36,10 @@ function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSett
     decodeAudioData(bytes) {
       const label = new TextDecoder().decode(new Uint8Array(bytes));
       const name = ['loop-333', 'loop-4', 'x-333-4', 'x-4-333'].find(value => label.includes(value));
-      const length = lengthOverrides[label.split('/').at(-1)] ?? lengthOverrides[name] ?? (name?.startsWith('x-') ? 61740 : 1365677);
-      return Promise.resolve({ label, length, numberOfChannels: 2, sampleRate: 44100, duration: length / 44100 });
+      const masterFrames = lengthOverrides[label.split('/').at(-1)] ?? lengthOverrides[name] ?? (name?.startsWith('x-') ? 61740 : 3969000);
+      // decodeAudioData resamples to the context rate, exactly like a device.
+      const length = Math.round(masterFrames * contextRate / worldSoundSettings.sampleRate);
+      return Promise.resolve({ label, length, numberOfChannels: 2, sampleRate: contextRate, duration: length / contextRate });
     }
   }
   const context = new Context();
@@ -55,10 +57,10 @@ function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSett
 
 test('the manifest contains exactly four verified M4A loops/transitions with ordered fallbacks', async () => {
   const expected = {
-    'loop-333.m4a': { hash: '0cba7010005c069979d4df486527d14e208143f169a9501efadc449e42b11c11', bytes: 1000522 },
-    'loop-4.m4a': { hash: '4805f249bdb6a15c555d32250df8001c8e549319672da0791eb4904bd3322b3c', bytes: 998335 },
-    'x-333-4.m4a': { hash: '2b06d9881275a5ce8c32bbe82f84db3d955fcdba906ae02b696d173968dfb103', bytes: 43631 },
-    'x-4-333.m4a': { hash: '53c2a3e54daf76a5a30f0ab7df2fb93b7f031422f28953c372925b78f06e027d', bytes: 45026 },
+    'loop-333.m4a': { hash: 'd24116589b691f66e7723e6bca8d0a6d8bb67d502c4d94af52050ae3c01ae66c', bytes: 2841326 },
+    'loop-4.m4a': { hash: 'da82d0ee5ec7d17a2ac1080de9dbd76603e17dc420d6f38460f3442f079ed994', bytes: 2851489 },
+    'x-333-4.m4a': { hash: '94ee50b3d914cef49d6f1f47e58351c3763d82f4d394c2430cfc47f397c1df6a', bytes: 39865 },
+    'x-4-333.m4a': { hash: '87e842957ec6d30938bdd1316f6058a4ddf0a4c5c167457e985745d47e7252a2', bytes: 38884 },
   };
   const directory = new URL('../public/assets/audio/', import.meta.url);
   assert.deepEqual((await readdir(directory)).sort(), Object.keys(expected).sort(), 'Only two loops and two transitions are committed.');
@@ -175,13 +177,26 @@ test('format fallback decodes the next candidate when M4A is unavailable or has 
     ['/assets/audio/loop-333.m4a', '/assets/audio/loop-333.flac']);
   assert.equal(unavailable.world.snapshot().assets['loops:333'].path, '/assets/audio/loop-333.flac');
 
-  const padded = fixture({ lengthOverrides: { 'loop-333.m4a': 1365676 } });
+  const padded = fixture({ lengthOverrides: { 'loop-333.m4a': 3968999 } });
   assert.equal(await padded.world.activate('333'), true);
   const asset = padded.world.snapshot().assets['loops:333'];
   assert.equal(asset.path, '/assets/audio/loop-333.flac');
   assert.match(asset.attempts[0].error, /Unexpected decoded length/);
   assert.equal(asset.attempts[0].status, 'failed');
   assert.equal(asset.attempts[1].status, 'ready');
+});
+
+test('a 48 kHz device context keeps the same master duration and still rejects encoder padding', async () => {
+  const native = fixture({ contextRate: 48000 });
+  assert.equal(await native.world.activate('333'), true);
+  const asset = native.world.snapshot().assets['loops:333'];
+  assert.equal(asset.status, 'ready');
+  assert.equal(asset.path, '/assets/audio/loop-333.m4a');
+  assert.equal(native.world.snapshot().loops['333'].bufferDuration, 90, '90 s at 48 kHz keeps the exact master duration.');
+
+  const padded = fixture({ contextRate: 48000, lengthOverrides: { 'loop-333.m4a': 3969001 } });
+  assert.equal(await padded.world.activate('333'), true);
+  assert.equal(padded.world.snapshot().assets['loops:333'].path, '/assets/audio/loop-333.flac');
 });
 
 test('concurrent preload and activation share one lazy fetch and one decode path', async () => {

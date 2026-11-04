@@ -1,3 +1,63 @@
+# Current checkpoint — WORLD SOUND v2 (90 s loops) — 2026-11-04
+
+Status: **IMPLEMENTED / CHROMIUM VERIFIED / NOT PUSHED**. One new commit on top
+of `27315c6` on local branch `v3.2-world-sound`; no history rewrite, no push, no
+merge, no deploy. V3.1-owned modules, layout, mannequin and `api/inquiry.js`
+were not touched.
+
+## Delivered in this pass
+
+- `scripts/renderWorldLoops.mjs` renders all four deliverables from one
+  deterministic synthesis graph: two 90 s loops (3,969,000 frames) and two
+  1.4 s transitions (61,740 frames), with one documented seed per file.
+- Loops are periodic by construction (all oscillator/LFO frequencies on the
+  1/90 Hz grid, envelopes as loop-phase functions, two-pass filtered noise bed)
+  and rendered with a 4 s pre-roll that warms echo and reverb before the exact
+  trim. The earlier equal-power wrap blend was removed; it added a measurable
+  level bump for coherent drones.
+- Build arc 0-15 s intro → layers 15-60 s → fullest 50-75 s → intro texture at
+  90 s. Measured first-2 s vs last-2 s difference: +0.43 dB (333), −0.48 dB (4).
+- Four anchors (43.6535 / 87.3071 / 103.8262 / 1046.5023 Hz) are continuous in
+  both loops; three probes per loop record their spectral presence.
+- Replaced the four committed M4A assets in a normal commit. Payload
+  2,087,514 → **5,771,564 bytes** (+176.5%), which is the requested threefold
+  loop duration at the same 256 kbps; v1 WAV masters were 17,129,180 bytes.
+- Encoder changed to macOS AudioToolbox (`afconvert`) plus a bit-exact ffmpeg
+  remux, with ffmpeg as the fallback. This removed an ffmpeg-native AAC start
+  artifact (a 0.042 offset over the first 512 samples) at the loop point.
+- `worldSoundSettings.js`: loop frame target 3,969,000, new `seconds` contract
+  (90 / 1.4). Fallback chain M4A → FLAC → WAV and every runtime behaviour
+  unchanged.
+- `worldSound.js` device-rate fix: asset acceptance now scales the expected
+  frame count to the context rate instead of demanding a 44.1 kHz context. On a
+  48 kHz output device the previous code rejected all loops and left the site
+  silent; that path is now tested at 44.1 and 48 kHz.
+
+## Verification (actual)
+
+- `npm test` outside sandbox: **393 passed, 0 failed** (385 baseline + 8 new).
+- Format decode: **4/4 files**, exact frames, zero audio-path long tasks.
+- World sound: **6/6 profiles** + missing-file degradation.
+- Mode audio: PASS. Sound controls: **8/8**. SMASH: PASS at 1440/390/320.
+- Production build: PASS, 18 routes + 404, exactly four M4A with matching hashes.
+- Determinism: 4/4 WAV and M4A pairs byte-identical on re-render.
+
+Evidence: `docs/validation/world-sound/v2/` plus
+[WORLD-SOUND.md](docs/WORLD-SOUND.md) for hashes, seams, LUFS and the listening
+checklist.
+
+## Open
+
+- **BLOCKED:** real iPhone Safari silent switch/route/interruption behaviour.
+- **BLOCKED at the visual boundary:** a second user gesture during a visual mode
+  transition is still rejected by the unchanged visual controller.
+- **OPEN for the user:** subjective listening review of the new loops.
+- **OBSERVATION:** pre-existing no-cold-WebGL-on-About failure in
+  `tests/mobile-interactions-browser.mjs`, present on base `11e78a1` too.
+- Deployed package has no FLAC/WAV fallback files.
+- PR #22 still points at `27315c6`; this commit is local until the user asks for
+  a push.
+
 # Current checkpoint — WORLD SOUND COMPLETION — 2026-11-04
 
 Status: **AUDIO COMPLETE / CHROMIUM VERIFIED / PARTIAL DEVICE COVERAGE**.

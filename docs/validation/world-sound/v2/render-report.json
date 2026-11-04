@@ -1,0 +1,590 @@
+{
+  "generatedAt": "2026-11-04T20:12:09.131Z",
+  "sampleRate": 44100,
+  "bpm": 124,
+  "loopSeconds": 90,
+  "loopFrames": 3969000,
+  "preRollSeconds": 4,
+  "transitionFrames": 61740,
+  "targetLufs": -18,
+  "anchors": {
+    "nominal": [
+      43.6535,
+      87.3071,
+      103.8262,
+      1046.5023
+    ],
+    "periodicTuning": [
+      43.65555555555556,
+      87.31111111111112,
+      103.82222222222222,
+      1046.5
+    ],
+    "worstDetuneCents": [
+      0.08151841170505501,
+      0.07953548587144764,
+      -0.06632811610758894,
+      -0.0038049058168462854
+    ]
+  },
+  "files": [
+    {
+      "name": "loop-333",
+      "seed": "0x333a11ce",
+      "frames": 3969000,
+      "preRollFrames": 176400,
+      "wav": {
+        "bytes": 23814044,
+        "sha256": "52d6d70d4c2d4d202b6f2949e35ff1df086f7ca767354dabe6960113764e0f57",
+        "peakDbfs": -5.877825728948603,
+        "lufs": -18,
+        "truePeakDbfs": -5.9
+      },
+      "m4a": {
+        "bytes": 2841326,
+        "sha256": "d24116589b691f66e7723e6bca8d0a6d8bb67d502c4d94af52050ae3c01ae66c",
+        "encoder": "afconvert (Apple AudioToolbox) + ffmpeg bit-exact remux, 256 kbps AAC-LC",
+        "lufs": -18,
+        "truePeakDbfs": -5.8
+      },
+      "flac": {
+        "bytes": 18062831,
+        "sha256": "6939c16d18ffb3b6bee9f8674babb54fe5a983f133948339573b973030d625e1",
+        "lufs": -18,
+        "truePeakDbfs": -5.9
+      },
+      "analysis": {
+        "headTail": {
+          "head": 0.13618169439745717,
+          "tail": 0.12962120700792523,
+          "ratio": 1.0506127626872879,
+          "differenceDb": 0.42885344487571697
+        },
+        "seam": {
+          "seamStep": 0.13526321947574615,
+          "meanStep": 0.061980345830857535,
+          "ratio": 2.1823566432635815
+        },
+        "correlation": 0.7508859035607781,
+        "perSegment": [
+          {
+            "seconds": 0,
+            "rmsDb": -22.92295122137117
+          },
+          {
+            "seconds": 5,
+            "rmsDb": -22.37051337754093
+          },
+          {
+            "seconds": 10,
+            "rmsDb": -22.706805870349417
+          },
+          {
+            "seconds": 15,
+            "rmsDb": -22.67494931652898
+          },
+          {
+            "seconds": 20,
+            "rmsDb": -22.21782042836107
+          },
+          {
+            "seconds": 25,
+            "rmsDb": -22.352810541175515
+          },
+          {
+            "seconds": 30,
+            "rmsDb": -20.870520894244816
+          },
+          {
+            "seconds": 35,
+            "rmsDb": -18.801402440339213
+          },
+          {
+            "seconds": 40,
+            "rmsDb": -18.871250125838426
+          },
+          {
+            "seconds": 45,
+            "rmsDb": -19.686783603874048
+          },
+          {
+            "seconds": 50,
+            "rmsDb": -18.720457457603473
+          },
+          {
+            "seconds": 55,
+            "rmsDb": -17.578954202591227
+          },
+          {
+            "seconds": 60,
+            "rmsDb": -18.417812925727315
+          },
+          {
+            "seconds": 65,
+            "rmsDb": -18.63754500047395
+          },
+          {
+            "seconds": 70,
+            "rmsDb": -18.460977565260816
+          },
+          {
+            "seconds": 75,
+            "rmsDb": -21.338061808721484
+          },
+          {
+            "seconds": 80,
+            "rmsDb": -22.92891707858544
+          },
+          {
+            "seconds": 85,
+            "rmsDb": -23.926250626954428
+          }
+        ],
+        "bands": [
+          {
+            "low": 20,
+            "high": 60,
+            "db": -4.26576252654516
+          },
+          {
+            "low": 60,
+            "high": 120,
+            "db": -7.177626674198226
+          },
+          {
+            "low": 120,
+            "high": 250,
+            "db": -7.399730280502768
+          },
+          {
+            "low": 250,
+            "high": 500,
+            "db": -14.352558286714752
+          },
+          {
+            "low": 500,
+            "high": 1000,
+            "db": -22.002610462280767
+          },
+          {
+            "low": 1000,
+            "high": 2000,
+            "db": -22.04560600915732
+          },
+          {
+            "low": 2000,
+            "high": 4000,
+            "db": -26.344249923774747
+          },
+          {
+            "low": 4000,
+            "high": 8000,
+            "db": -28.297595624345252
+          },
+          {
+            "low": 8000,
+            "high": 16000,
+            "db": -28.236563185637657
+          }
+        ],
+        "probes": [
+          {
+            "seconds": 2.5,
+            "anchors": [
+              {
+                "frequency": 43.65555555555556,
+                "nominal": 43.6535,
+                "db": -11.464930526105576
+              },
+              {
+                "frequency": 87.31111111111112,
+                "nominal": 87.3071,
+                "db": -13.388797688511902
+              },
+              {
+                "frequency": 103.82222222222222,
+                "nominal": 103.8262,
+                "db": -16.66012995225168
+              },
+              {
+                "frequency": 1046.5,
+                "nominal": 1046.5023,
+                "db": -33.4747339275095
+              }
+            ]
+          },
+          {
+            "seconds": 44,
+            "anchors": [
+              {
+                "frequency": 43.65555555555556,
+                "nominal": 43.6535,
+                "db": -13.911239818207328
+              },
+              {
+                "frequency": 87.31111111111112,
+                "nominal": 87.3071,
+                "db": -15.877269308537723
+              },
+              {
+                "frequency": 103.82222222222222,
+                "nominal": 103.8262,
+                "db": -19.565670981945004
+              },
+              {
+                "frequency": 1046.5,
+                "nominal": 1046.5023,
+                "db": -32.81278733326681
+              }
+            ]
+          },
+          {
+            "seconds": 78,
+            "anchors": [
+              {
+                "frequency": 43.65555555555556,
+                "nominal": 43.6535,
+                "db": -10.532298316304402
+              },
+              {
+                "frequency": 87.31111111111112,
+                "nominal": 87.3071,
+                "db": -12.952831878227578
+              },
+              {
+                "frequency": 103.82222222222222,
+                "nominal": 103.8262,
+                "db": -17.95497678762391
+              },
+              {
+                "frequency": 1046.5,
+                "nominal": 1046.5023,
+                "db": -33.61430449222583
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "loop-4",
+      "seed": "0x4c0ffee1",
+      "frames": 3969000,
+      "preRollFrames": 176400,
+      "wav": {
+        "bytes": 23814044,
+        "sha256": "7166258389ab235486b2e4776395d8b4e5ed48cbf992013dfa5f1e57d93f994b",
+        "peakDbfs": -4.778275990816919,
+        "lufs": -18,
+        "truePeakDbfs": -4.8
+      },
+      "m4a": {
+        "bytes": 2851489,
+        "sha256": "da82d0ee5ec7d17a2ac1080de9dbd76603e17dc420d6f38460f3442f079ed994",
+        "encoder": "afconvert (Apple AudioToolbox) + ffmpeg bit-exact remux, 256 kbps AAC-LC",
+        "lufs": -18,
+        "truePeakDbfs": -4.7
+      },
+      "flac": {
+        "bytes": 17413785,
+        "sha256": "6caecb2ba05f0d8b31d993b84d9ac12154ef3aef25c8745df45de2f6f0bcd40d",
+        "lufs": -18,
+        "truePeakDbfs": -4.8
+      },
+      "analysis": {
+        "headTail": {
+          "head": 0.24411619182014715,
+          "tail": 0.25790118290506336,
+          "ratio": 0.9465493297485548,
+          "differenceDb": -0.47713495403895273
+        },
+        "seam": {
+          "seamStep": 0.004559427499771118,
+          "meanStep": 0.0065749270943802965,
+          "ratio": 0.6934567386561806
+        },
+        "correlation": 0.6702798889793689,
+        "perSegment": [
+          {
+            "seconds": 0,
+            "rmsDb": -18.310470396995374
+          },
+          {
+            "seconds": 5,
+            "rmsDb": -18.7166079525783
+          },
+          {
+            "seconds": 10,
+            "rmsDb": -19.682774697031945
+          },
+          {
+            "seconds": 15,
+            "rmsDb": -20.036295480533454
+          },
+          {
+            "seconds": 20,
+            "rmsDb": -19.366023442327243
+          },
+          {
+            "seconds": 25,
+            "rmsDb": -17.92473204654811
+          },
+          {
+            "seconds": 30,
+            "rmsDb": -16.08934776829841
+          },
+          {
+            "seconds": 35,
+            "rmsDb": -14.560877093267653
+          },
+          {
+            "seconds": 40,
+            "rmsDb": -13.988342553135238
+          },
+          {
+            "seconds": 45,
+            "rmsDb": -14.777821203514932
+          },
+          {
+            "seconds": 50,
+            "rmsDb": -15.011252819778274
+          },
+          {
+            "seconds": 55,
+            "rmsDb": -15.370724199540273
+          },
+          {
+            "seconds": 60,
+            "rmsDb": -16.0348062549348
+          },
+          {
+            "seconds": 65,
+            "rmsDb": -15.426843522573337
+          },
+          {
+            "seconds": 70,
+            "rmsDb": -15.583525800106173
+          },
+          {
+            "seconds": 75,
+            "rmsDb": -14.99984761340947
+          },
+          {
+            "seconds": 80,
+            "rmsDb": -14.911289836919632
+          },
+          {
+            "seconds": 85,
+            "rmsDb": -17.395965847395885
+          }
+        ],
+        "bands": [
+          {
+            "low": 20,
+            "high": 60,
+            "db": -3.626686204806666
+          },
+          {
+            "low": 60,
+            "high": 120,
+            "db": -7.203854283446994
+          },
+          {
+            "low": 120,
+            "high": 250,
+            "db": -9.252406038444125
+          },
+          {
+            "low": 250,
+            "high": 500,
+            "db": -14.301126095200516
+          },
+          {
+            "low": 500,
+            "high": 1000,
+            "db": -18.27345563360892
+          },
+          {
+            "low": 1000,
+            "high": 2000,
+            "db": -23.981951989700057
+          },
+          {
+            "low": 2000,
+            "high": 4000,
+            "db": -32.725742617735975
+          },
+          {
+            "low": 4000,
+            "high": 8000,
+            "db": -36.04166076643118
+          },
+          {
+            "low": 8000,
+            "high": 16000,
+            "db": -31.48167086461472
+          }
+        ],
+        "probes": [
+          {
+            "seconds": 2.5,
+            "anchors": [
+              {
+                "frequency": 43.65555555555556,
+                "nominal": 43.6535,
+                "db": -13.723943074626884
+              },
+              {
+                "frequency": 87.31111111111112,
+                "nominal": 87.3071,
+                "db": -14.375820890309907
+              },
+              {
+                "frequency": 103.82222222222222,
+                "nominal": 103.8262,
+                "db": -22.056040842539968
+              },
+              {
+                "frequency": 1046.5,
+                "nominal": 1046.5023,
+                "db": -42.23645486344979
+              }
+            ]
+          },
+          {
+            "seconds": 44,
+            "anchors": [
+              {
+                "frequency": 43.65555555555556,
+                "nominal": 43.6535,
+                "db": -23.350937350615713
+              },
+              {
+                "frequency": 87.31111111111112,
+                "nominal": 87.3071,
+                "db": -22.296237143833245
+              },
+              {
+                "frequency": 103.82222222222222,
+                "nominal": 103.8262,
+                "db": -25.284229796333754
+              },
+              {
+                "frequency": 1046.5,
+                "nominal": 1046.5023,
+                "db": -39.512694173214975
+              }
+            ]
+          },
+          {
+            "seconds": 78,
+            "anchors": [
+              {
+                "frequency": 43.65555555555556,
+                "nominal": 43.6535,
+                "db": -24.327298174061927
+              },
+              {
+                "frequency": 87.31111111111112,
+                "nominal": 87.3071,
+                "db": -18.01151484750861
+              },
+              {
+                "frequency": 103.82222222222222,
+                "nominal": 103.8262,
+                "db": -23.648841496689705
+              },
+              {
+                "frequency": 1046.5,
+                "nominal": 1046.5023,
+                "db": -37.14702949906619
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "x-333-4",
+      "seed": "0x33340001",
+      "frames": 61740,
+      "preRollFrames": null,
+      "wav": {
+        "bytes": 370484,
+        "sha256": "8a98e8a2753812042c13105b7d6c663438b13e5401a00cf687b7a2b8e07fcf71",
+        "peakDbfs": -10.477612039099334,
+        "lufs": -18,
+        "truePeakDbfs": -9.3
+      },
+      "m4a": {
+        "bytes": 39865,
+        "sha256": "94ee50b3d914cef49d6f1f47e58351c3763d82f4d394c2430cfc47f397c1df6a",
+        "encoder": "afconvert (Apple AudioToolbox) + ffmpeg bit-exact remux, 256 kbps AAC-LC",
+        "lufs": -18.1,
+        "truePeakDbfs": -9.5
+      },
+      "flac": {
+        "bytes": 305988,
+        "sha256": "167befc1181ced238751d0851348a04e7bb9328bddabac1cc887419e69000bd6",
+        "lufs": -18,
+        "truePeakDbfs": -9.3
+      }
+    },
+    {
+      "name": "x-4-333",
+      "seed": "0x43330001",
+      "frames": 61740,
+      "preRollFrames": null,
+      "wav": {
+        "bytes": 370484,
+        "sha256": "9cc4aba6fcc9c291e5f60f3a61d6d05576a001767ee56f7215986a383871c271",
+        "peakDbfs": -10.035708881817715,
+        "lufs": -18,
+        "truePeakDbfs": -9.5
+      },
+      "m4a": {
+        "bytes": 38884,
+        "sha256": "87e842957ec6d30938bdd1316f6058a4ddf0a4c5c167457e985745d47e7252a2",
+        "encoder": "afconvert (Apple AudioToolbox) + ffmpeg bit-exact remux, 256 kbps AAC-LC",
+        "lufs": -18.1,
+        "truePeakDbfs": -9.6
+      },
+      "flac": {
+        "bytes": 287402,
+        "sha256": "ac77ed4a18730841825eb93129c366b5a1c6d58f59284e54b3d959925ae21569",
+        "lufs": -18,
+        "truePeakDbfs": -9.5
+      }
+    }
+  ],
+  "determinism": {
+    "checkedAt": "2026-11-04T20:12:38.566Z",
+    "repeats": [
+      {
+        "name": "loop-333",
+        "wavIdentical": true,
+        "m4aIdentical": true,
+        "m4aSha256": "d24116589b691f66e7723e6bca8d0a6d8bb67d502c4d94af52050ae3c01ae66c"
+      },
+      {
+        "name": "loop-4",
+        "wavIdentical": true,
+        "m4aIdentical": true,
+        "m4aSha256": "da82d0ee5ec7d17a2ac1080de9dbd76603e17dc420d6f38460f3442f079ed994"
+      },
+      {
+        "name": "x-333-4",
+        "wavIdentical": true,
+        "m4aIdentical": true,
+        "m4aSha256": "94ee50b3d914cef49d6f1f47e58351c3763d82f4d394c2430cfc47f397c1df6a"
+      },
+      {
+        "name": "x-4-333",
+        "wavIdentical": true,
+        "m4aIdentical": true,
+        "m4aSha256": "87e842957ec6d30938bdd1316f6058a4ddf0a4c5c167457e985745d47e7252a2"
+      }
+    ],
+    "identical": true
+  }
+}

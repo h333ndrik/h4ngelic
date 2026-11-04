@@ -63,7 +63,7 @@ try {
   await page.waitForTimeout(500);
   let probe = await page.evaluate(() => ({ contexts: window.__audioProbe.contexts.length, sources: window.__audioProbe.sources, changes: window.__audioProbe.changes, fetches: window.__audioProbe.fetches }));
   assert.equal(probe.contexts, 1, 'The first trusted gesture unlocks the shared audio context.');
-  assert.ok(probe.sources.some(source => source.loop && source.duration > 30), 'The active world loop starts after the gesture.');
+  assert.ok(probe.sources.some(source => source.loop && source.duration > 89.9), 'The active world loop starts after the gesture.');
   assert.equal(probe.sources.some(source => !source.loop && source.duration < 1), false, 'A cancelled hold does not fire a mode-change cue or transition.');
   assert.deepEqual(probe.changes, [], 'The held mode still requires one full second.');
   assert.ok(probe.fetches.some(url => url.endsWith('loop-333.m4a')));

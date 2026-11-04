@@ -62,7 +62,7 @@ function audioFixture({ rejectResume = false, throwConstruction = false, storage
     decodeAudioData(bytes) {
       this.decodedBytes = bytes.byteLength;
       const label = new TextDecoder().decode(new Uint8Array(bytes));
-      if (label.includes('/assets/audio/loop-')) return Promise.resolve({ duration: 30.967732, length: 1365677, numberOfChannels: 2, sampleRate: 44100 });
+      if (label.includes('/assets/audio/loop-')) return Promise.resolve({ duration: 90, length: 3969000, numberOfChannels: 2, sampleRate: 44100 });
       if (label.includes('/assets/audio/x-')) return Promise.resolve({ duration: 1.4, length: 61740, numberOfChannels: 2, sampleRate: 44100 });
       return Promise.resolve({ duration: 100.310204, length: 4420000, numberOfChannels: 2, sampleRate: 44100 });
     }

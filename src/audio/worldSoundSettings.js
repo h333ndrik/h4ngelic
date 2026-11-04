@@ -32,8 +32,11 @@ export const worldSoundSettings = Object.freeze({
   paths: Object.freeze({ loops: Object.freeze(loops), transitions: Object.freeze(transitions) }),
   sampleRate: 44100,
   channels: 2,
+  /** Loop and one-shot lengths. A decoded asset is accepted only when its
+   * frame count matches exactly, so encoder padding can never shift the seam. */
+  seconds: Object.freeze({ loops: 90, transitions: 1.4 }),
   expectedFrames: Object.freeze({
-    loops: Object.freeze({ '333': 1365677, '4': 1365677 }),
+    loops: Object.freeze({ '333': 3969000, '4': 3969000 }),
     transitions: Object.freeze({ '333>4': 61740, '4>333': 61740 }),
   }),
   modeWorlds: Object.freeze({ normal: '333', xray: '4' }),

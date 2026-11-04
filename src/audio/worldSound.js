@@ -89,9 +89,16 @@ export function createWorldSound({
   function acceptBuffer(record, path, buffer) {
     if (!buffer || !(buffer.duration > 0)) throw new Error('Decoded asset has no duration.');
     const frames = expectedFrames(record.kind, record.key);
-    if (buffer.sampleRate !== settings.sampleRate) throw new Error(`Unexpected sample rate (${buffer.sampleRate}).`);
+    // decodeAudioData always returns a buffer at the context's own rate, which
+    // is the device rate (44.1 kHz or 48 kHz depending on the output). The
+    // duration contract is what keeps the seam exact, so the expected frame
+    // count is scaled to that rate rather than pinned to the master rate.
+    const expectedFrameCount = frames ? Math.round(frames * buffer.sampleRate / settings.sampleRate) : null;
+    if (buffer.sampleRate !== context.sampleRate) throw new Error(`Unexpected sample rate (${buffer.sampleRate}; context is ${context.sampleRate}).`);
     if (buffer.numberOfChannels !== settings.channels) throw new Error(`Unexpected channel count (${buffer.numberOfChannels}).`);
-    if (frames && buffer.length !== frames) throw new Error(`Unexpected decoded length (${buffer.length}; expected ${frames}).`);
+    if (expectedFrameCount && buffer.length !== expectedFrameCount) {
+      throw new Error(`Unexpected decoded length (${buffer.length}; expected ${expectedFrameCount} at ${buffer.sampleRate} Hz).`);
+    }
     record.path = path;
     record.buffer = buffer;
     record.status = 'ready';
