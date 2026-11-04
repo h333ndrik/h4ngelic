@@ -1,7 +1,8 @@
 # Batch 1 — Cursor-Hide, Hero-Bar im Flow, begrenzter Touch-Fling
 
-Build-Marker: `data-build="831737ce85e6"` (Arbeitsstand vor den Batch-1-Commits;
-nach dem Commit neu bauen, dann zeigt der Marker den Fix-SHA).
+Build-Marker: `data-build="1689a220d008"` (committeter Stand der Batch-1-Commits
+`735ea49`…`1689a22`, neu gebaut und gegen diesen Marker verifiziert). Die
+Phase-0-Läufe davor tragen `831737ce85e6`, den unveränderten Ausgangsstand.
 
 ## Phase 0 — reproduziert vor dem Fix
 

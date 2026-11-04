@@ -1,6 +1,6 @@
 # Token-Cleanup — Ghost-Token statt Literale
 
-Build-Marker: `data-build="831737ce85e6"`.
+Build-Marker: `data-build="1689a220d008"` (committeter Batch-1-Stand).
 
 ## Befund (tokens-audit, STRUCT)
 
