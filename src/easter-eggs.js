@@ -35,10 +35,9 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
 
   function updateVisitorCopy() {
     const memory = visitorMessage(visit.count);
-    for (const element of root.querySelectorAll('[data-returning-visitor]')) {
-      element.textContent = memory;
-      element.hidden = !returningVisitor;
-    }
+    // The F21 contract keeps this node revealable on hover/focus even for a
+    // first visit (different origin, cleared storage): only the copy changes.
+    for (const element of root.querySelectorAll('[data-returning-visitor]')) element.textContent = memory;
     for (const element of root.querySelectorAll('[data-visit-message]')) element.textContent = memory;
     for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = formatVisitCount(visit.count);
   }

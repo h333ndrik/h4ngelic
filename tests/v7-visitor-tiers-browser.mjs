@@ -82,10 +82,16 @@ try {
       await page.screenshot({ path: new URL(`tier-${profile.width}-${profile.reduced}.png`, output).pathname });
       await page.goto(new URL('/?v7first=1', base).href, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
-      assert.equal(await page.locator('[data-returning-visitor]').isVisible(), false, 'First visit keeps the recognition line hidden.');
+      const firstLine = page.locator('[data-returning-visitor]');
+      if (profile.width < 600) {
+        await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) >= .34);
+        assert.equal((await firstLine.innerText()).trim(), 'nice to meet you.', 'A first visit gets the ghost greeting on touch.');
+      } else {
+        assert.equal(await firstLine.isVisible(), false, 'First visit keeps the desktop recognition line at rest hidden.');
+      }
       assert.deepEqual(errors, []);
       reports.push({ ...profile, tiers, reveal, before, after, errors }); await save();
-      console.log(`PASS V7 ${profile.width}px reduced=${profile.reduced}: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, ${profile.width < 600 ? 'tap' : 'hover'} reveals an absolute portal with no reflow, first visit hidden.`);
+      console.log(`PASS V7 ${profile.width}px reduced=${profile.reduced}: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, ${profile.width < 600 ? 'tap' : 'hover'} reveals an absolute portal with no reflow, first visit ${profile.width < 600 ? 'greets as a ghost' : 'hidden at rest'}.`);
     } catch (error) {
       failures.push({ ...profile, error: error.stack, errors }); await save();
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});
