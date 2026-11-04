@@ -24,6 +24,12 @@ try {
   assert.equal(report.initial.opacity, '0', 'The overlay never flashes at 0,0 before the first pointer sample.');
   assert.equal(report.initial.visibility, 'hidden');
   assert.doesNotMatch(report.initial.transitionProperty, /transform/);
+  assert.equal(report.initial.transitionProperty, 'opacity, visibility', 'Only opacity and visibility may transition.');
+  assert.match(report.initial.transitionDuration, /^0\.18s/, 'The fade token is 180ms.');
+  // Enter the steady visible state once, so the jump samples below measure
+  // pure 1:1 tracking rather than the fade-in ramp.
+  await page.mouse.move(1000, 500);
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) >= .999);
   for (let index = 0; index < 20; index += 1) {
     const x = 120 + (index % 10) * 80;
     const y = 160 + Math.floor(index / 10) * 80;
@@ -66,6 +72,7 @@ try {
 
   await page.mouse.move(810, 460);
   await page.waitForFunction(() => document.querySelector('[data-h4-cursor]')?.dataset.h4CursorVisible === 'true');
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) >= .999);
   await page.evaluate(() => document.dispatchEvent(new PointerEvent('pointerout', { bubbles: true, composed: true,
     pointerType: 'mouse', relatedTarget: null, clientX: -1, clientY: -1 })));
   await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001, null, { timeout: 1000 });
@@ -79,6 +86,7 @@ try {
   await page.evaluate(() => Object.defineProperty(document, 'hasFocus', { configurable: true, value: () => false }));
   await page.mouse.move(822, 472);
   await page.waitForFunction(() => document.querySelector('[data-h4-cursor]')?.dataset.h4CursorVisible === 'true');
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) >= .999);
   await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001, null, { timeout: 1600 });
   report.hidden.idleFallback = await page.locator('[data-h4-cursor]').evaluate(element => ({
     opacity: Number(getComputedStyle(element).opacity), visibility: getComputedStyle(element).visibility,
@@ -87,8 +95,12 @@ try {
   assert.equal(report.hidden.idleFallback.opacity, 0);
   await page.evaluate(() => Object.defineProperty(document, 'hasFocus', { configurable: true, value: () => true }));
 
+  await page.mouse.move(780, 430);
+  await page.waitForFunction(() => document.querySelector('[data-h4-cursor]')?.dataset.h4CursorVisible === 'true');
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) >= .999);
   await page.evaluate(() => window.dispatchEvent(new PointerEvent('pointerleave', { relatedTarget: null })));
-  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001, null, { timeout: 1000 });
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001
+    && getComputedStyle(document.querySelector('[data-h4-cursor]')).visibility === 'hidden', null, { timeout: 1000 });
   report.hidden.leave = await page.locator('[data-h4-cursor]').evaluate(element => ({
     opacity: Number(getComputedStyle(element).opacity), visibility: getComputedStyle(element).visibility,
     visible: element.dataset.h4CursorVisible }));
@@ -98,6 +110,17 @@ try {
 
   await page.mouse.move(913, 517);
   await page.waitForFunction(() => document.querySelector('[data-h4-cursor]')?.dataset.h4CursorVisible === 'true');
+  report.hidden.revealStart = await page.evaluate(() => {
+    const cursor = document.querySelector('[data-h4-cursor]'), box = cursor.getBoundingClientRect(), style = getComputedStyle(cursor);
+    return { dx: box.left + 9 - 913, dy: box.top + 2 - 517, opacity: Number(style.opacity),
+      visibility: style.visibility, transform: style.transform, transitionProperty: style.transitionProperty };
+  });
+  assert.ok(Math.abs(report.hidden.revealStart.dx) <= .25 && Math.abs(report.hidden.revealStart.dy) <= .25,
+    'Reveal must be positioned at the new pointer before the fade starts.');
+  assert.ok(report.hidden.revealStart.opacity < .999, `Reveal must fade in instead of popping: ${report.hidden.revealStart.opacity}`);
+  assert.equal(report.hidden.revealStart.visibility, 'visible');
+  assert.doesNotMatch(report.hidden.revealStart.transitionProperty, /transform/);
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) >= .999);
   report.hidden.reveal = await page.evaluate(() => {
     const cursor = document.querySelector('[data-h4-cursor]'), box = cursor.getBoundingClientRect(), style = getComputedStyle(cursor);
     return { dx: box.left + 9 - 913, dy: box.top + 2 - 517, opacity: Number(style.opacity), visibility: style.visibility };
@@ -107,7 +130,8 @@ try {
   assert.equal(report.hidden.reveal.visibility, 'visible');
 
   await page.evaluate(() => window.dispatchEvent(new Event('blur')));
-  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001, null, { timeout: 1000 });
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001
+    && getComputedStyle(document.querySelector('[data-h4-cursor]')).visibility === 'hidden', null, { timeout: 1000 });
   report.hidden.blur = await page.locator('[data-h4-cursor]').evaluate(element => ({ opacity: Number(getComputedStyle(element).opacity),
     visibility: getComputedStyle(element).visibility, visible: element.dataset.h4CursorVisible }));
   assert.equal(report.hidden.blur.visible, 'false');
@@ -115,11 +139,13 @@ try {
 
   await page.mouse.move(744, 333);
   await page.waitForFunction(() => document.querySelector('[data-h4-cursor]')?.dataset.h4CursorVisible === 'true');
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) >= .999);
   await page.evaluate(() => {
     Object.defineProperty(document, 'hidden', { configurable: true, value: true });
     document.dispatchEvent(new Event('visibilitychange'));
   });
-  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001, null, { timeout: 1000 });
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001
+    && getComputedStyle(document.querySelector('[data-h4-cursor]')).visibility === 'hidden', null, { timeout: 1000 });
   report.hidden.visibility = await page.locator('[data-h4-cursor]').evaluate(element => ({ opacity: Number(getComputedStyle(element).opacity),
     visibility: getComputedStyle(element).visibility, visible: element.dataset.h4CursorVisible }));
   assert.equal(report.hidden.visibility.visible, 'false');
@@ -134,7 +160,7 @@ try {
   await touch.close();
 
   report.passed = true;
-  console.log(`PASS cursor kernel ${report.build}: 20/20 zero-px jumps, 108% hotspot press, pointerout/idle/leave/blur/visibility hide, immediate repositioned reveal, touch off.`);
+  console.log(`PASS cursor kernel ${report.build}: 20/20 zero-px jumps, 108% hotspot press, pointerout/idle/leave/blur/visibility hide, repositioned fade reveal, touch off.`);
 } finally {
   await writeFile(new URL('A1-tracking.json', output), JSON.stringify(report, null, 2) + '\n');
   await browser.close();

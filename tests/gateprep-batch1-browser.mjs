@@ -78,7 +78,7 @@ try {
       await page.mouse.move(width * .5, height * .45); await frames(page);
       await page.evaluate(() => document.dispatchEvent(new PointerEvent('pointerout', { bubbles: true, composed: true,
         pointerType: 'mouse', relatedTarget: null, clientX: -1, clientY: -1 })));
-      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001);
+      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001 && getComputedStyle(document.querySelector('[data-h4-cursor]')).visibility === 'hidden');
       const cursor = await page.locator('[data-h4-cursor]').evaluate(element => ({ opacity: Number(getComputedStyle(element).opacity),
         visibility: getComputedStyle(element).visibility, visible: element.dataset.h4CursorVisible }));
       assert.deepEqual(cursor, { opacity: 0, visibility: 'hidden', visible: 'false' });

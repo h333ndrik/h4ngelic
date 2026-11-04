@@ -187,6 +187,10 @@ async function browserPage(viewport) {
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 }).catch(() => {});
   assert.equal(await page.locator('html').evaluate(element => element.classList.contains('h4-custom-cursor')), true);
   assert.equal(await page.locator('html').getAttribute('data-cursor'), null);
+  // Warm the overlay past its 180 ms reveal fade so the grid samples the
+  // steady 1:1 tracking state, not the entrance ramp.
+  await page.mouse.move(viewport.width / 2, viewport.height / 2);
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) >= .999);
   return { context, page, errors };
 }
 
