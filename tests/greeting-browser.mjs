@@ -63,7 +63,9 @@ try {
       } else {
         assert.equal(rest.opacity, 0, 'Rest state stays invisible on desktop.');
         assert.equal(rest.visibility, 'hidden');
-        await page.mouse.move(width / 2, 20);
+        // Hover the header away from the greeting so the evidence shows the copy,
+        // not the logo cursor sitting on top of it.
+        await page.mouse.move(width * .3, 20);
         await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) >= .34, null, { timeout: 2000 });
         await settledOpacity();
         const hover = await page.evaluate(state);
