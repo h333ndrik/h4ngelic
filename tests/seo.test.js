@@ -33,13 +33,13 @@ test('metadata describes distinct self-canonical category pages while incomplete
   assert.equal(new Set(pages.map((page) => page.title)).size, pages.length);
   const describedPages = routes.filter(route => route.kind !== 'artwork').map(route => getPageMetadata(route, production));
   assert.equal(new Set(describedPages.map(page => page.description)).size, describedPages.length);
-  const original = getPageMetadata(resolveRoute('/work/digital-artworks/green-black-original'), production);
+  const original = getPageMetadata(resolveRoute('/creative/green-black-original'), production);
   assert.equal(original.indexable, false, 'The artist has not supplied a title or description; publishing the actual image must not invent them.');
-  assert.equal(original.canonicalURL, 'https://h4ngelic.com/work/digital-artworks/green-black-original');
-  assert.equal(original.description, getPageMetadata(resolveRoute('/work/digital-artworks'), production).description,
+  assert.equal(original.canonicalURL, 'https://h4ngelic.com/creative/green-black-original');
+  assert.equal(original.description, getPageMetadata(resolveRoute('/creative/digital-artworks'), production).description,
     'An incomplete noindex detail uses the truthful existing category description.');
-  assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/work/tools', '/about']);
-  assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/work/tattoos');
+  assert.deepEqual(pages.filter((page) => page.indexable).map((page) => page.path), ['/', '/creative/tools', '/creative/tools/m4shlab', '/creative/tools/thr4ce', '/about']);
+  assert.equal(getPageMetadata(resolveRoute('/work?category=tattoos'), production).canonicalURL, 'https://h4ngelic.com/creative/onskin');
   const missing = getPageMetadata(resolveRoute('/no-such-page'), production);
   assert.equal(missing.status, 404);
   assert.equal(missing.indexable, false);
@@ -50,7 +50,7 @@ test('metadata describes distinct self-canonical category pages while incomplete
 test('untitled supplied Tattoo photographs have unique catalogue labels without acquiring invented authored metadata', () => {
   const routeTitles = [];
   for (const project of suppliedTattooPhotographs) {
-    const route = resolveRoute(`/work/tattoos/${project.id}`);
+    const route = resolveRoute(`/creative/${project.id}`);
     const metadata = getPageMetadata(route, production);
     const label = artworkLabel(project);
     assert.equal(label, project.id.replaceAll('-', ' '));
@@ -69,12 +69,12 @@ test('untitled supplied Tattoo photographs have unique catalogue labels without 
 
 test('only complete supplied projects make canonical Work and genuine details indexable', () => {
   const project = { id: 'line-study', category: 'tattoos', title: 'line study', description: 'A supplied description.', year: 2026, images: [{ src: '/images/line-study.webp', alt: 'Blackwork lines on an arm', width: 800, height: 1000 }] };
-  const archive = resolveRoute('/work');
+  const archive = resolveRoute('/creative');
   assert.equal(getPageMetadata(archive, { ...production, projects: [project] }).indexable, true);
-  assert.equal(getPageMetadata(resolveRoute('/work/tattoos'), { ...production, projects: [project] }).indexable, true,
+  assert.equal(getPageMetadata(resolveRoute('/creative/onskin'), { ...production, projects: [project] }).indexable, true,
     'A genuine complete supplied work may make its distinct category collection indexable.');
-  assert.equal(getPageMetadata(resolveRoute('/work/paintings'), { ...production, projects: [project] }).indexable, false);
-  const detail = { kind: 'artwork', category: 'tattoos', project, path: '/work/tattoos/line-study', canonicalPath: '/work/tattoos/line-study' };
+  assert.equal(getPageMetadata(resolveRoute('/creative/paintings'), { ...production, projects: [project] }).indexable, false);
+  const detail = { kind: 'artwork', category: 'tattoos', project, path: '/creative/line-study', canonicalPath: '/creative/line-study' };
   const metadata = getPageMetadata(detail, production);
   assert.equal(metadata.indexable, true);
   const artwork = metadata.structuredData['@graph'].find((node) => node['@type'] === 'VisualArtwork');
@@ -102,9 +102,10 @@ test('distinct category collections own their canonicals and only matching compl
     }
   }
   const xml = buildSitemap(routeDefinitions().map(route => getPageMetadata(route, options)));
-  for (const path of ['/work/more', '/work/digital-artworks']) assert.ok(xml.includes(`<loc>https://h4ngelic.com${path}</loc>`));
+  for (const path of ['/creative/more', '/creative/digital-artworks']) assert.ok(xml.includes(`<loc>https://h4ngelic.com${path}</loc>`));
   assert.doesNotMatch(xml, /<loc>https:\/\/h4ngelic\.com\/work<\/loc>/);
   assert.doesNotMatch(xml, /\/work\/(?:tattoos|flashes|jewellery|analog-photography|paintings)<\/loc>/);
+  assert.doesNotMatch(xml, /\/creative\/(?:onskin|flashes|jewellery|analog-photography|paintings)<\/loc>/);
 });
 
 test('structured data uses the confirmed artist and Instagram without inventing business details', () => {
@@ -165,7 +166,7 @@ test('sitemap only includes indexable canonical pages and robots preserves exist
   const xml = buildSitemap(pages);
   assert.match(xml, /https:\/\/h4ngelic.com\/about/);
   assert.doesNotMatch(xml, /https:\/\/h4ngelic.com\/contact/);
-  assert.match(xml, /https:\/\/h4ngelic\.com\/work\/tools/);
+  assert.match(xml, /https:\/\/h4ngelic\.com\/creative\/tools/);
   assert.doesNotMatch(xml, /\/work(?:<|\/tattoos<|\/jewellery<|\/more<)/);
   assert.doesNotMatch(buildSitemap(routeDefinitions().map((route) => getPageMetadata(route))), /<url>/);
   assert.equal(buildRobots(getSEOConfig()), 'User-agent: *\nDisallow: /\n');
@@ -196,16 +197,16 @@ test('production output and preview HTTP preserve canonical redirects, strict 40
   assert.equal(home.headers.get('x-robots-tag'), 'index, follow');
   assert.equal(home.headers.get('content-encoding'), 'gzip');
   assert.match(await home.text(), /data-prerendered="\/"/);
-  for (const [path, destination] of [['/contact', '/#contact'], ['/contact?artwork=green-black-original', '/?artwork=green-black-original#contact'], ['/work?category=tattoos', '/work/tattoos'], ['/work', '/work/tattoos'], ['/work/index.html', '/work/tattoos'], ['/about/', '/about'], ['/index.html', '/']]) {
+  for (const [path, destination] of [['/contact', '/#contact'], ['/contact?artwork=green-black-original', '/?artwork=green-black-original#contact'], ['/work?category=tattoos', '/creative/onskin'], ['/work', '/creative'], ['/work/index.html', '/creative'], ['/about/', '/about'], ['/index.html', '/']]) {
     const response = await fetch(`${base}${path}`, { redirect: 'manual' });
     assert.equal(response.status, 301, path);
     assert.equal(response.headers.get('location'), destination);
   }
-  const work = await fetch(`${base}/work/tattoos`);
+  const work = await fetch(`${base}/creative/onskin`);
   assert.equal(work.status, 200);
   assert.equal(work.headers.get('x-robots-tag'), 'noindex, follow');
   const aliasHTML = await work.text();
-  assert.match(aliasHTML, /rel="canonical" href="https:\/\/h4ngelic.com\/work\/tattoos"/);
+  assert.match(aliasHTML, /rel="canonical" href="https:\/\/h4ngelic.com\/creative\/onskin"/);
   assert.match(aliasHTML, /data-connected-work/);
   assert.match(aliasHTML, /data-archive-category="tattoos"/);
   assert.doesNotMatch(aliasHTML, /data-archive-category="digital-artworks"/);
@@ -216,7 +217,7 @@ test('production output and preview HTTP preserve canonical redirects, strict 40
   assert.equal(contact.status, 200);
   assert.equal(contact.headers.get('x-robots-tag'), 'index, follow');
   assert.match(await contact.text(), /data-inquiry-form/);
-  for (const path of ['/does-not-exist', '/work/tattoos/fake-project', '/404.html']) {
+  for (const path of ['/does-not-exist', '/creative/onskin/fake-project', '/404.html']) {
     const response = await fetch(`${base}${path}`);
     assert.equal(response.status, 404, path);
     assert.equal(response.headers.get('x-robots-tag'), 'noindex, follow');

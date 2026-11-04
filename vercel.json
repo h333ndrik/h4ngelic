@@ -1,0 +1,17 @@
+{
+  "redirects": [
+    { "source": "/work/tools/:id", "destination": "/creative/tools/:id", "permanent": true },
+    { "source": "/work/tools", "destination": "/creative/tools", "permanent": true },
+    { "source": "/work/tattoos/:id", "destination": "/creative/:id", "permanent": true },
+    { "source": "/work/tattoos", "destination": "/creative/onskin", "permanent": true },
+    { "source": "/work/:category/:id", "destination": "/creative/:id", "permanent": true },
+    { "source": "/work/flashes", "destination": "/creative/flashes", "permanent": true },
+    { "source": "/work/jewellery", "destination": "/creative/jewellery", "permanent": true },
+    { "source": "/work/more", "destination": "/creative/more", "permanent": true },
+    { "source": "/work/analog-photography", "destination": "/creative/analog-photography", "permanent": true },
+    { "source": "/work/digital-artworks", "destination": "/creative/digital-artworks", "permanent": true },
+    { "source": "/work/paintings", "destination": "/creative/paintings", "permanent": true },
+    { "source": "/work", "destination": "/creative", "permanent": true },
+    { "source": "/work/:path*", "destination": "/creative/:path*", "permanent": true }
+  ]
+}

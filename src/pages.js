@@ -2,13 +2,14 @@ import { siteContent } from './data/siteContent.js';
 import { artworks } from './data/artworks.js';
 import { contentURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
-import { categoryURL, projectURL, categoryById, groupById, workAnchorURL, contactURL } from './routes.js';
+import { categoryURL, projectURL, categoryById, groupById, workAnchorURL, contactURL, toolURL } from './routes.js';
 import { renderFooter } from './footer.js';
 import { renderHorizontalDrift } from './horizontal-drift-content.js';
 import { renderFlashMannequin } from './flash-mannequin-content.js';
 import { renderInquiryForm } from './inquiry-content.js';
 import { orderedArtworks, artworkImages, artworkLabel } from './artwork-content.js';
 import { formatIndexedLabel } from './labels.js';
+import { placeholderProjects } from './data/placeholderProjects.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
 
@@ -31,10 +32,11 @@ function renderToolCards() {
     const href = contentURL(tool.url);
     if (!href) return '';
     return `<article class="tool-card" data-tool-entry="${escape(tool.id)}">
-      <a class="tool-card-link" href="${escape(href)}" target="_blank" rel="noopener noreferrer">
+      <a class="tool-card-link" href="${toolURL(tool.id)}">
         <h3>${escape(tool.title)} ${arrow}</h3>
         <p>${escape(tool.teaser)}</p>
       </a>
+      <a class="tool-card-external text-link" href="${escape(href)}" target="_blank" rel="noopener noreferrer">open project ${arrow}</a>
     </article>`;
   }).filter(Boolean).join('');
   return `<div class="tool-grid" data-tool-rubric>${cards || '<p class="archive-empty">archive in progress.</p>'}</div>`;
@@ -108,7 +110,7 @@ export function renderProject(project) {
   </article>`;
 }
 
-/** /work is the full archive; each real category URL renders only its own
+/** /creative is the full archive; each real category URL renders only its own
  * group/leaf through this same renderer and editable content. */
 export function renderWorkPage(category = 'all') {
   const selected = normalizeCategory(category);
@@ -121,7 +123,8 @@ export function renderWorkPage(category = 'all') {
   const projects = orderedArtworks(artworks.filter(project => project.published !== false && categoryById(project.category)));
   const collection = entry => {
     const items = projects.filter(project => project.category === entry.id);
-    const contents = entry.presentation === 'drift' ? renderHorizontalDrift(items, { category: entry.id, label: entry.label })
+    const placeholders = placeholderProjects.filter(project => project.category === entry.id);
+    const contents = entry.presentation === 'drift' ? renderHorizontalDrift([...items, ...placeholders], { category: entry.id, label: entry.label })
       : items.map(renderProject).filter(Boolean).join('');
     return entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>';
   };
@@ -135,7 +138,7 @@ export function renderWorkPage(category = 'all') {
   const content = groups.map(group => {
     if (group.id === 'tools') {
       return `<section class="work-group${selectedGroup ? ' is-rubric-archive tool-rubric' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="${selectedGroup ? 'work-page-title' : `group-${escape(group.id)}-title`}" data-work-group="${escape(group.id)}">
-        ${selectedGroup ? '' : `<h2 class="work-group-heading" id="group-${escape(group.id)}-title" data-motion-static><a href="${workAnchorURL(group.id)}">${escape(group.label)} ${arrow}</a></h2>`}
+        ${selectedGroup ? '' : `<h2 class="work-group-heading" id="group-${escape(group.id)}-title" data-motion-static><span class="archive-scroll-label">${escape(group.label)}</span></h2>`}
         ${renderToolCards()}
       </section>`;
     }
@@ -181,6 +184,36 @@ export function renderWorkPage(category = 'all') {
   </div>${footer()}`;
 }
 
+export function renderToolPage(tool) {
+  if (!tool) return renderNotFoundPage();
+  const external = contentURL(tool.url);
+  const screenshot = screen => {
+    const asset = getImageAsset(screen, { sizes: '(max-width: 600px) calc(100vw - 44px), 33vw' });
+    const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
+    return `<figure class="tool-shot"><img src="${escape(asset.src)}" alt="${escape(screen.alt)}" loading="lazy" decoding="async" width="${asset.width}" height="${asset.height}"${responsive} /></figure>`;
+  };
+  return `${header('tools')}
+  <div class="page-shell tool-detail-page" data-tool-detail="${escape(tool.id)}">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">home</a><span aria-hidden="true">/</span><a href="${categoryURL('tools')}">tools</a></nav>
+    <article>
+      <h1 class="page-heading tool-headline">${escape(tool.oneLiner)}</h1>
+      <p class="tool-lede">${escape(tool.teaser)}</p>
+      ${external ? `<a class="tool-external-cta" href="${escape(external)}" target="_blank" rel="noopener noreferrer">open ${escape(tool.title)} ${arrow}</a>` : ''}
+      <section class="tool-section" aria-labelledby="tool-what-${escape(tool.id)}"><h2 id="tool-what-${escape(tool.id)}">what it does</h2><p>${escape(tool.teaser)}</p></section>
+      <section class="tool-section" aria-labelledby="tool-how-${escape(tool.id)}"><h2 id="tool-how-${escape(tool.id)}">how it works</h2>
+        <ol class="tool-steps">${tool.works.map(step => `<li>${escape(step)}</li>`).join('')}</ol>
+      </section>
+      <section class="tool-gallery" aria-label="${escape(tool.title)} screens">${tool.screens.map(screenshot).join('')}
+        <p class="tool-video-slot">video slot reserved. no video has been supplied.</p>
+      </section>
+      <section class="tool-mobile" aria-labelledby="tool-mobile-${escape(tool.id)}"><h2 id="tool-mobile-${escape(tool.id)}">install on mobile</h2>
+        <p><strong>ios</strong> share → add to home screen</p><p><strong>android</strong> ⋮ → install</p>
+      </section>
+      <p class="tool-facts">${tool.facts.map(fact => `<span>${escape(fact)}</span>`).join(' <span aria-hidden="true">·</span> ')}</p>
+    </article>
+  </div>${footer()}`;
+}
+
 export function renderAboutPage() {
   const about = siteContent.about;
   const portraitURL = contentURL(about.portrait?.src);
@@ -198,11 +231,30 @@ export function renderAboutPage() {
         <p class="about-intro">${escape(about.intro)}</p>
         <p class="about-location">${escape(about.location)}</p>
         ${(about.paragraphs || []).map((paragraph) => `<p class="about-paragraph">${escape(paragraph)}</p>`).join('')}
-        <a class="text-link" href="${contactURL()}">get in touch</a>
+        <a class="text-link" href="${contactURL()}">get in touch ${arrow}</a>
       </div>
       ${portrait ? `<figure class="about-portrait" style="--artwork-ratio: ${portrait.width} / ${portrait.height}"><img src="${escape(portrait.src || portraitURL)}" alt="${escape(about.portrait.alt || '')}" loading="lazy" decoding="async" width="${portrait.width}" height="${portrait.height}"${portraitResponsive} /></figure>` : ''}
     </div>
     ${references ? `<section class="about-references" aria-labelledby="references-title"><h2 class="section-label" id="references-title">references</h2><ul>${references}</ul></section>` : ''}
+  </div>
+  ${footer()}`;
+}
+
+export function renderImpressumPage() {
+  return `${header('impressum')}
+  <div class="page-shell impressum-page">
+    <h1 class="page-heading">impressum</h1>
+    <div class="legal-copy">
+      <p class="section-label">ddg disclosure — placeholders must be replaced before launch</p>
+      <dl>
+        <div><dt>name</dt><dd>[VOLLNAME]</dd></div>
+        <div><dt>address</dt><dd>[STRASSE+HAUSNUMMER], [PLZ+ORT]</dd></div>
+        <div><dt>contact</dt><dd>[E-MAIL]</dd></div>
+        <div><dt>vat</dt><dd>[UST-IDNR. ODER §19-HINWEIS]</dd></div>
+      </dl>
+      <p>this route is mode-neutral. entering it ends the other side.</p>
+      <a class="text-link" href="/">back home ${arrow}</a>
+    </div>
   </div>
   ${footer()}`;
 }
@@ -246,7 +298,9 @@ export function renderArtworkPage(project) {
 export function renderRoutePage(route, { context = '' } = {}) {
   if (route.kind === 'home') return renderHomepageSections(context);
   if (route.kind === 'work') return renderWorkPage(route.category);
+  if (route.kind === 'tool') return renderToolPage(route.tool);
   if (route.kind === 'about') return renderAboutPage();
+  if (route.kind === 'impressum') return renderImpressumPage();
   if (route.kind === 'artwork') return renderArtworkPage(route.project);
   return renderNotFoundPage();
 }

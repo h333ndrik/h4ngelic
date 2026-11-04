@@ -16,9 +16,9 @@ const expected = [
 const report = { checkedAt: new Date().toISOString(), base, profiles: [], passed: false };
 
 try {
-  const redirect = await fetch(`${base}/work?category=tools`, { redirect: 'manual' });
+  const redirect = await fetch(`${base}/creative?category=tools`, { redirect: 'manual' });
   assert.equal(redirect.status, 301);
-  assert.equal(redirect.headers.get('location'), '/work/tools');
+  assert.equal(redirect.headers.get('location'), '/creative/tools');
 
   for (const width of [1440, 390, 320]) {
     console.log(`CHECK tools rubric ${width}px`);
@@ -61,16 +61,16 @@ try {
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
       await page.screenshot({ path: new URL(`frontpage-${width}.png`, output).pathname });
 
-      await page.goto(`${base}/work/tools`, { waitUntil: 'networkidle' });
+      await page.goto(`${base}/creative/tools`, { waitUntil: 'networkidle' });
       await page.locator('[data-connected-work][data-work-context="tools"]').waitFor();
       const tools = await page.evaluate(() => ({
         heading: document.querySelector('.work-page .page-heading').textContent.trim(),
         filters: [...document.querySelectorAll('.work-filters a')].map(link => ({ text: link.textContent.trim(), href: link.getAttribute('href'), current: link.getAttribute('aria-current') })),
         cards: [...document.querySelectorAll('[data-tool-entry]')].map(card => {
-          const link = card.querySelector('a'), box = link.getBoundingClientRect(), style = getComputedStyle(link);
+          const link = card.querySelector('.tool-card-link'), external = card.querySelector('.tool-card-external'), box = link.getBoundingClientRect(), style = getComputedStyle(card);
           return { id: card.dataset.toolEntry, title: card.querySelector('h3').textContent.replace(/\s+/g, ' ').trim(),
-            href: link.href, target: link.target, rel: link.rel, teaser: card.querySelector('p').textContent.trim(),
-            arrows: card.querySelectorAll('.arrow').length, radius: style.borderRadius,
+            href: link.getAttribute('href'), target: external.target, rel: external.rel, externalHref: external.href,
+            teaser: card.querySelector('p').textContent.trim(), arrows: card.querySelectorAll('.arrow').length, radius: style.borderRadius,
             left: box.left, right: box.right, width: box.width, height: box.height };
         }),
         pageWidth: document.documentElement.scrollWidth, innerWidth,
@@ -78,11 +78,11 @@ try {
       }));
       assert.equal(tools.heading, 'tools');
       assert.deepEqual(tools.filters.map(item => item.text), ['on skin', 'jewellery', 'tools', 'more']);
-      assert.deepEqual(tools.filters.map(item => item.href), ['/work/tattoos', '/work/jewellery', '/work/tools', '/work/more']);
-      assert.equal(tools.filters.find(item => item.current === 'page').href, '/work/tools');
-      assert.deepEqual(tools.cards.map(card => ({ id: card.id, href: card.href, target: card.target, teaser: card.teaser })), expected.map(card => ({
-        id: card.id, href: card.href, target: '_blank', teaser: card.teaser })));
-      assert.ok(tools.cards.every(card => card.arrows === 1 && card.radius === '4px' && card.width > 0 && card.height > 0 && card.rel === 'noopener noreferrer'));
+      assert.deepEqual(tools.filters.map(item => item.href), ['/creative/onskin', '/creative/jewellery', '/creative/tools', '/creative/more']);
+      assert.equal(tools.filters.find(item => item.current === 'page').href, '/creative/tools');
+      assert.deepEqual(tools.cards.map(card => ({ id: card.id, href: card.href, externalHref: card.externalHref, target: card.target, teaser: card.teaser })), expected.map(card => ({
+        id: card.id, href: `/creative/tools/${card.id}`, externalHref: card.href, target: '_blank', teaser: card.teaser })));
+      assert.ok(tools.cards.every(card => card.arrows === 2 && card.radius === '4px' && card.width > 0 && card.height > 0 && card.rel === 'noopener noreferrer'));
       assert.equal(tools.pageWidth, tools.innerWidth);
       assert.match(tools.build, /^[a-f0-9]{7,40}$/i);
       assert.deepEqual(errors, []);
@@ -91,7 +91,7 @@ try {
     } finally { await context.close(); }
   }
   report.passed = true;
-  console.log('PASS tools rubric: redirect, exact external copy/URLs, four filters, 4px cards and desktop/mobile slash-aligned row.');
+  console.log('PASS tools rubric: redirect, internal detail cards with external CTAs, four filters, 4px cards and desktop/mobile slash-aligned row.');
 } catch (error) {
   report.error = error.stack;
   throw error;

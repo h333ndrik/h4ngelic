@@ -20,7 +20,7 @@ const outputDirectory = new URL('../artifacts/performance/', import.meta.url);
 await mkdir(outputDirectory, { recursive: true });
 const flags = ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'];
 const results = [];
-const cases = [{ name: 'home-mobile', path: '/', runs: homeRuns }, { name: 'work-mobile', path: '/work', runs: workRuns }];
+const cases = [{ name: 'home-mobile', path: '/', runs: homeRuns }, { name: 'work-mobile', path: '/creative', runs: workRuns }];
 const median = (values) => {
   const sorted = [...values].sort((a, b) => a - b);
   const middle = Math.floor(sorted.length / 2);

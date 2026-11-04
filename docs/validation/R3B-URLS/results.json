@@ -1,0 +1,518 @@
+{
+  "build": "d3494732b3a9",
+  "profiles": [
+    {
+      "width": 1440,
+      "index": [
+        {
+          "text": "00/ home",
+          "page": "home"
+        },
+        {
+          "text": "01/ creative",
+          "page": "creative"
+        },
+        {
+          "text": "02/ more about",
+          "page": "about"
+        },
+        {
+          "text": "03/ contact",
+          "page": "contact"
+        }
+      ],
+      "gapToken": 19.44,
+      "categoryGaps": [
+        19.4375,
+        19.4375,
+        19.4375
+      ],
+      "filterGap": {
+        "computed": 19.44,
+        "positions": [
+          0,
+          0,
+          0
+        ]
+      },
+      "crossGap": {
+        "computed": 19.44,
+        "arrows": [
+          14.5152,
+          14.5152,
+          14.5152
+        ]
+      },
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [
+          "impressum"
+        ],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [
+          "impressum",
+          "impressum"
+        ],
+        "hint": "press 3 three times to reverse."
+      },
+      "legal": {
+        "page": "impressum",
+        "mode": "normal",
+        "text": "ddg disclosure — placeholders must be replaced before launch name[VOLLNAME] address[STRASSE+HAUSNUMMER], [PLZ+ORT] contact[E-MAIL] vat[UST-IDNR. ODER §19-HINWEIS] this route is mode-neutral. entering it ends the other side. back home",
+        "smash": 0,
+        "back": "/"
+      },
+      "viewer": {
+        "count": "01/ 01",
+        "previous": {
+          "x": 639.875,
+          "y": 816,
+          "width": 44,
+          "height": 44,
+          "top": 816,
+          "right": 683.875,
+          "bottom": 860,
+          "left": 639.875
+        },
+        "countBox": {
+          "x": 703.3125,
+          "y": 829,
+          "width": 33.375,
+          "height": 18,
+          "top": 829,
+          "right": 736.6875,
+          "bottom": 847,
+          "left": 703.3125
+        },
+        "next": {
+          "x": 756.125,
+          "y": 816,
+          "width": 44,
+          "height": 44,
+          "top": 816,
+          "right": 800.125,
+          "bottom": 860,
+          "left": 756.125
+        },
+        "columns": "44px 33.375px 44px",
+        "disjoint": true,
+        "targets": [
+          {
+            "x": 639.875,
+            "y": 816,
+            "width": 44,
+            "height": 44,
+            "top": 816,
+            "right": 683.875,
+            "bottom": 860,
+            "left": 639.875
+          },
+          {
+            "x": 756.125,
+            "y": 816,
+            "width": 44,
+            "height": 44,
+            "top": 816,
+            "right": 800.125,
+            "bottom": 860,
+            "left": 756.125
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "index": [
+        {
+          "text": "00/ home",
+          "page": "home"
+        },
+        {
+          "text": "01/ creative",
+          "page": "creative"
+        },
+        {
+          "text": "02/ more about",
+          "page": "about"
+        },
+        {
+          "text": "03/ contact",
+          "page": "contact"
+        }
+      ],
+      "gapToken": 10,
+      "categoryGaps": [
+        10,
+        10
+      ],
+      "filterGap": {
+        "computed": 10,
+        "positions": [
+          0,
+          0,
+          0
+        ]
+      },
+      "crossGap": {
+        "computed": 10,
+        "arrows": [
+          10,
+          10,
+          10
+        ]
+      },
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [
+          "impressum"
+        ],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [
+          "impressum",
+          "impressum"
+        ],
+        "hint": "press 3 three times to reverse."
+      },
+      "legal": {
+        "page": "impressum",
+        "mode": "normal",
+        "text": "ddg disclosure — placeholders must be replaced before launch name[VOLLNAME] address[STRASSE+HAUSNUMMER], [PLZ+ORT] contact[E-MAIL] vat[UST-IDNR. ODER §19-HINWEIS] this route is mode-neutral. entering it ends the other side. back home",
+        "smash": 0,
+        "back": "/"
+      },
+      "viewer": {
+        "count": "01/ 01",
+        "previous": {
+          "x": 124.3125,
+          "y": 778,
+          "width": 44,
+          "height": 44,
+          "top": 778,
+          "right": 168.3125,
+          "bottom": 822,
+          "left": 124.3125
+        },
+        "countBox": {
+          "x": 178.3125,
+          "y": 791,
+          "width": 33.375,
+          "height": 18,
+          "top": 791,
+          "right": 211.6875,
+          "bottom": 809,
+          "left": 178.3125
+        },
+        "next": {
+          "x": 221.6875,
+          "y": 778,
+          "width": 44,
+          "height": 44,
+          "top": 778,
+          "right": 265.6875,
+          "bottom": 822,
+          "left": 221.6875
+        },
+        "columns": "44px 33.375px 44px",
+        "disjoint": true,
+        "targets": [
+          {
+            "x": 124.3125,
+            "y": 778,
+            "width": 44,
+            "height": 44,
+            "top": 778,
+            "right": 168.3125,
+            "bottom": 822,
+            "left": 124.3125
+          },
+          {
+            "x": 221.6875,
+            "y": 778,
+            "width": 44,
+            "height": 44,
+            "top": 778,
+            "right": 265.6875,
+            "bottom": 822,
+            "left": 221.6875
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "index": [
+        {
+          "text": "00/ home",
+          "page": "home"
+        },
+        {
+          "text": "01/ creative",
+          "page": "creative"
+        },
+        {
+          "text": "02/ more about",
+          "page": "about"
+        },
+        {
+          "text": "03/ contact",
+          "page": "contact"
+        }
+      ],
+      "gapToken": 10,
+      "categoryGaps": [
+        10,
+        10
+      ],
+      "filterGap": {
+        "computed": 10,
+        "positions": [
+          0,
+          0,
+          0
+        ]
+      },
+      "crossGap": {
+        "computed": 10,
+        "arrows": [
+          10,
+          10,
+          10
+        ]
+      },
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [
+          "impressum"
+        ],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [
+          "impressum",
+          "impressum"
+        ],
+        "hint": "press 3 three times to reverse."
+      },
+      "legal": {
+        "page": "impressum",
+        "mode": "normal",
+        "text": "ddg disclosure — placeholders must be replaced before launch name[VOLLNAME] address[STRASSE+HAUSNUMMER], [PLZ+ORT] contact[E-MAIL] vat[UST-IDNR. ODER §19-HINWEIS] this route is mode-neutral. entering it ends the other side. back home",
+        "smash": 0,
+        "back": "/"
+      },
+      "viewer": {
+        "count": "01/ 01",
+        "previous": {
+          "x": 89.3125,
+          "y": 778,
+          "width": 44,
+          "height": 44,
+          "top": 778,
+          "right": 133.3125,
+          "bottom": 822,
+          "left": 89.3125
+        },
+        "countBox": {
+          "x": 143.3125,
+          "y": 791,
+          "width": 33.375,
+          "height": 18,
+          "top": 791,
+          "right": 176.6875,
+          "bottom": 809,
+          "left": 143.3125
+        },
+        "next": {
+          "x": 186.6875,
+          "y": 778,
+          "width": 44,
+          "height": 44,
+          "top": 778,
+          "right": 230.6875,
+          "bottom": 822,
+          "left": 186.6875
+        },
+        "columns": "44px 33.375px 44px",
+        "disjoint": true,
+        "targets": [
+          {
+            "x": 89.3125,
+            "y": 778,
+            "width": 44,
+            "height": 44,
+            "top": 778,
+            "right": 133.3125,
+            "bottom": 822,
+            "left": 89.3125
+          },
+          {
+            "x": 186.6875,
+            "y": 778,
+            "width": 44,
+            "height": 44,
+            "top": 778,
+            "right": 230.6875,
+            "bottom": 822,
+            "left": 186.6875
+          }
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/work",
+      "status": 301,
+      "destination": "/creative"
+    },
+    {
+      "source": "/work?category=tools",
+      "status": 301,
+      "destination": "/creative/tools"
+    },
+    {
+      "source": "/work/tattoos",
+      "status": 301,
+      "destination": "/creative/onskin"
+    },
+    {
+      "source": "/work/flashes",
+      "status": 301,
+      "destination": "/creative/flashes"
+    },
+    {
+      "source": "/work/jewellery",
+      "status": 301,
+      "destination": "/creative/jewellery"
+    },
+    {
+      "source": "/work/tools",
+      "status": 301,
+      "destination": "/creative/tools"
+    },
+    {
+      "source": "/work/tools/m4shlab",
+      "status": 301,
+      "destination": "/creative/tools/m4shlab"
+    },
+    {
+      "source": "/work/more",
+      "status": 301,
+      "destination": "/creative/more"
+    },
+    {
+      "source": "/work/analog-photography",
+      "status": 301,
+      "destination": "/creative/analog-photography"
+    },
+    {
+      "source": "/work/digital-artworks",
+      "status": 301,
+      "destination": "/creative/digital-artworks"
+    },
+    {
+      "source": "/work/tattoos/tattoo-01",
+      "status": 301,
+      "destination": "/creative/tattoo-01"
+    },
+    {
+      "source": "/work/paintings",
+      "status": 301,
+      "destination": "/creative/paintings"
+    }
+  ],
+  "tools": [
+    {
+      "id": "m4shlab",
+      "title": "m4shlab — real h.264 bitstream moshing in the browser",
+      "images": [
+        {
+          "src": "/images/optimized/m4shlab-start-c1a4c3cc2e6b-960.webp",
+          "naturalWidth": 422,
+          "naturalHeight": 264,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "src": "/images/optimized/m4shlab-editor-90dab3ef55af-960.webp",
+          "naturalWidth": 422,
+          "naturalHeight": 264,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "src": "/images/optimized/m4shlab-export-b4fe5164a11a-960.webp",
+          "naturalWidth": 422,
+          "naturalHeight": 264,
+          "width": 1440,
+          "height": 900
+        }
+      ],
+      "cta": "https://github.com/h333ndrik/m4shlab",
+      "pwa": "install on mobile ios share → add to home screenandroid ⋮ → install",
+      "facts": "deterministic & reversible · .m4sh project files · offline-ready PWA · original files never modified",
+      "video": "video slot reserved. no video has been supplied.",
+      "pageWidth": 1280,
+      "innerWidth": 1280
+    },
+    {
+      "id": "thr4ce",
+      "title": "thr4ce — image & stencil editor",
+      "images": [
+        {
+          "src": "/images/optimized/thr4ce-start-70ae49de8d1b-960.webp",
+          "naturalWidth": 422,
+          "naturalHeight": 264,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "src": "/images/optimized/thr4ce-editor-3bae0681bb7d-960.webp",
+          "naturalWidth": 422,
+          "naturalHeight": 264,
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "src": "/images/optimized/thr4ce-export-4aa6597ccfb7-960.webp",
+          "naturalWidth": 422,
+          "naturalHeight": 264,
+          "width": 1440,
+          "height": 900
+        }
+      ],
+      "cta": "https://h333ndrik.github.io/thr4ce",
+      "pwa": "install on mobile ios share → add to home screenandroid ⋮ → install",
+      "facts": "deterministic & reversible · .thr4ce project files · offline-ready PWA · original files never modified",
+      "video": "video slot reserved. no video has been supplied.",
+      "pageWidth": 1280,
+      "innerWidth": 1280
+    }
+  ],
+  "passed": false
+}

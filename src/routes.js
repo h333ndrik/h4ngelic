@@ -4,7 +4,12 @@ import { contentURL } from './content-utils.js';
 
 export const contactURL = (artworkId = '') => `/${artworkId ? `?artwork=${encodeURIComponent(artworkId)}` : ''}#contact`;
 
-export const categoryURL = (category) => `/work/${encodeURIComponent(category)}`;
+const categorySlugs = Object.freeze({ tattoos: 'onskin' });
+export const categorySlug = (category) => categorySlugs[category] || category;
+const categoryFromSlug = (slug) => siteContent.categories.find((category) => categorySlug(category.id) === slug)
+  || siteContent.workGroups.find((group) => group.id === slug);
+export const categoryURL = (category) => category === 'all' ? '/creative' : `/creative/${encodeURIComponent(categorySlug(category))}`;
+export const toolURL = (id) => `${categoryURL('tools')}/${encodeURIComponent(id)}`;
 /** Compatibility export: rubric destinations are real routes, never hash tabs. */
 export const workAnchorURL = (category) => categoryURL(category === 'all' ? 'tattoos' : category);
 export const categoryById = (id) => siteContent.categories.find((category) => category.id === id);
@@ -20,7 +25,7 @@ export function matchesArchive(project, category = 'all') {
 
 export function projectURL(project) {
   return project && knownCategory(project.category) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.id || '')
-    ? `${categoryURL(project.category)}/${project.id}` : '';
+    ? `/creative/${project.id}` : '';
 }
 
 export function publishedProjects() {
@@ -28,13 +33,43 @@ export function publishedProjects() {
     && Array.isArray(project.images) && project.images.some((image) => contentURL(image?.src)));
 }
 
+/** The complete 301 matrix for the retired /work namespace. */
+export function legacyWorkDestination(input) {
+  const url = input instanceof URL ? input : new URL(input, 'https://routing.invalid');
+  const path = url.pathname.replace(/\/+$/, '') || '/';
+  if (path !== '/work' && !path.startsWith('/work/')) return null;
+  if (path === '/work' || path === '/work/index.html') {
+    const requested = url.searchParams.get('category');
+    return requested && knownArchive(requested) ? categoryURL(requested) : '/creative';
+  }
+  const segments = path.split('/').filter(Boolean).slice(1);
+  if (segments[0] === 'tools') {
+    return segments[1] && siteContent.tools.some((tool) => tool.id === segments[1])
+      ? toolURL(segments[1]) : '/creative/tools';
+  }
+  if (segments.length >= 2 && knownArchive(segments[0])) {
+    const project = publishedProjects().find((entry) => entry.id === segments[segments.length - 1]);
+    if (project && segments.length === 2) return projectURL(project);
+    if (segments.length === 1) return categoryURL(segments[0]);
+  }
+  if (segments.length === 1 && knownArchive(segments[0])) return categoryURL(segments[0]);
+  return '/creative';
+}
+
 export function resolveRoute(input) {
   const url = input instanceof URL ? input : new URL(input, 'https://routing.invalid');
   const requestedPath = url.pathname.replace(/\/+$/, '') || '/';
-  const path = requestedPath === '/work/index.html' ? '/work' : requestedPath;
+  const legacyDestination = legacyWorkDestination(url);
+  if (legacyDestination) {
+    const destination = resolveRoute(new URL(legacyDestination, 'https://routing.invalid'));
+    return { ...destination, path: requestedPath, redirectPath: `${destination.canonicalPath}${url.hash}` };
+  }
+
+  const path = requestedPath;
   let kind = 'not-found';
   let category = 'all';
   let project;
+  let tool;
   let canonicalPath = path;
   if (path === '/' || path === '/index.html') {
     kind = 'home'; canonicalPath = '/';
@@ -42,30 +77,55 @@ export function resolveRoute(input) {
     kind = 'about';
   } else if (path === '/contact') {
     kind = 'home'; canonicalPath = '/';
-  } else if (path === '/work') {
+  } else if (path === '/impressum') {
+    kind = 'impressum';
+  } else if (path === '/creative' || path === '/creative/index.html') {
     kind = 'work';
     const requested = url.searchParams.get('category');
-    category = knownArchive(requested) ? requested : 'tattoos';
-    canonicalPath = categoryURL(category);
+    if (knownArchive(requested)) category = requested;
+    canonicalPath = category === 'all' ? '/creative' : categoryURL(category);
   } else {
     const segments = path.split('/').filter(Boolean);
-    if (segments[0] === 'work' && knownArchive(segments[1])) {
-      category = segments[1];
-      if (segments.length === 2) kind = 'work';
-      else if (segments.length === 3 && knownCategory(category)) {
-        project = publishedProjects().find((entry) => projectURL(entry) === path);
-        if (project) kind = 'artwork';
+    if (segments[0] === 'creative') {
+      if (segments.length === 2) {
+        const selected = categoryFromSlug(segments[1]);
+        if (selected) {
+          kind = 'work'; category = selected.id; canonicalPath = categoryURL(selected.id);
+        } else {
+          project = publishedProjects().find((entry) => entry.id === segments[1]);
+          if (project) { kind = 'artwork'; category = project.category; canonicalPath = projectURL(project); }
+        }
+      } else if (segments.length === 3) {
+        const selected = categoryFromSlug(segments[1]);
+        if (segments[1] === categorySlug('tools') && siteContent.tools.some((entry) => entry.id === segments[2])) {
+          kind = 'tool'; category = 'tools'; tool = siteContent.tools.find((entry) => entry.id === segments[2]); canonicalPath = toolURL(tool.id);
+        } else if (selected) {
+          project = publishedProjects().find((entry) => entry.id === segments[2] && matchesArchive(entry, selected.id));
+          if (project) { kind = 'artwork'; category = project.category; canonicalPath = projectURL(project); }
+        }
       }
     }
   }
-  const redirectPath = path === '/contact' ? contactURL(url.searchParams.get('artwork') || '') : kind !== 'not-found' && (url.pathname !== canonicalPath || (path === '/work' && category !== 'all'))
-    ? `${canonicalPath}${url.hash}` : undefined;
-  return { kind, category, project, path, canonicalPath, redirectPath };
+  // /creative/onskin is the canonical tattoo category; /creative/tattoos is a
+  // compatibility alias handled here rather than surviving as a second URL.
+  if (path === '/creative/tattoos') {
+    kind = 'work'; category = 'tattoos'; canonicalPath = categoryURL('tattoos');
+  }
+  const redirectPath = path === '/contact'
+    ? contactURL(url.searchParams.get('artwork') || '')
+    : kind !== 'not-found' && url.pathname !== canonicalPath ? `${canonicalPath}${url.hash}` : undefined;
+  return { kind, category, project, tool, path, canonicalPath, redirectPath };
 }
 
-/** Only genuine, published projects can produce detail routes. */
+/** Only genuine, published routes produce prerendered documents. */
 export function routeDefinitions() {
-  const paths = ['/', ...new Set([...siteContent.categories, ...siteContent.workGroups].map(({ id }) => categoryURL(id))), '/about', ...publishedProjects().map(projectURL)];
-  if (new Set(paths).size !== paths.length) throw new Error('Published artwork IDs must have unique category URLs.');
+  const collectionPaths = new Set([
+    ...siteContent.categories.map(({ id }) => categoryURL(id)),
+    ...siteContent.workGroups.map(({ id }) => categoryURL(id)),
+    ...siteContent.tools.map(({ id }) => toolURL(id)),
+    '/about', '/impressum',
+  ]);
+  const paths = ['/', '/creative', ...collectionPaths, ...publishedProjects().map(projectURL)];
+  if (new Set(paths).size !== paths.length) throw new Error('Published routes must be unique.');
   return paths.map((path) => resolveRoute(path));
 }

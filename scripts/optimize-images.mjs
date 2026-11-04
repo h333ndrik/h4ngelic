@@ -12,6 +12,7 @@ export async function optimizeImages({ root = new URL('../', import.meta.url), p
   const sources = projects.filter((project) => project.published !== false)
     .flatMap((project) => project.images || []).flatMap((image) => [image.src, image.fullSrc]);
   if (portrait?.src) sources.push(portrait.src);
+  if (projects === artworks) sources.push(...(siteContent.tools || []).flatMap((tool) => tool.screens || []).map((screen) => screen.src));
   const manifest = {};
   const widths = [320, 640, 960, 1440, 1920];
   for (const source of new Set(sources)) {
