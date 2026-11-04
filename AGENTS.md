@@ -38,6 +38,11 @@ route and performance guards. The battery runs serially, not in parallel. A
 merge still requires the user's explicit `merge` or `go`; without it, the
 standing no-merge rule remains in force.
 
+The merge battery also runs `tests/typography-contract.mjs`,
+`tests/link-glyph-contract.mjs` and `tests/tokens-audit.mjs` against the
+production preview. Each has a 60-second runtime budget and a token-audit finding
+blocks the gate until it is fixed or explicitly accepted by the user.
+
 ### 3. KLASSIFIZIERUNG
 
 - **FAST:** CSS, copy, a single component, or test-only adjustments.
@@ -120,6 +125,48 @@ When a user reports a problem, first establish and repeat back: (a) the
 `data-build` SHA, (b) the page and element, and (c) expected versus observed
 behavior with a screenshot. If any of these is missing, request it before
 claiming a fix or verification.
+
+# DEFINITION OF DONE (PER FIX)
+
+A fix is not complete because the happy path looks right. Every fix must satisfy
+all five checks below. The Fast Mode and merge-gate rules remain unchanged; this
+checklist adds evidence requirements, not a shortcut.
+
+- [ ] **Phase 0 evidence:** the finding was reproduced with a trace or screenshot,
+  or a regression test was shown red before implementation.
+- [ ] **Central source:** the implementation changes the token, template,
+  formatter or shared component that owns the behavior, not one visible instance.
+- [ ] **Prevention proof:** a named suite or assertion covers the failure class and
+  would fail without this fix.
+- [ ] **Registry updated:** the matching row in `docs/validation/BEFUNDE.md`
+  records status, fix commit and evidence path.
+- [ ] **User check:** the evidence README contains two or three concrete
+  “so prüfst du es” steps using the visible page or browser console.
+
+Evidence follows [GALLERY-CONVENTION.md](docs/validation/GALLERY-CONVENTION.md)
+for new fixes. A fix cannot be marked `verified-by-user` until the user explicitly
+confirms it.
+
+# MERGE-QUEUE / RELEASE TRAIN
+
+Only one undeployed release train may be active at a time. Never stack a second
+train or advertise a merge order after starting a merge. The current queue is
+listed here so the next run does not infer it from branch names:
+
+1. **PR #22 — V3.2 world sound.** User-provided state at the 2026-11-04
+   checkpoint: open, mergeable, clean, 385/385. Reconfirm this state immediately
+   before the merge gate.
+2. **`v3.1.1-fixes`.** Rebase after PR #22. This train includes the V3.2 release
+   fixes plus the STRUCT registry, DoD, contract sweeps and gallery convention;
+   STRUCT has no separate release train.
+3. **`mail-01-diagnostics`.** Rebase only after both preceding trains. The final
+   gate includes the production inquiry/mail smoke.
+
+The merge-gate statement must show the queue order, the exact commits entering
+the train, test totals and the rollback path. Post-merge smoke: verify the core
+routes and the injected `data-build`; the final train additionally verifies the
+mail path. Merging and deployment still require the user's explicit `merge` or
+`go`, and force-push is never allowed.
 
 # h4ngelic continuation
 
