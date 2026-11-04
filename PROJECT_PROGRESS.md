@@ -1,3 +1,17 @@
+# V3.2-M2 — "3d model" finalisiert — 2026-11-04
+
+- Nur C ist sichtbar; A/B bleiben in der Registry (verborgen, Dev-only via
+  `?variant=a|b`).
+- Section-Einfahrt teilt die Sampler des Frontpage-Elements "01 / creative"
+  (`src/section-entrance.js`), Reduced Motion springt sofort.
+- `LICENSE-NOTE.md` liegt jetzt ausserhalb des Repos
+  (`outputs/mannequin-remodeling/LICENSE-NOTE-C.md`); Build-Assert auf den
+  String ist Teil der Preview-Suite.
+- Tests: `npm test` 386/386, Preview-Suite (nur C, Einfahrt, Reduced Motion,
+  No-WebGL, Bundle), Dev-Varianten-Suite, SEO 18 Routen + 404, statische Titel
+  6/6, Build 18 Routen + 404.
+- Derivat unveraendert: 49.838 Tris, 316.604 Bytes, SHA-256 `d8306c2b…68ccb`.
+
 # V3.2 — Mannequin-Integration A/B/C — 2026-11-04
 
 Branch `v3.2-mannequin-female`. Die 3D-Model-Subsection (`#model-3d`,

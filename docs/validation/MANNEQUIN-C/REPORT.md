@@ -4,10 +4,11 @@ Branch `v3.2-mannequin-female`, Basis `9dd66ce`. Kein Merge, kein Deploy.
 
 ## Ergebnis in einem Satz
 
-Die 3D-Model-Subsection auf `/work/tattoos` zeigt jetzt drei umschaltbare
-Varianten (A smooth, B faceted, C sculpted als Default), dreht langsam, laesst
-sich ziehen und zurueckschleudern, laedt jedes GLB genau einmal und bleibt auf
-kalten Routen Three.js-frei.
+Die 3D-Model-Subsection auf `/work/tattoos` zeigt **nur noch Variante C**
+(sculpted), faehrt beim Scrollen mit derselben Kurve ein wie das Frontpage-
+Element "01 / creative", dreht langsam, laesst sich ziehen und
+zurueckschleudern, laedt genau ein GLB und bleibt auf kalten Routen
+Three.js-frei. A und B sind verborgen, aber im Code erhalten.
 
 ## Quelle und Ableitung (Poly-Count-Trace)
 
@@ -139,3 +140,88 @@ KTX_TOOLS=/pfad/zu/ktx/bin node scripts/build-mannequin-c.mjs
 #           MANNEQUIN_TEXTURE=/pfad/skincolor.png
 node scripts/verify-mannequin-assets.mjs
 ```
+
+## V3.2-M2 — Finalisierung
+
+### Nur C sichtbar
+
+- Der Varianten-Umschalter ist aus Markup, CSS und Renderer entfernt
+  (`[data-mannequin-variant-option]` existiert nicht mehr).
+- **A/B: verborgen, NICHT loeschen (V3.2).** Die Registry in
+  `src/mannequin-preview-config.js` bleibt vollstaendig, inklusive Modelle,
+  Material-Erwartung und Demo-Design-Flag.
+- Intern erreichbar nur im Dev-Server: `/work/tattoos?variant=a|b`
+  (`mannequinDevVariant()` prueft `import.meta.env.DEV`). Im Production-Build
+  ist der Zweig tot; ein Test bestaetigt, dass `?variant=b` dort wirkungslos
+  bleibt und keine A/B-Datei geladen wird.
+- Screenshots der versteckten Varianten: `hidden-variant-a-1440.png`,
+  `hidden-variant-b-1440.png` (Vite-Dev, B mit Demo-Decal), Messwerte in
+  `hidden-variants.json`.
+- Demo-Design bleibt fuer C deaktiviert (`aria-disabled="true"` + sichtbarer
+  Hinweis "no decals on the sculpted uv layout").
+- `initialYaw` ist jetzt eine benannte Konstante pro Variante. C: `0` rad, weil
+  C mit `+Z` nach vorn modelliert ist und die Kamera auf `+Z` steht — also
+  frontale Startansicht. A/B-Assets und ihre Werte bleiben unangetastet.
+
+### Scroll-Einfahrt wie "01 / creative"
+
+Das Frontpage-Element wird in `src/scroll-choreography.js` bewegt:
+`aboutSectionProgress(position, top, vh)` (approach .68 / finish .10) und
+`sampleAboutItem(progress, 'link', viewportWidth)` (linkStart .24 / linkEnd .98,
+Distanz `min(28px, 4.5vw)`, Easing `smoothProgress`). Der Titel selbst bleibt
+dort statisch — die Einfahrt laeuft ueber die Rubrik-Links
+(`--kinetic-x` / `--kinetic-opacity`).
+
+`src/section-entrance.js` importiert genau diese beiden Sampler (kein
+Copy-Paste) und setzt `--entrance-x` / `--entrance-opacity` auf `#model-3d`.
+Testvergleich gegen die Frontpage bei identischem Scroll-Offset:
+
+| Section-Top im Viewport | Frontpage `--kinetic-x` | Modell `--entrance-x` | Opacity |
+| --- | --- | --- | --- |
+| 620 px | 28.000 px | 28.000 px | 0.000 |
+| 500 px | 27.792 px | 27.790 px | 0.008 |
+| 380 px | 20.310 px | 20.310 px | 0.412 |
+| 260 px | 6.401 px | 6.390 px | 0.861 |
+| 160 px | 0.337 px | 0.330 px | 0.994 |
+
+**Abweichung (begruendet):** Das Original ist scroll-gebunden und laeuft beim
+Zurueckscrollen rueckwaerts. Die Aufgabe erlaubt fuer diesen Fall
+"Originalverhalten uebernehmen", deshalb gibt es keinen einmaligen Time-out;
+der IntersectionObserver schaltet nur den Frame-Loop scharf (Startpose wird
+synchron gesetzt). `prefers-reduced-motion`: Endpose sofort, kein Listener,
+keine Animation. Ohne JavaScript bleibt die Section sichtbar (CSS-Default 1).
+
+### LICENSE-NOTE
+
+`docs/validation/MANNEQUIN-C/LICENSE-NOTE.md` ist **wortgleich** nach
+`outputs/mannequin-remodeling/LICENSE-NOTE-C.md` verschoben (ausserhalb des
+Repos) und im Repo entfernt. Inhalt: Herkunftskette des Assets (Sketchfab-
+Basismesh), der Redistributions-Befund und die Tooling-Lizenzen (Blender GPL,
+glTF-Transform MIT, KTX-Software Apache-2.0, Draco/Basis Apache-2.0). Nichts
+davon ist verloren: die Apache-2.0-Nachweise der tatsaechlich ausgelieferten
+Decoder stehen unveraendert in `public/draco/README.md` und
+`public/basis/README.md`, die Herkunft liegt in der lokalen Notiz und in der
+Git-Historie.
+
+Bundle-Nachweis: Die Preview-Suite durchsucht `dist/` rekursiv nach
+`LICENSE-NOTE` (0 Treffer) und bestaetigt, dass `docs/` nicht gebundelt wird.
+
+### Tests (V3.2-M2)
+
+| Suite | Ergebnis |
+| --- | --- |
+| `npm test` | 386/386 PASS |
+| `npm run test:mannequin-preview` | 3 Viewports, nur C, Einfahrt == Frontpage, Reduced Motion, No-WebGL, Leak, Bundle ohne LICENSE-NOTE |
+| `npm run test:mannequin-variants-dev` | A/B via `?variant=`, kein Umschalter, C bleibt Default (Vite-Dev) |
+| `npm run test:seo` | 18 Routen + 404, keine Three.js-Requests auf direkten Routen |
+| `node tests/v23-static-titles-browser.mjs` | 6/6 PASS (statische Titel unveraendert) |
+| `npm run build` | 18 Routen + 404 |
+
+### Beobachtungen (out of scope, unveraendert)
+
+- `npm run test:mobile` scheitert an `tests/mobile-interactions-browser.mjs:193`
+  — auf `9dd66ce` reproduziert.
+- `.chapter-counter` (`position: fixed`) ueberlagert je nach Scrollposition den
+  unteren Frame-Rand.
+- A/B sind `-Z`-vorn, C ist `+Z`-vorn. Da nur C sichtbar ist, bleibt das ohne
+  Wirkung; A/B-Assets wurden nicht angefasst.

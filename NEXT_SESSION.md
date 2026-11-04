@@ -1,25 +1,31 @@
-# V3.2-M1 checkpoint — Mannequin A/B/C
+# V3.2-M2 checkpoint — "3d model" finalisiert
 
 Updated 2026-11-04. Branch `v3.2-mannequin-female`, Basis `9dd66ce`.
 Committet, **nicht gepusht**, kein Merge, kein Deploy.
 
 ## Status
 
-- [x] Variante C als Default, A/B unveraendert umschaltbar, ein Renderer.
-- [x] Lazy pro Route und pro Variante; 0 WebGL/0 GLB auf kalten Routen.
-- [x] Draco + KTX2 (Decoder lokal unter `public/draco`, `public/basis`).
-- [x] Rotation, Hover, Drag-Traegheit, Swipe, Flick-Ersatz, Reduced Motion,
-      No-WebGL-Poster.
+- [x] Nur C ist sichtbar; der Varianten-Umschalter ist aus der UI entfernt.
+- [x] A/B: verborgen, NICHT geloescht — Registry bleibt, erreichbar nur im
+      Dev-Server ueber `?variant=a|b` (kein Link, keine Navigation).
+- [x] `initialYaw` pro Variante als Konstante (C = 0 rad, C ist +Z-vorn).
 - [x] Demo-Design fuer C deaktiviert (`aria-disabled` + sichtbarer Hinweis).
-- [x] Pipeline + Hashes + UV-Nachweise in `docs/validation/MANNEQUIN-C/`.
-- [x] `npm test` 385/385, SEO 18 Routen, Preview-Suite 3 Viewports × 3
-      Varianten, Build 18 Routen + 404.
+- [x] Section-Einfahrt ueber `src/section-entrance.js`: dieselben Sampler wie
+      "01 / creative" (Schwellen .68/.10, Easing `smoothProgress`, Distanz
+      min(28px, 4.5vw)); Reduced Motion instant.
+- [x] `LICENSE-NOTE.md` wortgleich nach
+      `outputs/mannequin-remodeling/LICENSE-NOTE-C.md` verschoben; Build
+      enthaelt den String nicht mehr (Test).
+- [x] Rotation/Hover/Drag/Swipe/Flick, Lazy-Load, dispose und No-WebGL-Poster
+      unveraendert.
+- [x] `npm test` 386/386, `test:mannequin-preview`, `test:mannequin-variants-dev`,
+      SEO 18 Routen + 404, statische Titel 6/6, Build 18 Routen + 404.
 
 ## Naechster Schritt (bewusst nicht ausgefuehrt)
 
-1. **Lizenz klaeren** (`docs/validation/MANNEQUIN-C/LICENSE-NOTE.md`): Derivat
-   des Sketchfab-Basismeshs. Erst nach Freigabe pushen/mergen.
-2. Danach V3.2-M1: geteilter Renderer-Chunk mit dem Hero, gemeinsame
+1. **Lizenz klaeren**: `outputs/mannequin-remodeling/LICENSE-NOTE-C.md`
+   (ausserhalb des Repos). Erst nach Freigabe pushen/mergen.
+2. V3.2-M1: geteilter Renderer-Chunk mit dem Hero, gemeinsame
    Rotationskonstanten, Decal-Placement fuer C.
 3. Hero-"Abschiessen" als echtes Modul, sobald die Animation existiert
    (`TODO(V3.2-M1)` in `src/mannequin-preview-config.js`).
@@ -29,6 +35,7 @@ Committet, **nicht gepusht**, kein Merge, kein Deploy.
 - `npm run test:mobile` scheitert an `tests/mobile-interactions-browser.mjs:193`
   auch auf `9dd66ce` (eigener Worktree geprueft).
 - `.chapter-counter` ueberlagert je nach Scrollposition den unteren Frame-Rand.
+- A/B sind `-Z`-vorn, C ist `+Z`-vorn; ohne sichtbare A/B folgenlos.
 
 # V3.1.2 final review state
 
