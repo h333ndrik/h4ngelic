@@ -9,10 +9,13 @@ export function naaviStops(kind) {
     { id: 'selected-work', label: 'creative', href: '/#selected-work' },
     { id: 'about-preview', label: 'about', href: '/#about-preview' },
     { id: 'contact', label: 'contact', href: '/#contact' },
+    // The fourth chapter is the end reveal that offers the other side. It is a
+    // NAAVI stop only; the INDEX keeps its four destinations (B-011).
+    { id: 'other-side', label: 'the other side', href: '/#final-secret', selector: '[data-end-reveal]' },
   ];
   if (kind === 'work' || kind === 'artwork' || kind === 'tool') return [
     { label: 'home', href: '/' },
-    { id: 'tattoos', label: 'creative / on skin', href: '/creative/onskin' },
+    { id: 'tattoos', label: 'creative / tattoos', href: '/creative/tattoos' },
     { id: 'jewellery', label: 'jewellery', href: '/creative/jewellery' },
     { id: 'tools', label: 'tools', href: '/creative/tools' },
     { id: 'more', label: 'more', href: '/creative/more' },
