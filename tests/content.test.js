@@ -82,8 +82,8 @@ test('only Home exposes the accessible inquiry form; interior Contact links targ
     assert.match(markup, /type="file" name="attachments"[^>]+multiple/);
     assert.match(markup, /up to 5 files, 4 MB total/);
     assert.doesNotMatch(markup, /5 MB each|12 MB/);
-    assert.match(markup, /ATTACH REFERENCES \/ IMAGES/);
-    assert.match(markup, /SEND MESSAGE/);
+    assert.match(markup, /attach references \/ images/);
+    assert.match(markup, /send message/);
     assert.match(markup, /data-inquiry-status role="status" aria-live="polite"/);
     assert.match(markup, /href="mailto:h4ngelic@gmail\.com"/);
     assert.match(markup, /href="https:\/\/www\.instagram\.com\/h4ngelic\/" target="_blank" rel="noopener noreferrer"/);

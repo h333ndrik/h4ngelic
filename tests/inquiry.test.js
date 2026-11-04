@@ -37,13 +37,13 @@ test('inquiry renders semantic native form with real email fallback and no fabri
   assert.match(html, /method="post" enctype="multipart\/form-data"/);
   assert.match(html, /name="name"[^>]*required/);
   assert.match(html, /name="name"[^>]*placeholder="max musterperson"/);
-  assert.match(html, /HOW TO REACH YOU/);
+  assert.match(html, /how to reach you/);
   assert.match(html, /name="email" type="text"[^>]*placeholder="email, instagram, phone number\.\.\."[^>]*required/);
   assert.doesNotMatch(html, /YOUR EMAIL|type="email"/);
   assert.match(html, /name="attachments"[^>]*multiple/);
-  assert.match(html, /WHAT'S ON YOUR MIND\?/);
+  assert.match(html, /what's on your mind\?/);
   assert.match(html, /placeholder="could be an inquiry, a question or just a thought\.\nfeel free to write anything\."/);
-  assert.match(html, /SEND MESSAGE/);
+  assert.match(html, /send message/);
   assert.doesNotMatch(html, /SEND INQUIRY|inquiry-privacy|your details and references/);
   assert.match(html, /mailto:h4ngelic@gmail.com/);
   assert.match(html, /id="inquiry-name"/);

@@ -67,7 +67,7 @@ export const siteContent = {
     aboutLabel: formatIndexedLabel(2, 'more about'),
     contactLabel: formatIndexedLabel(3, 'contact'),
     aboutPreview: 'mixed media. ink, metal and everything in between.',
-    moreAboutLabel: 'MORE ABOUT',
+    moreAboutLabel: 'more about',
   },
 
   about: {

@@ -36,20 +36,20 @@ export function renderInquiryForm({ context = '', id = 'inquiry' } = {}) {
       <input type="hidden" name="started" value="" data-inquiry-started />
       <p class="inquiry-context" data-inquiry-context${project ? '' : ' hidden'}>${project ? `regarding ${escape(project.title || project.id.replaceAll('-', ' '))}.` : ''}</p>
       <div class="inquiry-fields">
-        <label class="inquiry-field" for="${prefix}-name"><span>YOUR NAME</span><input id="${prefix}-name" name="name" autocomplete="name" placeholder="max musterperson" required maxlength="${inquirySettings.maximumNameLength}" /></label>
-        <label class="inquiry-field" for="${prefix}-email"><span>HOW TO REACH YOU</span><input id="${prefix}-email" name="email" type="text" autocomplete="off" placeholder="email, instagram, phone number..." required maxlength="254" data-inquiry-contact /></label>
-        <label class="inquiry-field inquiry-field-message" for="${prefix}-message"><span>WHAT'S ON YOUR MIND?</span><textarea id="${prefix}-message" name="message" rows="3" placeholder="could be an inquiry, a question or just a thought.
+        <label class="inquiry-field" for="${prefix}-name"><span>your name</span><input id="${prefix}-name" name="name" autocomplete="name" placeholder="max musterperson" required maxlength="${inquirySettings.maximumNameLength}" /></label>
+        <label class="inquiry-field" for="${prefix}-email"><span>how to reach you</span><input id="${prefix}-email" name="email" type="text" autocomplete="off" placeholder="email, instagram, phone number..." required maxlength="254" data-inquiry-contact /></label>
+        <label class="inquiry-field inquiry-field-message" for="${prefix}-message"><span>what's on your mind?</span><textarea id="${prefix}-message" name="message" rows="3" placeholder="could be an inquiry, a question or just a thought.
 feel free to write anything." maxlength="${inquirySettings.maximumMessageLength}"></textarea></label>
       </div>
       <div class="inquiry-honey" aria-hidden="true"><label for="${prefix}-website">Leave this field empty<input id="${prefix}-website" name="website" tabindex="-1" autocomplete="off" /></label></div>
       <div class="inquiry-attachments">
-        <label class="inquiry-file-label" for="${prefix}-files"><svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><path d="m8 13 6-6a3 3 0 0 1 4 4l-8 8a5 5 0 0 1-7-7l9-9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg><span>ATTACH REFERENCES / IMAGES</span></label>
+        <label class="inquiry-file-label" for="${prefix}-files"><svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><path d="m8 13 6-6a3 3 0 0 1 4 4l-8 8a5 5 0 0 1-7-7l9-9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg><span>attach references / images</span></label>
         <input class="inquiry-file-input" id="${prefix}-files" type="file" name="attachments" accept="${inquirySettings.accept}" multiple aria-describedby="${prefix}-file-help ${prefix}-file-error" />
         <p class="inquiry-file-help" id="${prefix}-file-help">jpg, png, webp, avif, gif or pdf · up to 5 files, 4 MB total.</p>
         <p class="inquiry-error" id="${prefix}-file-error" data-inquiry-file-error role="alert"></p>
         <ul class="inquiry-file-list" data-inquiry-files aria-label="Selected references"></ul>
       </div>
-      <button class="inquiry-submit" type="submit" data-inquiry-submit><span>SEND MESSAGE</span><i class="arrow" aria-hidden="true"></i></button>
+      <button class="inquiry-submit" type="submit" data-inquiry-submit><span>send message</span><i class="arrow" aria-hidden="true"></i></button>
       <p class="inquiry-status" id="${prefix}-status" data-inquiry-status role="status" aria-live="polite" aria-atomic="true"></p>
       <p class="inquiry-email-fallback" data-inquiry-email-fallback hidden>you can also email <a href="mailto:${address}">${address}</a>.</p>
       <noscript><p>send the form directly, or email <a href="mailto:${address}">${address}</a>. references are limited to 5 files and 4 MB in total.</p></noscript>
