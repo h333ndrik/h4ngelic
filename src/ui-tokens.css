@@ -5,11 +5,15 @@
   --radius-soft: 4px;
   --surface-input: #303033;
   --header-item-gap: clamp(10px, 2.2vw, 32px);
+  --rubric-gap: clamp(10px, 1.35vw, 22px);
+  --ui-arrow-gap: clamp(10px, .28em, 22px);
   --type-display: clamp(32px, 6vw, 88px);
   --type-category-link: clamp(18px, 5.2vw, 84px);
   --type-navigation: clamp(13px, 1.32vw, 20px);
   --type-secondary-link: clamp(18px, 1.8vw, 27px);
   --slash-inset: clamp(52px, 16vw, 138px);
+  --sound-caret-duration: 300ms;
+  --sound-caret-easing: cubic-bezier(.2, 1.35, .3, 1);
   /* Mirrors the HOLD-4 hint's ghost color, opacity and .84px tracking. The
      greeting remains lowercase in the smaller header context. */
   --h4-ghost-color: #f0efeb;

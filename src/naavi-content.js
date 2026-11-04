@@ -9,20 +9,20 @@ export function naaviStops(kind) {
     { id: 'selected-work', label: 'creative', href: '/#selected-work' },
     { id: 'about-preview', label: 'about', href: '/#about-preview' },
     { id: 'contact', label: 'contact', href: '/#contact' },
-    { id: 'final-secret', selector: '[data-footer-secret-space]', label: 'the final h4', href: '/#final-secret' },
   ];
-  if (kind === 'work' || kind === 'artwork') return [
+  if (kind === 'work' || kind === 'artwork' || kind === 'tool') return [
     { label: 'home', href: '/' },
-    { id: 'tattoos', label: 'creative / tattoos', href: '/work/tattoos' },
-    { id: 'jewellery', label: 'jewellery', href: '/work/jewellery' },
-    { id: 'tools', label: 'tools', href: '/work/tools' },
-    { id: 'more', label: 'more', href: '/work/more' },
+    { id: 'tattoos', label: 'creative / on skin', href: '/creative/onskin' },
+    { id: 'jewellery', label: 'jewellery', href: '/creative/jewellery' },
+    { id: 'tools', label: 'tools', href: '/creative/tools' },
+    { id: 'more', label: 'more', href: '/creative/more' },
   ];
   return [{ label: 'home', href: '/' }, { label: kind === 'about' ? 'about' : 'page', href: kind === 'about' ? '/about' : '/' }];
 }
 
 export function initialNaaviIndex(route) {
   if (route.kind === 'home') return 0;
+  if (route.kind === 'tool') return 3;
   if (['work', 'artwork'].includes(route.kind)) return route.category === 'jewellery' ? 2
     : route.category === 'tools' ? 3
       : ['more', 'digital-artworks', 'analog-photography', 'paintings'].includes(route.category) ? 4 : 1;

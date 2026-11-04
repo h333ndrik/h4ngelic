@@ -1,0 +1,35 @@
+{
+  "build": "d3494732b3a9",
+  "headings": [
+    {
+      "text": "01/ creative",
+      "font": "86.4px",
+      "line": "93.312px",
+      "tracking": "-3.888px",
+      "textFont": "86.4px",
+      "textLine": "93.312px",
+      "textTracking": "-3.888px",
+      "width": 1370
+    },
+    {
+      "text": "02/ more about",
+      "font": "71.28px",
+      "line": "76.9824px",
+      "tracking": "-3.2076px",
+      "textFont": "71.28px",
+      "textLine": "76.9824px",
+      "textTracking": "-3.2076px",
+      "width": 1370
+    },
+    {
+      "text": "03/ contact",
+      "font": "86.4px",
+      "line": "93.312px",
+      "tracking": "-3.888px",
+      "textFont": "86.4px",
+      "textLine": "93.312px",
+      "textTracking": "-3.888px",
+      "width": 1370
+    }
+  ]
+}

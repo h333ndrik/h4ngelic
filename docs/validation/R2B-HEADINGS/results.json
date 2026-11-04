@@ -1,0 +1,93 @@
+{
+  "build": "d3494732b3a9",
+  "profiles": [
+    {
+      "width": 1440,
+      "headings": [
+        {
+          "text": "01/ creative",
+          "fontSize": 86.4,
+          "lineHeight": 93.312,
+          "tracking": -3.888,
+          "top": 1000,
+          "width": 399.984375
+        },
+        {
+          "text": "02/ more about",
+          "fontSize": 86.4,
+          "lineHeight": 93.312,
+          "tracking": -3.888,
+          "top": 1690.34375,
+          "width": 526.75
+        },
+        {
+          "text": "03/ contact",
+          "fontSize": 86.4,
+          "lineHeight": 93.312,
+          "tracking": -3.888,
+          "top": 2335.078125,
+          "width": 379.921875
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "headings": [
+        {
+          "text": "01/ creative",
+          "fontSize": 32,
+          "lineHeight": 34.56,
+          "tracking": -1.44,
+          "top": 914,
+          "width": 148.15625
+        },
+        {
+          "text": "02/ more about",
+          "fontSize": 32,
+          "lineHeight": 34.56,
+          "tracking": -1.44,
+          "top": 1382.546875,
+          "width": 195.09375
+        },
+        {
+          "text": "03/ contact",
+          "fontSize": 32,
+          "lineHeight": 34.56,
+          "tracking": -1.44,
+          "top": 1768.59375,
+          "width": 140.71875
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "headings": [
+        {
+          "text": "01/ creative",
+          "fontSize": 32,
+          "lineHeight": 34.56,
+          "tracking": -1.44,
+          "top": 914,
+          "width": 148.15625
+        },
+        {
+          "text": "02/ more about",
+          "fontSize": 32,
+          "lineHeight": 34.56,
+          "tracking": -1.44,
+          "top": 1364.546875,
+          "width": 195.09375
+        },
+        {
+          "text": "03/ contact",
+          "fontSize": 32,
+          "lineHeight": 34.56,
+          "tracking": -1.44,
+          "top": 1785.09375,
+          "width": 140.71875
+        }
+      ]
+    }
+  ],
+  "passed": true
+}
