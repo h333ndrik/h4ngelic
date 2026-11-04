@@ -212,7 +212,7 @@ try {
         const section = document.querySelector('#selected-work');
         scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - position), behavior: 'instant' });
       }, -offset);
-      await page.waitForTimeout(120);
+      await page.waitForTimeout(200);
       samples.push({ offset, home: await homepagePose(page) });
     }
     await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
@@ -221,7 +221,7 @@ try {
         const section = document.querySelector('#model-3d');
         scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - position), behavior: 'instant' });
       }, -sample.offset);
-      await page.waitForTimeout(150);
+      await page.waitForTimeout(260);
       sample.model = await sectionPose(page);
       assert.ok(Math.abs(sample.model.x - sample.home.x) <= 0.6,
         `Entrance x must match the frontpage curve at ${sample.offset}px (${sample.model.x} vs ${sample.home.x}).`);

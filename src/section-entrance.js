@@ -32,6 +32,7 @@ export function initSectionEntrance(root = document, selector = '[data-section-e
   let disposed = false;
   let armed = false;
   let measured = false;
+  let pageHeight = 0;
 
   function listen(target, name, callback, options) {
     target.addEventListener(name, callback, options);
@@ -54,6 +55,7 @@ export function initSectionEntrance(root = document, selector = '[data-section-e
 
   function measure() {
     measured = true;
+    pageHeight = owner.documentElement.scrollHeight;
     const offset = owner.defaultView.scrollY;
     for (const target of targets) target.top = target.element.getBoundingClientRect().top + offset;
   }
@@ -72,6 +74,8 @@ export function initSectionEntrance(root = document, selector = '[data-section-e
   function update() {
     frame = 0;
     if (disposed || !armed) return;
+    // Bilder/Fonts verschieben die Section nach dem ersten Layout; dann neu messen.
+    if (measured && owner.documentElement.scrollHeight !== pageHeight) measured = false;
     if (reduced.matches) {
       for (const target of targets) settle(target);
       return;
@@ -102,6 +106,7 @@ export function initSectionEntrance(root = document, selector = '[data-section-e
 
   listen(owner.defaultView, 'scroll', schedule, { passive: true });
   listen(owner.defaultView, 'resize', onResize);
+  listen(owner.defaultView, 'load', onResize);
   listen(reduced, 'change', () => {
     if (reduced.matches) for (const target of targets) settle(target);
     else schedule();
