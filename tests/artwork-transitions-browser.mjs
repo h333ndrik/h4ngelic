@@ -12,7 +12,7 @@ const project = {
     { src: '/assets/tattoo-texture.webp?view=2', alt: 'provided texture second view', width: 1024, height: 1448 },
   ],
 };
-const detailPath = `/work/jewellery/${project.id}`;
+const detailPath = `/creative/${project.id}`;
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
 
 async function setup(options = {}, disableViewTransitions = false) {
@@ -45,7 +45,7 @@ async function setup(options = {}, disableViewTransitions = false) {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto(new URL('/work/jewellery', baseURL).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative/jewellery', baseURL).href, { waitUntil: 'networkidle' });
   assert.equal(await page.locator('[data-artwork-link]').count(), 2, 'The temporary module fixture must reach the real archive renderer.');
   return { context, page, errors };
 }

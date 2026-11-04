@@ -51,3 +51,28 @@
 @media (prefers-reduced-motion: reduce) {
   .drift-artwork, .drift-controls button, .drift-item > .drift-images { transition: none; animation: none !important; }
 }
+
+/* Editorial placeholders use the exact F19 card geometry while remaining
+   explicitly marked as generated material, never as authored artwork. */
+.placeholder-card {
+  display: grid;
+  place-items: end start;
+  width: var(--carousel-card-width);
+  height: var(--carousel-card-height);
+  padding: 18px;
+  border: 0;
+  border-radius: var(--radius-soft);
+  color: var(--h4-ghost-color);
+  background: linear-gradient(145deg, #343434, #252525 58%, #1f1f1f);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: var(--h4-ghost-tracking);
+  text-align: left;
+  transform-origin: 50% 50%;
+  transition: transform var(--ui-hover-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1));
+}
+.placeholder-card > span { opacity: var(--h4-ghost-opacity); }
+.drift-item.is-placeholder-expanded { position: relative; z-index: 4; }
+.drift-item.is-placeholder-expanded .placeholder-card { transform: scale(1.35); }
+.horizontal-drift[data-placeholder-expanded] .drift-viewport { overflow: visible; }
+@media (prefers-reduced-motion: reduce) { .placeholder-card { transition: none; } }
