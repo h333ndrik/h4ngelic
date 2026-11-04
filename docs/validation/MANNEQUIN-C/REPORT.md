@@ -225,3 +225,85 @@ Bundle-Nachweis: Die Preview-Suite durchsucht `dist/` rekursiv nach
   unteren Frame-Rand.
 - A/B sind `-Z`-vorn, C ist `+Z`-vorn. Da nur C sichtbar ist, bleibt das ohne
   Wirkung; A/B-Assets wurden nicht angefasst.
+
+## V3.2-M3 — Optik: AO in der Albedo
+
+Ziel war die weiche Studioschattierung der Referenzpuppe: dezente Abdunkelung in
+Hals, Achseln, Unterbrust, Leiste, Kniekehle und Zehen. Geometrie und UVs
+bleiben unangetastet, geaendert werden nur Textur und Material.
+
+### Bake-Parameter (`scripts/bake-mannequin-ao.py`, Konstanten oben)
+
+| Konstante | Wert | Begruendung |
+| --- | --- | --- |
+| `RESOLUTION` | 2048 | Atlasgroesse aus M1 |
+| `AO_DISTANCE` | 0.18 Szeneneinheiten | Modell ist 5.0085 hoch (1 Einheit ~34 cm) → rund 6 cm an einer 1.70-m-Figur. Mit 0.12 (~4 cm) war die Schattierung im Render kaum sichtbar, 0.5 (~17 cm) saettigt. |
+| `AO_STRENGTH` | 0.35 | innerhalb der geforderten 0.25–0.4 |
+| `AO_SAMPLES` | 64 | Bake-Rauschen ohne sichtbare Restkornung |
+| `AO_BLUR_RADIUS` | 2 Texel | glaettet innerhalb der UV-Inseln |
+| `GRADIENT_STRENGTH` | 0.04 | unten 4 % dunkler, abschaltbar (0.0) |
+| `BAKE_MARGIN` | 16 px | Blender-Margin, damit Mipmaps an Inselraendern keine neutrale Kante ziehen |
+| `BASE_COLOR` | `#f0efeb` | unveraendert |
+
+Komposit: linearisiertes Basislicht × AO × Verlauf, Ausgabe als sRGB-PNG. Keine
+Saettigungs- oder Farbverschiebung, keine specular-/Metallic-Aenderung.
+
+### Ergebnis
+
+| Wert | vorher | nachher |
+| --- | --- | --- |
+| Tris | 49.838 | 49.838 |
+| UV-Fuellgrad | 0.372054 | 0.372054 |
+| UV-Ueberlappungen (exakt) | 0 | 0 |
+| Textur | flach `#f0efeb` | `skincolor_baked.png`, 2048, mean 0.813, min 0.538 |
+| GLB | 316.604 B, `d8306c2b…68ccb` | **653.640 B, `d9edb0e4d7b01f53eabe680dc19c8f0dbe9a1fd0ce0f20916cfe790b43c06976`** |
+| Bounding-Box-Drift | — | 0.000000 (Toleranz 0.005 fuer Draco-14-Bit) |
+
+Vorher/Nachher als 3/4-Render (Cycles, 64 Samples, neutrale Studio-Beleuchtung,
+`scripts/render-mannequin-evidence.py`): `ao-before-3q.png`, `ao-after-3q.png`,
+direkt nebeneinander in `ao-before-after.png`. Textur: `skincolor_baked.png`.
+
+### Entscheidungen und Abweichungen
+
+1. **AO-Distanz 0.18 statt Startwert 0.12.** Mit 4 cm war die Schattierung im
+   Render praktisch unsichtbar; 6 cm trifft "weiche Studioschattierung", ohne
+   dass es dreckig wirkt. Beides steht als Konstante im Skript.
+2. **Procreate-OBJ nicht neu exportiert.** Ein Export aus dem quantisierten GLB
+   verschiebt die UVs auf das 16-Bit-Draco-Raster; zwei Faces beruehrten sich
+   dann (Schnittflaeche 2e-8). Da Geometrie und UVs unveraendert sind, bleibt
+   das M1-OBJ (5.918.099 B, 0 Ueberlappungen) und nur `skincolor.png` wurde
+   ersetzt. MTL unveraendert, relativ, kein absoluter Pfad.
+3. **Textur-Komposit mit Bake-Margin.** Die erste Fassung hat die Margin-Texel
+   mit Basisfarbe ueberschrieben; im Render entstanden helle Nahtlinien, weil
+   Mipmaps dort hineinsampeln. Jetzt gilt alles als gueltig, was der Bake
+   geschrieben hat (Inselflaeche + Margin), und die AO-Werte werden nur
+   innerhalb dieses Bereichs geglaettet. Ohne diesen Schritt bluten fremde
+   UV-Inseln ineinander und es entstehen dunkle Kratzer.
+4. **Dateigroesse steigt auf 653 KB** (statt 316 KB), weil die Albedo jetzt ein
+   echtes 2048-Bild ist. Weiterhin deutlich unter dem 1,5-MB-Budget.
+5. **Keine separate `occlusionTexture`.** Wie gefordert liegt AO in der Albedo,
+   damit Procreate und der Web-Renderer dieselbe Textur lesen.
+
+### Repro
+
+```text
+KTX_TOOLS=/pfad/zu/ktx/bin node scripts/retexture-mannequin-c.mjs
+npm run verify:assets
+```
+
+Der Lauf entpackt den aktuellen GLB, backt in Blender, komprimiert mit
+identischen Draco/KTX2-Settings (kein Simplify), prueft Tris, Bounding-Box und
+UV-Ueberlappungen und aktualisiert Manifest, Config-Filename und Procreate-Textur.
+
+### Tests (M3)
+
+| Suite | Ergebnis |
+| --- | --- |
+| `npm test` | 387/387 PASS (neu: Textur-Varianz, Bake-Parameter, fester SHA) |
+| `npm run test:mannequin-preview` | 3 Viewports, C-only, Einfahrt, Reduced Motion, No-WebGL, Bundle ohne LICENSE-NOTE |
+| `npm run test:seo` | 18 Routen + 404 |
+| `npm run build` | 18 Routen + 404 |
+| `npm run verify:assets` | Derivat- und Quell-Hash OK |
+
+A/B-Assets und Registry bleiben unangetastet (0 Requests im Build, nur
+Dev-Zugang ueber `?variant=a|b`).

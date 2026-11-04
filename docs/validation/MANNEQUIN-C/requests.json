@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-04T22:42:13.456Z",
+  "checkedAt": "2026-11-04T23:49:37.159Z",
   "route": "/work/tattoos",
   "source": "production preview build",
   "profiles": [
@@ -16,7 +16,7 @@
       "height": 900
     }
   ],
-  "visibleVariant": "/models/mannequin-c.d8306c2b1b08.glb",
+  "visibleVariant": "/models/mannequin-c.d9edb0e4d7b0.glb",
   "hiddenVariants": [
     "A",
     "B"
@@ -29,7 +29,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-1440.png",
-      "autoAngle": 0.3184,
+      "autoAngle": 0.3631,
       "mockups": 8,
       "errors": []
     },
@@ -40,7 +40,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-390.png",
-      "autoAngle": 0.4032,
+      "autoAngle": 0.4083,
       "mockups": 8,
       "errors": []
     },
@@ -51,37 +51,41 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-320.png",
-      "autoAngle": 0.409,
+      "autoAngle": 0.3675,
       "mockups": 8,
       "errors": []
     },
     {
-      "entrance": [
-        {
-          "offset": -160,
-          "home": 0.337,
-          "model": 0.33,
-          "opacity": 0.9881
-        },
-        {
-          "offset": -260,
-          "home": 6.401,
-          "model": 6.39,
-          "opacity": 0.7719
-        },
-        {
-          "offset": -380,
-          "home": 20.31,
-          "model": 20.3,
-          "opacity": 0.2752
-        },
-        {
-          "offset": -620,
-          "home": 28,
-          "model": 28,
-          "opacity": 0
-        }
-      ]
+      "entrance": {
+        "compared": 5,
+        "model": [
+          {
+            "top": 240,
+            "x": 4.52,
+            "opacity": 0.839
+          },
+          {
+            "top": 340,
+            "x": 15.67,
+            "opacity": 0.441
+          },
+          {
+            "top": 460,
+            "x": 26.61,
+            "opacity": 0.05
+          },
+          {
+            "top": 580,
+            "x": 28,
+            "opacity": 0
+          },
+          {
+            "top": 660,
+            "x": 28,
+            "opacity": 0
+          }
+        ]
+      }
     },
     {
       "noWebgl": {

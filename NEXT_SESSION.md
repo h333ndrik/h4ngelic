@@ -1,3 +1,27 @@
+# V3.2-M3 checkpoint — Optik (AO in der Albedo)
+
+Updated 2026-11-05. Branch `v3.2-mannequin-female`.
+
+## Status
+
+- [x] AO-Bake (2048, Distanz 0.18, Staerke 0.35, Verlauf 4 %) in der Albedo,
+      Basis #f0efeb, Roughness 0.62, keine separate occlusionTexture.
+- [x] Geometrie/UVs unveraendert (Tris, Fuellgrad, Bounding-Box geprueft),
+      Procreate-OBJ bleibt, nur die Textur wurde ersetzt.
+- [x] Neues GLB `mannequin-c.d9edb0e4d7b0.glb` (653.640 B), Manifest und
+      Config aktualisiert, `verify:assets` gruen.
+- [x] Vorher/Nachher-Render + Textur in `docs/validation/MANNEQUIN-C/`.
+- [x] `npm test` 387/387, Preview-Suite, SEO, Build 18 Routen + 404.
+
+## Naechster Schritt
+
+1. Optional: AO-Staerke/Distanz nach Geschmack justieren
+   (`AO_STRENGTH`, `AO_DISTANCE` in `scripts/bake-mannequin-ao.py`), danach
+   `node scripts/retexture-mannequin-c.mjs` erneut laufen lassen.
+2. Lizenzfrage zu C bleibt offen (`outputs/mannequin-remodeling/LICENSE-NOTE-C.md`).
+
+---
+
 # V3.2-M2 checkpoint — "3d model" finalisiert
 
 Updated 2026-11-04. Branch `v3.2-mannequin-female`, Basis `9dd66ce`.

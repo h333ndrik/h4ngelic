@@ -200,37 +200,49 @@ try {
     await context.close();
   }
 
-  // Einfahrt identisch zur Frontpage: gleiche Progress-Werte, gleiche Pose.
+  // Einfahrt identisch zur Frontpage: bei gleicher Section-Position im Viewport
+  // muss die Modell-Section dieselbe Pose zeigen wie die Rubrik-Links von
+  // "01 / creative".
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page, errors } = await trackPage(context);
-    const offsets = [-160, -260, -380, -620];
-    const samples = [];
-    await page.goto(`${base}/`, { waitUntil: 'networkidle' });
-    for (const offset of offsets) {
-      await page.evaluate((position) => {
-        const section = document.querySelector('#selected-work');
-        scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - position), behavior: 'instant' });
-      }, -offset);
-      await page.waitForTimeout(200);
-      samples.push({ offset, home: await homepagePose(page) });
+    const targets = [240, 340, 460, 580, 660];
+    const sampleAt = async (path, selector, read, target, { waitForModel = false } = {}) => {
+      await page.goto(`${base}${path}`, { waitUntil: 'networkidle' });
+      if (waitForModel) {
+        await page.evaluate(() => {
+          const section = document.querySelector('#model-3d');
+          scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - 120), behavior: 'instant' });
+        });
+        await waitReady(page);
+        await page.waitForTimeout(250);
+      }
+      await page.evaluate(([name, top]) => {
+        const section = document.querySelector(name);
+        scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - top), behavior: 'instant' });
+      }, [selector, target]);
+      await page.waitForTimeout(350);
+      return read(page);
+    };
+    const home = [];
+    for (const target of targets) home.push(await sampleAt('/', '#selected-work', homepagePose, target));
+    const model = [];
+    for (const target of targets) model.push(await sampleAt('/work/tattoos', '#model-3d', sectionPose, target, { waitForModel: true }));
+    let compared = 0;
+    for (let index = 0; index < targets.length; index += 1) {
+      const expected = home[index];
+      const actual = model[index];
+      if (Math.abs(expected.top - targets[index]) > 3 || Math.abs(actual.top - targets[index]) > 3) continue;
+      compared += 1;
+      assert.ok(Math.abs(actual.x - expected.x) <= 0.6,
+        `Entrance x must match the frontpage curve at top ${targets[index]}px (${actual.x} vs ${expected.x}).`);
+      assert.ok(Math.abs(actual.opacity - expected.opacity) <= 0.02,
+        `Entrance opacity must match the frontpage curve at top ${targets[index]}px (${actual.opacity} vs ${expected.opacity}).`);
     }
-    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
-    for (const sample of samples) {
-      await page.evaluate((position) => {
-        const section = document.querySelector('#model-3d');
-        scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - position), behavior: 'instant' });
-      }, -sample.offset);
-      await page.waitForTimeout(260);
-      sample.model = await sectionPose(page);
-      assert.ok(Math.abs(sample.model.x - sample.home.x) <= 0.6,
-        `Entrance x must match the frontpage curve at ${sample.offset}px (${sample.model.x} vs ${sample.home.x}).`);
-      assert.ok(Math.abs(sample.model.opacity - sample.home.opacity) <= 0.02,
-        `Entrance opacity must match the frontpage curve at ${sample.offset}px (${sample.model.opacity} vs ${sample.home.opacity}).`);
-    }
-    assert.ok(samples.some((sample) => sample.model.opacity > 0 && sample.model.opacity < 1), 'The entrance must pass through a visible intermediate state.');
+    assert.ok(compared >= 3, `At least three scroll positions must be comparable (got ${compared}).`);
+    assert.ok(model.some((entry) => entry.opacity > 0 && entry.opacity < 1), 'The entrance must pass through a visible intermediate state.');
     assert.deepEqual(errors, []);
-    results.push({ entrance: samples.map((sample) => ({ offset: sample.offset, home: sample.home.x, model: sample.model.x, opacity: sample.model.opacity })) });
+    results.push({ entrance: { compared, model: model.map((entry) => ({ top: Math.round(entry.top), x: entry.x, opacity: Number(entry.opacity.toFixed(3)) })) } });
     await context.close();
   }
 

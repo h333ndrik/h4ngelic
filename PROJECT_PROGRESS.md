@@ -1,3 +1,19 @@
+# V3.2-M3 — Optik: AO in der Albedo — 2026-11-05
+
+- Variante C hat die weiche Studioschattierung zurueck: AO (Distanz 0.18
+  Szeneneinheiten ≈ 6 cm, Staerke 0.35, 2048) ist in die Albedo gebacken,
+  Basis bleibt #f0efeb, Roughness 0.62, kein specular-/Metallic-Anteil.
+- Geometrie und UVs unangetastet: 49.838 Tris, UV-Fuellgrad 0.372054,
+  0 Ueberlappungen, Bounding-Box-Drift 0.000000.
+- Neues Asset `public/models/mannequin-c.d9edb0e4d7b0.glb` (653.640 B,
+  SHA-256 `d9edb0e4…c06976`); altes Asset entfernt, Manifest/Config angepasst.
+- Procreate-Paket: nur `skincolor.png` ersetzt (gebackene Textur), OBJ/MTL
+  unveraendert, weil UVs identisch sind.
+- Pipelines: `scripts/bake-mannequin-ao.py`, `scripts/retexture-mannequin-c.mjs`,
+  `scripts/render-mannequin-evidence.py` (`npm run`-frei, per node/Blender).
+- Tests: `npm test` 387/387 (neu: Textur-Varianz, Bake-Parameter, fester SHA),
+  Preview-Suite, SEO, Build 18 Routen + 404.
+
 # V3.2-M2 — "3d model" finalisiert — 2026-11-04
 
 - Nur C ist sichtbar; A/B bleiben in der Registry (verborgen, Dev-only via
