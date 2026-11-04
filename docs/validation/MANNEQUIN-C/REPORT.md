@@ -119,6 +119,12 @@ Messwerte: `requests.json`.
 - `.chapter-counter` (`position: fixed`, bottom center, V3.1-Bestand) liegt je
   nach Scrollposition ueber dem unteren Rand des Frames. Globales Element,
   ausserhalb dieses Scopes.
+- **Orientierung A/B vs. C**: A/B sind mit `-Z` nach vorn modelliert (Bestand,
+  siehe `docs/validation/MANNEQUIN-CHROME/variant-a-1440.png`), C mit `+Z`.
+  Beim Wechsel C→A wirkt das wie ein Sprung um 180°. Nicht geaendert: A/B
+  muessen unveraendert bleiben und das Demo-Decal liegt auf der sichtbaren
+  A/B-Seite. Vorschlag fuer V3.2-M1: alle Varianten auf `+Z`-Front drehen und
+  das Decal neu authorieren.
 - `npm run test:mobile` scheitert an `tests/mobile-interactions-browser.mjs:193`
   (`page.waitForURL` nach `goto('/work/tattoos')`). Auf dem Basis-Commit
   `9dd66ce` in einem separaten Worktree reproduziert — vorbestehend, nicht durch

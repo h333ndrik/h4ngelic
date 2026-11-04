@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-04T21:21:21.175Z",
+  "checkedAt": "2026-11-04T21:37:19.119Z",
   "route": "/work/tattoos",
   "source": "production preview build",
   "profiles": [
@@ -38,7 +38,7 @@
         "C": "variant-c-1440.png"
       },
       "webglContexts": 1,
-      "autoAngle": 0.0805,
+      "autoAngle": 0.1168,
       "mockups": 8,
       "errors": []
     },
@@ -58,7 +58,7 @@
         "C": "variant-c-390.png"
       },
       "webglContexts": 1,
-      "autoAngle": 0.0826,
+      "autoAngle": 0.1223,
       "mockups": 8,
       "errors": []
     },
@@ -78,13 +78,13 @@
         "C": "variant-c-320.png"
       },
       "webglContexts": 1,
-      "autoAngle": 0.087,
+      "autoAngle": 0.1279,
       "mockups": 8,
       "errors": []
     },
     {
       "reducedMotion": true,
-      "angle": "0.9000",
+      "angle": "1.1917",
       "errors": []
     },
     {

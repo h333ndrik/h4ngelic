@@ -69,6 +69,9 @@ try {
     assert.equal(requests.filter((url) => url.endsWith('/textures/designs/demo-mark.png')).length, 0);
     assert.ok(!requests.some((url) => /mannequin-preview-|three\.module|DracoLoader|KTX2Loader/.test(url)), 'The Three.js stack waits for visibility.');
 
+    // Reduced Motion fuer die Screenshots: die drei Varianten werden front-on
+    // fotografiert, die Rotationspruefung folgt danach mit voller Bewegung.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await scrollToModel(page);
     await waitReady(page);
     await page.waitForTimeout(200);
@@ -101,33 +104,6 @@ try {
     assert.ok(Math.abs(layout.canvas.width - layout.frame.width) <= 1);
     assert.ok(layout.documentWidth <= width + 1, 'No horizontal overflow.');
 
-    // Auto-Rotation laeuft und pausiert waehrend des Ziehens.
-    const angle = async () => Number(await preview.getAttribute('data-mannequin-angle'));
-    await page.waitForTimeout(2600);
-    const angleAuto = await angle();
-    assert.ok(angleAuto > 0.02, `Auto rotation must run (${angleAuto} rad).`);
-    const box = await page.locator('.mannequin-preview-frame').boundingBox();
-    const centerX = box.x + box.width / 2;
-    const centerY = box.y + box.height / 2;
-    await page.mouse.move(centerX, centerY);
-    await page.mouse.down();
-    const angleHeldA = await angle();
-    await page.waitForTimeout(500);
-    const angleHeldB = await angle();
-    assert.ok(Math.abs(angleHeldB - angleHeldA) < 0.02, `Rotation pauses while dragging (${angleHeldA} -> ${angleHeldB}).`);
-    await page.mouse.move(centerX + 240, centerY, { steps: 12 });
-    await page.waitForTimeout(60);
-    const angleDragged = await angle();
-    assert.ok(Math.abs(angleDragged - angleHeldB) > 0.1, 'Dragging rotates the model.');
-    await page.mouse.up();
-    await page.waitForTimeout(120);
-    assert.equal(await preview.getAttribute('data-mannequin-flicks'), '1',
-      `A strong flick triggers the documented fallback animation (peak ${await preview.getAttribute('data-mannequin-peak')}).`);
-    assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'playing');
-    await page.waitForTimeout(1800);
-    assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'idle', 'The model returns into the viewport.');
-
-    // Variantenwechsel ohne Reload, alter Buffer wird disposed.
     const screenshots = {};
     const variantList = mannequinVariantList();
     for (const variant of variantList) {
@@ -162,6 +138,34 @@ try {
       screenshots[variant.key] = file;
     }
 
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    // Auto-Rotation laeuft und pausiert waehrend des Ziehens.
+    const angle = async () => Number(await preview.getAttribute('data-mannequin-angle'));
+    await page.waitForTimeout(2600);
+    const angleAuto = await angle();
+    assert.ok(angleAuto > 0.02, `Auto rotation must run (${angleAuto} rad).`);
+    const box = await page.locator('.mannequin-preview-frame').boundingBox();
+    const centerX = box.x + box.width / 2;
+    const centerY = box.y + box.height / 2;
+    await page.mouse.move(centerX, centerY);
+    await page.mouse.down();
+    const angleHeldA = await angle();
+    await page.waitForTimeout(500);
+    const angleHeldB = await angle();
+    assert.ok(Math.abs(angleHeldB - angleHeldA) < 0.02, `Rotation pauses while dragging (${angleHeldA} -> ${angleHeldB}).`);
+    await page.mouse.move(centerX + 240, centerY, { steps: 6 });
+    await page.waitForTimeout(60);
+    const angleDragged = await angle();
+    assert.ok(Math.abs(angleDragged - angleHeldB) > 0.1, 'Dragging rotates the model.');
+    await page.mouse.up();
+    await page.waitForTimeout(120);
+    assert.equal(await preview.getAttribute('data-mannequin-flicks'), '1',
+      `A strong flick triggers the documented fallback animation (peak ${await preview.getAttribute('data-mannequin-peak')}).`);
+    assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'playing');
+    await page.waitForTimeout(1800);
+    assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'idle', 'The model returns into the viewport.');
+
+    // Variantenwechsel ohne Reload, alter Buffer wird disposed.
     // Zurueck zu A: kein zweiter Request, Buffer-Cache greift.
     const before = glbRequests().length;
     await page.locator('[data-mannequin-variant-option="A"]').click();
