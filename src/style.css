@@ -67,7 +67,7 @@ html body .hero .controls button:is(:hover, :active, :focus-visible):not(:disabl
 .hero .controls button:focus-visible { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .controls button:disabled { opacity: .4; }
 html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
-.hero-nav { position: fixed; right: 35px; bottom: max(24px, env(safe-area-inset-bottom)); display: flex; gap: 26px; font-size: var(--type-navigation); letter-spacing: .06em; z-index: 11; }
+.hero-nav { position: absolute; right: 35px; bottom: max(24px, env(safe-area-inset-bottom)); display: flex; gap: 26px; font-size: var(--type-navigation); letter-spacing: .06em; z-index: 11; }
 html:not([data-page='home']) .hero-nav { display: none; }
 .hero-nav a { opacity: 1; }
 .arrow { display: inline-block; position: relative; width: var(--ui-arrow-size, .72em); height: var(--ui-arrow-size, .72em); flex: 0 0 var(--ui-arrow-size, .72em); vertical-align: -.025em; transition: transform 300ms cubic-bezier(.2,.8,.25,1); }

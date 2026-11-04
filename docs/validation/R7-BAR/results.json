@@ -1,5 +1,5 @@
 {
-  "build": "4b9ce9a3fae4",
+  "build": "831737ce85e6",
   "profiles": [
     {
       "width": 1440,
@@ -10,9 +10,9 @@
         "hidden": "true"
       },
       "bar": {
-        "position": "fixed",
+        "position": "absolute",
         "page": "home",
-        "insideHero": false,
+        "insideHero": true,
         "links": [
           {
             "text": "creative",
@@ -27,6 +27,7 @@
             "href": "/#contact"
           }
         ],
+        "top": 832,
         "box": {
           "x": 1083.828125,
           "y": 832,
@@ -38,143 +39,10 @@
           "left": 1083.828125
         }
       },
-      "barSamples": [
-        {
-          "fraction": 0,
-          "scrollY": 0,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 1133.4921875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 1247.6171875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 1358.5390625,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.25,
-          "scrollY": 828,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 1133.4921875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 1247.6171875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 1358.5390625,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.5,
-          "scrollY": 1657,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 1133.4921875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 1247.6171875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 1358.5390625,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.75,
-          "scrollY": 2485,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 1133.4921875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 1247.6171875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 1358.5390625,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 1,
-          "scrollY": 3313,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 1133.4921875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 1247.6171875,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 1358.5390625,
-              "y": 854,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        }
-      ]
+      "barScrolled": {
+        "top": 652,
+        "documentHeight": 4213
+      }
     },
     {
       "width": 390,
@@ -185,9 +53,9 @@
         "hidden": "true"
       },
       "bar": {
-        "position": "fixed",
+        "position": "absolute",
         "page": "home",
-        "insideHero": false,
+        "insideHero": true,
         "links": [
           {
             "text": "creative",
@@ -202,6 +70,7 @@
             "href": "/#contact"
           }
         ],
+        "top": 736,
         "box": {
           "x": 120.265625,
           "y": 736,
@@ -213,143 +82,10 @@
           "left": 120.265625
         }
       },
-      "barSamples": [
-        {
-          "fraction": 0,
-          "scrollY": 0,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 160.1015625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 246.6328125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 330.6640625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.25,
-          "scrollY": 639,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 160.1015625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 246.6328125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 330.6640625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.5,
-          "scrollY": 1279,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 160.1015625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 246.6328125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 330.6640625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.75,
-          "scrollY": 1918,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 160.1015625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 246.6328125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 330.6640625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 1,
-          "scrollY": 2557,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 160.1015625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 246.6328125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 330.6640625,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        }
-      ]
+      "barScrolled": {
+        "top": 556,
+        "documentHeight": 3401
+      }
     },
     {
       "width": 320,
@@ -360,9 +96,9 @@
         "hidden": "true"
       },
       "bar": {
-        "position": "fixed",
+        "position": "absolute",
         "page": "home",
-        "insideHero": false,
+        "insideHero": true,
         "links": [
           {
             "text": "creative",
@@ -377,6 +113,7 @@
             "href": "/#contact"
           }
         ],
+        "top": 736,
         "box": {
           "x": 66.15625,
           "y": 736,
@@ -388,143 +125,10 @@
           "left": 66.15625
         }
       },
-      "barSamples": [
-        {
-          "fraction": 0,
-          "scrollY": 0,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 104.0703125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 184.4375,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 262.4453125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.25,
-          "scrollY": 648,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 104.0703125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 184.4375,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 262.4453125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.5,
-          "scrollY": 1296,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 104.0703125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 184.4375,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 262.4453125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 0.75,
-          "scrollY": 1944,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 104.0703125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 184.4375,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 262.4453125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        },
-        {
-          "fraction": 1,
-          "scrollY": 2592,
-          "hits": [
-            {
-              "text": "creative",
-              "x": 104.0703125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "about",
-              "x": 184.4375,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            },
-            {
-              "text": "contact",
-              "x": 262.4453125,
-              "y": 758,
-              "top": "SPAN",
-              "hit": true
-            }
-          ]
-        }
-      ]
+      "barScrolled": {
+        "top": 556,
+        "documentHeight": 3436
+      }
     }
   ],
   "passed": true

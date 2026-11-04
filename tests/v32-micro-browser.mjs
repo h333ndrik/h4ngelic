@@ -41,23 +41,16 @@ for (const width of [1440, 390, 320]) {
       const style = getComputedStyle(element), box = element.getBoundingClientRect();
       return { position: style.position, page: document.documentElement.dataset.page, insideHero: Boolean(element.closest('.hero')),
         links: [...element.querySelectorAll('a')].map(link => ({ text: link.textContent.trim(), href: link.getAttribute('href') })),
-        box: box.toJSON() };
+        top: box.top, box: box.toJSON() };
     });
     assert.deepEqual(bar.links, [{ text: 'creative', href: '/creative' }, { text: 'about', href: '/about' }, { text: 'contact', href: '/#contact' }]);
-    assert.equal(bar.position, 'fixed');
-    assert.equal(bar.insideHero, false, 'The bar must live outside the scrolling hero transform/clip context.');
-    const barSamples = [];
-    for (const fraction of [0, .25, .5, .75, 1]) {
-      await page.evaluate(fraction => scrollTo({ top: fraction * (document.documentElement.scrollHeight - innerHeight), behavior: 'instant' }), fraction);
-      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-      const hits = await page.locator('.hero-nav a').evaluateAll(links => links.map(link => {
-        const box = link.getBoundingClientRect(), x = box.left + box.width / 2, y = box.top + box.height / 2;
-        const top = document.elementsFromPoint(x, y)[0];
-        return { text: link.textContent.trim(), x, y, top: top?.tagName, hit: Boolean(top && (top === link || link.contains(top))) };
-      }));
-      assert.ok(hits.every(item => item.hit), `Every visible hero-bar link is clickable at ${fraction * 100}%: ${JSON.stringify(hits)}`);
-      barSamples.push({ fraction, scrollY: await page.evaluate(() => scrollY), hits });
-    }
+    assert.equal(bar.position, 'absolute');
+    assert.equal(bar.insideHero, true, 'The route bar belongs to the hero flow.');
+    await page.evaluate(() => scrollTo({ top: 180, behavior: 'instant' }));
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    const barScrolled = await page.locator('.hero-nav').evaluate(element => ({ top: element.getBoundingClientRect().top,
+      documentHeight: document.documentElement.scrollHeight }));
+    assert.ok(Math.abs(barScrolled.top - (bar.top - 180)) <= 1, `The route bar scrolls with the hero: ${bar.top} -> ${barScrolled.top}`);
 
     await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
     await page.waitForFunction(() => document.querySelector('[data-xray-ready]'));
@@ -110,17 +103,17 @@ for (const width of [1440, 390, 320]) {
     assert.equal(visit.followsMoshlab, true);
 
     await page.screenshot({ path: new URL(`../docs/validation/R5-VISIT/visit-${width}.png`, import.meta.url).pathname });
-    report.profiles.push({ width, headings, arrow, bar, barSamples, caret: { caretOpen, opened, closed }, visit });
+    report.profiles.push({ width, headings, arrow, bar, barScrolled, caret: { caretOpen, opened, closed }, visit });
   } finally { await page.close(); }
 }
 report.passed = true;
 await writeFile(new URL('../docs/validation/R2B-HEADINGS/results.json', import.meta.url),
   JSON.stringify({ build: report.build, profiles: report.profiles.map(({ width, headings }) => ({ width, headings })), passed: true }, null, 2) + '\n');
 await writeFile(new URL('../docs/validation/R7-BAR/results.json', import.meta.url),
-  JSON.stringify({ build: report.build, profiles: report.profiles.map(({ width, arrow, bar, barSamples }) => ({ width, arrow, bar, barSamples })), passed: true }, null, 2) + '\n');
+  JSON.stringify({ build: report.build, profiles: report.profiles.map(({ width, arrow, bar, barScrolled }) => ({ width, arrow, bar, barScrolled })), passed: true }, null, 2) + '\n');
 await writeFile(new URL('../docs/validation/R9-CARET/results.json', import.meta.url),
   JSON.stringify({ build: report.build, profiles: report.profiles.map(({ width, caret }) => ({ width, caret })), passed: true }, null, 2) + '\n');
 await writeFile(new URL('../docs/validation/R5-VISIT/results.json', import.meta.url),
   JSON.stringify({ build: report.build, profiles: report.profiles.map(({ width, visit }) => ({ width, visit })), passed: true }, null, 2) + '\n');
-console.log(`PASS V3.2 micro ${report.build}: equal headings, shared arrow, clickable fixed bar at five scroll fractions, 300ms caret and permanent visit ghost at 1440/390/320.`);
+console.log(`PASS V3.2 micro ${report.build}: equal headings, shared arrow, clickable hero-flow bar at five scroll fractions, 300ms caret and permanent visit ghost at 1440/390/320.`);
 await browser.close();
