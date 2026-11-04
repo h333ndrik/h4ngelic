@@ -52,15 +52,31 @@ const translation = (locator) => locator.evaluate((element) => {
 
 async function assertHorizontal(page, width) {
   const links = page.locator('#selected-work .category-link');
-  const boxes = await Promise.all([0, 1, 2].map((index) => links.nth(index).boundingBox()));
+  const linkCount = await links.count();
+  const boxes = await Promise.all([...Array(linkCount).keys()].map((index) => links.nth(index).boundingBox()));
+  const labels = await links.evaluateAll((items) => items.map((item) => item.textContent.trim().slice(0, 12)));
   assert.ok(boxes.every(Boolean));
-  assert.ok(Math.max(...boxes.map((box) => box.y)) - Math.min(...boxes.map((box) => box.y)) < 2, `Categories must remain horizontal at ${width}px.`);
-  assert.ok(Math.max(...boxes.map((box) => box.width)) - Math.min(...boxes.map((box) => box.width)) < 2, 'Category hit areas must stay equal.');
+  // Desktop keeps one row; narrow screens fold into the designed 2x2 grid.
+  const rows = [];
+  for (const box of [...boxes].sort((a, b) => a.y - b.y)) {
+    const row = rows.at(-1);
+    if (row && Math.abs(row[0].y - box.y) < 10) row.push(box); else rows.push([box]);
+  }
+  for (const row of rows) {
+    assert.ok(Math.max(...row.map((box) => box.y)) - Math.min(...row.map((box) => box.y)) < 2,
+      `Categories of one row must stay horizontal at ${width}px.`);
+    assert.ok(Math.max(...row.map((box) => box.width)) - Math.min(...row.map((box) => box.width)) < 2,
+      'Category cells of one row must stay equal.');
+  }
+  assert.equal(rows.length, width >= 900 ? 1 : 2, `Categories fill ${width >= 900 ? 'one row' : 'the 2x2 mobile grid'} at ${width}px.`);
+  assert.ok(rows.every((row) => row.length === (width >= 900 ? boxes.length : 2)),
+    `Every row keeps its designed column count at ${width}px (rows: ${rows.map((row) => row.length).join('+')}, boxes: ${JSON.stringify(boxes)}).`);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `The page must not overflow at ${width}px.`);
   await links.first().focus();
-  await page.keyboard.press('Tab');
-  await page.keyboard.press('Tab');
-  assert.equal(await links.last().evaluate((element) => document.activeElement === element), true, 'The last category must remain keyboard reachable.');
+  const focusCount = await links.count();
+  for (let step = 1; step < focusCount; step++) await page.keyboard.press('Tab');
+  assert.equal(await links.last().evaluate((element) => document.activeElement === element), true,
+    `The last of ${focusCount} categories must remain keyboard reachable.`);
 }
 
 try {
@@ -201,7 +217,7 @@ try {
   }
   assert.deepEqual(mobileErrors, []);
   await mobile.close();
-  console.log('PASS microinteractions mobile: 390/320px horizontal categories, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.');
+  console.log('PASS microinteractions mobile: 390/320px 2x2 rubric rows, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.');
 } finally {
   await browser.close();
 }

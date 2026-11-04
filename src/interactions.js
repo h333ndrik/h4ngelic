@@ -145,7 +145,10 @@ export function initInteractions(root = document, { revealSections = true, setti
     let preferred = target.matches('.artwork-open') ? settings.hover.imageScale : settings.hover.scale;
     if (target.matches('.category-link, .contact-link')) {
       const style = getComputedStyle(target);
-      const available = target.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      // These labels grow from their left edge, so the trailing padding is
+      // genuinely unused room. Counting it keeps the restrained 2.5% feedback
+      // alive when a label already fills its own content box.
+      const available = target.clientWidth - parseFloat(style.paddingLeft);
       preferred = boundedHoverScale(wrapper.scrollWidth, available, settings.hover.largeScale, settings.magnetDistance + 2);
     }
     const style = getComputedStyle(wrapper);

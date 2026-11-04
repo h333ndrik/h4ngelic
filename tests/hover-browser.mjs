@@ -38,7 +38,7 @@ try {
   const link = page.locator('#selected-work .category-link').first();
   await page.mouse.move(1, 1);
   const before = await sample(link);
-  await link.hover();
+  await link.locator('.interaction-visual').hover();
   await page.waitForFunction((element) => {
     const matrix = new DOMMatrixReadOnly(getComputedStyle(element.querySelector('.interaction-visual')).transform);
     return matrix.m11 >= 1.019;
@@ -55,15 +55,27 @@ try {
   for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[key] - hovered[key]) < .25, 'Magnification must not move or resize the real link target.');
   await page.mouse.move(1, 1);
   await page.waitForTimeout(380);
+  await page.waitForFunction((element) => {
+    const icon = element.querySelector('.interaction-visual .arrow');
+    const transform = getComputedStyle(icon).transform;
+    if (transform === 'none') return true;
+    const matrix = new DOMMatrixReadOnly(transform);
+    return Math.hypot(matrix.m41, matrix.m42) < .05;
+  }, await link.elementHandle());
   const arrow = await link.evaluate((element) => {
     const visual = element.querySelector('.interaction-visual');
     const label = visual.querySelector('.category-magnet > span') || visual.querySelector('span');
     const icon = visual.querySelector('.arrow');
     const text = label.getBoundingClientRect();
     const image = icon.getBoundingClientRect();
-    return { gap: image.left - text.right, ratio: image.width / parseFloat(getComputedStyle(icon).fontSize), stroke: parseFloat(getComputedStyle(icon, '::before').height) };
+    const style = getComputedStyle(visual);
+    return { gap: image.left - text.right, tokenGap: parseFloat(style.columnGap), wordWidth: text.width,
+      ratio: image.width / parseFloat(getComputedStyle(icon).fontSize), stroke: parseFloat(getComputedStyle(icon, '::before').height) };
   });
-  assert.ok(arrow.gap >= 7 && arrow.gap <= 18.1, `The arrow must sit close to its own word rather than at the column edge (got ${arrow.gap}).`);
+  // The shared arrow token owns this spacing (clamp(10px, .28em, 22px)); the
+  // arrow must follow its word, never drift out to the column edge.
+  assert.ok(Math.abs(arrow.gap - arrow.tokenGap) < .5, `The arrow gap comes from --ui-arrow-gap (got ${arrow.gap}, token ${arrow.tokenGap}).`);
+  assert.ok(arrow.gap <= 22.5 && arrow.gap < arrow.wordWidth * .2, `The arrow must sit close to its own word rather than at the column edge (got ${arrow.gap}).`);
   assert.ok(Math.abs(arrow.ratio - .72) < .01);
   assert.ok(Math.abs(arrow.stroke - 1.25) < .1);
   assert.ok(Number(await page.locator('.about-preview .text-link').evaluate((element) => parseFloat(getComputedStyle(element).fontSize))) >= 18, 'The smaller More About link remains readable.');

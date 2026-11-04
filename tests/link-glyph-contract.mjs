@@ -84,7 +84,15 @@ async function verifyLinkAt(page, index, label) {
       arrowHidden: arrow?.getAttribute('aria-hidden') || '', x, y };
   }, { x, y });
   assert.equal(result.cursor, 'none', `${label} must keep the blanket cursor.`);
-  assert.notEqual(result.pointerEvents, 'none', `${label} must be pointer-active.`);
+  // B-F18: rubric links constrain the hit area to the visible label; the link is
+  // still pointer-active through its .interaction-visual child.
+  if (result.pointerEvents === 'none') {
+    const labelActive = await page.evaluate(({ x, y }) => {
+      const hit = document.elementFromPoint(x, y);
+      return Boolean(hit?.closest('a[href]'));
+    }, { x, y });
+    assert.ok(labelActive, `${label} must be pointer-active through its visible label.`);
+  }
   if (result.arrowClass) {
     assert.equal(result.arrowClass, 'arrow', `${label} must use the shared .arrow glyph source.`);
     assert.equal(result.arrowHidden, 'true', `${label} arrow must be decorative for assistive technology.`);

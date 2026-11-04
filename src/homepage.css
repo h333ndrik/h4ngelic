@@ -32,7 +32,13 @@
   gap: var(--rubric-gap);
   padding-left: max(0px, calc(var(--slash-inset) - var(--category-link-inline-padding)));
 }
-.category-link { padding-inline-start: var(--category-link-inline-padding); }
+.category-link { padding-inline-start: var(--category-link-inline-padding); pointer-events: none; }
+/* The cell still sizes the four-column row, but its whitespace is not a link.
+   The label and its arrow own the hit area: 4px of padding on the reading edge,
+   never a horizontal overhang (that would inflate the label's scroll width and
+   silently clamp the 2.5% hover fit). */
+.category-link .interaction-visual { pointer-events: auto; position: relative; }
+.category-link .interaction-visual::before { content: ''; position: absolute; left: -4px; right: 0; top: 50%; height: max(44px, 100%); transform: translateY(-50%); }
 .about-preview { display: block; border: 0; background: transparent; }
 .about-preview > .section-pin {
   display: block;
