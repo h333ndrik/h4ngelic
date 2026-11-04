@@ -5,6 +5,19 @@ Work remains isolated on `v3.2-world-sound` from base `11e78a1`. The original
 dirty checkout, V3.1-owned modules, `main` and `api/inquiry.js` were not changed.
 No merge, push or deployment occurred.
 
+## Merge integration — 2026-11-04
+
+PR #20 is merged into `origin/main` at `9123a00`. The sound branch's merge base
+is that commit, so `git rebase origin/main` was a clean no-op with no conflicts.
+Post-rebase serial verification passed: Node **385/385**; 12/12 format decodes
+with zero audio-path long tasks; world sound **6/6**; sound controls **8/8**;
+SMASH at 1440/390/320; mode interaction and V3.1 UI **6/6** each. Production
+build passed with exactly the four M4A files and unchanged hashes. Evidence:
+`docs/validation/world-sound/merge-pass/`.
+
+No V3.1-owned code changed. The known mobile cold-WebGL failure remains an
+OBSERVATION on base and branch. Push and PR handoff are next; no merge/deploy.
+
 ## Delivered
 
 - Generated FLAC and 256 kbps AAC/M4A derivatives from the four local WAV
@@ -56,9 +69,8 @@ No merge, push or deployment occurred.
 Hero first-touch cue, color-mapped ink impacts and THE OTHER SIDE ambience remain
 TODO. Do not implement them in this pass.
 
-Exact next checkpoint: review the rewritten audio commit. After user action on
-PR #20, rebase `v3.2-world-sound` onto updated `origin/main` and merge. Nothing
-else is mergeable in this branch.
+Exact next checkpoint: push `v3.2-world-sound` and open the sound PR against
+`main`. Do not merge until the user explicitly requests it.
 
 # Current review checkpoint — V3.1.1
 

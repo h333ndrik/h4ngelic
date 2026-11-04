@@ -201,6 +201,30 @@ one-shots, inactive-source stop, retargeting, voice cap, mute/visibility
 suspension, SMASH ducking and honest missing-file degradation. World-sound
 screenshots and probe snapshots are in `docs/validation/world-sound/`.
 
+## Merge integration — 2026-11-04
+
+Fetched `origin`; `origin/main` is now `9123a00b21b9a7d3873fe97ba7c36fb90b74c3e5`,
+the merge commit for PR #20. It is already an ancestor of this branch, so
+`git rebase origin/main` was a clean no-op with no conflicts.
+
+Post-merge-gate serial verification:
+
+- `npm test`: **385 passed, 0 failed**.
+- Format decode: **12/12** WAV/FLAC/M4A files at exact master frame counts,
+  zero audio-path long tasks.
+- World sound: **6/6 profiles** at 1440/390/320 × full/reduced, both modes,
+  plus degraded path.
+- Central mode audio: PASS.
+- Sound controls: **8/8 profiles**.
+- SMASH: PASS at 1440/390/320.
+- Mode interaction: **6/6 profiles**.
+- V3.1 UI regression: **6/6 profiles**.
+- Production build: PASS, exactly four M4A files with unchanged hashes.
+
+Evidence is under `docs/validation/world-sound/merge-pass/`. The pre-existing
+mobile cold-WebGL failure remains an OBSERVATION outside audio scope. Push and
+PR handoff are the next checkpoint; this branch has not been merged.
+
 ## Limitations and blockers
 
 - **Real iOS Safari: BLOCKED.** No physical iPhone or iOS runtime is available.

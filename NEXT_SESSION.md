@@ -21,12 +21,15 @@ branch history. Do not modify `main`, V3.1-owned modules or `api/inquiry.js`.
 
 ## Merge path
 
-1. User merges PR #20 first.
-2. Fetch the updated `origin/main`.
-3. Rebase `v3.2-world-sound` onto updated `origin/main`.
-4. Merge the rebased audio branch.
+1. PR #20 is merged at `origin/main` `9123a00` (confirmed 2026-11-04).
+2. `git rebase origin/main` is complete: clean no-op, no conflicts.
+3. Post-rebase serial tests and production build are green; evidence is in
+   `docs/validation/world-sound/merge-pass/`.
+4. Push `v3.2-world-sound` and open the PR against `main`.
+5. User reviews and merges; Vercel then deploys `main` automatically.
 
-Nothing else merges with this branch.
+Nothing else merges with this branch. Do not merge without the user's explicit
+request.
 
 ## Remaining checks / OBSERVATION
 
@@ -42,9 +45,8 @@ Nothing else merges with this branch.
 - Hero first-touch cue, ink impact mapping and THE OTHER SIDE ambience remain
   TODO.
 
-Exact next checkpoint: review the rewritten commit and run the listening
-checklist when hardware is available. Do not push, merge or deploy from this
-task.
+Exact next checkpoint: complete the push/PR handoff, then run the live listening
+checklist after the user merges and Vercel deploys.
 
 # V3.1.2 final review state
 
