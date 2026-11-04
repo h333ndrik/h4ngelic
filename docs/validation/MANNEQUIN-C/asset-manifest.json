@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "builtAt": "2026-11-04T21:22:57.235Z",
-  "pipeline": "scripts/build-mannequin-c.mjs",
+  "builtAt": "2026-11-04T23:23:37.113Z",
+  "pipeline": "scripts/retexture-mannequin-c.mjs (M3: AO-Bake, Geometrie unveraendert)",
   "tools": {
     "blender": "4.5.0 Alpha",
     "gltfTransform": "4.5.1",
@@ -14,15 +14,16 @@
     "committed": false
   },
   "derivative": {
-    "file": "public/models/mannequin-c.d8306c2b1b08.glb",
-    "bytes": 316604,
-    "sha256": "d8306c2b1b08af813508ee3c671588df0030cf1f50f66c4784f1fe07e1168ccb",
+    "file": "public/models/mannequin-c.d9edb0e4d7b0.glb",
+    "bytes": 653640,
+    "sha256": "d9edb0e4d7b01f53eabe680dc19c8f0dbe9a1fd0ce0f20916cfe790b43c06976",
     "triangles": 49838,
-    "vertices": 43106,
+    "vertices": 59935,
     "material": "skincolor (matte, roughness 0.62, metallic 0)",
     "compression": "KTX2 + Draco (texcoord 16 bit)",
     "upAxis": "Y",
-    "frontAxis": "+Z"
+    "frontAxis": "+Z",
+    "texture": "skincolor_baked.png (AO x Basis #f0efeb, 2048)"
   },
   "procreate": {
     "obj": "mannequin_paint.obj",
@@ -36,5 +37,18 @@
     "overlapFacesBeforeRepair": 34,
     "overlapPairsAfterRepair": 0,
     "uvAreaFill": 0.372054
+  },
+  "bake": {
+    "aoDistance": 0.18,
+    "aoStrength": 0.35,
+    "aoSamples": 64,
+    "gradientStrength": 0.04,
+    "resolution": 2048,
+    "luminance": {
+      "min": 0.53824,
+      "max": 0.86256,
+      "mean": 0.81316
+    },
+    "uvCoverage": 0.8265
   }
 }
