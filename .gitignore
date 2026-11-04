@@ -151,3 +151,6 @@ private/audio/
 
 # Turbo Repo
 .turbo
+
+# Python-Bytecode (Blender importiert scripts/blender_gltf_utils.py)
+__pycache__/
