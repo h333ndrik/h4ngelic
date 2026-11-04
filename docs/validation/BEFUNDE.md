@@ -1,9 +1,10 @@
 # Befund-Registry — V3.2
 
-Verification baseline: `1569731` (`origin/v3.1.1-fixes`), production build
-`1569731030b2`. Batch 1 commits: `735ea49`, `ba5f3a3`, `f12423a`, `53df27c`,
-`e3028c8`; Batch 2 commits: `93372c6`, `3bb8aa5`, `fedcc8d`, `a2f973b`. A registry entry is evidence, not a promise: `fixed` means the
-implementation exists and its named automated proof passes at this baseline.
+Verification baseline: `d165b34` (`origin/v3.1.1-fixes`), production build
+`d165b340b00e`. Batch 1 commits: `735ea49`, `ba5f3a3`, `f12423a`, `53df27c`,
+`e3028c8`; Batch 2 commits: `93372c6`, `3bb8aa5`, `fedcc8d`, `a2f973b`;
+Batch 2.5 commits: `4c7ef3f` (B-F17), `d165b34` (B-F18).
+A registry entry is evidence, not a promise: `fixed` means the implementation exists and its named automated proof passes at this baseline.
 `verified-by-user` is used only after the user explicitly confirms the result.
 
 ## Registry rules
@@ -65,6 +66,8 @@ screenshot supplied there.
 | B-F14 | Tool detail heading | `/creative/tools/m4shlab` rendert möglicherweise fälschlich `3d model`. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
 | B-F15 | Tool detail navigation | Tool-Seiten brauchen die obere Unterrubriken-Leiste wie `/creative/onskin`; Breadcrumb `home / tools` entfernen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
 | B-F16 | Tool detail footer line | Weißen Trennstrich und Fakten-Punkte-Zeile unten entfernen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F17 | Kopfzeile, Begrüßung | Begrüßung ist auf der Preview nicht sichtbar geworden. | fixed | `4c7ef3f` | `docs/validation/GATEPREP/BATCH-2.5/gallery/greeting.json`; `greeting-{hover,focus}-1440.png`; `greeting-touch-*.png` | `tests/greeting-browser.mjs`: Ruhe unsichtbar / Hover 35 % / Focus 52 % @1440, Touch 35 % @390/320, kein Overlap. Ursache waren `hidden` + globales `[hidden]{display:none}`. |
+| B-F18 | Rubrik-Links (tattoos/jewellery/tools/more) | Klickfläche der Unterrubriken-Links ist zu groß. | fixed | `d165b34` | `docs/validation/GATEPREP/BATCH-2.5/gallery/hit-areas.json`; `hit-before-*.png` (Zelle) / `hit-after-*.png` (Label) | `tests/rubric-hit-area-browser.mjs`: Text/Pfeil klickbar, 20 px rechts vom Pfeil inert, ≥44 px hoch, Zelle 310/154/119 px vs. Label 276/95/71 px. |
 
 **B-016 remains open:** the dual Impressum links exist, but `VOLLNAME`, address,
 email and USt./§19 data are still user-supplied launch prerequisites.

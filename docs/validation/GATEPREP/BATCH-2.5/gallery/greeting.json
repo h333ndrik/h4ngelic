@@ -1,0 +1,120 @@
+{
+  "checkedAt": "2026-11-04T22:49:03.828Z",
+  "build": "d165b340b00e",
+  "profiles": [
+    {
+      "width": 1440,
+      "rest": {
+        "text": "nice to meet you.",
+        "hidden": false,
+        "display": "flex",
+        "opacity": 0,
+        "visibility": "hidden",
+        "color": "rgb(240, 239, 235)",
+        "box": {
+          "left": 114.90625,
+          "right": 1374,
+          "top": 21,
+          "bottom": 65,
+          "height": 44
+        }
+      },
+      "hover": {
+        "text": "nice to meet you.",
+        "hidden": false,
+        "display": "flex",
+        "opacity": 0.35,
+        "visibility": "visible",
+        "color": "rgb(240, 239, 235)",
+        "box": {
+          "left": 114.90625,
+          "right": 1374,
+          "top": 21,
+          "bottom": 65,
+          "height": 44
+        }
+      },
+      "focus": {
+        "text": "nice to meet you.",
+        "hidden": false,
+        "display": "flex",
+        "opacity": 0.52,
+        "visibility": "visible",
+        "color": "rgb(240, 239, 235)",
+        "box": {
+          "left": 114.90625,
+          "right": 1374,
+          "top": 21,
+          "bottom": 65,
+          "height": 44
+        }
+      },
+      "geometry": {
+        "line": {
+          "left": 114.90625,
+          "right": 1374,
+          "top": 21,
+          "bottom": 65
+        },
+        "brand": {
+          "right": 114.90625,
+          "top": 21,
+          "bottom": 65,
+          "height": 44
+        },
+        "index": {
+          "left": 1374,
+          "top": 21,
+          "bottom": 65,
+          "height": 44
+        }
+      },
+      "touch": false,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "rest": {
+        "text": "nice to meet you.",
+        "hidden": false,
+        "display": "flex",
+        "opacity": 0.35,
+        "visibility": "visible",
+        "color": "rgb(240, 239, 235)",
+        "box": {
+          "left": 84.3203125,
+          "right": 335.9921875,
+          "top": 16,
+          "bottom": 60,
+          "height": 44
+        }
+      },
+      "touch": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "rest": {
+        "text": "nice to meet you.",
+        "hidden": false,
+        "display": "flex",
+        "opacity": 0.35,
+        "visibility": "visible",
+        "color": "rgb(240, 239, 235)",
+        "box": {
+          "left": 80.875,
+          "right": 266,
+          "top": 16,
+          "bottom": 60,
+          "height": 44
+        }
+      },
+      "touch": true,
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failures": []
+}
