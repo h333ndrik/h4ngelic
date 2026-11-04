@@ -4,8 +4,15 @@ import { contentURL } from './content-utils.js';
 
 export const contactURL = (artworkId = '') => `/${artworkId ? `?artwork=${encodeURIComponent(artworkId)}` : ''}#contact`;
 
-const categorySlugs = Object.freeze({ tattoos: 'onskin' });
+/** /creative/<category> is the canonical URL for every rubric. */
+const categorySlugs = Object.freeze({});
 export const categorySlug = (category) => categorySlugs[category] || category;
+/** Retired slugs keep working through a 301 instead of a second canonical URL. */
+const retiredCategorySlugs = Object.freeze({ onskin: 'tattoos' });
+const retiredCategoryPath = (segments) => {
+  const replacement = retiredCategorySlugs[segments[0]];
+  return replacement ? [replacement, ...segments.slice(1)] : null;
+};
 const categoryFromSlug = (slug) => siteContent.categories.find((category) => categorySlug(category.id) === slug)
   || siteContent.workGroups.find((group) => group.id === slug);
 export const categoryURL = (category) => category === 'all' ? '/creative' : `/creative/${encodeURIComponent(categorySlug(category))}`;
@@ -39,10 +46,12 @@ export function legacyWorkDestination(input) {
   const path = url.pathname.replace(/\/+$/, '') || '/';
   if (path !== '/work' && !path.startsWith('/work/')) return null;
   if (path === '/work' || path === '/work/index.html') {
-    const requested = url.searchParams.get('category');
+    const raw = url.searchParams.get('category');
+    const requested = retiredCategorySlugs[raw] || raw;
     return requested && knownArchive(requested) ? categoryURL(requested) : '/creative';
   }
-  const segments = path.split('/').filter(Boolean).slice(1);
+  const raw = path.split('/').filter(Boolean).slice(1);
+  const segments = retiredCategoryPath(raw) || raw;
   if (segments[0] === 'tools') {
     return segments[1] && siteContent.tools.some((tool) => tool.id === segments[1])
       ? toolURL(segments[1]) : '/creative/tools';
@@ -66,6 +75,14 @@ export function resolveRoute(input) {
   }
 
   const path = requestedPath;
+  const retiredSegments = path.split('/').filter(Boolean);
+  if (retiredSegments[0] === 'creative' && retiredSegments.length > 1) {
+    const mapped = retiredCategoryPath(retiredSegments.slice(1));
+    if (mapped) {
+      const destination = resolveRoute(new URL(`/creative/${mapped.join('/')}`, 'https://routing.invalid'));
+      return { ...destination, path, redirectPath: `${destination.canonicalPath}${url.hash}` };
+    }
+  }
   let kind = 'not-found';
   let category = 'all';
   let project;
@@ -81,7 +98,8 @@ export function resolveRoute(input) {
     kind = 'impressum';
   } else if (path === '/creative' || path === '/creative/index.html') {
     kind = 'work';
-    const requested = url.searchParams.get('category');
+    const raw = url.searchParams.get('category');
+    const requested = retiredCategorySlugs[raw] || raw;
     if (knownArchive(requested)) category = requested;
     canonicalPath = category === 'all' ? '/creative' : categoryURL(category);
   } else {
@@ -105,11 +123,6 @@ export function resolveRoute(input) {
         }
       }
     }
-  }
-  // /creative/onskin is the canonical tattoo category; /creative/tattoos is a
-  // compatibility alias handled here rather than surviving as a second URL.
-  if (path === '/creative/tattoos') {
-    kind = 'work'; category = 'tattoos'; canonicalPath = categoryURL('tattoos');
   }
   const redirectPath = path === '/contact'
     ? contactURL(url.searchParams.get('artwork') || '')

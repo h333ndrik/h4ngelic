@@ -13,7 +13,7 @@ export const siteContent = {
   location: 'berlin, de',
 
   categories: [
-    { id: 'tattoos', label: 'tattoos', archiveLabel: 'on skin', group: 'tattoos', presentation: 'drift' },
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', group: 'tattoos', presentation: 'drift' },
     { id: 'flashes', label: 'flashes', group: 'tattoos', presentation: 'drift' },
     { id: 'jewellery', label: 'jewellery', presentation: 'drift' },
     { id: 'analog-photography', label: 'analog photography', group: 'more', presentation: 'drift' },
@@ -25,7 +25,7 @@ export const siteContent = {
   // Four horizontal rubrics stay shared with the work archive. The tools
   // rubric is intentionally external: its cards describe real project URLs.
   workGroups: [
-    { id: 'tattoos', label: 'tattoos', archiveLabel: 'on skin', children: ['tattoos', 'flashes'] },
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', children: ['tattoos', 'flashes'] },
     { id: 'jewellery', label: 'jewellery', children: ['jewellery'] },
     { id: 'tools', label: 'tools', archiveLabel: 'tools', children: ['tools'] },
     { id: 'more', label: 'more', children: ['digital-artworks', 'analog-photography'] },
