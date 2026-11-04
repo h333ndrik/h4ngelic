@@ -12,15 +12,32 @@
           const cursor = document.querySelector('[data-h4-cursor]');
           if (!cursor || cursor.dataset.ready === 'true') return;
           cursor.dataset.ready = 'true';
+          let frame = 0;
+          let pending = null;
+          const paint = () => {
+            frame = 0;
+            if (!pending) return;
+            const point = pending;
+            pending = null;
+            cursor.style.transform = `translate3d(${point.x - 9}px, ${point.y - 2}px, 0)`;
+            cursor.dataset.h4CursorVisible = 'true';
+          };
           const move = event => {
-            if (event.pointerType === 'touch') return;
-            cursor.style.transform = `translate3d(${event.clientX - 9}px, ${event.clientY - 2}px, 0)`;
+            if (event.pointerType === 'touch' || (event.clientX === 0 && event.clientY === 0)) return;
+            pending = { x: event.clientX, y: event.clientY };
+            if (!frame) frame = requestAnimationFrame(paint);
+          };
+          const hide = () => {
+            cursor.dataset.h4CursorVisible = 'false';
+            cursor.classList.remove('is-pressed');
           };
           addEventListener('pointermove', move, { passive: true });
           addEventListener('pointerdown', move, { passive: true });
           addEventListener('pointerup', () => cursor.classList.remove('is-pressed'), { passive: true });
           addEventListener('pointerdown', () => cursor.classList.add('is-pressed'), { passive: true });
-          addEventListener('blur', () => cursor.classList.remove('is-pressed'), { passive: true });
+          addEventListener('pointerleave', event => { if (event.relatedTarget === null) hide(); }, { passive: true });
+          addEventListener('blur', hide, { passive: true });
+          document.addEventListener('visibilitychange', () => { if (document.hidden) hide(); }, { passive: true });
         };
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount, { once: true });
         else mount();
@@ -57,7 +74,10 @@
         .hero .stage.is-entering #logo-canvas { will-change: auto; }
       }
       html:not([data-h4-styles-ready]) .hero > :not(.stage) { visibility: hidden; }
-      [data-h4-cursor] { position: fixed; left: 0; top: 0; z-index: 2147483647; width: 23.26px; height: 34.88px; opacity: 1; pointer-events: none; transform: translate3d(-100px, -100px, 0); transform-origin: 9px 2px; filter: drop-shadow(0 1px 2px #0008); }
+      [data-h4-cursor] { --h4-cursor-pressed-scale: 1.08; position: fixed; left: 0; top: 0; z-index: 2147483647; width: 23.26px; height: 34.88px; opacity: 0; visibility: hidden; pointer-events: none; transform: translate3d(-100px, -100px, 0); transform-origin: 9px 2px; transition: opacity 120ms ease-out, visibility 0s linear 120ms; filter: drop-shadow(0 1px 2px #0008); }
+      [data-h4-cursor][data-h4-cursor-visible='true'] { opacity: 1; visibility: visible; transition: opacity 0s, visibility 0s; }
+      [data-h4-cursor] .h4-cursor-glyph { display: block; width: 100%; height: 100%; transform-origin: 9px 2px; scale: 1; transition: scale 100ms ease-out; }
+      [data-h4-cursor].is-pressed .h4-cursor-glyph { scale: var(--h4-cursor-pressed-scale); }
       [data-h4-cursor] img { display: block; width: 100%; height: 100%; user-select: none; }
       html:not(.h4-custom-cursor) [data-h4-cursor], html[data-cursor='xray'] [data-h4-cursor] { opacity: 0; visibility: hidden; }
       @media (hover: none), (pointer: coarse) { [data-h4-cursor] { display: none; } }
@@ -81,12 +101,12 @@
     <script type="speculationrules">
       {"prefetch":[
         {"source":"document","where":{"href_matches":"/about"},"eagerness":"moderate"},
-        {"source":"document","where":{"href_matches":"/work/*"},"eagerness":"moderate"}
+        {"source":"document","where":{"href_matches":"/creative/*"},"eagerness":"moderate"}
       ]}
     </script>
   </head>
   <body>
-    <div class="h4-cursor-overlay" data-h4-cursor aria-hidden="true"><img src="/assets/h4ngelic-cursor.svg" alt="" fetchpriority="high" decoding="sync" draggable="false" /></div>
+    <div class="h4-cursor-overlay" data-h4-cursor aria-hidden="true"><span class="h4-cursor-glyph"><img src="/assets/h4ngelic-cursor.svg" alt="" fetchpriority="high" decoding="sync" draggable="false" /></span></div>
     <div class="page-composition" data-page-composition>
     <a class="skip-link" href="#page-content">skip to content</a>
     <!--floating:start--><header class="site-chrome" data-site-chrome><a class="floating-brand" data-floating-brand data-no-ink data-corruption-protected href="/">h4ngelic</a>

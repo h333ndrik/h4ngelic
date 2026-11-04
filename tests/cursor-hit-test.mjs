@@ -61,6 +61,7 @@ function overlayAccepted(overlay, mode) {
 
 async function checkPoint(page, { label, x, y, mode = 'blanket', offenders, counts }) {
   await page.mouse.move(x, y);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
   const sample = await pointAt(page, x, y);
   const overlay = await overlayAt(page, x, y);
   counts.points += 1;
