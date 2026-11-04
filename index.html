@@ -12,8 +12,10 @@
           const cursor = document.querySelector('[data-h4-cursor]');
           if (!cursor || cursor.dataset.ready === 'true') return;
           cursor.dataset.ready = 'true';
+          const idleHideMs = 900;
           let frame = 0;
           let pending = null;
+          let idleTimer = 0;
           const paint = () => {
             frame = 0;
             if (!pending) return;
@@ -22,21 +24,36 @@
             cursor.style.transform = `translate3d(${point.x - 9}px, ${point.y - 2}px, 0)`;
             cursor.dataset.h4CursorVisible = 'true';
           };
+          const hide = () => {
+            if (frame) cancelAnimationFrame(frame);
+            frame = 0;
+            pending = null;
+            clearTimeout(idleTimer);
+            idleTimer = 0;
+            cursor.dataset.h4CursorVisible = 'false';
+            cursor.classList.remove('is-pressed');
+          };
+          const armIdleCheck = () => {
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => {
+              if (!document.hasFocus()) hide();
+            }, idleHideMs);
+          };
           const move = event => {
             if (event.pointerType === 'touch' || (event.clientX === 0 && event.clientY === 0)) return;
             pending = { x: event.clientX, y: event.clientY };
             if (!frame) frame = requestAnimationFrame(paint);
-          };
-          const hide = () => {
-            cursor.dataset.h4CursorVisible = 'false';
-            cursor.classList.remove('is-pressed');
+            armIdleCheck();
           };
           addEventListener('pointermove', move, { passive: true });
+          addEventListener('mousemove', event => { if (!matchMedia('(pointer: fine)').matches) armIdleCheck(); }, { passive: true });
           addEventListener('pointerdown', move, { passive: true });
           addEventListener('pointerup', () => cursor.classList.remove('is-pressed'), { passive: true });
           addEventListener('pointerdown', () => cursor.classList.add('is-pressed'), { passive: true });
+          for (const type of ['pointerout', 'mouseout']) addEventListener(type, event => { if (event.relatedTarget === null) hide(); }, { passive: true, capture: true });
           addEventListener('pointerleave', event => { if (event.relatedTarget === null) hide(); }, { passive: true });
           addEventListener('blur', hide, { passive: true });
+          addEventListener('pagehide', hide, { passive: true });
           document.addEventListener('visibilitychange', () => { if (document.hidden) hide(); }, { passive: true });
         };
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount, { once: true });

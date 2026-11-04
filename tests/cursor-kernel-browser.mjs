@@ -64,6 +64,29 @@ try {
   await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor] .h4-cursor-glyph')).scale) <= 1.001, null, { timeout: 1000 });
   assert.equal(Number(await page.locator('[data-h4-cursor] .h4-cursor-glyph').evaluate(element => getComputedStyle(element).scale)), 1);
 
+  await page.mouse.move(810, 460);
+  await page.waitForFunction(() => document.querySelector('[data-h4-cursor]')?.dataset.h4CursorVisible === 'true');
+  await page.evaluate(() => document.dispatchEvent(new PointerEvent('pointerout', { bubbles: true, composed: true,
+    pointerType: 'mouse', relatedTarget: null, clientX: -1, clientY: -1 })));
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001, null, { timeout: 1000 });
+  report.hidden.pointerout = await page.locator('[data-h4-cursor]').evaluate(element => ({
+    opacity: Number(getComputedStyle(element).opacity), visibility: getComputedStyle(element).visibility,
+    visible: element.dataset.h4CursorVisible }));
+  assert.equal(report.hidden.pointerout.visible, 'false');
+  assert.equal(report.hidden.pointerout.opacity, 0);
+  assert.equal(report.hidden.pointerout.visibility, 'hidden');
+
+  await page.evaluate(() => Object.defineProperty(document, 'hasFocus', { configurable: true, value: () => false }));
+  await page.mouse.move(822, 472);
+  await page.waitForFunction(() => document.querySelector('[data-h4-cursor]')?.dataset.h4CursorVisible === 'true');
+  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001, null, { timeout: 1600 });
+  report.hidden.idleFallback = await page.locator('[data-h4-cursor]').evaluate(element => ({
+    opacity: Number(getComputedStyle(element).opacity), visibility: getComputedStyle(element).visibility,
+    visible: element.dataset.h4CursorVisible }));
+  assert.equal(report.hidden.idleFallback.visible, 'false');
+  assert.equal(report.hidden.idleFallback.opacity, 0);
+  await page.evaluate(() => Object.defineProperty(document, 'hasFocus', { configurable: true, value: () => true }));
+
   await page.evaluate(() => window.dispatchEvent(new PointerEvent('pointerleave', { relatedTarget: null })));
   await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001, null, { timeout: 1000 });
   report.hidden.leave = await page.locator('[data-h4-cursor]').evaluate(element => ({
@@ -111,7 +134,7 @@ try {
   await touch.close();
 
   report.passed = true;
-  console.log(`PASS cursor kernel ${report.build}: 20/20 zero-px jumps, 108% hotspot press, leave/blur/visibility hide, immediate repositioned reveal, touch off.`);
+  console.log(`PASS cursor kernel ${report.build}: 20/20 zero-px jumps, 108% hotspot press, pointerout/idle/leave/blur/visibility hide, immediate repositioned reveal, touch off.`);
 } finally {
   await writeFile(new URL('A1-tracking.json', output), JSON.stringify(report, null, 2) + '\n');
   await browser.close();
