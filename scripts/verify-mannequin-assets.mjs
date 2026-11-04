@@ -27,7 +27,7 @@ if (!existsSync(derivative)) {
   if (hash !== manifest.derivative.sha256) problems.push(`SHA-256 ${hash} != ${manifest.derivative.sha256}`);
   console.log(`verify:assets — Derivat ${manifest.derivative.file}: ${bytes} Bytes, sha256 ${hash}`);
 }
-const sourcePath = process.env.MANNEQUIN_SOURCE || join(root, '..', '..', '2026-11-03', 'aufgabe-v3-2-m0-mannequin-vorschau', 'outputs', 'mannequin-remodeling', 'real-run', 'export', manifest.source.file);
+const sourcePath = process.env.MANNEQUIN_SOURCE || join(root, '..', '..', '..', '2026-11-03', 'aufgabe-v3-2-m0-mannequin-vorschau', 'outputs', 'mannequin-remodeling', 'real-run', 'export', manifest.source.file);
 if (existsSync(sourcePath)) {
   const hash = sha256(sourcePath);
   if (hash !== manifest.source.sha256) problems.push(`Quell-Hash ${hash} != ${manifest.source.sha256}`);
