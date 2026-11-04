@@ -1,0 +1,483 @@
+{
+  "checkedAt": "2026-11-04T17:35:06.586Z",
+  "base": "http://127.0.0.1:55210",
+  "build": "945b5515b0a0",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 900,
+      "build": "945b5515b0a0",
+      "headings": [
+        {
+          "id": "selected-work-title",
+          "text": "01/ creative",
+          "fontSize": "86.4px",
+          "lineHeight": "93.312px",
+          "letterSpacing": "-3.888px",
+          "fontWeight": "400",
+          "baseline": 76
+        },
+        {
+          "id": "about-preview-title",
+          "text": "02/ more about",
+          "fontSize": "86.4px",
+          "lineHeight": "93.312px",
+          "letterSpacing": "-3.888px",
+          "fontWeight": "400",
+          "baseline": 76
+        },
+        {
+          "id": "contact-title",
+          "text": "03/ contact",
+          "fontSize": "86.4px",
+          "lineHeight": "93.312px",
+          "letterSpacing": "-3.888px",
+          "fontWeight": "400",
+          "baseline": 76
+        }
+      ],
+      "rubrics": [
+        {
+          "id": "",
+          "text": "tattoos",
+          "fontSize": "74.88px",
+          "lineHeight": "83.8656px",
+          "letterSpacing": "-3.3696px",
+          "fontWeight": "400",
+          "baseline": 67.4296875
+        },
+        {
+          "id": "",
+          "text": "jewellery",
+          "fontSize": "74.88px",
+          "lineHeight": "83.8656px",
+          "letterSpacing": "-3.3696px",
+          "fontWeight": "400",
+          "baseline": 67.4296875
+        },
+        {
+          "id": "",
+          "text": "tools",
+          "fontSize": "74.88px",
+          "lineHeight": "83.8656px",
+          "letterSpacing": "-3.3696px",
+          "fontWeight": "400",
+          "baseline": 67.4296875
+        },
+        {
+          "id": "",
+          "text": "more",
+          "fontSize": "74.88px",
+          "lineHeight": "83.8656px",
+          "letterSpacing": "-3.3696px",
+          "fontWeight": "400",
+          "baseline": 67.4296875
+        }
+      ],
+      "childHeadings": [
+        {
+          "id": "archive-tattoos-title",
+          "text": "on skin",
+          "fontSize": "25.92px",
+          "lineHeight": "29.808px",
+          "letterSpacing": "-1.0368px",
+          "fontWeight": "400",
+          "baseline": 30.9921875
+        },
+        {
+          "id": "archive-flashes-title",
+          "text": "flashes",
+          "fontSize": "25.92px",
+          "lineHeight": "29.808px",
+          "letterSpacing": "-1.0368px",
+          "fontWeight": "400",
+          "baseline": 30.9921875
+        },
+        {
+          "id": "archive-model-title",
+          "text": "3d model",
+          "fontSize": "25.92px",
+          "lineHeight": "29.808px",
+          "letterSpacing": "-1.0368px",
+          "fontWeight": "400",
+          "baseline": 23
+        },
+        {
+          "id": "archive-digital-artworks-title",
+          "text": "digital artworks",
+          "fontSize": "25.92px",
+          "lineHeight": "29.808px",
+          "letterSpacing": "-1.0368px",
+          "fontWeight": "400",
+          "baseline": 30.9921875
+        },
+        {
+          "id": "archive-analog-photography-title",
+          "text": "analog photography",
+          "fontSize": "25.92px",
+          "lineHeight": "29.808px",
+          "letterSpacing": "-1.0368px",
+          "fontWeight": "400",
+          "baseline": 30.9921875
+        }
+      ],
+      "headerRows": [
+        {
+          "text": "h4ngelic",
+          "center": 43,
+          "height": 44
+        },
+        {
+          "text": "+",
+          "center": 43,
+          "height": 44
+        },
+        {
+          "text": "you know your way around here.",
+          "center": 43,
+          "height": 44
+        }
+      ],
+      "indexNumbers": [
+        "00/",
+        "01/",
+        "02/",
+        "03/"
+      ],
+      "indexLabels": [
+        "00/ home",
+        "01/ creative",
+        "02/ more about",
+        "03/ contact"
+      ],
+      "driftCounts": [
+        "01/ 08",
+        "01/ 08",
+        "01/ 08",
+        "00/ 00"
+      ],
+      "seventh": "07/ 08",
+      "viewerCount": "01/ 01",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "build": "945b5515b0a0",
+      "headings": [
+        {
+          "id": "selected-work-title",
+          "text": "01/ creative",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "about-preview-title",
+          "text": "02/ more about",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "contact-title",
+          "text": "03/ contact",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "fontWeight": "400",
+          "baseline": 28
+        }
+      ],
+      "rubrics": [
+        {
+          "id": "",
+          "text": "tattoos",
+          "fontSize": "20.28px",
+          "lineHeight": "22.7136px",
+          "letterSpacing": "-0.9126px",
+          "fontWeight": "400",
+          "baseline": 18.3515625
+        },
+        {
+          "id": "",
+          "text": "jewellery",
+          "fontSize": "20.28px",
+          "lineHeight": "22.7136px",
+          "letterSpacing": "-0.9126px",
+          "fontWeight": "400",
+          "baseline": 18.3515625
+        },
+        {
+          "id": "",
+          "text": "tools",
+          "fontSize": "20.28px",
+          "lineHeight": "22.7136px",
+          "letterSpacing": "-0.9126px",
+          "fontWeight": "400",
+          "baseline": 18.3515625
+        },
+        {
+          "id": "",
+          "text": "more",
+          "fontSize": "20.28px",
+          "lineHeight": "22.7136px",
+          "letterSpacing": "-0.9126px",
+          "fontWeight": "400",
+          "baseline": 18.3515625
+        }
+      ],
+      "childHeadings": [
+        {
+          "id": "archive-tattoos-title",
+          "text": "on skin",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "archive-flashes-title",
+          "text": "flashes",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "archive-model-title",
+          "text": "3d model",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 16
+        },
+        {
+          "id": "archive-digital-artworks-title",
+          "text": "digital artworks",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "archive-analog-photography-title",
+          "text": "analog photography",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 28
+        }
+      ],
+      "headerRows": [
+        {
+          "text": "h4ngelic",
+          "center": 38,
+          "height": 44
+        },
+        {
+          "text": "+",
+          "center": 38,
+          "height": 44
+        },
+        {
+          "text": "you know your way around here.",
+          "center": 38,
+          "height": 44
+        }
+      ],
+      "indexNumbers": [
+        "00/",
+        "01/",
+        "02/",
+        "03/"
+      ],
+      "indexLabels": [
+        "00/ home",
+        "01/ creative",
+        "02/ more about",
+        "03/ contact"
+      ],
+      "driftCounts": [
+        "01/ 08",
+        "01/ 08",
+        "01/ 08",
+        "00/ 00"
+      ],
+      "seventh": "07/ 08",
+      "viewerCount": "01/ 01",
+      "errors": []
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "build": "945b5515b0a0",
+      "headings": [
+        {
+          "id": "selected-work-title",
+          "text": "01/ creative",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "about-preview-title",
+          "text": "02/ more about",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "contact-title",
+          "text": "03/ contact",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "fontWeight": "400",
+          "baseline": 28
+        }
+      ],
+      "rubrics": [
+        {
+          "id": "",
+          "text": "tattoos",
+          "fontSize": "18px",
+          "lineHeight": "20.16px",
+          "letterSpacing": "-0.81px",
+          "fontWeight": "400",
+          "baseline": 16.078125
+        },
+        {
+          "id": "",
+          "text": "jewellery",
+          "fontSize": "18px",
+          "lineHeight": "20.16px",
+          "letterSpacing": "-0.81px",
+          "fontWeight": "400",
+          "baseline": 16.078125
+        },
+        {
+          "id": "",
+          "text": "tools",
+          "fontSize": "18px",
+          "lineHeight": "20.16px",
+          "letterSpacing": "-0.81px",
+          "fontWeight": "400",
+          "baseline": 16.078125
+        },
+        {
+          "id": "",
+          "text": "more",
+          "fontSize": "18px",
+          "lineHeight": "20.16px",
+          "letterSpacing": "-0.81px",
+          "fontWeight": "400",
+          "baseline": 16.078125
+        }
+      ],
+      "childHeadings": [
+        {
+          "id": "archive-tattoos-title",
+          "text": "on skin",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "archive-flashes-title",
+          "text": "flashes",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "archive-model-title",
+          "text": "3d model",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 16
+        },
+        {
+          "id": "archive-digital-artworks-title",
+          "text": "digital artworks",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 28
+        },
+        {
+          "id": "archive-analog-photography-title",
+          "text": "analog photography",
+          "fontSize": "18px",
+          "lineHeight": "20.7px",
+          "letterSpacing": "-0.72px",
+          "fontWeight": "400",
+          "baseline": 28
+        }
+      ],
+      "headerRows": [
+        {
+          "text": "h4ngelic",
+          "center": 38,
+          "height": 44
+        },
+        {
+          "text": "+",
+          "center": 38,
+          "height": 44
+        },
+        {
+          "text": "you know your way around here.",
+          "center": 38,
+          "height": 44
+        }
+      ],
+      "indexNumbers": [
+        "00/",
+        "01/",
+        "02/",
+        "03/"
+      ],
+      "indexLabels": [
+        "00/ home",
+        "01/ creative",
+        "02/ more about",
+        "03/ contact"
+      ],
+      "driftCounts": [
+        "01/ 08",
+        "01/ 08",
+        "01/ 08",
+        "00/ 00"
+      ],
+      "seventh": "07/ 08",
+      "viewerCount": "01/ 01",
+      "errors": []
+    }
+  ],
+  "distGrep": {
+    "files": 144,
+    "bad": []
+  },
+  "failures": []
+}
