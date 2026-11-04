@@ -1,45 +1,55 @@
 {
-  "build": "d3494732b3a9",
-  "shell": "<a class=\"chapter-counter naavi\" data-naavi data-chapter-counter data-no-ink data-corruption-protected href=\"/#selected-work\" aria-label=\"NAAVI: 00/ 03, home. go to creative\" data-chapter=\"0\" data-chapter-total=\"3\"><span class=\"chapter-digit-window\" aria-hidden=\"true\"><span class=\"chapter-digit\">00</span></span><span class=\"chapter-total\" aria-hidden=\"true\">/ 03</span></a>",
+  "build": "b3cc401bcf72",
+  "shell": "<a class=\"chapter-counter naavi\" data-naavi data-chapter-counter data-no-ink data-corruption-protected href=\"/#selected-work\" aria-label=\"NAAVI: 00/ 04, home. go to creative\" data-chapter=\"0\" data-chapter-total=\"4\"><span class=\"chapter-digit-window\" aria-hidden=\"true\"><span class=\"chapter-digit\">00</span></span><span class=\"chapter-total\" aria-hidden=\"true\">/ 04</span></a>",
   "chapters": [
     {
       "index": 0,
       "id": "home-hero",
       "state": {
-        "text": "00/ 03",
-        "label": "NAAVI: 00/ 03, home. go to creative",
+        "text": "00/ 04",
+        "label": "NAAVI: 00/ 04, home. go to creative",
         "current": 0,
-        "total": 3
+        "total": 4
       }
     },
     {
       "index": 1,
       "id": "selected-work",
       "state": {
-        "text": "01/ 03",
-        "label": "NAAVI: 01/ 03, creative. go to about",
+        "text": "01/ 04",
+        "label": "NAAVI: 01/ 04, creative. go to about",
         "current": 1,
-        "total": 3
+        "total": 4
       }
     },
     {
       "index": 2,
       "id": "about-preview",
       "state": {
-        "text": "02/ 03",
-        "label": "NAAVI: 02/ 03, about. go to contact",
+        "text": "02/ 04",
+        "label": "NAAVI: 02/ 04, about. go to contact",
         "current": 2,
-        "total": 3
+        "total": 4
       }
     },
     {
       "index": 3,
       "id": "contact",
       "state": {
-        "text": "03/ 03",
-        "label": "NAAVI: 03/ 03, contact. go to home",
+        "text": "03/ 04",
+        "label": "NAAVI: 03/ 04, contact. go to the other side",
         "current": 3,
-        "total": 3
+        "total": 4
+      }
+    },
+    {
+      "index": 4,
+      "id": "other-side",
+      "state": {
+        "text": "04/ 04",
+        "label": "NAAVI: 04/ 04, the other side. go to home",
+        "current": 4,
+        "total": 4
       }
     }
   ],
