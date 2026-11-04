@@ -53,7 +53,6 @@
 }
 .footer-smash:disabled { opacity: .45; }
 .footer-impressum, .footer-smash { color: var(--h4-ghost-color); opacity: var(--h4-ghost-opacity); letter-spacing: var(--h4-ghost-tracking); }
-.footer-smash { text-transform: lowercase; }
 [data-smash-slot]:empty { display: none; }
 .exhibition-footer :is(a, button, [role='group']):focus-visible { outline: 1px solid currentColor; outline-offset: -3px; }
 .footer-visit-hotspot.secret-hotspot {
@@ -118,9 +117,9 @@
   pointer-events: auto;
 }
 .secret-message { opacity: 0; transition: opacity 600ms ease-out; pointer-events: none; }
-.secret-message.is-discovered { opacity: .35; }
+.secret-message.is-discovered { opacity: var(--h4-ghost-opacity); }
 .secret-hotspot:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
-.footer-secret .secret-message.is-discovered { opacity: .35; }
+.footer-secret .secret-message.is-discovered { opacity: var(--h4-ghost-opacity); }
 .footer-secret-space { position: relative; min-height: 30svh; }
 .footer-secret {
   position: absolute;

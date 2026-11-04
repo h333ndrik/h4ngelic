@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-11-04T19:07:14.535Z",
+  "base": "http://127.0.0.1:55230",
+  "mode": "compare",
+  "build": "831737ce85e6",
+  "images": [
+    {
+      "width": 1440,
+      "normal": {
+        "width": 1366,
+        "height": 41,
+        "changedChannels": 0,
+        "maximumDelta": 0
+      },
+      "other": {
+        "width": 1366,
+        "height": 41,
+        "changedChannels": 0,
+        "maximumDelta": 0
+      }
+    },
+    {
+      "width": 390,
+      "normal": {
+        "width": 342,
+        "height": 41,
+        "changedChannels": 0,
+        "maximumDelta": 0
+      },
+      "other": {
+        "width": 342,
+        "height": 41,
+        "changedChannels": 0,
+        "maximumDelta": 0
+      }
+    },
+    {
+      "width": 320,
+      "normal": {
+        "width": 272,
+        "height": 41,
+        "changedChannels": 0,
+        "maximumDelta": 0
+      },
+      "other": {
+        "width": 272,
+        "height": 41,
+        "changedChannels": 0,
+        "maximumDelta": 0
+      }
+    }
+  ]
+}
