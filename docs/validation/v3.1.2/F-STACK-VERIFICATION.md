@@ -341,3 +341,9 @@ Verified product build: `data-build="8351205c4d79"` (`R2: label format NN/ x inc
 - Production cursor hit map: **3/3** normal viewports + xray PASS; production cursor/no-JS contract PASS.
 - Hero: boot **3/3**, entrance PASS, poster **6/6**, F20 **6/6**, performance **6/6** route-width pairs plus entrance/CLS, FCP 48–112 ms and LCP under 200 ms.
 - Navigation **6/6**, footer **6/6**, mobile **4/4**, portfolio **6/6**, SEO **19/19** routes PASS, tools **3/3**, labels **3/3**.
+
+## 14. V3.2 addendum — production bundle 4b9ce9a3fae4
+
+- **Befund:** The pre-V3.2 shell still exposed five INDEX entries, `/work` URLs and hover-revealed VISIT; several legacy suites also assumed pinning and modal carousels.
+- **Fix:** `/creative` is the canonical archive with 12 legacy 301s, INDEX is `00–03`, NAAVI is dynamically `NN/ 03` or `NN/ 04`, tools has a static F26 heading and detail pages, VISIT is a permanent ghost, and SMASH is Other-Side-only. Tests were reconciled to the approved in-place carousel and calm unpinned motion contracts.
+- **Beweis:** Build `4b9ce9a3fae4`: Node **374/374**, V3.2 structure PASS, micro PASS, cursor hit **4,458/1,138/928 + 2,221 xray**, performance FCP **52–132ms**, SEO 23 routes PASS, standalone 3/3 plus native. Full report: `docs/validation/V3.2/F-STACK-VERIFICATION.md`.
