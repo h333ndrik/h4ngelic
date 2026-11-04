@@ -1,0 +1,12 @@
+/* Scroll-Einfahrt der Archiv-Sections; Variablen setzt src/section-entrance.js. */
+[data-section-entrance] {
+  transform: translate3d(var(--entrance-x, 0px), 0, 0);
+  opacity: var(--entrance-opacity, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-section-entrance] {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+}

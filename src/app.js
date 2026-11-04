@@ -30,6 +30,7 @@ import { initInquiry } from './inquiry.js';
 import { initConnectedWork } from './connected-work.js';
 import { heroPosterSettings } from './data/heroPosterSettings.js';
 import { initMannequinPreviewLazy } from './mannequin-preview-loader.js';
+import { initSectionEntrance } from './section-entrance.js';
 
 if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
 document.documentElement.dataset.h4StylesReady = 'true';
@@ -47,6 +48,7 @@ let stopEndReveal = () => {};
 let stopDrift = () => {};
 let stopMannequins = () => {};
 let stopModelPreview = () => {};
+let stopSectionEntrance = () => {};
 let heroObserver = null;
 let heroPreloadsActivated = false;
 const heroReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -310,9 +312,10 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopDrift();
   stopMannequins();
   stopModelPreview();
+  stopSectionEntrance();
   stopInquiry();
   stopConnectedWork();
-  stopDrift = stopMannequins = stopModelPreview = () => {};
+  stopDrift = stopMannequins = stopModelPreview = stopSectionEntrance = () => {};
   heroObserver?.disconnect();
   if (hero) hero.hidden = route.kind !== 'home';
   document.documentElement.dataset.page = route.kind;
@@ -330,6 +333,7 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopInquiry.refreshContext?.(url);
   stopConnectedWork = initConnectedWork(content);
   stopModelPreview = initMannequinPreviewLazy(content);
+  stopSectionEntrance = initSectionEntrance(content);
   if (route.kind === 'home') scheduleSlashInset();
 
   if (standalone) {
