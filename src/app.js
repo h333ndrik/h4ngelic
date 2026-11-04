@@ -58,6 +58,7 @@ let renderedPath = '';
 let stopInquiry = () => {};
 let stopConnectedWork = () => {};
 let slashInsetFrame = 0;
+let otherSideController = null;
 // One scroll offset for each real carousel; route changes reuse these small
 // records rather than retaining detached gallery nodes or image resources.
 const carouselPositions = new Map();
@@ -245,7 +246,7 @@ document.addEventListener('h4:herofailed', event => showHeroFailure(event.detail
 
 function currentURL() {
   // The downloadable preview uses hash routes so its pages work without a server.
-  // The real website always uses ordinary /work, /about and /#contact anchors.
+  // The real website always uses ordinary /creative, /about and /#contact anchors.
   return standalone
     ? new URL(location.hash.slice(1).startsWith('/') ? location.hash.slice(1) : '/', 'https://preview.invalid')
     : new URL(location.href);
@@ -276,6 +277,7 @@ function scrollToTarget(url, { reset = false, restoreScroll, smoothAnchor = fals
 async function render({ reset = false, restoreScroll, smoothAnchor = false } = {}) {
   let url = currentURL();
   const route = resolveRoute(url);
+  if (route.kind === 'impressum' && document.documentElement.dataset.mode === 'xray') otherSideController?.setMode('normal');
   if (route.redirectPath) {
     if (standalone) history.replaceState(history.state, '', `#${route.redirectPath}`);
     else history.replaceState(history.state, '', route.redirectPath);
@@ -388,7 +390,7 @@ if (featureFlags.otherSideEnabled) {
   // Input handling is needed from startup. Bundle it with the entry stylesheet
   // instead of delaying first paint with an immediately requested CSS chunk.
   // Film, pixel rendering, damaged material and Web Audio stay gesture-driven.
-  initXRay({ memory: corruptionLifecycle });
+  otherSideController = initXRay({ memory: corruptionLifecycle });
   initModeIcons();
   const motionMosh = initMotionMosh({ doc: document });
   if (import.meta.env.DEV && new URLSearchParams(location.search).get('fx') === '1') {

@@ -7,11 +7,11 @@ import { escapeHTML as escape, contentURL } from './content-utils.js';
 export function renderFooter({ home = false, otherSideEnabled = featureFlags.otherSideEnabled } = {}) {
   const instagram = contentURL(siteContent.contact.instagramURL, { relative: false });
   const hint = otherSideEnabled ? `<button class="footer-secret secret-hotspot" type="button" data-other-side-hint data-secret-hotspot data-mode-hold aria-label="hold for one second to enter the other side" aria-keyshortcuts="4" aria-describedby="footer-other-side-message">
-      <span class="secret-message" data-secret-message data-xray-hint id="footer-other-side-message"><span data-xray-hint-text>HOLD 4 TO SEE THE OTHER SIDE.</span></span>
+      <span class="secret-message" data-secret-message data-xray-hint id="footer-other-side-message"><span data-xray-hint-text>hold 4 to see the other side.</span></span>
     </button>` : '';
   const arrow = '<i class="arrow" aria-hidden="true"></i>';
   const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count and visitor memory" aria-describedby="footer-visit-count footer-visit-memory">
-      <span class="secret-message" data-secret-message data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span><span class="secret-message footer-visit-memory" data-secret-message data-visit-message id="footer-visit-memory">nice to meet you.</span>
+      <span class="footer-visit-count" data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span><span class="secret-message footer-visit-memory" data-secret-message data-visit-message id="footer-visit-memory">nice to meet you.</span>
     </button>` : '';
   return `${home ? `<div class="footer-secret-space end-reveal" id="final-secret" data-footer-secret-space data-end-reveal>
     <div class="end-reveal-mark" aria-hidden="true">
@@ -37,7 +37,7 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
         ${counter}
       </span>
       <span class="footer-details" role="group" aria-label="footer links, scroll horizontally when needed" tabindex="0">
-        <button type="button" class="footer-smash" data-smash aria-pressed="false" aria-label="play soundtrack" disabled>smash ${arrow}</button>${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : ''}<span class="footer-location">${escape(siteContent.location)}</span>
+        <span data-smash-slot></span>${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : ''}<a class="footer-impressum" href="/impressum">impressum</a><span class="footer-location">${escape(siteContent.location)}</span><span data-other-side-imprint-slot></span>
       </span>
     </div>
     ${otherSideEnabled ? '<span class="sr-only" data-mode-status role="status" aria-live="polite"></span>' : ''}

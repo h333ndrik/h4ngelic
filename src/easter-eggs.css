@@ -36,7 +36,7 @@
 .footer-details { grid-column: 3; justify-self: end; width: max-content; }
 .footer-left > *, .footer-details > * { flex: 0 0 auto; }
 .footer-brand, .footer-location { display: inline-flex; align-items: center; min-height: 44px; }
-.footer-moshlab, .footer-instagram, .footer-smash {
+.footer-moshlab, .footer-instagram, .footer-impressum, .footer-smash {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -52,6 +52,9 @@
   text-decoration: none;
 }
 .footer-smash:disabled { opacity: .45; }
+.footer-impressum, .footer-smash { color: var(--h4-ghost-color); opacity: var(--h4-ghost-opacity); letter-spacing: var(--h4-ghost-tracking); }
+.footer-smash { text-transform: lowercase; }
+[data-smash-slot]:empty { display: none; }
 .exhibition-footer :is(a, button, [role='group']):focus-visible { outline: 1px solid currentColor; outline-offset: -3px; }
 .footer-visit-hotspot.secret-hotspot {
   position: relative;
@@ -83,9 +86,14 @@
 .footer-visit-hotspot:focus-visible .footer-visit-memory,
 .footer-visit-memory.is-discovered { opacity: .9; }
 
-/* The counter shares the existing secret-message fade, with a persistent
-   readable state while its keyboard navigation cluster owns focus. */
-.footer-left:focus-within [data-visit-number] { opacity: .35; }
+/* The personal counter is always present in the shared ghost register.
+   Only the optional visitor-memory phrase uses the secret reveal. */
+.footer-visit-count {
+  color: var(--h4-ghost-color);
+  opacity: var(--h4-ghost-opacity);
+  letter-spacing: var(--h4-ghost-tracking);
+  text-transform: var(--h4-ghost-transform);
+}
 .footer-contact-links { display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
 
@@ -119,6 +127,9 @@
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: var(--h4-ghost-color);
+  letter-spacing: var(--h4-ghost-tracking);
+  text-transform: var(--h4-ghost-transform);
   width: max-content;
   max-width: calc(100vw - 44px);
   touch-action: pan-y;

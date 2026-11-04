@@ -10,7 +10,7 @@ const browser = await chromium.launch({
   args: ['--no-sandbox'],
 });
 
-async function ready(page, path = '/work') {
+async function ready(page, path = '/creative') {
   await page.goto(route(path), { waitUntil: 'networkidle' });
   await page.locator('[data-artist-footer]').waitFor();
   if (path === '/') await page.locator('[data-visitor-hotspot]').waitFor();
@@ -22,7 +22,7 @@ async function assertLocalVisit(page, count = 1) {
   assert.equal(record.count, count);
   assert.ok(Number.isFinite(record.lastSeen));
   if (await page.locator('[data-visit-message]').count()) assert.equal(await page.locator('[data-visit-message]').first().textContent(), visitorMessage(count));
-  if (await page.locator('[data-visit-number]').count()) assert.equal(await page.locator('[data-visit-number]').textContent(), `VISIT ${String(count).padStart(3, '0')}`);
+  if (await page.locator('[data-visit-number]').count()) assert.equal(await page.locator('[data-visit-number]').textContent(), `visit ${String(count).padStart(3, '0')}`);
   assert.equal(await page.locator('.page-footer [data-visit-message]').count(), 1, 'The footer shares the seven-tier memory.');
 }
 
@@ -223,7 +223,7 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   assert.ok(Math.abs(endSpace.height - endSpace.expected) < 1, 'The final h4 reveal retains its spacious responsive end section.');
   const hint = page.locator('[data-other-side-hint]');
   await hint.scrollIntoViewIfNeeded();
-  assert.equal((await hint.textContent()).trim(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+  assert.equal((await hint.textContent()).trim(), 'hold 4 to see the other side.');
   await revealCycle(page, hint, { touch });
   assert.notEqual(await page.locator('html').getAttribute('data-mode'), 'xray', 'Discovering the hint through hover or a short tap does not activate the mode.');
   await page.keyboard.press('Tab');
@@ -244,7 +244,7 @@ async function checkHeaderAndFooterSecrets(page, { touch }) {
   assert.ok(Math.abs((hintBox.y + hintBox.height / 2 - spaceBox.y) / spaceBox.height - .48) < .01, 'Instruction stays centered over the final h4 reveal.');
   const counter = page.locator('[data-visit-counter-hotspot]');
   await counter.scrollIntoViewIfNeeded();
-  assert.equal((await counter.textContent()).trim(), 'VISIT 001');
+  assert.equal((await counter.textContent()).trim(), 'visit 001');
   await revealCycle(page, counter, { touch });
   const counterBox = await counter.boundingBox();
   assert.ok(Math.abs(counterBox.x + counterBox.width / 2 - width / 2) < .6);
@@ -376,7 +376,7 @@ async function checkSeparatedReturn() {
     await assertLocalVisit(page, 5);
     await page.reload({ waitUntil: 'networkidle' });
     await assertLocalVisit(page, 5);
-    await page.evaluate(() => document.querySelector('.hero-nav a[href="/work"]').click());
+    await page.evaluate(() => document.querySelector('.hero-nav a[href="/creative"]').click());
     await page.locator('.work-page').waitFor();
     await assertLocalVisit(page, 5);
   } finally { await context.close(); }
@@ -409,7 +409,7 @@ try {
     await assertLocalVisit(page);
     await page.reload({ waitUntil: 'networkidle' });
     await assertLocalVisit(page);
-    await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+    await page.goto(new URL('/creative/onskin', base).href, { waitUntil: 'networkidle' });
     await page.locator('.work-page').waitFor();
     await assertLocalVisit(page);
     if (!touch) await checkSeparatedReturn();

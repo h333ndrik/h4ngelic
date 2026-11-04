@@ -1,0 +1,15 @@
+{
+  "build": "d3494732b3a9",
+  "visit": {
+    "text": "VISIT 0001",
+    "opacity": "0",
+    "color": "rgb(179, 179, 175)",
+    "letterSpacing": "0.72px",
+    "textTransform": "none",
+    "left": 275.1875,
+    "top": 4153.6875,
+    "width": 67.03125,
+    "parentOpacity": "1",
+    "visible": true
+  }
+}

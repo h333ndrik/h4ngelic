@@ -31,8 +31,8 @@ async function mode(page, next) {
 }
 async function indexRoute(page, name) {
   if (name === 'work') {
-    await page.locator('.hero-nav a[href="/work"]').click();
-    await page.waitForFunction(() => document.documentElement.dataset.page === 'work' && location.pathname === '/work/tattoos');
+    await page.locator('.hero-nav a[href="/creative"]').click();
+    await page.waitForFunction(() => document.documentElement.dataset.page === 'work' && location.pathname === '/creative');
     return;
   }
   const menu = page.locator('[data-global-index]');
@@ -105,8 +105,11 @@ try {
       };
     });
     try {
-      await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+      assert.equal(await page.locator('[data-smash]').count(), 0, 'Normal mode must not render SMASH at all.');
+      await mode(page, 'xray');
       await page.locator('[data-smash]').waitFor();
+      assert.equal(await page.locator('[data-smash]').count(), 1, 'SMASH appears only on The Other Side.');
       assert.equal(await page.locator('[data-smash]').isDisabled(), false);
       assert.deepEqual(requests, [], 'The approved MP3 must not preload during page load.');
       assert.equal(await page.evaluate(() => window.__smashProbe.contexts.length), 0, 'No AudioContext is allocated just for rendering the footer.');
@@ -158,6 +161,7 @@ try {
       await page.waitForFunction(() => Math.abs(window.__smashProbe.contexts[0].__gains[0].gain.value - .025) < .002);
       assert.equal((await trackState(page)).ended, false, 'Global mute and volume changes do not restart or stop track time.');
       await indexRoute(page, 'work');
+      await mode(page, 'xray');
       await activate(page, width < 600);
       const stopping = await trackState(page, 0);
       assert.equal(stopping.stopped.length, 1);

@@ -115,16 +115,43 @@ export function initXRay({ root = document, memory = null } = {}) {
     doc.dispatchEvent(new view.CustomEvent('h4:modeprogress', { detail: { amount: progress } }));
   }
 
+  function syncModeControls() {
+    const smashSlots = [...doc.querySelectorAll('[data-smash-slot]')];
+    for (const slot of smashSlots) {
+      if (mode !== 'xray') { slot.replaceChildren(); continue; }
+      if (slot.querySelector('[data-smash]')) continue;
+      const button = doc.createElement('button');
+      button.type = 'button';
+      button.className = 'footer-smash';
+      button.dataset.smash = '';
+      button.setAttribute('aria-pressed', 'false');
+      button.setAttribute('aria-label', 'play soundtrack');
+      button.disabled = true;
+      button.textContent = 'smash';
+      slot.append(button);
+    }
+    for (const slot of doc.querySelectorAll('[data-other-side-imprint-slot]')) {
+      if (mode !== 'xray') { slot.replaceChildren(); continue; }
+      if (slot.querySelector('.footer-impressum-other-side')) continue;
+      const link = doc.createElement('a');
+      link.className = 'footer-impressum footer-impressum-other-side';
+      link.href = '/impressum';
+      link.textContent = 'impressum';
+      slot.append(link);
+    }
+  }
+
   function refresh() {
     if (destroyed) return;
     stopMobile?.refresh();
+    syncModeControls();
     for (const button of doc.querySelectorAll('[data-xray-toggle]')) button.setAttribute('aria-pressed', String(mode === 'xray'));
     for (const button of doc.querySelectorAll('[data-mode-hold]')) {
       button.setAttribute('aria-pressed', String(mode === 'xray'));
-      button.setAttribute('aria-label', mode === 'xray' ? 'press 3 times 3 to reverse' : 'hold for one second to enter the other side');
+      button.setAttribute('aria-label', mode === 'xray' ? 'press 3 three times to reverse' : 'hold for one second to enter the other side');
       button.setAttribute('aria-keyshortcuts', mode === 'xray' ? '3' : '4');
     }
-    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'press 3 times 3 to reverse' : 'HOLD 4 TO SEE THE OTHER SIDE.';
+    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'press 3 three times to reverse.' : 'hold 4 to see the other side.';
     soundControls.refresh();
   }
 
@@ -356,7 +383,8 @@ export function initXRay({ root = document, memory = null } = {}) {
     }
     for (const button of doc.querySelectorAll('[data-xray-toggle]')) button.setAttribute('aria-pressed', 'false');
     for (const button of doc.querySelectorAll('[data-mode-hold]')) button.setAttribute('aria-pressed', 'false');
-    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = 'HOLD 4 TO SEE THE OTHER SIDE.';
+    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = 'hold 4 to see the other side.';
+    for (const slot of doc.querySelectorAll('[data-smash-slot], [data-other-side-imprint-slot]')) slot.replaceChildren();
     for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = '';
     const theme = doc.querySelector('meta[name="theme-color"]');
     if (theme) theme.content = normalThemeColor;

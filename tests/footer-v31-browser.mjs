@@ -94,20 +94,21 @@ try {
       assert.equal(await page.locator('[data-visit-message]').count(),1,'One shared seven-tier phrase node exists in the footer.');
       assert.equal(await page.locator('[data-visit-message]').textContent(), "you're part of this place now.");
       const count = page.locator('[data-visit-number]'), visit = page.locator('[data-visit-counter-hotspot]');
-      assert.equal(await count.textContent(),'VISIT 0012');
+      assert.equal(await count.textContent(),'visit 0012');
       assert.equal(await visit.getAttribute('aria-describedby'),'footer-visit-count footer-visit-memory');
       assert.equal(await count.evaluate(el=>el.closest('.footer-left')!==null),true,'The counter belongs to the left cluster.');
-      assert.equal(await visit.evaluate(el=>el.previousElementSibling?.matches('.footer-moshlab')),true,'VISIT follows moshlab directly.');
+      assert.equal(await visit.evaluate(el=>el.previousElementSibling?.matches('.footer-moshlab')),true,'visit follows moshlab directly.');
       assert.equal(await page.locator('.footer-moshlab').getAttribute('href'),'#');
       assert.equal(await page.locator('.footer-moshlab .arrow').count(),1);
-      assert.equal(await page.locator('.footer-smash .arrow').count(),1);
+      assert.equal(await page.locator('.footer-smash').count(),0,'Normal mode keeps SMASH out of the DOM.');
+      assert.equal(await page.locator('.footer-impressum').count(),1);
       assert.equal(await page.locator('.footer-instagram .arrow').count(),1);
       const parity = await page.locator('.footer-details').evaluate(el => {
         const keys=['fontFamily','fontSize','fontWeight','letterSpacing','lineHeight','color'];
         const read = selector => {const s=getComputedStyle(el.querySelector(selector));return Object.fromEntries(keys.map(key=>[key,s[key]]));};
-        return {smash:read('.footer-smash'),instagram:read('.footer-instagram')};
+        return {impressum:read('.footer-impressum'),instagram:read('.footer-instagram')};
       });
-      assert.deepEqual(parity.smash,parity.instagram,'SMASH and Instagram have identical type and colour.');
+      assert.equal(parity.impressum.fontSize,parity.instagram.fontSize,'Impressum and Instagram share footer sizing.');
       const normal = await geometry(page);
       assert.equal(normal.footerPosition,'static','The footer remains in ordinary page flow.');
       assert.ok(normal.documentWidth<=width+1,'Local footer scrolling must never widen the page.');
@@ -115,10 +116,10 @@ try {
       assert.ok(!overlap(normal.left,normal.naavi)&&!overlap(normal.right,normal.naavi),'The reserved middle keeps NAAVI clear.');
       await page.mouse.move(width/2,100);
       await page.evaluate(() => document.activeElement?.blur());
-      await counterVisible(page,false);
+      await counterVisible(page,true);
       const beforeReveal = await geometry(page);
       // Native focus must reveal and horizontally expose each interactive item.
-      for (const selector of ['.footer-moshlab','[data-visit-counter-hotspot]','.footer-smash','.footer-instagram']) {
+      for (const selector of ['.footer-moshlab','[data-visit-counter-hotspot]','.footer-impressum','.footer-instagram']) {
         const target=page.locator(selector);
         if(await target.isDisabled())continue;
         await target.focus();
@@ -131,22 +132,22 @@ try {
       const afterReveal=await geometry(page);
       assert.equal(afterReveal.pageHeight,beforeReveal.pageHeight,'Revealing the count does not alter page height.');
       assert.deepEqual(afterReveal.row,beforeReveal.row,'Revealing the count does not reflow the footer.');
-      assert.equal(await count.textContent(),'VISIT 0012');
-      const hintFont=await page.evaluate(()=>{
-        const a=getComputedStyle(document.querySelector('.footer-moshlab'));
-        const b=getComputedStyle(document.querySelector('[data-visit-counter-hotspot]'));
-        return {hint:[a.fontFamily,a.fontSize,a.fontWeight,a.letterSpacing],count:[b.fontFamily,b.fontSize,b.fontWeight,b.letterSpacing]};
+      assert.equal(await count.textContent(),'visit 0012');
+      const ghost=await page.evaluate(()=>{
+        const read=selector=>{const s=getComputedStyle(document.querySelector(selector));return {color:s.color,opacity:Number(s.opacity),tracking:s.letterSpacing,textTransform:s.textTransform,visibility:s.visibility};};
+        return {visit:read('[data-visit-number]'),hint:read('[data-other-side-hint] .secret-message'),impressum:read('.footer-impressum'),
+          text:document.querySelector('[data-other-side-hint] .secret-message').textContent};
       });
-      assert.deepEqual(hintFont.count,hintFont.hint,'Counter uses the adjacent footer-link typography.');
-      const fade=await page.evaluate(()=>{
-        const read=selector=>{const s=getComputedStyle(document.querySelector(selector));return [s.transitionProperty,s.transitionDuration,s.transitionTimingFunction];};
-        return {count:read('[data-visit-number]'),hint:read('[data-other-side-hint] .secret-message')};
-      });
-      assert.deepEqual(fade.count,fade.hint,'Counter uses exactly the HOLD4 fade.');
+      assert.equal(ghost.visit.color,ghost.hint.color,'Visit uses the HOLD4 ghost colour.');
+      assert.equal(ghost.visit.tracking,ghost.hint.tracking,'Visit uses the HOLD4 ghost tracking.');
+      assert.equal(ghost.impressum.color,ghost.hint.color,'Impressum uses the shared ghost colour.');
+      assert.equal(ghost.visit.opacity,.35);
+      assert.equal(ghost.visit.visibility,'visible');
+      assert.equal(ghost.text,'hold 4 to see the other side.');
       await page.locator('.footer-left').focus(); await counterVisible(page,true);
       await page.evaluate(()=>document.activeElement?.blur());
       await page.mouse.move(width/2,100);
-      await counterVisible(page,false);
+      await counterVisible(page,true);
       if(width<600)await visit.tap();else await visit.hover();
       await counterVisible(page,true);
       const beforePlaceholder={url:page.url(),y:await page.evaluate(()=>scrollY)};
@@ -163,24 +164,26 @@ try {
       assert.ok(other.documentWidth<=width+1);
       assert.ok(Math.abs(other.naavi.top+other.naavi.height/2-other.row.top-other.row.height/2)<2);
       assert.ok(!overlap(other.left,other.naavi)&&!overlap(other.right,other.naavi));
-      assert.equal(await count.textContent(),'VISIT 0012');
+      assert.equal(await count.textContent(),'visit 0012');
+      assert.equal(await page.locator('.footer-smash').count(),1,'Other Side owns the only SMASH control.');
+      assert.equal(await page.locator('.footer-impressum').count(),2,'Both mode footers expose Impressum.');
       await page.screenshot({path:new URL(`other-${width}-${reduced}.png`,out).pathname});
       await mode(page,'normal');
-      await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
+      await page.goto(new URL('/creative/onskin',base).href,{waitUntil:'networkidle'});
       await page.locator('html[data-page="work"]').waitFor();
       // Work mounts optional carousel enhancements before h4:pagechange
       // refreshes the newly rendered footer. data-page alone is not route completion.
-      await page.waitForFunction(() => document.querySelector('[data-visit-number]')?.textContent === 'VISIT 0012');
-      assert.equal(await count.textContent(),'VISIT 0012','Internal route changes do not increment personal visits.');
+      await page.waitForFunction(() => document.querySelector('[data-visit-number]')?.textContent === 'visit 0012');
+      assert.equal(await count.textContent(),'visit 0012','Internal route changes do not increment personal visits.');
       assert.equal(await page.locator('[data-visit-message]').count(),1);
       await page.evaluate(()=>document.activeElement?.blur());
-      await page.mouse.move(width/2,100); await counterVisible(page,false);
+      await page.mouse.move(width/2,100); await counterVisible(page,true);
       await page.locator('[data-global-index] summary').click();
       await page.locator('[data-global-index] [data-index-page="about"]').click();
       await page.locator('html[data-page="about"]').waitFor();
-      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='VISIT 0012');
+      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='visit 0012');
       await page.evaluate(()=>document.activeElement?.blur());
-      await page.mouse.move(width/2,100); await counterVisible(page,false);
+      await page.mouse.move(width/2,100); await counterVisible(page,true);
       await page.locator('.footer-left').focus(); await counterVisible(page,true);
       // Seed a genuinely separated visit before app initialization. Navigation
       // and a second immediate reload must retain the incremented local count.
@@ -191,12 +194,12 @@ try {
         }
       });
       await page.goto(new URL('/about?footer-revisit=1',base).href,{waitUntil:'networkidle'});
-      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='VISIT 0013');
-      await counterVisible(page,false);
+      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='visit 0013');
+      await counterVisible(page,true);
       await page.reload({waitUntil:'networkidle'});
-      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='VISIT 0013');
+      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='visit 0013');
       assert.deepEqual(errors,[]);
-      results.push({width,reduced,normal,other,parity,hintFont,fade,revisit:'VISIT 0013',errors});
+      results.push({width,reduced,normal,other,parity,ghost,revisit:'visit 0013',errors});
       console.log(`PASS V3.1 footer ${width}px reduced=${reduced}`);
     } finally { await context.close(); }
   }

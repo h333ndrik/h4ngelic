@@ -1,0 +1,96 @@
+{
+  "build": "d3494732b3a9",
+  "profiles": [
+    {
+      "width": 1440,
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [
+          "impressum"
+        ],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [
+          "impressum",
+          "impressum"
+        ],
+        "hint": "press 3 three times to reverse."
+      },
+      "legal": {
+        "page": "impressum",
+        "mode": "normal",
+        "text": "ddg disclosure — placeholders must be replaced before launch name[VOLLNAME] address[STRASSE+HAUSNUMMER], [PLZ+ORT] contact[E-MAIL] vat[UST-IDNR. ODER §19-HINWEIS] this route is mode-neutral. entering it ends the other side. back home",
+        "smash": 0,
+        "back": "/"
+      }
+    },
+    {
+      "width": 390,
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [
+          "impressum"
+        ],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [
+          "impressum",
+          "impressum"
+        ],
+        "hint": "press 3 three times to reverse."
+      },
+      "legal": {
+        "page": "impressum",
+        "mode": "normal",
+        "text": "ddg disclosure — placeholders must be replaced before launch name[VOLLNAME] address[STRASSE+HAUSNUMMER], [PLZ+ORT] contact[E-MAIL] vat[UST-IDNR. ODER §19-HINWEIS] this route is mode-neutral. entering it ends the other side. back home",
+        "smash": 0,
+        "back": "/"
+      }
+    },
+    {
+      "width": 320,
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [
+          "impressum"
+        ],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [
+          "impressum",
+          "impressum"
+        ],
+        "hint": "press 3 three times to reverse."
+      },
+      "legal": {
+        "page": "impressum",
+        "mode": "normal",
+        "text": "ddg disclosure — placeholders must be replaced before launch name[VOLLNAME] address[STRASSE+HAUSNUMMER], [PLZ+ORT] contact[E-MAIL] vat[UST-IDNR. ODER §19-HINWEIS] this route is mode-neutral. entering it ends the other side. back home",
+        "smash": 0,
+        "back": "/"
+      }
+    }
+  ],
+  "passed": true
+}
