@@ -175,10 +175,15 @@ try {
       assert.equal(viewerNav.length, 3);
       assert.ok(viewerNav[0].right <= viewerNav[1].left && viewerNav[1].right <= viewerNav[2].left,
         'Viewer arrows must flank the counter without overlap.');
+      const viewerScrim = await page.locator('dialog.artwork-dialog').evaluate(dialog => ({
+        scrim: getComputedStyle(dialog, '::after').backgroundImage,
+        navZ: Number(getComputedStyle(dialog.querySelector('.artwork-viewer-navigation')).zIndex) }));
+      assert.match(viewerScrim.scrim, /linear-gradient/, 'The viewer needs a bottom scrim so its controls never read over page copy.');
+      assert.ok(viewerScrim.navZ >= 1, 'The viewer navigation must paint above the scrim.');
 
-      report.profiles.push({ ...profile, build, headings, rubrics, childHeadings, headerRows, indexNumbers, indexLabels, driftCounts, seventh, viewerCount, errors });
+      report.profiles.push({ ...profile, build, headings, rubrics, slashRows, childHeadings, headerRows, indexNumbers, indexLabels, driftCounts, seventh, viewerCount, viewerScrim, errors });
       assert.deepEqual(errors, []);
-      console.log(`PASS typography ${profile.width}px: equal section/rubric metrics, shared header baseline, NN/ labels and counters, flanking viewer arrows.`);
+      console.log(`PASS typography ${profile.width}px: equal section/rubric metrics, shared slash column ${slashRows[0].slashRel}px, header baseline, NN/ labels and counters, flanking viewer arrows with scrim.`);
     } finally { await context.close(); }
   }
 
