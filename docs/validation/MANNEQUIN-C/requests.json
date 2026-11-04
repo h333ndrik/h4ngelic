@@ -1,0 +1,115 @@
+{
+  "checkedAt": "2026-11-04T21:21:21.175Z",
+  "route": "/work/tattoos",
+  "source": "production preview build",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 900
+    },
+    {
+      "width": 320,
+      "height": 900
+    }
+  ],
+  "variants": [
+    "/models/mannequin-female-a.glb",
+    "/models/mannequin-female-b.glb",
+    "/models/mannequin-c.d8306c2b1b08.glb"
+  ],
+  "results": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "defaultVariant": "C",
+      "glbRequests": 3,
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ],
+      "screenshots": {
+        "A": "variant-a-1440.png",
+        "B": "variant-b-1440.png",
+        "C": "variant-c-1440.png"
+      },
+      "webglContexts": 1,
+      "autoAngle": 0.0805,
+      "mockups": 8,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 900,
+      "defaultVariant": "C",
+      "glbRequests": 3,
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ],
+      "screenshots": {
+        "A": "variant-a-390.png",
+        "B": "variant-b-390.png",
+        "C": "variant-c-390.png"
+      },
+      "webglContexts": 1,
+      "autoAngle": 0.0826,
+      "mockups": 8,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "height": 900,
+      "defaultVariant": "C",
+      "glbRequests": 3,
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ],
+      "screenshots": {
+        "A": "variant-a-320.png",
+        "B": "variant-b-320.png",
+        "C": "variant-c-320.png"
+      },
+      "webglContexts": 1,
+      "autoAngle": 0.087,
+      "mockups": 8,
+      "errors": []
+    },
+    {
+      "reducedMotion": true,
+      "angle": "0.9000",
+      "errors": []
+    },
+    {
+      "noWebgl": {
+        "webgl": "unavailable",
+        "poster": "0.9",
+        "canvases": 0
+      }
+    },
+    {
+      "leak": {
+        "switches": 10,
+        "mounts": 5,
+        "canvases": 1,
+        "contexts": 6
+      }
+    },
+    {
+      "isolation": [
+        "/work/tattoos",
+        "/work/jewellery",
+        "/work/digital-artworks",
+        "/tools/m4shlab"
+      ]
+    }
+  ],
+  "passed": true
+}

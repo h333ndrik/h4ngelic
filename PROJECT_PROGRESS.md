@@ -1,3 +1,31 @@
+# V3.2 — Mannequin-Integration A/B/C — 2026-11-04
+
+Branch `v3.2-mannequin-female`. Die 3D-Model-Subsection (`#model-3d`,
+`/work/tattoos`) hat jetzt drei Varianten: A smooth, B faceted, C sculpted
+(Default). C ist das aus dem lokalen Sculpt abgeleitete Web-Asset
+`public/models/mannequin-c.d8306c2b1b08.glb` (49.838 Tris, 316.604 Bytes,
+KTX2 + Draco, UVs ueberlappungsfrei).
+
+- Pipeline committet: `scripts/build-mannequin-c.mjs`,
+  `scripts/build-mannequin-web-asset.py`, `scripts/check-mannequin-uv-overlap.py`,
+  `scripts/verify-mannequin-assets.mjs` (`npm run assets:mannequin-c`,
+  `npm run verify:assets`). Zwei Laeufe erzeugen byte-identische Derivate.
+- Procreate-Paket mit relativer MTL, UV-Check 0 Ueberlappungen.
+- Verhalten: Auto-Rotation, Hover-Beschleunigung, Drag-Traegheit, Touch-Swipe,
+  Flick mit dokumentierter Ersatzanimation, Reduced-Motion, No-WebGL-Poster.
+- Tests: `npm test` 385/385, SEO 18 Routen + 404, Preview-Suite
+  3 Viewports × A/B/C, Build 18 Routen + 404.
+
+Offen / Entscheidung des Users:
+1. **Lizenz**: C ist ein Derivat des Sketchfab-Basismeshs; der fruehere Befund
+   (`MANNEQUIN-PROCEDURAL/LICENSE-NOTE.md`) erlaubt keine Redistribution.
+   Branch ist lokal committet, **nicht gepusht**, kein Merge/Deploy.
+2. Route: das Repo kennt kein `/creative/*`; die Rubrik heisst `/work/tattoos`.
+   Keine Umbenennung vorgenommen.
+3. Hero-"Abschiessen" existiert nicht im Code → Ersatz-Kurve + TODO(V3.2-M1).
+
+Evidence: `docs/validation/MANNEQUIN-C/`.
+
 # Current review checkpoint — V3.1.1
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.

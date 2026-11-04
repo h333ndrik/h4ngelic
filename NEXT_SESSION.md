@@ -1,3 +1,35 @@
+# V3.2-M1 checkpoint — Mannequin A/B/C
+
+Updated 2026-11-04. Branch `v3.2-mannequin-female`, Basis `9dd66ce`.
+Committet, **nicht gepusht**, kein Merge, kein Deploy.
+
+## Status
+
+- [x] Variante C als Default, A/B unveraendert umschaltbar, ein Renderer.
+- [x] Lazy pro Route und pro Variante; 0 WebGL/0 GLB auf kalten Routen.
+- [x] Draco + KTX2 (Decoder lokal unter `public/draco`, `public/basis`).
+- [x] Rotation, Hover, Drag-Traegheit, Swipe, Flick-Ersatz, Reduced Motion,
+      No-WebGL-Poster.
+- [x] Demo-Design fuer C deaktiviert (`aria-disabled` + sichtbarer Hinweis).
+- [x] Pipeline + Hashes + UV-Nachweise in `docs/validation/MANNEQUIN-C/`.
+- [x] `npm test` 385/385, SEO 18 Routen, Preview-Suite 3 Viewports × 3
+      Varianten, Build 18 Routen + 404.
+
+## Naechster Schritt (bewusst nicht ausgefuehrt)
+
+1. **Lizenz klaeren** (`docs/validation/MANNEQUIN-C/LICENSE-NOTE.md`): Derivat
+   des Sketchfab-Basismeshs. Erst nach Freigabe pushen/mergen.
+2. Danach V3.2-M1: geteilter Renderer-Chunk mit dem Hero, gemeinsame
+   Rotationskonstanten, Decal-Placement fuer C.
+3. Hero-"Abschiessen" als echtes Modul, sobald die Animation existiert
+   (`TODO(V3.2-M1)` in `src/mannequin-preview-config.js`).
+
+## Beobachtungen (vorbestehend, nicht angefasst)
+
+- `npm run test:mobile` scheitert an `tests/mobile-interactions-browser.mjs:193`
+  auch auf `9dd66ce` (eigener Worktree geprueft).
+- `.chapter-counter` ueberlagert je nach Scrollposition den unteren Frame-Rand.
+
 # V3.1.2 final review state
 
 Updated 2026-11-03. Branch `v3.1.1-fixes`; F18–F27 are committed and pushed,

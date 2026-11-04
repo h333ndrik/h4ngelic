@@ -1,14 +1,13 @@
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
-import sharp from 'sharp';
 import { createPreviewServer } from '../scripts/serve-preview.mjs';
+import { mannequinVariant, mannequinVariantList } from '../src/mannequin-preview-config.js';
+import { artworks } from '../src/data/artworks.js';
 
-const evidence = new URL('../docs/validation/MANNEQUIN-CHROME/', import.meta.url);
-const aModel = await readFile(new URL('../public/models/mannequin-female-a.glb', import.meta.url));
-await mkdir(new URL('guides/', evidence), { recursive: true });
+const evidence = new URL('../docs/validation/MANNEQUIN-C/', import.meta.url);
 await mkdir(evidence, { recursive: true });
 
 const server = await createPreviewServer();
@@ -20,279 +19,297 @@ const base = `http://127.0.0.1:${server.address().port}`;
 const executablePath = process.env.CHROMIUM_PATH || (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome');
 const browser = await chromium.launch({ executablePath, headless: true, args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const profiles = [{ width: 1440, height: 1000 }, { width: 390, height: 900 }, { width: 320, height: 900 }];
-const motions = ['reduce', 'no-preference'];
-const variants = ['A', 'B'];
-const results = [];
-const screenshots = new Map();
-const requestEvidence = [];
+const mockupCount = artworks.filter((artwork) => artwork.published !== false && artwork.category === 'tattoos'
+  && Array.isArray(artwork.images) && artwork.images.length).length;
 
-async function relativeLuminance([red, green, blue]) {
-  const linear = [red, green, blue].map(channel => {
-    const value = channel / 255;
-    return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
-}
-
-async function silhouetteContrast(buffer) {
-  const { data, info } = await sharp(buffer).removeAlpha().raw().toBuffer({ resolveWithObject: true });
-  const pixel = (x, y) => {
-    const index = (y * info.width + x) * info.channels;
-    return [data[index], data[index + 1], data[index + 2]];
-  };
-  const luminance = (rgb) => 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
-  const border = [];
-  for (let x = 0; x < info.width; x += 4) {
-    border.push(luminance(pixel(x, 4)), luminance(pixel(x, info.height - 5)));
-  }
-  border.sort((a, b) => a - b);
-  const backgroundGray = border[Math.floor(border.length / 2)];
-  const candidates = [];
-  for (let y = Math.floor(info.height * 0.06); y < Math.floor(info.height * 0.94); y += 2) {
-    for (let x = Math.floor(info.width * 0.25); x < Math.ceil(info.width * 0.75); x += 2) {
-      const gray = luminance(pixel(x, y));
-      if (gray > backgroundGray + 16) candidates.push(gray);
-    }
-  }
-  candidates.sort((a, b) => a - b);
-  assert.ok(candidates.length > 100, 'The rendered figure must expose measurable body pixels.');
-  const bodyGray = candidates[Math.floor(candidates.length * 0.5)];
-  const ratio = (bodyGray + 5) / (backgroundGray + 5);
-  return { ratio: Number(ratio.toFixed(3)), bodyMedian: Number(bodyGray.toFixed(2)), backgroundMedian: Number(backgroundGray.toFixed(2)), sampledBodyPixels: candidates.length };
-}
-
-try {
-  for (const { width, height } of profiles) {
-    for (const motion of motions) {
-      for (const variant of variants) {
-        const shoot = motion === 'reduce';
-        const context = await browser.newContext({
-          viewport: { width, height }, deviceScaleFactor: 1,
-          isMobile: width < 600, hasTouch: width < 600, reducedMotion: motion,
-        });
-        const page = await context.newPage();
-        const errors = [], requests = [], consoleMessages = [];
-        page.on('pageerror', error => errors.push(error.message));
-        page.on('console', message => {
-          consoleMessages.push({ type: message.type(), text: message.text() });
-          if (message.type() === 'error') errors.push(message.text());
-        });
-        page.on('request', request => requests.push(request.url()));
-        await page.addInitScript(() => {
-          window.__mannequinWebGL = 0;
-          window.__layoutShift = 0;
-          new PerformanceObserver(list => {
-            for (const entry of list.getEntries()) {
-              if (!entry.hadRecentInput) window.__layoutShift += entry.value;
-            }
-          }).observe({ type: 'layout-shift', buffered: true });
-          const getContext = HTMLCanvasElement.prototype.getContext;
-          HTMLCanvasElement.prototype.getContext = function(type, ...args) {
-            if (/webgl/i.test(type)) window.__mannequinWebGL++;
-            return getContext.call(this, type, ...args);
-          };
-        });
-        if (variant === 'A') {
-          await page.route('**/models/mannequin-female-b.glb', route => route.fulfill({ status: 200, contentType: 'model/gltf-binary', body: aModel }));
-        }
-        await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
-        const target = page.locator('[data-mannequin-preview]');
-        assert.equal(await target.getAttribute('data-mannequin-state'), 'deferred');
-        assert.equal(await page.evaluate(() => window.__mannequinWebGL), 0, 'Cold Work must not create a WebGL context.');
-        await page.waitForTimeout(300);
-        await page.evaluate(() => { window.__layoutShift = 0; });
-        assert.equal(requests.filter(url => url.endsWith('.glb')).length, 0, 'Cold Work must not request a GLB.');
-        assert.equal(requests.filter(url => url.endsWith('/textures/designs/demo-mark.png')).length, 0, 'Cold Work must not request the design.');
-        assert.ok(!requests.some(url => /mannequin-preview-|three\.module|DecalGeometry/.test(url)), 'The Three.js model and decal chunks must wait for visibility/access.');
-
-        await page.evaluate(() => {
-          const section = document.querySelector('#model-3d');
-          const absolute = section.getBoundingClientRect().top + scrollY;
-          scrollTo({ top: Math.max(0, absolute - 140), behavior: 'instant' });
-        });
-        await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'ready', null, { timeout: 30000 });
-        await page.waitForTimeout(200);
-        assert.deepEqual(errors, []);
-        assert.equal(await page.evaluate(() => window.__mannequinWebGL), 1, 'The visible model uses exactly one WebGL context.');
-        assert.equal(await target.getAttribute('data-mannequin-static'), 'true');
-        assert.equal(await target.getAttribute('data-mannequin-material'), 'mannequin_chrome');
-        assert.equal(await target.getAttribute('data-mannequin-environment'), 'three-band-pmrem');
-        assert.equal(await target.getAttribute('data-mannequin-env-intensity'), '1.35');
-        assert.equal(await target.getAttribute('data-mannequin-environment-sigma'), '0.035');
-        assert.equal(await page.locator('.mannequin-preview-canvas').count(), 1);
-        assert.equal(requests.filter(url => url.endsWith('.glb')).length, 1, 'The GLB is requested exactly once after visibility.');
-        assert.equal(requests.filter(url => url.endsWith('/textures/designs/demo-mark.png')).length, 0, 'The design waits for explicit access.');
-        assert.ok(!requests.some(url => /DecalGeometry/.test(url)), 'The decal chunk waits for explicit access.');
-        assert.ok(!requests.some(url => /\/assets\/main-[^/]+\.js/.test(url)), 'The Hero chunk must remain separate from the model.');
-
-        const layout = await page.locator('#model-3d').evaluate((section) => {
-          const heading = section.querySelector('.archive-category-heading').getBoundingClientRect();
-          const figure = section.querySelector('.mannequin-preview').getBoundingClientRect();
-          const frame = section.querySelector('.mannequin-preview-frame').getBoundingClientRect();
-          const canvas = section.querySelector('canvas').getBoundingClientRect();
-          return {
-            heading: { top: heading.top, bottom: heading.bottom, left: heading.left, right: heading.right },
-            figure: { top: figure.top, bottom: figure.bottom, left: figure.left, right: figure.right },
-            frame: { top: frame.top, bottom: frame.bottom, left: frame.left, right: frame.right, width: frame.width, height: frame.height },
-            canvas: { top: canvas.top, bottom: canvas.bottom, left: canvas.left, right: canvas.right, width: canvas.width, height: canvas.height },
-            documentWidth: document.documentElement.scrollWidth,
-            viewportWidth: innerWidth,
-          };
-        });
-        assert.ok(layout.heading.bottom < layout.figure.top, 'The preview must not overlap its heading.');
-        assert.ok(layout.frame.left >= 0 && layout.frame.right <= width + 1);
-        assert.ok(layout.canvas.left >= layout.frame.left - 1 && layout.canvas.right <= layout.frame.right + 1);
-        assert.ok(layout.documentWidth <= width + 1, 'The model preview cannot create horizontal overflow.');
-
-        const browserMetrics = await page.evaluate(() => ({
-          cls: window.__layoutShift,
-          fcp: performance.getEntriesByName('first-contentful-paint')[0]?.startTime ?? null,
-          buildMarker: document.documentElement.dataset.buildSha || document.documentElement.dataset.h4BuildSha || null,
-        }));
-        const buildLog = consoleMessages.find(message => message.text.startsWith('[h4ngelic] build '));
-        assert.ok(buildLog, 'The production console must expose the data-build marker.');
-        assert.ok(browserMetrics.cls === 0, `Model hydration must not shift layout at ${width}px (${motion}, ${variant}; CLS ${browserMetrics.cls}).`);
-        assert.ok(Number.isFinite(browserMetrics.fcp), 'First Contentful Paint must be observable.');
-        const frameDocumentRect = await page.locator('.mannequin-preview-frame').evaluate(node => {
-          const rect = node.getBoundingClientRect();
-          return { top: rect.top + scrollY, width: rect.width, height: rect.height };
-        });
-
-        const renderCountAtReady = Number(await target.getAttribute('data-mannequin-renders'));
-        await page.waitForTimeout(250);
-        const renderCountAfterWait = Number(await target.getAttribute('data-mannequin-renders'));
-        assert.equal(renderCountAfterWait, renderCountAtReady, `The ${motion} preview must remain a static frame with no render loop.`);
-
-        let evidenceFile = null;
-        let screenshotHash = null;
-        let contrast = null;
-        if (shoot) {
-          await page.evaluate((value) => {
-            const suffix = document.querySelector('.mannequin-preview figcaption > .mannequin-preview-status');
-            suffix.textContent = value === 'A' ? 'static / a · smooth' : 'static / b · faceted';
-          }, variant);
-          const screenshot = await page.locator('.mannequin-preview').screenshot();
-          evidenceFile = `variant-${variant.toLowerCase()}-${width}.png`;
-          await writeFile(new URL(evidenceFile, evidence), screenshot);
-          screenshotHash = createHash('sha256').update(screenshot).digest('hex');
-          screenshots.set(`${variant}-${width}`, screenshotHash);
-          contrast = await silhouetteContrast(screenshot);
-          assert.ok(contrast.ratio >= 1.5, `Chrome silhouette contrast must be at least 1.5:1 (got ${contrast.ratio}:1).`);
-        }
-
-        const designButton = page.locator('[data-mannequin-design-toggle]');
-        assert.equal(await designButton.isEnabled(), true, 'The design control enables only after the static model is ready.');
-        await designButton.click();
-        await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinDecal === 'applied', null, { timeout: 30000 });
-        await page.waitForTimeout(150);
-        assert.equal(requests.filter(url => url.endsWith('/textures/designs/demo-mark.png')).length, 1, 'The design PNG is requested exactly once on access.');
-        assert.ok(requests.some(url => /DecalGeometry/.test(url)), 'The decal module is requested on access.');
-        assert.equal(await target.getAttribute('data-mannequin-decal'), 'applied');
-        assert.equal(await designButton.getAttribute('aria-pressed'), 'true');
-        if (shoot && width === 1440 && variant === 'B') {
-          await writeFile(new URL('demo-design-1440.png', evidence), await page.locator('.mannequin-preview').screenshot());
-        }
-        await designButton.click();
-        assert.equal(await designButton.getAttribute('aria-pressed'), 'false');
-        await designButton.click();
-        assert.equal(requests.filter(url => url.endsWith('/textures/designs/demo-mark.png')).length, 1, 'Toggling the local decal cannot refetch the PNG.');
-        const frameAfterDesign = await page.locator('.mannequin-preview-frame').evaluate(node => {
-          const rect = node.getBoundingClientRect();
-          return { top: rect.top + scrollY, width: rect.width, height: rect.height };
-        });
-        assert.deepEqual(frameAfterDesign, frameDocumentRect, 'The deferred design cannot resize or move the reserved frame.');
-
-        const modelRequests = requests.filter(url => url.endsWith('.glb'));
-        const designRequests = requests.filter(url => url.endsWith('/textures/designs/demo-mark.png'));
-        requestEvidence.push({
-          width, motion, variant,
-          cold: { webgl: 0, glb: 0, design: 0, previewModule: 0 },
-          visible: {
-            glb: modelRequests.length,
-            designBeforeAccess: 0,
-            designAfterAccess: designRequests.length,
-            decalModule: requests.filter(url => /DecalGeometry/.test(url)).length,
-          },
-          actualRequests: requests.filter(url => /mannequin-female-|three\.module|DecalGeometry|demo-mark/.test(url)),
-        });
-        results.push({
-          variant, width, height, motion, static: true, webglContexts: 1,
-          glbRequestsBeforeVisibility: 0, glbRequestsAfterVisibility: 1,
-          designRequestsBeforeAccess: 0, designRequestsAfterAccess: 1,
-          previewModuleOnlyAfterVisibility: true, modelContentType: 'model/gltf-binary',
-          environment: 'three-band-pmrem', environmentSigma: 0.035, envMapIntensity: 1.35,
-          renderCountAtReady, renderCountAfterWait,
-          layout, errors, browserMetrics, frameLayoutShift: 0, buildLog: buildLog.text,
-          screenshot: evidenceFile, screenshotSha256: screenshotHash, contrast,
-          servedModelBytes: variant === 'A' ? aModel.length : null,
-        });
-        await context.close();
-      }
-    }
-  }
-
-  for (const { width } of profiles) {
-    assert.notEqual(screenshots.get(`A-${width}`), screenshots.get(`B-${width}`), `A and B must render different pixels at ${width}px.`);
-  }
-
-  const fallbackContext = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
-  const fallbackPage = await fallbackContext.newPage();
-  await fallbackPage.addInitScript(() => {
-    window.__fallbackShift = 0;
-    new PerformanceObserver(list => {
-      for (const entry of list.getEntries()) if (!entry.hadRecentInput) window.__fallbackShift += entry.value;
-    }).observe({ type: 'layout-shift', buffered: true });
-  });
-  await fallbackPage.route('**/models/mannequin-female-b.glb', route => route.abort('failed'));
-  await fallbackPage.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
-  const fallback = fallbackPage.locator('[data-mannequin-preview]');
-  const posterBefore = await fallback.evaluate(node => ({ top: node.getBoundingClientRect().top, height: node.getBoundingClientRect().height }));
-  await fallbackPage.waitForTimeout(300);
-  await fallbackPage.evaluate(() => { window.__fallbackShift = 0; });
-  await fallbackPage.evaluate(() => document.querySelector('#model-3d').scrollIntoViewIfNeeded());
-  await fallbackPage.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'failed', null, { timeout: 30000 });
-  await fallbackPage.waitForTimeout(200);
-  const fallbackState = await fallback.evaluate(node => {
-    const poster = node.querySelector('.mannequin-preview-poster');
-    return {
-      state: node.dataset.mannequinState,
-      posterOpacity: getComputedStyle(poster).opacity,
-      frameHeight: node.getBoundingClientRect().height,
-      cls: window.__fallbackShift,
+const trackPage = async (context) => {
+  const page = await context.newPage();
+  const errors = [];
+  const requests = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
+  page.on('request', (request) => requests.push(request.url()));
+  await page.addInitScript(() => {
+    window.__webglContexts = 0;
+    const getContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (type, ...args) {
+      if (/webgl/i.test(type) && getContext.call(this, type, ...args)) window.__webglContexts += 1;
+      return getContext.call(this, type, ...args);
     };
   });
-  assert.equal(fallbackState.state, 'failed');
-  assert.ok(Number(fallbackState.posterOpacity) > 0, 'The static poster must remain after a GLB failure.');
-  assert.ok(Math.abs(fallbackState.frameHeight - posterBefore.height) < 0.01, 'Failure must not resize the reserved frame.');
-  assert.ok(fallbackState.cls === 0, `Failure fallback must not shift layout (CLS ${fallbackState.cls}).`);
-  await writeFile(new URL('fallback-poster-1440.png', evidence), await fallbackPage.locator('.mannequin-preview').screenshot());
-  await fallbackContext.close();
+  return { page, errors, requests };
+};
+
+const scrollToModel = async (page) => {
+  await page.evaluate(() => {
+    const section = document.querySelector('#model-3d');
+    scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - 120), behavior: 'instant' });
+  });
+};
+
+const waitReady = (page) => page.waitForFunction(
+  () => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'ready',
+  null, { timeout: 60000 },
+);
+
+const results = [];
+try {
+  for (const { width, height } of profiles) {
+    const context = await browser.newContext({
+      viewport: { width, height }, deviceScaleFactor: 1, isMobile: width < 600, hasTouch: width < 600,
+    });
+    const { page, errors, requests } = await trackPage(context);
+    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+
+    const preview = page.locator('[data-mannequin-preview]');
+    assert.equal(await preview.getAttribute('data-mannequin-state'), 'deferred');
+    assert.equal(await preview.getAttribute('data-mannequin-variant'), 'C', 'C must be the default variant.');
+    assert.equal(await page.evaluate(() => window.__webglContexts), 0, 'Cold Work must not create a WebGL context.');
+    assert.equal(requests.filter((url) => url.endsWith('.glb')).length, 0, 'Cold Work must not request a GLB.');
+    assert.equal(requests.filter((url) => url.endsWith('/textures/designs/demo-mark.png')).length, 0);
+    assert.ok(!requests.some((url) => /mannequin-preview-|three\.module|DracoLoader|KTX2Loader/.test(url)), 'The Three.js stack waits for visibility.');
+
+    await scrollToModel(page);
+    await waitReady(page);
+    await page.waitForTimeout(200);
+    assert.deepEqual(errors, [], `no console errors at ${width}px`);
+
+    const glbRequests = () => requests.filter((url) => /\/models\/mannequin-[a-z0-9.-]+\.glb$/.test(url));
+    assert.equal(await page.evaluate(() => window.__webglContexts), 1, 'Exactly one WebGL context.');
+    assert.equal(await page.locator('.mannequin-preview-canvas').count(), 1);
+    assert.equal(glbRequests().length, 1, 'Exactly one GLB request for the default variant.');
+    assert.match(glbRequests()[0], /mannequin-c\.[a-f0-9]+\.glb$/);
+    assert.equal(await preview.getAttribute('data-mannequin-polygons'), '49838');
+    assert.equal(await preview.getAttribute('data-mannequin-design'), 'unsupported');
+    assert.match(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-material'), /skincolor/);
+
+    const layout = await page.evaluate(() => {
+      const section = document.querySelector('#model-3d');
+      const heading = section.querySelector('.archive-category-heading').getBoundingClientRect();
+      const figure = section.querySelector('.mannequin-preview').getBoundingClientRect();
+      const frame = section.querySelector('.mannequin-preview-frame').getBoundingClientRect();
+      const canvas = section.querySelector('canvas').getBoundingClientRect();
+      return {
+        headingBottom: heading.bottom, figureTop: figure.top,
+        frame: { left: frame.left, right: frame.right, width: frame.width },
+        canvas: { left: canvas.left, right: canvas.right, width: canvas.width },
+        documentWidth: document.documentElement.scrollWidth,
+      };
+    });
+    assert.ok(layout.headingBottom < layout.figureTop, 'The preview must not overlap its heading.');
+    assert.ok(layout.frame.left >= 0 && layout.frame.right <= width + 1);
+    assert.ok(Math.abs(layout.canvas.width - layout.frame.width) <= 1);
+    assert.ok(layout.documentWidth <= width + 1, 'No horizontal overflow.');
+
+    // Auto-Rotation laeuft und pausiert waehrend des Ziehens.
+    const angle = async () => Number(await preview.getAttribute('data-mannequin-angle'));
+    await page.waitForTimeout(2600);
+    const angleAuto = await angle();
+    assert.ok(angleAuto > 0.02, `Auto rotation must run (${angleAuto} rad).`);
+    const box = await page.locator('.mannequin-preview-frame').boundingBox();
+    const centerX = box.x + box.width / 2;
+    const centerY = box.y + box.height / 2;
+    await page.mouse.move(centerX, centerY);
+    await page.mouse.down();
+    const angleHeldA = await angle();
+    await page.waitForTimeout(500);
+    const angleHeldB = await angle();
+    assert.ok(Math.abs(angleHeldB - angleHeldA) < 0.02, `Rotation pauses while dragging (${angleHeldA} -> ${angleHeldB}).`);
+    await page.mouse.move(centerX + 240, centerY, { steps: 12 });
+    await page.waitForTimeout(60);
+    const angleDragged = await angle();
+    assert.ok(Math.abs(angleDragged - angleHeldB) > 0.1, 'Dragging rotates the model.');
+    await page.mouse.up();
+    await page.waitForTimeout(120);
+    assert.equal(await preview.getAttribute('data-mannequin-flicks'), '1',
+      `A strong flick triggers the documented fallback animation (peak ${await preview.getAttribute('data-mannequin-peak')}).`);
+    assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'playing');
+    await page.waitForTimeout(1800);
+    assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'idle', 'The model returns into the viewport.');
+
+    // Variantenwechsel ohne Reload, alter Buffer wird disposed.
+    const screenshots = {};
+    const variantList = mannequinVariantList();
+    for (const variant of variantList) {
+      const previousVariant = await preview.getAttribute('data-mannequin-variant');
+      const disposedBefore = Number(await preview.getAttribute('data-mannequin-disposed') || 0);
+      if (previousVariant !== variant.key) {
+        await page.locator(`[data-mannequin-variant-option="${variant.key}"]`).click();
+        await waitReady(page);
+        await page.waitForTimeout(300);
+        assert.equal(await preview.getAttribute('data-mannequin-variant'), variant.key);
+        assert.equal(await page.evaluate(() => window.__webglContexts), 1, 'Variant switches reuse the single renderer.');
+        const glbs = glbRequests();
+        assert.equal(new Set(glbs).size, glbs.length, 'No GLB is fetched twice.');
+        const visited = new Set(['C', ...variantList.slice(0, variantList.indexOf(variant) + 1).map((entry) => entry.key)]);
+        assert.equal(glbs.length, visited.size, 'Exactly one request per visited variant, never a refetch.');
+        assert.equal(Number(await preview.getAttribute('data-mannequin-disposed')), disposedBefore + 1, 'The previous model buffers are disposed.');
+        assert.equal(await page.locator('.mannequin-preview-canvas').count(), 1);
+      }
+      const designButton = page.locator('[data-mannequin-design-toggle]');
+      if (mannequinVariant(variant.key).design) {
+        assert.equal(await designButton.isEnabled(), true, `${variant.key} keeps the demo design.`);
+        assert.equal(await designButton.getAttribute('aria-disabled'), 'false');
+        assert.equal(await page.locator('[data-mannequin-design-hint]').isVisible(), false);
+      } else {
+        assert.equal(await designButton.isEnabled(), false, 'C disables the demo design.');
+        assert.equal(await designButton.getAttribute('aria-disabled'), 'true');
+        assert.equal(await page.locator('[data-mannequin-design-hint]').isVisible(), true);
+        assert.match(await page.locator('[data-mannequin-design-hint]').textContent(), /no decals/i);
+      }
+      const file = `variant-${variant.key.toLowerCase()}-${width}.png`;
+      await page.locator('.mannequin-preview').screenshot({ path: fileURLToPath(new URL(file, evidence)) });
+      screenshots[variant.key] = file;
+    }
+
+    // Zurueck zu A: kein zweiter Request, Buffer-Cache greift.
+    const before = glbRequests().length;
+    await page.locator('[data-mannequin-variant-option="A"]').click();
+    await waitReady(page);
+    await page.waitForTimeout(200);
+    assert.equal(glbRequests().length, before, 'Switching back must not refetch a cached variant.');
+    assert.equal(await page.evaluate(() => window.__webglContexts), 1);
+    await page.locator('[data-mannequin-variant-option="C"]').click();
+    await waitReady(page);
+
+    // Demo-Design bleibt an A/B funktional (Deferred, genau ein PNG-Request).
+    await page.locator('[data-mannequin-variant-option="B"]').click();
+    await waitReady(page);
+    const designButton = page.locator('[data-mannequin-design-toggle]');
+    await designButton.click();
+    await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinDecal === 'applied', null, { timeout: 30000 });
+    assert.equal(requests.filter((url) => url.endsWith('/textures/designs/demo-mark.png')).length, 1);
+    await designButton.click();
+    assert.equal(await designButton.getAttribute('aria-pressed'), 'false');
+    await page.locator('[data-mannequin-variant-option="C"]').click();
+    await waitReady(page);
+    assert.equal(await preview.getAttribute('data-mannequin-design'), 'unsupported');
+
+    // Mockups bleiben unangetastet.
+    const figureCount = await page.locator('figure.project-image').count();
+    assert.ok(figureCount >= mockupCount, `The tattoo mockups stay mounted (${figureCount} >= ${mockupCount}).`);
+    assert.deepEqual(errors, [], `no console errors after interactions at ${width}px`);
+
+    results.push({
+      width, height, defaultVariant: 'C', glbRequests: glbRequests().length,
+      variants: mannequinVariantList().map((variant) => variant.key),
+      screenshots, webglContexts: await page.evaluate(() => window.__webglContexts),
+      autoAngle: angleAuto, mockups: figureCount, errors,
+    });
+    await context.close();
+  }
+
+  // Reduced motion: keine Auto-Rotation, Drag bleibt.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+    const { page, errors } = await trackPage(context);
+    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await scrollToModel(page);
+    await waitReady(page);
+    await page.waitForTimeout(2400);
+    const preview = page.locator('[data-mannequin-preview]');
+    assert.equal(Number(await preview.getAttribute('data-mannequin-angle')), 0, 'Reduced motion disables auto rotation.');
+    const box = await page.locator('.mannequin-preview-frame').boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width / 2 + 120, box.y + box.height / 2, { steps: 4 });
+    await page.mouse.up();
+    await page.waitForTimeout(150);
+    assert.ok(Number(await preview.getAttribute('data-mannequin-angle')) > 0.5, 'Drag still rotates with reduced motion.');
+    assert.equal(await preview.getAttribute('data-mannequin-flicks'), null, 'Reduced motion disables the flick.');
+    assert.deepEqual(errors, []);
+    results.push({ reducedMotion: true, angle: await preview.getAttribute('data-mannequin-angle'), errors });
+    await context.close();
+  }
+
+  // Kein WebGL: Poster bleibt, kein Canvas.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const { page } = await trackPage(context);
+    await page.addInitScript(() => {
+      const getContext = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function (type, ...args) {
+        if (/webgl/i.test(type)) return null;
+        return getContext.call(this, type, ...args);
+      };
+    });
+    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await scrollToModel(page);
+    await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'failed', null, { timeout: 30000 });
+    const fallback = await page.locator('[data-mannequin-preview]').evaluate((node) => ({
+      webgl: node.dataset.mannequinWebgl,
+      poster: getComputedStyle(node.querySelector('.mannequin-preview-poster')).opacity,
+      canvases: document.querySelectorAll('.mannequin-preview-canvas').length,
+    }));
+    assert.equal(fallback.webgl, 'unavailable');
+    assert.equal(fallback.canvases, 0);
+    assert.ok(Number(fallback.poster) > 0, 'The poster remains the fallback.');
+    await page.locator('.mannequin-preview').screenshot({ path: fileURLToPath(new URL('fallback-poster-1440.png', evidence)) });
+    results.push({ noWebgl: fallback });
+    await context.close();
+  }
+
+  // Leak-Probe: 5 Route-Wechsel (Mount/Unmount) + 10 Variantenwechsel.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const { page, errors } = await trackPage(context);
+    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await scrollToModel(page);
+    await waitReady(page);
+    const preview = page.locator('[data-mannequin-preview]');
+    let switches = 0;
+    for (let cycle = 0; cycle < 5; cycle += 1) {
+      for (const key of ['A', 'C']) {
+        await page.locator(`[data-mannequin-variant-option="${key}"]`).click();
+        await waitReady(page);
+        switches += 1;
+      }
+      await page.evaluate(() => { history.pushState({}, '', '/about'); dispatchEvent(new PopStateEvent('popstate')); });
+      await page.waitForFunction(() => !document.querySelector('[data-mannequin-preview]'), null, { timeout: 30000 });
+      await page.evaluate(() => { history.pushState({}, '', '/work/tattoos'); dispatchEvent(new PopStateEvent('popstate')); });
+      await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'deferred', null, { timeout: 30000 });
+      await scrollToModel(page);
+      await waitReady(page);
+    }
+    await page.waitForTimeout(400);
+    const leaked = await page.evaluate(() => ({
+      canvases: document.querySelectorAll('.mannequin-preview-canvas').length,
+      contexts: window.__webglContexts,
+    }));
+    assert.equal(leaked.canvases, 1, 'Exactly one canvas survives the cycles.');
+    assert.ok(leaked.contexts <= 6, `WebGL contexts must not grow unbounded (${leaked.contexts} for 5 mounts).`);
+    assert.deepEqual(errors, [], 'No console errors during the leak probe.');
+    results.push({ leak: { switches, mounts: 5, ...leaked } });
+    await context.close();
+  }
+
+  // B-F14-Regression: der Viewer bleibt in der Tattoo-Rubrik.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const { page } = await trackPage(context);
+    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    assert.equal(await page.locator('[data-mannequin-preview]').count(), 1);
+    for (const route of ['/work/jewellery', '/work/digital-artworks', '/tools/m4shlab']) {
+      const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle' });
+      assert.ok(response.status() === 200 || response.status() === 404);
+      assert.equal(await page.locator('[data-mannequin-preview]').count(), 0, `${route} must not mount the mannequin viewer.`);
+    }
+    results.push({ isolation: ['/work/tattoos', '/work/jewellery', '/work/digital-artworks', '/tools/m4shlab'] });
+    await context.close();
+  }
 
   await writeFile(new URL('requests.json', evidence), JSON.stringify({
     checkedAt: new Date().toISOString(),
     route: '/work/tattoos',
     source: 'production preview build',
     profiles,
-    motions,
-    assertions: {
-      coldRouteWebGL: 0,
-      coldRouteGlbRequests: 0,
-      coldRouteDesignRequests: 0,
-      visibleRouteWebGL: 1,
-      visibleRouteGlbRequests: 1,
-      designRequestsBeforeAccess: 0,
-      designRequestsAfterAccess: 1,
-      renderLoop: false,
-      headingOverlap: false,
-      horizontalOverflow: false,
-      fallback: fallbackState,
-    },
+    variants: mannequinVariantList().map((variant) => variant.model),
     results,
-    requestEvidence,
     passed: true,
   }, null, 2) + '\n');
-  console.log(`PASS mannequin preview: ${results.length} production runs (${profiles.length} viewports × ${motions.length} motion preferences × ${variants.length} variants); cold route 0 WebGL/0 GLB/0 design; one GLB and one design request per visible accessed page; static frames; CLS 0.`);
+  const screenshots = results.filter((entry) => entry.screenshots).flatMap((entry) => Object.values(entry.screenshots));
+  console.log(`PASS mannequin preview: ${profiles.length} viewports × A/B/C, ${screenshots.length} screenshots, rotation + drag + flick + reduced motion + no-WebGL fallback + leak probe.`);
 } finally {
   await browser.close();
-  await new Promise(resolve => server.close(resolve));
+  await new Promise((resolve) => server.close(resolve));
 }
