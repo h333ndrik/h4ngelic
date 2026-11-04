@@ -28,6 +28,7 @@ import { initGlobalNavigation } from './global-navigation.js';
 import { initInquiry } from './inquiry.js';
 import { initConnectedWork } from './connected-work.js';
 import { heroPosterSettings } from './data/heroPosterSettings.js';
+import { fitRubricRows } from './rubric-fit.js';
 
 if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
 document.documentElement.dataset.h4StylesReady = 'true';
@@ -93,11 +94,15 @@ function scheduleSlashInset() {
   slashInsetFrame = requestAnimationFrame(() => {
     slashInsetFrame = 0;
     measureSlashInset();
+    fitRubricRows();
   });
 }
 
 addEventListener('resize', scheduleSlashInset, { passive: true });
+addEventListener('load', scheduleSlashInset, { passive: true });
+// Rubric fitting reads real glyph widths: every late webfont must re-run it.
 document.fonts?.ready.then(scheduleSlashInset);
+document.fonts?.addEventListener?.('loadingdone', scheduleSlashInset);
 
 function clearHeroBootTimer() {
   if (!heroBootTimer) return;
@@ -327,7 +332,8 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopInquiry = initInquiry(content);
   stopInquiry.refreshContext?.(url);
   stopConnectedWork = initConnectedWork(content);
-  if (route.kind === 'home') scheduleSlashInset();
+  scheduleSlashInset();
+  document.fonts?.ready.then(scheduleSlashInset);
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {

@@ -154,7 +154,7 @@ try {
       assert.ok(driftCounts.includes('01/ 08'), `The eight-photo carousel must expose 01/ 08: ${driftCounts}`);
       const childHeadings = sameTypography(await measure(page, '.archive-category-heading'), `${profile.width}px secondary headings`, { compareBaseline: false });
 
-      await route(page, '/creative/onskin');
+      await route(page, '/creative/tattoos');
       const next = page.locator('[data-horizontal-drift="tattoos"] [data-drift-next]');
       for (let index = 0; index < 6; index++) await next.click();
       await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"] [data-drift-count]')?.textContent.trim() === '07/ 08');

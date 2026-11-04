@@ -181,7 +181,7 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
   gap: var(--rubric-gap);
   margin-top: clamp(70px, 12vw, 180px);
   padding: clamp(24px, 4vw, 54px) 0 0;
-  font-size: clamp(16px, 3.6vw, 56px);
+  font-size: min(clamp(16px, 3.6vw, 56px), var(--row-type-fit, 100vw));
   line-height: 1.12;
   letter-spacing: -.045em;
 }
@@ -203,6 +203,8 @@ html[data-mode='xray'] .rubric-cross-links a { color: #eadff1; text-shadow: 0 1p
 @media (max-width: 600px) {
   .rubric-cross-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rubric-gap); }
   .rubric-cross-links a { width: auto; gap: var(--ui-arrow-gap); }
+  /* V25 keeps the current rubric's slot empty so the four positions never move
+     between pages; the fit above only guarantees the labels stay inside them. */
 }
 
 .tool-headline { max-width: 18ch; overflow-wrap: anywhere; }

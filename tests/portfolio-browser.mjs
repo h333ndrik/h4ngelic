@@ -9,7 +9,7 @@ const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => 
   .filter(profile => !process.env.H4_PORTFOLIO_WIDTHS || process.env.H4_PORTFOLIO_WIDTHS.split(',').map(Number).includes(profile.width));
 const groups = ['tattoos', 'jewellery', 'tools', 'more'];
 const leaves = ['flashes', 'analog-photography', 'digital-artworks', 'paintings'];
-const groupHref = id => `/creative/${id === 'tattoos' ? 'onskin' : id}`;
+const groupHref = id => `/creative/${id}`;
 const expectedCategories = {
   all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
   tattoos: ['tattoos', 'flashes'], jewellery: ['jewellery'], tools: [], more: ['digital-artworks', 'analog-photography'],
@@ -48,11 +48,11 @@ async function work(page, category = 'all') {
   assert.deepEqual(await page.locator('[data-work-group]').evaluateAll(nodes => nodes.map(node => node.dataset.workGroup)), expectedGroups);
   const rubric = groups.includes(category);
   assert.equal(await page.locator('.work-page .page-heading').innerText(), category === 'all' ? '01/ creative'
-    : rubric ? (category === 'tattoos' ? 'on skin' : category) : category.replaceAll('-', ' ').toUpperCase());
+    : rubric ? (category === 'tattoos' ? 'tattoos' : category) : category.replaceAll('-', ' ').toUpperCase());
   assert.equal(await page.locator('#contact, [data-inquiry-form]').count(), 0, 'Contact remains exclusively on Home.');
   assert.equal(await page.locator('#logo-canvas').isVisible(), false);
   const links = await page.locator('.work-filters a').evaluateAll(nodes => nodes.map(node => ({ href: node.getAttribute('href'), text: node.textContent.trim() })));
-  assert.deepEqual(links, groups.map(id => ({ href: groupHref(id), text: id === 'tattoos' ? 'on skin' : id })));
+  assert.deepEqual(links, groups.map(id => ({ href: groupHref(id), text: id === 'tattoos' ? 'tattoos' : id })));
   const group = groups.includes(category) ? category : ['digital-artworks', 'analog-photography'].includes(category) ? 'more' : category === 'flashes' ? 'tattoos' : null;
   const current = page.locator('.work-filters a[aria-current="page"]');
   assert.equal(await current.count(), group ? 1 : 0);
@@ -134,7 +134,7 @@ try {
     page.on('request', request => requests.push(request.url()));
     try {
       // Cold interior first: no cached hero/Three request can hide eager loading.
-      await page.goto(url('/creative/onskin'), { waitUntil: 'networkidle' });
+      await page.goto(url('/creative/tattoos'), { waitUntil: 'networkidle' });
       observations.push(await work(page, 'tattoos'));
       for (const category of ['jewellery', 'more']) {
         await page.evaluate(() => { window.__portfolioPreviousNode = document.querySelector('[data-connected-work]'); });

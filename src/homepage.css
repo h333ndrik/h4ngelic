@@ -33,6 +33,9 @@
   padding-left: max(0px, calc(var(--slash-inset) - var(--category-link-inline-padding)));
 }
 .category-link { padding-inline-start: var(--category-link-inline-padding); pointer-events: none; }
+/* The rubric type never exceeds the measured fit for its own column. Without
+   JS (no --row-type-fit) the shared display token stays in charge. */
+.category-strip .category-link { font-size: min(var(--type-category-link), var(--row-type-fit, 100vw)); }
 /* The cell still sizes the four-column row, but its whitespace is not a link.
    The label and its arrow own the hit area: 4px of padding on the reading edge,
    never a horizontal overhang (that would inflate the label's scroll width and
