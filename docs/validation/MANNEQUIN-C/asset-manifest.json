@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "builtAt": "2026-11-04T21:22:57.235Z",
+  "pipeline": "scripts/build-mannequin-c.mjs",
+  "tools": {
+    "blender": "4.5.0 Alpha",
+    "gltfTransform": "4.5.1",
+    "ktxSoftware": "4.4.2"
+  },
+  "source": {
+    "file": "mannequin_smooth.glb",
+    "bytes": 7856644,
+    "sha256": "4a74c0187786c4c25ebb85577281c5d82ca759e6f9d6022e0db5806eb4aece04",
+    "committed": false
+  },
+  "derivative": {
+    "file": "public/models/mannequin-c.d8306c2b1b08.glb",
+    "bytes": 316604,
+    "sha256": "d8306c2b1b08af813508ee3c671588df0030cf1f50f66c4784f1fe07e1168ccb",
+    "triangles": 49838,
+    "vertices": 43106,
+    "material": "skincolor (matte, roughness 0.62, metallic 0)",
+    "compression": "KTX2 + Draco (texcoord 16 bit)",
+    "upAxis": "Y",
+    "frontAxis": "+Z"
+  },
+  "procreate": {
+    "obj": "mannequin_paint.obj",
+    "mtl": "mannequin_paint.mtl",
+    "texture": "skincolor.png",
+    "textureNote": "Neutrale Fallback-Textur #f0efeb (2048x2048); Original-skincolor.png war lokal nicht vorhanden.",
+    "uvOverlapPairs": 0
+  },
+  "uv": {
+    "repairedFaces": 160,
+    "overlapFacesBeforeRepair": 34,
+    "overlapPairsAfterRepair": 0,
+    "uvAreaFill": 0.372054
+  }
+}

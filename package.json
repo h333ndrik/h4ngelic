@@ -7,6 +7,8 @@
     "images:optimize": "node scripts/optimize-images.mjs",
     "assets:hero": "node scripts/build-font.mjs && node scripts/prepare-hero-assets.mjs",
     "assets:xray": "node scripts/prepare-xray-texture.mjs",
+    "assets:mannequin-c": "node scripts/build-mannequin-c.mjs",
+    "verify:assets": "node scripts/verify-mannequin-assets.mjs",
     "predev": "npm run images:optimize",
     "dev": "vite --host 0.0.0.0",
     "prebuild": "npm run images:optimize",
