@@ -1,8 +1,8 @@
 # Befund-Registry — V3.2
 
-Verification baseline: `831737c` (`origin/v3.1.1-fixes`), production build
-`831737ce85e6`. Batch 1 commits: `735ea49`, `ba5f3a3`, `f12423a`, `53df27c`,
-`e3028c8`. A registry entry is evidence, not a promise: `fixed` means the
+Verification baseline: `1569731` (`origin/v3.1.1-fixes`), production build
+`1569731030b2`. Batch 1 commits: `735ea49`, `ba5f3a3`, `f12423a`, `53df27c`,
+`e3028c8`; Batch 2 commits: `93372c6`, `3bb8aa5`, `fedcc8d`, `a2f973b`. A registry entry is evidence, not a promise: `fixed` means the
 implementation exists and its named automated proof passes at this baseline.
 `verified-by-user` is used only after the user explicitly confirms the result.
 
@@ -53,15 +53,15 @@ screenshot supplied there.
 | B-F2 | Hero bottom bar | `creative/about/contact` plus controls sollen nicht mehr fixed sein, sondern normal im Hero-Flow mitscrollen; R7-Vertrag entfällt (B-007/B-008 damit überholt). | fixed | `f12423a` | `docs/validation/GATEPREP/BATCH-1/gallery/results.json`; `after-bar-top-*.png` / `after-bar-scrolled-*.png`; vorher `phase0/bar-scrolled-*.png` | `tests/v32-micro-browser.mjs`, `tests/v31-motion-browser.mjs`; batch-1 suite: `position: absolute`, `insideHero: true`, `navTop 832 → 652` bei 180 px Scroll. |
 | B-F3 | Hero logo physics | Mobile Touch-Fling schleudert das Logo edge-on. | fixed | `53df27c` | `docs/validation/GATEPREP/BATCH-1/gallery/fling-physics.json`; `after-fling-*-{350,650,1000}.png`; vorher `phase0/fling-*-650.png` | `tests/physics.test.js`; `tests/gateprep-batch1-physics.mjs`: 179,99° → 39,60°, Ruhe nach 3,408 s, Geschwindigkeiten ≤ Token. |
 | B-F4 | Creative rubric row | `jewellery`/`tools` kleben; `--rubric-gap` greift live nicht. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
-| B-F5 | Slash alignment/type | Slash-Abstand zwischen Headings inkonsistent; Größen unvollständig. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F5 | Slash alignment/type | Slash-Abstand zwischen Headings inkonsistent; Größen unvollständig. | fixed | `3bb8aa5` | `docs/validation/GATEPREP/BATCH-2/gallery/results.json`; `heading-{home,about,creative}-*.png` | `tests/typography-contract.mjs`: Slash-Spalte 88.31 px (1440) / 32.7 px (390/320) auf `/`, `/about`, `/creative`, gleiche Größe/Leading/Tracking. |
 | B-F6 | NAAVI total/format | `03 / 03` soll `04/ 04` werden; Other Side bleibt viertes Kapitel, nur der INDEX-Eintrag wurde entfernt. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
 | B-F7 | Creative tattoo route | `/creative/onskin` soll `/creative/tattoos` heißen und `on skin` zu `tattoos` werden; 301 inklusive Deep-Links. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
 | B-F8 | VISIT counter | `visit 0000` soll permanent im Ghost-Stil wie der HOLD-4-Hinweis erscheinen, ohne Link oder Hover. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
-| B-F9 | Inquiry submit | `SEND MESSAGE` soll `send message` heißen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
-| B-F10 | Inquiry labels | Labels sollen `your name`, `how to reach you`, `what's on your mind?` lauten. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
-| B-F11 | About link | `MORE ABOUT` soll `more about` heißen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F9 | Inquiry submit | `SEND MESSAGE` soll `send message` heißen. | fixed | `93372c6` | `docs/validation/GATEPREP/BATCH-2/gallery/lowercase.json`; `lowercase-form-*.png` | `tests/lowercase-sweep.mjs` @1440/390/320; `tests/inquiry.test.js`; `tests/master-inquiry-browser.mjs`. |
+| B-F10 | Inquiry labels | Labels sollen `your name`, `how to reach you`, `what's on your mind?` lauten. | fixed | `93372c6` | `docs/validation/GATEPREP/BATCH-2/gallery/lowercase.json`; `lowercase-form-*.png` | `tests/lowercase-sweep.mjs` (exakte Strings, kein CSS-Re-Casing); `tests/master-inquiry-browser.mjs`. |
+| B-F11 | About link | `MORE ABOUT` soll `more about` heißen. | fixed | `93372c6` | `docs/validation/GATEPREP/BATCH-2/gallery/lowercase.json`; `lowercase-about-*.png` | `tests/lowercase-sweep.mjs`: exakt `more about`, `text-transform: none`. |
 | B-F12 | Cross-link rows | Unterrubrik-Cross-Links sollen bündig und mit gleichen Abständen stehen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
-| B-F13 | Artwork viewer arrows | Pfeile haben falschen Abstand/Seite oder überschneiden sich. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F13 | Artwork viewer arrows | Pfeile haben falschen Abstand/Seite oder überschneiden sich. | fixed | `fedcc8d` | `docs/validation/GATEPREP/BATCH-2/gallery/viewer-*.png`; `results.json` | `tests/typography-contract.mjs` (flankierend, kein Overlap, Scrim); `tests/gateprep-batch2-browser.mjs` @1440/390/320. |
 | B-F14 | Tool detail heading | `/creative/tools/m4shlab` rendert möglicherweise fälschlich `3d model`. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
 | B-F15 | Tool detail navigation | Tool-Seiten brauchen die obere Unterrubriken-Leiste wie `/creative/onskin`; Breadcrumb `home / tools` entfernen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
 | B-F16 | Tool detail footer line | Weißen Trennstrich und Fakten-Punkte-Zeile unten entfernen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
