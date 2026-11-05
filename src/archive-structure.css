@@ -124,25 +124,14 @@ html body .work-page.is-rubric-page .rubric-category-heading {
   width: max-content;
   max-width: var(--work-row-width, calc(100vw - 208px));
   z-index: 11;
-  /* The archive row is a fixed header between brand and INDEX: it keeps one
-     line and scrolls horizontally instead of wrapping. Two classes beat the
-     shared .rubric-row wrapper rule. */
-  flex-wrap: nowrap;
-  align-items: baseline;
-  gap: var(--rubric-gap);
-  min-height: 44px;
+  /* The row type (chips) owns the one-line scrollport, the gap, the baseline
+     and the 44px targets; this block only places the floating header. */
   padding: 0;
   border: 0;
   background: transparent;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-inline: contain;
-  scrollbar-width: none;
   touch-action: pan-x pan-y;
   text-shadow: 0 1px 3px #151515;
 }
-.work-filters::-webkit-scrollbar { display: none; }
-.work-filters.rubric-row { flex-wrap: nowrap; }
 .work-filters .filter-link { flex: 0 0 auto; font-size: var(--type-navigation); }
 .work-filters .filter-link:focus-visible { outline-offset: -3px; }
 
@@ -163,7 +152,7 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
 .contact-page { max-width: 1100px; margin-inline: auto; padding-inline: 35px; }
 .contact-page .page-heading { font-size: clamp(40px, 8vw, 112px); }
 @media (max-width: 600px) {
-  .work-filters { padding: 0; column-gap: var(--rubric-gap); }
+  .work-filters { padding: 0; }
   .work-filters .filter-link { font-size: 13px; }
   .work-group, .archive-category { scroll-margin-top: 90px; }
   .contact-page { margin-inline: 0; padding-inline: 22px; }
