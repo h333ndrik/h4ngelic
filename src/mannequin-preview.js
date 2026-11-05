@@ -195,7 +195,9 @@ export function initMannequinPreview(container) {
         ? view.keyDirection * motion.keySpeed
         : reducedMotion.matches ? 0 : view.hover ? motion.hoverSpeed : idle ? motion.autoSpeed : 0;
       const blend = Math.min(1, delta * motion.inertiaDamping);
-      view.velocity += (wanted - view.velocity) * blend;
+      const step = (wanted - view.velocity) * blend;
+      const maxStep = motion.maxAngularAcceleration * Math.max(delta, 1 / 240);
+      view.velocity += THREE.MathUtils.clamp(step, -maxStep, maxStep);
       if (Math.abs(view.velocity) < 1e-4) view.velocity = 0;
       view.angle += view.velocity * delta;
       animating = animating || view.velocity !== 0;
@@ -455,6 +457,10 @@ export function initMannequinPreview(container) {
       view.velocity = 0;
       pivot.rotation.y = view.angle;
       fitCamera();
+      // Erster Frame MIT Modell, bevor das Poster freigegeben wird. Ohne diesen
+      // Render blendet der Crossfade auf einen noch leeren Canvas — das war
+      // der sichtbare Zwischenzustand.
+      renderFrame();
       setData('mannequinState', 'ready');
       setData('mannequinLoads', Number(container.dataset.mannequinLoads || 0) + 1);
       setData('mannequinStatic', 'false');

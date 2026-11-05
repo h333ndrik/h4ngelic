@@ -147,6 +147,45 @@ try {
     assert.ok(Math.abs(layout.canvas.width - layout.frame.width) <= 1);
     assert.ok(layout.documentWidth <= width + 1, 'No horizontal overflow.');
 
+    // Poster = echtes Renderer-Bild, gleiche Box wie der Canvas; der Rahmen
+    // selbst malt keinen Hintergrund (Transparenz ist echt, kein CSS-Kasten).
+    const presentation = await page.evaluate(() => {
+      const frame = document.querySelector('.mannequin-preview-frame');
+      const poster = frame.querySelector('.mannequin-preview-poster');
+      const img = poster.querySelector('img');
+      const canvas = frame.querySelector('canvas');
+      const f = frame.getBoundingClientRect();
+      const p = poster.getBoundingClientRect();
+      const c = canvas.getBoundingClientRect();
+      const style = getComputedStyle(frame);
+      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      const attrs = gl ? gl.getContextAttributes() : null;
+      const clear = gl ? Array.from(gl.getParameter(gl.COLOR_CLEAR_VALUE)) : null;
+      return {
+        poster: { left: p.left, top: p.top, width: p.width, height: p.height },
+        canvas: { left: c.left, top: c.top, width: c.width, height: c.height },
+        frame: { width: f.width, height: f.height },
+        backgroundImage: style.backgroundImage, backgroundColor: style.backgroundColor,
+        boxShadow: style.boxShadow, borderWidth: style.borderTopWidth,
+        source: (img.currentSrc || '').split('/').pop(), natural: [img.naturalWidth, img.naturalHeight],
+        alpha: attrs?.alpha, clearAlpha: clear ? clear[3] : null,
+      };
+    });
+    assert.equal(presentation.backgroundImage, 'none', 'The frame paints no CSS background.');
+    assert.equal(presentation.backgroundColor, 'rgba(0, 0, 0, 0)', 'The frame stays transparent.');
+    assert.equal(presentation.boxShadow, 'none');
+    assert.equal(presentation.borderWidth, '0px');
+    assert.equal(presentation.alpha, true, 'The WebGL context keeps an alpha channel.');
+    assert.equal(presentation.clearAlpha, 0, 'The renderer clears with alpha 0.');
+    assert.match(presentation.source, /mannequin-poster-(wide|tall)-[a-f0-9]{8}\.png$/,
+      'The poster is a real render, not the old inline SVG.');
+    assert.equal(width < 600 ? /tall/.test(presentation.source) : /wide/.test(presentation.source), true,
+      `The ${width < 600 ? 'portrait' : 'landscape'} poster matches the viewport.`);
+    for (const edge of ['left', 'top', 'width', 'height']) {
+      assert.ok(Math.abs(presentation.poster[edge] - presentation.canvas[edge]) <= 1,
+        `Poster and canvas share the ${edge} (${presentation.poster[edge]} vs ${presentation.canvas[edge]}).`);
+    }
+
     const designButton = page.locator('[data-mannequin-design-toggle]');
     assert.equal(await designButton.isEnabled(), false, 'C disables the demo design.');
     assert.equal(await designButton.getAttribute('aria-disabled'), 'true');
@@ -334,6 +373,54 @@ try {
       'Escape cancels the running flick.');
     assert.match(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-keyboard'), /escape/);
 
+    // Hover darf den Container nicht verschieben (kein Ausschlag).
+    const hover = await page.evaluate(async () => {
+      const v = document.querySelector('[data-mannequin-preview]');
+      const canvas = v.querySelector('canvas');
+      const section = document.querySelector('#model-3d');
+      const sample = (ms) => new Promise((resolve) => {
+        const out = [];
+        const start = performance.now();
+        const step = () => {
+          const now = performance.now();
+          const rect = canvas.getBoundingClientRect();
+          out.push({ left: rect.left, width: rect.width,
+            entranceX: getComputedStyle(section).getPropertyValue('--entrance-x').trim() });
+          if (now - start < ms) requestAnimationFrame(step); else resolve(out);
+        };
+        requestAnimationFrame(step);
+      });
+      return sample(400);
+    });
+    const hoverBox = await page.locator('.mannequin-preview-frame').boundingBox();
+    await page.mouse.move(hoverBox.x + hoverBox.width / 2, hoverBox.y + hoverBox.height / 2);
+    const hovered = await page.evaluate(async () => {
+      const v = document.querySelector('[data-mannequin-preview]');
+      const canvas = v.querySelector('canvas');
+      const section = document.querySelector('#model-3d');
+      return await new Promise((resolve) => {
+        const out = [];
+        const start = performance.now();
+        const step = () => {
+          const now = performance.now();
+          const rect = canvas.getBoundingClientRect();
+          out.push({ left: rect.left, width: rect.width,
+            entranceX: getComputedStyle(section).getPropertyValue('--entrance-x').trim() });
+          if (now - start < 700) requestAnimationFrame(step); else resolve(out);
+        };
+        requestAnimationFrame(step);
+      });
+    });
+    const lateral = (list) => Math.max(...list.map((entry) => entry.left)) - Math.min(...list.map((entry) => entry.left));
+    assert.ok(lateral([...hover, ...hovered]) <= 1, `Hover must not move the viewer (${lateral([...hover, ...hovered]).toFixed(3)} px).`);
+    assert.equal(new Set([...hover, ...hovered].map((entry) => entry.entranceX)).size, 1,
+      'Hover never touches the entrance transform.');
+    // Ausgangszeiger weg und Rotation stoppen, damit der Reduced-Motion-Test
+    // mit ruhender Figur startet.
+    await page.mouse.move(5, 5);
+    await page.keyboard.press('Home');
+    await page.waitForTimeout(80);
+
     // Reduced Motion: Tastatur dreht weiter, Auto-Rotation bleibt aus.
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.waitForTimeout(120);
@@ -346,6 +433,42 @@ try {
 
     assert.deepEqual(errors, [], 'no console errors in the accessibility checks');
     results.push({ accessibility: { role: semantics.role, tabIndex: semantics.tabIndex, stepRadians: Number((afterStep - beforeStep).toFixed(3)), prevented } });
+    await context.close();
+  }
+
+  // Uebergang: Poster bleibt deckend, bis der erste Modell-Frame gemalt ist.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const { page, errors } = await trackPage(context);
+    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => {
+      window.__presentation = [];
+      const tick = () => {
+        const v = document.querySelector('[data-mannequin-preview]');
+        if (v) {
+          const poster = v.querySelector('.mannequin-preview-poster');
+          window.__presentation.push({ state: v.dataset.mannequinState,
+            renders: Number(v.dataset.mannequinRenders || 0),
+            poster: poster ? Number(getComputedStyle(poster).opacity) : null });
+        }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+    await scrollSectionTo(page, '#model-3d', 120);
+    await waitReady(page);
+    await page.waitForFunction(
+      () => Number(getComputedStyle(document.querySelector('.mannequin-preview-poster')).opacity) <= 0.01,
+      null, { timeout: 8000 });
+    const samples = await page.evaluate(() => window.__presentation);
+    const fading = samples.filter((sample) => sample.poster !== null && sample.poster < 0.99);
+    assert.ok(fading.length > 0, 'The poster actually fades into the model.');
+    for (const sample of fading) {
+      assert.equal(sample.state, 'ready', 'No intermediate state: the poster only fades once the model exists.');
+      assert.ok(sample.renders >= 1, 'A rendered frame exists before the poster fades.');
+    }
+    assert.deepEqual(errors, [], 'no console errors during the transition');
+    results.push({ transition: { samples: samples.length, fading: fading.length } });
     await context.close();
   }
 
@@ -509,6 +632,18 @@ try {
   assert.deepEqual(hits, [], 'The built output must not mention LICENSE-NOTE, sketchfab or CREDITS.');
   assert.equal(existsSync(join(dist, 'docs')), false, 'Validation docs are never bundled.');
   assert.equal(existsSync(join(dist, 'CREDITS.md')), false, 'CREDITS.md stays outside the bundle.');
+  // A/B sind dev-only: ihre Asset-Namen duerfen im Production-Bundle nicht stehen.
+  const hiddenVariantHits = [];
+  const scanHidden = async (directory) => {
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) { await scanHidden(path); continue; }
+      if (!/\.(js|css|html|json|txt|xml|map|md|webmanifest)$/.test(entry.name)) continue;
+      if (/mannequin-female-[ab]\.glb/.test(await readFile(path, 'utf8'))) hiddenVariantHits.push(path);
+    }
+  };
+  await scanHidden(dist);
+  assert.deepEqual(hiddenVariantHits, [], 'Hidden A/B assets must not be referenced by the production build.');
   results.push({ bundle: { forbidden, hits: hits.length, docsBundled: false, creditsBundled: false } });
 }
 

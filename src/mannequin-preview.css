@@ -2,35 +2,35 @@
   width: 100%;
   margin: clamp(26px, 4vw, 52px) 0 0;
 }
+/* Transparenz ist echt: kein CSS-Hintergrund am Rahmen, der Canvas raeumt mit
+   Alpha 0. Die Section zeigt den Seitenhintergrund. */
 .mannequin-preview-frame {
   position: relative;
   width: 100%;
   height: clamp(470px, 55vw, 720px);
   overflow: hidden;
   isolation: isolate;
-  background:
-    radial-gradient(ellipse at 50% 43%, #454540 0%, #2d2d2a 38%, #1f201e 72%),
-    #1f201e;
+  background: none;
 }
-.mannequin-preview-frame::before {
-  content: '';
+/* Poster: echtes Renderer-Bild mit Alpha, gleiche Komposition wie das Modell.
+   Der Crossfade (240 ms) blendet daher Bild in Bild statt Silhouette in Figur. */
+.mannequin-preview-poster {
   position: absolute;
   inset: 0;
   z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(112deg, #ffffff0b 0%, transparent 28%, transparent 72%, #ffffff08 100%),
-    linear-gradient(180deg, #ffffff05, transparent 28%);
-}
-.mannequin-preview-poster {
-  position: absolute;
-  inset: 7% 0 8%;
-  z-index: 0;
   display: block;
   width: 100%;
-  height: 85%;
-  opacity: .9;
-  transition: opacity .18s ease;
+  height: 100%;
+  margin: 0;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity .24s ease;
+}
+.mannequin-preview-poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .mannequin-preview-frame[data-mannequin-state='ready'] .mannequin-preview-poster,
 .mannequin-preview-frame[data-mannequin-state='disposed'] .mannequin-preview-poster {
@@ -45,18 +45,6 @@
   display: block;
   width: 100%;
   height: 100%;
-}
-.mannequin-preview-ground {
-  position: absolute;
-  left: 50%;
-  bottom: 9%;
-  z-index: 0;
-  width: min(54%, 480px);
-  height: 9%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, #050505a8 0%, #0505054d 38%, transparent 72%);
-  filter: blur(13px);
-  transform: translateX(-50%);
 }
 .mannequin-preview figcaption {
   display: flex;
@@ -108,15 +96,9 @@
   outline: 2px solid #ecece8;
   outline-offset: 3px;
 }
-html[data-mode='xray'] .mannequin-preview-frame {
-  background:
-    radial-gradient(ellipse at 50% 43%, #392848 0%, #241c2c 42%, #17121c 76%),
-    #17121c;
-}
 @media (max-width: 600px) {
   .mannequin-preview-frame { height: clamp(390px, 116vw, 560px); }
-  .mannequin-preview-ground { bottom: 8%; width: 68%; height: 8%; }
-  .mannequin-preview figcaption { gap: 8px 14px; }
+    .mannequin-preview figcaption { gap: 8px 14px; }
   .mannequin-preview-meta { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {

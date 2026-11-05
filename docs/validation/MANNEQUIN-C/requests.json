@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-05T14:40:18.573Z",
+  "checkedAt": "2026-11-05T17:50:38.541Z",
   "route": "/work/tattoos",
   "source": "production preview build",
   "profiles": [
@@ -29,7 +29,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-1440.png",
-      "autoAngle": 0.3817,
+      "autoAngle": 0.1368,
       "mockups": 8,
       "errors": []
     },
@@ -40,7 +40,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-390.png",
-      "autoAngle": 0.4092,
+      "autoAngle": 0.1248,
       "mockups": 8,
       "errors": []
     },
@@ -51,7 +51,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-320.png",
-      "autoAngle": 0.4117,
+      "autoAngle": 0.2107,
       "mockups": 8,
       "errors": []
     },
@@ -64,6 +64,12 @@
           "focused": true,
           "unfocused": false
         }
+      }
+    },
+    {
+      "transition": {
+        "samples": 12,
+        "fading": 3
       }
     },
     {
@@ -101,7 +107,7 @@
     {
       "noWebgl": {
         "webgl": "unavailable",
-        "poster": "0.9",
+        "poster": "1",
         "canvases": 0
       }
     },

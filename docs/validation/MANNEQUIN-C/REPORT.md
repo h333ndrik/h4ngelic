@@ -640,3 +640,111 @@ Testreihenfolge für den Merge:
 | `npm run test:seo` | 18 Routen + 404 |
 | `npm run build` | 18 Routen + 404 |
 | `npm run verify:assets` | OK (457.000 B, `d76abc16…c06976`) |
+
+## M4e — Darstellung: Aufblitzen, Hover, Transparenz
+
+### 1. Diagnose (vor jeder Änderung gemessen)
+
+**Aufblitzen.** Screencast (CDP, 154 Frames) plus rAF-Timeline im Page-Kontext.
+Der Ladevorgang blockiert den Hauptthread ~2,6 s (GLB-Parse + KTX2-Transcode);
+in dieser Zeit malt der Compositor kein neues Bild. Danach der Befund:
+
+| Zeitpunkt | Zustand | Poster-Opacity | Renders |
+| --- | --- | --- | --- |
+| t=7791 | loading | 0.90 | 1 (leere Szene) |
+| t=7942 | ready | 0.90 | 3 |
+| t=8042 | ready | 0.82 | 5 |
+| t=8353 | ready | 0.00 | 7 |
+
+Ursache ist **kein Decode-Race und kein falsches Asset**: Die Textur ist beim
+`parseAsync`-Resolve längst da, der erste Modell-Frame existiert. Das Problem
+war das *Bild selbst* — das Poster war eine Inline-SVG-Silhouette mit
+spitzen Gliedmaßen und silbernem Verlauf, das Modell eine hellere, realistische
+Figur. Der 180-ms-Crossfade blendete zwei verschiedene Figuren übereinander:
+genau der sichtbare Zwischenzustand. Netzwerk-Trace: genau ein GLB
+(`mannequin-c.d76abc164512.glb`), keine A/B-Anfrage.
+
+**Hover-Ausschlag.** rAF-Sampling über je 0,7–1,0 s vor/während des Hovers,
+in zwei Zuständen (Einfahrt läuft / abgeschlossen). Gemessen:
+
+| Größe | vor Hover | während Hover | Spanne |
+| --- | --- | --- | --- |
+| Canvas `left` | 35.00 px | 35.00 px | **0.00 px** |
+| Canvas `width` | 1370.00 px | 1370.00 px | **0.00 px** |
+| `--entrance-x` | 0.00 px | 0.00 px | **0.00 px** |
+| yaw | 1.808 | → 2.159 | Rampe 0.02 → 0.35 rad/s |
+
+Gegenprobe mit `prefers-reduced-motion` (keine Rotation): neun Screenshots
+hintereinander pixelidentisch (centerX 685.00, Breite 190 px), yaw konstant
+0.000. Hypothese A (Einfahrts-Offset) und C (Layout-Shift) sind damit
+**widerlegt** — Hover fasst weder die Section-Transform noch das Canvas-Maß an.
+Belegt ist nur Hypothese B: Hover wechselt die Zielgeschwindigkeit 0,18 → 0,55
+rad/s. Diese Rampe war framerate-abhängig.
+
+**Hintergrund-Inventar.**
+
+| Quelle | Befund |
+| --- | --- |
+| Renderer | `alpha: true`, Clear `(0,0,0,0)` — Transparenz war technisch schon vorhanden |
+| Scene (WebGL) | nur die Figur; keine Ground-Plane, kein Backdrop, kein Grid. Die Environment-Sphere wird nur für PMREM gebaut und sofort verworfen |
+| CSS-Rahmen | `radial-gradient(at 50% 43%, #454540 …)` + `::before`-Verlauf + `.mannequin-preview-ground` (dunkle Ellipse) — **das** war der sichtbare Kasten |
+| Poster | Inline-SVG mit Silberverlauf, keine Bilddatei |
+
+### 2. Fixes
+
+1. **Poster ist jetzt ein echtes Renderer-Bild.** Zwei transparente PNGs
+   (`mannequin-poster-wide-20c3b7b4.png` 2740 px / 72 KB,
+   `mannequin-poster-tall-915dcaff.png` 692 px / 21 KB), aufgenommen aus genau
+   dem Renderer, mit dem das Modell später läuft (yaw 0, gleiche Kamera, gleiches
+   Licht). Zwei Zuschnitte, weil `fitCamera()` je nach Seitenverhältnis auf
+   Höhe oder Breite einpasst; Umschaltung über `<picture>` am CSS-Breakpoint
+   600 px. Ergebnis: Poster und Modell sind **pixelgleich** —
+
+   | Viewport | Poster (px / centerX) | Modell (px / centerX) |
+   | --- | --- | --- |
+   | 1440 | 53.362 / 685.5 | 53.360 / 685.5 |
+   | 390 | 13.385 / 170.3 | 13.385 / 170.3 |
+
+2. **Erst rendern, dann einblenden.** `renderFrame()` läuft jetzt *vor*
+   `data-mannequin-state="ready"`. Ohne diesen Frame blendete der Crossfade auf
+   einen noch leeren Canvas.
+3. **Crossfade 240 ms** (`opacity .24s ease`), bei Reduced Motion weiterhin
+   harter Schnitt.
+4. **A/B aus dem Ladepfad.** Die Registry baut sich aus
+   `import.meta.env.DEV ? {A,B} : {}` und `{...devVariants, C}`; `mannequin-female-a/b.glb`
+   kommen im Production-Bundle **0×** vor. Im Dev-Server bleiben A/B über
+   `?variant=a|b` erreichbar (Test `test:mannequin-variants-dev` grün).
+5. **Transparenter Rahmen.** `background: none`, `::before` und
+   `.mannequin-preview-ground` entfernt, Xray-Hintergrund entfernt. Der Canvas
+   malt nur die Figur: Messung mit `omitBackground` ergibt **5,68 %** deckende
+   Pixel im Rahmen (vorher: 100 %, weil der CSS-Verlauf die ganze Fläche füllte).
+6. **Hover-Rampe begrenzt.** Neue Konstante
+   `maxAngularAcceleration = 1.1 rad/s²`; die Winkelgeschwindigkeit kann pro
+   Frame nur um `1.1 · Δt` springen. Ziel bleibt 0,55 rad/s, Auto-Rotation
+   0,18 rad/s, Drag/Swipe/Flick unverändert.
+
+### 3. Kontrast und Abnahme
+
+Silhouette gegen den echten Seitenhintergrund: **5,8–6,1 : 1** (Median der
+Figur `#a1a09c` gegen `#232323`) — deutlich über der 3:1-Schwelle für
+großflächige Grafik. Albedo unverändert.
+
+Evidence: `m4e-before-poster.png` / `m4e-before-model.png` (altes SVG-Poster
+bzw. Modell mit Kasten), `m4e-poster-before-after.png` (direkt nebeneinander),
+`m4e-poster-after.png` (neues Poster), `m4e-after-1440/390/320.png`.
+
+### 4. Tests
+
+| Prüfung | Ergebnis |
+| --- | --- |
+| `npm test` | 392/392 |
+| `npm run test:mannequin-preview` | 2× PASS (3 Viewports, Übergang, Hover, Transparenz, A/B, A11y) |
+| `npm run test:mannequin-entrance` | PASS (Assert A–D) |
+| `npm run test:mannequin-variants-dev` | PASS (A/B nur im Dev) |
+| `npm run build` | 18 Routen + 404 |
+
+Neue Asserts: Poster-Box = Canvas-Box (±1 px), Poster-Quelle je Viewport,
+`background-image: none` / `box-shadow: none` / `border 0`, GL `alpha: true`
+und Clear-Alpha 0, Übergang (Poster deckend bis `state=ready`, erst dann fade),
+Hover (Canvas-Spanne ≤ 1 px, `--entrance-x` unverändert), A/B-Assetnamen nirgends
+im Bundle.

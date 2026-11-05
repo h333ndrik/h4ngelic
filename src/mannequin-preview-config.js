@@ -5,11 +5,12 @@
  * Mannequin: 49.838 Tris, Draco + KTX2, gebaut von scripts/build-mannequin-c.mjs.
  * Wegen der hohen Tris-Zahl laedt C nur, wenn die Variante aktiv ist.
  */
-// A/B: verborgen, NICHT loeschen (V3.2). Die Registry bleibt vollstaendig, damit
-// die prozeduralen Chrome-Puppen fuer spaetere Laeufe erreichbar sind. Sichtbar
-// in der Rubrik ist nur C; A/B laden ausschliesslich ueber ?variant=a|b im
-// Dev-Server (kein Link, keine Navigation).
-const variants = Object.freeze({
+// A/B: verborgen, NICHT loeschen (V3.2). Die prozeduralen Chrome-Puppen leben
+// nur noch im Dev-Server: `import.meta.env.DEV` ist im Production-Build false,
+// der Bundler entfernt den Zweig. Damit gibt es fuer A/B im ausgelieferten
+// Bundle keinen Ladepfad, keinen Import und keinen Request — auch keinen
+// Asset-Namen im JS.
+const devVariants = import.meta.env?.DEV ? {
   A: Object.freeze({
     model: '/models/mannequin-female-a.glb',
     label: 'smooth',
@@ -29,6 +30,8 @@ const variants = Object.freeze({
     envMapIntensity: 1.35,
     initialYaw: 0,
   }),
+} : {};
+const variants = Object.freeze({ ...devVariants,
   C: Object.freeze({
     model: '/models/mannequin-c.d76abc164512.glb',
     label: 'sculpted',
@@ -43,7 +46,8 @@ const variants = Object.freeze({
   }),
 });
 
-export const mannequinVariantOrder = Object.freeze(['A', 'B', 'C']);
+// Dev: A, B, C — Production: nur C.
+export const mannequinVariantOrder = Object.freeze(Object.keys(variants));
 
 export const mannequinPreviewConfig = Object.freeze({
   defaultVariant: 'C',
@@ -76,6 +80,10 @@ export const mannequinPreviewConfig = Object.freeze({
     idleDelay: 2000,
     dragSensitivity: 0.0075,
     inertiaDamping: 3.2,
+    // Obergrenze fuer die Winkelbeschleunigung in rad/s^2. Begrenzt den
+    // Uebergang von Auto- (0.18) auf Hover-Drehung (0.55) pro Frame, damit
+    // die Figur beim Ueberfahren nicht schlagartig losdreht.
+    maxAngularAcceleration: 1.1,
     // Tastatur: 15 Grad pro Tastendruck; gehalten laeuft die Drehung mit
     // derselben Daempfung wie das Ziehen weiter.
     keyStep: Math.PI / 12,

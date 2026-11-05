@@ -35,7 +35,9 @@ test('real category pages select their own content while /work retains the compl
     assert.ok(markup.includes(`data-work-context="${context}"`));
     assert.deepEqual([...markup.matchAll(/data-archive-category="([^"]+)"/g)].map(match => match[1]), categories);
     assert.deepEqual([...markup.matchAll(/data-work-group="([^"]+)"/g)].map(match => match[1]), groups);
-    assert.equal((markup.match(/<img /g) || []).length, imageCount, 'Only real supplied images from the selected route render.');
+    // Das Mannequin-Poster ist ein Viewer-Artefakt, kein Projektbild.
+    assert.equal((markup.match(/<img (?![^>]*mannequin-poster)/g) || []).length, imageCount,
+      'Only real supplied images from the selected route render.');
     const headingClass = context === 'more' ? 'page-heading sr-only' : 'page-heading';
     assert.ok(markup.includes(`<h1 class="${headingClass}" id="work-page-title">${heading}</h1>`));
     for (const category of ['tattoos', 'jewellery', 'more']) assert.ok(markup.includes(`href="/work/${category}"`));
@@ -280,7 +282,10 @@ test('Works has three unnumbered major rubrics, subordinate archive labels and a
   assert.match(model, /^<h3[^>]+>3d model<\/h3>/);
   assert.match(model, /data-mannequin-preview data-mannequin-variant="C" data-mannequin-src="\/models\/mannequin-c\.[a-f0-9]+\.glb" data-mannequin-design-src="\/textures\/designs\/demo-mark\.png" data-mannequin-state="deferred"/);
   assert.match(model, /role="img" tabindex="0" aria-label="3D model: female mannequin\. Use the left and right arrow keys to turn it\."/);
-  assert.doesNotMatch(model, /<canvas|<img|data-flash-mannequin|three\.js|GLTFLoader/);
+  assert.doesNotMatch(model, /<canvas|data-flash-mannequin|three\.js|GLTFLoader/);
+  // Genau ein Bild: das transparente Poster-Render, sonst nichts.
+  assert.equal((model.match(/<img /g) || []).length, 1, 'The viewer ships exactly one poster image.');
+  assert.match(model, /<picture class="mannequin-preview-poster"/);
 });
 
 test('homepage About copy remains one flowing paragraph and every relevant route exposes the same visit indicator', () => {

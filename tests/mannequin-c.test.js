@@ -86,15 +86,17 @@ function readGLB(bytes) {
   return json;
 }
 
-test('only variant C is visible; A/B stay registered but hidden', () => {
+test('only variant C ships; A/B stay dev-only and never reach the production load path', () => {
   const markup = renderMannequinPreview();
   assert.match(markup, /data-mannequin-variant="C"/);
   assert.doesNotMatch(markup, /data-mannequin-variant-option/, 'No visible variant switcher.');
   assert.doesNotMatch(markup, />\s*A · |B · /, 'A/B labels are not rendered.');
-  for (const key of ['A', 'B']) {
-    assert.ok(mannequinPreviewConfig.variants[key], `${key} stays in the registry.`);
-    assert.equal(typeof mannequinVariant(key).model, 'string');
-  }
+  // Der Node-Lauf entspricht dem Production-Build: import.meta.env fehlt, also
+  // enthaelt die Registry ausschliesslich C. A/B sind Code im Dev-Zweig.
+  assert.deepEqual(Object.keys(mannequinPreviewConfig.variants), ['C'],
+    'Production registry contains exactly one variant.');
+  assert.equal(mannequinPreviewConfig.variants.A, undefined);
+  assert.equal(mannequinPreviewConfig.variants.B, undefined);
   // ?variant= ist ausschliesslich im Dev-Server aktiv (import.meta.env.DEV).
   assert.equal(mannequinDevVariant('?variant=a'), null);
   assert.equal(mannequinDevVariant('?variant=b'), null);
@@ -121,10 +123,8 @@ test('the viewer is announced as an image and documents its keyboard control', (
 
 test('variant C is the default and every variant points at an existing GLB', async () => {
   assert.equal(mannequinPreviewConfig.defaultVariant, 'C');
-  assert.deepEqual(mannequinVariantList().map((variant) => variant.key), ['A', 'B', 'C']);
+  assert.deepEqual(mannequinVariantList().map((variant) => variant.key), ['C']);
   assert.equal(mannequinVariant('C').design, false, 'The sculpted UV layout cannot take the authored decal.');
-  assert.equal(mannequinVariant('A').design, true);
-  assert.equal(mannequinVariant('B').design, true);
   for (const variant of mannequinVariantList()) {
     assert.match(variant.model, /^\/models\/[a-z0-9.-]+\.glb$/);
     assert.ok(existsSync(new URL(`../public${variant.model}`, import.meta.url)), `${variant.key} GLB missing`);

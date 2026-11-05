@@ -174,14 +174,14 @@ test('the 4096 atlas preserves the 0.48828125 mm-per-pixel scale and transparent
   assert.equal(design.wrap, 'clamp');
 });
 
-test('one config is the source for default C, all three variants and the deferred design', () => {
+test('one config is the source for default C, the production registry and the deferred design', () => {
   assert.equal(mannequinPreviewConfig.defaultVariant, 'C');
   assert.match(mannequinVariant().model, /^\/models\/mannequin-c\.[a-f0-9]+\.glb$/);
-  assert.equal(mannequinVariant('A').model, '/models/mannequin-female-a.glb');
-  assert.equal(mannequinVariant('B').model, '/models/mannequin-female-b.glb');
+  // Production (und damit jeder Node-Testlauf): nur C. A/B existieren
+  // ausschliesslich hinter import.meta.env.DEV im Vite-Dev-Server.
+  assert.deepEqual(Object.keys(mannequinPreviewConfig.variants), ['C']);
+  assert.equal(mannequinVariant('A').model, mannequinVariant('C').model, 'Unbekannte Keys fallen auf C zurueck.');
   assert.equal(mannequinVariant('missing').shading, 'C');
-  assert.equal(mannequinVariant('A').envMapIntensity, 1.35);
-  assert.equal(mannequinVariant('B').envMapIntensity, 1.35);
   assert.equal(mannequinVariant('C').envMapIntensity, 0.85);
   assert.equal(mannequinVariant('C').design, false);
   assert.equal(mannequinPreviewConfig.chrome.environmentSigma, 0.035);
