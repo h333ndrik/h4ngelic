@@ -46,7 +46,7 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 .stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0); }
 .stage.is-entering #logo-canvas { will-change: transform; }
 .fallback { position: absolute; inset: 0; background: #242424; color: transparent; font-size: 0; pointer-events: none; transition: opacity var(--hero-poster-fade, 900ms) ease; }
-.stage.is-poster-static .fallback, .stage.is-boot-failed .fallback, html:not(.h4-custom-cursor) .fallback { background: var(--hero-poster-image, url('/assets/wordmark-fallback.svg')) center / 67% auto no-repeat #242424; }
+.stage.is-poster-static .fallback, .stage.is-boot-failed .fallback { background: var(--hero-poster-image, url('/assets/wordmark-fallback.svg')) center / 67% auto no-repeat #242424; }
 .stage.is-ready .fallback { opacity: 0; }
 .stage.is-poster-static #logo-canvas, .stage.is-fallback #logo-canvas, .stage.is-boot-failed #logo-canvas { display: none; }
 .stage.is-poster-static .fallback { opacity: 1; }

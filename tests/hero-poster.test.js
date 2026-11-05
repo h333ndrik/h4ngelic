@@ -5,8 +5,9 @@ import { readFile } from 'node:fs/promises';
 const source = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('hero poster configuration is injected ahead of layout and application styles', async () => {
-  const [html, config, vite, prerender] = await Promise.all([
+  const [html, config, vite, prerender, cursor] = await Promise.all([
     source('index.html'), source('src/data/heroPosterSettings.js'), source('vite.config.js'), source('scripts/prerender.mjs'),
+    source('src/cursor.css'),
   ]);
   assert.match(config, /src: '\/assets\/wordmark-fallback\.svg'/);
   assert.match(config, /fadeDurationMs: 900/);
@@ -15,8 +16,9 @@ test('hero poster configuration is injected ahead of layout and application styl
   assert.match(html, /__H4_HERO_POSTER_URL__/);
   assert.match(html, /translate3d\(0, calc\(-100% - 32px\), 0\)/);
   assert.match(html, /transition: transform 1100ms cubic-bezier\(\.16, 1, \.3, 1\)/);
-  assert.match(html, /data-h4-cursor/);
-  assert.match(html, /data-cursor-preload/);
+  assert.doesNotMatch(html, /data-h4-cursor|data-cursor-preload|h4-custom-cursor/,
+    'The native cursor needs no overlay markup, preload or runtime class.');
+  assert.match(cursor, /--h4-cursor: url\('\/assets\/h4ngelic-cursor\.svg'\) 8 2, url\('\/assets\/h4ngelic-cursor\.png'\) 8 2, auto;/);
   assert.match(html, /data-hero-poster-critical/);
   assert.match(html, /id="hero-preloads"/);
   assert.match(html, /rel="modulepreload" href="\/src\/main\.js"/);
@@ -34,6 +36,6 @@ test('first-paint poster contains no literal wordmark text and remains available
   assert.doesNotMatch(html, /id="fallback"[^>]*>h4ngelic<\/div>/);
   assert.match(css, /\.stage\.is-ready \.fallback \{ opacity: 0; \}/);
   assert.match(css, /\.stage\.is-poster-static \.fallback \{ opacity: 1; \}/);
-  assert.match(css, /html:not\(\.h4-custom-cursor\) \.fallback/);
+  assert.doesNotMatch(css, /h4-custom-cursor/, 'The poster no longer keys off a cursor class.');
   assert.match(css, /background: #242424/);
 });

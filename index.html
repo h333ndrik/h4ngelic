@@ -4,64 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#242424" />
-    <script>
-      (() => {
-        const root = document.documentElement;
-        root.classList.add('h4-custom-cursor');
-        const mount = () => {
-          const cursor = document.querySelector('[data-h4-cursor]');
-          if (!cursor || cursor.dataset.ready === 'true') return;
-          cursor.dataset.ready = 'true';
-          const idleHideMs = 900;
-          let frame = 0;
-          let pending = null;
-          let idleTimer = 0;
-          const paint = () => {
-            frame = 0;
-            if (!pending) return;
-            const point = pending;
-            pending = null;
-            // Position first, then reveal: the 180 ms fade must start at the new
-            // point, never travel across the screen from the previous one.
-            cursor.style.transform = `translate3d(${point.x - 9}px, ${point.y - 2}px, 0)`;
-            cursor.dataset.h4CursorVisible = 'true';
-          };
-          const hide = () => {
-            if (frame) cancelAnimationFrame(frame);
-            frame = 0;
-            pending = null;
-            clearTimeout(idleTimer);
-            idleTimer = 0;
-            cursor.dataset.h4CursorVisible = 'false';
-            cursor.classList.remove('is-pressed');
-          };
-          const armIdleCheck = () => {
-            clearTimeout(idleTimer);
-            idleTimer = setTimeout(() => {
-              if (!document.hasFocus()) hide();
-            }, idleHideMs);
-          };
-          const move = event => {
-            if (event.pointerType === 'touch' || (event.clientX === 0 && event.clientY === 0)) return;
-            pending = { x: event.clientX, y: event.clientY };
-            if (!frame) frame = requestAnimationFrame(paint);
-            armIdleCheck();
-          };
-          addEventListener('pointermove', move, { passive: true });
-          addEventListener('mousemove', event => { if (!matchMedia('(pointer: fine)').matches) armIdleCheck(); }, { passive: true });
-          addEventListener('pointerdown', move, { passive: true });
-          addEventListener('pointerup', () => cursor.classList.remove('is-pressed'), { passive: true });
-          addEventListener('pointerdown', () => cursor.classList.add('is-pressed'), { passive: true });
-          for (const type of ['pointerout', 'mouseout']) addEventListener(type, event => { if (event.relatedTarget === null) hide(); }, { passive: true, capture: true });
-          addEventListener('pointerleave', event => { if (event.relatedTarget === null) hide(); }, { passive: true });
-          addEventListener('blur', hide, { passive: true });
-          addEventListener('pagehide', hide, { passive: true });
-          document.addEventListener('visibilitychange', () => { if (document.hidden) hide(); }, { passive: true });
-        };
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount, { once: true });
-        else mount();
-      })();
-    </script>
     <style data-hero-poster-critical>
       html, body { margin: 0; background: #242424; color: #f0efeb; font-family: Arial, Helvetica, sans-serif; }
       .skip-link, .floating-brand, .global-index { position: fixed; z-index: 10; }
@@ -70,8 +12,7 @@
       .hero { position: relative; min-height: 540px; height: 100svh; overflow: hidden; }
       .hero > .stage { position: absolute; inset: 0; }
       .hero .fallback { position: absolute; inset: 0; background: #242424; opacity: 1; pointer-events: none; transition: opacity var(--hero-poster-fade) ease; }
-      .hero .stage.is-poster-static .fallback, .hero .stage.is-boot-failed .fallback,
-      html:not(.h4-custom-cursor) .hero .fallback { background: var(--hero-poster-image) center / 67% auto no-repeat #242424; }
+      .hero .stage.is-poster-static .fallback, .hero .stage.is-boot-failed .fallback { background: var(--hero-poster-image) center / 67% auto no-repeat #242424; }
       .hero #logo-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 1; transform: translate3d(0, calc(-100% - 32px), 0); transition: transform 1100ms cubic-bezier(.16, 1, .3, 1); }
       .hero .stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0); }
       .hero .stage.is-entering #logo-canvas { will-change: transform; }
@@ -93,21 +34,12 @@
         .hero .stage.is-entering #logo-canvas { will-change: auto; }
       }
       html:not([data-h4-styles-ready]) .hero > :not(.stage) { visibility: hidden; }
-      [data-h4-cursor] { --h4-cursor-pressed-scale: 1.08; --h4-cursor-fade: 180ms; position: fixed; left: 0; top: 0; z-index: 2147483647; width: 23.26px; height: 34.88px; opacity: 0; visibility: hidden; pointer-events: none; transform: translate3d(-100px, -100px, 0); transform-origin: 9px 2px; transition: opacity var(--h4-cursor-fade) ease-out, visibility 0s linear var(--h4-cursor-fade); filter: drop-shadow(0 1px 2px #0008); }
-      [data-h4-cursor][data-h4-cursor-visible='true'] { opacity: 1; visibility: visible; transition: opacity var(--h4-cursor-fade) ease-out, visibility 0s; }
-      [data-h4-cursor] .h4-cursor-glyph { display: block; width: 100%; height: 100%; transform-origin: 9px 2px; scale: 1; transition: scale 100ms ease-out; }
-      [data-h4-cursor].is-pressed .h4-cursor-glyph { scale: var(--h4-cursor-pressed-scale); }
-      [data-h4-cursor] img { display: block; width: 100%; height: 100%; user-select: none; }
-      html:not(.h4-custom-cursor) [data-h4-cursor], html[data-cursor='xray'] [data-h4-cursor] { opacity: 0; visibility: hidden; transition: none; }
-      @media (prefers-reduced-motion: reduce) { [data-h4-cursor], [data-h4-cursor][data-h4-cursor-visible='true'] { transition: none; } }
-      @media (hover: none), (pointer: coarse) { [data-h4-cursor] { display: none; } }
       :root { --hero-poster-image: url("__H4_HERO_POSTER_URL__"); --hero-poster-fade: __H4_HERO_POSTER_FADE_MS__ms; }
     </style>
     <!--seo:start-->
     <meta name="description" content="h4ngelic — independent tattooing, jewellery and painting. berlin, de." />
     <title>h4ngelic</title>
     <!--seo:end-->
-    <link rel="preload" href="/assets/h4ngelic-cursor.svg" as="image" fetchpriority="high" data-cursor-preload />
     <link rel="preload" href="/assets/wordmark-fallback.svg" as="image" fetchpriority="high" data-hero-poster-preload />
     <link rel="icon" href="/assets/h4ngelic-favicon-normal-r09-16.png" type="image/png" sizes="16x16" data-mode-icon="16" />
     <link rel="icon" href="/assets/h4ngelic-favicon-normal-r09-32.png" type="image/png" sizes="32x32" data-mode-icon="32" />
@@ -126,7 +58,6 @@
     </script>
   </head>
   <body>
-    <div class="h4-cursor-overlay" data-h4-cursor aria-hidden="true"><span class="h4-cursor-glyph"><img src="/assets/h4ngelic-cursor.svg" alt="" fetchpriority="high" decoding="sync" draggable="false" /></span></div>
     <div class="page-composition" data-page-composition>
     <a class="skip-link" href="#page-content">skip to content</a>
     <!--floating:start--><header class="site-chrome" data-site-chrome><a class="floating-brand" data-floating-brand data-no-ink data-corruption-protected href="/">h4ngelic</a>

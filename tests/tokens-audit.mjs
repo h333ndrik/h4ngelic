@@ -38,9 +38,33 @@ for (const token of required) {
   assert.equal(definitions.length, 1, `${token} must have exactly one token definition.`);
   report.tokens[token] = { value: definitions[0], file: 'src/ui-tokens.css' };
 }
-const pressed = definition(indexHTML, '--h4-cursor-pressed-scale');
-assert.deepEqual(pressed, ['1.08'], 'The cursor press scale token must have one critical-CSS definition.');
-report.tokens['--h4-cursor-pressed-scale'] = { value: pressed[0], file: 'index.html' };
+// Native cursor contract: three public tokens plus the pressed variants, and
+// no other stylesheet may declare `cursor` at all.
+const cursorTokens = ['--h4-cursor', '--h4-cursor-interactive', '--h4-cursor-pressed', '--h4-cursor-xray', '--h4-cursor-xray-pressed'];
+for (const token of cursorTokens) {
+  const definitions = definition(css['src/cursor.css'], token);
+  assert.equal(definitions.length, 1, `${token} must have exactly one definition in cursor.css.`);
+  assert.match(definitions[0], /url\('\/assets\/[a-z0-9-]+\.svg'\) \d+ \d+, url\('\/assets\/[a-z0-9-]+\.png'\) \d+ \d+, (?:auto|pointer)$/,
+    `${token} needs the svg -> png -> keyword fallback chain.`);
+  report.tokens[token] = { value: definitions[0], file: 'src/cursor.css' };
+}
+const foreignCursorDeclarations = allSource
+  .filter(entry => !entry.file.pathname.endsWith('/src/cursor.css'))
+  .flatMap(entry => [...entry.text.matchAll(/(^|[;{\s])cursor\s*:\s*([^;\n"]+)/g)]
+    .filter(match => !/cursor:\s*controls\.|cursor\s*:\s*Object/.test(match[0]))
+    .map(match => ({ file: relative(entry.file.pathname), value: match[2].trim().slice(0, 60) })));
+assert.deepEqual(foreignCursorDeclarations, [],
+  `Only cursor.css may declare cursor: ${JSON.stringify(foreignCursorDeclarations)}`);
+const cursorLiterals = [...css['src/cursor.css'].matchAll(/(?<![-\w])cursor\s*:\s*([^;]+);/g)]
+  .map(match => match[1].trim())
+  .filter(value => !/^var\(--h4-cursor(?:-interactive|-pressed|-xray|-xray-pressed)?\)$/.test(value));
+assert.deepEqual(cursorLiterals, [], `cursor.css must only consume the cursor tokens: ${JSON.stringify(cursorLiterals)}`);
+assert.match(css['src/cursor.css'], /@media \(any-hover: hover\) and \(any-pointer: fine\)/,
+  'The cursor block must key off the any-* capabilities so hybrids keep the logo.');
+assert.doesNotMatch(css['src/cursor.css'], /\(hover: hover\) and \(pointer: fine\)/,
+  'The primary-pointer query misses hybrid devices.');
+assert.doesNotMatch(css['src/cursor.css'], /cursor:\s*none/, 'The retired blanket rule must not survive.');
+report.consumers.push({ token: '--h4-cursor*', count: [...css['src/cursor.css'].matchAll(/var\(--h4-cursor/g)].length, files: ['src/cursor.css'] });
 assert.equal((await Promise.all(allSource.map(entry => entry.text))).some(text => text.includes('--h4-ghost-text')),
   false, 'The obsolete --h4-ghost-text alias must not exist; the split ghost family is canonical.');
 
@@ -104,14 +128,8 @@ for (const [file, text] of Object.entries(css)) {
   }
 }
 
-const cursorRules = rules(indexHTML).filter(rule => rule.selector.includes('[data-h4-cursor]'));
-const cursorLiteral = cursorRules.flatMap(rule => rule.declarations
-  .filter(declaration => declaration.value.includes('1.08') && declaration.property !== '--h4-cursor-pressed-scale')
-  .map(declaration => ({ selector: rule.selector, ...declaration })));
-assert.deepEqual(cursorLiteral, [], `Cursor rules must consume the press-scale token: ${JSON.stringify(cursorLiteral)}`);
-assert.doesNotMatch(css['src/cursor.css'], /1\.08/, 'The blanket cursor CSS must not duplicate the press scale.');
-report.consumers.push({ token: '--h4-cursor-pressed-scale', selector: '[data-h4-cursor]', property: 'scale',
-  value: 'var(--h4-cursor-pressed-scale)' });
+assert.doesNotMatch(indexHTML, /data-h4-cursor|h4-custom-cursor|cursor-overlay/,
+  'The overlay markup, its class gate and its CSS must be gone.');
 
 for (const [token, value] of Object.entries({
   '--h4-ghost-color': 'var(--h4-ghost-color)', '--h4-ghost-opacity': 'var(--h4-ghost-opacity)',

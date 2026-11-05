@@ -1,23 +1,51 @@
-/* The custom pointer is class-gated so a blocked script leaves the site with
-   ordinary system cursors. The xray material cursor is the only exception. */
-@media (hover: hover) and (pointer: fine) {
-  html {
-    --h4-native-cursor: url('/assets/h4ngelic-cursor.svg') 9 2, auto;
+/* One native cursor image per state, straight from CSS.
+   The browser owns tracking, hiding on leave and the hotspot, so there is no
+   frame of lag and no overlay element to misplace. Every image is <= 32 CSS px
+   (Firefox silently discards larger cursors and falls back to the arrow) and
+   every declaration carries a PNG fallback for a failed SVG request.
+
+   Coverage is structural: every element and pseudo-element inherits the base
+   token, the interactive set only re-declares it with a `pointer` fallback, and
+   the pressed set swaps to a pre-scaled 1.08x silhouette. No other stylesheet
+   may declare `cursor` (tests/tokens-audit.mjs enforces that). */
+:root {
+  --h4-cursor: url('/assets/h4ngelic-cursor.svg') 8 2, url('/assets/h4ngelic-cursor.png') 8 2, auto;
+  --h4-cursor-interactive: url('/assets/h4ngelic-cursor.svg') 8 2, url('/assets/h4ngelic-cursor.png') 8 2, pointer;
+  --h4-cursor-pressed: url('/assets/h4ngelic-cursor-pressed.svg') 8 2, url('/assets/h4ngelic-cursor-pressed.png') 8 2, auto;
+  --h4-cursor-xray: url('/assets/h4ngelic-cursor-other-r09.svg') 8 2, url('/assets/h4ngelic-cursor-other.png') 8 2, auto;
+  --h4-cursor-xray-pressed: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 8 2, url('/assets/h4ngelic-cursor-other-pressed.png') 8 2, auto;
+}
+
+@media (any-hover: hover) and (any-pointer: fine) {
+  html,
+  html *,
+  html *::before,
+  html *::after {
+    cursor: var(--h4-cursor);
   }
-  html[data-mode='xray'] {
-    --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto;
+
+  html :is(a, button, summary, [role='button'], input, select, textarea, label, canvas) {
+    cursor: var(--h4-cursor-interactive);
   }
-  html.h4-custom-cursor { cursor: var(--h4-native-cursor); }
-  [data-h4-cursor] { pointer-events: none !important; }
-  /* The mode-scoped material cursor is the sole allowlisted escape hatch. */
-  html.h4-custom-cursor[data-cursor='xray'],
-  html.h4-custom-cursor [data-cursor='xray'],
-  html.h4-custom-cursor[data-cursor='xray'] *,
-  html.h4-custom-cursor [data-cursor='xray'] * {
-    cursor: var(--h4-native-cursor) !important;
+
+  html :is(a, button, summary, [role='button'], input, select, textarea, label, canvas):active {
+    cursor: var(--h4-cursor-pressed);
   }
-  /* Blanket contract: no element may replace the custom pointer. */
-  html.h4-custom-cursor * { cursor: none !important; }
+
+  html[data-mode='xray'],
+  html[data-mode='xray'] *,
+  html[data-mode='xray'] *::before,
+  html[data-mode='xray'] *::after {
+    cursor: var(--h4-cursor-xray);
+  }
+
+  html[data-mode='xray'] :is(a, button, summary, [role='button'], input, select, textarea, label, canvas) {
+    cursor: var(--h4-cursor-xray);
+  }
+
+  html[data-mode='xray'] :is(a, button, summary, [role='button'], input, select, textarea, label, canvas):active {
+    cursor: var(--h4-cursor-xray-pressed);
+  }
 }
 
 [data-controls] button:focus-visible {
