@@ -1,0 +1,476 @@
+{
+  "checkedAt": "2026-11-05T16:51:32.798Z",
+  "build": "c4710034ec5d",
+  "profiles": [
+    {
+      "width": 1440,
+      "home": {
+        "box": {
+          "left": 35,
+          "right": 1405,
+          "width": 1370
+        },
+        "insert": 88.31,
+        "token": 19,
+        "scrollWidth": 1370,
+        "clientWidth": 1370,
+        "pageOverflow": 0,
+        "items": [
+          {
+            "text": "tattoos",
+            "left": 123.296875,
+            "right": 362.875,
+            "top": 327.703125,
+            "width": 239.578125,
+            "textLeft": 123.296875,
+            "textRight": 297.90625,
+            "bottom": 486.09375,
+            "font": "64.989px"
+          },
+          {
+            "text": "jewellery",
+            "left": 454.03125,
+            "right": 745.46875,
+            "top": 327.703125,
+            "width": 291.4375,
+            "textLeft": 454.03125,
+            "textRight": 680.5,
+            "bottom": 486.09375,
+            "font": "64.989px"
+          },
+          {
+            "text": "tools",
+            "left": 836.609375,
+            "right": 1024.21875,
+            "top": 327.703125,
+            "width": 187.609375,
+            "textLeft": 836.609375,
+            "textRight": 959.25,
+            "bottom": 486.09375,
+            "font": "64.989px"
+          },
+          {
+            "text": "more",
+            "left": 1115.375,
+            "right": 1316.703125,
+            "top": 327.703125,
+            "width": 201.328125,
+            "textLeft": 1115.375,
+            "textRight": 1251.734375,
+            "bottom": 486.09375,
+            "font": "64.989px"
+          }
+        ],
+        "lines": [
+          {
+            "count": 4,
+            "gaps": [
+              91.15625,
+              91.140625,
+              91.15625
+            ],
+            "baselineSpread": 0,
+            "first": 123.296875,
+            "last": 1316.703125
+          }
+        ]
+      },
+      "cross": {
+        "box": {
+          "left": 35,
+          "right": 1405,
+          "width": 1370
+        },
+        "insert": 88.33,
+        "token": 19,
+        "scrollWidth": 1370,
+        "clientWidth": 1370,
+        "pageOverflow": 0,
+        "items": [
+          {
+            "text": "tattoos",
+            "left": 123.328125,
+            "right": 362.90625,
+            "top": 650.84375,
+            "width": 239.578125,
+            "textLeft": 123.328125,
+            "textRight": 297.9375,
+            "bottom": 719.84375,
+            "font": "64.987px"
+          },
+          {
+            "text": "jewellery",
+            "left": 454.03125,
+            "right": 745.46875,
+            "top": 650.84375,
+            "width": 291.4375,
+            "textLeft": 454.03125,
+            "textRight": 680.5,
+            "bottom": 719.84375,
+            "font": "64.987px"
+          },
+          {
+            "text": "tools",
+            "left": 836.609375,
+            "right": 1024.21875,
+            "top": 650.84375,
+            "width": 187.609375,
+            "textLeft": 836.609375,
+            "textRight": 959.25,
+            "bottom": 719.84375,
+            "font": "64.987px"
+          },
+          {
+            "text": "more",
+            "left": 1115.34375,
+            "right": 1316.671875,
+            "top": 650.84375,
+            "width": 201.328125,
+            "textLeft": 1115.34375,
+            "textRight": 1251.703125,
+            "bottom": 719.84375,
+            "font": "64.987px"
+          }
+        ],
+        "lines": [
+          {
+            "count": 4,
+            "gaps": [
+              91.125,
+              91.140625,
+              91.125
+            ],
+            "baselineSpread": 0,
+            "first": 123.328125,
+            "last": 1316.671875
+          }
+        ]
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "home": {
+        "box": {
+          "left": 22,
+          "right": 368,
+          "width": 346
+        },
+        "insert": 32.7,
+        "token": 19,
+        "scrollWidth": 346,
+        "clientWidth": 346,
+        "pageOverflow": 0,
+        "items": [
+          {
+            "text": "tattoos",
+            "left": 54.6875,
+            "right": 119.921875,
+            "top": 295.546875,
+            "width": 65.234375,
+            "textLeft": 55.21549987792969,
+            "textRight": 98.77799987792969,
+            "bottom": 345.546875,
+            "font": "16.212px"
+          },
+          {
+            "text": "jewellery",
+            "left": 257.140625,
+            "right": 335.3125,
+            "top": 295.546875,
+            "width": 78.171875,
+            "textLeft": 257.66864013671875,
+            "textRight": 314.16864013671875,
+            "bottom": 345.546875,
+            "font": "16.212px"
+          },
+          {
+            "text": "tools",
+            "left": 54.6875,
+            "right": 106.953125,
+            "top": 431.546875,
+            "width": 52.265625,
+            "textLeft": 55.21549987792969,
+            "textRight": 85.80924987792969,
+            "bottom": 481.546875,
+            "font": "16.212px"
+          },
+          {
+            "text": "more",
+            "left": 279.625,
+            "right": 335.3125,
+            "top": 431.546875,
+            "width": 55.6875,
+            "textLeft": 280.15301513671875,
+            "textRight": 314.16864013671875,
+            "bottom": 481.546875,
+            "font": "16.212px"
+          }
+        ],
+        "lines": [
+          {
+            "count": 2,
+            "gaps": [
+              137.74676513671875
+            ],
+            "baselineSpread": 0,
+            "first": 55.21549987792969,
+            "last": 335.3125
+          },
+          {
+            "count": 2,
+            "gaps": [
+              173.19989013671875
+            ],
+            "baselineSpread": 0,
+            "first": 55.21549987792969,
+            "last": 335.3125
+          }
+        ]
+      },
+      "cross": {
+        "box": {
+          "left": 22,
+          "right": 368,
+          "width": 346
+        },
+        "insert": 32.72,
+        "token": 19,
+        "scrollWidth": 346,
+        "clientWidth": 346,
+        "pageOverflow": 0,
+        "items": [
+          {
+            "text": "tattoos",
+            "left": 54.71875,
+            "right": 119.9375,
+            "top": 593.703125,
+            "width": 65.21875,
+            "textLeft": 54.71875,
+            "textRight": 98.28125,
+            "bottom": 610.703125,
+            "font": "16.21px"
+          },
+          {
+            "text": "jewellery",
+            "left": 257.125,
+            "right": 335.28125,
+            "top": 593.703125,
+            "width": 78.15625,
+            "textLeft": 257.125,
+            "textRight": 313.625,
+            "bottom": 610.703125,
+            "font": "16.21px"
+          },
+          {
+            "text": "tools",
+            "left": 54.71875,
+            "right": 106.96875,
+            "top": 656.703125,
+            "width": 52.25,
+            "textLeft": 54.71875,
+            "textRight": 85.3125,
+            "bottom": 673.703125,
+            "font": "16.21px"
+          },
+          {
+            "text": "more",
+            "left": 279.609375,
+            "right": 335.28125,
+            "top": 656.703125,
+            "width": 55.671875,
+            "textLeft": 279.609375,
+            "textRight": 313.625,
+            "bottom": 673.703125,
+            "font": "16.21px"
+          }
+        ],
+        "lines": [
+          {
+            "count": 2,
+            "gaps": [
+              137.1875
+            ],
+            "baselineSpread": 0,
+            "first": 54.71875,
+            "last": 335.28125
+          },
+          {
+            "count": 2,
+            "gaps": [
+              172.640625
+            ],
+            "baselineSpread": 0,
+            "first": 54.71875,
+            "last": 335.28125
+          }
+        ]
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "home": {
+        "box": {
+          "left": 22,
+          "right": 298,
+          "width": 276
+        },
+        "insert": 32.7,
+        "token": 19,
+        "scrollWidth": 276,
+        "clientWidth": 276,
+        "pageOverflow": 0,
+        "items": [
+          {
+            "text": "tattoos",
+            "left": 54.6875,
+            "right": 110.640625,
+            "top": 304.546875,
+            "width": 55.953125,
+            "textLeft": 55.33250045776367,
+            "textRight": 91.58250427246094,
+            "bottom": 351.546875,
+            "font": "13.49px"
+          },
+          {
+            "text": "jewellery",
+            "left": 198.59375,
+            "right": 265.3125,
+            "top": 304.546875,
+            "width": 66.71875,
+            "textLeft": 199.23875427246094,
+            "textRight": 246.25437927246094,
+            "bottom": 351.546875,
+            "font": "13.49px"
+          },
+          {
+            "text": "tools",
+            "left": 54.6875,
+            "right": 99.859375,
+            "top": 431.546875,
+            "width": 45.171875,
+            "textLeft": 55.33250045776367,
+            "textRight": 80.80125427246094,
+            "bottom": 478.546875,
+            "font": "13.49px"
+          },
+          {
+            "text": "more",
+            "left": 217.296875,
+            "right": 265.3125,
+            "top": 431.546875,
+            "width": 48.015625,
+            "textLeft": 217.94187927246094,
+            "textRight": 246.25437927246094,
+            "bottom": 478.546875,
+            "font": "13.49px"
+          }
+        ],
+        "lines": [
+          {
+            "count": 2,
+            "gaps": [
+              88.59812927246094
+            ],
+            "baselineSpread": 0,
+            "first": 55.33250045776367,
+            "last": 265.3125
+          },
+          {
+            "count": 2,
+            "gaps": [
+              118.08250427246094
+            ],
+            "baselineSpread": 0,
+            "first": 55.33250045776367,
+            "last": 265.3125
+          }
+        ]
+      },
+      "cross": {
+        "box": {
+          "left": 22,
+          "right": 298,
+          "width": 276
+        },
+        "insert": 32.72,
+        "token": 19,
+        "scrollWidth": 276,
+        "clientWidth": 276,
+        "pageOverflow": 0,
+        "items": [
+          {
+            "text": "tattoos",
+            "left": 54.71875,
+            "right": 110.640625,
+            "top": 594.15625,
+            "width": 55.921875,
+            "textLeft": 54.71875,
+            "textRight": 90.9375,
+            "bottom": 608.15625,
+            "font": "13.487px"
+          },
+          {
+            "text": "jewellery",
+            "left": 198.59375,
+            "right": 265.28125,
+            "top": 594.15625,
+            "width": 66.6875,
+            "textLeft": 198.59375,
+            "textRight": 245.578125,
+            "bottom": 608.15625,
+            "font": "13.487px"
+          },
+          {
+            "text": "tools",
+            "left": 54.71875,
+            "right": 99.875,
+            "top": 657.15625,
+            "width": 45.15625,
+            "textLeft": 54.71875,
+            "textRight": 80.171875,
+            "bottom": 671.15625,
+            "font": "13.487px"
+          },
+          {
+            "text": "more",
+            "left": 217.28125,
+            "right": 265.28125,
+            "top": 657.15625,
+            "width": 48,
+            "textLeft": 217.28125,
+            "textRight": 245.578125,
+            "bottom": 671.15625,
+            "font": "13.487px"
+          }
+        ],
+        "lines": [
+          {
+            "count": 2,
+            "gaps": [
+              87.953125
+            ],
+            "baselineSpread": 0,
+            "first": 54.71875,
+            "last": 265.28125
+          },
+          {
+            "count": 2,
+            "gaps": [
+              117.40625
+            ],
+            "baselineSpread": 0,
+            "first": 54.71875,
+            "last": 265.28125
+          }
+        ]
+      },
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failures": []
+}

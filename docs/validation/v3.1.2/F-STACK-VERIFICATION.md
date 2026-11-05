@@ -347,3 +347,22 @@ Verified product build: `data-build="8351205c4d79"` (`R2: label format NN/ x inc
 - **Befund:** The pre-V3.2 shell still exposed five INDEX entries, `/work` URLs and hover-revealed VISIT; several legacy suites also assumed pinning and modal carousels.
 - **Fix:** `/creative` is the canonical archive with 12 legacy 301s, INDEX is `00–03`, NAAVI is dynamically `NN/ 03` or `NN/ 04`, tools has a static F26 heading and detail pages, VISIT is a permanent ghost, and SMASH is Other-Side-only. Tests were reconciled to the approved in-place carousel and calm unpinned motion contracts.
 - **Beweis:** Build `4b9ce9a3fae4`: Node **374/374**, V3.2 structure PASS, micro PASS, cursor hit **4,458/1,138/928 + 2,221 xray**, performance FCP **52–132ms**, SEO 23 routes PASS, standalone 3/3 plus native. Full report: `docs/validation/V3.2/F-STACK-VERIFICATION.md`.
+
+## 15. B-F25 addendum — row typology A/B/C (build c4710034ec5d)
+
+- **Befund:** Frontpage strip, rubric cross-links and filter chips shared one
+  `--rubric-gap` token and one `.rubric-row` selector; four repair rounds moved
+  all three rows at once, the frontpage ended 207px early and the chips sat
+  12px above the `h4ngelic` baseline. Proof: `docs/validation/B-F25-ROW-MECHANISM/inventory-before.json`.
+- **Fix:** one type per row — A distributed (`space-between` between the
+  measured insets, optional word-width slot), B chips (own gap, wordmark
+  baseline, underline without height), C cluster (footer, own gap). The old
+  token is gone without an alias; `--viewer-nav-gap` and `--tool-gallery-gap`
+  keep the two non-row consumers at their old values.
+- **Beweis:** build `c4710034ec5d` — frontpage gaps 19.44 → 91.15px with the
+  left edge unchanged at 88.31px; cross-link words on the frontpage x positions
+  (±0.04px) with an inert slot; chips baseline delta 0.00px at 1440; footer gaps
+  unchanged at 28.8/30/12px. `tests/row-geometry-contract.mjs` 5 viewports × 5
+  rows plus coupling negatives, `tests/v25-cross-links-browser.mjs` 6/6,
+  `tests/rubric-gap-browser.mjs` 3/3, `tests/tokens-audit.mjs` 0 findings,
+  `npm test` 376/376. Full report: `docs/validation/B-F25-ROW-MECHANISM/README.md`.
