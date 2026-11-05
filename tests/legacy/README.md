@@ -1,0 +1,16 @@
+# Retired suites
+
+These four suites encode contracts that were deliberately removed. They are kept
+for history only and are **not** part of any battery. Nothing here runs in
+`npm test`, in the fast mode or in the merge gate.
+
+| Suite | Retired because | Contract removed in | Live coverage today |
+| --- | --- | --- | --- |
+| `scroll-browser.mjs` | Requires a pinned section (`--motion-run`, `[data-motion-pin]`), six `.motion-echo` afterimages and three work rubrics. All three are gone: the editorial sections scroll in normal document flow, the echoes were deleted with the calm-motion pass, and the row has four rubrics since B-F25. | `daeaff8` (echoes/motion), R1/B-F25 (four rubrics) | `tests/microinteractions-browser.mjs` (reversible choreography), `tests/scroll-motion.test.js` (timeline math), `tests/v32-structure-browser.mjs`, `tests/row-geometry-contract.mjs` |
+| `easter-browser.mjs` | Asserts the V3.0 footer's "seven-tier memory" line, a `[data-visit-counter-hotspot]` control and an `.archive-empty` blank area as the ink target. The VISIT counter is a quiet, non-interactive statement since B-F8, the message line was removed, and the tattoo archive is populated. | `daeaff8` (V3.1 footer), `2d52ca3` (B-F8 VISIT) | `tests/mobile-interactions-browser.mjs` (ink lifecycle, cleanup, route scope), `tests/v7-visitor-tiers-browser.mjs` (visit memory) |
+| `smart-v3-browser.mjs` | Written against the V3 shell: NAAVI total `03` (now `04` since the Other Side became the fourth chapter) and a pinned-section contact scroll. Already flagged as an older V3 suite in `docs/V3.1.2-FINAL-REPORT.md`. | `daeaff8` (NAAVI 04, unpinned motion) | `tests/portfolio-browser.mjs` (cold routes, contact), `tests/v31-navigation-browser.mjs` (INDEX/NAAVI), `tests/seo-browser.mjs` (redirects, `/#contact`) |
+| `ref09-layout-browser.mjs` | Waits for `#stage.is-ready` in a reduced-motion profile (the hero deliberately renders a poster there since F20/F29), then measures `[data-visit-counter-hotspot]`, the seven-tier greeting and the old footer identity row. | F20/F29 (poster hero), B-F8 (VISIT), `daeaff8` (footer) | `tests/hero-poster-browser.mjs`, `tests/v31-navigation-browser.mjs`, `tests/typography-contract.mjs` |
+
+Rule for the future: a suite whose contract is removed either moves here with
+this table filled in, or is lifted to the current contract and turns green.
+"Red and ignored" is not an allowed state.

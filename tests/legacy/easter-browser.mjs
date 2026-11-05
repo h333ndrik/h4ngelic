@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
-import { easterSettings, visitorMessage } from '../src/data/easterSettings.js';
+import { easterSettings, visitorMessage } from '../../src/data/easterSettings.js';
 
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const route = (path) => new URL(path, baseURL).href;
