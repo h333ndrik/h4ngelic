@@ -102,7 +102,7 @@ try {
       assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a'], 'Only the active loop is fetched, once.');
       assert.equal(state.sources.filter(source => source.loop).length, 1, 'One loop voice.');
       assert.equal((await page.locator('[data-mode-mute]').textContent()).trim(), 'sound on');
-      assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-label'), 'sound on', 'The accessible name is the state.');
+      assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-label'), 'sound', 'The accessible name is stable; aria-pressed carries the state.');
       assert.equal(await page.locator('[data-sound-activity]').getAttribute('aria-hidden'), 'true');
       assert.ok(state.ramps.some(ramp => ramp.value === 1 && ramp.at - ramp.now >= 1.5 && ramp.at - ramp.now <= 2.0),
         'The loop fades in over 1.5–2 s.');
@@ -116,7 +116,7 @@ try {
     },
   });
 
-  await scenario('desktop stage 2 needs 200 px after a neutral unlock', {
+  await scenario('pointermove never starts audio', {
     async run(page) {
       const button = await page.locator('#pause-control').boundingBox();
       const x = button.x + button.width / 2, y = button.y + button.height / 2;
@@ -126,26 +126,27 @@ try {
       assert.equal(state.contexts, 1, 'A neutral click unlocks state only.');
       assert.deepEqual(state.fetches, [], 'Unlock fetches nothing.');
       await page.mouse.move(x + 150, y);
-      await page.waitForTimeout(250);
-      assert.deepEqual((await probe(page)).fetches, [], '150 px does not trigger.');
-      await page.mouse.move(x + 240, y);
-      await activeLoop(page);
+      await page.mouse.move(x + 400, y + 120);
+      await page.waitForTimeout(400);
       state = await probe(page);
-      assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a']);
-      assert.equal(state.sources.filter(source => source.loop).length, 1);
+      assert.deepEqual(state.fetches, [], 'A 200+ px pointermove is not an audio trigger.');
+      assert.equal(state.snapshot.world, null);
     },
   });
 
-  await scenario('stage 3 starts when the hero leaves view', {
+  await scenario('WORKS becomes 25% visible and starts the loop once', {
     async run(page) {
       const button = await page.locator('#pause-control').boundingBox();
       await page.mouse.click(button.x + button.width / 2, button.y + button.height / 2);
-      await page.waitForTimeout(250);
+      await page.waitForTimeout(300);
       assert.deepEqual((await probe(page)).fetches, [], 'Unlock alone stays silent.');
-      await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
+      await page.evaluate(() => document.getElementById('selected-work').scrollIntoView({ block: 'center', behavior: 'instant' }));
       await activeLoop(page);
       const state = await probe(page);
       assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a']);
+      await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
+      await page.waitForTimeout(500);
+      assert.equal((await probe(page)).fetches.length, 1, 'The WORKS observer fires only once.');
     },
   });
 
@@ -197,7 +198,7 @@ try {
       state = await probe(page);
       assert.equal(state.snapshot.needsResume, false, 'The SOUND affordance clears the resume state.');
       assert.equal((await page.locator('[data-mode-mute]').textContent()).trim(), 'sound on');
-      assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-label'), 'sound on');
+      assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-label'), 'sound');
     },
   });
 
@@ -230,7 +231,7 @@ try {
     },
   });
 
-  await scenario('stage 2 is inert on touch; stage 1 still works', {
+  await scenario('touch pointermove is inert; WORKS visibility carries stage B', {
     width: 390, mobile: true,
     async run(page) {
       const button = await page.locator('#pause-control').boundingBox();
@@ -239,24 +240,39 @@ try {
       assert.deepEqual((await probe(page)).fetches, [], 'Touch unlock stays silent.');
       await page.evaluate(() => window.dispatchEvent(new PointerEvent('pointermove', { clientX: 380, clientY: 600, pointerType: 'touch', bubbles: true })));
       await page.waitForTimeout(300);
-      assert.deepEqual((await probe(page)).fetches, [], 'A touch pointermove never starts stage 2.');
-      const box = await page.locator('#stage').boundingBox();
-      await page.touchscreen.tap(box.x + box.width / 2, box.y + Math.min(box.height / 2, 400));
+      assert.deepEqual((await probe(page)).fetches, [], 'A touch pointermove never triggers audio.');
+      await page.evaluate(() => document.getElementById('selected-work').scrollIntoView({ block: 'center', behavior: 'instant' }));
       await activeLoop(page);
       assert.deepEqual((await probe(page)).fetches, ['/assets/audio/loop-333.m4a']);
     },
   });
 
-  await scenario('stored mute suppresses stage 2 and stage 3 too', {
+  await scenario('stage B re-arms after a home → work → home round-trip', {
+    async run(page) {
+      const button = await page.locator('#pause-control').boundingBox();
+      await page.mouse.click(button.x + button.width / 2, button.y + button.height / 2);
+      await page.waitForTimeout(300);
+      assert.deepEqual((await probe(page)).fetches, [], 'Unlock alone stays silent.');
+      await page.click('.hero-nav a[href="/work"]');
+      await page.waitForFunction(() => location.pathname !== '/' && !document.getElementById('selected-work'), null, { timeout: 20000 });
+      await page.goBack();
+      await page.waitForFunction(() => location.pathname === '/' && Boolean(document.getElementById('selected-work')), null, { timeout: 20000 });
+      await page.evaluate(() => document.getElementById('selected-work').scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await activeLoop(page);
+      const state = await probe(page);
+      assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a'], 'The re-created WORKS section still starts stage B.');
+      assert.equal(state.sources.filter(source => source.loop).length, 1, 'One loop voice.');
+    },
+  });
+
+  await scenario('stored mute suppresses the WORKS visibility stage', {
     async setup(context) {
       await context.addInitScript(() => {
         try { localStorage.setItem('h4ngelic.audio.v1', JSON.stringify({ muted: true, volume: .6 })); } catch { /* ignore */ }
       });
     },
     async run(page) {
-      await page.mouse.move(100, 200);
-      await page.mouse.move(100, 500);
-      await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
+      await page.evaluate(() => document.getElementById('selected-work').scrollIntoView({ block: 'center', behavior: 'instant' }));
       await page.waitForTimeout(700);
       const state = await probe(page);
       assert.equal(state.snapshot.muted, true);

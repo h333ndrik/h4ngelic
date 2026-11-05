@@ -235,13 +235,22 @@ control; the entry points below only decide when the designed loop may fade in.
 
 | Stage | Entry | Behaviour |
 | --- | --- | --- |
-| 1 | `pointerdown` on the chrome hero wordmark (`#stage`, `#logo-canvas`, poster) | unlock + fade the active loop in over 1.8 s |
-| 2 | first desktop `pointermove` that travels more than 200 px after unlock | same fade-in; throttled to one check per 100 ms; inert on coarse pointers |
-| 3 | first scroll that takes the hero fully out of view | same fade-in; `IntersectionObserver` observes visibility only, no per-scroll layout reads |
+| A | `pointerdown` on the chrome hero wordmark (`#stage`, `#logo-canvas`, poster) | unlock + fade the active loop in over 1.8 s |
+| B | `#selected-work` becomes at least 25% visible (`IntersectionObserver`, `threshold: [.25]`) | same fade-in, once per session |
 
-Each stage fires at most once per session; the first match wins. Activation is
-idempotent: an already running loop is ramped, never restarted. A fade requested
-during a decode starts as soon as the buffer resolves, with one start and no gap.
+There is **no `pointermove` / `mousemove` listener**, no hover listener and no
+dwell, idle or time-on-page trigger in the audio path. The old stage 2 still
+existed in `9b3e6ad`; it was removed in this pass (`V3.2-M8`). The current
+source contains only the wordmark `pointerdown` and the WORKS observer. Each
+stage fires at most once; the first match wins. Activation is idempotent: an
+already running loop is ramped, never restarted. A fade requested during a
+decode starts as soon as the buffer resolves, with one start and no gap.
+
+The router re-creates `#selected-work` on every page change
+(`content.innerHTML = renderRoutePage(...)` in `src/app.js`), so the observer
+re-attaches to the current node on `h4:pagechange`. Without that re-arm stage B
+would silently die after any home → work → home round-trip; the browser suite
+now covers this path.
 
 ### Activity indicator (4.3 b)
 
@@ -260,8 +269,9 @@ indicator is `aria-hidden="true"`, never announced, never a control, and its
 
 ### Honest label (4.3 c)
 
-The button names state, not action: **sound on** / **sound off**. The visible
-text and accessible name both update on every toggle. No play icon is used.
+The visible text names state, not action: **sound on** / **sound off**. The
+accessible name is the stable **sound**, while `aria-pressed` carries the state
+(`true` = on, `false` = off) and updates on every toggle. No play icon is used.
 
 ### Tap to resume (4.3 d)
 
@@ -284,47 +294,64 @@ detected or probed.
 ### Performance budget (4.4)
 
 Measured on the local Chromium build with `__H4_AUDIO_PERF__` instrumentation,
-current commit versus the pre-indicator baseline `a64f808`:
+current commit versus the pre-indicator baseline `a64f808`. Both timing runs
+used **stage A, the wordmark pointerdown**; neither used the SOUND ON path.
 
 | Metric | Measured |
 | --- | ---: |
-| Incremental `unlock()` cost (context already exists) | 0.0–0.2 ms |
-| `startListening()` synchronous cost | 0.1–0.5 ms |
+| Incremental `unlock()` cost (context already exists) | 0.0–0.1 ms |
+| `startListening()` synchronous cost (engine/fetch deferred to a microtask) | 0.0–0.2 ms |
 | Indicator start / stop cost | 0.0–0.1 ms |
-| Unlock + cascade + indicator handler total | **0.4–0.7 ms** (budget < 2 ms) |
+| Unlock + cascade + indicator handler total | **0.1–0.2 ms** (budget < 2 ms) |
 | Added startup: `guidedInit` + indicator DOM creation | **0.1–0.4 ms** (budget < 2 ms) |
-| First `AudioContext` construction (platform cost, not added JS) | 118–175 ms headless Chromium |
-| Gesture → first loop source, current | 121–209 ms cold, 119–135 ms warm |
+| First `AudioContext` construction (platform cost, not added JS) | 105–175 ms headless Chromium |
+| Gesture → first loop source, current localhost | 121–209 ms cold, 119–574 ms warm (dev-server variance) |
 | Gesture → first loop source, baseline `a64f808` | 263 ms cold, 545–737 ms warm |
 | Analyser reads while playing | 3–20 per second (limit 30) |
 | Decoded PCM with one world resident | 3,969,000 × 2 ch × 4 B = **31,752,000 B** |
-| Observed JS heap delta after first decode | −2.0 to +10.2 MB across runs (GC noise; not a memory claim) |
+| Heap delta after two full 333→4→333 round-trips | **+48,214 B** latest; −21,206 / +74,834 / +144,786 B earlier runs (budget ≤ 2 MB) |
 | Audio-path long tasks > 50 ms (audio-only window) | 0 |
 | Layout shifts from indicator appearance | 0 |
 
-No idle prefetch is issued: after the first loop is playing the only second-loop
-load is the existing mode-gesture preload, so no autonomous bytes or second
-decoded buffer exist. This is stricter than the conditional-prefetch rule. The
-pointermove listener is passive and throttled to 100 ms; stage 3 uses an
-`IntersectionObserver` and never reads layout per frame.
+**Cold-start honesty:** the 121–209 ms figure is a localhost measurement after
+the page reached `networkidle`. A real first visit on a mobile connection also
+downloads the active loop (~2.8 MB) before playback; roughly **3 s to first
+sound** is the realistic cold case, not the localhost figure. Backgrounding,
+cache warmth, codec and device speed move that number materially.
 
-## Verification (2026-11-05)## Verification (2026-11-05)
+**Heap method:** Chrome DevTools Protocol `HeapProfiler.collectGarbage`, then
+`performance.memory.usedJSHeapSize` before and after two complete
+`333 → 4 → 333` round-trips. The outgoing loop's `AudioBuffer` is released after
+its fade; the snapshot after the round-trips reports the inactive loop with
+`bufferDuration: 0` and status `idle`, and the active loop still ready. The next
+switch back re-fetches/re-decodes the released loop. The deterministic PCM state
+is 31,752,000 B for the one resident loop; the measured deltas are +48,214 B
+(latest run), −21,206 B, +74,834 B and +144,786 B (earlier runs). All of them
+are far below the 2 MB budget; the run-to-run spread is allocator noise around
+the one resident loop, not an accumulation.
+
+No idle prefetch is issued. The second loop is downloaded only by an explicit
+mode switch; the outgoing PCM buffer is dropped after the crossfade. There is no
+pointermove listener, no scroll listener, no dwell timer and no per-frame layout
+read.
+
+## Verification (2026-11-05)
 
 All commands were run serially on this branch; actual output is under
-`docs/validation/world-sound/v3/phase4b/`.
+`docs/validation/world-sound/v3/phase4c/`.
 
 | Check | Actual result |
 | --- | --- |
-| `npm test` | **402 passed, 0 failed** (`phase4b/node-tests.txt`) |
+| `npm test` | **402 passed, 0 failed** (`phase4c/node-tests.txt`) |
 | `tests/world-audio-formats-browser.mjs` | 4/4 files decode at exact frame counts; 250 ms seam level continuity ≤ 1 dB; **0 audio-path long tasks**; 0 console errors |
 | `tests/world-sound-browser.mjs` | 6/6 profiles at 1440/390/320 × full/reduced; lazy load, one active loop, both transitions, full-length one-shots, SFX/crossfade end together, no audio-path long task, missing-file degradation |
-| `tests/guided-listening-browser.mjs` | 8/8 scenarios: wordmark + 1.8 s fade, 200 px stage 2, hero-out-of-view stage 3, touch stage 2 inert, stored mute across all stages, keyboard tap-to-resume, one-time persisted iOS hint (`phase4b/guided-listening-browser.txt`) |
-| `tests/audio-performance-browser.mjs` | PASS: handler 0.7 ms, startup 0.1 ms, analyser 15–20 reads/s, zero audio-only long tasks, static reduced-motion bars, 390/320 both motion profiles, in-flight decode (`phase4b/audio-performance-browser.txt`) |
+| `tests/guided-listening-browser.mjs` | **9/9 scenarios**: wordmark + 1.8 s fade, pointermove inert, WORKS 25 % once, home → work → home re-arm, touch WORKS, stored mute, keyboard tap-to-resume, one-time persisted iOS hint (`phase4c/guided-listening-browser.txt`) |
+| `tests/audio-performance-browser.mjs` | PASS: handler 0.2 ms, startup 0.2 ms, heap delta +48,214 B after two round-trips, analyser 16 reads/s, zero audio-only long tasks, static reduced-motion bars, 390/320 both motion profiles, in-flight decode (`phase4c/audio-performance-browser.txt`, `phase4c/audio-performance-results.json`) |
 | `tests/mode-audio-browser.mjs` | PASS: gesture-only startup, no legacy 0.7 s cue, file transitions, one shared context, route/mute persistence |
 | `tests/sound-controls-browser.mjs` | 8/8 profiles: mute suspension, volume, keyboard/touch, persistence, no early requests |
-| `tests/smash-v31-browser.mjs` | PASS at 1440/390/320: exact file, deferred fetch, attack/tail/stop, world-bus duck/release |
+| `tests/smash-v31-browser.mjs` | PASS at 1440/390/320: exact file, deferred fetch, attack/tail/stop, world-bus duck/release. One earlier batch run timed out while polling the 1.8 s attack ramp under load; the standalone re-run and the second full batch both passed (see OBSERVATION in `PROJECT_PROGRESS.md`) |
 | `npm run build` | PASS; exactly four M4A copied with matching hashes (`build.txt`) |
-| `node scripts/buildWorldSound.mjs --validate` | `pass: true` for all four files |
+| `node scripts/buildWorldSound.mjs --validate` | `pass: true` for all four files (`phase4c/build-world-sound-validate.txt`) |
 
 The build's `prebuild` step re-encodes `public/images/optimized/*`; those files
 were restored after the build and are not part of this commit.

@@ -1,7 +1,8 @@
 # Next checkpoint — WORLD SOUND v3 delivered, awaiting user listening
 
-Updated 2026-11-05. Branch `v3.2-world-sound`, local commits on top of
-`4ab1a75` (no history rewrite). Nothing pushed, merged or deployed.
+Updated 2026-11-05 after the Phase 4 verification pass. Branch
+`v3.2-world-sound`, HEAD `9b3e6ad` plus the `V3.2-M8` commit from this pass (no
+history rewrite). Nothing pushed, merged or deployed.
 
 ## Per-item status
 
@@ -18,14 +19,16 @@ Updated 2026-11-05. Branch `v3.2-world-sound`, local commits on top of
 | SOUND OFF / tab hide release SFX and dip | DONE | `world.release()` on mute and hide |
 | Lazy fetch, one decode per buffer, one active loop | DONE | 5× switch test + browser probe |
 | Manifest exactly 4 M4A files | DONE | directory listing + hashes + build output |
-| Full Node suite | DONE | 402/402 (`docs/validation/world-sound/v3/phase4b/node-tests.txt`) |
-| Browser suites (7, serial) | DONE | `docs/validation/world-sound/v3/phase4b/*.txt` |
-| Production build ships 4 M4A | DONE | `docs/validation/world-sound/v3/phase4b/build.txt` |
-| Guided listening 4.1–4.2 | DONE | 8/8 browser scenarios |
+| Full Node suite | DONE | 402/402 (`docs/validation/world-sound/v3/phase4c/node-tests.txt`) |
+| Browser suites (7, serial) | DONE | `docs/validation/world-sound/v3/phase4c/*.txt` |
+| Production build ships 4 M4A | DONE | `docs/validation/world-sound/v3/phase4c/build.txt` |
+| Guided listening 4.1–4.2 | DONE | stage A wordmark + stage B WORKS 25 % (re-armed on `h4:pagechange`); no pointermove, no dwell, no scroll trigger |
 | Activity bars 4.3b | DONE | static reduced-motion state, rAF only while audible |
 | Honest SOUND label 4.3c | DONE | “sound on” / “sound off” text and accessible name |
 | Tap to resume 4.3d | DONE | keyboard reachable, clears on success |
-| Performance budgets 4.4 | DONE | handler 0.7 ms, startup 0.1 ms, zero audio-only long tasks |
+| Performance budgets 4.4 | DONE | handler 0.2 ms, startup 0.2 ms, round-trip heap delta +48,214 B (budget 2 MB), zero audio-only long tasks |
+| Stable SOUND name | DONE | `aria-label="sound"` + `aria-pressed`; text stays sound on/off |
+| Outgoing loop release | DONE | inactive `bufferDuration: 0`, reload on next switch |
 | Phase 4 tests 4.5 | DONE | `audio-performance-browser.mjs`, `guided-listening-browser.mjs` |
 | Subjective listening | OPEN — user | checklist in `docs/WORLD-SOUND.md` |
 | Key is F minor as briefed | NOT MET — measured A minor / F major | documented; no guessed pitch shift |

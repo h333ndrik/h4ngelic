@@ -33,7 +33,8 @@ try {
     assert.equal(await activity.locator('i').count(), 3);
     const reserved = await activity.boundingBox();
     assert.ok(reserved.width > 8, 'Inactive bars reserve their space.');
-    assert.equal(await mute.getAttribute('aria-label'), 'sound on');
+    assert.equal(await mute.getAttribute('aria-label'), 'sound');
+    assert.equal(await mute.getAttribute('aria-pressed'), 'true');
     if (width < 500) await arrow.tap(); else await arrow.press('Enter');
     await page.waitForTimeout(260);
     assert.equal(await page.evaluate(() => window.__soundContexts), 1, 'The first trusted control gesture unlocks the shared world-sound context.');
@@ -52,8 +53,8 @@ try {
     assert.equal(await arrow.getAttribute('aria-expanded'), 'false');
     assert.equal(await arrow.evaluate(node => node === document.activeElement), true, 'Escape returns keyboard focus to the attached arrow.');
     await mute.click();
-    assert.equal(await mute.getAttribute('aria-pressed'), 'true');
-    assert.equal(await mute.getAttribute('aria-label'), 'sound off');
+    assert.equal(await mute.getAttribute('aria-pressed'), 'false');
+    assert.equal(await mute.getAttribute('aria-label'), 'sound');
     assert.equal((await mute.textContent()).trim(), 'sound off');
     assert.equal(await activity.getAttribute('data-active'), 'false');
     assert.equal(await page.evaluate(() => window.__H4_AUDIO__?.snapshot().analyserConnected ?? false), false);
@@ -64,8 +65,8 @@ try {
     assert.equal(await arrow.getAttribute('aria-expanded'), 'false');
     await page.reload({ waitUntil: 'networkidle' });
     await arrow.waitFor({ state: 'visible' });
-    assert.equal(await mute.getAttribute('aria-pressed'), 'true');
-    assert.equal(await mute.getAttribute('aria-label'), 'sound off');
+    assert.equal(await mute.getAttribute('aria-pressed'), 'false');
+    assert.equal(await mute.getAttribute('aria-label'), 'sound');
     assert.equal(await range.inputValue(), '1');
     assert.equal(await page.evaluate(() => window.__soundContexts), 0, 'Reload restores preferences without autoplay.');
     assert.equal(await page.locator('[data-smash]').isDisabled(), false, 'The supplied approved track is available without being preloaded.');

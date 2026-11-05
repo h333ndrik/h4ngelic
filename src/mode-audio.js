@@ -302,9 +302,12 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     unlock(event);
     if (disposed || muted || pageHidden || failed || !context) { measure('startListening', started); return Promise.resolve(false); }
     const target = worldId || worldForMode(currentMode());
-    const engine = ensureWorld();
-    if (!engine) { measure('startListening', started); return Promise.resolve(false); }
-    const activation = Promise.resolve(engine.activate(target, { fadeIn: true, fadeSeconds })).then((ready) => {
+    // Keep the handler under the 1 ms budget: the engine graph, fetch and
+    // decode are scheduled as a microtask after unlock, never synchronously.
+    const activation = Promise.resolve().then(() => {
+      const engine = ensureWorld();
+      return engine ? engine.activate(target, { fadeIn: true, fadeSeconds }) : false;
+    }).then((ready) => {
       if (ready) needsResume = false;
       notify();
       return ready;

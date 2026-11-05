@@ -1,12 +1,11 @@
 /** Guided listening around the existing SOUND switch: state-only unlock on the
- * standard gesture set, then one of three pointer/scroll entry points fades the
- * active world in. No play button, no autoplay, no fetch during unlock. */
+ * standard gesture set, then the wordmark or the visible WORKS section fades
+ * the active world in. No pointermove, dwell timer, play button or autoplay. */
 
 const UNLOCK_EVENTS = ['pointerdown', 'touchend', 'click', 'keydown'];
 const WORDMARK_SELECTOR = '#stage, #logo-canvas, [data-hero-poster]';
-const MOVE_THRESHOLD_PX = 200;
-const MOVE_THROTTLE_MS = 100;
-const SCROLL_THROTTLE_MS = 120;
+const WORKS_SELECTOR = '#selected-work';
+const WORKS_VISIBLE_RATIO = .25;
 const HINT_KEY = 'h4ngelic.sound.ios-hint.v1';
 
 function isIOS(view) {
@@ -24,19 +23,15 @@ export function initGuidedListening({ doc = document, audio, fadeSeconds = 1.8, 
   const view = doc.defaultView;
   const perf = Array.isArray(view.__H4_AUDIO_PERF__) ? view.__H4_AUDIO_PERF__ : null;
   const initStarted = perf ? performance.now() : 0;
-  const coarse = view.matchMedia?.('(pointer: coarse)');
   const removers = [];
   const unlockRemovers = [];
   let disposed = false;
   let unlocked = false;
   let played = false;
-  let anchor = null;
-  let lastMoveCheck = 0;
-  let lastScrollCheck = 0;
   let hintShown = false;
   let hintTimer = 0;
-  let heroObserver = null;
-  let fallbackScroll = false;
+  let worksObserver = null;
+  let observedWorks = null;
 
   const listen = (target, name, callback, options, registry = removers) => {
     target.addEventListener(name, callback, options);
@@ -50,11 +45,8 @@ export function initGuidedListening({ doc = document, audio, fadeSeconds = 1.8, 
     if (disposed || unlocked || event?.isTrusted !== true) return false;
     if (!audio.unlock(event)) return false;
     unlocked = true;
-    if (Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
-      anchor = { x: event.clientX, y: event.clientY };
-    }
     detachUnlock();
-    ensureHeroObserver();
+    ensureWorksObserver();
     return true;
   }
 
@@ -97,60 +89,39 @@ export function initGuidedListening({ doc = document, audio, fadeSeconds = 1.8, 
     trigger(event);
   }, { passive: true, capture: true });
 
-  // Stage 2: desktop catch-all, throttled and only after a real 200 px travel.
-  listen(view, 'pointermove', (event) => {
-    if (!unlocked || played || coarse?.matches || event.pointerType === 'touch') return;
-    const now = view.performance?.now?.() ?? Date.now();
-    if (now - lastMoveCheck < MOVE_THROTTLE_MS) return;
-    lastMoveCheck = now;
-    if (!anchor) { anchor = { x: event.clientX, y: event.clientY }; return; }
-    if (Math.hypot(event.clientX - anchor.x, event.clientY - anchor.y) <= MOVE_THRESHOLD_PX) return;
-    trigger(event);
-  }, { passive: true });
-
-  // Stage 3: the first scroll that takes the hero out of view (touch + desktop).
-  // IntersectionObserver observes visibility only; no per-scroll layout reads.
-  function ensureHeroObserver() {
-    if (heroObserver || fallbackScroll) return;
-    const hero = doc.getElementById('home-hero') || doc.querySelector('.hero');
-    if (!hero) return;
-    if (typeof view.IntersectionObserver === 'function') {
-      heroObserver = new view.IntersectionObserver((entries) => {
-        if (!unlocked || played) return;
-        for (const entry of entries) {
-          if (entry.isIntersecting) continue;
-          if (entry.boundingClientRect?.bottom > 0) continue;
-          if (entry.boundingClientRect?.height <= 0) continue;
-          trigger({ isTrusted: true });
-          return;
-        }
-      }, { threshold: 0 });
-      heroObserver.observe(hero);
-      return;
-    }
-    fallbackScroll = true;
-    listen(view, 'scroll', (event) => {
+  // Stage B: the WORKS section becomes at least 25% visible. The observer is
+  // the only visibility source; there is no pointermove, scroll or dwell trigger.
+  // #selected-work is re-created by the router on every page change, so the
+  // observer is re-attached to the current node instead of being created once.
+  function ensureWorksObserver() {
+    if (typeof view.IntersectionObserver !== 'function') return;
+    const works = doc.querySelector(WORKS_SELECTOR);
+    if (works === observedWorks) return;
+    if (observedWorks) { worksObserver?.unobserve(observedWorks); observedWorks = null; }
+    if (!works) return;
+    if (!worksObserver) worksObserver = new view.IntersectionObserver((entries) => {
       if (!unlocked || played) return;
-      const now = view.performance?.now?.() ?? Date.now();
-      if (now - lastScrollCheck < SCROLL_THROTTLE_MS) return;
-      lastScrollCheck = now;
-      const node = doc.getElementById('home-hero') || doc.querySelector('.hero');
-      if (!node || !node.isConnected) return;
-      const rect = node.getBoundingClientRect();
-      if (rect.height <= 0 || rect.bottom > 0) return;
-      trigger(event);
-    }, { passive: true });
+      for (const entry of entries) {
+        if (!entry.isIntersecting || entry.intersectionRatio < WORKS_VISIBLE_RATIO) continue;
+        trigger({ isTrusted: true });
+        return;
+      }
+    }, { threshold: [WORKS_VISIBLE_RATIO] });
+    observedWorks = works;
+    worksObserver.observe(works);
   }
 
-  ensureHeroObserver();
+  ensureWorksObserver();
+  listen(doc, 'h4:pagechange', ensureWorksObserver);
   if (perf) perf.push({ name: 'guidedInit', ms: performance.now() - initStarted, at: performance.now() });
 
   return () => {
     disposed = true;
     if (hintTimer) view.clearTimeout(hintTimer);
     hintTimer = 0;
-    heroObserver?.disconnect();
-    heroObserver = null;
+    worksObserver?.disconnect();
+    worksObserver = null;
+    observedWorks = null;
     detachUnlock();
     doc.querySelector('[data-sound-ios-hint]')?.remove();
   };

@@ -88,10 +88,10 @@ try {
   await pageKind(page, 'home');
   const mute = page.locator('[data-controls] [data-mode-mute]');
   await mute.click();
-  assert.equal(await mute.getAttribute('aria-pressed'), 'true');
+  assert.equal(await mute.getAttribute('aria-pressed'), 'false');
   await page.waitForFunction(() => window.__audioProbe.contexts[0].suspends > 0);
   await mute.click();
-  assert.equal(await mute.getAttribute('aria-pressed'), 'false');
+  assert.equal(await mute.getAttribute('aria-pressed'), 'true');
   await page.waitForFunction(() => window.__audioProbe.contexts[0].state === 'running');
   await changeMode(page, 'normal');
   assert.ok((await page.evaluate(() => window.__audioProbe.fetches)).some(url => url.endsWith('x-4-333.m4a')));

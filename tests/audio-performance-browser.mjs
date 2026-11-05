@@ -154,6 +154,30 @@ try {
   const startupTotal = guidedInit.ms + indicatorCreate.ms;
   assert.ok(startupTotal < 2, `Added startup cost ${startupTotal.toFixed(3)} ms must stay below 2 ms.`);
 
+  // Decoded-heap budget: one loop resident after two full mode round-trips.
+  const cdp = await context.newCDPSession(page);
+  const heapSnapshot = async () => {
+    await cdp.send('HeapProfiler.collectGarbage');
+    await page.waitForTimeout(200);
+    return page.evaluate(() => performance.memory?.usedJSHeapSize ?? null);
+  };
+  await page.waitForTimeout(600);
+  const roundTripBefore = await heapSnapshot();
+  for (let round = 0; round < 2; round++) {
+    await page.evaluate(() => window.__H4_AUDIO__.switchMode('xray', 900));
+    await page.waitForTimeout(1200);
+    await page.evaluate(() => window.__H4_AUDIO__.switchMode('normal', 900));
+    await page.waitForTimeout(1200);
+  }
+  const roundTripAfter = await heapSnapshot();
+  const roundTripState = await perf(page);
+  assert.equal(roundTripState.snapshot.world.currentWorld, '333');
+  assert.equal(roundTripState.snapshot.world.loops['333'].bufferDuration > 89, true);
+  assert.equal(roundTripState.snapshot.world.loops['4'].bufferDuration, 0, 'The outgoing loop PCM is released after the fade.');
+  const heapDelta = roundTripBefore !== null && roundTripAfter !== null ? roundTripAfter - roundTripBefore : null;
+  assert.ok(heapDelta !== null && heapDelta <= 2 * 1024 * 1024,
+    `Two mode round-trips must add at most 2 MB of decoded heap (measured ${heapDelta}).`);
+
   await page.evaluate(() => { window.__audioPerf.reads = 0; });
   await page.waitForTimeout(1000);
   const reads = await page.evaluate(() => window.__audioPerf.reads);
@@ -170,11 +194,13 @@ try {
   assert.equal(afterMute.rafAudio ?? rafAtMute, rafAtMute, 'No audio rAF is scheduled while muted.');
   assert.equal(await indicator.getAttribute('data-active'), 'false');
   assert.equal(afterMute.snapshot.analyserConnected, false, 'The analyser disconnects in the same tick as the mute.');
-  assert.equal((await mute.getAttribute('aria-label')), 'sound off');
+  assert.equal((await mute.getAttribute('aria-label')), 'sound');
+  assert.equal((await mute.getAttribute('aria-pressed')), 'false');
   assert.equal((await mute.textContent()).trim(), 'sound off');
   await mute.click();
   await activeLoop(page);
-  assert.equal((await mute.getAttribute('aria-label')), 'sound on');
+  assert.equal((await mute.getAttribute('aria-label')), 'sound');
+  assert.equal((await mute.getAttribute('aria-pressed')), 'true');
   const rafBeforeHide = await page.evaluate(() => window.__audioPerf.rafAudio);
   await page.evaluate(() => window.__H4_AUDIO__.setPageHidden(true));
   await page.waitForTimeout(450);
@@ -185,7 +211,7 @@ try {
   await page.waitForTimeout(300);
 
   const labels = await page.evaluate(() => document.querySelector('[data-mode-mute]').getAttribute('aria-label'));
-  assert.equal(labels, 'sound on');
+  assert.equal(labels, 'sound');
 
   const beforeSwitch = await page.evaluate(() => window.__H4_AUDIO__.snapshot().world.transportStart);
   await page.evaluate(() => { window.__audioPerf.longTasks.length = 0; });
@@ -205,7 +231,8 @@ try {
     unlockMs: unlock.ms, startMs: start.ms, indicatorStartMs: indicatorStart.ms, heapBefore, heapNow: heap,
     heapDelta: heapBefore !== null && heap !== null ? heap - heapBefore : null,
     decodedBytes: 3969000 * 2 * 4, coldGestureToStartMs: +(state.starts[0].at - gestureAt).toFixed(1),
-    fetches: state.fetches, errors });
+    roundTripBefore, roundTripAfter, roundTripHeapDelta: heapDelta,
+    roundTripLoops: roundTripState.snapshot.world.loops, fetches: state.fetches, errors });
   await context.close();
 
   // Reduced motion: static active bars, no animation frame, no analyser reads.

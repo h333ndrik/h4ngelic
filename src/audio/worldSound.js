@@ -186,6 +186,21 @@ export function createWorldSound({
     cancelSchedule?.(voice.stopTimer);
     voice.stopTimer = null;
   }
+  /** Keep only the active world's PCM resident. The outgoing buffer is dropped
+   * after its voice has stopped; the next switch re-fetches and re-decodes it. */
+  function releaseLoopBuffer(worldId) {
+    const record = worlds.get(worldId);
+    if (!record || record.voice) return false;
+    record.buffer = null;
+    record.status = 'idle';
+    const asset = assets.get(assetKey('loops', worldId));
+    if (asset) {
+      asset.buffer = null;
+      asset.status = 'idle';
+      asset.promise = null;
+    }
+    return true;
+  }
   function stopVoiceLater(voice, endTime) {
     if (!voice || voice.ended) return;
     cancelVoiceStop(voice);
@@ -196,6 +211,9 @@ export function createWorldSound({
       const record = worlds.get(voice.worldId);
       if (record?.voice === voice && currentWorld !== voice.worldId) {
         try { voice.source.stop(); } catch { /* already ended */ }
+        try { voice.source.buffer = null; } catch { /* already detached */ }
+        record.voice = null;
+        releaseLoopBuffer(voice.worldId);
       }
     }, delay);
   }

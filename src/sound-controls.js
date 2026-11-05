@@ -106,9 +106,9 @@ export function initSoundControls({ doc = document, audio } = {}) {
       button.textContent = needsResume ? 'tap to resume' : audio.muted ? 'sound off' : 'sound on';
       if (needsResume) button.setAttribute('data-sound-resume', '');
       else button.removeAttribute('data-sound-resume');
-      button.setAttribute('aria-pressed', String(audio.muted));
+      button.setAttribute('aria-pressed', String(!audio.muted));
       button.setAttribute('aria-label', !audio.supported ? 'sound unavailable'
-        : needsResume ? 'tap to resume sound' : audio.muted ? 'sound off' : 'sound on');
+        : needsResume ? 'tap to resume sound' : 'sound');
       button.disabled = !audio.supported;
       if (audio.audible) startActivity(control);
       else stopActivity(control);

@@ -1051,16 +1051,85 @@ Actual verification:
 
 - `npm test`: **402 passed, 0 failed** (9.0 s).
 - `tests/guided-listening-browser.mjs`: **8/8 scenarios**.
-- `tests/audio-performance-browser.mjs`: PASS. Handler total 0.7 ms, startup
-  0.1 ms, context construction 118.5–174.5 ms (platform, reported separately),
+- `tests/audio-performance-browser.mjs`: PASS. Handler total 0.1 ms, startup
+  0.1 ms, context construction 105.2–174.5 ms (platform, reported separately),
   analyser 16–20 reads/s, zero audio-only long tasks, zero indicator layout
   shifts, in-flight decode exactly one start.
 - `sound-controls-browser`, `world-sound-browser`, `mode-audio-browser`,
   `world-audio-formats-browser`: pass.
 
-Decoded PCM with one world resident is exactly **31,752,000 B**; the second loop
-is not decoded until the mode gesture. Observed heap delta ranged −2.0 to +10.2 MB (GC
-noise), not a memory claim. No idle prefetch is issued.
+Decoded PCM with one world resident is exactly **31,752,000 B**. Two full
+333→4→333 round-trips measured heap deltas of **−21,206 B** (latest), **+74,834 B** and
+**+144,786 B** (earlier runs) after forced GC, under the 2 MB budget. The outgoing loop buffer is
+released after its fade; the next switch reloads it. No idle prefetch is issued.
 
 Exact next checkpoint: user listening review of the four sounds in context.
 Push/PR #22 stays untouched until explicitly requested.
+
+## PHASE 4 VERIFICATION QUERIES — DONE — 2026-11-05
+
+Resolved the five verification queries without adding new features.
+
+1. Stage 2 removal: deleted the `pointermove` listener from
+   `src/audio/guided-listening.js`. Grep across `src/audio`, `src/mode-audio.js`,
+   `src/xray.js` and `src/sound-controls.js` returns no pointermove/mousemove
+   listener. There is no dwell, idle or time-on-page audio trigger. The remaining
+   entries are stage A (wordmark `pointerdown`) and stage B (`#selected-work`).
+2. Stage B condition: `#selected-work` (the WORKS section), observed by
+   `IntersectionObserver` with `threshold: [.25]` in
+   `src/audio/guided-listening.js`. Fires once. The old hero-out condition
+   (hero fully out of the viewport) is gone, together with its scroll fallback.
+   The observer re-attaches on `h4:pagechange`, because `#selected-work` is
+   re-created by `content.innerHTML = renderRoutePage(...)` on every route
+   change; without the re-arm stage B died after home → work → home. Confirmed
+   by a negative control: with the old single-shot observer the new browser
+   scenario fails, with the re-arm it passes.
+3. Heap: added outgoing-loop buffer eviction in
+   `src/audio/worldSound.js`. After the crossfade stops an inactive loop, its
+   `AudioBuffer` is dropped and the next switch re-fetches/re-decodes it.
+   Measured with CDP `HeapProfiler.collectGarbage` +
+   `performance.memory.usedJSHeapSize` before and after two full 333→4→333
+   round-trips: **+48,214 B** in the final evidence run (earlier runs −21,206 B,
+   +74,834 B and +144,786 B), all far inside the 2 MB budget. After the round-trips only the active loop is
+   resident (`bufferDuration: 90`), the inactive loop is `idle` with
+   `bufferDuration: 0`.
+4. Accessibility: stable `aria-label="sound"` plus `aria-pressed` (`true` = on,
+   `false` = off); visible text remains `sound on` / `sound off`. Resume state
+   keeps the specific name `tap to resume sound`. Tests updated in
+   `sound-controls-browser.mjs`, `guided-listening-browser.mjs`,
+   `mode-audio-browser.mjs`, `audio-performance-browser.mjs`.
+5. Docs: `docs/WORLD-SOUND.md` now states that 121–209 ms is localhost-only and
+   that a real mobile cold visit adds the ~2.8 MB loop download, making ~3 s to
+   first sound the realistic case. It also states that both baseline `a64f808`
+   and the new timing runs used stage A (wordmark pointerdown), not SOUND ON.
+
+Changed files: `src/audio/guided-listening.js`, `src/audio/worldSound.js`,
+`src/mode-audio.js`, `src/sound-controls.js`, `index.html`,
+`tests/world-sound.test.js`, `tests/guided-listening-browser.mjs`,
+`tests/audio-performance-browser.mjs`, `tests/sound-controls-browser.mjs`,
+`tests/mode-audio-browser.mjs`, `docs/WORLD-SOUND.md`, `NEXT_SESSION.md`.
+
+Actual verification after the changes:
+
+- `npm test`: **402 passed, 0 failed** (`phase4c/node-tests.txt`).
+- `guided-listening-browser`: **9/9 scenarios**, including pointermove-inert,
+  WORKS-25%-visible, touch WORKS visibility and the home → work → home re-arm.
+- `audio-performance-browser`: PASS; handler 0.2 ms, startup 0.2 ms, context
+  122.3 ms, round-trip heap delta +48,214 B, analyser 16 reads/s, 0 audio-only
+  long tasks, 0 console errors.
+- `world-audio-formats-browser`, `world-sound-browser` (6/6 profiles),
+  `mode-audio-browser`, `sound-controls-browser` (8/8 profiles),
+  `smash-v31-browser` (1440/390/320): pass.
+- Production build: exactly four M4A with unchanged hashes
+  (`phase4c/build.txt`). `public/images/optimized/*` was restored after the
+  build and is not part of the commit.
+
+### OBSERVATION (pre-existing, non-audio, not fixed here)
+
+- `tests/smash-v31-browser.mjs` polls a 1.8 s gain attack with a 5 s
+  `waitForFunction`. In the first back-to-back batch run it timed out at that
+  poll; a standalone run and the second full serial batch both passed at
+  1440/390/320. The assertion is load-sensitive, not a product defect. The file
+  belongs to the V3.1 feature set and was left unchanged.
+
+Exact next checkpoint: user listening review. No push, merge or deploy.

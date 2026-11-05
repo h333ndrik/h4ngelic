@@ -342,7 +342,7 @@ test('release drops every SFX and every scheduled dip, leaving the bed at unity'
   assert.ok(Math.abs(bed.gain.events.at(-1)[1] - 1) < 1e-9, 'The bed returns to unity.');
 });
 
-test('five mode switches fetch and decode each asset exactly once', async () => {
+test('five mode switches keep one context and release the outgoing loop buffer', async () => {
   const f = fixture();
   await f.world.activate('333');
   const order = ['4', '333', '4', '333', '4'];
@@ -350,14 +350,22 @@ test('five mode switches fetch and decode each asset exactly once', async () => 
     f.context.currentTime = 50 + index;
     await f.world.switchTo(order[index], { durationMs: 900 });
     await new Promise(resolve => setTimeout(resolve, 0));
+    f.flush();
   }
   const count = url => f.fetches.filter(item => item.url === url).length;
-  assert.equal(count('/assets/audio/loop-333.m4a'), 1);
-  assert.equal(count('/assets/audio/loop-4.m4a'), 1);
-  assert.equal(count('/assets/audio/x-333-4.m4a'), 1);
+  assert.equal(count('/assets/audio/loop-333.m4a'), 3, 'The incoming loop is reloaded only after its buffer was released.');
+  assert.equal(count('/assets/audio/loop-4.m4a'), 3);
+  assert.equal(count('/assets/audio/x-333-4.m4a'), 1, 'Tiny transition buffers stay cached.');
   assert.equal(count('/assets/audio/x-4-333.m4a'), 1);
   const decoded = label => f.decodes.filter(value => value.includes(label)).length;
-  for (const name of ['loop-333', 'loop-4', 'x-333-4', 'x-4-333']) assert.equal(decoded(name), 1, `${name} decoded once`);
+  assert.equal(decoded('loop-333'), 3);
+  assert.equal(decoded('loop-4'), 3);
+  const snapshot = f.world.snapshot();
+  assert.equal(snapshot.loops['4'].active, true);
+  assert.equal(snapshot.loops['333'].active, false);
+  assert.equal(snapshot.loops['333'].status, 'idle', 'The outgoing loop PCM is released.');
+  assert.equal(snapshot.loops['333'].bufferDuration, 0);
+  assert.equal(snapshot.assets['loops:333'].status, 'idle');
 });
 
 test('the transition direction mapping is reversible from settings alone', async () => {
