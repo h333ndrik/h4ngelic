@@ -38,6 +38,7 @@
   html body *,
   html body *::before,
   html body *::after,
+  html body *::backdrop,
   html:root body,
   html:root body *,
   html:root body *::before,
@@ -45,8 +46,9 @@
     cursor: var(--h4-cursor) !important;
   }
 
-  /* Ebene 2 — interaktiv: eigene Ebene, damit Trefferflaechen den Pointer-
-     Fallback behalten und die Basis nicht gewinnt. */
+  /* Ebene 2 — interaktiv. Das nackte `a` gehoert dazu: Navigations- und
+     Footer-Links ohne href (Platzhalter, Gruppen) duerfen nicht in die Basis
+     zurueckfallen, sobald eine UA-Regel ihnen `pointer` gibt. */
   html body :is(a[href], a, button, summary, [role='button'],
       input, select, textarea, label, canvas) {
     cursor: var(--h4-cursor-interactive) !important;
@@ -63,7 +65,8 @@
   html[data-mode='xray'] body,
   html[data-mode='xray'] body *,
   html[data-mode='xray'] body *::before,
-  html[data-mode='xray'] body *::after {
+  html[data-mode='xray'] body *::after,
+  html[data-mode='xray'] body *::backdrop {
     cursor: var(--h4-cursor-xray) !important;
   }
 
