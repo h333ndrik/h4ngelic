@@ -8,7 +8,7 @@ import { normalizeCategory, renderHomepageSections, renderWorkPage, renderProjec
 test('homepage keeps four horizontal real category routes and a static creative heading', () => {
   const markup = renderHomepageSections();
   const selected = markup.split('</section>')[0];
-  assert.deepEqual([...selected.matchAll(/class="category-link rubric-item" href="([^"]+)"/g)].map((match) => match[1]), [
+  assert.deepEqual([...selected.matchAll(/class="category-link row-item" href="([^"]+)"/g)].map((match) => match[1]), [
     '/creative/tattoos', '/creative/jewellery', '/creative/tools', '/creative/more',
   ]);
   assert.match(selected, /<span class="kinetic-heading-text">01\/ creative<\/span>/);
@@ -62,11 +62,19 @@ test('rubric pages render plain child category headings and keep cross-links', (
     const headingMarkup = [...markup.matchAll(/<h3 class="archive-category-heading rubric-category-heading"[^>]*>[\s\S]*?<\/h3>/g)].map(match => match[0]);
     assert.ok(headingMarkup.every(heading => !heading.includes('<a') && !heading.includes('class="arrow"')), 'Child categories are plain text, not links.');
     for (const [id] of headings) assert.ok(markup.includes(`aria-labelledby="${id}"`), 'Section anchors keep their heading IDs.');
-    const crossLinks = [...markup.matchAll(/<nav class="rubric-cross-links rubric-row"[^>]*>([\s\S]*?)<\/nav>/g)][0]?.[1] || '';
-    assert.equal((crossLinks.match(/<a class="rubric-item" href="\/creative\//g) || []).length, 3, 'The other three rubric routes remain available as navigation.');
-    // B-F4/B-F12: the fixed empty slot is gone; the row flows with one gap.
-    assert.equal((crossLinks.match(/class="rubric-cross-gap"/g) || []).length, 0);
-    assert.equal((crossLinks.match(/class="rubric-item"/g) || []).length, 3);
+    const crossLinks = [...markup.matchAll(/<nav class="rubric-cross-links"[^>]*>([\s\S]*?)<\/nav>/g)][0]?.[1] || '';
+    assert.equal((crossLinks.match(/<a class="row-item" href="\/creative\//g) || []).length, 3, 'The other three rubric routes remain available as navigation.');
+    // B-F25: four positions, three links. The current rubric is an invisible
+    // replica of its own label, so the visible words keep the frontpage x
+    // positions and nothing jumps between pages.
+    assert.equal((crossLinks.match(/class="row-item"/g) || []).length, 3);
+    assert.equal((crossLinks.match(/class="row-slot"/g) || []).length, 1, 'Exactly one slot marks the current rubric.');
+    const slot = crossLinks.match(/<[a-z]+[^>]*class="row-slot"[^>]*>/)?.[0] || '';
+    assert.match(slot, /^<span\b/, `The slot is never a link (${slot}).`);
+    assert.doesNotMatch(slot, /href=/, 'The slot has no destination.');
+    assert.equal((crossLinks.match(/row-slot[^>]*href/g) || []).length, 0);
+    assert.match(crossLinks, /<span class="row-slot" aria-hidden="true"><span class="category-magnet"><span>/);
+    assert.match(crossLinks, /class="sr-only">current: [a-z]+<\/span>/);
   }
 });
 
@@ -90,7 +98,7 @@ test('only Home exposes the accessible inquiry form; interior Contact links targ
     assert.match(markup, /href="mailto:h4ngelic@gmail\.com"/);
     assert.match(markup, /href="https:\/\/www\.instagram\.com\/h4ngelic\/" target="_blank" rel="noopener noreferrer"/);
     const withoutApprovedPlaceholder = markup.replace(/<a\b[^>]*data-moshlab-placeholder[^>]*>[\s\S]*?<\/a>/g, '');
-    assert.match(markup, /class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
+    assert.match(markup, /class="footer-moshlab row-item" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
     assert.doesNotMatch(withoutApprovedPlaceholder, /class="contact-links"|link coming soon|href="(?:#|mailto:|https?:\/\/|)"/);
   }
 });
@@ -125,14 +133,14 @@ test('tattoos labels the Tattoo archive without changing its identity or Home co
   const archive = renderWorkPage('tattoos');
   assert.match(archive, /<h1 class="page-heading" id="work-page-title">tattoos<\/h1>/);
   assert.match(archive, /data-work-context="tattoos"/);
-  assert.match(archive, /<a class="filter-link rubric-item is-active" href="\/creative\/tattoos" aria-current="page">tattoos<\/a>/);
-  assert.match(archive, /<a class="rubric-item" href="\/creative\/jewellery">jewellery /);
-  assert.match(archive, /<a class="rubric-item" href="\/creative\/more">more /);
+  assert.match(archive, /<a class="filter-link row-item is-active" href="\/creative\/tattoos" aria-current="page">tattoos<\/a>/);
+  assert.match(archive, /<a class="row-item" href="\/creative\/jewellery"><span class="category-magnet"><span>jewellery<\/span>/);
+  assert.match(archive, /<a class="row-item" href="\/creative\/more"><span class="category-magnet"><span>more<\/span>/);
   const all = renderWorkPage('all');
   assert.match(all, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow"/);
   assert.match(all, /href="\/creative\/tattoos"[^>]*>tattoos<\/a>/);
   const home = renderHomepageSections();
-  assert.match(home, /<a class="category-link rubric-item" href="\/creative\/tattoos"><span[^>]*>[^<]*<span[^>]*><span>tattoos<\/span>/);
+  assert.match(home, /<a class="category-link row-item" href="\/creative\/tattoos"><span[^>]*>[^<]*<span[^>]*><span>tattoos<\/span>/);
 });
 
 test('category routes retain safe navigation, visible art and legacy unknown-category fallback', () => {

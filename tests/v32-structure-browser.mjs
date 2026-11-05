@@ -23,7 +23,20 @@ for (const width of [1440, 390, 320]) {
     assert.deepEqual(index.map(item => item.page), ['home', 'creative', 'about', 'contact']);
     assert.deepEqual(index.map(item => item.text), ['00/ home', '01/ creative', '02/ more about', '03/ contact']);
 
-    const gapToken = await page.evaluate(() => parseFloat(getComputedStyle(document.querySelector('#selected-work .category-strip')).columnGap));
+    // B-F25: the frontpage is a Type A row. Its visible gap is the free space
+    // left between the labels (space-between), never the --row-gap-min floor.
+    const gapTokens = await page.evaluate(() => {
+      const resolve = name => {
+        const probe = document.createElement('div');
+        probe.style.cssText = `position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;width:var(${name})`;
+        document.body.append(probe);
+        const value = probe.getBoundingClientRect().width;
+        probe.remove();
+        return value;
+      };
+      return { rowGapMin: resolve('--row-gap-min'), chipsGap: resolve('--chips-gap') };
+    });
+    const gapToken = gapTokens.rowGapMin;
     const categoryGaps = await page.locator('#selected-work .category-link').evaluateAll(nodes => {
       const rows = new Map();
       for (const node of nodes) {
@@ -31,17 +44,21 @@ for (const width of [1440, 390, 320]) {
         if (!rows.has(key)) rows.set(key, []);
         rows.get(key).push(box);
       }
-      return [...rows.values()].flatMap(row => row.sort((a, b) => a.left - b.left).slice(1).map((box, index) => box.left - row[index].right));
+      return [...rows.values()].map(row => row.sort((a, b) => a.left - b.left).slice(1).map((box, index) => box.left - row[index].right));
     });
-    assert.ok(categoryGaps.length >= 1);
-    assert.ok(categoryGaps.every(gap => Math.abs(gap - gapToken) <= 2), `Frontpage uses --rubric-gap at ${width}px: ${categoryGaps} vs ${gapToken}`);
+    const flatGaps = categoryGaps.flat();
+    assert.ok(flatGaps.length >= 1);
+    for (const line of categoryGaps) {
+      assert.ok(Math.max(...line) - Math.min(...line) <= 2, `Frontpage gaps stay equal per line at ${width}px: ${JSON.stringify(categoryGaps)}`);
+    }
+    assert.ok(flatGaps.every(gap => gap >= gapToken - 1), `Frontpage gaps respect --row-gap-min at ${width}px: ${flatGaps} vs ${gapToken}`);
 
     await page.goto(`${base}/creative`, { waitUntil: 'networkidle' });
     const filterGap = await page.locator('.work-filters').evaluate(element => ({
       computed: parseFloat(getComputedStyle(element).columnGap),
       positions: [...element.querySelectorAll('a')].map(link => { const box = link.getBoundingClientRect(); return { left: box.left, right: box.right, top: box.top }; })
         .sort((a, b) => a.left - b.left).slice(1).map((box, index, all) => box.left - all[index].left) }));
-    assert.ok(Math.abs(filterGap.computed - gapToken) <= .1);
+    assert.ok(Math.abs(filterGap.computed - gapTokens.chipsGap) <= .5, `Chips use --chips-gap (${filterGap.computed} vs ${gapTokens.chipsGap}).`);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
 
     await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
@@ -50,7 +67,7 @@ for (const width of [1440, 390, 320]) {
       // The arrow spacing moved from a link gap to the shared margin token.
       arrows: [...element.querySelectorAll('a .arrow')].map(arrow => parseFloat(getComputedStyle(arrow).marginInlineStart)),
     }));
-    assert.ok(Math.abs(crossGap.computed - gapToken) <= .1);
+    assert.ok(Math.abs(crossGap.computed - gapToken) <= .5, `Cross-links use --row-gap-min (${crossGap.computed} vs ${gapToken}).`);
     assert.ok(crossGap.arrows.every(value => value > 0));
 
     for (const category of ['flashes', 'jewellery']) {

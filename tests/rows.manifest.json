@@ -1,15 +1,125 @@
 {
   "viewports": [
-    { "width": 1440, "height": 900 },
-    { "width": 390, "height": 844 },
-    { "width": 320, "height": 844 }
+    {
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 320,
+      "height": 844
+    }
   ],
-  "fontFallbackViewport": { "width": 1440, "height": 900 },
+  "wideViewports": [
+    {
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "width": 2560,
+      "height": 1440
+    }
+  ],
+  "fontFallbackViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "rowTypes": {
+    "A": "distributed \u2014 stretches between two insets, optional word-width slot",
+    "B": "chips \u2014 scrolling filter row, fixed height, wordmark baseline anchor",
+    "C": "cluster \u2014 footer link group with its own spacing"
+  },
   "rows": [
-    { "id": "home-strip", "page": "/", "container": ".category-strip", "item": ".rubric-item", "expectLines": { "1440": 1, "390": 2, "320": 2 } },
-    { "id": "archive-filters", "page": "/creative", "container": ".work-filters", "item": ".rubric-item" },
-    { "id": "rubric-cross-links", "page": "/creative/tattoos", "container": ".rubric-cross-links", "item": ".rubric-item" },
-    { "id": "footer-left", "page": "/creative", "container": ".footer-left", "item": ".footer-brand, .footer-moshlab, .footer-visit" },
-    { "id": "footer-details", "page": "/creative", "container": ".footer-details", "item": ".footer-instagram, .footer-impressum, .footer-location" }
-  ]
+    {
+      "id": "home-strip",
+      "container": ".category-strip",
+      "page": "/",
+      "pages": [
+        "/"
+      ],
+      "type": "A",
+      "positions": 4,
+      "links": 4,
+      "slotMode": "none",
+      "marking": "none",
+      "expectLines": {
+        "1440": 1,
+        "1920": 1,
+        "2560": 1,
+        "390": 2,
+        "320": 2
+      }
+    },
+    {
+      "id": "archive-filters",
+      "container": ".work-filters",
+      "page": "/creative",
+      "pages": [
+        "/creative",
+        "/creative/tattoos",
+        "/creative/jewellery",
+        "/creative/tools",
+        "/creative/more",
+        "/creative/tools/m4shlab",
+        "/creative/tools/thr4ce"
+      ],
+      "type": "B",
+      "positions": 4,
+      "links": 4,
+      "slotMode": "none",
+      "marking": "aria-current=page + text-decoration underline"
+    },
+    {
+      "id": "rubric-cross-links",
+      "container": ".rubric-cross-links",
+      "page": "/creative/tattoos",
+      "pages": [
+        "/creative/tattoos",
+        "/creative/jewellery",
+        "/creative/tools",
+        "/creative/more"
+      ],
+      "type": "A",
+      "positions": 4,
+      "links": 3,
+      "slotMode": "width",
+      "slots": 1,
+      "marking": "none \u2014 current rubric is an invisible replica (sr-only text)",
+      "expectLines": {
+        "1440": 1,
+        "1920": 1,
+        "2560": 1,
+        "390": 2,
+        "320": 2
+      }
+    },
+    {
+      "id": "footer-left",
+      "container": ".footer-left",
+      "pages": "all",
+      "type": "C",
+      "positions": 3,
+      "links": 1,
+      "slotMode": "none",
+      "marking": "none"
+    },
+    {
+      "id": "footer-details",
+      "container": ".footer-details",
+      "pages": "all",
+      "type": "C",
+      "positions": 3,
+      "links": 2,
+      "slotMode": "none",
+      "marking": "none"
+    }
+  ],
+  "typeNames": {
+    "A": "distributed",
+    "B": "chips",
+    "C": "cluster"
+  }
 }

@@ -47,16 +47,16 @@ test('shared footer groups contain the permanent ghost count, matching arrows an
   assert.match(html, /data-other-side-hint data-secret-hotspot data-mode-hold/);
   assert.match(html, />hold 4 to see the other side\.<\/span>/);
   assert.doesNotMatch(html, /data-visit-message|data-visit-counter-hotspot/, 'The counter is a statement, not a secret control.');
-  assert.match(html, /<span class="footer-visit" data-visit-count>/);
+  assert.match(html, /<span class="footer-visit row-item" data-visit-count>/);
   assert.match(html, /data-visit-number id="footer-visit-count"/);
   assert.match(html, />visit 0001<\/span>/);
   assert.doesNotMatch(html, /<button[^>]+\bdata-smash\b/, 'Normal mode contains no hidden soundtrack control.');
   assert.match(html, /data-smash-slot/);
-  assert.match(html, /class="footer-impressum" href="\/impressum">impressum/);
+  assert.match(html, /class="footer-impressum row-item" href="\/impressum">impressum/);
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
   assert.ok(html.indexOf('data-visit-count') > html.indexOf('class="footer-moshlab"'));
   assert.ok(html.indexOf('data-visit-count') < html.indexOf('class="footer-details"'));
-  assert.match(html, /class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
+  assert.match(html, /class="footer-moshlab row-item" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
   assert.ok(html.indexOf('footer-moshlab') > html.indexOf('footer-brand') && html.indexOf('footer-moshlab') < html.indexOf('footer-details'));
   assert.equal((html.match(/class="arrow"/g) || []).length, 2, 'MOSH LAB and Instagram use the shared arrow; SMASH is mode-only and arrowless.');
   assert.equal((renderFooter().match(/class="arrow"/g) || []).length, 2);
@@ -64,7 +64,7 @@ test('shared footer groups contain the permanent ghost count, matching arrows an
   assert.doesNotMatch(html, /data-mode-mute/, 'The sound control belongs to the hero controls, without a footer duplicate.');
   assert.match(html, /data-mode-status role="status" aria-live="polite"/);
   assert.doesNotMatch(html, /data-xray-toggle/, 'A simple touch tap must not bypass the hold control.');
-  assert.match(html, /class="footer-instagram" href="https:\/\/www\.instagram\.com\/h4ngelic\/"/,
+  assert.match(html, /class="footer-instagram row-item" href="https:\/\/www\.instagram\.com\/h4ngelic\/"/,
     'The confirmed Instagram profile shares the metadata row.');
   assert.doesNotMatch(html, /book a tat|mailto:/, 'The inquiry form is not duplicated with extra contact links.');
   assert.doesNotMatch(renderFooter(), /data-footer-secret-space/, 'The large quiet area is homepage-specific.');

@@ -50,12 +50,12 @@ try {
       assert.ok(Math.abs(home.boxes[0].textLeft - home.slash) <= 2, `The first label starts on the slash column: ${JSON.stringify(home)}`);
       if (width > 600) {
         assert.ok(home.boxes.every(box => Math.abs(box.top - home.boxes[0].top) < 2), 'Desktop keeps one horizontal row.');
-        assert.equal(home.columns.trim().split(/\s+/).length, 4);
+        assert.equal(home.boxes.length, 4, 'All four rubric positions share the line.');
       } else {
         assert.ok(Math.abs(home.boxes[0].top - home.boxes[1].top) < 2 && Math.abs(home.boxes[2].top - home.boxes[3].top) < 2 && home.boxes[2].top > home.boxes[0].top);
-        assert.ok(Math.abs(home.boxes[0].left - home.boxes[2].left) < 2 && Math.abs(home.boxes[1].left - home.boxes[3].left) < 2, 'Mobile forms an aligned 2x2 grid.');
+        assert.ok(Math.abs(home.boxes[0].left - home.boxes[2].left) < 2, 'Both mobile rows start on the same inset.');
+        assert.ok(Math.abs(home.boxes[1].right - home.boxes[3].right) < 2, 'Both mobile rows end on the same right inset.');
         assert.ok(Math.abs(home.boxes[2].textLeft - home.slash) <= 2, 'The second mobile row starts on the same slash column.');
-        assert.equal(home.columns.trim().split(/\s+/).length, 2);
       }
       await page.locator('#selected-work').scrollIntoViewIfNeeded();
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
