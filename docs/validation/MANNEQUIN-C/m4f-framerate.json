@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-11-05T18:55:31.661Z",
+  "measuredAt": "2026-11-05T20:28:33.404Z",
   "referenceFrameRate": 60,
   "dragSpeedPxPerSecond": 400,
   "note": "Pro Framerate eine eigene Seite mit festem virtuellem rAF-Takt; Ereignisse am Frameanfang.",
@@ -10,7 +10,8 @@
     "dragSensitivity": 0.0075,
     "inertiaDamping": 3.2,
     "maxAngularAcceleration": 1.1,
-    "dragVelocityFloor": 0.004166666666666667,
+    "pointerWindowMs": 100,
+    "pointerStopMs": 150,
     "dragVelocityLimit": 8,
     "peakDecayPerSecond": 3.7125,
     "referenceFrameRate": 60,
@@ -42,7 +43,7 @@
         "angle": 0.7
       },
       "auto": {
-        "speed": 0.17966666666666317,
+        "speed": 0.17999999999999647,
         "frames": 60
       }
     },
@@ -80,7 +81,7 @@
         "angle": 0.7500000000000001
       },
       "auto": {
-        "speed": 0.17986666666666967,
+        "speed": 0.17953333333333638,
         "frames": 289
       }
     }
@@ -89,7 +90,7 @@
     "hoverTimePercent": 0.03530019328157983,
     "hoverSpeedPercent": 0.02478110028411015,
     "hoverAnglePercent": 0.16369588941899435,
-    "autoSpeedPercent": 0.11127596439530686,
+    "autoSpeedPercent": 0.25964391691028593,
     "flickPeakPercent": 0
   }
 }

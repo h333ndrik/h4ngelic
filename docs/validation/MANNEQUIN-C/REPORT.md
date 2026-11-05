@@ -1129,3 +1129,196 @@ Arbeit lief ausschliesslich im Wegwerf-Worktree und wurde dort abgebrochen.
 Asset unberuehrt: 457.000 B, 49.838 Tris, `d76abc164512…`; Procreate-Paket
 unberuehrt (relativer `map_Kd skincolor.png`, kein `/Users/`-Pfad).
 
+## M4i — Finalisierung
+
+### 1. Baseline und Endstand
+
+Erhoben auf `658e8e9`, alles seriell.
+
+| Suite | Baseline | Endstand |
+| --- | --- | --- |
+| `npm test` | 396/396 | **402/402** (+3 Pointer-Fenster, +2 Referenz-Waechter, +1 geaenderter Waechter) |
+| `test:mannequin-preview` | PASS | PASS (3 Viewports + Hinweis + Cursor) |
+| `test:mannequin-entrance` | PASS (0/30/0/0) | PASS (0/30/0/0) |
+| `test:mannequin-framerate` | PASS | PASS (t95 0,04 %, Peak 0,00 %) |
+| `test:mannequin-pointer` | PASS | PASS (Spanne 0,00 %, neu: 0/1/3 Zwischenpositionen, Stillstand) |
+| `test:mannequin-variants-dev` | PASS | PASS |
+| `test:seo` | PASS | PASS (18 Routen + 404) |
+| `build` | 18 Routen + 404 | 18 Routen + 404 |
+| `verify:assets` | OK | OK (457.000 B, `d76abc16…`) |
+
+### 2. Veraltete Asset-Referenzen
+
+Grep nach `d9edb0e4d7b0`, `653.640`, alte GLB-Groesse:
+
+| Fundstelle | Klasse | Behandlung |
+| --- | --- | --- |
+| `NEXT_SESSION.md:11` | aktiv irrefuehrend (Handoff) | M4i-Checkpoint oben, alter Block als „historisch, durch M4c/M4e ersetzt" markiert |
+| `PROJECT_PROGRESS.md:8` | aktiv irrefuehrend | M4i-Abschnitt oben, M3-Ueberschrift als „historisch" markiert |
+| `REPORT.md:267,395` | historisch (datierte M3-Messung) | unveraendert |
+| `docs/validation/MANNEQUIN-C/resolution-comparison.json` | historische Messaufzeichnung | unveraendert |
+| `REPORT.md:1054` | Aussage ueber den offenen Konflikt | auf „in M4i korrigiert" umgestellt |
+
+Neu: `tests/mannequin-references.test.js` scannt alle Textdateien (ohne
+`node_modules`, `dist`, `outputs`), erlaubt den alten Hash nur unter
+`docs/validation/` oder in Abschnitten, deren umschliessende Ueberschrift
+„historisch"/„ueberholt" sagt. Zweiter Test gleicht Config und Manifest ab:
+ein Asset, 457.000 B, 49.838 Tris, `d76abc164512…`, und A/B sind nicht im
+Production-Bundle.
+
+### 3. pointerWindowMs: Messreihe und Entscheidung
+
+Gemessen mit der ausgelieferten Funktion (`src/mannequin-pointer-window.js`),
+Ereignisse alle 8 ms, Stillstand als eigene Regel:
+
+| Geste | 70 ms | 100 ms | 150 ms |
+| --- | --- | --- | --- |
+| schnell 900 px/s | 6,75 · flick | 6,75 · flick | 6,75 · flick |
+| langsam 380 px/s | 2,85 · flick | 2,85 · flick | 2,85 · flick |
+| +60 ms Stillstand | 6,75 · flick | 6,75 · flick | 6,75 · flick |
+| +100 ms Stillstand | 6,75 · flick | 6,75 · flick | 6,75 · flick |
+| +150 ms Stillstand | 0 · kein flick | 0 · kein flick | 0 · kein flick |
+| +200 ms Stillstand | 0 · kein flick | 0 · kein flick | 0 · kein flick |
+| Ausreisser +60 px (Peak) | 8,00 (Deckel) | 7,69 | 6,13 |
+
+Abnahmeregel: (a) schneller und langsamer Wisch fliegen, (b) Stillstand
+>= 150 ms fliegt nicht, (c) kein Doppel-Trigger. **Alle drei Fenster erfuellen
+die Regel.** Die Fensterlaenge steuert nur die Glaettung — ein einzelner
+Ausreisser erreicht bei 70 ms den Deckel 8,00, bei 100 ms 7,69, bei 150 ms
+6,13 rad/s. **Gewaehlt: 100 ms** (rund sechs Frames bei 60 Hz, ueblicher
+Velocity-Tracker): daempft Ausreisser ohne die Traegheit von 150 ms.
+
+Wichtiger Befund beim Messen: mit *einem* Wert fuer Fenster und Stillstand war
+der Flick im Software-Renderer (10 fps, ein Pointer-Ereignis pro Frame)
+unmoeglich — jedes Loslassen galt als Stillstand. Deshalb sind es zwei
+Konstanten: `pointerWindowMs = 100` (Glaettung) und `pointerStopMs = 150`
+(Stillstand). Messreihe: `m4i-pointer-window.json`, Repro:
+`node --test tests/mannequin-pointer-window.test.js`.
+
+### 4. Koaleszenz: ehrliche Deklaration
+
+Feature-Detection in der Testumgebung (HeadlessChrome 156):
+`typeof PointerEvent.prototype.getCoalescedEvents === "undefined"`, der Aufruf
+wirft `TypeError`; `getPredictedEvents` ist vorhanden. Der Viewer prueft per
+`typeof` und faellt auf die Ereignisposition zurueck.
+
+Der Test deckt den Zweig jetzt mit 0, 1 und 3 Zwischenpositionen ab
+(nachgebildete API): alle drei liefern 3,00 rad/s und genau einen Flick, die
+leere Liste erzeugt 0 zusaetzliche Samples.
+
+**Einordnung: Der Koaleszenz-Zweig ist durch einen Mock abgedeckt, kein
+Integrationsnachweis. Manuelle Verifikation auf Hardware mit hoher
+Polling-Rate offen.**
+
+Manueller Pruefplan:
+
+1. Geraet: Rechner mit 1000-Hz-Maus (Chrome) bzw. iPad mit Apple Pencil.
+2. `/work/tattoos` oeffnen, zur Rubrik „3d model" scrollen, Modell laden lassen.
+3. Schneller Wisch ueber die Figur, dann loslassen — erwartet: genau **eine**
+   Flick-Animation, danach Auto-Rotation.
+4. Wisch und 200 ms stillhalten, dann loslassen — erwartet: **kein** Flick.
+5. Erfolg erkennbar an `data-mannequin-coalesced-samples > 0` (DevTools) und
+   daran, dass Schritt 3 auch bei 1-ms-Ereignissen fliegt.
+
+### 5. Poster: WebP statt PNG
+
+| Datei | Format | Bytes | Masse | Breakpoint |
+| --- | --- | --- | --- | --- |
+| `mannequin-poster-wide-20c3b7b4.png` | PNG | 70,4 KB | 2740x1442 | > 600 px (Fallback) |
+| `mannequin-poster-wide-2e2cce6c.webp` | WebP q90 | **26,3 KB** (−62,6 %) | 2740x1442 | > 600 px |
+| `mannequin-poster-tall-915dcaff.png` | PNG | 20,7 KB | 692x906 | <= 600 px (Fallback) |
+| `mannequin-poster-tall-fdf806bf.webp` | WebP q90 | **8,5 KB** (−58,7 %) | 692x906 | <= 600 px |
+
+Vergleich gegen PNG (nur opake Pixel): maximale Kanalabweichung 35, Mittel 1,8
+(wide) bzw. 2,0 (tall); **Alpha-Differenz 0** (WebP speichert den Alpha-Kanal
+verlustfrei). AVIF waere kleiner (−77,5 %), aendert aber das Alpha (max. 18)
+und faellt damit aus; WebP lossless ist exakt, bei tall aber nur −23,9 %.
+
+Entscheidungsregel (>= 25 % kleiner, nicht wahrnehmbar, Alpha erhalten,
+Poster/Canvas-Assert gruen) ist erfuellt. Das `<picture>` behaelt die
+Breakpoints, WebP steht vor PNG; Crossfade 240 ms und Reduced-Motion-Schnitt
+unveraendert.
+
+LCP des Posters (3 Laeufe, Software-Renderer, identischer Ablauf):
+
+| | Lauf 1 | Lauf 2 | Lauf 3 | Transfer |
+| --- | --- | --- | --- | --- |
+| PNG | 6092 ms | 2360 ms | 1992 ms | 72.094 B |
+| WebP | 2888 ms | 1732 ms | 1680 ms | 26.932 B |
+
+Die Streuung ist hoch (Software-Renderer, GLB-Decode im selben Fenster); der
+Median faellt von 2360 auf 1732 ms. Keine Zahl geschaetzt.
+
+### 6. Affordanz
+
+- **Hinweis**: „drag to turn" liegt absolut im Rahmen (kein Layout-Shift, im
+  Test gegen die Figure-Hoehe geprueft), `pointer-events: none`,
+  `aria-hidden="true"` (die sr-only Hilfe beschreibt die Bedienung). Er
+  erscheint einmal beim ersten Sichtbarwerden und verschwindet nach der ersten
+  Geste oder nach 5 s. Reduced Motion: gleicher Zustand ohne Uebergang. Touch:
+  haengt nicht an Hover.
+- **Zeigerform — Abweichung**: `cursor: grab/grabbing` steht im CSS, greift
+  aber nur ohne feinen Zeiger. Auf Desktop gewinnt der globale h4-Cursor aus
+  `src/cursor.css` (F18: ein natives Cursor-Bild pro Modus, `!important` auf
+  `html body *`). Eine Ausnahme waere ein Bruch dieses seitenweiten Vertrags;
+  die Suite prueft deshalb das echte Verhalten (Desktop: h4-Cursor konstant,
+  Touch: grab -> grabbing), und der Hinweis liefert die Affordanz.
+  **Entscheidung fuer den Nutzer**, falls grab/grabbing auf Desktop gewuenscht ist.
+- A11y unveraendert: `role="img"`, `tabindex="0"`, `aria-keyshortcuts`,
+  sr-only Hilfe, Live-Region in der `<figure>`.
+
+### 7. Quelltext-Waechter (M4f/M4g)
+
+| Waechter | prueft | Verhaltens-Assert | refactor-fragil? |
+| --- | --- | --- | --- |
+| `motion uses per-second constants` | Config-Werte + Peak-Zerfall-Formel | Framerate-Suite misst die Wirkung | nein (Werte, keine Struktur) |
+| `render loop integrates with delta time` | Regex auf `1 - Math.exp(...)`, `a*delta`, Trapez | Framerate-Suite (30/60/144 Hz) | **ja** — jede andere Schreibweise bricht ihn |
+| `no fixed per-frame factors remain` | `doesNotMatch` auf `* 0.94` usw. | Framerate-Suite | **ja** — trifft auch harmlose neue Konstanten |
+| `pointer path is rate independent` | Regex auf Modul-Aufrufe + `setFromObject`-Verbot in `applyShoot` | Pointer-Rate-, Pointer-Fenster- und Preview-Suite (Bounds-Zaehler) | teilweise |
+
+Die beiden Regex-Waechter bleiben als schnelle Vorwarnung, sind aber nicht die
+einzige Absicherung: jede ihrer Aussagen hat inzwischen einen Verhaltens-Test.
+
+### 8. Deployment-Config (Vorschlag, NICHT angelegt)
+
+`vercel.json` fehlt. Gemessen an einer bereits ausgelieferten GLB
+(`curl -I https://h4ngelic.vercel.app/models/mannequin.glb`):
+
+```
+content-type: model/gltf-binary
+cache-control: public, max-age=0, must-revalidate
+```
+
+Der Content-Type stimmt also schon; es fehlt nur die lange Cache-Zeit fuer die
+gehashte Datei. Vorschlag:
+
+```json
+{
+  "headers": [
+    {
+      "source": "/models/mannequin-c.:hash([a-f0-9]{12}).glb",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
+```
+
+Begruendung: der Dateiname enthaelt die ersten 12 Hex-Zeichen des SHA-256,
+ein neuer Build erzeugt einen neuen Namen. Risiko: die `source`-Syntax von
+Vercel (path-to-regexp) muss im Preview-Deployment geprueft werden — ein
+falsches Muster greift stillschweigend nicht. `mannequin-female-a/b.glb` sind
+nicht gehasht und bleiben absichtlich ohne `immutable`. **Keine Datei
+angelegt** (Freigabe offen).
+
+### 9. Offene Punkte
+
+1. **iPad/Procreate-Roundtrip** — nur der Nutzer kann ihn testen.
+2. **Koaleszenz auf echter Hardware** (1000-Hz-Maus) — der Mock deckt nur den Zweig ab.
+3. **`vercel.json`** — Vorschlag oben, Freigabe offen.
+4. **Merge-Entscheidung** — drei bekannte Dokumentkonflikte (M4h), Probe vor dem Merge wiederholen.
+5. **grab/grabbing auf Desktop** — bewusst nicht gegen den F18-Cursor durchgesetzt.
+6. `pointerStopMs = 150` ist die Abnahmegrenze; ein 100-ms-Halt fliegt noch. Falls
+   sich das im Gebrauch falsch anfuehlt, ist es die einzige Stellschraube.
+

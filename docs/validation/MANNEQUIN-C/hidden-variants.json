@@ -1,19 +1,19 @@
 {
-  "checkedAt": "2026-11-05T17:51:13.476Z",
+  "checkedAt": "2026-11-05T20:29:01.200Z",
   "server": "vite dev",
   "note": "A/B sind nur im Dev-Server ueber ?variant=a|b erreichbar, ohne Link und ohne Umschalter.",
   "results": [
     {
       "query": "?variant=a",
       "variant": "A",
-      "glb": "http://127.0.0.1:51028/models/mannequin-female-a.glb",
+      "glb": "http://127.0.0.1:54137/models/mannequin-female-a.glb",
       "design": "available",
       "errors": []
     },
     {
       "query": "?variant=b",
       "variant": "B",
-      "glb": "http://127.0.0.1:51028/models/mannequin-female-b.glb",
+      "glb": "http://127.0.0.1:54137/models/mannequin-female-b.glb",
       "design": "applied",
       "errors": []
     },

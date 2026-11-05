@@ -1,9 +1,9 @@
 {
-  "measuredAt": "2026-11-05T19:20:31.628Z",
+  "measuredAt": "2026-11-05T20:28:38.927Z",
   "frameMs": 8.333333333333334,
   "speedPxPerSecond": 400,
   "durationMs": 300,
-  "pointerWindowMs": 70,
+  "pointerWindowMs": 100,
   "expectedPeak": 3,
   "coalescedSupport": {
     "prototype": "function",
@@ -55,11 +55,40 @@
       "flicksAfterUp": 4
     }
   ],
-  "coalesced": {
-    "peak": 3,
-    "samples": 112,
-    "coalescedSamples": 111,
-    "flicks": 1
-  },
+  "holds": [
+    {
+      "holdMs": 60,
+      "peak": 6.75,
+      "flicks": 1
+    },
+    {
+      "holdMs": 150,
+      "peak": 6.75,
+      "flicks": 0
+    }
+  ],
+  "coalesced": [
+    {
+      "subSamples": 0,
+      "peak": 3,
+      "samples": 38,
+      "coalescedSamples": 0,
+      "flicks": 1
+    },
+    {
+      "subSamples": 1,
+      "peak": 3,
+      "samples": 38,
+      "coalescedSamples": 37,
+      "flicks": 1
+    },
+    {
+      "subSamples": 3,
+      "peak": 3,
+      "samples": 112,
+      "coalescedSamples": 111,
+      "flicks": 1
+    }
+  ],
   "spreadPercent": 0
 }
