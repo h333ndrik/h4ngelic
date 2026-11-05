@@ -34,14 +34,18 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
         <image href="/assets/h4-monogram.svg" width="615" height="1006" filter="url(#h4-end-relief)" />
       </svg><span class="end-reveal-material"></span></div>${hint}</div>` : ''}<footer class="page-footer exhibition-footer${home ? ' exhibition-footer-home' : ''}" data-artist-footer>
     <div class="footer-identity" data-footer-row>
-      <span class="footer-left" role="group" aria-label="artist, h4 moshlab and local visit count" tabindex="0">
-        <span class="footer-brand">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>
-        <a class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured">h4 moshlab ${arrow}</a>
-        ${counter}
-      </span>
-      <span class="footer-details" role="group" aria-label="footer links, scroll horizontally when needed" tabindex="0">
-        <span data-smash-slot></span>${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : ''}<a class="footer-impressum" href="/impressum">impressum</a><span class="footer-location">${escape(siteContent.location)}</span><span data-other-side-imprint-slot></span>
-      </span>
+      <span class="footer-left" role="group" aria-label="artist, h4 moshlab and local visit count" tabindex="0">${[
+        `<span class="footer-brand">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>`,
+        `<a class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured">h4 moshlab ${arrow}</a>`,
+        counter,
+      ].join('')}</span>
+      <span class="footer-details" role="group" aria-label="footer links, scroll horizontally when needed" tabindex="0">${[
+        '<span data-smash-slot></span>',
+        instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : '',
+        '<a class="footer-impressum" href="/impressum">impressum</a>',
+        `<span class="footer-location">${escape(siteContent.location)}</span>`,
+        '<span data-other-side-imprint-slot></span>',
+      ].join('')}</span>
     </div>
     ${otherSideEnabled ? '<span class="sr-only" data-mode-status role="status" aria-live="polite"></span>' : ''}
   </footer>`;

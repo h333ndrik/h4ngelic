@@ -124,8 +124,11 @@ html body .work-page.is-rubric-page .rubric-category-heading {
   width: max-content;
   max-width: var(--work-row-width, calc(100vw - 208px));
   z-index: 11;
+  /* The archive row is a fixed header between brand and INDEX: it keeps one
+     line and scrolls horizontally instead of wrapping. Two classes beat the
+     shared .rubric-row wrapper rule. */
   flex-wrap: nowrap;
-  align-items: center;
+  align-items: baseline;
   gap: var(--rubric-gap);
   min-height: 44px;
   padding: 0;
@@ -139,6 +142,7 @@ html body .work-page.is-rubric-page .rubric-category-heading {
   text-shadow: 0 1px 3px #151515;
 }
 .work-filters::-webkit-scrollbar { display: none; }
+.work-filters.rubric-row { flex-wrap: nowrap; }
 .work-filters .filter-link { flex: 0 0 auto; font-size: var(--type-navigation); }
 .work-filters .filter-link:focus-visible { outline-offset: -3px; }
 
@@ -175,10 +179,8 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
 /* V25: fixed rubric cross-links. The current page keeps its column empty,
    so tattoos, jewellery, tools and more never change position. */
 .rubric-cross-links {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: center;
-  gap: var(--rubric-gap);
+  /* The row geometry comes from .rubric-row; this block only owns type and
+     colour. Equal columns were the reason jewellery's arrow touched tools. */
   margin-top: clamp(70px, 12vw, 180px);
   padding: clamp(24px, 4vw, 54px) 0 0;
   font-size: min(clamp(16px, 3.6vw, 56px), var(--row-type-fit, 100vw));
@@ -186,25 +188,17 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
   letter-spacing: -.045em;
 }
 .rubric-cross-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px));
   min-height: 44px;
-  width: max-content;
-  max-width: 100%;
   color: #c3c3c0;
   text-decoration: none;
-  white-space: nowrap;
 }
 .rubric-cross-links a:hover, .rubric-cross-links a:focus-visible { color: #f0efeb; }
 html[data-mode='xray'] .rubric-cross-links a { color: #eadff1; text-shadow: 0 1px 3px #08020e, 0 0 7px #10051b; }
 .rubric-cross-links a .arrow { font-size: .72em; }
-.rubric-cross-gap { display: block; min-height: 44px; }
 @media (max-width: 600px) {
-  .rubric-cross-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rubric-gap); }
-  .rubric-cross-links a { width: auto; gap: var(--ui-arrow-gap); }
-  /* V25 keeps the current rubric's slot empty so the four positions never move
-     between pages; the fit above only guarantees the labels stay inside them. */
+  .rubric-cross-links a { width: auto; }
+  /* V25 fixed slots are retired: the row flows with one shared gap, so the
+     label sequence is stable even though the free slot is simply absent. */
 }
 
 .tool-headline { max-width: 18ch; overflow-wrap: anywhere; }

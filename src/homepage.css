@@ -28,14 +28,15 @@
 /* The subordinate row begins on the shared slash column. The strip keeps its
    own scrollport on narrow screens, so only the first content edge moves. */
 .category-strip {
-  --category-link-inline-padding: clamp(4px, 1.2vw, 20px);
   gap: var(--rubric-gap);
-  padding-left: max(0px, calc(var(--slash-inset) - var(--category-link-inline-padding)));
+  /* The first word starts exactly on the slash column; the row padding is the
+     only inset, so the visible gap equals the gap token. */
+  padding-left: var(--slash-inset);
 }
-.category-link { padding-inline-start: var(--category-link-inline-padding); pointer-events: none; }
-/* The rubric type never exceeds the measured fit for its own column. Without
+.category-link { pointer-events: none; }
+/* The rubric type never exceeds the measured fit for its own row. Without
    JS (no --row-type-fit) the shared display token stays in charge. */
-.category-strip .category-link { font-size: min(var(--type-category-link), var(--row-type-fit, 100vw)); }
+.category-strip .category-link { font-size: min(var(--type-category-link), var(--row-type-fit, var(--type-category-link))); }
 /* The cell still sizes the four-column row, but its whitespace is not a link.
    The label and its arrow own the hit area: 4px of padding on the reading edge,
    never a horizontal overhang (that would inflate the label's scroll width and
@@ -118,6 +119,8 @@
 .hero .controls button:hover:not(:disabled) { border: 0; background: transparent; }
 .hero-nav { right: 35px; bottom: max(24px, env(safe-area-inset-bottom)); min-height: 44px; align-items: center; }
 :is(.hero-nav, .page-nav, .text-link) .category-magnet { gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
+/* Rubric rows space their arrow through the shared token, not a flex gap. */
+.rubric-row .category-magnet { gap: 0; }
 :is(.category-link, .contact-link, .hero-nav a, .page-nav a, .text-link) .arrow {
   transition: transform 300ms cubic-bezier(.2,.8,.25,1);
 }

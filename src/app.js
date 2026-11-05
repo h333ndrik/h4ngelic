@@ -6,6 +6,7 @@ import './flash-mannequin.css';
 import './inquiry.css';
 import './v6-polish.css';
 import './easter-eggs.css';
+import './rubric-row.css';
 import './cursor.css';
 import { siteContent } from './data/siteContent.js';
 import { renderRoutePage } from './pages.js';

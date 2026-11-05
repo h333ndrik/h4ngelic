@@ -12,6 +12,14 @@ import { formatIndexedLabel } from './labels.js';
 import { placeholderProjects } from './data/placeholderProjects.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
+/** One component for every rubric row: a pair per mobile line, one flex row on
+ *  wider screens. Each line stays a real flex line so both rows keep the same
+ *  gap and the same slash column instead of inheriting equal-width cells. */
+function rubricLines(items, perLine = 2) {
+  const lines = [];
+  for (let index = 0; index < items.length; index += perLine) lines.push(items.slice(index, index + perLine));
+  return lines.map(line => `<span class="rubric-line">${line.join('')}</span>`).join('');
+}
 
 export function normalizeCategory(category) {
   return categoryById(category) || groupById(category) ? category : 'all';
@@ -45,8 +53,8 @@ function renderToolCards() {
 export function renderHomepageSections(context = '') {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
     <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
-    <div class="category-strip" role="navigation" aria-label="Works categories" tabindex="0">
-      ${siteContent.workGroups.map((group) => `<a class="category-link" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`).join('')}
+    <div class="category-strip rubric-row" role="navigation" aria-label="Works categories" tabindex="0">
+      ${rubricLines(siteContent.workGroups.map((group) => `<a class="category-link rubric-item" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`))}
     </div>
   </div></section>
   <section class="content-section about-preview" id="about-preview" tabindex="-1" aria-labelledby="about-preview-title" data-motion="about"><div class="section-pin">
@@ -112,8 +120,8 @@ export function renderProject(project) {
 
 /** The one sub-rubric row: same four destinations on every creative surface. */
 function renderWorkFilters(activeGroup) {
-  return `<nav class="work-filters" aria-label="Works sections">
-      ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
+  return `<nav class="work-filters rubric-row" aria-label="Works sections">
+      ${siteContent.workGroups.map(filter => `<a class="filter-link rubric-item${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
     </nav>`;
 }
 
@@ -175,10 +183,9 @@ export function renderWorkPage(category = 'all') {
     ? leaf(selectedCategory, { nested: false })
     : selected === 'all' ? siteContent.categories.filter(entry => entry.legacy
       && projects.some(project => project.category === entry.id)).map(entry => leaf(entry, { nested: false })).join('') : '';
-  const crossLinks = selectedGroup ? `<nav class="rubric-cross-links" aria-label="Other creative sections">
-      ${siteContent.workGroups.map(group => group.id === selectedGroup.id
-        ? '<span class="rubric-cross-gap" aria-hidden="true"></span>'
-        : `<a href="${categoryURL(group.id)}">${escape(group.archiveLabel ?? group.label)} ${arrow}</a>`).join('')}
+  const crossLinks = selectedGroup ? `<nav class="rubric-cross-links rubric-row" aria-label="Other creative sections">
+      ${siteContent.workGroups.filter(group => group.id !== selectedGroup.id)
+        .map(group => `<a class="rubric-item" href="${categoryURL(group.id)}">${escape(group.archiveLabel ?? group.label)} ${arrow}</a>`).join('')}
     </nav>` : '';
   return `${header('work')}
   <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">

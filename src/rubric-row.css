@@ -1,0 +1,50 @@
+/* One component for every rubric row: the frontpage strip, the archive filter
+   row and the cross-links at the end of a rubric page.
+
+   Geometry is structure, not a number. Content flows with one shared gap and
+   one shared baseline, so the distance between a word, its arrow and the next
+   word is identical everywhere. Equal-width columns (the old grid tracks) made
+   that distance depend on the label length: jewellery's arrow touched tools
+   while tattoos left a hole. */
+.rubric-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-start;
+  column-gap: var(--rubric-gap);
+  row-gap: 0;
+  line-height: 1;
+}
+
+/* Above 600px the pair wrappers disappear, so all links share one flex line. */
+.rubric-row > .rubric-line { display: contents; }
+
+.rubric-row .rubric-item {
+  display: inline-flex;
+  align-items: baseline;
+  flex: 0 0 auto;
+  gap: 0;
+  margin: 0;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+/* Baseline flex alignment puts the arrow's bottom edge on the text baseline.
+   The optical correction lives in one token, never per row. */
+.rubric-row .rubric-item .arrow {
+  margin-inline-start: var(--rubric-arrow-gap);
+  position: relative;
+  top: var(--arrow-baseline-shift);
+}
+
+@media (max-width: 600px) {
+  /* Two real flex lines: same gap in both, both starting on the slash column. */
+  .rubric-row { row-gap: var(--rubric-gap); }
+  .rubric-row > .rubric-line {
+    display: flex;
+    flex: 0 0 100%;
+    align-items: baseline;
+    column-gap: var(--rubric-gap);
+  }
+}

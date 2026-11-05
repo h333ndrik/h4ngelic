@@ -148,7 +148,15 @@ export function initInteractions(root = document, { revealSections = true, setti
       // These labels grow from their left edge, so the trailing padding is
       // genuinely unused room. Counting it keeps the restrained 2.5% feedback
       // alive when a label already fills its own content box.
-      const available = target.clientWidth - parseFloat(style.paddingLeft);
+      let available = target.clientWidth - parseFloat(style.paddingLeft);
+      if (target.matches('.rubric-item')) {
+        // In a flowing row the free room is the gap to the next item, not a
+        // column sized around the label. Without this the label would clamp
+        // itself to scale 1 and lose the shared hover language.
+        const siblings = [...target.parentElement.children].filter(node => node.matches('.rubric-item'));
+        const next = siblings[siblings.indexOf(target) + 1];
+        if (next) available = next.getBoundingClientRect().left - target.getBoundingClientRect().left - 2;
+      }
       preferred = boundedHoverScale(wrapper.scrollWidth, available, settings.hover.largeScale, settings.magnetDistance + 2);
     }
     const style = getComputedStyle(wrapper);

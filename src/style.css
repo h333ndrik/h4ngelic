@@ -79,9 +79,8 @@ html:not([data-page='home']) .hero-nav { display: none; }
 .content-section { padding: clamp(64px, 9vw, 150px) 35px; }
 .section-label, .page-kicker { font-size: 12px; font-weight: 400; letter-spacing: .08em; margin: 0 0 44px; color: #bbbcb9; }
 .selected-work { padding-top: 90px; padding-bottom: 100px; }
-.category-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; scrollbar-color: #858580 transparent; border-block: 1px solid #ffffff30; }
-.category-link { display: flex; align-items: center; justify-content: flex-start; gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); padding: clamp(32px, 6vw, 100px) clamp(4px, 1.2vw, 20px); min-width: 0; white-space: nowrap; font-size: var(--type-category-link); font-weight: 400; line-height: 1.12; letter-spacing: -.045em; }
-.category-link + .category-link { border-left: 1px solid #ffffff20; }
+.category-strip { overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; scrollbar-color: #858580 transparent; border-block: 1px solid #ffffff30; }
+.category-link { padding: clamp(32px, 6vw, 100px) 0; min-width: 0; white-space: nowrap; font-size: var(--type-category-link); font-weight: 400; line-height: 1.12; letter-spacing: -.045em; }
 .category-link:hover { background: #ffffff04; }
 .category-link:focus-visible { outline-offset: -4px; }
 .about-preview { display: grid; grid-template-columns: 1fr 2fr; gap: 0 40px; border-top: 1px solid #ffffff20; }
@@ -147,11 +146,8 @@ html:not([data-page='home']) .hero-nav { display: none; }
   .content-section { padding: 65px 22px; }
   .selected-work { padding-top: 55px; padding-bottom: 70px; }
   .section-label { margin-bottom: 28px; }
-  .category-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rubric-gap); overflow: visible; }
-  .category-link { gap: 5px; min-height: clamp(108px, 30vw, 145px); }
-  .category-link:nth-child(odd) { border-left: 0; }
-  .category-link:nth-child(even) { border-left: 1px solid #ffffff20; }
-  .category-link:nth-child(n + 3) { border-top: 1px solid #ffffff20; }
+  .category-strip { overflow: visible; }
+  .category-link { min-height: clamp(108px, 30vw, 145px); }
   .about-preview { display: block; }
   .about-preview-copy { margin-bottom: 30px; }
   .contact-link-primary { margin-bottom: 45px; }
