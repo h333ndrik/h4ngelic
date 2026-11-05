@@ -28,9 +28,9 @@
     "height": 900
   },
   "rowTypes": {
-    "A": "distributed \u2014 stretches between two insets, optional word-width slot",
-    "B": "chips \u2014 scrolling filter row, fixed height, wordmark baseline anchor",
-    "C": "cluster \u2014 footer link group with its own spacing"
+    "A": "distributed — stretches between two insets, optional word-width slot",
+    "B": "chips — scrolling filter row, fixed height, wordmark baseline anchor",
+    "C": "cluster — footer link group with its own spacing"
   },
   "rows": [
     {
@@ -46,11 +46,11 @@
       "slotMode": "none",
       "marking": "none",
       "expectLines": {
+        "320": 2,
+        "390": 2,
         "1440": 1,
         "1920": 1,
-        "2560": 1,
-        "390": 2,
-        "320": 2
+        "2560": 1
       }
     },
     {
@@ -87,13 +87,13 @@
       "links": 3,
       "slotMode": "width",
       "slots": 1,
-      "marking": "none \u2014 current rubric is an invisible replica (sr-only text)",
+      "marking": "none — current rubric is an invisible replica (sr-only text)",
       "expectLines": {
+        "320": 2,
+        "390": 2,
         "1440": 1,
         "1920": 1,
-        "2560": 1,
-        "390": 2,
-        "320": 2
+        "2560": 1
       }
     },
     {
@@ -111,10 +111,11 @@
       "container": ".footer-details",
       "pages": "all",
       "type": "C",
-      "positions": 3,
-      "links": 2,
+      "positions": 2,
+      "links": 1,
       "slotMode": "none",
-      "marking": "none"
+      "marking": "none",
+      "note": "B-016: impressum link removed; instagram is the only link, location is text."
     }
   ],
   "typeNames": {

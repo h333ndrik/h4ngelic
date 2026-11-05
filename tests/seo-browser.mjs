@@ -59,6 +59,8 @@ assert.match(sitemap.headers.get('content-type'), /xml/);
 const sitemapXML = await sitemap.text();
 assert.match(sitemapXML, /<urlset\b/);
 const locations = [...sitemapXML.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+assert.ok(!locations.some(location => location.endsWith('/impressum')),
+  'B-016: the unlinked legal page stays out of the sitemap.');
 assert.deepEqual(locations.sort(), production ? [`${origin}/`, `${origin}/creative/tools`, ...toolPaths.map(path => `${origin}${path}`), `${origin}/about`].sort() : [], 'Only canonical, indexable published pages belong in the sitemap; duplicate archive contexts, incomplete artwork and previews are excluded.');
 const robots = await fetch(route('/robots.txt'));
 assert.equal(robots.status, 200);
@@ -170,6 +172,8 @@ try {
       } else if (path === '/impressum') {
         assert.match(metadata.text, /ddg disclosure/);
         assert.match(metadata.text, /\[VOLLNAME\]/);
+        assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'), 'noindex, follow',
+          'B-016: the unlinked legal page is prerendered but stays noindex.');
         assert.equal(await page.locator('[data-naavi]').count(), 1);
       } else if (path.startsWith('/creative')) {
         const slug = path.split('/')[2] || 'all';

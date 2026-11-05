@@ -103,8 +103,7 @@ async function pageLinks(page) {
                 : element.closest('.work-group-heading') ? 'group-heading'
                   : element.closest('.archive-category-heading') ? 'archive-heading'
                   : element.closest('.artwork-page .project-meta') ? 'project-action'
-                    : element.matches('.footer-impressum') ? 'footer-legal'
-                      : element.matches('.footer-moshlab, .footer-instagram, .footer-smash') ? 'footer-link'
+                    : element.matches('.footer-moshlab, .footer-instagram, .footer-smash') ? 'footer-link'
                         : element.matches('.category-link') ? 'category'
                           : element.matches('.tool-card-link') ? 'tool-card'
                             : element.matches('.tool-card-external, .tool-external-cta') ? 'tool-cta' : 'internal';

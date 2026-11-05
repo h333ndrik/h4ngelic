@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-11-05T20:04:52.438Z",
-  "base": "http://127.0.0.1:55235",
-  "build": "19a0ea15b37c",
+  "checkedAt": "2026-11-05T20:48:39.298Z",
+  "base": "http://127.0.0.1:55240",
+  "build": "29b5a4ee8ca0",
   "profiles": [
     {
       "width": 1440,
       "height": 900,
-      "build": "19a0ea15b37c",
+      "build": "29b5a4ee8ca0",
       "headings": [
         {
           "id": "selected-work-title",
@@ -19,7 +19,7 @@
         },
         {
           "id": "about-preview-title",
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": "86.4px",
           "lineHeight": "93.312px",
           "letterSpacing": "-3.888px",
@@ -83,7 +83,7 @@
           "slashRel": 88.31
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": "86.4px",
           "lineHeight": "93.312px",
           "letterSpacing": "-3.888px",
@@ -170,7 +170,7 @@
       "indexLabels": [
         "00/ home",
         "01/ creative",
-        "02/ more about",
+        "02/ about",
         "03/ contact"
       ],
       "driftCounts": [
@@ -190,7 +190,7 @@
     {
       "width": 390,
       "height": 844,
-      "build": "19a0ea15b37c",
+      "build": "29b5a4ee8ca0",
       "headings": [
         {
           "id": "selected-work-title",
@@ -203,7 +203,7 @@
         },
         {
           "id": "about-preview-title",
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": "32px",
           "lineHeight": "34.56px",
           "letterSpacing": "-1.44px",
@@ -267,7 +267,7 @@
           "slashRel": 32.7
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": "32px",
           "lineHeight": "34.56px",
           "letterSpacing": "-1.44px",
@@ -354,7 +354,7 @@
       "indexLabels": [
         "00/ home",
         "01/ creative",
-        "02/ more about",
+        "02/ about",
         "03/ contact"
       ],
       "driftCounts": [
@@ -374,7 +374,7 @@
     {
       "width": 320,
       "height": 844,
-      "build": "19a0ea15b37c",
+      "build": "29b5a4ee8ca0",
       "headings": [
         {
           "id": "selected-work-title",
@@ -387,7 +387,7 @@
         },
         {
           "id": "about-preview-title",
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": "32px",
           "lineHeight": "34.56px",
           "letterSpacing": "-1.44px",
@@ -451,7 +451,7 @@
           "slashRel": 32.7
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": "32px",
           "lineHeight": "34.56px",
           "letterSpacing": "-1.44px",
@@ -538,7 +538,7 @@
       "indexLabels": [
         "00/ home",
         "01/ creative",
-        "02/ more about",
+        "02/ about",
         "03/ contact"
       ],
       "driftCounts": [

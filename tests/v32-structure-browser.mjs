@@ -108,7 +108,8 @@ for (const width of [1440, 390, 320]) {
       hint: document.querySelector('[data-xray-hint-text]')?.textContent,
     }));
     assert.equal(normalFooter.smash, 0, 'Normal mode has no hidden SMASH DOM.');
-    assert.deepEqual(normalFooter.imprint, ['impressum']);
+    // B-016: Impressum-Link bewusst entfernt bis Nutzdaten vorliegen (05.11.).
+    assert.deepEqual(normalFooter.imprint, [], 'B-016: normal footer has no impressum link.');
     assert.equal(normalFooter.hint, 'hold 4 to see the other side.');
     await page.keyboard.down('4');
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray', null, { timeout: 60000 });
@@ -120,11 +121,11 @@ for (const width of [1440, 390, 320]) {
       hint: document.querySelector('[data-xray-hint-text]')?.textContent,
     }));
     assert.deepEqual(otherFooter.smash, [{ text: 'smash', arrows: 0 }]);
-    assert.deepEqual(otherFooter.imprint, ['impressum', 'impressum']);
+    assert.deepEqual(otherFooter.imprint, [], 'B-016: Other Side footer has no impressum link either.');
     assert.equal(otherFooter.hint, 'press 3 three times to reverse.');
     await page.screenshot({ path: new URL(`../docs/validation/SMASH-OTHERSIDE/${width}.png`, import.meta.url).pathname });
-    await page.locator('.footer-impressum').first().click();
-    await page.waitForURL('**/impressum');
+    // B-016 removed the link; the route stays prerendered and reachable.
+    await page.goto(`${base}/impressum`, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal');
     const legal = await page.evaluate(() => ({
       page: document.documentElement.dataset.page,
@@ -223,5 +224,5 @@ await writeFile(new URL('../docs/validation/IMPRESSUM-DUAL/results.json', import
 await writeFile(new URL('../docs/validation/R3B-URLS/ARTWORK-NAVI.json', import.meta.url), JSON.stringify({ build: report.build,
   profiles: report.profiles.map(({ width, viewer }) => ({ width, viewer })), passed: true }, null, 2) + '\n');
 report.passed = true;
-console.log(`PASS V3.2 structure ${report.build}: INDEX 00–03, 8+8 placeholders, mode-only SMASH, dual imprint, 12×301, 23 routes, /creative tool pages, gaps and NN/ NN viewer.`);
+console.log(`PASS V3.2 structure ${report.build}: INDEX 00–03, 8+8 placeholders, mode-only SMASH, no imprint link, 12×301, 23 routes, /creative tool pages, gaps and NN/ NN viewer.`);
 await browser.close();

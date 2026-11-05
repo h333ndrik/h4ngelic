@@ -65,7 +65,7 @@ try {
         const box = selector => { const element = document.querySelector(selector); if (!element) return null;
           const r = element.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; };
         return { moshlab: box('.footer-moshlab'), counter: box('[data-visit-count]'), smash: box('.footer-smash'),
-          instagram: box('.footer-instagram'), impressum: box('.footer-details .footer-impressum:not(.footer-impressum-other-side)'),
+          instagram: box('.footer-instagram'),
           location: box('.footer-location'), naavi: box('[data-naavi]'), pageWidth: document.documentElement.scrollWidth,
           count: document.querySelector('[data-visit-number]').textContent.trim(),
           opacity: Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity),
@@ -76,8 +76,7 @@ try {
       assert.equal(footer.message, 0, 'B-F8: the counter owns no hidden phrase.');
       assert.equal(overlap(footer.moshlab, footer.counter), false, 'visit and moshlab stay separate.');
       assert.equal(footer.smash, null, 'Normal mode keeps SMASH out of the DOM.');
-      assert.equal(overlap(footer.instagram, footer.impressum), false);
-      assert.equal(overlap(footer.impressum, footer.location), false);
+      assert.equal(overlap(footer.instagram, footer.location), false);
       assert.equal(overlap(footer.instagram, footer.location), false);
       assert.equal(overlap(footer.counter, footer.naavi), false);
       assert.ok(footer.pageWidth <= profile.width + 1);

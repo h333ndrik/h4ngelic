@@ -113,14 +113,15 @@ try {
       assert.equal(await page.locator('.footer-moshlab').getAttribute('href'),'#');
       assert.equal(await page.locator('.footer-moshlab .arrow').count(),1);
       assert.equal(await page.locator('.footer-smash').count(),0,'Normal mode keeps SMASH out of the DOM.');
-      assert.equal(await page.locator('.footer-impressum').count(),1);
+      // B-016: Impressum-Link bewusst entfernt bis Nutzdaten vorliegen (05.11.).
+      assert.equal(await page.locator('.footer-impressum').count(),0,'B-016: no impressum link until real data exists.');
       assert.equal(await page.locator('.footer-instagram .arrow').count(),1);
       const parity = await page.locator('.footer-details').evaluate(el => {
         const keys=['fontFamily','fontSize','fontWeight','letterSpacing','lineHeight','color'];
         const read = selector => {const s=getComputedStyle(el.querySelector(selector));return Object.fromEntries(keys.map(key=>[key,s[key]]));};
-        return {impressum:read('.footer-impressum'),instagram:read('.footer-instagram')};
+        return {location:read('.footer-location'),instagram:read('.footer-instagram')};
       });
-      assert.equal(parity.impressum.fontSize,parity.instagram.fontSize,'Impressum and Instagram share footer sizing.');
+      assert.equal(parity.location.fontSize,parity.instagram.fontSize,'The remaining footer items share one sizing.');
       const normal = await geometry(page);
       assert.equal(normal.footerPosition,'static','The footer remains in ordinary page flow.');
       assert.ok(normal.documentWidth<=width+1,'Local footer scrolling must never widen the page.');
@@ -131,7 +132,7 @@ try {
       await counterVisible(page,true);
       const beforeReveal = await geometry(page);
       // Native focus must reveal and horizontally expose each interactive item.
-      for (const selector of ['.footer-moshlab','.footer-impressum','.footer-instagram']) {
+      for (const selector of ['.footer-moshlab','.footer-instagram']) {
         const target=page.locator(selector);
         if(await target.isDisabled())continue;
         await target.focus();
@@ -146,12 +147,11 @@ try {
       assert.equal(await count.textContent(),'visit 0012');
       const ghost=await page.evaluate(()=>{
         const read=selector=>{const s=getComputedStyle(document.querySelector(selector));return {color:s.color,opacity:Number(s.opacity),tracking:s.letterSpacing,textTransform:s.textTransform,visibility:s.visibility};};
-        return {visit:read('[data-visit-number]'),hint:read('[data-other-side-hint] .secret-message'),impressum:read('.footer-impressum'),
+        return {visit:read('[data-visit-number]'),hint:read('[data-other-side-hint] .secret-message'),
           text:document.querySelector('[data-other-side-hint] .secret-message').textContent};
       });
       assert.equal(ghost.visit.color,ghost.hint.color,'Visit uses the HOLD4 ghost colour.');
       assert.equal(ghost.visit.tracking,ghost.hint.tracking,'Visit uses the HOLD4 ghost tracking.');
-      assert.equal(ghost.impressum.color,ghost.hint.color,'Impressum uses the shared ghost colour.');
       assert.equal(ghost.visit.opacity,.35);
       assert.equal(ghost.visit.visibility,'visible');
       assert.equal(ghost.text,'hold 4 to see the other side.');
@@ -175,7 +175,8 @@ try {
       assert.ok(!overlap(other.left,other.naavi)&&!overlap(other.right,other.naavi));
       assert.equal(await count.textContent(),'visit 0012');
       assert.equal(await page.locator('.footer-smash').count(),1,'Other Side owns the only SMASH control.');
-      assert.equal(await page.locator('.footer-impressum').count(),2,'Both mode footers expose Impressum.');
+      // B-016: Impressum-Link bewusst entfernt bis Nutzdaten vorliegen (05.11.).
+      assert.equal(await page.locator('.footer-impressum').count(),0,'B-016: neither footer links the legal page.');
       await page.screenshot({path:new URL(`other-${width}-${reduced}.png`,out).pathname});
       await mode(page,'normal');
       await page.goto(new URL('/creative/tattoos',base).href,{waitUntil:'networkidle'});

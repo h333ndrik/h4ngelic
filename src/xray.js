@@ -130,15 +130,6 @@ export function initXRay({ root = document, memory = null } = {}) {
       button.textContent = 'smash';
       slot.append(button);
     }
-    for (const slot of doc.querySelectorAll('[data-other-side-imprint-slot]')) {
-      if (mode !== 'xray') { slot.replaceChildren(); continue; }
-      if (slot.querySelector('.footer-impressum-other-side')) continue;
-      const link = doc.createElement('a');
-      link.className = 'footer-impressum footer-impressum-other-side';
-      link.href = '/impressum';
-      link.textContent = 'impressum';
-      slot.append(link);
-    }
   }
 
   function refresh() {

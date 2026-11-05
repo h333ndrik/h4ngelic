@@ -42,9 +42,7 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
       <span class="footer-details" data-row="cluster" data-row-id="footer-details" role="group" aria-label="footer links, scroll horizontally when needed" tabindex="0">${[
         '<span data-smash-slot></span>',
         instagram ? `<a class="footer-instagram row-item" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : '',
-        '<a class="footer-impressum row-item" href="/impressum">impressum</a>',
         `<span class="footer-location row-item">${escape(siteContent.location)}</span>`,
-        '<span data-other-side-imprint-slot></span>',
       ].join('')}</span>
     </div>
     ${otherSideEnabled ? '<span class="sr-only" data-mode-status role="status" aria-live="polite"></span>' : ''}

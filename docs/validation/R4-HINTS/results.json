@@ -1,13 +1,11 @@
 {
-  "build": "945b5515b0a0",
+  "build": "57ff1e3c7c45",
   "profiles": [
     {
       "width": 1440,
       "normalFooter": {
         "smash": 0,
-        "imprint": [
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "hold 4 to see the other side."
       },
       "otherFooter": {
@@ -17,10 +15,7 @@
             "arrows": 0
           }
         ],
-        "imprint": [
-          "impressum",
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "press 3 three times to reverse."
       }
     },
@@ -28,9 +23,7 @@
       "width": 390,
       "normalFooter": {
         "smash": 0,
-        "imprint": [
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "hold 4 to see the other side."
       },
       "otherFooter": {
@@ -40,10 +33,7 @@
             "arrows": 0
           }
         ],
-        "imprint": [
-          "impressum",
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "press 3 three times to reverse."
       }
     },
@@ -51,9 +41,7 @@
       "width": 320,
       "normalFooter": {
         "smash": 0,
-        "imprint": [
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "hold 4 to see the other side."
       },
       "otherFooter": {
@@ -63,10 +51,7 @@
             "arrows": 0
           }
         ],
-        "imprint": [
-          "impressum",
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "press 3 three times to reverse."
       }
     }

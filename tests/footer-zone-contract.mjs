@@ -183,15 +183,30 @@ try {
       const beforeLink = await page.evaluate(() => document.querySelectorAll('.ink-mark').length);
       const moshlab = page.locator('.footer-moshlab');
       await moshlab.scrollIntoViewIfNeeded();
-      await moshlab.click();
-      await page.waitForTimeout(200);
-      assert.equal(await page.evaluate(() => document.querySelectorAll('.ink-mark').length), beforeLink,
-        `[${width}] a link press stays an action and paints nothing`);
 
-      const impressum = page.locator('.footer-impressum');
-      await impressum.scrollIntoViewIfNeeded();
-      await Promise.all([page.waitForURL(url => url.pathname === '/impressum'), impressum.click()]);
-      assert.equal(new URL(page.url()).pathname, '/impressum', `[${width}] footer links still navigate`);
+      // B-016 removed the impressum link, so link reachability is proven on the
+      // anchors that remain: a real press reaches the link element itself and
+      // paints nothing, and the external anchor keeps href/target/rel.
+      await page.evaluate(() => {
+        window.__h4LinkHit = null;
+        document.querySelector('.footer-moshlab').addEventListener('click', event => {
+          window.__h4LinkHit = { trusted: event.isTrusted, tag: event.target.tagName,
+            onLink: Boolean(event.target.closest('.footer-moshlab')) };
+        }, { once: true });
+      });
+      await moshlab.click();
+      await page.waitForTimeout(120);
+      const reached = await page.evaluate(() => window.__h4LinkHit);
+      assert.equal(reached?.trusted, true, `[${width}] a real press still reaches the footer link`);
+      assert.equal(reached?.onLink, true, `[${width}] the press lands on the link element`);
+      assert.equal(await page.evaluate(() => document.querySelectorAll('.ink-mark').length), beforeLink,
+        `[${width}] the link press paints nothing`);
+      const external = await page.evaluate(() => {
+        const link = document.querySelector('.footer-instagram');
+        return link ? { href: link.getAttribute('href'), target: link.getAttribute('target'), rel: link.getAttribute('rel') } : null;
+      });
+      assert.ok(external?.href?.startsWith('https://') && external.target === '_blank' && external.rel.includes('noopener'),
+        `[${width}] the remaining footer link keeps href/target/rel: ${JSON.stringify(external)}`);
 
       const cursorSummary = measured.raster.values.map(value => `${value.value}=${value.count}`).join(', ');
       console.log(`PASS B-F19 footer zone ${width}px build=${measured.build} raster=${measured.raster.points} (${cursorSummary}) ` +

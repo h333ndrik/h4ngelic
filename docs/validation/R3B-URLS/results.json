@@ -1,5 +1,5 @@
 {
-  "build": "4b9ce9a3fae4",
+  "build": "57ff1e3c7c45",
   "profiles": [
     {
       "width": 1440,
@@ -13,7 +13,7 @@
           "page": "creative"
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "page": "about"
         },
         {
@@ -21,11 +21,13 @@
           "page": "contact"
         }
       ],
-      "gapToken": 19.44,
+      "gapToken": 19,
       "categoryGaps": [
-        19.4375,
-        19.4375,
-        19.4375
+        [
+          91.15625,
+          91.140625,
+          91.15625
+        ]
       ],
       "filterGap": {
         "computed": 19.44,
@@ -36,18 +38,16 @@
         ]
       },
       "crossGap": {
-        "computed": 19.44,
+        "computed": 19,
         "arrows": [
-          14.5152,
-          14.5152,
-          14.5152
+          18.1964,
+          18.1964,
+          18.1964
         ]
       },
       "normalFooter": {
         "smash": 0,
-        "imprint": [
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "hold 4 to see the other side."
       },
       "otherFooter": {
@@ -57,10 +57,7 @@
             "arrows": 0
           }
         ],
-        "imprint": [
-          "impressum",
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "press 3 three times to reverse."
       },
       "legal": {
@@ -141,7 +138,7 @@
           "page": "creative"
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "page": "about"
         },
         {
@@ -149,10 +146,14 @@
           "page": "contact"
         }
       ],
-      "gapToken": 10,
+      "gapToken": 19,
       "categoryGaps": [
-        10,
-        10
+        [
+          137.21875
+        ],
+        [
+          172.671875
+        ]
       ],
       "filterGap": {
         "computed": 10,
@@ -163,7 +164,7 @@
         ]
       },
       "crossGap": {
-        "computed": 10,
+        "computed": 19,
         "arrows": [
           10,
           10,
@@ -172,9 +173,7 @@
       },
       "normalFooter": {
         "smash": 0,
-        "imprint": [
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "hold 4 to see the other side."
       },
       "otherFooter": {
@@ -184,10 +183,7 @@
             "arrows": 0
           }
         ],
-        "imprint": [
-          "impressum",
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "press 3 three times to reverse."
       },
       "legal": {
@@ -268,7 +264,7 @@
           "page": "creative"
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "page": "about"
         },
         {
@@ -276,10 +272,14 @@
           "page": "contact"
         }
       ],
-      "gapToken": 10,
+      "gapToken": 19,
       "categoryGaps": [
-        10,
-        10
+        [
+          87.953125
+        ],
+        [
+          117.4375
+        ]
       ],
       "filterGap": {
         "computed": 10,
@@ -290,7 +290,7 @@
         ]
       },
       "crossGap": {
-        "computed": 10,
+        "computed": 19,
         "arrows": [
           10,
           10,
@@ -299,9 +299,7 @@
       },
       "normalFooter": {
         "smash": 0,
-        "imprint": [
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "hold 4 to see the other side."
       },
       "otherFooter": {
@@ -311,10 +309,7 @@
             "arrows": 0
           }
         ],
-        "imprint": [
-          "impressum",
-          "impressum"
-        ],
+        "imprint": [],
         "hint": "press 3 three times to reverse."
       },
       "legal": {
@@ -398,7 +393,7 @@
     {
       "source": "/work/tattoos",
       "status": 301,
-      "destination": "/creative/onskin"
+      "destination": "/creative/tattoos"
     },
     {
       "source": "/work/flashes",
@@ -475,7 +470,15 @@
       ],
       "cta": "https://github.com/h333ndrik/m4shlab",
       "pwa": "install on mobile ios share → add to home screenandroid ⋮ → install",
-      "facts": "deterministic & reversible · .m4sh project files · offline-ready PWA · original files never modified",
+      "filters": [
+        "tattoos",
+        "jewellery",
+        "tools",
+        "more"
+      ],
+      "activeFilter": "tools",
+      "breadcrumbs": 0,
+      "facts": 0,
       "video": "video slot reserved. no video has been supplied.",
       "pageWidth": 1280,
       "innerWidth": 1280
@@ -508,7 +511,15 @@
       ],
       "cta": "https://h333ndrik.github.io/thr4ce",
       "pwa": "install on mobile ios share → add to home screenandroid ⋮ → install",
-      "facts": "deterministic & reversible · .thr4ce project files · offline-ready PWA · original files never modified",
+      "filters": [
+        "tattoos",
+        "jewellery",
+        "tools",
+        "more"
+      ],
+      "activeFilter": "tools",
+      "breadcrumbs": 0,
+      "facts": 0,
       "video": "video slot reserved. no video has been supplied.",
       "pageWidth": 1280,
       "innerWidth": 1280

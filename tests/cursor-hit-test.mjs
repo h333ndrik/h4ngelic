@@ -127,7 +127,6 @@ async function targetContracts(page, { mode, offenders, counts }) {
     ['footer-visit', '[data-visit-count]'],
     ['footer-instagram', '.footer-instagram'],
     ['footer-location', '.footer-location'],
-    ['footer-impressum', '.footer-impressum'],
     ['naavi-container', '[data-naavi]'],
     ['naavi-digit', '[data-naavi] .chapter-digit'],
     ['naavi-total', '[data-naavi] .chapter-total'],

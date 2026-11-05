@@ -52,7 +52,8 @@ test('shared footer groups contain the permanent ghost count, matching arrows an
   assert.match(html, />visit 0001<\/span>/);
   assert.doesNotMatch(html, /<button[^>]+\bdata-smash\b/, 'Normal mode contains no hidden soundtrack control.');
   assert.match(html, /data-smash-slot/);
-  assert.match(html, /class="footer-impressum row-item" href="\/impressum">impressum/);
+  // B-016: Impressum-Link bewusst entfernt bis Nutzdaten vorliegen (05.11.).
+  assert.doesNotMatch(html, /footer-impressum|data-other-side-imprint-slot/, 'No footer links the placeholder legal page.');
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
   assert.ok(html.indexOf('data-visit-count') > html.indexOf('class="footer-moshlab"'));
   assert.ok(html.indexOf('data-visit-count') < html.indexOf('class="footer-details"'));
