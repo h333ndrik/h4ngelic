@@ -993,3 +993,134 @@ Preview-Test geprueft).
 - Eine Pause > 70 ms vor dem Loslassen gilt nicht mehr als Flick. Falls sich das
   im Gebrauch als zu streng erweist, ist `pointerWindowMs` die einzige Stellschraube.
 
+## M4h — Push & Probe-Merge
+
+### 0. Abweichung vom Erwartungswert (zuerst)
+
+`origin/main` steht **nicht** auf `9123a00`. Und main hat sich waehrend dieses
+Laufs ein zweites Mal bewegt:
+
+| Zeitpunkt | `origin/main` | Inhalt |
+| --- | --- | --- |
+| Self-Check (erster Fetch) | `b5634bc` | `Merge pull request #22 from h333ndrik/v3.2-world-sound` |
+| nach dem Probe-Merge (zweiter Fetch) | `e66e7b6` | `Record the world sound release: merge b5634bc, deployment and live asset verification` (aendert nur `NEXT_SESSION.md` und `PROJECT_PROGRESS.md`) |
+
+Der zweite Commit entstand in einer parallelen Session (Worktree
+`2026-11-03/world-sound-h4ngelic`, dort ist `main` ausgecheckt). Deshalb wurde
+der Probe-Merge gegen den neuen Stand `e66e7b6` **wiederholt**; die Zahlen unten
+gelten fuer `e66e7b6`. Nichts wurde korrigiert oder umgeschrieben.
+
+| Erwartet | Gemessen (`e66e7b6`) |
+| --- | --- |
+| `origin/main` = `9123a00` | `e66e7b6` |
+| ~98 Commits voraus, 0 dahinter | 28 voraus, 11 dahinter (Basis `11e78a1`) |
+| Probe-Merge ~1.627 Dateien, 0 Konflikte | 143 Dateien, 3 Konflikte |
+
+### 1. Push
+
+| | Wert |
+| --- | --- |
+| Range | `ad5ab14..b2433f5` |
+| Commits | 2 (`d40218d` M4f, `b2433f5` M4g) |
+| Remote danach | `origin/v3.2-mannequin-female` = `b2433f5` = `HEAD` |
+| Force / Rebase / Amend | nein |
+| Tags | keine |
+| `origin/main` | `e66e7b6` (Stand nach dem Lauf) |
+| `origin/mail-01-diagnostics` | `fb57c57` unveraendert |
+
+`git push origin v3.2-mannequin-female` lief als Fast-Forward
+(`ad5ab14..b2433f5`), Exit 0. Kein Merge, kein Deploy, keine Vercel-Aktion.
+
+### 2. Probe-Merge (Wegwerf-Worktree, kein echter Merge)
+
+| | Wert |
+| --- | --- |
+| Worktree | `/tmp/merge-probe-20261105` auf `origin/main` (`e66e7b6`) |
+| Befehl | `git merge --no-commit --no-ff v3.2-mannequin-female` |
+| Exit-Code | **1** (Konflikte) |
+| Umfang | 143 Dateien, +10.971 / −217 |
+| Konflikte | **3**, alle `UU` (beide Seiten geaendert) |
+
+Konfliktdateien — reine Dokumentation/Konfiguration, kein Quellcode, kein Asset:
+
+| Datei | Hunk | Konfliktmarker | Einschaetzung (nicht aufgeloest) |
+| --- | --- | --- | --- |
+| `.gitignore` | `@@@ -152,8 -152,5 +152,13 @@@` | Zeilen 155/161/164 | Beide Seiten haengen unabhaengige Bloecke an: main `work/` + `masters/` (Audio-Master), wir `__pycache__/`. Beide behalten. |
+| `NEXT_SESSION.md` | `@@@ -1,118 -1,239 +1,185 @@@` | Zeilen 1/3/68 | Beide Seiten stellen einen neuen Checkpoint oben voran. Beide behalten, chronologisch; unser Text nennt noch `mannequin-c.d9edb0e4d7b0.glb` und muss auf `d76abc164512` korrigiert werden. |
+| `PROJECT_PROGRESS.md` | `@@@ -1,139 -1,61 +1,200 @@@` | Zeilen 1/138/197 | Gleiches Muster (neuer Abschnitt oben). Beide behalten. |
+
+Gegenprobe ohne Worktree: `git merge-tree --write-tree origin/main v3.2-mannequin-female`
+meldet dieselben drei Dateien je mit Stage 1/2/3 — der Befund ist reproduzierbar.
+
+Aufgeraeumt: `git merge --abort` (Exit 0), `git worktree remove --force`,
+`git worktree prune`. Danach: `HEAD` = `b2433f5`, `origin/main` = `b5634bc`,
+`git status` sauber, kein Probe-Worktree mehr in `git worktree list`.
+
+### 3. Divergenz zu main
+
+| Groesse | Wert |
+| --- | --- |
+| Merge-Base | `11e78a1` (V3.2-M0c) |
+| Commits nur auf main | 11 (World Sound M1–M9, PR #22, Release-Record) |
+| Commits nur auf dem Branch | 28 |
+| `origin/main` Vorfahre von `HEAD` | nein — der echte Merge wird ein echter Merge |
+| Neue main-Commits seit `9123a00` | 86 |
+
+Ueberschneidung der beiden Aenderungssaetze: genau **4 Dateien** —
+`.gitignore`, `NEXT_SESSION.md`, `PROJECT_PROGRESS.md`, `package.json`. Die ersten
+drei kollidieren, `package.json` mischt automatisch und behaelt beide
+Skriptgruppen (81 Skripte, Abhaengigkeiten unveraendert: nur `three@0.186.1`).
+
+### 4. Mannequin-C-Dateien im Probe-Merge
+
+| Bereich | Dateien |
+| --- | --- |
+| `docs/validation/MANNEQUIN-C/` | 38 (inkl. `REPORT.md`, Manifest, Procreate-MTL, Screenshots) |
+| `docs/validation/MANNEQUIN-CHROME/` | 35 |
+| `public/models/` | 3 (`mannequin-c.d76abc164512.glb`, `mannequin-female-a/b.glb`) |
+| `public/textures/mannequin/` | 22 (Guides, UV-Atlas) |
+| `scripts/` | 11 (Bake, Build, Verify, UV-Checks) |
+| `src/mannequin-preview*` | 5 |
+| `src/section-entrance*` | 2 |
+| `tests/` | 8 (`mannequin-*`, `section-entrance-*`) |
+| `public/basis` + `public/draco` | 6 |
+| Rest | Poster-PNGs, `CREDITS.md`, `src/app.js`, `src/pages.js`, `tests/content.test.js`, `package.json`, `.gitignore`, `NEXT_SESSION.md`, `PROJECT_PROGRESS.md` |
+
+`origin/main` kennt `src/mannequin-preview-config.js` und das C-GLB nicht; main
+hat nur das aeltere `public/models/mannequin.glb` aus M0c. Es gibt deshalb
+keinen Dateikonflikt in Quellcode oder Assets.
+
+### 5. Risikoeinschaetzung fuer den echten Merge
+
+1. **Drei Doku-/Konfigurationskonflikte**, alle additiv — Aufloesung ist
+   mechanisch (beide Seiten behalten), aber `NEXT_SESSION.md` und
+   `PROJECT_PROGRESS.md` nennen veraltete Asset-Namen und muessen beim Aufloesen
+   auf `d76abc164512` korrigiert werden.
+2. **World Sound und Mannequin teilen `package.json`** (Skripte) und `src/app.js`
+   (Init-Pfade). Der Auto-Merge sieht sauber aus, ist aber nur syntaktisch
+   geprueft: nach dem Merge ist die volle Suite Pflicht, besonders
+   `test:world-sound` und `test:mode-audio` neben den Mannequin-Suiten.
+   Zusatzrisiko: main bewegt sich weiter (waehrend dieses Laufs +1 Commit), der
+   Merge-Base muss unmittelbar vor dem echten Merge neu geprueft werden.
+3. **Kalte Routen / SEO**: beide Zweige haben an Layout und Routen gearbeitet
+   (World Sound an WORKS, Mannequin an `/work/tattoos`). Erwartung: 18 Routen +
+   404 bleiben; muss nach dem Merge neu geprueft werden.
+4. **Assets**: 11 MB GLB + Texturen kommen neu hinzu; `verify:assets` und der
+   Bundle-Check (A/B 0×, `LICENSE-NOTE` 0 Treffer) muessen im gemergten Stand
+   erneut laufen.
+
+### 6. Testreihenfolge fuer den echten Merge
+
+`npm run verify:assets` → `npm test` → `npm run build` → `npm run test:seo`
+→ `npm run test:mannequin-preview` (3×) → `npm run test:mannequin-framerate`
+→ `npm run test:mannequin-pointer`, danach die Weltklang-Suiten
+(`npm run test:world-sound`, `npm run test:mode-audio`).
+
+### 7. Bestaetigung
+
+Kein echter Merge, kein Deploy, keine Vercel-Aktion, kein Force-Push, kein Tag.
+`main` (`e66e7b6`) und `mail-01-diagnostics` (`fb57c57`) sind unveraendert; die
+Arbeit lief ausschliesslich im Wegwerf-Worktree und wurde dort abgebrochen.
+Asset unberuehrt: 457.000 B, 49.838 Tris, `d76abc164512…`; Procreate-Paket
+unberuehrt (relativer `map_Kd skincolor.png`, kein `/Users/`-Pfad).
+
