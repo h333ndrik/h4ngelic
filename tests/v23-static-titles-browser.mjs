@@ -31,7 +31,7 @@ try {
     try {
       await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
       await page.locator('#selected-work-title').waitFor();
-      const expected = ['01/ creative', '02/ more about', '03/ contact'];
+      const expected = ['01/ creative', '02/ about', '03/ contact'];
       const headings = page.locator('.content-section .kinetic-heading');
       assert.deepEqual(await headings.evaluateAll(nodes => nodes.map(node => node.textContent.replace(/\s+/g, ' ').trim())), expected, 'Offscreen content-visibility sections retain their static title text.');
       assert.equal(await headings.locator('a').count(), 0, 'Static section titles are not links.');

@@ -7,6 +7,7 @@ import { flashMannequinConfig } from './src/flash-mannequin-content.js';
 import { createInquiryHandler } from './server/inquiry.mjs';
 import { heroPosterSettings } from './src/data/heroPosterSettings.js';
 import { applyBuildMarker, buildSha, shouldLogBuild } from './scripts/build-marker.mjs';
+import { sectionLabels } from './src/labels.js';
 
 const config = seoEnvironment(process.env);
 
@@ -24,6 +25,18 @@ export default defineConfig({
     enforce: 'pre',
     transformIndexHtml(html) {
       return applyBuildMarker(html, buildSha);
+    },
+  }, {
+    // B-F26: the INDEX panel is authored in index.html, the chapter names live
+    // in src/labels.js. One token per name keeps the prerendered shell and the
+    // rendered headings on the same source instead of three literals.
+    name: 'h4ngelic-section-labels',
+    transformIndexHtml(html) {
+      return html
+        .replaceAll('__H4_SECTION_HOME__', sectionLabels.home)
+        .replaceAll('__H4_SECTION_CREATIVE__', sectionLabels.creative)
+        .replaceAll('__H4_SECTION_ABOUT__', sectionLabels.about)
+        .replaceAll('__H4_SECTION_CONTACT__', sectionLabels.contact);
     },
   }, {
     name: 'h4ngelic-hero-poster',

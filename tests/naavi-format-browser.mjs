@@ -48,7 +48,7 @@ try {
   assert.equal(final.total, 4);
   assert.match(final.label, /^NAAVI: 04\/ 04, the other side\. go to home$/);
   assert.deepEqual(await page.locator('[data-global-index] [data-index-page]').evaluateAll(nodes => nodes.map(node => node.textContent.replace(/\s+/g, ' ').trim())),
-    ['00/ home', '01/ creative', '02/ more about', '03/ contact']);
+    ['00/ home', '01/ creative', '02/ about', '03/ contact']);
   report.chapters.push({ index: 4, id: 'other-side', state: final });
   await page.screenshot({ path: new URL('naavi-final-secret-1440.png', output).pathname });
   report.passed = true;

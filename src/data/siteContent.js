@@ -1,4 +1,4 @@
-import { formatIndexedLabel } from '../labels.js';
+import { formatIndexedLabel, sectionLabels } from '../labels.js';
 
 /**
  * Edit this file for website copy, categories and contact destinations.
@@ -63,14 +63,17 @@ export const siteContent = {
   ],
 
   home: {
-    selectedWorkLabel: formatIndexedLabel(1, 'creative'),
-    aboutLabel: formatIndexedLabel(2, 'more about'),
-    contactLabel: formatIndexedLabel(3, 'contact'),
+    selectedWorkLabel: formatIndexedLabel(1, sectionLabels.creative),
+    aboutLabel: formatIndexedLabel(2, sectionLabels.about),
+    contactLabel: formatIndexedLabel(3, sectionLabels.contact),
     aboutPreview: 'mixed media. ink, metal and everything in between.',
     moreAboutLabel: 'more about',
   },
 
   about: {
+    // B-F26: the page heading consumes the same chapter name as INDEX and the
+    // frontpage section, so the visible label cannot drift between the three.
+    label: sectionLabels.about,
     intro: "hi, i'm hendrik.",
     location: 'independent artist based in berlin.',
     paragraphs: [

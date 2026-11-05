@@ -20,7 +20,7 @@ for (const width of [1440, 390, 320]) {
       return { text: span.textContent.trim(), fontSize: parseFloat(style.fontSize), lineHeight: parseFloat(style.lineHeight),
         tracking: parseFloat(style.letterSpacing), top: box.top, width: box.width };
     }));
-    assert.deepEqual(headings.map(item => item.text), ['01/ creative', '02/ more about', '03/ contact']);
+    assert.deepEqual(headings.map(item => item.text), ['01/ creative', '02/ about', '03/ contact']);
     for (const property of ['fontSize', 'lineHeight', 'tracking']) {
       assert.equal(new Set(headings.map(item => item[property])).size, 1, `${property} must come from one source at ${width}px.`);
     }

@@ -21,7 +21,7 @@ for (const width of [1440, 390, 320]) {
     const index = await page.locator('[data-index-page]').evaluateAll(nodes => nodes.map(node => ({
       text: node.textContent.replace(/\s+/g, ' ').trim(), page: node.dataset.indexPage })));
     assert.deepEqual(index.map(item => item.page), ['home', 'creative', 'about', 'contact']);
-    assert.deepEqual(index.map(item => item.text), ['00/ home', '01/ creative', '02/ more about', '03/ contact']);
+    assert.deepEqual(index.map(item => item.text), ['00/ home', '01/ creative', '02/ about', '03/ contact']);
 
     // B-F25: the frontpage is a Type A row. Its visible gap is the free space
     // left between the labels (space-between), never the --row-gap-min floor.

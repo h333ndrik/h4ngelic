@@ -250,7 +250,7 @@ export function renderAboutPage() {
   }).filter(Boolean).join('');
   return `${header('about')}
   <div class="page-shell about-page">
-    <h1 class="page-heading numbered-heading">${formatIndexedLabel(2, 'more about')}</h1>
+    <h1 class="page-heading numbered-heading">${formatIndexedLabel(2, siteContent.about.label)}</h1>
     <div class="about-layout${portraitURL ? ' has-portrait' : ''}">
       <div class="about-copy">
         <p class="about-intro">${escape(about.intro)}</p>

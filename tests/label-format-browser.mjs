@@ -32,8 +32,8 @@ try {
         categoryLefts: [...document.querySelectorAll('#selected-work .category-link .category-magnet > span')].map(node => node.getBoundingClientRect().left),
         slash: (() => { const heading = document.querySelector('#selected-work-title .kinetic-heading-text'); const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT); let node; while ((node = walker.nextNode())) { const index = node.textContent.indexOf('/'); if (index >= 0) { const range = document.createRange(); range.setStart(node, index); range.setEnd(node, index + 1); return range.getBoundingClientRect().left; } } return NaN; })(),
       }));
-      assert.deepEqual(home.headings, ['01/ creative', '02/ more about', '03/ contact']);
-      assert.deepEqual(home.index, ['00/ home', '01/ creative', '02/ more about', '03/ contact']);
+      assert.deepEqual(home.headings, ['01/ creative', '02/ about', '03/ contact']);
+      assert.deepEqual(home.index, ['00/ home', '01/ creative', '02/ about', '03/ contact']);
       assert.equal(home.naavi, '00/ 04');
       assert.equal(home.naaviLabel, 'NAAVI: 00/ 04, home. go to creative');
       assert.ok(home.slashInset > 0);
@@ -63,7 +63,7 @@ try {
       await page.goto(`${base}/about`, { waitUntil: 'networkidle' });
       const about = await page.evaluate(() => ({ heading: document.querySelector('.about-page .page-heading').textContent.trim(),
         counter: document.querySelector('[data-naavi]').textContent.replace(/\s+/g, ' ').trim() }));
-      assert.equal(about.heading, '02/ more about');
+      assert.equal(about.heading, '02/ about');
       assert.equal(about.counter, '01/ 01');
       assert.deepEqual(errors, []);
       await page.screenshot({ path: new URL(`labels-${width}.png`, output).pathname });

@@ -104,7 +104,7 @@ async function homepageCategories(page, width) {
   assert.equal(await page.locator('#selected-work-title .section-route-link').count(), 0);
   const title = selector => page.locator(selector).evaluate(element => element.textContent.replace(/\s+/g, ' ').trim());
   assert.equal(await title('#selected-work-title'), '01/ creative');
-  assert.equal(await title('#about-preview-title'), '02/ more about');
+  assert.equal(await title('#about-preview-title'), '02/ about');
   assert.equal(await title('#contact-title'), '03/ contact');
   // B-F4/B-F12: the strip flows with one shared gap instead of equal columns,
   // so the items keep equal gaps but no longer share one width.

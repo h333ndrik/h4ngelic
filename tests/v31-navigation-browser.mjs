@@ -83,7 +83,7 @@ async function indexContract(page,profile,world) {
   assert.deepEqual(data.entries, [
     { tag:'A', href:'/', text:'00/ home', focusable:true },
     { tag:'SPAN', href:null, text:'01/ creative', focusable:false },
-    { tag:'A', href:'/about', text:'02/ more about', focusable:true },
+    { tag:'A', href:'/about', text:'02/ about', focusable:true },
     { tag:'A', href:'/#contact', text:'03/ contact', focusable:true },
   ]);
   assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');

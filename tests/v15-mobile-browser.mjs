@@ -128,7 +128,7 @@ try {
       await page.screenshot({ path: new URL(`more-${profile.width}-${profile.reduced}.png`, output).pathname });
 
       await page.goto(new URL('/about', base).href, { waitUntil: 'networkidle' });
-      assert.equal(await page.locator('.about-page .page-heading').textContent(), '02/ more about');
+      assert.equal(await page.locator('.about-page .page-heading').textContent(), '02/ about');
       await page.screenshot({ path: new URL(`about-${profile.width}-${profile.reduced}.png`, output).pathname });
 
       await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });

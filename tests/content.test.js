@@ -242,7 +242,7 @@ test('about optional content renders only when configured', () => {
 });
 
 test('About keeps its lower-case numbered route heading', () => {
-  assert.match(renderAboutPage(), /<h1 class="page-heading numbered-heading">02\/ more about<\/h1>/);
+  assert.match(renderAboutPage(), /<h1 class="page-heading numbered-heading">02\/ about<\/h1>/);
 });
 
 test('approved About copy remains exact and does not invent a portrait or biography', () => {

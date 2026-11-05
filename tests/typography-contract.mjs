@@ -93,7 +93,7 @@ try {
       report.build ||= build;
 
       const headings = sameTypography(await measure(page, '.content-section .kinetic-heading'), `${profile.width}px home headings`);
-      assert.deepEqual(headings.map(row => row.text.replace(/^\d{2}\/ /, '')), ['creative', 'more about', 'contact']);
+      assert.deepEqual(headings.map(row => row.text.replace(/^\d{2}\/ /, '')), ['creative', 'about', 'contact']);
       for (const heading of headings) assert.match(heading.text, /^\d{2}\/ /, `Home heading lacks R2 numbering: ${heading.text}`);
 
       const rubrics = sameTypography(await measure(page, '#selected-work .category-link .interaction-visual'), `${profile.width}px rubric labels`);
@@ -143,7 +143,7 @@ try {
 
       const indexNumbers = assertCounterFormats(await page.locator('[data-global-index] .index-number').allTextContents(), /^\d{2}\/$/, 'INDEX numbers');
       const indexLabels = await page.locator('[data-global-index] [data-index-page]').evaluateAll(elements => elements.map(element => element.textContent.trim().replace(/\s+/g, ' ')));
-      assert.deepEqual(indexLabels, ['00/ home', '01/ creative', '02/ more about', '03/ contact']);
+      assert.deepEqual(indexLabels, ['00/ home', '01/ creative', '02/ about', '03/ contact']);
       assertCounterFormats(await page.locator('[data-naavi]').evaluateAll(elements => elements.map(element => element.textContent.trim().replace(/\s+/g, ' '))), /^\d{2}\/ \d{2}$/, 'NAAVI');
       assert.match(await page.locator('[data-naavi]').getAttribute('aria-label'), /^NAAVI: \d{2}\/ \d{2}, /);
       assertCounterFormats([await page.locator('[data-visit-number]').textContent()], /^visit \d{4,}$/, 'Footer visit counter');
