@@ -748,3 +748,118 @@ Neue Asserts: Poster-Box = Canvas-Box (±1 px), Poster-Quelle je Viewport,
 und Clear-Alpha 0, Übergang (Poster deckend bis `state=ready`, erst dann fade),
 Hover (Canvas-Spanne ≤ 1 px, `--entrance-x` unverändert), A/B-Assetnamen nirgends
 im Bundle.
+
+## M4f — deltaTime-Audit
+
+Ziel: dieselbe Bewegung bei 30, 60 und 144 Hz. Referenzframerate bleibt 60 Hz,
+dort aendert sich das Verhalten nicht.
+
+### 1. Inventar (vor jeder Aenderung gelesen)
+
+Alle Stellen im 3D-Viewer, die pro Frame oder pro Eingabe rechnen:
+
+| Datei:Zeile (Stand `ad5ab14`) | Formel | deltaTime | Einheit | Befund |
+| --- | --- | --- | --- | --- |
+| `src/mannequin-preview.js:184` | `delta = min(0.05, (time - lastTime) / 1000)` | ja | s | KORREKT (Clamp 50 ms) |
+| `...:188` | `applyShoot(time)`; `elapsed = now - shootStart` | ja | ms, absolute Zeit | KORREKT (zeitbasiert, keine Akkumulation) |
+| `...:191` | `idle = time - lastInteraction > idleDelay` | ja | ms | KORREKT |
+| `...:194–196` | Zielrate `0.18` / `0.55` / `1.35` rad/s | — | rad/s | KORREKT |
+| `...:197` | `blend = min(1, delta * 3.2)` | ja | 1/s-Naeherung | VERDAECHTIG → exakt gefixt |
+| `...:199` | `maxStep = 1.1 * Math.max(delta, 1/240)` | ja, mit Untergrenze | rad/s² | FEHLERHAFT ab > 240 Hz |
+| `...:200` | `velocity += clamp(step, ±maxStep)` | ja | rad/s | KORREKT |
+| `...:202` | `angle += velocity * delta` | ja | rad | VERDAECHTIG → Trapez gefixt |
+| `...:236` | `angle += deltaX * 0.0075` | — (pro Pixel) | rad | KORREKT |
+| `...:238` | `velocity = (deltaX*0.0075) / max(0.016, dtEvent)` | Ereigniszeit, 16-ms-Boden | rad/s | FEHLERHAFT |
+| `...:241` | `peak = max(peak * 0.94, abs(v))` | nein (pro Ereignis) | 1/Ereignis | FEHLERHAFT |
+| `...:146–177` | `applyShoot` Position/Scale aus `elapsed/outMs` usw. | ja | ms | KORREKT |
+| `...:285–295` | Tastenschritt `keyStep` pro `keydown` | — (pro Tastendruck) | rad | KORREKT |
+| `...:463` | erster Render vor `state=ready` | — | — | KORREKT |
+| `src/section-entrance.js:76–85` | Pose aus `scrollY` + `sampleAboutItem` | — (Scroll-Position) | px | KORREKT: der Scroll ist die Uhr, keine Zeitintegration |
+| `src/data/motionSettings.js` `smoothProgress` | `p³(10-15p+6p²)` | — | 0..1 | KORREKT (reine Funktion der Scroll-Position) |
+| `src/flash-mannequin.js:61–63` | `yaw += dt * 0.12` | ja | rad/s | KORREKT (anderer Viewer, unangetastet) |
+
+Erwartete Abweichungen der fehlerhaften Stellen:
+
+| Stelle | 30 Hz | 60 Hz (Referenz) | 144 Hz |
+| --- | --- | --- | --- |
+| Ziehgeschwindigkeit mit 16-ms-Boden | korrekt | korrekt | 400 px/s gelten als 173 px/s → Peak 1,30 statt 3,00 rad/s, also **unter** der Flick-Schwelle 2,4 rad/s: kein Flick |
+| Peak-Zerfall `* 0,94` pro Ereignis | 30 Zerfallsschritte/s | 60 Schritte/s (Referenz) | 144 Schritte/s: Zeitkonstante 2,4× kuerzer |
+| `blend = k*dt` (1. Ordnung) | +5,4 % gegenueber e^(-k·dt) | Referenz | +1,1 % |
+| `maxStep` mit 1/240-Boden | korrekt | korrekt | ab 240 Hz waechst die effektive Beschleunigung mit 1/dt |
+| Euler-Integration des Winkels | +2,4 % Winkel nach 1 s | Referenz | +0,5 % |
+
+### 2. Fixes (nur die fehlerhaften Stellen)
+
+| Vorher | Nachher |
+| --- | --- |
+| `delta = min(0.05, dt)` | `MAX_FRAME_DELTA = 1/30`, `delta = clamp(rawDelta, 0, MAX_FRAME_DELTA)` |
+| `blend = min(1, delta * 3.2)` | `blend = 1 - e^(-3.2 · delta)` |
+| `maxStep = 1.1 * max(delta, 1/240)` | `maxStep = 1.1 * delta` |
+| `angle += velocity * delta` (Euler: +2,4 % Winkel bei 30 Hz, +0,5 % bei 144 Hz) | `angle += (v_vorher + v_nachher)/2 * delta` (Trapezregel) |
+| `velocity = dx·0.0075 / max(0.016, dtEvent)` | `velocity = dx·0.0075 / max(1/240, dtEvent)` |
+| `peak = max(peak * 0.94, abs(v))` | `peak = max(peak · e^(-3.7125 · dtEvent), abs(v))` |
+| `wake(): lastTime = 0` (jedes Ereignis verwirft einen Frame) | `wake(): nur wenn kein Frame laeuft` |
+
+Neue, oben gebuendelte Konstanten in `src/mannequin-preview-config.js`
+(`referenceFrameRate: 60`, `dragVelocityFloor: 1/240`, `dragVelocityLimit: 8`,
+`peakDecayPerSecond: 3.7125 = -ln(0.94)·60`) und `MAX_FRAME_DELTA` in
+`src/mannequin-preview.js`. Zusaetzlich schreibt der Loop seinen
+Diagnosewert `data-mannequin-velocity` (nur lesbar).
+
+Bei 60 Hz bleibt die Bewegung gleich: 0,18 rad/s Auto, 0,55 rad/s Hover,
+Rampe 0,18 → 0,55 in ~0,34 s, Drag/Flick-Schwelle 2,4 rad/s unveraendert.
+
+### 3. Messreihe (rAF-Override, `tests/mannequin-framerate-browser.mjs`)
+
+Virtueller Takt je Seite: `requestAnimationFrame` und `performance.now` laufen
+ab dem Laden mit exakt 1000/rate ms pro Frame; gemessen wird pro Frame
+`mannequin-velocity` und `mannequin-angle`. Ziehgeste in allen Laeufen
+identisch: 400 px/s Zeiger, 0,25 s, danach loslassen.
+
+| Groesse | 30 Hz | 60 Hz | 144 Hz | Spanne |
+| --- | --- | --- | --- | --- |
+| Zeit bis 95 % Hover-Rate (0,55 rad/s) | 0,977 s | 0,977 s | 0,977 s | **0,04 %** |
+| Winkel nach 1,0 s | 0,3662 rad | 0,3666 rad | 0,3668 rad | **0,16 %** |
+| Hover-Rate (letzte 0,3 s) | 0,5380 rad/s | 0,5380 rad/s | 0,5381 rad/s | **0,03 %** |
+| Auto-Rate nach Idle (letzte 0,3 s) | 0,1797 rad/s | 0,1797 rad/s | 0,1799 rad/s | **0,11 %** |
+| Flick-Peak der Ziehgeste | 3,00 rad/s | 3,00 rad/s | 3,00 rad/s | **0,00 %** |
+| Flicks pro Geste | 1 | 1 | 1 | — |
+
+Drei Wiederholungen der Suite ergaben dieselben Werte (Spanne jeweils
+≤ 0,25 %). Bei 60 Hz liegt die gemessene Hover-Rate 2 % unter 0,55, weil das
+letzte 0,3-s-Fenster noch im exponentiellen Auslauf liegt; relevant ist die
+Gleichheit zwischen den Frameraten. Rohdaten: `m4f-framerate.json`.
+Repro: `npm run test:mannequin-framerate`.
+
+Aufbau des Tests: pro Framerate eine eigene Seite, in der `requestAnimationFrame`
+und `performance.now` von Anfang an mit festem Takt laufen; Zeiger-Ereignisse
+werden am Anfang eines Frames ausgeloest. Eine fruehere Fassung schaltete die
+Rate auf einer Seite um und streute dadurch bis 8,5 % — der erste Frame nach
+dem Wechsel bekam ein fremdes Delta. Die gemessenen 0,977 s enthalten die
+unvermeidbare Frame-Quantisierung des Rampenstarts (ein Frame nach dem Ereignis).
+
+Mit dem alten Code haette derselbe Lauf bei 144 Hz nur 1,30 rad/s Peak
+geliefert und damit keinen Flick ausgeloest — der Test schlaegt dann fehl
+(`Flick-Peak`-Spanne 79 % statt 0 %).
+
+### 4. Nicht-Regressionen und Teststand
+
+| Pruefung | Ergebnis |
+| --- | --- |
+| `npm test` | 395/395 (392 + 3 neue Quelltext-Waechter) |
+| `npm run test:mannequin-framerate` | PASS (30/60/144 Hz, Spanne < 5 %) |
+| `npm run test:mannequin-preview` | PASS (3 Viewports, Poster/Canvas, Transparenz, Hover-Spanne ≤ 1 px, Reduced-Motion-Pixelgleichheit, A/B 0×, A11y) |
+| `npm run test:mannequin-entrance` | PASS (0 / 30 / 0 / 0) |
+| `npm run test:mannequin-variants-dev` | PASS |
+| `npm run test:seo` | PASS (18 Routen + 404, kalte Routen ohne Three.js) |
+| `npm run build` | 18 Routen + 404 |
+| `npm run verify:assets` | OK (457.000 B, `d76abc16…c06976`) |
+
+### 5. Beobachtungen (nicht angefasst)
+
+- `applyShoot` baut pro Frame waehrend des Flicks eine `Box3` ueber die
+  49.838 Tris. Das ist framerate-unabhaengig (reine Funktion der Zeit), kostet
+  aber Hauptthread-Zeit. Kandidat fuer M1, nicht Teil dieses Audits.
+- Der reduced-motion-Pfad rendert weiterhin nur on demand; die neun
+  pixelidentischen Frames aus M4e bleiben unveraendert (Suite-Assert).
+

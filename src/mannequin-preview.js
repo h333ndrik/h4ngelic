@@ -10,6 +10,12 @@ const MODEL_PATTERN = /^\/models\/[a-z0-9.-]+\.glb$/;
 const easeInOutCubic = (value) => (value < 0.5 ? 4 * value ** 3 : 1 - (-2 * value + 2) ** 3 / 2);
 const easeOutCubic = (value) => 1 - (1 - value) ** 3;
 
+// Obergrenze fuer einen einzelnen Frame-Schritt. Sie faengt nur Rueckkehr aus
+// dem Hintergrund-Tab oder einen blockierten Hauptthread ab; alles bis 30 Hz
+// laeuft ungekuerzt. Die Bewegung selbst rechnet in Sekunden, damit 30/60/144 Hz
+// dieselbe Drehung pro Sekunde ergeben.
+const MAX_FRAME_DELTA = 1 / 30;
+
 /**
  * Ein Renderer, drei austauschbare Modelle. Rotation, Drag-Traegheit und der
  * Flick laufen hier; der Hero bleibt unberuehrt.
@@ -181,7 +187,8 @@ export function initMannequinPreview(container) {
     frame = 0;
     if (disposed) return;
     const time = Number.isFinite(now) ? now : performance.now();
-    const delta = view.lastTime ? Math.min(0.05, (time - view.lastTime) / 1000) : 0;
+    const rawDelta = view.lastTime ? (time - view.lastTime) / 1000 : 0;
+    const delta = Math.min(Math.max(rawDelta, 0), MAX_FRAME_DELTA);
     view.lastTime = time;
     let animating = false;
 
@@ -194,16 +201,26 @@ export function initMannequinPreview(container) {
       const wanted = view.keyDirection
         ? view.keyDirection * motion.keySpeed
         : reducedMotion.matches ? 0 : view.hover ? motion.hoverSpeed : idle ? motion.autoSpeed : 0;
-      const blend = Math.min(1, delta * motion.inertiaDamping);
+      // Exaktes exponentielles Daempfen pro Sekunde. Die Naeherung k*dt gilt nur
+      // bei 60 Hz; 1 - e^(-k*dt) liefert bei jeder Framerate dieselbe Kurve.
+      const blend = 1 - Math.exp(-motion.inertiaDamping * delta);
       const step = (wanted - view.velocity) * blend;
-      const maxStep = motion.maxAngularAcceleration * Math.max(delta, 1 / 240);
+      // Die Beschleunigung ist in rad/s^2 definiert und wird mit der echten
+      // Framedauer skaliert. Ohne Untergrenze: bei delta = 0 aendert sich nichts.
+      const maxStep = motion.maxAngularAcceleration * delta;
+      const previousVelocity = view.velocity;
       view.velocity += THREE.MathUtils.clamp(step, -maxStep, maxStep);
       if (Math.abs(view.velocity) < 1e-4) view.velocity = 0;
-      view.angle += view.velocity * delta;
+      // Trapezregel: bei konstanter Beschleunigung exakt, deshalb ist der Winkel
+      // pro Sekunde bei 30/60/144 Hz gleich. Euler (v_neu * dt) liegt auf
+      // derselben Rampe bei 30 Hz um 2,4 %, bei 144 Hz um 0,5 % daneben.
+      view.angle += (previousVelocity + view.velocity) * 0.5 * delta;
       animating = animating || view.velocity !== 0;
     }
     pivot.rotation.y = view.angle;
     setData('mannequinAngle', view.angle.toFixed(4));
+    // Diagnosewert fuer das Framerate-Audit (und Tests), nur lesbar.
+    setData('mannequinVelocity', view.velocity.toFixed(4));
     setData('mannequinMotion', view.dragging ? 'drag' : reducedMotion.matches ? 'reduced' : view.velocity ? 'auto' : 'idle');
     renderFrame();
     // Nur sichtbare Sections animieren; reduzierte Bewegung rendert on demand.
@@ -212,7 +229,10 @@ export function initMannequinPreview(container) {
   }
 
   function wake() {
-    view.lastTime = 0;
+    // Nur nach einer Pause die Zeitbasis zuruecksetzen: sonst verliert jedes
+    // Zeiger-Ereignis einen ganzen Frame Bewegung, bei 30 Hz also 33 ms statt
+    // 7 ms bei 144 Hz. Laeuft der Loop, bleibt `lastTime` unangetastet.
+    if (!frame) view.lastTime = 0;
     scheduleFrame();
   }
 
@@ -235,10 +255,20 @@ export function initMannequinPreview(container) {
     view.lastX = event.clientX;
     view.angle += deltaX * motion.dragSensitivity;
     const now = performance.now();
-    view.velocity = THREE.MathUtils.clamp((deltaX * motion.dragSensitivity) / Math.max(0.016, (now - view.lastInteraction) / 1000), -8, 8);
+    // Ziehgeschwindigkeit ist eine Groesse pro Sekunde: dx / echtes
+    // Ereignisintervall. Frueher stand hier ein Boden von 16 ms, dadurch las
+    // sich ein 144-Hz-Zeiger nur noch mit 60 % der wahren Geschwindigkeit und
+    // der Flick sprang je nach Bildrate unterschiedlich an.
+    const eventDelta = Math.max(motion.dragVelocityFloor, (now - view.lastInteraction) / 1000);
+    view.velocity = THREE.MathUtils.clamp((deltaX * motion.dragSensitivity) / eventDelta,
+      -motion.dragVelocityLimit, motion.dragVelocityLimit);
     // Spitzenwert statt Momentwert: Browser koaleszieren pointermove-Events, der
-    // letzte Frame vor dem Loslassen hat oft deltaX 0.
-    view.peakVelocity = Math.max(view.peakVelocity * 0.94, Math.abs(view.velocity));
+    // letzte Frame vor dem Loslassen hat oft deltaX 0. Der Zerfall laeuft pro
+    // Sekunde (peakDecayPerSecond), nicht pro Ereignis.
+    view.peakVelocity = Math.max(
+      view.peakVelocity * Math.exp(-motion.peakDecayPerSecond * eventDelta),
+      Math.abs(view.velocity),
+    );
     view.lastInteraction = now;
     setData('mannequinPeak', view.peakVelocity.toFixed(2));
     setData('mannequinMoves', Number(container.dataset.mannequinMoves || 0) + 1);

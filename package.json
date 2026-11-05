@@ -70,6 +70,7 @@
     "test:mannequin-preview": "node tests/mannequin-preview-browser.mjs",
     "test:mannequin-variants-dev": "node tests/mannequin-variants-dev-browser.mjs",
     "test:mannequin-entrance": "node tests/section-entrance-browser.mjs",
+    "test:mannequin-framerate": "node tests/mannequin-framerate-browser.mjs",
     "inquiry:serve": "node server/inquiry.mjs",
     "test:inquiry-http": "node tests/inquiry-http.mjs",
     "test:v6": "node tests/v6-browser.mjs",

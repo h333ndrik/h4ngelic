@@ -79,11 +79,27 @@ export const mannequinPreviewConfig = Object.freeze({
     hoverSpeed: 0.55,
     idleDelay: 2000,
     dragSensitivity: 0.0075,
+    // Daempfung in 1/s: die Winkelgeschwindigkeit naehert sich der Zielrate
+    // exponentiell (1 - e^(-k*dt)), also pro Sekunde, nicht pro Frame.
     inertiaDamping: 3.2,
     // Obergrenze fuer die Winkelbeschleunigung in rad/s^2. Begrenzt den
-    // Uebergang von Auto- (0.18) auf Hover-Drehung (0.55) pro Frame, damit
-    // die Figur beim Ueberfahren nicht schlagartig losdreht.
+    // Uebergang von Auto- (0.18) auf Hover-Drehung (0.55) auf rund 0.34 s,
+    // damit die Figur beim Ueberfahren nicht schlagartig losdreht.
     maxAngularAcceleration: 1.1,
+    // Wischgeschwindigkeit pro Zieh-Ereignis (rad/s). Der Boden von 1/240 s
+    // schuetzt nur gegen Division durch 0; er ist bewusst kleiner als ein
+    // 240-Hz-Ereignisintervall, damit die gemessene Geschwindigkeit nicht von
+    // der Eingaberate abhaengt.
+    dragVelocityFloor: 1 / 240,
+    dragVelocityLimit: 8,
+    // Zerfall des Spitzenwerts (Flick-Schwelle) in 1/s. 3.7125 = -ln(0.94)*60,
+    // d. h. bei der Referenzframerate 60 Hz genau der alte Faktor 0.94 pro
+    // Frame — bei 144 Hz zerfaellt der Peak jetzt gleich schnell pro Sekunde.
+    peakDecayPerSecond: 3.7125,
+    // Referenzframerate, auf die die Startwerte abgestimmt sind. Bei 60 Hz
+    // bleibt das Verhalten unveraendert; andere Frameraten liefern dieselbe
+    // Bewegung pro Sekunde.
+    referenceFrameRate: 60,
     // Tastatur: 15 Grad pro Tastendruck; gehalten laeuft die Drehung mit
     // derselben Daempfung wie das Ziehen weiter.
     keyStep: Math.PI / 12,
