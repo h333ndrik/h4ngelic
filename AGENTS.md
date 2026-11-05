@@ -126,6 +126,20 @@ When a user reports a problem, first establish and repeat back: (a) the
 behavior with a screenshot. If any of these is missing, request it before
 claiming a fix or verification.
 
+# RETIRED SUITES
+
+A suite whose contract was deliberately removed never stays red in the gate.
+Two exits only:
+
+1. **Retired** — move it to `tests/legacy/`, remove its npm script, and add a row
+   to `tests/legacy/README.md` naming the removed contract and the commit that
+   removed it, plus the suites that cover the live behaviour today.
+2. **Updated** — lift it to the current contract; it must then be green.
+
+Currently retired (GATEPREP-2, Batch 3): `scroll-browser`, `easter-browser`,
+`smart-v3-browser`, `ref09-layout-browser`. Reasons and live coverage:
+`tests/legacy/README.md`, table in `docs/validation/GATEPREP-2/GATE-REPORT.md`.
+
 # DEFINITION OF DONE (PER FIX)
 
 A fix is not complete because the happy path looks right. Every fix must satisfy

@@ -82,6 +82,13 @@ the 05.11. run. Their wording above is a short paraphrase of the run prompts;
 the B-F25 typology is the mechanism that addresses them, so they move to
 `reproduced` together and are marked `fixed` only after the user's visual check.
 
+**Retired suites (GATEPREP-2, Batch 3):** `scroll-browser`, `easter-browser`,
+`smart-v3-browser` and `ref09-layout-browser` moved to `tests/legacy/`. Each one
+tested a contract that was deliberately removed (pinning, motion echoes,
+seven-tier footer memory, VISIT hotspot, NAAVI total 03, `is-ready` under
+reduced motion). Reasons, commits and today's coverage:
+`tests/legacy/README.md` and `docs/validation/GATEPREP-2/GATE-REPORT.md`.
+
 **B-016 remains open:** the dual Impressum links exist, but `VOLLNAME`, address,
 email and USt./§19 data are still user-supplied launch prerequisites.
 
