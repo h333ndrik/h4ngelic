@@ -1,0 +1,35 @@
+{
+  "phase": "after2",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T22:09:03.114Z",
+  "results": [
+    {
+      "suite": "world-sound-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 42840,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    },
+    {
+      "suite": "world-audio-formats-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 2894,
+      "passLine": "PASS world audio formats: 4 files decode at exact master frame counts with continuous non-zero loop boundaries and no audio-path long tasks.",
+      "failLine": ""
+    },
+    {
+      "suite": "mannequin-preview-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 16834,
+      "passLine": "PASS mannequin preview: 6 static A/B renders at 1440/390/320; cold route made 0 WebGL and 0 GLB requests; visible section made exactly 1 GLB request.",
+      "failLine": ""
+    }
+  ]
+}

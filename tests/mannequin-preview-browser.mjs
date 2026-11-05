@@ -48,7 +48,7 @@ try {
       if (variant === 'A') {
         await page.route('**/models/mannequin.glb', route => route.fulfill({ status: 200, contentType: 'model/gltf-binary', body: aModel }));
       }
-      await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+      await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
       const target = page.locator('[data-mannequin-preview]');
       assert.equal(await target.getAttribute('data-mannequin-state'), 'deferred');
       assert.equal(await page.evaluate(() => window.__mannequinWebGL), 0, 'Cold Work must not create a WebGL context.');
@@ -107,7 +107,7 @@ try {
   }
   await writeFile(new URL('results.json', evidence), JSON.stringify({
     checkedAt: new Date().toISOString(),
-    route: '/work/tattoos',
+    route: '/creative/tattoos',
     source: 'production preview build',
     profiles,
     assertions: {

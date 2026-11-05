@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-05T21:18:24.182Z",
-  "base": "http://127.0.0.1:55241",
-  "build": "57ff1e3c7c45",
+  "checkedAt": "2026-11-05T22:05:04.054Z",
+  "base": "http://127.0.0.1:5183",
+  "build": "c4d6b292c255",
   "guard": "a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable=\"true\"],[role=\"button\"],[role=\"link\"],[role=\"checkbox\"],[role=\"switch\"],[role=\"radio\"],[role=\"tab\"],[role=\"menuitem\"],[role=\"combobox\"],[role=\"slider\"],[role=\"spinbutton\"],[contenteditable]:not([contenteditable=\"false\"]),[tabindex]:not([tabindex=\"-1\"]):not([role=\"group\"]),[aria-disabled=\"true\"],.is-unconfigured,[data-no-ink]",
   "profiles": [
     {
@@ -15,10 +15,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 105.2,
-              "top": 888.13,
-              "width": 55.61,
-              "height": 55.61,
+              "left": 103.82,
+              "top": 886.76,
+              "width": 58.35,
+              "height": 58.35,
               "opacity": "0.8",
               "visible": true
             }
@@ -32,18 +32,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 100.91,
-              "top": 883.85,
-              "width": 64.18,
-              "height": 64.18,
+              "left": 101.12,
+              "top": 884.06,
+              "width": 63.75,
+              "height": 63.75,
               "opacity": "0.8",
               "visible": true
             },
             {
-              "left": 1283.9,
-              "top": 880.01,
-              "width": 71.85,
-              "height": 71.85,
+              "left": 1270.14,
+              "top": 866.25,
+              "width": 99.38,
+              "height": 99.38,
               "opacity": "0.8",
               "visible": true
             }
@@ -51,7 +51,7 @@
         }
       ],
       "measured": {
-        "build": "57ff1e3c7c45",
+        "build": "c4d6b292c255",
         "zone": {
           "top": 893.95,
           "bottom": 937.95,
@@ -75,7 +75,7 @@
             "height": 44,
             "width": 97.72,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           },
           {
             "element": "a.footer-moshlab row-item",
@@ -86,7 +86,7 @@
             "height": 44,
             "width": 87.88,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, pointer"
           },
           {
             "element": "span.footer-visit row-item",
@@ -97,7 +97,7 @@
             "height": 44,
             "width": 59.11,
             "pointerEvents": "none",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           },
           {
             "element": "a.footer-instagram row-item",
@@ -108,7 +108,7 @@
             "height": 44,
             "width": 77.8,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, pointer"
           },
           {
             "element": "span.footer-location row-item",
@@ -119,7 +119,7 @@
             "height": 44,
             "width": 56.58,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           }
         ],
         "clusters": [
@@ -146,7 +146,7 @@
           "points": 14364,
           "values": [
             {
-              "value": "image:http://127.0.0.1:55241/assets/h4ngelic-cursor.svg",
+              "value": "image:http://127.0.0.1:5183/assets/h4ngelic-cursor.svg",
               "count": 14364
             }
           ],
@@ -156,7 +156,7 @@
       },
       "assets": [
         {
-          "url": "http://127.0.0.1:55241/assets/h4ngelic-cursor.svg",
+          "url": "http://127.0.0.1:5183/assets/h4ngelic-cursor.svg",
           "status": 200,
           "type": "image/svg+xml",
           "ok": true,
@@ -188,10 +188,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 72.69,
-              "top": 776.34,
-              "width": 66.63,
-              "height": 66.63,
+              "left": 55.89,
+              "top": 759.55,
+              "width": 100.21,
+              "height": 100.21,
               "opacity": "0.8",
               "visible": true
             }
@@ -205,18 +205,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 69.42,
-              "top": 773.07,
-              "width": 73.17,
-              "height": 73.17,
+              "left": 51.37,
+              "top": 755.03,
+              "width": 109.25,
+              "height": 109.25,
               "opacity": "0.8",
               "visible": true
             },
             {
-              "left": 285.13,
-              "top": 781.79,
-              "width": 55.74,
-              "height": 55.74,
+              "left": 272.76,
+              "top": 769.41,
+              "width": 80.49,
+              "height": 80.49,
               "opacity": "0.8",
               "visible": true
             }
@@ -224,7 +224,7 @@
         }
       ],
       "measured": {
-        "build": "57ff1e3c7c45",
+        "build": "c4d6b292c255",
         "zone": {
           "top": 787.66,
           "bottom": 831.66,
@@ -248,7 +248,7 @@
             "height": 44,
             "width": 83.23,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           },
           {
             "element": "a.footer-moshlab row-item",
@@ -259,7 +259,7 @@
             "height": 44,
             "width": 76.09,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, pointer"
           },
           {
             "element": "span.footer-visit row-item",
@@ -270,7 +270,7 @@
             "height": 44,
             "width": 50.66,
             "pointerEvents": "none",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           },
           {
             "element": "a.footer-instagram row-item",
@@ -281,7 +281,7 @@
             "height": 44,
             "width": 67.58,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, pointer"
           },
           {
             "element": "span.footer-location row-item",
@@ -292,7 +292,7 @@
             "height": 44,
             "width": 48.34,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           }
         ],
         "clusters": [
@@ -319,7 +319,7 @@
           "points": 3612,
           "values": [
             {
-              "value": "image:http://127.0.0.1:55241/assets/h4ngelic-cursor.svg",
+              "value": "image:http://127.0.0.1:5183/assets/h4ngelic-cursor.svg",
               "count": 3612
             }
           ],
@@ -329,7 +329,7 @@
       },
       "assets": [
         {
-          "url": "http://127.0.0.1:55241/assets/h4ngelic-cursor.svg",
+          "url": "http://127.0.0.1:5183/assets/h4ngelic-cursor.svg",
           "status": 200,
           "type": "image/svg+xml",
           "ok": true,
@@ -361,10 +361,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 72.68,
-              "top": 777.01,
-              "width": 66.64,
-              "height": 66.64,
+              "left": 76.06,
+              "top": 780.39,
+              "width": 59.87,
+              "height": 59.87,
               "opacity": "0.8",
               "visible": true
             }
@@ -378,18 +378,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 69.5,
-              "top": 773.83,
-              "width": 73,
-              "height": 73,
-              "opacity": "0.8",
+              "left": 73.63,
+              "top": 777.96,
+              "width": 64.75,
+              "height": 64.75,
+              "opacity": "0.79897",
               "visible": true
             },
             {
-              "left": 232.24,
-              "top": 764.57,
-              "width": 91.52,
-              "height": 91.52,
+              "left": 238.35,
+              "top": 770.68,
+              "width": 79.29,
+              "height": 79.29,
               "opacity": "0.8",
               "visible": true
             }
@@ -397,7 +397,7 @@
         }
       ],
       "measured": {
-        "build": "57ff1e3c7c45",
+        "build": "c4d6b292c255",
         "zone": {
           "top": 788.34,
           "bottom": 832.34,
@@ -421,7 +421,7 @@
             "height": 44,
             "width": 83.23,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           },
           {
             "element": "a.footer-moshlab row-item",
@@ -432,7 +432,7 @@
             "height": 44,
             "width": 76.09,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, pointer"
           },
           {
             "element": "span.footer-visit row-item",
@@ -443,7 +443,7 @@
             "height": 44,
             "width": 50.66,
             "pointerEvents": "none",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           },
           {
             "element": "a.footer-instagram row-item",
@@ -454,7 +454,7 @@
             "height": 44,
             "width": 67.58,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, pointer"
           },
           {
             "element": "span.footer-location row-item",
@@ -465,7 +465,7 @@
             "height": 44,
             "width": 48.34,
             "pointerEvents": "auto",
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto"
+            "cursor": "url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:5183/assets/h4ngelic-cursor.png\") 8 2, auto"
           }
         ],
         "clusters": [
@@ -492,7 +492,7 @@
           "points": 2877,
           "values": [
             {
-              "value": "image:http://127.0.0.1:55241/assets/h4ngelic-cursor.svg",
+              "value": "image:http://127.0.0.1:5183/assets/h4ngelic-cursor.svg",
               "count": 2877
             }
           ],
@@ -502,7 +502,7 @@
       },
       "assets": [
         {
-          "url": "http://127.0.0.1:55241/assets/h4ngelic-cursor.svg",
+          "url": "http://127.0.0.1:5183/assets/h4ngelic-cursor.svg",
           "status": 200,
           "type": "image/svg+xml",
           "ok": true,

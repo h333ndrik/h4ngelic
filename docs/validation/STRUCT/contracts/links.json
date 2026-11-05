@@ -1,17 +1,17 @@
 {
-  "checkedAt": "2026-11-05T21:18:02.875Z",
-  "base": "http://127.0.0.1:55241",
-  "build": "57ff1e3c7c45",
+  "checkedAt": "2026-11-05T22:28:48.455Z",
+  "base": "http://127.0.0.1:55242",
+  "build": "c4d6b292c255",
   "pages": [
     {
       "path": "/",
-      "build": "57ff1e3c7c45",
+      "build": "c4d6b292c255",
       "links": [
         {
           "index": 0,
           "text": "skip to content",
           "href": "#page-content",
-          "resolvedHref": "http://127.0.0.1:55241/#page-content",
+          "resolvedHref": "http://127.0.0.1:55242/#page-content",
           "target": "",
           "rel": "",
           "className": "skip-link",
@@ -24,7 +24,7 @@
           "index": 1,
           "text": "h4ngelic",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "floating-brand",
@@ -37,7 +37,7 @@
           "index": 2,
           "text": "00/ home",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "",
@@ -50,7 +50,7 @@
           "index": 3,
           "text": "02/ about",
           "href": "/about",
-          "resolvedHref": "http://127.0.0.1:55241/about",
+          "resolvedHref": "http://127.0.0.1:55242/about",
           "target": "",
           "rel": "",
           "className": "",
@@ -63,7 +63,7 @@
           "index": 4,
           "text": "03/ contact",
           "href": "/#contact",
-          "resolvedHref": "http://127.0.0.1:55241/#contact",
+          "resolvedHref": "http://127.0.0.1:55242/#contact",
           "target": "",
           "rel": "",
           "className": "",
@@ -76,7 +76,7 @@
           "index": 5,
           "text": "creative",
           "href": "/creative",
-          "resolvedHref": "http://127.0.0.1:55241/creative",
+          "resolvedHref": "http://127.0.0.1:55242/creative",
           "target": "",
           "rel": "",
           "className": "",
@@ -93,7 +93,7 @@
           "index": 6,
           "text": "about",
           "href": "/about",
-          "resolvedHref": "http://127.0.0.1:55241/about",
+          "resolvedHref": "http://127.0.0.1:55242/about",
           "target": "",
           "rel": "",
           "className": "",
@@ -110,7 +110,7 @@
           "index": 7,
           "text": "contact",
           "href": "/#contact",
-          "resolvedHref": "http://127.0.0.1:55241/#contact",
+          "resolvedHref": "http://127.0.0.1:55242/#contact",
           "target": "",
           "rel": "",
           "className": "",
@@ -127,7 +127,7 @@
           "index": 8,
           "text": "tattoos",
           "href": "/creative/tattoos",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tattoos",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tattoos",
           "target": "",
           "rel": "",
           "className": "category-link row-item",
@@ -144,7 +144,7 @@
           "index": 9,
           "text": "jewellery",
           "href": "/creative/jewellery",
-          "resolvedHref": "http://127.0.0.1:55241/creative/jewellery",
+          "resolvedHref": "http://127.0.0.1:55242/creative/jewellery",
           "target": "",
           "rel": "",
           "className": "category-link row-item",
@@ -161,7 +161,7 @@
           "index": 10,
           "text": "tools",
           "href": "/creative/tools",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tools",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tools",
           "target": "",
           "rel": "",
           "className": "category-link row-item",
@@ -178,7 +178,7 @@
           "index": 11,
           "text": "more",
           "href": "/creative/more",
-          "resolvedHref": "http://127.0.0.1:55241/creative/more",
+          "resolvedHref": "http://127.0.0.1:55242/creative/more",
           "target": "",
           "rel": "",
           "className": "category-link row-item",
@@ -195,7 +195,7 @@
           "index": 12,
           "text": "more about",
           "href": "/about",
-          "resolvedHref": "http://127.0.0.1:55241/about",
+          "resolvedHref": "http://127.0.0.1:55242/about",
           "target": "",
           "rel": "",
           "className": "text-link kinetic-item",
@@ -212,7 +212,7 @@
           "index": 14,
           "text": "h4 moshlab",
           "href": "#",
-          "resolvedHref": "http://127.0.0.1:55241/#",
+          "resolvedHref": "http://127.0.0.1:55242/#",
           "target": "",
           "rel": "",
           "className": "footer-moshlab row-item",
@@ -246,7 +246,7 @@
           "index": 16,
           "text": "00/ 04",
           "href": "/#selected-work",
-          "resolvedHref": "http://127.0.0.1:55241/#selected-work",
+          "resolvedHref": "http://127.0.0.1:55242/#selected-work",
           "target": "",
           "rel": "",
           "className": "chapter-counter naavi",
@@ -261,9 +261,9 @@
           "text": "h4ngelic",
           "href": "/",
           "surface": "brand",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -272,9 +272,9 @@
           "text": "00/ home",
           "href": "/",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": "stage is-poster-static"
           }
@@ -283,9 +283,9 @@
           "text": "02/ about",
           "href": "/about",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": "stage is-poster-static"
           }
@@ -294,9 +294,9 @@
           "text": "03/ contact",
           "href": "/#contact",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": "stage is-poster-static"
           }
@@ -305,9 +305,9 @@
           "text": "creative",
           "href": "/creative",
           "surface": "internal",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -316,9 +316,9 @@
           "text": "about",
           "href": "/about",
           "surface": "internal",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -327,9 +327,9 @@
           "text": "contact",
           "href": "/#contact",
           "surface": "internal",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -338,9 +338,9 @@
           "text": "tattoos",
           "href": "/creative/tattoos",
           "surface": "category",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "category-magnet interaction-visual"
           }
@@ -349,9 +349,9 @@
           "text": "jewellery",
           "href": "/creative/jewellery",
           "surface": "category",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "category-magnet interaction-visual"
           }
@@ -360,9 +360,9 @@
           "text": "tools",
           "href": "/creative/tools",
           "surface": "category",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "category-magnet interaction-visual"
           }
@@ -371,9 +371,9 @@
           "text": "more",
           "href": "/creative/more",
           "surface": "category",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "category-magnet interaction-visual"
           }
@@ -382,9 +382,9 @@
           "text": "more about",
           "href": "/about",
           "surface": "internal",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -393,9 +393,9 @@
           "text": "h4 moshlab",
           "href": "#",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -404,9 +404,9 @@
           "text": "instagram",
           "href": "https://www.instagram.com/h4ngelic/",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -415,9 +415,9 @@
           "text": "00/ 04",
           "href": "/#selected-work",
           "surface": "naavi",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "tag": "A",
             "className": "chapter-counter naavi"
           }
@@ -428,14 +428,14 @@
           "text": "00/ home",
           "href": "/",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 109,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -445,14 +445,14 @@
           "text": "02/ about",
           "href": "/about",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 201,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -462,14 +462,14 @@
           "text": "03/ contact",
           "href": "/#contact",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 247,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "className": "interaction-visual"
             }
@@ -480,13 +480,13 @@
     },
     {
       "path": "/about",
-      "build": "57ff1e3c7c45",
+      "build": "c4d6b292c255",
       "links": [
         {
           "index": 0,
           "text": "skip to content",
           "href": "#page-content",
-          "resolvedHref": "http://127.0.0.1:55241/about#page-content",
+          "resolvedHref": "http://127.0.0.1:55242/about#page-content",
           "target": "",
           "rel": "",
           "className": "skip-link",
@@ -499,7 +499,7 @@
           "index": 1,
           "text": "h4ngelic",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "floating-brand",
@@ -512,7 +512,7 @@
           "index": 2,
           "text": "00/ home",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "",
@@ -525,7 +525,7 @@
           "index": 3,
           "text": "02/ about",
           "href": "/about",
-          "resolvedHref": "http://127.0.0.1:55241/about",
+          "resolvedHref": "http://127.0.0.1:55242/about",
           "target": "",
           "rel": "",
           "className": "",
@@ -538,7 +538,7 @@
           "index": 4,
           "text": "03/ contact",
           "href": "/#contact",
-          "resolvedHref": "http://127.0.0.1:55241/#contact",
+          "resolvedHref": "http://127.0.0.1:55242/#contact",
           "target": "",
           "rel": "",
           "className": "",
@@ -551,7 +551,7 @@
           "index": 5,
           "text": "get in touch",
           "href": "/#contact",
-          "resolvedHref": "http://127.0.0.1:55241/#contact",
+          "resolvedHref": "http://127.0.0.1:55242/#contact",
           "target": "",
           "rel": "",
           "className": "text-link",
@@ -568,7 +568,7 @@
           "index": 6,
           "text": "h4 moshlab",
           "href": "#",
-          "resolvedHref": "http://127.0.0.1:55241/about#",
+          "resolvedHref": "http://127.0.0.1:55242/about#",
           "target": "",
           "rel": "",
           "className": "footer-moshlab row-item",
@@ -602,7 +602,7 @@
           "index": 8,
           "text": "01/ 01",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "chapter-counter naavi",
@@ -617,9 +617,9 @@
           "text": "h4ngelic",
           "href": "/",
           "surface": "brand",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -628,9 +628,9 @@
           "text": "00/ home",
           "href": "/",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": ""
           }
@@ -639,9 +639,9 @@
           "text": "02/ about",
           "href": "/about",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "H1",
             "className": "page-heading numbered-heading"
           }
@@ -650,9 +650,9 @@
           "text": "03/ contact",
           "href": "/#contact",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": "page-shell about-page"
           }
@@ -661,9 +661,9 @@
           "text": "get in touch",
           "href": "/#contact",
           "surface": "internal",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -672,9 +672,9 @@
           "text": "h4 moshlab",
           "href": "#",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -683,9 +683,9 @@
           "text": "instagram",
           "href": "https://www.instagram.com/h4ngelic/",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -694,9 +694,9 @@
           "text": "01/ 01",
           "href": "/",
           "surface": "naavi",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "tag": "A",
             "className": "chapter-counter naavi"
           }
@@ -707,14 +707,14 @@
           "text": "00/ home",
           "href": "/",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 109,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -724,14 +724,14 @@
           "text": "02/ about",
           "href": "/about",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 201,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -741,14 +741,14 @@
           "text": "03/ contact",
           "href": "/#contact",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 247,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "className": "interaction-visual"
             }
@@ -759,13 +759,13 @@
     },
     {
       "path": "/creative",
-      "build": "57ff1e3c7c45",
+      "build": "c4d6b292c255",
       "links": [
         {
           "index": 0,
           "text": "skip to content",
           "href": "#page-content",
-          "resolvedHref": "http://127.0.0.1:55241/creative#page-content",
+          "resolvedHref": "http://127.0.0.1:55242/creative#page-content",
           "target": "",
           "rel": "",
           "className": "skip-link",
@@ -778,7 +778,7 @@
           "index": 1,
           "text": "h4ngelic",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "floating-brand",
@@ -791,7 +791,7 @@
           "index": 2,
           "text": "00/ home",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "",
@@ -804,7 +804,7 @@
           "index": 3,
           "text": "02/ about",
           "href": "/about",
-          "resolvedHref": "http://127.0.0.1:55241/about",
+          "resolvedHref": "http://127.0.0.1:55242/about",
           "target": "",
           "rel": "",
           "className": "",
@@ -817,7 +817,7 @@
           "index": 4,
           "text": "03/ contact",
           "href": "/#contact",
-          "resolvedHref": "http://127.0.0.1:55241/#contact",
+          "resolvedHref": "http://127.0.0.1:55242/#contact",
           "target": "",
           "rel": "",
           "className": "",
@@ -830,7 +830,7 @@
           "index": 5,
           "text": "tattoos",
           "href": "/creative/tattoos",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tattoos",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tattoos",
           "target": "",
           "rel": "",
           "className": "filter-link row-item",
@@ -843,7 +843,7 @@
           "index": 6,
           "text": "jewellery",
           "href": "/creative/jewellery",
-          "resolvedHref": "http://127.0.0.1:55241/creative/jewellery",
+          "resolvedHref": "http://127.0.0.1:55242/creative/jewellery",
           "target": "",
           "rel": "",
           "className": "filter-link row-item",
@@ -856,7 +856,7 @@
           "index": 7,
           "text": "tools",
           "href": "/creative/tools",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tools",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tools",
           "target": "",
           "rel": "",
           "className": "filter-link row-item",
@@ -869,7 +869,7 @@
           "index": 8,
           "text": "more",
           "href": "/creative/more",
-          "resolvedHref": "http://127.0.0.1:55241/creative/more",
+          "resolvedHref": "http://127.0.0.1:55242/creative/more",
           "target": "",
           "rel": "",
           "className": "filter-link row-item",
@@ -882,7 +882,7 @@
           "index": 9,
           "text": "tattoos",
           "href": "/creative/tattoos",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tattoos",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tattoos",
           "target": "",
           "rel": "",
           "className": "",
@@ -899,7 +899,7 @@
           "index": 10,
           "text": "tattoos",
           "href": "/creative/tattoos",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tattoos",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tattoos",
           "target": "",
           "rel": "",
           "className": "",
@@ -912,7 +912,7 @@
           "index": 11,
           "text": "flashes",
           "href": "/creative/flashes",
-          "resolvedHref": "http://127.0.0.1:55241/creative/flashes",
+          "resolvedHref": "http://127.0.0.1:55242/creative/flashes",
           "target": "",
           "rel": "",
           "className": "",
@@ -925,7 +925,7 @@
           "index": 12,
           "text": "jewellery",
           "href": "/creative/jewellery",
-          "resolvedHref": "http://127.0.0.1:55241/creative/jewellery",
+          "resolvedHref": "http://127.0.0.1:55242/creative/jewellery",
           "target": "",
           "rel": "",
           "className": "",
@@ -938,7 +938,7 @@
           "index": 13,
           "text": "m4shlab real h.264 bitstream moshing in the browser. up to 12 clips, five boundary methods, your footage never leaves the device.",
           "href": "/creative/tools/m4shlab",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tools/m4shlab",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tools/m4shlab",
           "target": "",
           "rel": "",
           "className": "tool-card-link",
@@ -972,7 +972,7 @@
           "index": 15,
           "text": "thr4ce image & stencil editor. black ink or no ink — deterministic morphology brush, print-exact export.",
           "href": "/creative/tools/thr4ce",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tools/thr4ce",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tools/thr4ce",
           "target": "",
           "rel": "",
           "className": "tool-card-link",
@@ -1006,7 +1006,7 @@
           "index": 17,
           "text": "more",
           "href": "/creative/more",
-          "resolvedHref": "http://127.0.0.1:55241/creative/more",
+          "resolvedHref": "http://127.0.0.1:55242/creative/more",
           "target": "",
           "rel": "",
           "className": "",
@@ -1019,7 +1019,7 @@
           "index": 18,
           "text": "digital artworks",
           "href": "/creative/digital-artworks",
-          "resolvedHref": "http://127.0.0.1:55241/creative/digital-artworks",
+          "resolvedHref": "http://127.0.0.1:55242/creative/digital-artworks",
           "target": "",
           "rel": "",
           "className": "",
@@ -1032,7 +1032,7 @@
           "index": 19,
           "text": "analog photography",
           "href": "/creative/analog-photography",
-          "resolvedHref": "http://127.0.0.1:55241/creative/analog-photography",
+          "resolvedHref": "http://127.0.0.1:55242/creative/analog-photography",
           "target": "",
           "rel": "",
           "className": "",
@@ -1045,7 +1045,7 @@
           "index": 20,
           "text": "h4 moshlab",
           "href": "#",
-          "resolvedHref": "http://127.0.0.1:55241/creative#",
+          "resolvedHref": "http://127.0.0.1:55242/creative#",
           "target": "",
           "rel": "",
           "className": "footer-moshlab row-item",
@@ -1079,7 +1079,7 @@
           "index": 22,
           "text": "01/ 04",
           "href": "/creative/jewellery",
-          "resolvedHref": "http://127.0.0.1:55241/creative/jewellery",
+          "resolvedHref": "http://127.0.0.1:55242/creative/jewellery",
           "target": "",
           "rel": "",
           "className": "chapter-counter naavi",
@@ -1094,9 +1094,9 @@
           "text": "h4ngelic",
           "href": "/",
           "surface": "brand",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1105,9 +1105,9 @@
           "text": "00/ home",
           "href": "/",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": ""
           }
@@ -1116,9 +1116,9 @@
           "text": "02/ about",
           "href": "/about",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "H1",
             "className": "page-heading numbered-heading"
           }
@@ -1127,9 +1127,9 @@
           "text": "03/ contact",
           "href": "/#contact",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": "page-shell work-page"
           }
@@ -1138,9 +1138,9 @@
           "text": "tattoos",
           "href": "/creative/tattoos",
           "surface": "filter",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1149,9 +1149,9 @@
           "text": "jewellery",
           "href": "/creative/jewellery",
           "surface": "filter",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1160,9 +1160,9 @@
           "text": "tools",
           "href": "/creative/tools",
           "surface": "filter",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1171,9 +1171,9 @@
           "text": "more",
           "href": "/creative/more",
           "surface": "filter",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1182,9 +1182,9 @@
           "text": "tattoos",
           "href": "/creative/tattoos",
           "surface": "group-heading",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1193,9 +1193,9 @@
           "text": "tattoos",
           "href": "/creative/tattoos",
           "surface": "archive-heading",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1204,9 +1204,9 @@
           "text": "flashes",
           "href": "/creative/flashes",
           "surface": "archive-heading",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1215,9 +1215,9 @@
           "text": "jewellery",
           "href": "/creative/jewellery",
           "surface": "group-heading",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1226,9 +1226,9 @@
           "text": "m4shlab real h.264 bitstream moshing in the browser. up to 12 clips, five boundary methods, your footage never leaves the device.",
           "href": "/creative/tools/m4shlab",
           "surface": "tool-card",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1237,9 +1237,9 @@
           "text": "open project",
           "href": "https://github.com/h333ndrik/m4shlab",
           "surface": "tool-cta",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1248,9 +1248,9 @@
           "text": "thr4ce image & stencil editor. black ink or no ink — deterministic morphology brush, print-exact export.",
           "href": "/creative/tools/thr4ce",
           "surface": "tool-card",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1259,9 +1259,9 @@
           "text": "open project",
           "href": "https://h333ndrik.github.io/thr4ce",
           "surface": "tool-cta",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1270,9 +1270,9 @@
           "text": "more",
           "href": "/creative/more",
           "surface": "group-heading",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1281,9 +1281,9 @@
           "text": "digital artworks",
           "href": "/creative/digital-artworks",
           "surface": "archive-heading",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1292,9 +1292,9 @@
           "text": "analog photography",
           "href": "/creative/analog-photography",
           "surface": "archive-heading",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1303,9 +1303,9 @@
           "text": "h4 moshlab",
           "href": "#",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1314,9 +1314,9 @@
           "text": "instagram",
           "href": "https://www.instagram.com/h4ngelic/",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1325,9 +1325,9 @@
           "text": "01/ 04",
           "href": "/creative/jewellery",
           "surface": "naavi",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "tag": "A",
             "className": "chapter-counter naavi"
           }
@@ -1338,14 +1338,14 @@
           "text": "00/ home",
           "href": "/",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 109,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -1355,14 +1355,14 @@
           "text": "02/ about",
           "href": "/about",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 201,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -1372,14 +1372,14 @@
           "text": "03/ contact",
           "href": "/#contact",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 247,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "className": "interaction-visual"
             }
@@ -1390,13 +1390,13 @@
     },
     {
       "path": "/creative/tools/m4shlab",
-      "build": "57ff1e3c7c45",
+      "build": "c4d6b292c255",
       "links": [
         {
           "index": 0,
           "text": "skip to content",
           "href": "#page-content",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tools/m4shlab#page-content",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tools/m4shlab#page-content",
           "target": "",
           "rel": "",
           "className": "skip-link",
@@ -1409,7 +1409,7 @@
           "index": 1,
           "text": "h4ngelic",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "floating-brand",
@@ -1422,7 +1422,7 @@
           "index": 2,
           "text": "00/ home",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "",
@@ -1435,7 +1435,7 @@
           "index": 3,
           "text": "02/ about",
           "href": "/about",
-          "resolvedHref": "http://127.0.0.1:55241/about",
+          "resolvedHref": "http://127.0.0.1:55242/about",
           "target": "",
           "rel": "",
           "className": "",
@@ -1448,7 +1448,7 @@
           "index": 4,
           "text": "03/ contact",
           "href": "/#contact",
-          "resolvedHref": "http://127.0.0.1:55241/#contact",
+          "resolvedHref": "http://127.0.0.1:55242/#contact",
           "target": "",
           "rel": "",
           "className": "",
@@ -1461,7 +1461,7 @@
           "index": 5,
           "text": "tattoos",
           "href": "/creative/tattoos",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tattoos",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tattoos",
           "target": "",
           "rel": "",
           "className": "filter-link row-item",
@@ -1474,7 +1474,7 @@
           "index": 6,
           "text": "jewellery",
           "href": "/creative/jewellery",
-          "resolvedHref": "http://127.0.0.1:55241/creative/jewellery",
+          "resolvedHref": "http://127.0.0.1:55242/creative/jewellery",
           "target": "",
           "rel": "",
           "className": "filter-link row-item",
@@ -1487,7 +1487,7 @@
           "index": 7,
           "text": "tools",
           "href": "/creative/tools",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tools",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tools",
           "target": "",
           "rel": "",
           "className": "filter-link row-item is-active",
@@ -1500,7 +1500,7 @@
           "index": 8,
           "text": "more",
           "href": "/creative/more",
-          "resolvedHref": "http://127.0.0.1:55241/creative/more",
+          "resolvedHref": "http://127.0.0.1:55242/creative/more",
           "target": "",
           "rel": "",
           "className": "filter-link row-item",
@@ -1530,7 +1530,7 @@
           "index": 10,
           "text": "h4 moshlab",
           "href": "#",
-          "resolvedHref": "http://127.0.0.1:55241/creative/tools/m4shlab#",
+          "resolvedHref": "http://127.0.0.1:55242/creative/tools/m4shlab#",
           "target": "",
           "rel": "",
           "className": "footer-moshlab row-item",
@@ -1564,7 +1564,7 @@
           "index": 12,
           "text": "03/ 04",
           "href": "/creative/more",
-          "resolvedHref": "http://127.0.0.1:55241/creative/more",
+          "resolvedHref": "http://127.0.0.1:55242/creative/more",
           "target": "",
           "rel": "",
           "className": "chapter-counter naavi",
@@ -1579,9 +1579,9 @@
           "text": "h4ngelic",
           "href": "/",
           "surface": "brand",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1590,9 +1590,9 @@
           "text": "00/ home",
           "href": "/",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": ""
           }
@@ -1601,9 +1601,9 @@
           "text": "02/ about",
           "href": "/about",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "ARTICLE",
             "className": ""
           }
@@ -1612,9 +1612,9 @@
           "text": "03/ contact",
           "href": "/#contact",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "ARTICLE",
             "className": ""
           }
@@ -1623,9 +1623,9 @@
           "text": "tattoos",
           "href": "/creative/tattoos",
           "surface": "filter",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1634,9 +1634,9 @@
           "text": "jewellery",
           "href": "/creative/jewellery",
           "surface": "filter",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1645,9 +1645,9 @@
           "text": "tools",
           "href": "/creative/tools",
           "surface": "filter",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1656,9 +1656,9 @@
           "text": "more",
           "href": "/creative/more",
           "surface": "filter",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -1667,9 +1667,9 @@
           "text": "open m4shlab",
           "href": "https://github.com/h333ndrik/m4shlab",
           "surface": "tool-cta",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1678,9 +1678,9 @@
           "text": "h4 moshlab",
           "href": "#",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1689,9 +1689,9 @@
           "text": "instagram",
           "href": "https://www.instagram.com/h4ngelic/",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1700,9 +1700,9 @@
           "text": "03/ 04",
           "href": "/creative/more",
           "surface": "naavi",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "tag": "A",
             "className": "chapter-counter naavi"
           }
@@ -1713,14 +1713,14 @@
           "text": "00/ home",
           "href": "/",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 109,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -1730,14 +1730,14 @@
           "text": "02/ about",
           "href": "/about",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 201,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -1747,14 +1747,14 @@
           "text": "03/ contact",
           "href": "/#contact",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 247,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "className": "interaction-visual"
             }
@@ -1765,13 +1765,13 @@
     },
     {
       "path": "/creative/green-black-original",
-      "build": "57ff1e3c7c45",
+      "build": "c4d6b292c255",
       "links": [
         {
           "index": 0,
           "text": "skip to content",
           "href": "#page-content",
-          "resolvedHref": "http://127.0.0.1:55241/creative/green-black-original#page-content",
+          "resolvedHref": "http://127.0.0.1:55242/creative/green-black-original#page-content",
           "target": "",
           "rel": "",
           "className": "skip-link",
@@ -1784,7 +1784,7 @@
           "index": 1,
           "text": "h4ngelic",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "floating-brand",
@@ -1797,7 +1797,7 @@
           "index": 2,
           "text": "00/ home",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "",
@@ -1810,7 +1810,7 @@
           "index": 3,
           "text": "02/ about",
           "href": "/about",
-          "resolvedHref": "http://127.0.0.1:55241/about",
+          "resolvedHref": "http://127.0.0.1:55242/about",
           "target": "",
           "rel": "",
           "className": "",
@@ -1823,7 +1823,7 @@
           "index": 4,
           "text": "03/ contact",
           "href": "/#contact",
-          "resolvedHref": "http://127.0.0.1:55241/#contact",
+          "resolvedHref": "http://127.0.0.1:55242/#contact",
           "target": "",
           "rel": "",
           "className": "",
@@ -1836,7 +1836,7 @@
           "index": 5,
           "text": "home",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "",
@@ -1849,7 +1849,7 @@
           "index": 6,
           "text": "digital artworks",
           "href": "/creative/digital-artworks",
-          "resolvedHref": "http://127.0.0.1:55241/creative/digital-artworks",
+          "resolvedHref": "http://127.0.0.1:55242/creative/digital-artworks",
           "target": "",
           "rel": "",
           "className": "",
@@ -1862,7 +1862,7 @@
           "index": 7,
           "text": "inquire about this work",
           "href": "/?artwork=green-black-original#contact",
-          "resolvedHref": "http://127.0.0.1:55241/?artwork=green-black-original#contact",
+          "resolvedHref": "http://127.0.0.1:55242/?artwork=green-black-original#contact",
           "target": "",
           "rel": "",
           "className": "text-link",
@@ -1875,7 +1875,7 @@
           "index": 8,
           "text": "back to digital artworks",
           "href": "/creative/digital-artworks",
-          "resolvedHref": "http://127.0.0.1:55241/creative/digital-artworks",
+          "resolvedHref": "http://127.0.0.1:55242/creative/digital-artworks",
           "target": "",
           "rel": "",
           "className": "text-link",
@@ -1888,7 +1888,7 @@
           "index": 9,
           "text": "h4 moshlab",
           "href": "#",
-          "resolvedHref": "http://127.0.0.1:55241/creative/green-black-original#",
+          "resolvedHref": "http://127.0.0.1:55242/creative/green-black-original#",
           "target": "",
           "rel": "",
           "className": "footer-moshlab row-item",
@@ -1922,7 +1922,7 @@
           "index": 11,
           "text": "04/ 04",
           "href": "/",
-          "resolvedHref": "http://127.0.0.1:55241/",
+          "resolvedHref": "http://127.0.0.1:55242/",
           "target": "",
           "rel": "",
           "className": "chapter-counter naavi",
@@ -1937,9 +1937,9 @@
           "text": "h4ngelic",
           "href": "/",
           "surface": "brand",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1948,9 +1948,9 @@
           "text": "00/ home",
           "href": "/",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": ""
           }
@@ -1959,9 +1959,9 @@
           "text": "02/ about",
           "href": "/about",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": "page-shell artwork-page"
           }
@@ -1970,9 +1970,9 @@
           "text": "03/ contact",
           "href": "/#contact",
           "surface": "index",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "DIV",
             "className": "page-shell artwork-page"
           }
@@ -1981,9 +1981,9 @@
           "text": "home",
           "href": "/",
           "surface": "breadcrumb",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -1992,9 +1992,9 @@
           "text": "digital artworks",
           "href": "/creative/digital-artworks",
           "surface": "breadcrumb",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -2003,9 +2003,9 @@
           "text": "inquire about this work",
           "href": "/?artwork=green-black-original#contact",
           "surface": "project-action",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -2014,9 +2014,9 @@
           "text": "back to digital artworks",
           "href": "/creative/digital-artworks",
           "surface": "project-action",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual category-magnet"
           }
@@ -2025,9 +2025,9 @@
           "text": "h4 moshlab",
           "href": "#",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -2036,9 +2036,9 @@
           "text": "instagram",
           "href": "https://www.instagram.com/h4ngelic/",
           "surface": "footer-link",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
             "tag": "SPAN",
             "className": "interaction-visual"
           }
@@ -2047,9 +2047,9 @@
           "text": "04/ 04",
           "href": "/",
           "surface": "naavi",
-          "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+          "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
           "overlay": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "tag": "A",
             "className": "chapter-counter naavi"
           }
@@ -2060,14 +2060,14 @@
           "text": "00/ home",
           "href": "/",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 109,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -2077,14 +2077,14 @@
           "text": "02/ about",
           "href": "/about",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 201,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "className": ""
             }
@@ -2094,14 +2094,14 @@
           "text": "03/ contact",
           "href": "/#contact",
           "sample": {
-            "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+            "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
             "pointerEvents": "auto",
             "arrowClass": "",
             "arrowHidden": "",
             "x": 1326,
             "y": 247,
             "overlay": {
-              "cursor": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "cursor": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "className": "interaction-visual"
             }
