@@ -1,9 +1,16 @@
 {
   "blenderVersion": "4.5.0 Alpha",
-  "resolution": 2048,
+  "resolution": 1024,
   "triangles": 49838,
   "vertices": 59935,
   "modelHeight": 5.0085,
+  "sceneScale": {
+    "modelHeight": 5.0085,
+    "assumedBodyHeightMeters": 1.7,
+    "unitToMeters": 0.3394,
+    "aoDistanceUnits": 0.18,
+    "aoDistanceMeters": 0.0611
+  },
   "aoDistance": 0.18,
   "aoStrength": 0.35,
   "aoSamples": 64,
@@ -14,13 +21,13 @@
   "uvFillAfter": 0.372054,
   "uvUnchanged": true,
   "luminance": {
-    "min": 0.53824,
+    "min": 0.53825,
     "max": 0.86256,
-    "mean": 0.81316
+    "mean": 0.81139
   },
-  "uvCoverage": 0.8265,
+  "uvCoverage": 0.8725,
   "texture": "skincolor.png",
-  "textureBytes": 955528,
+  "textureBytes": 333524,
   "glb": "baked.glb",
-  "glbBytes": 3174048
+  "glbBytes": 2552044
 }

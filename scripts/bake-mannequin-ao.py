@@ -372,6 +372,15 @@ def main() -> None:
         "triangles": triangles,
         "vertices": len(obj.data.vertices),
         "modelHeight": round(height, 4),
+        # Umrechnung fuer die AO-Konstanten: die Figur ist ~5.01 Szeneneinheiten
+        # hoch; bei 1.70 m realer Koerpergroesse entspricht 1 Einheit ~34 cm.
+        "sceneScale": {
+            "modelHeight": round(height, 4),
+            "assumedBodyHeightMeters": 1.70,
+            "unitToMeters": round(1.70 / height, 4),
+            "aoDistanceUnits": ao_distance,
+            "aoDistanceMeters": round(ao_distance * (1.70 / height), 4),
+        },
         "aoDistance": ao_distance,
         "aoStrength": ao_strength,
         "aoSamples": AO_SAMPLES,

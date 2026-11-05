@@ -8,6 +8,7 @@
  *
  * Aufruf:
  *   KTX_TOOLS=/pfad/zu/ktx/bin node scripts/retexture-mannequin-c.mjs
+ *   ... --resolution 1024    (Experiment: Default bleibt 2048)
  */
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
@@ -24,6 +25,11 @@ const blender = process.env.BLENDER || '/Applications/Blender.app/Contents/MacOS
 const ktxTools = process.env.KTX_TOOLS || '';
 const gltf = ['--yes', '@gltf-transform/cli@4.5.1'];
 const EXPECTED_TRIANGLES = 49838;
+const argValue = (name, fallback) => {
+  const index = process.argv.indexOf(`--${name}`);
+  return index > -1 && process.argv[index + 1] ? process.argv[index + 1] : fallback;
+};
+const RESOLUTION = Number(argValue('resolution', 2048));
 
 if (!existsSync(blender)) throw new Error(`Blender fehlt: ${blender}`);
 const env = ktxTools ? { ...process.env, PATH: `${ktxTools}:${process.env.PATH}` } : process.env;
@@ -58,7 +64,8 @@ run('npx', [...gltf, 'copy', current, decoded], { env });
 run(blender, ['-b', '--factory-startup', '--python', join(root, 'scripts', 'bake-mannequin-ao.py'), '--',
   '--input', decoded, '--glb', baked,
   '--texture', join(procreate, 'skincolor.png'),
-  '--report', join(evidence, 'ao-bake.json')]);
+  '--report', join(evidence, 'ao-bake.json'),
+  '--resolution', String(RESOLUTION)]);
 
 // 3. Identische Kompression wie M1/M2.
 run('npx', [...gltf, 'optimize', baked, ktx, '--simplify', 'false', '--compress', 'false',
@@ -141,7 +148,7 @@ const updated = {
     sha256: hash,
     triangles: after.triangles,
     vertices: after.vertices,
-    texture: 'skincolor_baked.png (AO x Basis #f0efeb, 2048)',
+    texture: `skincolor_baked.png (AO x Basis #f0efeb, ${bake.resolution})`,
   },
   bake: {
     aoDistance: bake.aoDistance,

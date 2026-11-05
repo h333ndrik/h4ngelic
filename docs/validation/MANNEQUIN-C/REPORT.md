@@ -367,3 +367,54 @@ Seitenanfang bereits ~30 rAF-Calls / 500 ms erzeugt. Der Anteil waechst ueber
 die Zeit (4 → 10 → 30 Calls). Gehoert zu V3.1 und liegt ausserhalb dieses
 Laufs — nicht geaendert, hier nur dokumentiert, weil er den globalen
 rAF-Zaehler unbrauchbar macht.
+
+## V3.2-M3 Nachzug — 1024er Albedo (Groessenexperiment)
+
+### Vorab-Regel
+
+> GLB ≥ 30 % kleiner **und** SSIM der 3/4-Renderings ≥ 0.98 → 1024 behalten,
+> sonst 2048 wiederherstellen und nichts committen.
+
+Gebacken mit `node scripts/retexture-mannequin-c.mjs --resolution 1024`; alle
+anderen Konstanten unveraendert (AO_DISTANCE 0.18, AO_STRENGTH 0.35,
+AO_SAMPLES 64, Blur 2, Gradient 0.04, Basis `#f0efeb`, Roughness 0.62), keine
+Vereinfachung der Geometrie.
+
+### Messwerte
+
+| Wert | 2048 | 1024 | Delta |
+| --- | --- | --- | --- |
+| GLB | 653.640 B (`d9edb0e4…c06976`) | **457.000 B** (`d76abc16…fbd71fb`) | **−30,08 %** |
+| Textur-PNG | 955.528 B (2048²) | 333.524 B (1024²) | −65,1 % |
+| Tris | 49.838 | 49.838 | 0 |
+| UV-Fuellgrad | 0.372054 | 0.372054 | 0 |
+| UV-Ueberlappungen | 0 | 0 | 0 |
+| Bounding-Box-Drift | — | 0.000000 | — |
+| Luminanz mean | 0.81316 | 0.81139 | −0.002 |
+
+SSIM der 3/4-Renderings (`scripts/compare-render-ssim.mjs`, Gauss 11×11,
+σ 1.5): **1.000000**, PSNR **92.9 dB**, groesste Einzelabweichung **1/255**.
+Im Render ist der Unterschied damit nicht sichtbar — die AO-Schattierung ist
+niedrigfrequent genug fuer 1024.
+
+Bilder: `resolution-2048-3q.png`, `resolution-1024-3q.png`, nebeneinander in
+`resolution-1024-vs-2048.png`. Rohwerte: `resolution-comparison.json`.
+
+### Entscheidung
+
+**1024 bleibt.** Beide Bedingungen der Vorab-Regel erfuellt (30,08 % ≥ 30 %,
+SSIM 1.0 ≥ 0.98). Manifest, Config-Filename, Pin-Konstanten in
+`tests/mannequin-c.test.js` und die Procreate-Textur sind mitgezogen; OBJ und
+MTL blieben unangetastet (`map_Kd skincolor.png`, relativ).
+
+**Bewusster Trade-off:** die Procreate-Paintflaeche halbiert sich (1024 statt
+2048 Pixel pro Kante). Falls beim Bemalen feinere Details gebraucht werden,
+genuegt ein Lauf mit `--resolution 2048` und ein Commit der drei betroffenen
+Dateien (GLB, Manifest/Pins, Procreate-PNG).
+
+### Scene-Scale fuer die AO-Konstanten
+
+`ao-bake.json` fuehrt jetzt `sceneScale`: Modellhoehe 5.0085 Einheiten,
+angenommene Koerpergroesse 1.70 m → 1 Einheit = 0.3394 m. Daraus folgt
+AO_DISTANCE 0.18 = **6.11 cm** an einer echten Figur — der nachvollziehbare
+Ersatz fuer den frueheren Richtwert "1 Einheit ~34 cm".

@@ -15,8 +15,11 @@ const manifest = JSON.parse(await readFile(manifestURL, 'utf8'));
 
 // Bewusst als Konstante: aendert sich das Asset, muss der Hash hier UND im
 // Manifest UND im Dateinamen mitwandern (verify:assets prueft dasselbe).
-const EXPECTED_DERIVATIVE_SHA256 = 'd9edb0e4d7b01f53eabe680dc19c8f0dbe9a1fd0ce0f20916cfe790b43c06976';
-const EXPECTED_DERIVATIVE_BYTES = 653640;
+const EXPECTED_DERIVATIVE_SHA256 = 'd76abc1645120eb217d0de062887ed029f40d963994f18d8024d64e93fbd71fb';
+const EXPECTED_DERIVATIVE_BYTES = 457000;
+// 1024 statt 2048 nach der Vorab-Regel aus M3 (GLB 30,08 % kleiner, SSIM der
+// 3/4-Renderings 1,000000). Begruendung in docs/validation/MANNEQUIN-C/REPORT.md.
+const EXPECTED_TEXTURE_RESOLUTION = 1024;
 
 /** Minimaler PNG-Leser (8 Bit, RGB/RGBA) fuer den Textur-Check. */
 function readPNG(bytes) {
@@ -142,8 +145,8 @@ test('the committed C asset matches the recorded size, hash and budget', async (
 
 test('the baked albedo is not a flat colour any more', async () => {
   const png = readPNG(await readFile(new URL('../docs/validation/MANNEQUIN-C/skincolor_baked.png', import.meta.url)));
-  assert.equal(png.width, 2048);
-  assert.equal(png.height, 2048);
+  assert.equal(png.width, EXPECTED_TEXTURE_RESOLUTION);
+  assert.equal(png.height, EXPECTED_TEXTURE_RESOLUTION);
   const luminance = [];
   for (let texel = 0; texel < png.width * png.height; texel += 1) {
     const index = texel * png.channels;
@@ -156,6 +159,7 @@ test('the baked albedo is not a flat colour any more', async () => {
   assert.ok(darkest < 230, `Texture must contain shaded texels (darkest ${darkest.toFixed(0)}).`);
   assert.ok(mean > 150 && mean < 236, `Texture stays inside the neutral range (mean ${mean.toFixed(1)}).`);
   const bake = JSON.parse(await readFile(new URL('../docs/validation/MANNEQUIN-C/ao-bake.json', import.meta.url), 'utf8'));
+  assert.equal(bake.resolution, EXPECTED_TEXTURE_RESOLUTION, 'Bake resolution matches the pinned constant.');
   assert.equal(bake.baseColor, '#f0efeb', 'Base colour is unchanged.');
   assert.equal(bake.uvUnchanged, true, 'UV layout was not touched by the bake.');
   assert.equal(bake.triangles, manifest.derivative.triangles);

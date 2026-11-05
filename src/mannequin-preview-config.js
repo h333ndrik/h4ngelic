@@ -30,7 +30,7 @@ const variants = Object.freeze({
     initialYaw: 0,
   }),
   C: Object.freeze({
-    model: '/models/mannequin-c.d9edb0e4d7b0.glb',
+    model: '/models/mannequin-c.d76abc164512.glb',
     label: 'sculpted',
     shading: 'C',
     design: false,
