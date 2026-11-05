@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-04T23:49:37.159Z",
+  "checkedAt": "2026-11-05T11:48:00.974Z",
   "route": "/work/tattoos",
   "source": "production preview build",
   "profiles": [
@@ -29,7 +29,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-1440.png",
-      "autoAngle": 0.3631,
+      "autoAngle": 0.3721,
       "mockups": 8,
       "errors": []
     },
@@ -40,7 +40,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-390.png",
-      "autoAngle": 0.4083,
+      "autoAngle": 0.3966,
       "mockups": 8,
       "errors": []
     },
@@ -51,7 +51,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-320.png",
-      "autoAngle": 0.3675,
+      "autoAngle": 0.4086,
       "mockups": 8,
       "errors": []
     },

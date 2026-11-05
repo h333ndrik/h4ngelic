@@ -307,3 +307,63 @@ UV-Ueberlappungen und aktualisiert Manifest, Config-Filename und Procreate-Textu
 
 A/B-Assets und Registry bleiben unangetastet (0 Requests im Build, nur
 Dev-Zugang ueber `?variant=a|b`).
+
+## V3.2-M3 Nachzug — Einfahrts-Loop mit echtem Stop-Trigger
+
+### Befund
+
+`src/section-entrance.js` rief `stop()` auf, ohne dass die Funktion existierte.
+Der Aufruf landete still bei `window.stop` (Dokument-Ladevorgang abbrechen) und
+tat nichts. Gleichzeitig wurde der Loop nur von Scroll-/Resize-Events
+angefordert — der Commit "Section-Einfahrt frame-getrieben" hatte den Loop also
+nie tatsaechlich frame-getrieben gemacht.
+
+Zweiter Befund aus der Messung: mit `rootMargin: '150% 0px'` lag die Section auf
+allen drei Profilen schon am Seitenanfang im Arm-Fenster (Section-Top 1147 px
+bei 844 px Viewport). Der Loop lief damit auch dann, wenn niemand hinsah.
+
+| Profil | Section-Top bei Scroll 0 | Arm-Fenster (150 %) | im Fenster? |
+| --- | --- | --- | --- |
+| 1440 × 1000 | 1549 px | bis 2500 px | ja |
+| 390 × 844 | 1147 px | bis 1688 px | ja |
+| 320 × 900 | 1146 px | bis 1800 px | ja |
+
+### Fix
+
+1. `stop()` existiert jetzt echt: es haelt das rAF-Handle und ruft
+   `cancelAnimationFrame`. `update()` gibt das Handle beim Start frei, damit
+   `stop()` keinen laufenden Frame abbricht.
+2. Der Loop fordert sich selbst neu an (`schedule()` am Ende von `update()`) und
+   traegt damit die Pose auch dann nach, wenn ein blockierter Main-Thread
+   (GLB-Decode) Scroll-Events verschluckt.
+3. Exit-Trigger bleibt der IntersectionObserver, aber mit `rootMargin: '15% 0px'`:
+   knapp genug, dass er ausserhalb des Sichtbereichs wirklich greift, weit genug,
+   dass der erste sichtbare Frame schon eine berechnete Pose hat.
+4. `document.hidden` pausiert den Loop (`visibilitychange`), Reduced Motion
+   setzt die Endpose und startet keinen Loop.
+
+### Stop-Assert (Beweis)
+
+`tests/section-entrance-browser.mjs` laeuft auf der isolierten Harness
+`tests/fixtures/section-entrance.html`, die nur `src/section-entrance.js` laedt.
+Ein globaler rAF-Zaehler waere auf `/work/tattoos` nicht zurechenbar (siehe
+Beobachtung unten); auf dem Harness stammt jeder Call aus dem Einfahrts-Modul.
+
+| Assert | Messung (390 × 844) | Ergebnis |
+| --- | --- | --- |
+| A ausserhalb Arm-Fenster | 0 rAF-Calls / 500 ms | PASS |
+| B im Arm-Fenster, ruhig | 30 rAF-Calls / 500 ms | PASS |
+| C betreten → verlassen | 0 Calls, `cancelAnimationFrame` genutzt, Pose eingefroren | PASS |
+| D dispose | 0 Calls, auch nach erneutem Scrollen | PASS |
+| Reduced Motion | 0 Calls, Pose `x=0`, `opacity=1` | PASS |
+
+Rohdaten: `section-entrance-stop.json`. Die Einfahrts-Aequivalenz zur Frontpage
+im Production-Build (`npm run test:mannequin-preview`) bleibt gruen.
+
+### Beobachtung (nicht angefasst, V3.1-Eigentum)
+
+`horizontal-drift` haelt auf `/work/tattoos` einen eigenen Frame-Loop, der am
+Seitenanfang bereits ~30 rAF-Calls / 500 ms erzeugt. Der Anteil waechst ueber
+die Zeit (4 → 10 → 30 Calls). Gehoert zu V3.1 und liegt ausserhalb dieses
+Laufs — nicht geaendert, hier nur dokumentiert, weil er den globalen
+rAF-Zaehler unbrauchbar macht.

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Section-Einfahrt — Harness</title>
+  <!-- Kein Favicon-Request: der Harness soll nur den Loop messen. -->
+  <link rel="icon" href="data:,">
+  <style>
+    body { margin: 0; background: #101010; color: #f0efeb; font: 16px/1.4 sans-serif; }
+    .spacer { height: 2600px; }
+    #probe { height: 600px; padding: 24px; background: #1c1c1c; }
+  </style>
+</head>
+<body>
+  <!--
+    Isolierter Harness fuer den Stop-Assert der Section-Einfahrt.
+    Hier laeuft NUR src/section-entrance.js — jeder rAF-Call auf dieser Seite
+    stammt damit aus dem Einfahrts-Modul. Auf /work/tattoos haelt zusaetzlich
+    V3.1 horizontal-drift einen eigenen Loop, ein globaler Zaehler ist dort
+    nicht zurechenbar.
+  -->
+  <div class="spacer"></div>
+  <section id="probe" data-section-entrance>Probe-Section</section>
+  <div class="spacer"></div>
+  <script type="module">
+    import { initSectionEntrance } from '/src/section-entrance.js';
+    window.__dispose = initSectionEntrance(document);
+    window.__ready = true;
+  </script>
+</body>
+</html>
