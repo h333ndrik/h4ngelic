@@ -943,3 +943,37 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F17`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## WORLD SOUND v3 — DONE — 2026-11-05
+
+Real-source 90 s loops and matched transitions. New commit on
+`v3.2-world-sound` (no history rewrite); not pushed, merged or deployed.
+Audio scope only; no V3.1 module, layout, mannequin or `api/inquiry.js` change.
+
+Changed files: `.gitignore`, `docs/WORLD-SOUND.md`, `docs/validation/world-sound/measurements/`,
+`docs/validation/world-sound/v3-build.json`, `docs/validation/world-sound/v3/`,
+`public/assets/audio/{loop-333,loop-4,x-333-4,x-4-333}.m4a`,
+`scripts/buildWorldSound.mjs`, `src/audio/worldSound.js`,
+`src/audio/worldSoundSettings.js`, `src/mode-audio.js`,
+`tests/{mode-audio-browser.mjs,mode-audio.test.js,world-audio-formats-browser.mjs,world-sound-browser.mjs,world-sound.test.js,world-sound-v3.test.js}`,
+plus deletion of `tests/world-sound-v2.test.js`.
+
+Actual serial verification:
+
+- `npm test`: exit 0, **400 passed, 0 failed** (9.75 s). Output: `docs/validation/world-sound/v3/node-tests.txt`.
+- `tests/world-audio-formats-browser.mjs`: PASS, 4/4 files at 3,969,000 / 39,690 frames, no audio-path long tasks.
+- `tests/world-sound-browser.mjs`: PASS, 6/6 profiles at 1440/390/320 × full/reduced plus missing-file degradation.
+- `tests/mode-audio-browser.mjs`: PASS.
+- `tests/sound-controls-browser.mjs`: PASS, 8/8 profiles.
+- `tests/smash-v31-browser.mjs`: PASS at 1440/390/320.
+- `npm run build`: PASS; exactly four M4A in `dist`, hashes match (`docs/validation/world-sound/v3/build.txt`).
+- `node scripts/buildWorldSound.mjs --validate`: `pass: true`.
+
+Delivered: 5,680,943 B total. LUFS −18.0/−18.0/−18.0/−18.1; true peaks
+−3.4/−6.3/−10.6/−9.3 dBFS. Transition files are 39,690 frames, read from the
+900 ms visual config. Keys measure A minor (333) and F major (4), not F minor;
+no pitch shift was guessed.
+
+Exact next checkpoint: user listens to the four files in context. Then, only on
+explicit request, push `v3.2-world-sound`, update PR #22, and merge after review.
+No push/merge/deploy in this pass.

@@ -6,7 +6,7 @@ import { createWorldSound } from '../src/audio/worldSound.js';
 import { worldSoundSettings, worldForMode, worldTransitionDurationSeconds } from '../src/audio/worldSoundSettings.js';
 
 function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSettings, contextRate = worldSoundSettings.sampleRate } = {}) {
-  const fetches = [], sources = [], gains = [], filters = [], compressors = [], timers = [];
+  const fetches = [], sources = [], gains = [], filters = [], compressors = [], timers = [], decodes = [];
   class Param {
     value = 1;
     events = [];
@@ -35,8 +35,9 @@ function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSett
     createBufferSource() { const source = new Source(); sources.push(source); return source; }
     decodeAudioData(bytes) {
       const label = new TextDecoder().decode(new Uint8Array(bytes));
+      decodes.push(label);
       const name = ['loop-333', 'loop-4', 'x-333-4', 'x-4-333'].find(value => label.includes(value));
-      const masterFrames = lengthOverrides[label.split('/').at(-1)] ?? lengthOverrides[name] ?? (name?.startsWith('x-') ? 61740 : 3969000);
+      const masterFrames = lengthOverrides[label.split('/').at(-1)] ?? lengthOverrides[name] ?? (name?.startsWith('x-') ? 39690 : 3969000);
       // decodeAudioData resamples to the context rate, exactly like a device.
       const length = Math.round(masterFrames * contextRate / worldSoundSettings.sampleRate);
       return Promise.resolve({ label, length, numberOfChannels: 2, sampleRate: contextRate, duration: length / contextRate });
@@ -50,17 +51,23 @@ function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSett
   };
   const schedule = (fn, ms) => { const timer = { fn, ms, cancelled: false }; timers.push(timer); return timer; };
   const cancelSchedule = timer => { timer.cancelled = true; };
-  const world = createWorldSound({ context, destination: {}, fetch, settings, schedule, cancelSchedule });
+  const destination = {};
+  const world = createWorldSound({ context, destination, fetch, settings, schedule, cancelSchedule });
   const flush = () => { for (const timer of timers.splice(0)) if (!timer.cancelled) timer.fn(); };
-  return { world, context, fetches, sources, gains, filters, compressors, timers, flush };
+  return { world, context, destination, fetches, sources, gains, filters, compressors, timers, flush, decodes };
 }
+
+const evidence = JSON.parse(await readFile(new URL('../docs/validation/world-sound/v3-build.json', import.meta.url), 'utf8'));
+const loopById = Object.fromEntries(evidence.loops.map(loop => [loop.id, loop]));
+const transitionById = Object.fromEntries(evidence.transitions.map(item => [item.id, item]));
+const delivered = meta => ({ hash: meta.sha256, bytes: meta.bytes });
 
 test('the manifest contains exactly four verified M4A loops/transitions with ordered fallbacks', async () => {
   const expected = {
-    'loop-333.m4a': { hash: 'd24116589b691f66e7723e6bca8d0a6d8bb67d502c4d94af52050ae3c01ae66c', bytes: 2841326 },
-    'loop-4.m4a': { hash: 'da82d0ee5ec7d17a2ac1080de9dbd76603e17dc420d6f38460f3442f079ed994', bytes: 2851489 },
-    'x-333-4.m4a': { hash: '94ee50b3d914cef49d6f1f47e58351c3763d82f4d394c2430cfc47f397c1df6a', bytes: 39865 },
-    'x-4-333.m4a': { hash: '87e842957ec6d30938bdd1316f6058a4ddf0a4c5c167457e985745d47e7252a2', bytes: 38884 },
+    'loop-333.m4a': delivered(loopById['loop-333'].m4a),
+    'loop-4.m4a': delivered(loopById['loop-4'].m4a),
+    'x-333-4.m4a': delivered(transitionById['sfx-a'].m4a),
+    'x-4-333.m4a': delivered(transitionById['sfx-b'].m4a),
   };
   const directory = new URL('../public/assets/audio/', import.meta.url);
   assert.deepEqual((await readdir(directory)).sort(), Object.keys(expected).sort(), 'Only two loops and two transitions are committed.');
@@ -82,10 +89,22 @@ test('the manifest contains exactly four verified M4A loops/transitions with ord
   }
 });
 
+test('transition one-shots reach the destination through their own SMASH duck', async () => {
+  const f = fixture();
+  assert.equal(await f.world.activate('333'), true);
+  await f.world.switchTo('4', { durationMs: 900 });
+  await new Promise(resolve => setTimeout(resolve, 0));
+  const oneShot = f.sources.find(source => !source.loop && source.started !== null);
+  assert.ok(oneShot, 'the one-shot source starts');
+  const voiceGain = oneShot.connections[0];
+  const duck = voiceGain.connections[0];
+  assert.ok(duck.connections.includes(f.destination), 'the transition bus reaches the destination');
+});
+
 test('world sound is lazy, loop-aligned, and crossfades over the live mode-transition duration', async () => {
   const f = fixture();
   assert.equal(f.fetches.length, 0);
-  assert.equal(f.gains.length, 4, 'bus, lowpass/limiter path and duck gains are created only with the controller.');
+  assert.equal(f.gains.length, 5, 'bus, bed attenuation, SFX duck and both world gains are created only with the controller.');
   assert.equal(f.filters[0].frequency.value, worldSoundSettings.lowpassHz);
   assert.equal(f.compressors[0].threshold.value, worldSoundSettings.limiter.threshold);
   assert.equal(await f.world.activate('333'), true);
@@ -104,12 +123,12 @@ test('world sound is lazy, loop-aligned, and crossfades over the live mode-trans
   assert.equal(loopSources[1].offset, 7.5, 'The incoming loop starts at the shared transport phase, not at zero.');
   assert.equal(oneShots.length, 1);
   assert.equal(oneShots[0].offset, 0);
-  assert.ok(Math.abs(oneShots[0].buffer.duration - 1.4) < 1e-9, 'The transition keeps its full supplied duration.');
+  assert.ok(Math.abs(oneShots[0].buffer.duration - .9) < 1e-9, 'The transition keeps its full supplied duration.');
   assert.equal(oneShots[0].started, 11.5, 'The one-shot starts with the crossfade at switch start.');
   const snapshot = f.world.snapshot();
   assert.equal(snapshot.currentWorld, '4');
   assert.equal(snapshot.transportStart, 4);
-  assert.equal(snapshot.crossfade.durationSeconds, .9);
+  assert.ok(Math.abs(snapshot.crossfade.durationSeconds - .9) < 1e-9);
   assert.equal(snapshot.crossfade.startedAt, 11.5);
   assert.equal(snapshot.crossfade.endsAt, 12.4);
   assert.equal(snapshot.transitionVoices, 1);
@@ -149,7 +168,7 @@ test('a mid-crossfade reversal retargets both gains and starts the opposite one-
   assert.equal(snapshot.transportStart, 4);
   assert.equal(snapshot.currentWorld, '333');
   assert.equal(snapshot.crossfade.from, '4');
-  assert.equal(snapshot.crossfade.durationSeconds, .9);
+  assert.ok(Math.abs(snapshot.crossfade.durationSeconds - .9) < 1e-9);
   assert.equal(f.sources.filter(source => source.loop).length, 2, 'The reversal reuses the still-running outgoing source.');
   assert.equal(f.sources.filter(source => !source.loop).length, 2, 'The opposite transition is added under the same in-process controller.');
   assert.equal(loop333.offset, 0);
@@ -258,4 +277,83 @@ test('transition one-shot concurrency is capped and only paths from settings are
   assert.equal(worldForMode('normal'), '333');
   assert.equal(worldForMode('xray'), '4');
   assert.equal(worldTransitionDurationSeconds(), .9, 'The crossfade follows the actual current visual transition config.');
+});
+
+test('a mode switch dips the bed by exactly the configured amount for the transition window', async () => {
+  const f = fixture();
+  await f.world.activate('333');
+  f.context.currentTime = 20;
+  await f.world.switchTo('4', { durationMs: 900 });
+  await new Promise(resolve => setTimeout(resolve, 0));
+  const snapshot = f.world.snapshot();
+  const expected = 10 ** (worldSoundSettings.bedDipDb / 20);
+  assert.ok(snapshot.dip, 'The switch schedules a bed dip.');
+  assert.ok(Math.abs(snapshot.dip.level - expected) < 1e-9, `Dip is ${worldSoundSettings.bedDipDb} dB.`);
+  assert.ok(Math.abs(snapshot.dip.seconds - .9) < 1e-9, 'The dip lasts exactly as long as the transition.');
+  const bed = f.gains[1];
+  const values = bed.gain.events.filter(event => event[0] === 'ramp').map(event => event[1]);
+  assert.ok(values.some(value => Math.abs(value - expected) < 1e-6), 'The bed reaches the dip floor.');
+  assert.ok(Math.abs(values.at(-1) - 1) < 1e-9, 'The bed is back at unity when the transition ends.');
+});
+
+test('SMASH and the switch dip stack by the deeper attenuation, never the sum', async () => {
+  const f = fixture();
+  await f.world.activate('333');
+  f.world.setDuck(worldSoundSettings.smashDuckGain, 0);
+  f.context.currentTime = 30;
+  await f.world.switchTo('4', { durationMs: 900 });
+  await new Promise(resolve => setTimeout(resolve, 0));
+  const bed = f.gains[1];
+  const values = bed.gain.events.filter(event => event[0] === 'ramp').map(event => event[1]);
+  assert.ok(values.every(value => value >= worldSoundSettings.smashDuckGain - 1e-9),
+    'The bed never goes below the deeper single attenuation.');
+  assert.ok(values.some(value => Math.abs(value - worldSoundSettings.smashDuckGain) < 1e-9),
+    'The SMASH duck (deeper than the dip) is what applies.');
+  assert.ok(!values.some(value => Math.abs(value - worldSoundSettings.smashDuckGain * 10 ** (worldSoundSettings.bedDipDb / 20)) < 1e-6),
+    'The two attenuations are never multiplied.');
+  assert.ok(Math.abs(f.world.snapshot().sfxDuck - worldSoundSettings.smashDuckGain) < 1e-9);
+});
+
+test('release drops every SFX and every scheduled dip, leaving the bed at unity', async () => {
+  const f = fixture();
+  await f.world.activate('333');
+  f.context.currentTime = 40;
+  await f.world.switchTo('4', { durationMs: 900 });
+  await new Promise(resolve => setTimeout(resolve, 0));
+  f.world.release();
+  f.flush();
+  const snapshot = f.world.snapshot();
+  assert.equal(snapshot.dip, null, 'No dip survives a release.');
+  assert.ok(f.sources.filter(source => !source.loop).every(source => source.stops.length >= 1), 'Every one-shot is stopped.');
+  const bed = f.gains[1];
+  assert.ok(Math.abs(bed.gain.events.at(-1)[1] - 1) < 1e-9, 'The bed returns to unity.');
+});
+
+test('five mode switches fetch and decode each asset exactly once', async () => {
+  const f = fixture();
+  await f.world.activate('333');
+  const order = ['4', '333', '4', '333', '4'];
+  for (let index = 0; index < order.length; index++) {
+    f.context.currentTime = 50 + index;
+    await f.world.switchTo(order[index], { durationMs: 900 });
+    await new Promise(resolve => setTimeout(resolve, 0));
+  }
+  const count = url => f.fetches.filter(item => item.url === url).length;
+  assert.equal(count('/assets/audio/loop-333.m4a'), 1);
+  assert.equal(count('/assets/audio/loop-4.m4a'), 1);
+  assert.equal(count('/assets/audio/x-333-4.m4a'), 1);
+  assert.equal(count('/assets/audio/x-4-333.m4a'), 1);
+  const decoded = label => f.decodes.filter(value => value.includes(label)).length;
+  for (const name of ['loop-333', 'loop-4', 'x-333-4', 'x-4-333']) assert.equal(decoded(name), 1, `${name} decoded once`);
+});
+
+test('the transition direction mapping is reversible from settings alone', async () => {
+  const settings = { ...worldSoundSettings, transitionRouting: { '333>4': 'x-4-333', '4>333': 'x-333-4' } };
+  const f = fixture({ settings });
+  await f.world.activate('333');
+  await f.world.switchTo('4', { durationMs: 900 });
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.ok(f.fetches.some(item => item.url === '/assets/audio/x-4-333.m4a'), 'Flipped routing plays the other file.');
+  assert.ok(!f.fetches.some(item => item.url === '/assets/audio/x-333-4.m4a'));
+  assert.equal(f.world.snapshot().assets['transitions:333>4'].path, '/assets/audio/x-4-333.m4a');
 });

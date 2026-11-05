@@ -72,8 +72,8 @@ try {
   probe = await page.evaluate(() => ({ contexts: window.__audioProbe.contexts.length, sources: window.__audioProbe.sources, changes: window.__audioProbe.changes, fetches: window.__audioProbe.fetches }));
   assert.equal(probe.contexts, 1, 'The mode transition shares the existing controller.');
   assert.deepEqual(probe.changes.map(item => item.mode), ['xray']);
-  assert.ok(probe.sources.some(source => !source.loop && Math.abs(source.duration - 1.4) < .02), 'The file-based 1.4 s transition one-shot starts.');
-  assert.equal(probe.sources.some(source => !source.loop && source.duration > .4 && source.duration < 1), false, 'The old synthesized 0.7 s mode cue remains disabled.');
+  assert.ok(probe.sources.some(source => !source.loop && Math.abs(source.duration - .9) < .02), 'The file-based 0.9 s transition one-shot starts.');
+  assert.equal(probe.sources.some(source => !source.loop && Math.abs(source.duration - .7) < .001), false, 'The old synthesized 0.7 s mode cue remains disabled.');
   assert.ok(probe.fetches.some(url => url.endsWith('x-333-4.m4a')));
 
   assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0, 'Work cannot duplicate the relocated frontpage sound control.');

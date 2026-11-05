@@ -13,12 +13,12 @@ const loops = {
   ]),
 };
 const transitions = {
-  '333>4': Object.freeze([
+  'x-333-4': Object.freeze([
     '/assets/audio/x-333-4.m4a',
     '/assets/audio/x-333-4.flac',
     '/assets/audio/x-333-4.wav',
   ]),
-  '4>333': Object.freeze([
+  'x-4-333': Object.freeze([
     '/assets/audio/x-4-333.m4a',
     '/assets/audio/x-4-333.flac',
     '/assets/audio/x-4-333.wav',
@@ -32,13 +32,20 @@ export const worldSoundSettings = Object.freeze({
   paths: Object.freeze({ loops: Object.freeze(loops), transitions: Object.freeze(transitions) }),
   sampleRate: 44100,
   channels: 2,
+  /** Which transition file each direction plays. Swap the two values to
+   * reverse the mapping - no code change, the files keep their names. */
+  transitionRouting: Object.freeze({ '333>4': 'x-333-4', '4>333': 'x-4-333' }),
   /** Loop and one-shot lengths. A decoded asset is accepted only when its
-   * frame count matches exactly, so encoder padding can never shift the seam. */
-  seconds: Object.freeze({ loops: 90, transitions: 1.4 }),
+   * frame count matches exactly, so encoder padding can never shift the seam.
+   * The one-shot length always equals the visual transition length. */
+  seconds: Object.freeze({ loops: 90, transitions: 0.9 }),
   expectedFrames: Object.freeze({
     loops: Object.freeze({ '333': 3969000, '4': 3969000 }),
-    transitions: Object.freeze({ '333>4': 61740, '4>333': 61740 }),
+    transitions: Object.freeze({ 'x-333-4': 39690, 'x-4-333': 39690 }),
   }),
+  /** Bed attenuation during a mode switch, in dB. The SFX is not boosted;
+   * the dip makes the room. */
+  bedDipDb: -6,
   modeWorlds: Object.freeze({ normal: '333', xray: '4' }),
   worldGains: Object.freeze({ '333': .82, '4': .82 }),
   worldBusGain: 1.95,
@@ -54,6 +61,17 @@ export const worldSoundSettings = Object.freeze({
   smashDuckGain: .2,
   smashDuckSeconds: .08,
 });
+
+/** Direction -> transition file, resolved through the reversible routing. */
+export function transitionAssetFor(from, to) {
+  if (!from || !to || from === to) return null;
+  const key = `${from}>${to}`;
+  return worldSoundSettings.transitionRouting[key] || null;
+}
+
+export function transitionFrames() {
+  return Math.round(worldTransitionDurationSeconds() * worldSoundSettings.sampleRate);
+}
 
 export function worldForMode(mode) {
   return worldSoundSettings.modeWorlds[mode] || null;

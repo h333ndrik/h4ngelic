@@ -365,6 +365,7 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
       muted = Boolean(value);
       if (muted) {
         stop();
+        world?.release();
         if (context && master) {
           const at = context.currentTime;
           master.gain.cancelScheduledValues(at);
@@ -380,7 +381,7 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     setVolume(value) { if (!Number.isFinite(value)) return; volume = Math.max(0, Math.min(1, value)); updateMaster(); save(); },
     setPageHidden(hidden) {
       pageHidden = Boolean(hidden);
-      if (pageHidden) suspendContext();
+      if (pageHidden) { world?.release(); suspendContext(); }
       else if (!muted) void resumeContext();
       notify();
     },

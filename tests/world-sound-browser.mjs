@@ -15,7 +15,12 @@ const isAudio = url => /\/assets\/audio\/(?:loop-(?:333|4)|x-(?:333-4|4-333))\.m
 
 async function installProbe(context) {
   await context.addInitScript(() => {
-    window.__worldProbe = { contexts: 0, resumes: 0, suspends: 0, sources: [], fetches: [], errors: [] };
+    window.__worldProbe = { contexts: 0, resumes: 0, suspends: 0, sources: [], fetches: [], errors: [], longTasks: [] };
+    try {
+      new PerformanceObserver(list => {
+        for (const entry of list.getEntries()) window.__worldProbe.longTasks.push({ start: entry.startTime, duration: entry.duration });
+      }).observe({ type: 'longtask', buffered: true });
+    } catch { /* The browser can omit the optional long-task API. */ }
     const nativeFetch = window.fetch.bind(window);
     window.fetch = function (url, ...args) {
       const value = String(url?.url || url);
@@ -106,9 +111,15 @@ try {
       await page.waitForFunction(() => window.__H4_AUDIO__.snapshot().world?.currentWorld === '4');
       state = await audioSnapshot(page);
       assert.equal(state.world.transportStart, initialTransport, 'A mode change never restarts the shared transport.');
-      assert.ok(Math.abs(state.world.crossfade.durationSeconds - .9) < 1e-9, 'The audio fade reads the live 900 ms visual transition config.');
-      await page.waitForFunction(() => window.__worldProbe.sources.some(source => !source.loop && Math.abs(source.duration - 1.4) < .02)
+      assert.ok(state.world.crossfade && Math.abs(state.world.crossfade.windowSeconds - .9) < 1e-9,
+        `The audio fade reads the live 900 ms visual transition config (${JSON.stringify(state.world.crossfade)}).`);
+      assert.ok(state.world.crossfade.durationSeconds > .8,
+        'A decode tick may shorten the fade start, never truncate the configured window.');
+      await page.waitForFunction(() => window.__worldProbe.sources.some(source => !source.loop && Math.abs(source.duration - .9) < .02)
         && window.__H4_AUDIO__.snapshot().world?.loops['4'].status === 'ready', null, { timeout: 30000 });
+      const firstOneShot = (await page.evaluate(() => window.__worldProbe.sources)).find(source => !source.loop && Math.abs(source.duration - .9) < .02);
+      assert.ok(firstOneShot && Math.abs(state.world.crossfade.endsAt - (firstOneShot.when + firstOneShot.duration)) < .03,
+        'The crossfade and the transition one-shot end at the same instant.');
       await page.waitForFunction(() => window.__H4_AUDIO__.snapshot().world?.loops['333'].active === false, null, { timeout: 6000 });
       probe = await page.evaluate(() => window.__worldProbe);
       assert.ok(probe.fetches.some(url => url.endsWith('loop-4.m4a')));
@@ -127,13 +138,14 @@ try {
       assert.equal(state.world.transportStart, initialTransport);
       probe = await page.evaluate(() => window.__worldProbe);
       assert.ok(probe.fetches.some(url => url.endsWith('x-4-333.m4a')));
-      const transitions = probe.sources.filter(source => !source.loop && Math.abs(source.duration - 1.4) < .02);
+      const transitions = probe.sources.filter(source => !source.loop && Math.abs(source.duration - .9) < .02);
       assert.ok(transitions.length >= 2, 'Both direction-specific transition one-shots have been played.');
       assert.ok(transitions.every(source => source.stops.length === 0), 'Normal direction changes never truncate or early-fade the full one-shots.');
       assert.ok(state.world.transitionVoices <= 2);
 
       // Exercise the retargetable audio state machine directly while the visual
       // controller remains on its existing non-interruptible snapshot path.
+      const longTaskStart = await page.evaluate(() => window.__worldProbe.longTasks.length);
       await page.evaluate(() => { void window.__H4_AUDIO__.switchMode('xray', 900); });
       await page.waitForTimeout(160);
       await page.evaluate(() => { void window.__H4_AUDIO__.switchMode('normal', 900); });
@@ -143,6 +155,8 @@ try {
       assert.equal(state.world.transportStart, initialTransport, 'Mid-crossfade reversal keeps the same transport clock.');
       assert.ok(state.world.crossfade.durationSeconds > .89);
       assert.ok(state.world.transitionVoices <= 2, 'One-shot voices stay capped.');
+      const audioLongTasks = await page.evaluate(start => window.__worldProbe.longTasks.slice(start), longTaskStart);
+      assert.deepEqual(audioLongTasks, [], 'The audio-only world switch adds no main-thread long task.');
       assert.equal((await page.evaluate(() => window.__worldProbe.contexts)), 1, 'Every transition shares one AudioContext.');
       assert.equal(errors.length, 0, 'The normal sound loop and both transitions produce no console errors.');
 

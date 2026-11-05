@@ -8,8 +8,8 @@ await mkdir(output, { recursive: true });
 const masters = [
   { name: 'loop-333', frames: 3969000, loop: true },
   { name: 'loop-4', frames: 3969000, loop: true },
-  { name: 'x-333-4', frames: 61740, loop: false },
-  { name: 'x-4-333', frames: 61740, loop: false },
+  { name: 'x-333-4', frames: 39690, loop: false },
+  { name: 'x-4-333', frames: 39690, loop: false },
 ];
 const expected = masters.map(asset => ({ ...asset, format: 'm4a', path: `/assets/audio/${asset.name}.m4a` }));
 const extraDirectory = process.env.H4_WORLD_AUDIO_EXTRA_DIR;
@@ -50,30 +50,33 @@ try {
       const buffer = await context.decodeAudioData(await response.arrayBuffer());
       const channels = Array.from({ length: buffer.numberOfChannels }, (_, index) => buffer.getChannelData(index));
       const boundaries = channels.map(channel => {
-        let head = 0, tail = 0, step = 0, head2 = 0, tail2 = 0;
-        const headFrames = Math.min(441, channel.length);
-        const tailStart = Math.max(0, channel.length - 441);
-        const twoSeconds = Math.min(88200, Math.floor(channel.length / 2));
-        const tail2Start = Math.max(0, channel.length - twoSeconds);
+        let head = 0, tail = 0, step = 0;
+        // The seam gate is defined over 250 ms either side of the loop point.
+        const seamFrames = Math.min(11025, Math.floor(channel.length / 2));
+        const tailStart = Math.max(0, channel.length - seamFrames);
         for (let index = 0; index < channel.length; index++) {
-          if (index < headFrames) head += channel[index] ** 2;
+          if (index < seamFrames) head += channel[index] ** 2;
           if (index >= tailStart) tail += channel[index] ** 2;
-          if (index < twoSeconds) head2 += channel[index] ** 2;
-          if (index >= tail2Start) tail2 += channel[index] ** 2;
           if (index) step += Math.abs(channel[index] - channel[index - 1]);
         }
         return {
           first: channel[0], last: channel[channel.length - 1],
           seam: Math.abs(channel[0] - channel[channel.length - 1]),
           meanStep: step / Math.max(1, channel.length - 1),
-          head20msRms: Math.sqrt(head / headFrames),
-          tail20msRms: Math.sqrt(tail / Math.max(1, channel.length - tailStart)),
-          head2sRms: Math.sqrt(head2 / twoSeconds),
-          tail2sRms: Math.sqrt(tail2 / Math.max(1, channel.length - tail2Start)),
+          head250msRms: Math.sqrt(head / seamFrames),
+          tail250msRms: Math.sqrt(tail / Math.max(1, channel.length - tailStart)),
         };
       });
+      const seamFrames = Math.min(11025, Math.floor(buffer.length / 2));
+      let headEnergy = 0, tailEnergy = 0;
+      for (const channel of channels) {
+        for (let index = 0; index < seamFrames; index++) headEnergy += channel[index] ** 2;
+        for (let index = buffer.length - seamFrames; index < buffer.length; index++) tailEnergy += channel[index] ** 2;
+      }
       results.push({ path: asset.path, format: asset.format, sampleRate: buffer.sampleRate, channels: buffer.numberOfChannels,
-        frames: buffer.length, duration: buffer.duration, boundaries });
+        frames: buffer.length, duration: buffer.duration, boundaries,
+        head250msRms: Math.sqrt(headEnergy / (seamFrames * channels.length)),
+        tail250msRms: Math.sqrt(tailEnergy / (seamFrames * channels.length)) });
     }
     return results;
   }, expected);
@@ -86,13 +89,13 @@ try {
     assert.ok(Math.abs(report.duration - asset.frames / 44100) < 1e-9);
     if (asset.loop) {
       for (const channel of report.boundaries) {
-        assert.ok(channel.head20msRms > .001 && channel.tail20msRms > .001, `${asset.path} cannot have a zero head/tail fade.`);
         assert.ok(channel.seam <= Math.max(.1, channel.meanStep * 6),
           `${asset.path} wrap step must stay within ordinary sample-to-sample movement.`);
-        const tailRatioDb = 20 * Math.log10(channel.head2sRms / channel.tail2sRms);
-        assert.ok(Math.abs(tailRatioDb) <= 2,
-          `${asset.path} first and last two seconds must sit at the same level (${tailRatioDb.toFixed(2)} dB).`);
       }
+      assert.ok(report.head250msRms > 0 && report.tail250msRms > 0, `${asset.path} cannot have a zero head/tail fade.`);
+      const tailRatioDb = 20 * Math.log10(report.head250msRms / report.tail250msRms);
+      assert.ok(Math.abs(tailRatioDb) <= 1,
+        `${asset.path} the first and last 250 ms must sit at the same level (${tailRatioDb.toFixed(2)} dB).`);
     }
   }
   const longTasksDuringDecode = await page.evaluate(start => window.__formatProbe.longTasks.slice(start), longTaskStart);

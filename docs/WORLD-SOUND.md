@@ -1,387 +1,292 @@
-# WORLD SOUND — 90 s loops, matched transitions (v2)
+# WORLD SOUND — real-source 90 s loops and matched transitions (v3)
 
-Updated 2026-11-04 on branch `v3.2-world-sound` (new commit on top of `27315c6`,
-no history rewrite). Pushed PR #22 stays at `27315c6`; this pass is local only
-and has **not** been pushed, merged or deployed.
+Updated 2026-11-05 on local branch `v3.2-world-sound` (new commit on top of
+`4ab1a75`, no history rewrite). Not pushed, merged or deployed.
 
-Status: **IMPLEMENTED / CHROMIUM VERIFIED**. Two 90 s world loops and two 1.4 s
-transitions were rendered by one deterministic synthesis script, the four
-runtime M4A files were replaced, and the whole audio chain was re-verified. The
-subjective listening review on real hardware is still the user's call; see
-[Limitations](#limitations-and-blockers).
+Status: **IMPLEMENTED / CHROMIUM VERIFIED**. The four runtime M4A files are cut
+from the user-supplied sources, decoded at the exact frame count, and exercised
+by the unit and browser suites. Subjective listening remains the user's call;
+see [Listening checklist](#listening-checklist) and
+[Limitations](#limitations-and-observations).
 
-## What changed from v1
+## What changed from v2
 
-| | v1 (shipped at `1f87e08`) | v2 |
+| | v2 | v3 |
 | --- | --- | --- |
-| Loop length | 16 bars, 1,365,677 frames (30.97 s) | 90.00 s, **3,969,000 frames** |
-| Loop source | externally generated masters | one deterministic renderer, `scripts/renderWorldLoops.mjs` |
-| Loop seam | 4 s equal-power crossfade of the tail into the head | periodic composition + 4 s pre-roll, trimmed exactly (no blend) |
-| Transition length | 1.4 s (61,740 frames) | unchanged: 1.4 s (61,740 frames) |
-| Build arc | none | 0-15 s intro → layers 15-60 s → fullest 50-75 s → back to intro by 90 s |
-| Committed payload | 2,087,514 B | 5,771,564 B (3x duration at the same 256 kbps) |
-| Loop decoding | required 44.1 kHz device context | accepts any device rate, duration-exact |
+| Loop source | synthesized by `scripts/renderWorldLoops.mjs` | real user-supplied `.mov` audio, cut to 90 s |
+| Loop length | 90.00 s / 3,969,000 frames | unchanged |
+| Loop seam | periodic render, no blend | 8 s wrap blend, head preserved byte-exactly |
+| Transition source | synthesized | two user-supplied whoosh SFX |
+| Transition length | 61,740 frames (1.4 s) | **39,690 frames (0.9 s, the visual transition config)** |
+| Producer | `renderWorldLoops.mjs` | `scripts/buildWorldSound.mjs` |
+| Committed M4A set | 5,771,564 B | **5,680,943 B** |
+| Key | authored F minor grid | measured per source, see below |
 
-## One renderer for all four files
+`scripts/renderWorldLoops.mjs` remains in the repo as the v2 renderer and is no
+longer used to produce the delivered files. `scripts/buildWorldSound.mjs` is the
+current producer and validator.
+
+## Sources
+
+All four files were measured on disk; raw ffprobe JSON is under
+`docs/validation/world-sound/measurements/`.
+
+| ID | File | Container / codec | Rate | Channels | Duration | SHA-256 |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| loop-333 | `~/Desktop/h4ngelic_sounddesign.mov` | MOV / MP3 audio stream | 44.1 kHz | 2 | 313.531519 s | `21edd9ee0e487c82956fdb0499f0fcb8a4b75de3bdcc0ac9cca54bed450aa807` |
+| loop-4 | `~/Desktop/h4ngelic_sounddesign_2.mov` | MOV / MP3 audio stream | 48 kHz → 44.1 kHz | 2 | 232.934208 s | `98024fc04622902c8dffe19d3dd82ac7de7e2d7376d70f23fd3393ba96f13f4b` |
+| sfx-a | `~/Downloads/poorartistt-cinematic-whoosh-sfx-type-05-566460.mp3` | MP3 | 48 kHz → 44.1 kHz | 2 | 3.024000 s | `bc319429e24c46671b49fcc95d7fef0535ab5329e737f317ee8fab7df9d0e269` |
+| sfx-b | `~/Downloads/poorartistt-cinematic-whoosh-sfx-type-06-566459.mp3` | MP3 | 48 kHz → 44.1 kHz | 2 | 3.024000 s | `8ef8fb6a5516870068b2e591dfdd91551ed4b6eb02d2760138d0a4034c3098df` |
+
+Origin: user-supplied files, stated as user-owned. **License verification is the
+user's responsibility; this pass cannot verify ownership or clearance.**
+
+Measured source loudness (ffmpeg `ebur128=peak=true`):
+
+| ID | Integrated | True peak | LRA |
+| --- | ---: | ---: | ---: |
+| loop-333 | −26.6 LUFS | −12.6 dBFS | 5.8 LU |
+| loop-4 | −16.0 LUFS | −5.1 dBFS | 3.5 LU |
+| sfx-a | −7.7 LUFS | +1.8 dBFS | 20.0 LU |
+| sfx-b | −10.1 LUFS | +1.1 dBFS | 20.0 LU |
+
+The `loudnorm` cross-check landed within 0.3 dB on both loops.
+
+### Extraction
 
 ```sh
-node scripts/renderWorldLoops.mjs --out work/world-sound-v2 --flac --determinism
+ffmpeg -y -i h4ngelic_sounddesign.mov   -vn -map 0:a:0 \
+  -acodec pcm_s24le -ar 44100 -ac 2 masters/loop-333-source.wav
+ffmpeg -y -i h4ngelic_sounddesign_2.mov -vn -map 0:a:0 \
+  -af "volume=<gain>" -acodec pcm_s24le -ar 44100 -ac 2 masters/loop-4-source.wav
 ```
 
-- `--out DIR` output directory (default `work/world-sound-v2`), `--flac` also
-  writes local FLAC derivatives, `--determinism` re-renders every asset and
-  compares hashes, `--only=NAME` renders a single file.
-- Pure Node, zero runtime and zero build dependencies; `ffmpeg` (and on macOS
-  `afconvert`) are local build tooling only. Nothing in the site calls them.
-- One seed per file, recorded below; the script uses no `Math.random`.
+Loop 4 was resampled 48 → 44.1 kHz by ffmpeg's default resampler. The two `.mov`
+files are different takes: duration gap 80.6 s and RMS correlation 0.2205 (below
+the documented 0.5 threshold), so they were not treated as duplicates.
 
-| File | Seed | Role |
-| --- | --- | --- |
-| `loop-333` | `0x333a11ce` | WORLD 333, clean |
-| `loop-4` | `0x4c0ffee1` | WORLD 4, corrupted |
-| `x-333-4` | `0x33340001` | 333 → 4 one-shot |
-| `x-4-333` | `0x43330001` | 4 → 333 one-shot |
-
-## Loop construction — periodic by design, no crossfade
-
-The earlier brief described an equal-power wrap blend. That method was replaced
-by something that removes the blend entirely, because a blend between two
-different points of a *coherent* drone adds a measured level bump in the first
-seconds of every loop:
-
-1. Every sustained oscillator and LFO frequency is snapped to the 1/90 Hz grid,
-   so each voice completes a whole number of cycles per loop and the phase at
-   sample 0 equals the phase at sample 3,969,000. Worst case detune is
-   **0.08 cent** (`43.6556` instead of `43.6535` Hz).
-2. Every envelope, filter drift and event position is a function of loop phase,
-   never of absolute render time.
-3. The noise bed is filtered twice over the identical noise stream. Pass 1
-   primes every filter state; pass 2 starts from the state the loop ends on.
-4. The renderer writes 94 s: a 4 s pre-roll at loop phase 86-90 s, then loop
-   phase 0-90 s, so the echo and reverb arrive at the first loop sample already
-   warmed. The loop is trimmed at exactly 3,969,000 frames.
-
-The result is a loop whose last sample and first sample are adjacent points of
-the same continuous, periodic signal.
-
-## Build arc
-
-| Loop phase | What happens |
-| --- | --- |
-| 0-15 s | pink/chrome bed, F1 sub, F2/Ab2 anchors, C6 shimmer, 124 BPM sub pulse, slow air |
-| 16-30 s | C3 drone enters (16→30 s), first sparse pentatonic notes (from 23 s) |
-| 28-45 s | Eb3 drone (28→43 s), metallic ticks (28-70 s), F3 drone (38→53 s) |
-| 46-60 s | high F5 shimmer voice (46→62 s), echo density, whale call (~58 s) |
-| 54-70 s | nature layer: chirp phrases, insect grains, second whale call |
-| 50-75 s | fullest state |
-| 70-90 s | layers leave one at a time, master arc returns to the intro value |
-
-Master arc gain, applied late in the chain so the effects follow it:
-`0 s .56 → 12 s .60 → 26 s .69 → 45 s .83 → 58 s .95 → 70 s 1.0 → 79 s .90 → 90 s .56`.
-
-Measured 5 s RMS after mastering (dBFS, both channels):
-
-| Loop | 0 s | 15 s | 30 s | 45 s | 60 s | 75 s | 85 s |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| WORLD 333 | −22.9 | −22.7 | −20.9 | −19.7 | −18.4 | −21.3 | −23.9 |
-| WORLD 4 | −18.3 | −20.0 | −16.1 | −14.8 | −16.0 | −15.0 | −17.4 |
-
-First 2 s versus last 2 s level: **+0.43 dB** (333) and **−0.48 dB** (4). The
-seed law is "the last seconds are the intro texture again", and it holds.
-
-Band balance (octave bands, dB relative to total energy). Low end is restrained
-instead of dominant; the 1046.5 Hz anchor sits in the 1-2 kHz band:
-
-| Loop | 20-60 | 60-120 | 120-250 | 250-500 | 500-1k | 1-2k | 2-4k | 4-8k | 8-16k |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 333 | −4.3 | −7.2 | −7.4 | −14.4 | −22.0 | −22.0 | −26.3 | −28.3 | −28.2 |
-| 4 | −3.6 | −7.2 | −9.3 | −14.3 | −18.3 | −24.0 | −32.7 | −36.0 | −31.5 |
-
-## Shared anchors
-
-All four files are built from the same four anchors: **F1 sub 43.6535 Hz**,
-**F2 87.3071 Hz**, **Ab2 103.8262 Hz** and the **bright metallic C6**
-**1046.5023 Hz**. They are continuous drones in both loops (they never fade and
-never change pitch), so any exit point of either loop is harmonically compatible
-with a transition that starts or ends on them. World 4 warps the *upper* layers,
-never the anchors themselves.
-
-Spectral presence of the anchors, measured with a Hann-windowed 8192-sample probe
-and reported relative to the local RMS:
-
-| Probe | Loop | 43.7 Hz | 87.3 Hz | 103.8 Hz | 1046.5 Hz |
-| --- | --- | ---: | ---: | ---: | ---: |
-| 2.5 s | 333 | −11.5 | −13.4 | −16.7 | −33.5 |
-| 44 s | 333 | −13.9 | −15.9 | −19.6 | −32.8 |
-| 78 s | 333 | −10.5 | −13.0 | −18.0 | −33.6 |
-| 2.5 s | 4 | −13.7 | −14.4 | −22.1 | −42.2 |
-| 44 s | 4 | −23.4 | −22.3 | −25.3 | −39.5 |
-| 78 s | 4 | −24.3 | −18.0 | −23.6 | −37.1 |
-
-The levels differ with the build arc because the probe is relative to a local
-RMS that rises by ~5 dB at the fullest state; the absolute anchor levels are
-constant. `tests/world-sound-v2.test.js` asserts every anchor stays inside
-−45…−6 dB relative at all three positions in both loops.
-
-## Transitions
-
-Both one-shots are exactly 61,740 frames (1.4 s). They are never truncated or
-early-faded; the only taper is a 6 ms de-click on the very last samples, after
-the music has already resolved. The loop crossfade stays at
-`getLivingDecaySettings().modeTransitionMs` (currently 900 ms) and is not
-derived from the file length.
-
-| File | 0 s | middle | end |
-| --- | --- | --- | --- |
-| `x-333-4` | clean root drone + bright 1046.5 Hz ping | filtered-noise swell rising, metallic pitch-stretch glides down an octave, bitcrush dissolve | crushed 1046.5 Hz ping + detuned root |
-| `x-4-333` | darker root + soft crushed ping | reverse swell, high shimmer cluster, rising glide back to 1046.5 Hz | dry, clean 1046.5 Hz ping + clean root |
-
-## Delivery files
-
-All four runtime files are 44.1 kHz stereo, 256 kbps AAC-LC in an MP4/M4A
-container, encoded by macOS AudioToolbox (`afconvert`) and remuxed bit-exactly
-with `ffmpeg` so the container is reproducible. On hosts without `afconvert`
-the script falls back to `ffmpeg`'s native AAC encoder and records that in the
-report.
-
-| Runtime path | Frames | Bytes | SHA-256 | LUFS | True peak |
-| --- | ---: | ---: | --- | ---: | ---: |
-| `public/assets/audio/loop-333.m4a` | 3,969,000 | 2,841,326 | `d24116589b691f66e7723e6bca8d0a6d8bb67d502c4d94af52050ae3c01ae66c` | −18.0 | −5.8 dBFS |
-| `public/assets/audio/loop-4.m4a` | 3,969,000 | 2,851,489 | `da82d0ee5ec7d17a2ac1080de9dbd76603e17dc420d6f38460f3442f079ed994` | −18.0 | −4.7 dBFS |
-| `public/assets/audio/x-333-4.m4a` | 61,740 | 39,865 | `94ee50b3d914cef49d6f1f47e58351c3763d82f4d394c2430cfc47f397c1df6a` | −18.1 | −9.5 dBFS |
-| `public/assets/audio/x-4-333.m4a` | 61,740 | 38,884 | `87e842957ec6d30938bdd1316f6058a4ddf0a4c5c167457e985745d47e7252a2` | −18.1 | −9.6 dBFS |
-
-Exactly four audio files are committed. `tests/world-sound.test.js` asserts the
-directory listing, byte sizes and hashes; `tests/world-sound-v2.test.js` asserts
-the same values against the recorded render evidence.
-
-### Local masters (not committed)
-
-WAV and FLAC masters stay in `work/world-sound-v2/` on the build machine and are
-deliberately absent from Git.
+Local masters (gitignored, never committed):
 
 | Master | Bytes | SHA-256 |
 | --- | ---: | --- |
-| `loop-333.wav` | 23,814,044 | `52d6d70d4c2d4d202b6f2949e35ff1df086f7ca767354dabe6960113764e0f57` |
-| `loop-4.wav` | 23,814,044 | `7166258389ab235486b2e4776395d8b4e5ed48cbf992013dfa5f1e57d93f994b` |
-| `x-333-4.wav` | 370,484 | `8a98e8a2753812042c13105b7d6c663438b13e5401a00cf687b7a2b8e07fcf71` |
-| `x-4-333.wav` | 370,484 | `9cc4aba6fcc9c291e5f60f3a61d6d05576a001767ee56f7215986a383871c271` |
-| `loop-333.flac` | 18,062,831 | `6939c16d18ffb3b6bee9f8674babb54fe5a983f133948339573b973030d625e1` |
-| `loop-4.flac` | 17,413,785 | `6caecb2ba05f0d8b31d993b84d9ac12154ef3aef25c8745df45de2f6f0bcd40d` |
-| `x-333-4.flac` | 305,988 | `167befc1181ced238751d0851348a04e7bb9328bddabac1cc887419e69000bd6` |
-| `x-4-333.flac` | 287,402 | `ac77ed4a18730841825eb93129c366b5a1c6d58f59284e54b3d959925ae21569` |
+| `masters/loop-333-source.wav` | 82,960,542 | `c631a8ae396d922fdd8710e0fce48f271c86ee612dd24f2caf180ce824f9ea9c` |
+| `masters/loop-4-source.wav` | 61,634,490 | `35f6f8a5cac780d7ed5a4d5b807c48294695e11fb3563889a2070a1fa3a54771` |
 
-FLAC is lossless but ~6x larger than the M4A here, because the material is
-noise-rich; it exists as a decode reference and as the second fallback format.
+### Key analysis
+
+Method: Krumhansl-Schmuckler correlation over a 12-bin chroma vector
+(8192-sample Hann FFT, 55–2200 Hz, first 90 s).
+
+| Loop | Best key | Correlation | Confidence | Runner-up |
+| --- | --- | ---: | ---: | --- |
+| 333 | A minor | 0.867 | 0.123 | F major 0.744 |
+| 4 | F major | 0.800 | 0.064 | D minor 0.736 |
+
+Neither source measures as **F minor**, and both correlations are too close to
+call the mode confidently. No pitch shift was applied: a ±3-semitone guess on
+ambiguous material would damage the user's own mix more than it would help.
+The handover is therefore harmonious by shared pitch material (F/A/C is present
+in both chroma sets) and by the matched sub/ping anchors, not by a forced
+transposition. If the user wants a literal F-minor grid, re-cut with an explicit
+transpose decision; see [How to change the vibe](#how-to-change-the-vibe).
+
+## Loop contract
+
+- `LOOP_SECONDS = 90`, `LOOP_FRAMES = 3,969,000`, one constant for both worlds.
+- `WRAP_SECONDS = 8`. Frames `0 .. N-W` are a byte copy of the master (head
+  preserved); only `N-W .. N` is written from floats.
+- No pitch shift, no time-stretch, no silence padding.
+- First 88,200 frames (2 s) are bit-identical to the source head.
+
+### Wrap shape (measured deviation from the literal brief)
+
+The brief's literal shape (outgoing tail + incoming head with full head gain at
+the final sample) was built and measured. It fails the seam gates on both loops:
+loop 4 drops **36.27 dB** at the loop point because its head starts in natural
+silence; loop 333 fails level continuity at **4.95 dB**. The rejected variant and
+its gate values are stored as `specVariant` in
+`docs/validation/world-sound/v3-build.json`.
+
+Delivered shape: the outgoing tail follows a smooth dB ramp to the measured
+intro level, then a 2 ms equal-power handoff to loop frame 0. Length is
+`max(lead-in + 2 ms, 2 ms)`.
+
+| Loop | Tail level | Intro level | Fade applied | Handoff | Lead-in |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 333 | −16.87 dB | −29.26 dB | −12.39 dB | 89 frames | 1 frame |
+| 4 | −14.15 dB | −64.14 dB | −50.00 dB | 184 frames | 96 frames |
+
+### Seam gates (both pass)
+
+| Gate | 333 | 4 | Limit |
+| --- | ---: | ---: | --- |
+| Seam step | 0 | 0 | ≤ p95 of last 2 s (`0.006425` / `0.000027`) |
+| Level continuity, last vs first 250 ms | 0.03 dB | 0.05 dB | ≤ 1.0 dB |
+| Seam transient over surrounding 2 s | −0.65 dB | −2.83 dB | ≤ +3 dB |
+| Max 100 ms loudness gradient, last 3 s | 1.47 dB | 0.90 dB | ≤ 1.5 dB |
+
+Head preservation, first 88,200 frames:
+
+| Loop | Source head SHA-256 | Loop head SHA-256 |
+| --- | --- | --- |
+| 333 | `76a0f10eb943624fc6f104d6e9034dba6c8980a29f75e7899f2676cc38ccfe06` | identical |
+| 4 | `ce83a6f4186324031ce449f7e3972e9c6a675929d815690a91f02eb6a3bdc7b4` | identical |
+
+## Transitions
+
+The one-shot length is read from the live visual config in
+`src/data/livingDecaySettings.js` (`modeTransitionMs = 900`), not hardcoded in
+the audio layer: `TRANSITION_FRAMES = round(0.9 × 44100) = 39,690`. This
+supersedes the older 1.4 s cut; a 1.4 s file would outlive the 0.9 s picture.
+The file is played in full — never truncated, never early-faded.
+
+Cut procedure: remove the measured leading silence sample-exactly, then take a
+39,690-frame window centred on the global bass-energy peak (20–250 Hz RMS over
+100 ms windows, 10 ms hop), with 20 ms fades on the window edges only.
+
+| ID | Onset removed | Trimmed body | Peak (source) | Peak RMS | Window start (source) | Frames | Sweep |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| sfx-a | 0.3502 s | 109,208 | 1.550 s | −2.72 dB | 1.1252 s | 39,690 | rising |
+| sfx-b | 0.1846 s | 111,232 | 1.135 s | −3.68 dB | 0.7096 s | 39,690 | falling / impulsive |
+
+Mapping, stored as reversible data in `worldSoundSettings.transitionRouting`:
+
+| Direction | File | Why |
+| --- | --- | --- |
+| 333 → 4 | `x-333-4.m4a` | rising sweep = chrome melting into the corrupted world |
+| 4 → 333 | `x-4-333.m4a` | falling/impulsive sweep = cleansing release back to clean chrome |
+
+Swap the two values in `transitionRouting` to reverse the mapping without
+renaming files or editing logic. `BED_DIP_DB = -6`; the bed is dipped by one
+cosine bowl over the crossfade window, and if SMASH is active the deeper of the
+two attenuations applies (`min`, never the sum).
+
+## Delivered files
+
+44.1 kHz stereo, 256 kbps AAC-LC, AudioToolbox encode + `ffmpeg` bit-exact
+remux. Exactly four files are committed.
+
+| Runtime path | Frames | Bytes | SHA-256 | LUFS | True peak |
+| --- | ---: | ---: | --- | ---: | ---: |
+| `public/assets/audio/loop-333.m4a` | 3,969,000 | 2,847,109 | `d28de00523a59d246403c8edfcfc0ff169b4b99943fa6c7b9ff4dbc8e697f821` | −18.0 | −3.4 dBFS |
+| `public/assets/audio/loop-4.m4a` | 3,969,000 | 2,774,228 | `ab235d059fec354ebbdf60e0e056e7469883489194825a8d25ea7211f86f8476` | −18.0 | −6.3 dBFS |
+| `public/assets/audio/x-333-4.m4a` | 39,690 | 30,015 | `5ee49fedc6d43cb0e144b7e5272ae13086fe2e9728d2e90fb4dba297e4447090` | −18.0 | −10.6 dBFS |
+| `public/assets/audio/x-4-333.m4a` | 39,690 | 29,591 | `477df723d4d9de83c3757aad3cd0958de53b92444fa616225aa7c4346a102878` | −18.1 | −9.3 dBFS |
+
+All four true peaks stay below −1 dBTP; every loop sits at −18.0 LUFS.
 
 ### Payload
 
-| Set | Bytes | Note |
-| --- | ---: | --- |
-| v1 WAV masters (local only) | 17,129,180 | the eight files removed from history in the earlier pass |
-| v1 committed M4A set | 2,087,514 | 31 s loops |
-| **v2 committed M4A set** | **5,771,564** | 90 s loops, same 256 kbps |
-| Previously generated FLAC set (v1) | 13,345,377 | not committed |
+| Load | Bytes |
+| --- | ---: |
+| First gesture (active loop only) | 2,847,109 |
+| First mode switch (other loop + its transition) | 2,804,243 |
+| Return switch (reverse transition) | 29,591 |
+| Full four-file set | 5,680,943 |
 
-v2 is 3,684,050 bytes larger than v1 (+176.5%) and still 11,357,616 bytes
-smaller than the v1 WAV masters. The increase is the requested threefold loop
-duration at the same bitrate, not a format regression. Lazy loading is
-unchanged: a first visit fetches only the active loop (2.84 MB) after the first
-trusted gesture; the other loop and the matching transition are prewarmed from
-the mode-start gesture.
+Nothing is fetched before the first trusted gesture. Decoded buffers are cached;
+repeated switching neither re-fetches nor re-decodes.
 
-## Seam evidence
+### Fallback
 
-Master WAV, 90 s loop point, both channels summed:
+`worldSoundSettings.paths` keeps ordered candidates **M4A → FLAC → WAV** for
+every asset. A candidate is accepted only after `decodeAudioData` and an exact
+frame-count check (`round(masterFrames × deviceRate / 44100)`), so encoder
+padding can never shift the loop seam. Only the M4A files are deployed; adding
+FLAC/WAV files later makes the fallback audible with no component change.
 
-| Loop | Seam step | Mean internal step | Ratio |
-| --- | ---: | ---: | ---: |
-| 333 | 0.1353 | 0.0620 | 2.18x |
-| 4 | 0.0046 | 0.0066 | 0.69x |
-
-Chromium `decodeAudioData` of the committed M4A, per channel:
-
-| Loop | Channel | Seam step | Mean step | Rank among internal steps |
-| --- | --- | ---: | ---: | ---: |
-| 333 | L | 0.0865 | 0.0612 | 73.8th percentile |
-| 333 | R | 0.0444 | 0.0614 | 48.3rd percentile |
-| 4 | L | 0.0003 | 0.0065 | 3.0th percentile |
-| 4 | R | 0.0011 | 0.0065 | 12.1rd percentile |
-
-The seam is ordinary sample-to-sample movement, not a discontinuity. Before the
-switch to the AudioToolbox encoder, ffmpeg's native AAC left a constant 0.042
-offset over the first 512 samples of `loop-4`; that is the artifact the encoder
-change removes. The first and last 20 ms of every decoded loop stay non-zero, so
-no encoder fade is added.
-
-Frame counts after `decodeAudioData` (Chromium, 44.1 kHz offline context):
-
-| Asset | WAV frames | FLAC frames | M4A frames |
-| --- | ---: | ---: | ---: |
-| WORLD 333 loop | 3,969,000 | 3,969,000 | 3,969,000 |
-| WORLD 4 loop | 3,969,000 | 3,969,000 | 3,969,000 |
-| 333 → 4 | 61,740 | 61,740 | 61,740 |
-| 4 → 333 | 61,740 | 61,740 | 61,740 |
-
-## Determinism
-
-`--determinism` re-renders each file from scratch in the same run and compares
-both the WAV and the M4A. All four pairs were byte-identical
-(`docs/validation/world-sound/v2/render-report.json`, `determinism.identical:
-true`). `tests/world-sound-v2.test.js` repeats the check for `x-4-333` in a
-temporary directory on every test run.
-
-## Runtime format fallback
-
-`worldSoundSettings.paths` still holds ordered candidate arrays for every asset:
-**M4A → FLAC → WAV**. The engine accepts a candidate only after checking channel
-count, sample rate against the *device* rate, and a frame count that matches the
-master duration exactly:
-
-```
-expectedFramesAtDeviceRate = round(masterFrames * deviceRate / 44100)
-```
-
-This is a real fix in this pass: `decodeAudioData` always returns a buffer at the
-context rate, so on a 48 kHz output device the old strict 44.1 kHz check made
-every world loop resolve to `missing` and the site went silent. 90 s at 48 kHz
-is exactly 4,320,000 frames; encoder padding still fails the check and moves to
-the next candidate.
-
-Only the M4A candidates are deployed. The FLAC/WAV URLs are ready fallback paths;
-adding those files later makes the fallback audible without component changes.
-When every candidate fails the asset is recorded `missing` and stays silent — no
-substitute audio is synthesized.
-
-## Module map
+## Runtime wiring
 
 | File | Responsibility |
 | --- | --- |
-| `scripts/renderWorldLoops.mjs` | Deterministic synthesis, 24-bit WAV masters, AAC/FLAC derivatives, loudness, seam/anchor/band analysis, determinism check. Build tooling only. |
-| `src/audio/worldSoundSettings.js` | The only configuration source for paths, mode mapping, world gains, bus/transition gains, activation/crossfade timing, limiter, ducking, one-shot voice cap and the 90 s / 1.4 s duration contract. |
-| `src/audio/worldSound.js` | Shared loop transport, `AudioBufferSourceNode.loop`, per-world gain crossfades, transition one-shots, lazy decode/cache, device-rate validation, missing-asset state and voice cap. |
-| `src/mode-audio.js` | Existing central controller extended with the world engine: one `AudioContext`, master volume/mute, SMASH priority, visibility suspension, route persistence and preference storage. |
-| `src/xray.js` | First-trusted-gesture unlock, mode-change handoff, target prewarm and visibility plumbing. No second audio controller exists. |
-| `src/sound-controls.js` | Existing SOUND ON/OFF and volume UI; unchanged public controls drive the complete mix. |
+| `scripts/buildWorldSound.mjs` | Measure sources, assemble loops, gates, cut transitions, normalize, encode, publish, `--validate`. Build tooling only. |
+| `src/audio/worldSoundSettings.js` | Paths, frame contract, routing, `bedDipDb`, gains, limiter, ducking and the visual-config duration bridge. |
+| `src/audio/worldSound.js` | One shared transport, per-world loop voices, gain crossfade, transition one-shots, lazy decode/cache, bed dip, release. |
+| `src/mode-audio.js` | Central controller: SOUND ON/OFF, volume, persistence, SMASH ducking, tab-hide suspension, `world.release()` on mute/hide. |
+| `src/xray.js` | First-gesture unlock and mode-change handoff. Unchanged V3.1 logic. |
+| `src/sound-controls.js` | Existing SOUND ON/OFF and volume UI. |
 
-`normal` maps to `333`; `xray` maps to `4`. The old synthesized 0.7 s mode cues
-remain disabled by `modeAudioSettings.modeSoundsEnabled: false`.
+A mode switch starts the matching one-shot and the bed dip at switch start; the
+loop crossfade begins as soon as the incoming buffer is ready and ends at
+`switchStart + 900 ms`, together with the one-shot. `crossfade.windowSeconds`
+records the configured window, `durationSeconds` the actual fade length (a decode
+tick may shorten the start, never the window). The outgoing loop is stopped after
+the crossfade plus `inactiveStopGraceMs`; retargeting cancels that stop and reuses
+the voice. SOUND OFF and tab-hide call `world.release()`: no SFX is scheduled, the
+dip is dropped and the context is suspended.
 
-## Playback and lifecycle
+## Verification (2026-11-05)
 
-1. Page load creates no `AudioContext`, fetch or decode. The first trusted
-   `pointerdown` or `keydown` creates the existing controller context and
-   activates the current world loop.
-2. The active loop is fetched and decoded once. The other loop and the relevant
-   transition are prewarmed from an accepted mode-start gesture. Decoded buffers
-   are reused across routes and mode reversals.
-3. `AudioBufferSourceNode.loop = true`, `loopStart = 0` and
-   `loopEnd = buffer.duration` provide sample-based looping. There is no
-   `<audio>` element loop.
-4. A mode change starts the matching 1.4 s one-shot and crossfades the loop
-   gains. The incoming loop starts at the shared transport phase instead of
-   restarting at sample zero.
-5. The outgoing loop is stopped after the crossfade plus its bounded grace
-   period. A retarget cancels that stop and reuses the still-running source.
-6. One-shot transition voices are capped at two and the oldest is faded out if
-   the cap is reached.
-7. The world bus is `world bus → lowpass → compressor/limiter → duck gain →
-   existing central master gain`. SMASH ducks the complete world and transition
-   bus, then releases the duck on stop or natural end.
-8. SOUND OFF ramps the master to zero and suspends the context. SOUND ON resumes
-   the same context and transport. A hidden document suspends it and visible
-   resume continues the current position.
-
-## Tuning
-
-Change paths, per-world gains, bus/transition levels, activation fade, lowpass,
-limiter and ducking only in `src/audio/worldSoundSettings.js`. Do not duplicate
-paths in components. The crossfade remains tied to
-`src/data/livingDecaySettings.js:modeTransitionMs`.
-
-To replace a loop, re-run the renderer and keep the 3,969,000-frame grid at
-44.1 kHz, the periodic tuning, non-zero boundaries and the four anchors. Update
-`expectedFrames` and `seconds` only in `worldSoundSettings.js`, plus the hashes
-in `tests/world-sound.test.js` and the evidence file. A bad replacement must show
-up as `BLOCKED` in tests, never as invented sound.
-
-## Listening checklist
-
-1. **Loop seam, ~90 s.** Listen through at least three wrap points per world on
-   headphones and on speakers. There must be no click, no dropout, no doubled
-   downbeat and no reverb reset. Compare the last seconds before the wrap with
-   the intro texture that follows.
-2. **Build arc.** Both loops should start sparse, fill in slowly, sit fullest
-   around 50-75 s and be back at the intro texture at the wrap. It should never
-   feel like a drop.
-3. **Transition sync.** Switch 333 → 4 and 4 → 333 while watching the visual
-   tear. The 1.4 s one-shot must start with the tear and play to its end; the
-   loop crossfade follows the live visual setting (900 ms), so the tail of the
-   one-shot deliberately overlaps the new loop.
-4. **World-4 density.** Compare both worlds at the site's quiet level. The
-   corrupted material should keep the same melodic thread — recognisable, worn,
-   never harsh noise, never louder than WORLD 333 in the low end.
-5. **SMASH ducking.** Start and stop SMASH in both worlds. The loop and any
-   transition should duck smoothly, never stop or lose phase, and recover to the
-   same level.
-6. **iOS silent switch.** On a real iPhone, test the hardware silent switch in
-   both positions after a fresh gesture, then test route changes, backgrounding
-   and resume. Record the device, iOS version and observed behaviour; never infer
-   it from Chromium.
-7. **Mute and volume persistence.** Change volume and mute, reload, and confirm
-   the saved state without an early `AudioContext` or audio request. SOUND OFF
-   should suspend; SOUND ON should resume the existing transport.
-8. **Tab suspension.** Hide and restore the tab. Audio should suspend while
-   hidden and continue from the same transport position on return.
-
-## Verification (2026-11-04, this pass)
+All commands were run serially on this branch; actual output is under
+`docs/validation/world-sound/v3/`.
 
 | Check | Actual result |
 | --- | --- |
-| `npm test` (outside sandbox) | **393 passed, 0 failed** (385 baseline + 8 new audio tests) |
-| `tests/world-audio-formats-browser.mjs` | **4/4 files PASS**: 3,969,000 / 61,740 decoded frames, continuous non-zero boundaries, head/tail 2 s within 2 dB, **0 long tasks**, 0 console errors |
-| `tests/world-sound-browser.mjs` | **6/6 profiles PASS** at 1440/390/320 × full/reduced, both modes, plus missing-file degradation |
-| `tests/mode-audio-browser.mjs` | PASS: gesture-only startup, no legacy cue, both file transitions, one shared context, route/mute persistence |
-| `tests/sound-controls-browser.mjs` | **8/8 profiles PASS**: mute suspension, volume, keyboard/touch/persistence, no early requests |
-| `tests/smash-v31-browser.mjs` | PASS at 1440/390/320: exact file, deferred fetch, native attack/tail/stop, world-bus duck/release |
-| `npm run build` | PASS: 18 routes + 404 prerendered; exactly the four M4A files copied with unchanged hashes |
-| Determinism | 4/4 files byte-identical on re-render (WAV + M4A) |
-
-Evidence: `docs/validation/world-sound/v2/render-report.json` (synthesis,
-loudness, seams, anchors, bands, determinism), `format-decode.json`,
-`world-sound-browser.json`, `sound-controls.json`, `smash.json`.
+| `npm test` | **400 passed, 0 failed** (`node-tests.txt`) |
+| `tests/world-audio-formats-browser.mjs` | 4/4 files decode at exact frame counts; 250 ms seam level continuity ≤ 1 dB; **0 audio-path long tasks**; 0 console errors |
+| `tests/world-sound-browser.mjs` | 6/6 profiles at 1440/390/320 × full/reduced; lazy load, one active loop, both transitions, full-length one-shots, SFX/crossfade end together, no audio-path long task, missing-file degradation |
+| `tests/mode-audio-browser.mjs` | PASS: gesture-only startup, no legacy 0.7 s cue, file transitions, one shared context, route/mute persistence |
+| `tests/sound-controls-browser.mjs` | 8/8 profiles: mute suspension, volume, keyboard/touch, persistence, no early requests |
+| `tests/smash-v31-browser.mjs` | PASS at 1440/390/320: exact file, deferred fetch, attack/tail/stop, world-bus duck/release |
+| `npm run build` | PASS; exactly four M4A copied with matching hashes (`build.txt`) |
+| `node scripts/buildWorldSound.mjs --validate` | `pass: true` for all four files |
 
 The build's `prebuild` step re-encodes `public/images/optimized/*`; those files
 were restored after the build and are not part of this commit.
 
-## Limitations and blockers
+## Listening checklist
 
-- **Real iOS Safari: BLOCKED.** No physical iPhone or iOS runtime is available.
-  Chromium touch emulation verifies gesture unlock, not Safari autoplay,
-  interruption, route or hardware-output behaviour.
-- **User-triggered mid-transition re-switch: BLOCKED at the visual integration
-  boundary.** The audio engine retargets a second crossfade without restarting
-  its transport, and the browser suite exercises that path through the test-only
-  controller hook. The existing visual mode controller still rejects a second
-  mode command while its capture is active, so no end-to-end gesture reaches it.
-- **Subjective listening review: OPEN for the user.** All automated checks pass;
-  musical judgement on real speakers is not something this pass can claim.
-- **Device-rate resampling:** on a 48 kHz output device the browser resamples the
-  44.1 kHz masters. Duration and loop length stay exact, but the samples are
-  resampled by the platform. Recorded here because it is now an accepted path
-  instead of a silent failure.
-- The deployed package has no FLAC/WAV fallback files; the candidate chain is
-  tested, production fallback becomes audible only if those files are added.
+1. **Loop seam (~90 s).** On headphones and speakers, listen through at least
+   three wraps per world. No click, dropout, doubled downbeat or reverb reset.
+   WORLD 333's opening is naturally quiet; judge the seam by the level of the
+   last 250 ms against the first 250 ms, not by the first sample.
+2. **Transition sync.** Switch 333 → 4 and 4 → 333 while watching the visual
+   tear. The 0.9 s one-shot starts with the switch and ends with the picture; the
+   crossfade ends at the same instant. Neither direction may clip the tail.
+3. **World-4 density.** WORLD 4 should stay recognisably related to WORLD 333 —
+   same sub and metallic thread, smeared and warped, never harsh noise and never
+   louder in the low end.
+4. **iOS silent switch.** On a real iPhone, test the hardware silent switch in
+   both positions after a fresh gesture, then a route change and background /
+   resume. Record device, iOS version and observed behaviour; Chromium cannot
+   prove Safari behaviour.
+5. **SMASH ducking.** Start and stop SMASH in both worlds, including during a
+   mode switch. The bed and any one-shot duck smoothly, never stop or lose
+   phase, and the deeper attenuation wins when both apply.
+6. **Mute / volume persistence.** Change volume and mute, reload, and confirm the
+   saved state with no early `AudioContext` or audio request. SOUND OFF suspends;
+   SOUND ON resumes the same transport.
+7. **Tab suspension.** Hide and restore the tab. Audio suspends while hidden and
+   continues from the same transport position on return.
+
+## How to change the vibe
+
+- **Loop seam length:** `WRAP_SECONDS` in `scripts/buildWorldSound.mjs` (8 is
+  current, 4–16 allowed). Re-run the builder and the seam gates; never ship an
+  audible seam.
+- **Bed dip during a switch:** `worldSoundSettings.bedDipDb` (−6 current). One
+  constant, applied as a cosine bowl over the crossfade.
+- **Transition direction:** swap the two entries in `transitionRouting`. No file
+  rename, no logic edit.
+- **Bitrate / size:** `encodeAac()` in the builder (256 kbps current). If a loop
+  exceeds 3.2 MB, drop to 192 kbps and re-run `--validate`; record both.
+- **Pitch/tonality:** the sources measure A minor (333) and F major (4), not
+  F minor. If an F-minor grid is required, transpose at build time and re-run the
+  seam and harmonic checks; do not guess a shift in the runtime engine.
+
+## Limitations and observations
+
+- **Subjective listening: OPEN — user.** Automated checks cannot judge musical
+  fit on real speakers.
+- **Real iOS Safari: BLOCKED.** No physical device or iOS runtime is available.
+- **Mid-switch visual re-switch: BLOCKED at the visual controller.** The audio
+  engine retargets a second crossfade smoothly (covered by a test-only hook), but
+  the V3.1 visual snapshot controller rejects a second gesture while a capture is
+  active. Left unchanged by scope.
+- **Key analysis is ambiguous** (see above). No pitch shift was applied.
 - **OBSERVATION, outside audio scope:** `tests/mobile-interactions-browser.mjs`
-  still fails its no-cold-WebGL-on-About assertion on this branch and on base
-  `11e78a1`. Existing diagnostics: `docs/validation/world-sound/mobile-interactions-current.json`
-  and `mobile-interactions-base.json`. Not touched in this pass.
-
-## Deferred work
-
-Still **TODO**, not part of this pass:
-
-- Hero first-touch cue.
-- Color-mapped ink impact sounds.
-- THE OTHER SIDE ambience layer independent of the mode loops.
-- A downloadable offline preview package for the new 5.8 MB M4A set.
+  fails its no-cold-WebGL-on-About assertion on this branch and on base
+  `11e78a1`. Diagnostics: `docs/validation/world-sound/mobile-interactions-current.json`
+  and `mobile-interactions-base.json`. Not fixed in this pass.
+- **OBSERVATION:** the v2 document's 1.4 s transition contract and 61,740-frame
+  numbers are historical; the live contract is the 0.9 s visual config above.

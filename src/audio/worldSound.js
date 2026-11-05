@@ -1,4 +1,4 @@
-import { worldSoundSettings, worldTransitionDurationSeconds } from './worldSoundSettings.js';
+import { worldSoundSettings, worldTransitionDurationSeconds, transitionAssetFor } from './worldSoundSettings.js';
 
 const LOOP_KINDS = new Set(['loops']);
 const TRANSITION_KINDS = new Set(['transitions']);
@@ -17,9 +17,14 @@ export function createWorldSound({
   const worldBus = context.createGain();
   const lowpass = context.createBiquadFilter();
   const limiter = context.createDynamicsCompressor();
-  const duckGain = context.createGain();
+  // Two attenuations meet on the bed path: SMASH ducking and the mode-switch
+  // dip. The deeper one applies (min), never their sum; the SFX only takes the
+  // SMASH duck so the dip makes room for it instead of muting it.
+  const bedGain = context.createGain();
+  const sfxDuck = context.createGain();
   worldBus.gain.value = settings.worldBusGain;
-  duckGain.gain.value = 1;
+  bedGain.gain.value = 1;
+  sfxDuck.gain.value = 1;
   lowpass.type = 'lowpass';
   lowpass.frequency.value = settings.lowpassHz;
   lowpass.Q.value = settings.lowpassQ;
@@ -30,16 +35,17 @@ export function createWorldSound({
   limiter.release.value = settings.limiter.release;
   worldBus.connect(lowpass);
   lowpass.connect(limiter);
-  limiter.connect(duckGain);
-  duckGain.connect(destination);
+  limiter.connect(destination);
+  sfxDuck.connect(destination);
 
   const worlds = new Map(Object.keys(settings.paths.loops).map((id) => [id, {
     gain: context.createGain(), voice: null, buffer: null, status: 'idle', error: null,
   }]));
   for (const [id, record] of worlds) {
     record.gain.gain.value = settings.worldGains[id] ?? 1;
-    record.gain.connect(worldBus);
+    record.gain.connect(bedGain);
   }
+  bedGain.connect(worldBus);
   const assets = new Map();
   const blocked = new Set();
   const transitionVoices = new Set();
@@ -52,6 +58,8 @@ export function createWorldSound({
   let generation = 0;
   let transitionOrder = 0;
   let disposed = false;
+  let duckLevel = 1;
+  let dip = null;
 
   const now = () => context.currentTime;
   function hold(param, at) {
@@ -64,7 +72,7 @@ export function createWorldSound({
   }
   function assetKey(kind, key) { return `${kind}:${key}`; }
   function pathsFor(kind, key) {
-    const value = settings.paths[kind]?.[key];
+    const value = settings.paths[kind]?.[kind === 'transitions' ? assetForTransition(key) : key];
     const candidates = Array.isArray(value) ? value : value ? [value] : [];
     return candidates.filter(path => typeof path === 'string' && path.length > 0);
   }
@@ -84,7 +92,7 @@ export function createWorldSound({
     blocked.add(assetKey(record.kind, record.key));
   }
   function expectedFrames(kind, key) {
-    return settings.expectedFrames?.[kind]?.[key];
+    return settings.expectedFrames?.[kind]?.[kind === 'transitions' ? assetForTransition(key) : key];
   }
   function acceptBuffer(record, path, buffer) {
     if (!buffer || !(buffer.duration > 0)) throw new Error('Decoded asset has no duration.');
@@ -191,7 +199,7 @@ export function createWorldSound({
       }
     }, delay);
   }
-  function beginCrossfade(worldId, durationSeconds, fromWorld) {
+  function beginCrossfade(worldId, durationSeconds, fromWorld, windowSeconds = durationSeconds) {
     if (disposed) return false;
     const target = worlds.get(worldId);
     const at = now();
@@ -220,7 +228,8 @@ export function createWorldSound({
     currentWorld = worldId;
     lastRequestedWorld = worldId;
     crossfade = { from: fromWorld, to: worldId, startedAt: at, endsAt: end,
-      durationSeconds: length, active: Boolean(target?.buffer), generation };
+      durationSeconds: length, windowSeconds: Number(windowSeconds),
+      active: Boolean(target?.buffer), generation };
     return true;
   }
 
@@ -249,8 +258,12 @@ export function createWorldSound({
   }
 
   function transitionKey(from, to) {
-    if (!from || !to || from === to) return null;
-    return `${from}>${to}` in settings.paths.transitions ? `${from}>${to}` : null;
+    return transitionAssetFor(from, to) ? `${from}>${to}` : null;
+  }
+
+  /** Resolve a transition record key (a direction) to its file asset. */
+  function assetForTransition(key) {
+    return settings.transitionRouting?.[key] || key;
   }
 
   function stopOneShot(voice, endTime) {
@@ -280,7 +293,7 @@ export function createWorldSound({
       source.buffer = buffer;
       gain.gain.value = settings.transitionGain;
       source.connect(gain);
-      gain.connect(worldBus);
+      gain.connect(sfxDuck);
       const voice = { source, gain, order: ++transitionOrder, startedAt: now(), ended: false, stopTimer: null };
       transitionVoices.add(voice);
       source.onended = () => {
@@ -303,13 +316,18 @@ export function createWorldSound({
     const request = ++generation;
     const from = lastRequestedWorld || currentWorld || '333';
     lastRequestedWorld = worldId;
+    const seconds = Number.isFinite(durationMs) && durationMs >= 0
+      ? durationMs / 1000 : worldTransitionDurationSeconds();
+    const switchStarted = now();
+    startBedDip(seconds);
     void playTransition(from, worldId);
     const buffer = await load('loops', worldId);
     if (disposed || request !== generation || intendedWorld !== worldId) return false;
-    const seconds = Number.isFinite(durationMs) && durationMs >= 0
-      ? durationMs / 1000 : worldTransitionDurationSeconds();
     if (!buffer && currentWorld === worldId && !crossfade) return false;
-    return beginCrossfade(worldId, seconds, from);
+    // The fade always finishes with the visual transition and the SFX, even
+    // when the incoming loop had to be fetched first.
+    const remaining = Math.max(settings.minimumCrossfadeSeconds, switchStarted + seconds - now());
+    return beginCrossfade(worldId, remaining, from, seconds);
   }
 
   function preload(worldId, fromWorld = lastRequestedWorld || currentWorld) {
@@ -319,12 +337,50 @@ export function createWorldSound({
       .then(([buffer, transitionBuffer]) => Boolean(buffer || transitionBuffer));
   }
 
+  /** Mode-switch dip: one cosine bowl of the crossfade's length, so the bed
+   * leaves room for the SFX and is back at unity when the picture lands. */
+  function dipFactorAt(time) {
+    if (!dip || time <= dip.startedAt || time >= dip.endsAt) return 1;
+    const u = (time - dip.startedAt) / (dip.endsAt - dip.startedAt);
+    const shape = (1 - Math.cos(2 * Math.PI * u)) / 2;
+    return 1 - (1 - dip.level) * shape;
+  }
+  function scheduleBed(at) {
+    hold(bedGain.gain, at);
+    if (!dip || dip.endsAt <= at) {
+      bedGain.gain.linearRampToValueAtTime(duckLevel, at + (settings.dipFadeSeconds ?? .02));
+      return;
+    }
+    const steps = 24, total = dip.endsAt - at;
+    for (let index = 1; index <= steps; index++) {
+      const time = at + total * index / steps;
+      bedGain.gain.linearRampToValueAtTime(Math.min(duckLevel, dipFactorAt(time)), time);
+    }
+  }
+  function startBedDip(seconds) {
+    const length = Math.max(settings.minimumCrossfadeSeconds, Number(seconds) || 0);
+    const at = now();
+    dip = { level: 10 ** ((settings.bedDipDb ?? 0) / 20), startedAt: at, endsAt: at + length, seconds: length };
+    scheduleBed(at);
+  }
   function setDuck(level, seconds = settings.smashDuckSeconds) {
     const target = Math.max(0, Math.min(1, Number(level)));
     if (!Number.isFinite(target)) return;
+    duckLevel = target;
     const at = now() + Math.max(0, Number(seconds) || 0);
-    hold(duckGain.gain, now());
-    duckGain.gain.linearRampToValueAtTime(target, at);
+    hold(sfxDuck.gain, now());
+    sfxDuck.gain.linearRampToValueAtTime(target, at);
+    scheduleBed(now());
+  }
+  /** SOUND OFF / page hide: drop every SFX and every scheduled dip at once. */
+  function release() {
+    dip = null;
+    const at = now();
+    for (const voice of [...transitionVoices]) stopOneShot(voice, at + settings.transitionCancelFadeSeconds);
+    hold(bedGain.gain, at);
+    bedGain.gain.linearRampToValueAtTime(duckLevel, at + .02);
+    hold(sfxDuck.gain, at);
+    sfxDuck.gain.linearRampToValueAtTime(duckLevel, at + .02);
   }
 
   function snapshot() {
@@ -341,7 +397,11 @@ export function createWorldSound({
       blockedAssets: [...blocked],
       transitionVoices: transitionVoices.size,
       transitionVoiceLimit: settings.maxTransitionVoices,
-      duck: duckGain.gain.value,
+      duck: duckLevel,
+      bedGain: bedGain.gain.value,
+      sfxDuck: sfxDuck.gain.value,
+      dip: dip ? { level: dip.level, seconds: dip.seconds, startedAt: dip.startedAt, endsAt: dip.endsAt,
+        remaining: Math.max(0, dip.endsAt - now()) } : null,
       busGain: worldBus.gain.value,
     };
   }
@@ -351,6 +411,7 @@ export function createWorldSound({
     switchTo,
     preload,
     setDuck,
+    release,
     snapshot,
     dispose() {
       if (disposed) return;
@@ -369,7 +430,7 @@ export function createWorldSound({
         try { voice.source.disconnect(); voice.gain.disconnect(); } catch { /* already disconnected */ }
       }
       transitionVoices.clear();
-      worldBus.disconnect(); lowpass.disconnect(); limiter.disconnect(); duckGain.disconnect();
+      worldBus.disconnect(); lowpass.disconnect(); limiter.disconnect(); bedGain.disconnect(); sfxDuck.disconnect();
       for (const record of worlds.values()) record.gain.disconnect();
       assets.clear();
     },

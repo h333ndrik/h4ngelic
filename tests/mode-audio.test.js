@@ -63,7 +63,7 @@ function audioFixture({ rejectResume = false, throwConstruction = false, storage
       this.decodedBytes = bytes.byteLength;
       const label = new TextDecoder().decode(new Uint8Array(bytes));
       if (label.includes('/assets/audio/loop-')) return Promise.resolve({ duration: 90, length: 3969000, numberOfChannels: 2, sampleRate: 44100 });
-      if (label.includes('/assets/audio/x-')) return Promise.resolve({ duration: 1.4, length: 61740, numberOfChannels: 2, sampleRate: 44100 });
+      if (label.includes('/assets/audio/x-')) return Promise.resolve({ duration: 0.9, length: 39690, numberOfChannels: 2, sampleRate: 44100 });
       return Promise.resolve({ duration: 100.310204, length: 4420000, numberOfChannels: 2, sampleRate: 44100 });
     }
     resume() { this.resumeCalls++; if (rejectResume) return Promise.reject(new Error('Gesture denied.')); this.state = 'running'; return Promise.resolve(); }
@@ -308,14 +308,14 @@ test('the central controller owns one transport, retargeted crossfades, mute sus
   await audio.switchMode('xray', 900);
   await new Promise(resolve => setTimeout(resolve, 0));
   assert.equal(audio.snapshot().world.currentWorld, '4');
-  assert.equal(audio.snapshot().world.crossfade.durationSeconds, .9);
-  assert.ok(fetches.some(item => item.url === worldSoundSettings.paths.transitions['333>4'][0]));
+  assert.ok(Math.abs(audio.snapshot().world.crossfade.durationSeconds - .9) < 1e-9);
+  assert.ok(fetches.some(item => item.url === worldSoundSettings.paths.transitions['x-333-4'][0]));
   view.document.documentElement.dataset.mode = 'normal';
   context.currentTime = 10.2;
   await audio.switchMode('normal', 900);
   await new Promise(resolve => setTimeout(resolve, 0));
   assert.equal(audio.snapshot().world.transportStart, transportStart, 'A retarget must not restart the shared transport.');
-  assert.ok(fetches.some(item => item.url === worldSoundSettings.paths.transitions['4>333'][0]));
+  assert.ok(fetches.some(item => item.url === worldSoundSettings.paths.transitions['x-4-333'][0]));
   audio.setMuted(true);
   assert.equal(context.state, 'suspended');
   assert.equal(context.gains[0].gain.value, 0);
