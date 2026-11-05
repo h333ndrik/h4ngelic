@@ -221,7 +221,6 @@ html[data-mode='xray'] .rubric-cross-links a { color: #eadff1; text-shadow: 0 1p
 .tool-video-slot { grid-column: 1 / -1; color: #b9b9b4; font-size: 12px; }
 .tool-mobile { margin-top: clamp(64px, 9vw, 140px); }
 .tool-mobile p { font-size: 15px; line-height: 1.6; text-transform: lowercase; }
-.tool-facts { margin-top: clamp(54px, 8vw, 110px); padding-top: 22px; border-top: 1px solid #ffffff25; color: #c3c3c0; font-size: 12px; line-height: 1.7; }
 .legal-copy { max-width: 760px; }
 .legal-copy dl { display: grid; gap: 22px; }
 .legal-copy dl > div { display: grid; grid-template-columns: 120px 1fr; gap: 20px; }

@@ -110,6 +110,13 @@ export function renderProject(project) {
   </article>`;
 }
 
+/** The one sub-rubric row: same four destinations on every creative surface. */
+function renderWorkFilters(activeGroup) {
+  return `<nav class="work-filters" aria-label="Works sections">
+      ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
+    </nav>`;
+}
+
 /** /creative is the full archive; each real category URL renders only its own
  * group/leaf through this same renderer and editable content. */
 export function renderWorkPage(category = 'all') {
@@ -176,9 +183,7 @@ export function renderWorkPage(category = 'all') {
   return `${header('work')}
   <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
     <h1 class="page-heading${selected === 'all' ? ' numbered-heading' : ''}${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
-    <nav class="work-filters" aria-label="Works sections">
-      ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
-    </nav>
+    ${renderWorkFilters(activeGroup)}
     <div class="portfolio-archive" aria-label="All artwork">${content}${standalone}</div>
     ${crossLinks}
   </div>${footer()}`;
@@ -194,7 +199,7 @@ export function renderToolPage(tool) {
   };
   return `${header('tools')}
   <div class="page-shell tool-detail-page" data-tool-detail="${escape(tool.id)}">
-    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">home</a><span aria-hidden="true">/</span><a href="${categoryURL('tools')}">tools</a></nav>
+    ${renderWorkFilters('tools')}
     <article>
       <h1 class="page-heading tool-headline">${escape(tool.oneLiner)}</h1>
       <p class="tool-lede">${escape(tool.teaser)}</p>
@@ -209,7 +214,6 @@ export function renderToolPage(tool) {
       <section class="tool-mobile" aria-labelledby="tool-mobile-${escape(tool.id)}"><h2 id="tool-mobile-${escape(tool.id)}">install on mobile</h2>
         <p><strong>ios</strong> share → add to home screen</p><p><strong>android</strong> ⋮ → install</p>
       </section>
-      <p class="tool-facts">${tool.facts.map(fact => `<span>${escape(fact)}</span>`).join(' <span aria-hidden="true">·</span> ')}</p>
     </article>
   </div>${footer()}`;
 }

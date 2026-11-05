@@ -171,7 +171,10 @@ for (const id of ['m4shlab', 'thr4ce']) {
     images: [...document.querySelectorAll('.tool-shot img')].map(image => ({ src: image.getAttribute('src'), naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight, width: Number(image.getAttribute('width')), height: Number(image.getAttribute('height')) })),
     cta: document.querySelector('.tool-external-cta')?.getAttribute('href'),
     pwa: document.querySelector('.tool-mobile')?.textContent.replace(/\s+/g, ' ').trim(),
-    facts: document.querySelector('.tool-facts')?.textContent.replace(/\s+/g, ' ').trim(),
+    filters: [...document.querySelectorAll('.work-filters a')].map(link => link.textContent.trim()),
+    activeFilter: document.querySelector('.work-filters [aria-current="page"]')?.textContent.trim(),
+    breadcrumbs: document.querySelectorAll('.breadcrumbs').length,
+    facts: document.querySelectorAll('.tool-facts').length,
     video: document.querySelector('.tool-video-slot')?.textContent.trim(),
     pageWidth: document.documentElement.scrollWidth,
     innerWidth,
@@ -179,7 +182,11 @@ for (const id of ['m4shlab', 'thr4ce']) {
   assert.equal(tool.images.length, 3); assert.ok(tool.images.every(image => image.width === 1440 && image.height === 900 && image.naturalWidth > 0 && Math.abs(image.naturalWidth / image.naturalHeight - 1.6) < .01));
   assert.ok(tool.cta.startsWith('https://'));
   assert.match(tool.pwa, /share → add to home screen/i); assert.match(tool.pwa, /⋮ → install/);
-  assert.match(tool.facts, /deterministic & reversible/); assert.match(tool.video, /no video has been supplied/);
+  assert.deepEqual(tool.filters, ['tattoos', 'jewellery', 'tools', 'more'], 'Tool pages keep the shared sub-rubric row.');
+  assert.equal(tool.activeFilter, 'tools');
+  assert.equal(tool.breadcrumbs, 0, 'Tool pages carry no breadcrumb.');
+  assert.equal(tool.facts, 0, 'The closing facts strip is retired.');
+  assert.match(tool.video, /no video has been supplied/);
   assert.ok(tool.pageWidth <= tool.innerWidth + 1);
   report.tools.push({ id, ...tool });
 }
