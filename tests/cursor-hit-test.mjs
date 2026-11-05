@@ -98,6 +98,21 @@ async function regionSweep(page, { regions, list, mode, offenders, counts }) {
     const locator = page.locator(selector).first();
     if (!await locator.count()) continue;
     const { x, y } = await centerPoint(locator);
+    // The point must really sit inside the region. A stale box or an
+    // off-screen section would otherwise hit `html`, which also carries a
+    // guarantee rule — the classic way a region test passes without testing
+    // the region.
+    const inside = await page.evaluate(({ selector, x, y }) => {
+      const region = document.querySelector(selector);
+      const element = document.elementFromPoint(x, y);
+      if (!region || !element) return false;
+      if (element.closest(selector)) return true;
+      // Quiet regions (the VISIT counter, the rubric arrows) take no pointer
+      // events; the hit must then be one of their ancestors, never `html`.
+      return getComputedStyle(region).pointerEvents === 'none'
+        && element !== document.documentElement && element.contains(region);
+    }, { selector, x, y });
+    assert.ok(inside, `${label} @${Math.round(x)},${Math.round(y)}: the cursor sample must land inside ${selector}.`);
     regions.push({ label, selector, sample: await checkPoint(page, { label, x, y, mode, offenders, counts }) });
   }
 }
@@ -175,6 +190,20 @@ async function targetContracts(page, { mode, offenders, counts }) {
     form.push({ label: selector, sample: await checkPoint(page, { label: selector, x, y, mode, offenders, counts }) });
   }
   assert.equal(form.length, 5, 'The inquiry form field contract covers all visible controls.');
+
+  // The rubric bar only exists on a work route; it is a mandatory region and
+  // used to be covered by the viewport scan of a page that has no bar at all.
+  await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
+  await page.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true');
+  await regionSweep(page, { regions, mode, offenders, counts, list: [
+    ['work-filters', '.work-filters'],
+    ['work-filter-current', '.work-filters .filter-link[aria-current="page"]'],
+    ['work-filter-link', '.work-filters .filter-link:not([aria-current])'],
+    ['cross-link', '.rubric-cross-links a'],
+  ] });
+  await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+  await page.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true');
+  await page.waitForTimeout(250);
 
   const trigger = page.locator('[data-artwork-open]').first();
   let dialog = null;
