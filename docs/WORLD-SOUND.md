@@ -330,10 +330,33 @@ is 31,752,000 B for the one resident loop; the measured deltas are +48,214 B
 are far below the 2 MB budget; the run-to-run spread is allocator noise around
 the one resident loop, not an accumulation.
 
-No idle prefetch is issued. The second loop is downloaded only by an explicit
-mode switch; the outgoing PCM buffer is dropped after the crossfade. There is no
-pointermove listener, no scroll listener, no dwell timer and no per-frame layout
-read.
+### Return-switch cost of the buffer release
+
+Releasing the outgoing loop means every switch back re-fetches and re-decodes
+that loop. Measured on the reference desktop setup (headless Chromium, 1440 px,
+local dev server, HTTP cache warm, three round-trips, raw data under
+`docs/validation/world-sound/v3/phase5/re-decode-warm-cache.json`):
+
+| Switch | Switch start → loop audible | Decode | Fetch |
+| --- | ---: | ---: | ---: |
+| `333 → 4` (outgoing) | 112.3 / 96.2 / 103.1 ms | 86–94 ms | 3–4 ms |
+| `4 → 333` (return) | **126.6 / 142.2 / 168.4 ms** (median 142 ms) | 94–119 ms | 3–7 ms |
+
+So the re-decode costs about **0.13–0.17 s of the 0.9 s transition window**, and
+the crossfade still finishes inside that window on this machine. **This is a
+localhost figure.** If re-decode exceeds the transition window on a slower
+device or a cold cache, the return switch will have an audible gap: the visual
+transition and the one-shot end before the incoming loop can start, and the
+crossfade is compressed to the 40 ms minimum.
+
+**Idle prefetch is intentionally off: memory over latency.** Keeping the second
+loop decoded would remove the re-decode, but it would also pin a second
+31,752,000 B PCM buffer (two worlds ≈ 63.5 MB) for the whole session, which is
+the exact cost the memory budget was meant to avoid. The trade-off is a
+deliberate decision, not an oversight. The second loop is downloaded only by an
+explicit mode switch; the outgoing PCM buffer is dropped after the crossfade.
+There is no pointermove listener, no scroll listener, no dwell timer and no
+per-frame layout read.
 
 ## Verification (2026-11-05)
 
