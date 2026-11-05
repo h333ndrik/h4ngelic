@@ -166,23 +166,64 @@ two attenuations applies (`min`, never the sum).
 44.1 kHz stereo, 256 kbps AAC-LC, AudioToolbox encode + `ffmpeg` bit-exact
 remux. Exactly four files are committed.
 
-| Runtime path | Frames | Bytes | SHA-256 | LUFS | True peak |
-| --- | ---: | ---: | --- | ---: | ---: |
-| `public/assets/audio/loop-333.m4a` | 3,969,000 | 2,847,109 | `d28de00523a59d246403c8edfcfc0ff169b4b99943fa6c7b9ff4dbc8e697f821` | −18.0 | −3.4 dBFS |
-| `public/assets/audio/loop-4.m4a` | 3,969,000 | 2,774,228 | `ab235d059fec354ebbdf60e0e056e7469883489194825a8d25ea7211f86f8476` | −18.0 | −6.3 dBFS |
-| `public/assets/audio/x-333-4.m4a` | 39,690 | 30,015 | `5ee49fedc6d43cb0e144b7e5272ae13086fe2e9728d2e90fb4dba297e4447090` | −18.0 | −10.6 dBFS |
-| `public/assets/audio/x-4-333.m4a` | 39,690 | 29,591 | `477df723d4d9de83c3757aad3cd0958de53b92444fa616225aa7c4346a102878` | −18.1 | −9.3 dBFS |
+### Content-hashed URLs
 
-All four true peaks stay below −1 dBTP; every loop sits at −18.0 LUFS.
+The files are published under content-hashed names,
+`<name>.<sha256-first-12-hex>.m4a`, so the URL changes whenever the bytes change.
+`scripts/hash-world-audio.mjs` is the single owner of those names: it verifies
+each hash against the file, refuses stable names or stray files, and writes
+`src/audio/worldSoundManifest.js`, which `worldSoundSettings.js` imports. The
+settings module contains no path literals; the runtime still fetches in
+M4A → FLAC → WAV order from whatever formats the manifest lists.
+
+The hash step runs in `predev` and `prebuild` (`npm run sounds:hash`). The
+previous stable names (`/assets/audio/loop-333.m4a` and friends) are gone — the
+directory holds only the four hashed files — so no stable URL is served.
+
+| Served URL | File | Frames | Bytes | SHA-256 | LUFS | True peak |
+| --- | --- | ---: | ---: | --- | ---: | ---: |
+| `/assets/audio/loop-333.d28de00523a5.m4a` | `public/assets/audio/loop-333.d28de00523a5.m4a` | 3,969,000 | 2,847,109 | `d28de00523a59d246403c8edfcfc0ff169b4b99943fa6c7b9ff4dbc8e697f821` | −18.0 | −3.4 dBFS |
+| `/assets/audio/loop-4.ab235d059fec.m4a` | `public/assets/audio/loop-4.ab235d059fec.m4a` | 3,969,000 | 2,774,228 | `ab235d059fec354ebbdf60e0e056e7469883489194825a8d25ea7211f86f8476` | −18.0 | −6.3 dBFS |
+| `/assets/audio/x-333-4.5ee49fedc6d4.m4a` | `public/assets/audio/x-333-4.5ee49fedc6d4.m4a` | 39,690 | 30,015 | `5ee49fedc6d43cb0e144b7e5272ae13086fe2e9728d2e90fb4dba297e4447090` | −18.0 | −10.6 dBFS |
+| `/assets/audio/x-4-333.477df723d4d9.m4a` | `public/assets/audio/x-4-333.477df723d4d9.m4a` | 39,690 | 29,591 | `477df723d4d9de83c3757aad3cd0958de53b92444fa616225aa7c4346a102878` | −18.1 | −9.3 dBFS |
+
+All four true peaks stay below −1 dBTP; every loop sits at −18.0 LUFS. The bytes
+are the same files as before the rename: the SHA-256 values did not change, only
+the served URL did.
+
+### Cache policy
+
+Before this change every file under `/assets/` — including the already hashed
+JavaScript chunks — was served with `cache-control: public, max-age=0,
+must-revalidate`; measured on production, `/assets/main-BVhm8sXt.js` and
+`/assets/audio/loop-333.m4a` both returned that header. There was no immutable
+policy to inherit, so the platform did need a config change.
+
+`vercel.json` now sets, for the audio directory only:
+
+```
+source: /assets/audio/(.*)
+Cache-Control: public, max-age=31536000, immutable
+```
+
+Immutable is allowed here because the names are content-hashed: a changed byte
+means a changed URL, so a year-long cache can never serve stale audio. The rule
+is scoped to `/assets/audio/` and does not touch any other path; the rest of the
+site keeps its current policy. The header takes effect on the next deployment
+(this pass does not deploy).
 
 ### Payload
 
 | Load | Bytes |
 | --- | ---: |
-| First gesture (active loop only) | 2,847,109 |
-| First mode switch (other loop + its transition) | 2,804,243 |
-| Return switch (reverse transition) | 29,591 |
-| Full four-file set | 5,680,943 |
+| First gesture (active loop only) | 2,847,109 (unchanged) |
+| First mode switch (other loop + its transition) | 2,804,243 (unchanged) |
+| Return switch (reverse transition) | 29,591 (unchanged) |
+| Full four-file set | 5,680,943 (unchanged) |
+
+The JS budget moved by the width of the manifest module: the main bundle is
+216,273 B raw / 69,142 B gzip against 216,289 B / 69,073 B on `fdd42f5`
+(−16 B raw, +69 B gzip, ≈0.1 %). No audio byte count changed.
 
 Nothing is fetched before the first trusted gesture. Decoded buffers are cached;
 repeated switching neither re-fetches nor re-decodes.

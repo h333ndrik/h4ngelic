@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { worldSoundSettings } from '../src/audio/worldSoundSettings.js';
+
+const LOOP_333 = worldSoundSettings.paths.loops['333'][0];
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const output = new URL('../artifacts/guided-listening/', import.meta.url);
@@ -99,7 +102,7 @@ try {
       await activeLoop(page);
       state = await probe(page);
       assert.equal(state.contexts, 1, 'Exactly one AudioContext.');
-      assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a'], 'Only the active loop is fetched, once.');
+      assert.deepEqual(state.fetches, [LOOP_333], 'Only the active loop is fetched, once.');
       assert.equal(state.sources.filter(source => source.loop).length, 1, 'One loop voice.');
       assert.equal((await page.locator('[data-mode-mute]').textContent()).trim(), 'sound on');
       assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-label'), 'sound', 'The accessible name is stable; aria-pressed carries the state.');
@@ -112,7 +115,7 @@ try {
       await page.waitForTimeout(700);
       state = await probe(page);
       assert.equal(state.sources.filter(source => source.loop).length, 1, 'Later stages never restart the loop.');
-      assert.equal(state.fetches.filter(url => url.endsWith('loop-333.m4a')).length, 1, 'No second fetch.');
+      assert.equal(state.fetches.filter(url => url.endsWith(LOOP_333)).length, 1, 'No second fetch.');
     },
   });
 
@@ -143,7 +146,7 @@ try {
       await page.evaluate(() => document.getElementById('selected-work').scrollIntoView({ block: 'center', behavior: 'instant' }));
       await activeLoop(page);
       const state = await probe(page);
-      assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a']);
+      assert.deepEqual(state.fetches, [LOOP_333]);
       await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
       await page.waitForTimeout(500);
       assert.equal((await probe(page)).fetches.length, 1, 'The WORKS observer fires only once.');
@@ -170,7 +173,7 @@ try {
       assert.equal((await page.locator('[data-mode-mute]').textContent()).trim(), 'sound on');
       state = await probe(page);
       assert.equal(state.snapshot.muted, false);
-      assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a'], 'SOUND ON is the hard control that starts audio.');
+      assert.deepEqual(state.fetches, [LOOP_333], 'SOUND ON is the hard control that starts audio.');
     },
   });
 
@@ -243,7 +246,7 @@ try {
       assert.deepEqual((await probe(page)).fetches, [], 'A touch pointermove never triggers audio.');
       await page.evaluate(() => document.getElementById('selected-work').scrollIntoView({ block: 'center', behavior: 'instant' }));
       await activeLoop(page);
-      assert.deepEqual((await probe(page)).fetches, ['/assets/audio/loop-333.m4a']);
+      assert.deepEqual((await probe(page)).fetches, [LOOP_333]);
     },
   });
 
@@ -260,7 +263,7 @@ try {
       await page.evaluate(() => document.getElementById('selected-work').scrollIntoView({ block: 'center', behavior: 'instant' }));
       await activeLoop(page);
       const state = await probe(page);
-      assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a'], 'The re-created WORKS section still starts stage B.');
+      assert.deepEqual(state.fetches, [LOOP_333], 'The re-created WORKS section still starts stage B.');
       assert.equal(state.sources.filter(source => source.loop).length, 1, 'One loop voice.');
     },
   });

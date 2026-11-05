@@ -1,0 +1,10 @@
+PASS guided listening: wordmark pointerdown unlocks, fades 1.8 s and fetches once
+PASS guided listening: pointermove never starts audio
+PASS guided listening: WORKS becomes 25% visible and starts the loop once
+PASS guided listening: stored mute always wins until SOUND is switched on
+PASS guided listening: failed visibility resume exposes tap to resume
+PASS guided listening: one-time iOS silent-switch hint appears and clears
+PASS guided listening: touch pointermove is inert; WORKS visibility carries stage B
+PASS guided listening: stage B re-arms after a home → work → home round-trip
+PASS guided listening: stored mute suppresses the WORKS visibility stage
+PASS guided listening: 9 scenarios, 0 failures.

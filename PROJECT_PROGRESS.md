@@ -1193,3 +1193,54 @@ deployment back to production in Vercel (previous deployments are retained).
 (silent switch, wordmark tap, activity bars, tap-to-resume after a call).
 `v3.2-mannequin-female` stays out of scope and must be rebased onto the new
 `main` before its next push.
+
+## POST-MERGE — CONTENT-HASHED AUDIO URLS + IMMUTABLE CACHE — 2026-11-05
+
+Audio scope only, new commit on `v3.2-world-sound` (not merged, not deployed).
+
+**Approach (b), build step.** The four files are published as
+`<name>.<sha256-first-12>.<ext>` and `src/audio/worldSoundManifest.js` is
+generated from them. (a) was rejected because `import.meta.glob`/`?url` are
+Vite-only: `worldSoundSettings.js` is imported directly by `node --test`, so the
+settings module must stay plain ESM. Option (b) keeps one copy per file, keeps
+the scripts able to read real paths, and leaves no stable name in `public/`.
+`scripts/hash-world-audio.mjs` verifies each hash against its file, rejects
+stable names and stray files, and runs in `predev` and `prebuild`
+(`npm run sounds:hash`).
+
+**Cache.** No immutable policy existed to inherit: on the live deployment both
+`/assets/main-BVhm8sXt.js` (hashed) and `/assets/audio/loop-333.m4a` (stable)
+returned `cache-control: public, max-age=0, must-revalidate`. `vercel.json` now
+sets `public, max-age=31536000, immutable` for `/assets/audio/(.*)` only. The
+rule is safe exactly because those names are content-hashed. It takes effect on
+the next deployment; this pass does not deploy.
+
+**Unchanged bytes.** All four SHA-256 values are identical to the ones recorded
+before the rename: `d28de005…`, `ab235d05…`, `5ee49fed…`, `477df723…`. Frame
+counts (3,969,000 / 39,690), LUFS (−18.0 / −18.1) and true peaks are untouched;
+nothing was re-encoded.
+
+**Old URLs.** `/assets/audio/<stable>.m4a` no longer exists. Production answers
+a missing file under that path with `404` + `text/html` (checked with a probe
+path), so an old client gets a 404, not a stale audio file.
+
+**.gitignore.** `node_modules/` added, plus a bare `node_modules` line because
+this worktree links `node_modules` to another checkout: git treats the symlink
+as a file, so the trailing-slash rule alone does not match. Verified with
+`git check-ignore -v node_modules` → `.gitignore:163:node_modules`. The literal
+`git check-ignore -v node_modules/` form fails with "beyond a symbolic link",
+which is a git limitation on symlinked paths, not a missing rule.
+
+**Finding: stray duplicates.** The working tree contained byte-identical
+`<name> 2.m4a` copies in `public/assets/audio/` (and ` 2` copies of many other
+files). Those four were untracked duplicates of the committed audio and would
+have been emitted into `dist/`; they were moved to `/tmp/h4ngelic-stray-audio/`
+unchanged. The other ` 2` files are outside the build output and were left alone.
+
+**Verification.** `npm test` 402/402. Browser suites: world-audio-formats,
+world-sound (6/6 profiles), guided-listening (9/9), audio-performance,
+mode-audio, sound-controls (8/8) — evidence in
+`docs/validation/world-sound/v3/phase6/`. Build: exactly four files in
+`dist/assets/audio/`, hashes matching the committed ones, no stable-name copies.
+Payload: audio unchanged (2,847,109 B first loop); main bundle 216,273 B raw /
+69,142 B gzip vs 216,289 / 69,073 on `fdd42f5`.

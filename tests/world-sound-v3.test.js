@@ -26,13 +26,25 @@ test('one loop constant and one transition constant drive both worlds', () => {
   for (const transition of evidence.transitions) assert.equal(transition.m4a.frames, transitionFrames());
 });
 
+const servedName = path => path.split('/').pop();
+const manifestPaths = [
+  worldSoundSettings.paths.loops['333'][0], worldSoundSettings.paths.loops['4'][0],
+  worldSoundSettings.paths.transitions['x-333-4'][0], worldSoundSettings.paths.transitions['x-4-333'][0],
+];
+const servedNames = manifestPaths.map(servedName);
+
 test('the manifest is exactly two loops and two transitions with the recorded bytes', async () => {
-  assert.deepEqual((await readdir(audioDirectory)).sort(), ['loop-333.m4a', 'loop-4.m4a', 'x-333-4.m4a', 'x-4-333.m4a']);
+  assert.equal(manifestPaths.length, 4, 'the runtime manifest lists exactly four files');
+  assert.equal(new Set(servedNames).size, 4, 'no file is listed twice');
+  assert.deepEqual((await readdir(audioDirectory)).sort(), [...servedNames].sort(), 'the served folder holds exactly the manifest files');
+  for (const name of servedNames) {
+    assert.match(name, /^[a-z0-9-]+\.[0-9a-f]{12}\.(m4a|flac|wav)$/, `${name} must carry a content hash`);
+  }
   const expected = {
-    'loop-333.m4a': loopById['loop-333'].m4a,
-    'loop-4.m4a': loopById['loop-4'].m4a,
-    'x-333-4.m4a': transitionById['sfx-a'].m4a,
-    'x-4-333.m4a': transitionById['sfx-b'].m4a,
+    [servedName(worldSoundSettings.paths.loops['333'][0])]: loopById['loop-333'].m4a,
+    [servedName(worldSoundSettings.paths.loops['4'][0])]: loopById['loop-4'].m4a,
+    [servedName(worldSoundSettings.paths.transitions['x-333-4'][0])]: transitionById['sfx-a'].m4a,
+    [servedName(worldSoundSettings.paths.transitions['x-4-333'][0])]: transitionById['sfx-b'].m4a,
   };
   for (const [name, meta] of Object.entries(expected)) {
     const bytes = await readFile(new URL(name, audioDirectory));

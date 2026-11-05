@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { worldSoundSettings } from '../src/audio/worldSoundSettings.js';
+
+const LOOP_333 = worldSoundSettings.paths.loops['333'][0];
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const output = new URL('../artifacts/audio-performance/', import.meta.url);
@@ -123,7 +126,7 @@ try {
   await page.waitForTimeout(1200);
   state = await perf(page);
   assert.equal(state.contexts, 1);
-  assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a'], 'Only the active loop is downloaded; no idle second-loop prefetch.');
+  assert.deepEqual(state.fetches, [LOOP_333], 'Only the active loop is downloaded; no idle second-loop prefetch.');
   assert.equal(state.decodes.length, 1);
   assert.equal(state.starts.filter(source => source.loop).length, 1, 'One loop start.');
   assert.equal(await indicator.getAttribute('data-active'), 'true');
@@ -279,7 +282,7 @@ try {
   {
     const context2 = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     await instrument(context2);
-    await context2.route('**/assets/audio/loop-333.m4a', async route => { await new Promise(resolve => setTimeout(resolve, 700)); await route.continue(); });
+    await context2.route('**/assets/audio/loop-333.*.m4a', async route => { await new Promise(resolve => setTimeout(resolve, 700)); await route.continue(); });
     const page2 = await context2.newPage();
     await page2.goto(new URL('/?test=1', base).href, { waitUntil: 'networkidle' });
     await page2.waitForFunction(() => Boolean(window.__H4_AUDIO__));
