@@ -1,6 +1,6 @@
 # Retired suites
 
-These six suites encode contracts that were deliberately removed. They are kept
+These seven suites encode contracts that were deliberately removed. They are kept
 for history only and are **not** part of any battery. Nothing here runs in
 `npm test`, in the fast mode or in the merge gate.
 
@@ -12,6 +12,7 @@ for history only and are **not** part of any battery. Nothing here runs in
 | `ref09-layout-browser.mjs` | Waits for `#stage.is-ready` in a reduced-motion profile (the hero deliberately renders a poster there since F20/F29), then measures `[data-visit-counter-hotspot]`, the seven-tier greeting and the old footer identity row. | F20/F29 (poster hero), B-F8 (VISIT), `daeaff8` (footer) | `tests/hero-poster-browser.mjs`, `tests/v31-navigation-browser.mjs`, `tests/typography-contract.mjs` |
 | `hero-ink-browser.mjs` | Boots with `reducedMotion: 'reduce'` and waits for `#stage.is-ready`, then paints the WebGL wordmark through `__H4_TEST__`. Since the poster contract that state never exists (no WebGL, no test hooks), so the premise — mesh ink under reduced motion — is gone. See `hero-ink-browser.README.md`. | `003086f` (F29 poster), `9e652aa` (no 2d flash) | `tests/hero-boot-browser.mjs`, `tests/hero-poster-browser.mjs`, `tests/digital-ink-browser.mjs` |
 | `hero-background-browser.mjs` | Same reduced-motion boot premise, plus it measures `.category-sublinks`, which no longer exist. See `hero-background-browser.README.md`. | `003086f` (F29 poster), `9e652aa` (no 2d flash), R1/B-F25 (rubric rows) | `tests/hero-poster-browser.mjs`, `tests/hero-background-ink.test.js`, `tests/row-geometry-contract.mjs` |
+| `artwork-transitions-browser.mjs` | Drives an archive tile `<a data-artwork-link>` through a view transition into the detail route. No route renders such a tile since B-013/B-014 (0 on nine routes, 34 `data-artwork-open` buttons/menus). See `artwork-transitions-browser.README.md`. | B-013/B-014 (placeholder carousels), drift archive + inline viewer | `tests/gallery-browser.mjs`, `tests/inline-artwork-expand.test.js`, `tests/portfolio-browser.mjs`, `tests/navigation-browser.mjs` |
 
 Rule for the future: a suite whose contract is removed either moves here with
 this table filled in, or is lifted to the current contract and turns green.

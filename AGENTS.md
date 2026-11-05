@@ -139,7 +139,9 @@ Two exits only:
 Currently retired (GATEPREP-2, Batch 3): `scroll-browser`, `easter-browser`,
 `smart-v3-browser`, `ref09-layout-browser`. Also retired (V3.2 final gate,
 05.11.): `hero-ink-browser`, `hero-background-browser` — both waited for
-`#stage.is-ready` under reduced motion, a state the poster contract removed.
+`#stage.is-ready` under reduced motion, a state the poster contract removed —
+and `artwork-transitions-browser` — it drives `<a data-artwork-link>` tiles that
+no route renders since B-013/B-014.
 Reasons and live coverage: `tests/legacy/README.md` (plus one README per
 suite), table in `docs/validation/GATEPREP-2/GATE-REPORT.md`.
 
