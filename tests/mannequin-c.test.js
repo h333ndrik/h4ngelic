@@ -225,12 +225,58 @@ test('UV overlap reports prove the Procreate and web layouts are seam-safe', asy
   assert.ok(procreate.uvArea > 0.3, `UV packing should use more than 30% of the texture (${procreate.uvArea})`);
 });
 
-test('the Procreate MTL ships a relative texture path and no absolute user path', async () => {
+test('the Procreate MTL is relative, matte and free of the source gloss values', async () => {
   const mtl = await readFile(new URL('../docs/validation/MANNEQUIN-C/procreate/mannequin_paint.mtl', import.meta.url), 'utf8');
-  assert.match(mtl, /^map_Kd skincolor\.png$/m);
-  assert.doesNotMatch(mtl, /\/Users\//);
-  assert.doesNotMatch(mtl, /Ns 722\.5/);
   assert.match(mtl, /newmtl skincolor/);
+  assert.match(mtl, /^map_Kd skincolor\.png$/m, 'The texture path stays relative to the package.');
+  assert.doesNotMatch(mtl, /\/Users\//, 'No absolute user path.');
+  // Glanz des Ursprungsmaterials: darf nicht mitgehen.
+  assert.doesNotMatch(mtl, /Ns 722\.5/);
+  assert.doesNotMatch(mtl, /Ks 0\.5/, 'The source specular colour is not reused.');
+  assert.doesNotMatch(mtl, /illum 2/, 'illum 2 would reintroduce a specular highlight.');
+  assert.match(mtl, /^illum 1$/m, 'Diffuse only.');
+  assert.match(mtl, /^Ks 0\.000000 0\.000000 0\.000000$/m);
+  assert.match(mtl, /^Ns 0\.000000$/m);
+});
+
+test('two bakes share the UV layout but keep separate resolutions', async () => {
+  const bake = JSON.parse(await readFile(new URL('../docs/validation/MANNEQUIN-C/ao-bake.json', import.meta.url), 'utf8'));
+  const paint = JSON.parse(await readFile(new URL('../docs/validation/MANNEQUIN-C/ao-bake-paint.json', import.meta.url), 'utf8'));
+  assert.equal(bake.resolution, 1024, 'The web bake stays at 1024.');
+  assert.equal(paint.resolution, 2048, 'The painting surface gets 2048.');
+  for (const settings of [bake, paint]) {
+    assert.equal(settings.aoDistance, 0.18);
+    assert.equal(settings.aoStrength, 0.35);
+    assert.equal(settings.aoSamples, 64);
+    assert.equal(settings.gradientStrength, 0.04);
+    assert.equal(settings.baseColor, '#f0efeb');
+    assert.equal(settings.uvFillBefore, 0.372054, 'Identical UV layout in both bakes.');
+    assert.equal(settings.uvFillAfter, 0.372054);
+    assert.equal(settings.uvUnchanged, true);
+    assert.equal(settings.triangles, 49838);
+  }
+  assert.equal(manifest.bake.resolution, 1024);
+  assert.equal(manifest.bake.paintResolution, 2048);
+  assert.ok(manifest.bake.paintTextureBytes > bake.textureBytes, 'The paint texture carries more data than the web one.');
+});
+
+test('the Procreate package scan reports no violations', async () => {
+  const report = JSON.parse(await readFile(new URL('../docs/validation/MANNEQUIN-C/procreate-package.json', import.meta.url), 'utf8'));
+  assert.equal(report.passed, true);
+  assert.deepEqual(report.violations, []);
+  const texture = report.files.find((file) => file.name === 'skincolor.png');
+  assert.equal(texture.width, 2048);
+  assert.equal(texture.height, 2048);
+  assert.equal(report.files.some((file) => file.name.endsWith('.obj')), true, 'The package still ships the OBJ.');
+});
+
+test('the package scanner itself passes on the committed evidence copy', () => {
+  const output = execFileSync(process.execPath,
+    ['scripts/check-procreate-package.mjs', 'docs/validation/MANNEQUIN-C/procreate'],
+    { cwd: root, encoding: 'utf8' });
+  const report = JSON.parse(output);
+  assert.equal(report.passed, true);
+  assert.deepEqual(report.violations, []);
 });
 
 test('verify:assets passes against the committed manifest', () => {

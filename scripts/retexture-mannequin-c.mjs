@@ -29,7 +29,29 @@ const argValue = (name, fallback) => {
   const index = process.argv.indexOf(`--${name}`);
   return index > -1 && process.argv[index + 1] ? process.argv[index + 1] : fallback;
 };
-const RESOLUTION = Number(argValue('resolution', 2048));
+// Zwei Bakes aus identischen UVs: 1024 fuer das Web-GLB (Payload), 2048 fuer
+// die Malflaeche in Procreate. Beide nutzen dieselben AO-Konstanten.
+const WEB_RESOLUTION = Number(argValue('resolution', 1024));
+const PAINT_RESOLUTION = Number(argValue('paint-resolution', 2048));
+
+// Muss identisch mit MTL_TEXT in scripts/bake-mannequin-ao.py bleiben.
+// illum 1 = rein diffus; Glanzwerte des Ursprungsmaterials (Ns 722.5, Ks 0.5,
+// illum 2) werden bewusst nicht uebernommen.
+const MTL_TEXT = [
+  '# h4ngelic mannequin_paint — Procreate-Roundtrip',
+  '# matt: illum 1 (kein Specular), keine Glanzwerte des Ursprungsmaterials',
+  'newmtl skincolor',
+  'Ka 1.000000 1.000000 1.000000',
+  'Kd 1.000000 1.000000 1.000000',
+  'Ks 0.000000 0.000000 0.000000',
+  'Ke 0.000000 0.000000 0.000000',
+  'Ni 1.500000',
+  'd 1.000000',
+  'illum 1',
+  'Ns 0.000000',
+  'map_Kd skincolor.png',
+  '',
+].join('\n');
 
 if (!existsSync(blender)) throw new Error(`Blender fehlt: ${blender}`);
 const env = ktxTools ? { ...process.env, PATH: `${ktxTools}:${process.env.PATH}` } : process.env;
@@ -57,15 +79,68 @@ mkdirSync(procreate, { recursive: true });
 // 1. Draco entpacken (Blender kann KTX2/Draco nicht direkt lesen).
 run('npx', [...gltf, 'copy', current, decoded], { env });
 
-// 2. AO backen; nur die Textur wird ersetzt. OBJ und MTL des Procreate-Pakets
-//    bleiben unveraendert, weil Geometrie und UVs identisch sind — ein erneuter
-//    OBJ-Export aus dem quantisierten GLB wuerde die UVs auf das 16-Bit-Raster
-//    schieben und zwei Faces beruehren.
-run(blender, ['-b', '--factory-startup', '--python', join(root, 'scripts', 'bake-mannequin-ao.py'), '--',
-  '--input', decoded, '--glb', baked,
-  '--texture', join(procreate, 'skincolor.png'),
-  '--report', join(evidence, 'ao-bake.json'),
-  '--resolution', String(RESOLUTION)]);
+// 2. Zwei Bakes aus identischen UVs. Nur die Texturen werden ersetzt: OBJ und
+//    Geometrie des Procreate-Pakets bleiben unveraendert, weil ein erneuter
+//    OBJ-Export aus dem quantisierten GLB die UVs auf das 16-Bit-Raster
+//    schieben und zwei Faces beruehren wuerde.
+// Eigenes Unterverzeichnis, aber derselbe Dateiname: der glTF-Exporter leitet
+// den Bildnamen aus dem Dateinamen ab. "skincolor-web.png" wuerde den Bildnamen
+// im GLB veraendern und damit den Content-Hash — obwohl die Pixel identisch sind.
+const webTexture = join(work, 'web', 'skincolor.png');
+const paintTexture = join(procreate, 'skincolor.png');
+const paintGlb = join(work, 'baked-paint.glb');
+const bakeArgs = (texture, glb, report, resolution) => [
+  '-b', '--factory-startup', '--python', join(root, 'scripts', 'bake-mannequin-ao.py'), '--',
+  '--input', decoded, '--glb', glb,
+  '--texture', texture,
+  '--report', report,
+  '--resolution', String(resolution),
+];
+// MTL: relativ, matt. Liegt im Procreate-Paket und als Repo-Kopie fuer die Tests.
+function writeMtl() {
+  writeFileSync(join(procreate, 'mannequin_paint.mtl'), MTL_TEXT);
+  mkdirSync(join(evidence, 'procreate'), { recursive: true });
+  writeFileSync(join(evidence, 'procreate', 'mannequin_paint.mtl'), MTL_TEXT);
+}
+
+function bakePaint() {
+  process.stdout.write(`\n== Bake Paint ${PAINT_RESOLUTION}px -> Procreate ==\n`);
+  run(blender, bakeArgs(paintTexture, paintGlb, join(evidence, 'ao-bake-paint.json'), PAINT_RESOLUTION));
+  copyFileSync(paintTexture, join(evidence, 'skincolor_paint_2048.png'));
+}
+
+/**
+ * Nur die Malflaeche: 2048er Bake + MTL, GLB und Web-Textur bleiben
+ * unangetastet. Gedacht fuer Nachbesserungen an der Procreate-Textur, ohne den
+ * ausgelieferten Content-Hash anzufassen.
+ */
+if (process.argv.includes('--paint-only')) {
+  // Der Bake braucht Geometrie; das GLB wird dafuer nur gelesen und dekodiert.
+  bakePaint();
+  writeMtl();
+  run('python3', [join(root, 'scripts', 'check-mannequin-uv-overlap.py'), '--input', join(procreate, 'mannequin_paint.obj'),
+    '--out', join(evidence, 'uv-overlap-procreate.json')]);
+  const paint = JSON.parse(readFileSync(join(evidence, 'ao-bake-paint.json'), 'utf8'));
+  const next = {
+    ...manifest,
+    builtAt: new Date().toISOString(),
+    bake: {
+      ...manifest.bake,
+      paintResolution: paint.resolution,
+      paintTextureBytes: statSync(paintTexture).size,
+      paintLuminance: paint.luminance,
+      paintTexture: 'skincolor_paint_2048.png',
+    },
+  };
+  writeFileSync(join(evidence, 'asset-manifest.json'), JSON.stringify(next, null, 2) + '\n');
+  process.stdout.write(`\nPaint-Textur ${paint.resolution}px, ${statSync(paintTexture).size} Bytes — GLB unveraendert.\n`);
+  process.exit(0);
+}
+
+process.stdout.write(`\n== Bake Web ${WEB_RESOLUTION}px -> GLB ==\n`);
+run(blender, bakeArgs(webTexture, baked, join(evidence, 'ao-bake.json'), WEB_RESOLUTION));
+bakePaint();
+writeMtl();
 
 // 3. Identische Kompression wie M1/M2.
 run('npx', [...gltf, 'optimize', baked, ktx, '--simplify', 'false', '--compress', 'false',
@@ -137,10 +212,11 @@ writeFileSync(configPath, readFileSync(configPath, 'utf8')
   .replace(/\/models\/mannequin-c\.[a-f0-9]+\.glb/, `/models/${target.split('/').pop()}`));
 
 const bake = JSON.parse(readFileSync(join(evidence, 'ao-bake.json'), 'utf8'));
+const paintBake = JSON.parse(readFileSync(join(evidence, 'ao-bake-paint.json'), 'utf8'));
 const updated = {
   ...manifest,
   builtAt: new Date().toISOString(),
-  pipeline: 'scripts/retexture-mannequin-c.mjs (M3: AO-Bake, Geometrie unveraendert)',
+  pipeline: 'scripts/retexture-mannequin-c.mjs (M3: AO-Bake, Geometrie unveraendert; M4a: zwei Bakes)',
   derivative: {
     ...manifest.derivative,
     file: `public/models/${target.split('/').pop()}`,
@@ -155,13 +231,20 @@ const updated = {
     aoStrength: bake.aoStrength,
     aoSamples: bake.aoSamples,
     gradientStrength: bake.gradientStrength,
+    // Web bleibt bei 1024 (Payload), Procreate bekommt 2048 zum Malen.
     resolution: bake.resolution,
     luminance: bake.luminance,
     uvCoverage: bake.uvCoverage,
+    paintResolution: paintBake.resolution,
+    paintTextureBytes: statSync(paintTexture).size,
+    paintLuminance: paintBake.luminance,
+    paintTexture: 'skincolor_paint_2048.png',
   },
   uv: { ...manifest.uv, overlapPairsAfterRepair: 0 },
 };
 writeFileSync(join(evidence, 'asset-manifest.json'), JSON.stringify(updated, null, 2) + '\n');
-copyFileSync(join(procreate, 'skincolor.png'), join(evidence, 'skincolor_baked.png'));
+// Evidence: Web-Textur (gehoert zum GLB) und Paint-Textur (gehoert zu Procreate).
+copyFileSync(webTexture, join(evidence, 'skincolor_baked.png'));
 
 process.stdout.write(`\nMannequin-C neu: ${updated.derivative.file} (${updated.derivative.bytes} Bytes, sha256 ${hash})\n`);
+process.stdout.write(`Web-Textur ${bake.resolution}px, Paint-Textur ${paintBake.resolution}px (${updated.bake.paintTextureBytes} Bytes)\n`);

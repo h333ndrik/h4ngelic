@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "builtAt": "2026-11-05T11:49:22.180Z",
+  "builtAt": "2026-11-05T14:06:48.523Z",
   "pipeline": "scripts/retexture-mannequin-c.mjs (M3: AO-Bake, Geometrie unveraendert)",
   "tools": {
     "blender": "4.5.0 Alpha",
@@ -49,6 +49,14 @@
       "max": 0.86256,
       "mean": 0.81139
     },
-    "uvCoverage": 0.8725
+    "uvCoverage": 0.8725,
+    "paintResolution": 2048,
+    "paintTextureBytes": 955528,
+    "paintLuminance": {
+      "min": 0.53824,
+      "max": 0.86256,
+      "mean": 0.81316
+    },
+    "paintTexture": "skincolor_paint_2048.png"
   }
 }

@@ -38,6 +38,24 @@ GRADIENT_STRENGTH = 0.04     # unten 4 % dunkler; 0.0 schaltet den Verlauf ab
 AO_BLUR_RADIUS = 2           # Texel; glaettet Bake-Rauschen, nur innerhalb der UV-Inseln
 BASE_COLOR = (0xF0, 0xEF, 0xEB)
 EXPECTED_TRIANGLES = 49838
+# MTL fuer das Procreate-Paket. Muss identisch mit MTL_TEXT in
+# scripts/retexture-mannequin-c.mjs bleiben (dort wird die ausgelieferte Datei
+# geschrieben). illum 1 = rein diffus, damit der Plastikglanz des
+# Ursprungsmaterials (Ns 722.5, Ks 0.5, illum 2) nicht mitgeht.
+MTL_TEXT = (
+    "# h4ngelic mannequin_paint — Procreate-Roundtrip\n"
+    "# matt: illum 1 (kein Specular), keine Glanzwerte des Ursprungsmaterials\n"
+    "newmtl skincolor\n"
+    "Ka 1.000000 1.000000 1.000000\n"
+    "Kd 1.000000 1.000000 1.000000\n"
+    "Ks 0.000000 0.000000 0.000000\n"
+    "Ke 0.000000 0.000000 0.000000\n"
+    "Ni 1.500000\n"
+    "d 1.000000\n"
+    "illum 1\n"
+    "Ns 0.000000\n"
+    "map_Kd skincolor.png\n"
+)
 EXPECTED_UV_FILL = 0.372     # Fuellgrad aus M1; Abweichung = UVs wurden angefasst
 UV_FILL_TOLERANCE = 0.01
 # ---------------------------------------------------------------------------
@@ -348,20 +366,7 @@ def main() -> None:
         obj_text = obj_path.read_text(encoding="utf-8")
         lines = [line for line in obj_text.splitlines() if not line.startswith(("mtllib ", "usemtl "))]
         obj_path.write_text("mtllib mannequin_paint.mtl\nusemtl skincolor\n" + "\n".join(lines) + "\n", encoding="utf-8")
-        (obj_dir / "mannequin_paint.mtl").write_text(
-            "# h4ngelic mannequin_paint — Procreate-Roundtrip\n"
-            "newmtl skincolor\n"
-            "Ka 1.000000 1.000000 1.000000\n"
-            "Kd 1.000000 1.000000 1.000000\n"
-            "Ks 0.250000 0.250000 0.250000\n"
-            "Ke 0.000000 0.000000 0.000000\n"
-            "Ni 1.500000\n"
-            "d 1.000000\n"
-            "illum 2\n"
-            "Ns 144.400000\n"
-            "map_Kd skincolor.png\n",
-            encoding="utf-8",
-        )
+        (obj_dir / "mannequin_paint.mtl").write_text(MTL_TEXT, encoding="utf-8")
 
     fill_after = uv_fill(obj)
     covered = sum(coverage)
