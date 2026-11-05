@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-05T12:08:30.788Z",
+  "checkedAt": "2026-11-05T12:37:30.674Z",
   "base": "http://127.0.0.1:55232",
   "css": "index-C01KL1Yn.css",
   "declarations": [
@@ -10,7 +10,7 @@
     "var(--h4-cursor-xray-pressed)"
   ],
   "literals": [],
-  "build": "5a3557c66b25",
+  "build": "903da305733a",
   "states": [
     {
       "selector": ".footer-moshlab",

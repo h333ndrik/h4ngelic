@@ -1,7 +1,7 @@
 # CURSOR-NATIVE — native h4 cursor restored (B-F1) + hero physics profiles (B-F3)
 
-Stand: Branch `v3.1.1-fixes`, Build `5a3557c66b25` + Arbeitsstand (data-build siehe
-`production-cursor.json`). Kein Merge, kein Deploy.
+Stand: Branch `v3.1.1-fixes`. Der verifizierte Build-SHA steht in
+`production-cursor.json` (`data-build` der geladenen Seiten). Kein Merge, kein Deploy.
 
 ## Befund / Entscheid
 
