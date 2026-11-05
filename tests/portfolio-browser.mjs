@@ -106,16 +106,26 @@ async function homepageCategories(page, width) {
   assert.equal(await title('#selected-work-title'), '01/ creative');
   assert.equal(await title('#about-preview-title'), '02/ more about');
   assert.equal(await title('#contact-title'), '03/ contact');
-  const boxes = await links.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width }; }));
+  // B-F4/B-F12: the strip flows with one shared gap instead of equal columns,
+  // so the items keep equal gaps but no longer share one width.
+  const boxes = await links.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect();
+    const arrow = node.querySelector('.arrow').getBoundingClientRect();
+    return { x: r.x, y: r.y, width: r.width, arrowRight: arrow.right }; }));
+  const lineOf = (box, line) => Math.abs(box.y - line[0].y) < 2;
+  const lines = boxes.reduce((all, box) => { const line = all.find(entry => lineOf(box, entry)); if (line) line.push(box); else all.push([box]); return all; }, []);
+  const gapsOf = line => line.slice(1).map((box, index) => Number((box.x - line[index].arrowRight).toFixed(2)));
   if (width > 600) {
-    assert.ok(boxes.every(rect => Math.abs(rect.y - boxes[0].y) < 2), 'The Home category strip stays in one row on desktop.');
-    assert.ok(boxes.every((rect, index) => index === 0 || rect.x > boxes[index - 1].x));
-    assert.ok(boxes.every(rect => Math.abs(rect.width - boxes[0].width) < 2));
+    assert.equal(lines.length, 1, 'The Home category strip stays in one row on desktop.');
   } else {
-    assert.ok(Math.abs(boxes[0].y - boxes[1].y) < 2 && Math.abs(boxes[2].y - boxes[3].y) < 2, 'Mobile uses two aligned rows.');
-    assert.ok(boxes[2].y > boxes[0].y + 20 && Math.abs(boxes[0].x - boxes[2].x) < 2 && Math.abs(boxes[1].x - boxes[3].x) < 2, 'Both mobile rows share the slash-aligned columns.');
+    assert.equal(lines.length, 2, 'Mobile keeps the approved 2x2 break.');
+    assert.ok(lines[1][0].y > lines[0][0].y + 20, 'The second mobile line sits below the first.');
+    assert.ok(Math.abs(lines[0][0].x - lines[1][0].x) < 2, 'Both mobile lines start on the slash column.');
   }
-  assert.ok(boxes.every(rect => Math.abs(rect.width - boxes[0].width) < 2));
+  for (const line of lines) {
+    assert.ok(line.every((box, index) => index === 0 || box.x > line[index - 1].x), 'Items keep their reading order.');
+    const gaps = gapsOf(line);
+    if (gaps.length > 1) assert.ok(Math.max(...gaps) - Math.min(...gaps) <= 2, `Consecutive gaps stay equal: ${JSON.stringify(gaps)}`);
+  }
   await links.first().focus();
   for (let index = 1; index < boxes.length; index += 1) await page.keyboard.press('Tab');
   assert.ok(await links.last().evaluate(element => element === document.activeElement));

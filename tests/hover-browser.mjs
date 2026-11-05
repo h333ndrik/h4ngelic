@@ -68,13 +68,15 @@ try {
     const icon = visual.querySelector('.arrow');
     const text = label.getBoundingClientRect();
     const image = icon.getBoundingClientRect();
-    const style = getComputedStyle(visual);
-    return { gap: image.left - text.right, tokenGap: parseFloat(style.columnGap), wordWidth: text.width,
-      ratio: image.width / parseFloat(getComputedStyle(icon).fontSize), stroke: parseFloat(getComputedStyle(icon, '::before').height) };
+    const style = getComputedStyle(icon);
+    // Rubric rows space the arrow with a margin token instead of a flex gap.
+    const token = parseFloat(style.marginInlineStart) || parseFloat(getComputedStyle(visual).columnGap);
+    return { gap: image.left - text.right, tokenGap: token, wordWidth: text.width,
+      ratio: image.width / parseFloat(style.fontSize), stroke: parseFloat(getComputedStyle(icon, '::before').height) };
   });
   // The shared arrow token owns this spacing (clamp(10px, .28em, 22px)); the
   // arrow must follow its word, never drift out to the column edge.
-  assert.ok(Math.abs(arrow.gap - arrow.tokenGap) < .5, `The arrow gap comes from --ui-arrow-gap (got ${arrow.gap}, token ${arrow.tokenGap}).`);
+  assert.ok(Math.abs(arrow.gap - arrow.tokenGap) < .5, `The arrow gap comes from --rubric-arrow-gap (got ${arrow.gap}, token ${arrow.tokenGap}).`);
   assert.ok(arrow.gap <= 22.5 && arrow.gap < arrow.wordWidth * .2, `The arrow must sit close to its own word rather than at the column edge (got ${arrow.gap}).`);
   assert.ok(Math.abs(arrow.ratio - .72) < .01);
   assert.ok(Math.abs(arrow.stroke - 1.25) < .1);

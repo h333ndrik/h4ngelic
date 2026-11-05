@@ -1,0 +1,15 @@
+{
+  "viewports": [
+    { "width": 1440, "height": 900 },
+    { "width": 390, "height": 844 },
+    { "width": 320, "height": 844 }
+  ],
+  "fontFallbackViewport": { "width": 1440, "height": 900 },
+  "rows": [
+    { "id": "home-strip", "page": "/", "container": ".category-strip", "item": ".rubric-item", "expectLines": { "1440": 1, "390": 2, "320": 2 } },
+    { "id": "archive-filters", "page": "/creative", "container": ".work-filters", "item": ".rubric-item" },
+    { "id": "rubric-cross-links", "page": "/creative/tattoos", "container": ".rubric-cross-links", "item": ".rubric-item" },
+    { "id": "footer-left", "page": "/creative", "container": ".footer-left", "item": ".footer-brand, .footer-moshlab, .footer-visit" },
+    { "id": "footer-details", "page": "/creative", "container": ".footer-details", "item": ".footer-instagram, .footer-impressum, .footer-location" }
+  ]
+}

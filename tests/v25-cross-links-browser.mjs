@@ -33,8 +33,10 @@ try {
           const rect = nav.getBoundingClientRect();
           return {
             tag: nav.tagName, label: nav.getAttribute('aria-label'), children: nodes.length,
-            currentIndex: nodes.findIndex(node => node.classList.contains('rubric-cross-gap')),
-            currentEmpty: nodes[current]?.tagName === 'SPAN' && !nodes[current].textContent.trim() && !nodes[current].hasAttribute('tabindex'),
+            // B-F4/B-F12: the fixed empty slot is retired. The row now flows
+            // with one shared gap, so the current rubric is simply absent.
+            currentIndex: -1,
+            currentEmpty: false,
             entries: nodes.map(node => ({ tag: node.tagName, text: node.textContent.replace(/\s+/g, ' ').trim(),
               href: node.getAttribute('href'), left: Math.round(node.getBoundingClientRect().left - rect.left),
               width: node.getBoundingClientRect().width, height: node.getBoundingClientRect().height,
@@ -45,14 +47,13 @@ try {
           };
         }, groups.indexOf(category));
         assert.equal(data.tag, 'NAV');
-        assert.equal(data.children, 4);
-        assert.equal(data.currentIndex, groups.indexOf(category));
-        assert.equal(data.currentEmpty, true, 'The current rubric slot stays empty.');
+        assert.equal(data.children, 3, 'Only the three other rubrics render.');
+        assert.equal(data.currentEmpty, false, 'No placeholder slot remains in the flow.');
         const expected = groups.filter(group => group !== category);
         const label = group => group === 'tattoos' ? 'tattoos' : group;
         assert.deepEqual(data.entries.filter(entry => entry.tag === 'A').map(entry => entry.text), expected.map(label));
         assert.deepEqual(data.entries.filter(entry => entry.tag === 'A').map(entry => entry.href), expected.map(groupHref));
-        assert.ok(data.scrollWidth <= data.clientWidth + 1, 'The fixed row never overflows the page at 320px.');
+        assert.ok(data.scrollWidth <= data.clientWidth + 1, 'The flowing row never overflows the page at 320px.');
         for (const entry of data.entries.filter(entry => entry.tag === 'A')) {
           assert.ok(entry.tableIndex >= 0, 'Cross-links are keyboard focusable.');
           assert.ok(entry.height <= parseFloat(data.lineHeight) * 1.5 + 44, `Cross-link stays on one line: ${JSON.stringify(entry)}`);
@@ -78,13 +79,22 @@ try {
         pages.push({ category, ...data });
       }
       const heights = new Set(pages.map(entry => entry.box.height));
-      const columns = pages.map(entry => entry.entries.map(node => node.left));
       assert.equal(heights.size, 1, 'All rubric pages use the same cross-link line height.');
-      assert.ok(columns.every(row => JSON.stringify(row) === JSON.stringify(columns[0])), 'Left/middle/right columns stay fixed across pages.');
+      // B-F4/B-F12: equal columns made the visible gap depend on the label
+      // length (jewellery's arrow touched tools). The row now flows from the
+      // same start edge with one shared gap, so the labels may shift.
+      const starts = pages.map(entry => entry.entries.filter(node => node.tag === 'A')[0]?.left);
+      assert.ok(starts.every(left => Math.abs(left - starts[0]) <= 1), `Cross-link rows start on the same edge: ${JSON.stringify(starts)}`);
+      for (const entry of pages) {
+        const boxes = entry.entries.filter(node => node.tag === 'A');
+        if (boxes.length < 2) continue;
+        const gaps = boxes.slice(1).map((box, index) => box.left - (boxes[index].left + boxes[index].width));
+        assert.ok(Math.max(...gaps) - Math.min(...gaps) <= 2, `Cross-link gaps stay equal on ${entry.category}: ${JSON.stringify(gaps)}`);
+      }
       assert.deepEqual(errors, []);
       await page.screenshot({ path: new URL(`cross-links-${profile.width}-${profile.reduced}.png`, output).pathname });
       reports.push({ ...profile, pages, errors }); await save();
-      console.log(`PASS V25 ${profile.width}px reduced=${profile.reduced}: two real cross-links, empty current slot, fixed columns/height, keyboard order, no wrap or overflow.`);
+      console.log(`PASS V25 ${profile.width}px reduced=${profile.reduced}: three flowing cross-links, shared start edge and gaps, stable height, keyboard order, no wrap or overflow.`);
     } catch (error) {
       failures.push({ ...profile, error: error.stack, errors }); await save();
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});

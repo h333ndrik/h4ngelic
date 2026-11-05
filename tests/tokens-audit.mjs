@@ -8,6 +8,7 @@ await mkdir(output, { recursive: true });
 const cssFiles = [
   'src/ui-tokens.css', 'src/homepage.css', 'src/style.css', 'src/archive-structure.css',
   'src/gallery.css', 'src/easter-eggs.css', 'src/horizontal-drift.css', 'src/cursor.css',
+  'src/rubric-row.css',
 ];
 const css = Object.fromEntries(await Promise.all(cssFiles.map(async path => [path, await readFile(new URL(path, root), 'utf8')])));
 const indexHTML = await readFile(new URL('index.html', root), 'utf8');
@@ -79,9 +80,9 @@ function rules(text) {
 
 const spacingSurfaces = [
   ['src/homepage.css', '.category-strip', 'gap'],
-  ['src/style.css', '.category-strip', 'gap'],
+  ['src/rubric-row.css', '.rubric-row', 'column-gap'],
   ['src/archive-structure.css', '.work-filters', 'gap'],
-  ['src/archive-structure.css', '.rubric-cross-links', 'gap'],
+  ['src/rubric-row.css', '.rubric-row', 'row-gap'],
   ['src/gallery.css', '.artwork-viewer-navigation', 'gap'],
 ];
 for (const [file, selector, property] of spacingSurfaces) {
@@ -100,6 +101,50 @@ assert.equal(slashDefinitions.length, 1, `The slash inset formula must only exis
 const slashConsumers = allSource.flatMap(entry => [...entry.text.matchAll(/var\(--slash-inset\)/g)].map(() => relative(entry.file.pathname)));
 assert.ok(slashConsumers.length >= 5, `The slash inset must have real consumers: ${JSON.stringify(slashConsumers)}`);
 report.consumers.push({ token: '--slash-inset', count: slashConsumers.length, files: [...new Set(slashConsumers)] });
+
+// Rubric rows: the geometry lives in the component (--rubric-gap,
+// --rubric-arrow-gap, --arrow-baseline-shift). Per-item margins, space-between
+// distribution and equal-fraction columns are findings — they are exactly the
+// bug that made jewellery's arrow touch tools.
+const rubricRowSelectors = ['\.category-strip', '\.work-filters', '\.rubric-cross-links', '\.rubric-row'];
+const rubricItemSelectors = ['\.rubric-item', '\.category-link', '\.filter-link'];
+const rowRegex = new RegExp(`(?:${rubricRowSelectors.join('|')})(?![\\w-])`);
+const itemRegex = new RegExp(`(?:${rubricItemSelectors.join('|')})(?![\\w-])`);
+for (const [file, text] of Object.entries(css)) {
+  for (const rule of rules(text)) {
+    if (rule.selector.includes("[data-mode='xray']")) continue;
+    if (rowRegex.test(rule.selector)) {
+      for (const declaration of rule.declarations) {
+        if (declaration.property === 'justify-content' && /space-(?:between|around|evenly)/.test(declaration.value)) {
+          report.findings.push({ token: '--rubric-gap', file, selector: rule.selector, property: declaration.property,
+            value: declaration.value, fix: 'Rubric rows use one shared gap, never a distribution mode.' });
+        }
+        if (declaration.property === 'grid-template-columns' && /repeat\([^)]*1fr/.test(declaration.value)) {
+          report.findings.push({ token: '--rubric-gap', file, selector: rule.selector, property: declaration.property,
+            value: declaration.value, fix: 'Equal grid tracks make the gap depend on the label length.' });
+        }
+      }
+    }
+    if (itemRegex.test(rule.selector)) {
+      for (const declaration of rule.declarations) {
+        // Token-driven margins (the arrow gap) are the component's own wiring;
+        // only literal numbers on an item are findings.
+        if (/^margin(?:-inline|-inline-start|-inline-end|-left|-right)?$/.test(declaration.property)
+          && !/^var\(--/.test(declaration.value.trim())
+          && !/^(?:0|\.?0(?:px|em|rem)?)$/.test(declaration.value.trim())) {
+          report.findings.push({ token: '--rubric-gap', file, selector: rule.selector, property: declaration.property,
+            value: declaration.value, fix: 'Spacing belongs to the row gap tokens, not to a single item.' });
+        }
+      }
+    }
+  }
+}
+assert.ok(rules(css['src/rubric-row.css']).some(rule => /^\.rubric-row$/.test(rule.selector)
+  && rule.declarations.some(declaration => declaration.property === 'column-gap' && declaration.value.includes('--rubric-gap'))),
+  'The row component must own the shared gap token.');
+assert.ok(rules(css['src/rubric-row.css']).some(rule => rule.selector.includes('.rubric-item .arrow')
+  && rule.declarations.some(declaration => declaration.property === 'margin-inline-start' && declaration.value.includes('--rubric-arrow-gap'))),
+  'The arrow gap must come from --rubric-arrow-gap.');
 
 const ghostSelector = /(?:^|[,.#\s>])(?:footer-impressum|footer-smash|footer-visit-count|footer-secret|returning-visitor-line|placeholder-card|secret-message)(?:\b|\.)/;
 const ghostLiteralFamilies = [

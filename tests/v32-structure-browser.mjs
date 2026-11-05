@@ -47,7 +47,8 @@ for (const width of [1440, 390, 320]) {
     await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
     const crossGap = await page.locator('.rubric-cross-links').evaluate(element => ({
       computed: parseFloat(getComputedStyle(element).columnGap),
-      arrows: [...element.querySelectorAll('a')].map(link => parseFloat(getComputedStyle(link).columnGap)),
+      // The arrow spacing moved from a link gap to the shared margin token.
+      arrows: [...element.querySelectorAll('a .arrow')].map(arrow => parseFloat(getComputedStyle(arrow).marginInlineStart)),
     }));
     assert.ok(Math.abs(crossGap.computed - gapToken) <= .1);
     assert.ok(crossGap.arrows.every(value => value > 0));

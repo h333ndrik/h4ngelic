@@ -65,8 +65,13 @@ async function assertHorizontal(page, width) {
   for (const row of rows) {
     assert.ok(Math.max(...row.map((box) => box.y)) - Math.min(...row.map((box) => box.y)) < 2,
       `Categories of one row must stay horizontal at ${width}px.`);
-    assert.ok(Math.max(...row.map((box) => box.width)) - Math.min(...row.map((box) => box.width)) < 2,
-      'Category cells of one row must stay equal.');
+    // B-F4/B-F12: the row flows with one shared gap. Equal widths were the
+    // equal-column artifact that made the visible gaps depend on the label.
+    const ordered = [...row].sort((a, b) => a.x - b.x);
+    const gaps = ordered.slice(1).map((box, index) => box.x - (ordered[index].x + ordered[index].width));
+    if (gaps.length > 1) assert.ok(Math.max(...gaps) - Math.min(...gaps) <= 2,
+      `Consecutive category gaps stay equal at ${width}px: ${JSON.stringify(gaps)}`);
+    assert.ok(gaps.every((gap) => gap > 2), `Categories never touch at ${width}px: ${JSON.stringify(gaps)}`);
   }
   assert.equal(rows.length, width >= 900 ? 1 : 2, `Categories fill ${width >= 900 ? 'one row' : 'the 2x2 mobile grid'} at ${width}px.`);
   assert.ok(rows.every((row) => row.length === (width >= 900 ? boxes.length : 2)),
