@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-11-04T21:43:41.859Z",
-  "base": "http://127.0.0.1:55232",
-  "build": "b11e4c3f383a",
+  "checkedAt": "2026-11-05T20:04:52.438Z",
+  "base": "http://127.0.0.1:55235",
+  "build": "19a0ea15b37c",
   "profiles": [
     {
       "width": 1440,
       "height": 900,
-      "build": "b11e4c3f383a",
+      "build": "19a0ea15b37c",
       "headings": [
         {
           "id": "selected-work-title",
@@ -40,38 +40,38 @@
         {
           "id": "",
           "text": "tattoos",
-          "fontSize": "74.88px",
-          "lineHeight": "83.8656px",
-          "letterSpacing": "-3.3696px",
+          "fontSize": "64.989px",
+          "lineHeight": "72.7877px",
+          "letterSpacing": "-2.9245px",
           "fontWeight": "400",
-          "baseline": 67.4296875
+          "baseline": 58.390625
         },
         {
           "id": "",
           "text": "jewellery",
-          "fontSize": "74.88px",
-          "lineHeight": "83.8656px",
-          "letterSpacing": "-3.3696px",
+          "fontSize": "64.989px",
+          "lineHeight": "72.7877px",
+          "letterSpacing": "-2.9245px",
           "fontWeight": "400",
-          "baseline": 67.4296875
+          "baseline": 58.390625
         },
         {
           "id": "",
           "text": "tools",
-          "fontSize": "74.88px",
-          "lineHeight": "83.8656px",
-          "letterSpacing": "-3.3696px",
+          "fontSize": "64.989px",
+          "lineHeight": "72.7877px",
+          "letterSpacing": "-2.9245px",
           "fontWeight": "400",
-          "baseline": 67.4296875
+          "baseline": 58.390625
         },
         {
           "id": "",
           "text": "more",
-          "fontSize": "74.88px",
-          "lineHeight": "83.8656px",
-          "letterSpacing": "-3.3696px",
+          "fontSize": "64.989px",
+          "lineHeight": "72.7877px",
+          "letterSpacing": "-2.9245px",
           "fontWeight": "400",
-          "baseline": 67.4296875
+          "baseline": 58.390625
         }
       ],
       "slashRows": [
@@ -100,7 +100,7 @@
       "childHeadings": [
         {
           "id": "archive-tattoos-title",
-          "text": "on skin",
+          "text": "tattoos",
           "fontSize": "25.92px",
           "lineHeight": "29.808px",
           "letterSpacing": "-1.0368px",
@@ -190,7 +190,7 @@
     {
       "width": 390,
       "height": 844,
-      "build": "b11e4c3f383a",
+      "build": "19a0ea15b37c",
       "headings": [
         {
           "id": "selected-work-title",
@@ -224,38 +224,38 @@
         {
           "id": "",
           "text": "tattoos",
-          "fontSize": "20.28px",
-          "lineHeight": "22.7136px",
-          "letterSpacing": "-0.9126px",
+          "fontSize": "16.212px",
+          "lineHeight": "18.1574px",
+          "letterSpacing": "-0.72954px",
           "fontWeight": "400",
-          "baseline": 18.3515625
+          "baseline": 15.078125
         },
         {
           "id": "",
           "text": "jewellery",
-          "fontSize": "20.28px",
-          "lineHeight": "22.7136px",
-          "letterSpacing": "-0.9126px",
+          "fontSize": "16.212px",
+          "lineHeight": "18.1574px",
+          "letterSpacing": "-0.72954px",
           "fontWeight": "400",
-          "baseline": 18.3515625
+          "baseline": 15.078125
         },
         {
           "id": "",
           "text": "tools",
-          "fontSize": "20.28px",
-          "lineHeight": "22.7136px",
-          "letterSpacing": "-0.9126px",
+          "fontSize": "16.212px",
+          "lineHeight": "18.1574px",
+          "letterSpacing": "-0.72954px",
           "fontWeight": "400",
-          "baseline": 18.3515625
+          "baseline": 15.078125
         },
         {
           "id": "",
           "text": "more",
-          "fontSize": "20.28px",
-          "lineHeight": "22.7136px",
-          "letterSpacing": "-0.9126px",
+          "fontSize": "16.212px",
+          "lineHeight": "18.1574px",
+          "letterSpacing": "-0.72954px",
           "fontWeight": "400",
-          "baseline": 18.3515625
+          "baseline": 15.078125
         }
       ],
       "slashRows": [
@@ -284,7 +284,7 @@
       "childHeadings": [
         {
           "id": "archive-tattoos-title",
-          "text": "on skin",
+          "text": "tattoos",
           "fontSize": "18px",
           "lineHeight": "20.7px",
           "letterSpacing": "-0.72px",
@@ -374,7 +374,7 @@
     {
       "width": 320,
       "height": 844,
-      "build": "b11e4c3f383a",
+      "build": "19a0ea15b37c",
       "headings": [
         {
           "id": "selected-work-title",
@@ -408,38 +408,38 @@
         {
           "id": "",
           "text": "tattoos",
-          "fontSize": "18px",
-          "lineHeight": "20.16px",
-          "letterSpacing": "-0.81px",
+          "fontSize": "13.49px",
+          "lineHeight": "15.1088px",
+          "letterSpacing": "-0.60705px",
           "fontWeight": "400",
-          "baseline": 16.078125
+          "baseline": 12.046875
         },
         {
           "id": "",
           "text": "jewellery",
-          "fontSize": "18px",
-          "lineHeight": "20.16px",
-          "letterSpacing": "-0.81px",
+          "fontSize": "13.49px",
+          "lineHeight": "15.1088px",
+          "letterSpacing": "-0.60705px",
           "fontWeight": "400",
-          "baseline": 16.078125
+          "baseline": 12.046875
         },
         {
           "id": "",
           "text": "tools",
-          "fontSize": "18px",
-          "lineHeight": "20.16px",
-          "letterSpacing": "-0.81px",
+          "fontSize": "13.49px",
+          "lineHeight": "15.1088px",
+          "letterSpacing": "-0.60705px",
           "fontWeight": "400",
-          "baseline": 16.078125
+          "baseline": 12.046875
         },
         {
           "id": "",
           "text": "more",
-          "fontSize": "18px",
-          "lineHeight": "20.16px",
-          "letterSpacing": "-0.81px",
+          "fontSize": "13.49px",
+          "lineHeight": "15.1088px",
+          "letterSpacing": "-0.60705px",
           "fontWeight": "400",
-          "baseline": 16.078125
+          "baseline": 12.046875
         }
       ],
       "slashRows": [
@@ -468,7 +468,7 @@
       "childHeadings": [
         {
           "id": "archive-tattoos-title",
-          "text": "on skin",
+          "text": "tattoos",
           "fontSize": "18px",
           "lineHeight": "20.7px",
           "letterSpacing": "-0.72px",
@@ -557,7 +557,7 @@
     }
   ],
   "distGrep": {
-    "files": 144,
+    "files": 148,
     "bad": []
   },
   "failures": []

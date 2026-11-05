@@ -1,0 +1,561 @@
+{
+  "checkedAt": "2026-11-05T19:49:05.872Z",
+  "base": "http://127.0.0.1:55235",
+  "build": "19a0ea15b37c",
+  "guard": "a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable=\"true\"],[role=\"button\"],[role=\"link\"],[role=\"checkbox\"],[role=\"switch\"],[role=\"radio\"],[role=\"tab\"],[role=\"menuitem\"],[role=\"combobox\"],[role=\"slider\"],[role=\"spinbutton\"],[contenteditable]:not([contenteditable=\"false\"]),[tabindex]:not([tabindex=\"-1\"]):not([role=\"group\"]),[aria-disabled=\"true\"],.is-unconfigured,[data-no-ink]",
+  "profiles": [
+    {
+      "width": 1440,
+      "presses": [
+        {
+          "x": 133,
+          "y": 915.95,
+          "cluster": ".footer-left",
+          "before": 0,
+          "after": 1,
+          "marks": [
+            {
+              "left": 93.82,
+              "top": 876.76,
+              "width": 78.36,
+              "height": 78.36,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        },
+        {
+          "x": 1195.98,
+          "y": 915.95,
+          "cluster": ".footer-details",
+          "before": 1,
+          "after": 2,
+          "marks": [
+            {
+              "left": 90.14,
+              "top": 873.08,
+              "width": 85.72,
+              "height": 85.72,
+              "opacity": "0.8",
+              "visible": true
+            },
+            {
+              "left": 1143.21,
+              "top": 863.18,
+              "width": 105.52,
+              "height": 105.52,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "measured": {
+        "build": "19a0ea15b37c",
+        "zone": {
+          "top": 893.95,
+          "bottom": 937.95,
+          "left": 35,
+          "right": 1405,
+          "height": 44
+        },
+        "page": {
+          "innerWidth": 1440,
+          "innerHeight": 950,
+          "scrollWidth": 1440,
+          "scrollY": 3343
+        },
+        "items": [
+          {
+            "element": "span.footer-brand row-item",
+            "left": 35,
+            "right": 132.72,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 97.72,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-moshlab row-item",
+            "left": 161.52,
+            "right": 249.39,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 87.88,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "span.footer-visit row-item",
+            "left": 278.19,
+            "right": 337.3,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 59.11,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-instagram row-item",
+            "left": 1117.98,
+            "right": 1195.78,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 77.8,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "a.footer-impressum row-item",
+            "left": 1224.58,
+            "right": 1290.83,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 66.25,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "span.footer-location row-item",
+            "left": 1319.63,
+            "right": 1376.2,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 56.58,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "clusters": [
+          {
+            "selector": ".footer-left",
+            "gap": "28.8px",
+            "tokenGap": "clamp(12px, 2vw, 30px)",
+            "left": 35,
+            "right": 658.734375,
+            "clientWidth": 624,
+            "scrollWidth": 624
+          },
+          {
+            "selector": ".footer-details",
+            "gap": "28.8px",
+            "tokenGap": "clamp(12px, 2vw, 30px)",
+            "left": 1117.984375,
+            "right": 1405,
+            "clientWidth": 287,
+            "scrollWidth": 287
+          }
+        ],
+        "raster": {
+          "points": 14364,
+          "values": [
+            {
+              "value": "image:http://127.0.0.1:55235/assets/h4ngelic-cursor.svg",
+              "count": 14364
+            }
+          ],
+          "offenders": []
+        },
+        "marks": 0
+      },
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55235/assets/h4ngelic-cursor.svg",
+          "status": 200,
+          "type": "image/svg+xml",
+          "ok": true,
+          "width": 20,
+          "height": 30
+        }
+      ],
+      "freePoints": [
+        {
+          "x": 133,
+          "y": 915.95,
+          "cluster": ".footer-left"
+        },
+        {
+          "x": 1195.98,
+          "y": 915.95,
+          "cluster": ".footer-details"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "presses": [
+        {
+          "x": 106,
+          "y": 809.66,
+          "cluster": ".footer-left",
+          "before": 0,
+          "after": 1,
+          "marks": [
+            {
+              "left": 73.19,
+              "top": 776.85,
+              "width": 65.62,
+              "height": 65.62,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        },
+        {
+          "x": 313,
+          "y": 809.66,
+          "cluster": ".footer-details",
+          "before": 1,
+          "after": 2,
+          "marks": [
+            {
+              "left": 70.63,
+              "top": 774.29,
+              "width": 70.74,
+              "height": 70.74,
+              "opacity": "0.79807",
+              "visible": true
+            },
+            {
+              "left": 266.24,
+              "top": 762.9,
+              "width": 93.52,
+              "height": 93.52,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "measured": {
+        "build": "19a0ea15b37c",
+        "zone": {
+          "top": 787.66,
+          "bottom": 831.66,
+          "left": 22,
+          "right": 368,
+          "height": 44
+        },
+        "page": {
+          "innerWidth": 390,
+          "innerHeight": 844,
+          "scrollWidth": 390,
+          "scrollY": 2566
+        },
+        "items": [
+          {
+            "element": "span.footer-brand row-item",
+            "left": 22,
+            "right": 105.23,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "width": 83.23,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-moshlab row-item",
+            "left": 117.23,
+            "right": 193.33,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "width": 76.09,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "span.footer-visit row-item",
+            "left": 205.33,
+            "right": 255.98,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "width": 50.66,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-instagram row-item",
+            "left": 245,
+            "right": 312.58,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "width": 67.58,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "a.footer-impressum row-item",
+            "left": 324.58,
+            "right": 381.05,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "width": 56.47,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "span.footer-location row-item",
+            "left": 393.05,
+            "right": 441.39,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "width": 48.34,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "clusters": [
+          {
+            "selector": ".footer-left",
+            "gap": "12px",
+            "tokenGap": "12px",
+            "left": 22,
+            "right": 145,
+            "clientWidth": 123,
+            "scrollWidth": 234
+          },
+          {
+            "selector": ".footer-details",
+            "gap": "12px",
+            "tokenGap": "12px",
+            "left": 245,
+            "right": 368,
+            "clientWidth": 123,
+            "scrollWidth": 208
+          }
+        ],
+        "raster": {
+          "points": 3612,
+          "values": [
+            {
+              "value": "image:http://127.0.0.1:55235/assets/h4ngelic-cursor.svg",
+              "count": 3612
+            }
+          ],
+          "offenders": []
+        },
+        "marks": 0
+      },
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55235/assets/h4ngelic-cursor.svg",
+          "status": 200,
+          "type": "image/svg+xml",
+          "ok": true,
+          "width": 20,
+          "height": 30
+        }
+      ],
+      "freePoints": [
+        {
+          "x": 106,
+          "y": 809.66,
+          "cluster": ".footer-left"
+        },
+        {
+          "x": 313,
+          "y": 809.66,
+          "cluster": ".footer-details"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "presses": [
+        {
+          "x": 106,
+          "y": 810.34,
+          "cluster": ".footer-left",
+          "before": 0,
+          "after": 1,
+          "marks": [
+            {
+              "left": 73.54,
+              "top": 777.87,
+              "width": 64.92,
+              "height": 64.92,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        },
+        {
+          "x": 278,
+          "y": 810.34,
+          "cluster": ".footer-details",
+          "before": 1,
+          "after": 2,
+          "marks": [
+            {
+              "left": 70.35,
+              "top": 774.68,
+              "width": 71.3,
+              "height": 71.3,
+              "opacity": "0.8",
+              "visible": true
+            },
+            {
+              "left": 240.92,
+              "top": 773.24,
+              "width": 74.17,
+              "height": 74.17,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "measured": {
+        "build": "19a0ea15b37c",
+        "zone": {
+          "top": 788.34,
+          "bottom": 832.34,
+          "left": 22,
+          "right": 298,
+          "height": 44
+        },
+        "page": {
+          "innerWidth": 320,
+          "innerHeight": 844,
+          "scrollWidth": 320,
+          "scrollY": 2601
+        },
+        "items": [
+          {
+            "element": "span.footer-brand row-item",
+            "left": 22,
+            "right": 105.23,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "width": 83.23,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-moshlab row-item",
+            "left": 117.23,
+            "right": 193.33,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "width": 76.09,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "span.footer-visit row-item",
+            "left": 205.33,
+            "right": 255.98,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "width": 50.66,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-instagram row-item",
+            "left": 210,
+            "right": 277.58,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "width": 67.58,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "a.footer-impressum row-item",
+            "left": 289.58,
+            "right": 346.05,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "width": 56.47,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "element": "span.footer-location row-item",
+            "left": 358.05,
+            "right": 406.39,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "width": 48.34,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55235/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "clusters": [
+          {
+            "selector": ".footer-left",
+            "gap": "12px",
+            "tokenGap": "12px",
+            "left": 22,
+            "right": 110,
+            "clientWidth": 88,
+            "scrollWidth": 234
+          },
+          {
+            "selector": ".footer-details",
+            "gap": "12px",
+            "tokenGap": "12px",
+            "left": 210,
+            "right": 298,
+            "clientWidth": 88,
+            "scrollWidth": 208
+          }
+        ],
+        "raster": {
+          "points": 2877,
+          "values": [
+            {
+              "value": "image:http://127.0.0.1:55235/assets/h4ngelic-cursor.svg",
+              "count": 2877
+            }
+          ],
+          "offenders": []
+        },
+        "marks": 0
+      },
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55235/assets/h4ngelic-cursor.svg",
+          "status": 200,
+          "type": "image/svg+xml",
+          "ok": true,
+          "width": 20,
+          "height": 30
+        }
+      ],
+      "freePoints": [
+        {
+          "x": 106,
+          "y": 810.34,
+          "cluster": ".footer-left"
+        },
+        {
+          "x": 278,
+          "y": 810.34,
+          "cluster": ".footer-details"
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

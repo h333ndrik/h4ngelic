@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-05T16:49:44.199Z",
-  "base": "http://127.0.0.1:55232",
-  "build": "c4710034ec5d",
+  "checkedAt": "2026-11-05T20:03:47.529Z",
+  "base": "http://127.0.0.1:55235",
+  "build": "19a0ea15b37c",
   "profiles": [
     {
       "width": 1440,
@@ -16,6 +16,57 @@
             91.16,
             91.14,
             91.16
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-left",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            28.8,
+            28.8
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-details",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            28.8,
+            28.8
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "archive-filters",
+          "type": "B",
+          "lines": 1,
+          "gaps": [
+            19.44,
+            19.44,
+            19.44
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-left",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            28.8,
+            28.8
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-details",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            28.8,
+            28.8
           ],
           "baselineSpread": 0
         },
@@ -91,57 +142,6 @@
             28.8
           ],
           "baselineSpread": 0
-        },
-        {
-          "id": "archive-filters",
-          "type": "B",
-          "lines": 1,
-          "gaps": [
-            19.44,
-            19.44,
-            19.44
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-left",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            28.8,
-            28.8
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-details",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            28.8,
-            28.8
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-left",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            28.8,
-            28.8
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-details",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            28.8,
-            28.8
-          ],
-          "baselineSpread": 0
         }
       ]
     },
@@ -157,6 +157,57 @@
           "gaps": [
             137.75,
             173.2
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-left",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            12,
+            12
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-details",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            12,
+            12
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "archive-filters",
+          "type": "B",
+          "lines": 1,
+          "gaps": [
+            10,
+            10,
+            10
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-left",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            12,
+            12
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-details",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            12,
+            12
           ],
           "baselineSpread": 0
         },
@@ -231,6 +282,43 @@
             12
           ],
           "baselineSpread": 0
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "passed": true,
+      "rows": [
+        {
+          "id": "home-strip",
+          "type": "A",
+          "lines": 2,
+          "gaps": [
+            88.6,
+            118.08
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-left",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            12,
+            12
+          ],
+          "baselineSpread": 0
+        },
+        {
+          "id": "footer-details",
+          "type": "C",
+          "lines": 1,
+          "gaps": [
+            12,
+            12
+          ],
+          "baselineSpread": 0
         },
         {
           "id": "archive-filters",
@@ -260,43 +348,6 @@
           "gaps": [
             12,
             12
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-left",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            12,
-            12
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-details",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            12,
-            12
-          ],
-          "baselineSpread": 0
-        }
-      ]
-    },
-    {
-      "width": 320,
-      "height": 844,
-      "passed": true,
-      "rows": [
-        {
-          "id": "home-strip",
-          "type": "A",
-          "lines": 2,
-          "gaps": [
-            88.6,
-            118.08
           ],
           "baselineSpread": 0
         },
@@ -349,57 +400,6 @@
           "gaps": [
             87.95,
             117.41
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-left",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            12,
-            12
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-details",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            12,
-            12
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "archive-filters",
-          "type": "B",
-          "lines": 1,
-          "gaps": [
-            10,
-            10,
-            10
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-left",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            12,
-            12
-          ],
-          "baselineSpread": 0
-        },
-        {
-          "id": "footer-details",
-          "type": "C",
-          "lines": 1,
-          "gaps": [
-            12,
-            12
           ],
           "baselineSpread": 0
         },
