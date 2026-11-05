@@ -106,10 +106,13 @@ try {
   await page.mouse.move(1, 1);
   await page.evaluate(() => document.activeElement?.blur());
   const defaultCursor = await page.locator('body').evaluate(element => getComputedStyle(element).cursor);
-  assert.equal(defaultCursor, 'none', 'The runtime class enables the blanket custom pointer.');
+  assert.match(defaultCursor, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/, 'The native contract paints the h4 cursor without any runtime class.');
   const link = page.locator('.category-link').first();
   const magnet = link.locator('.category-magnet');
-  const before = await link.boundingBox();
+  // B-F18 constrains the hit area to the visible label, so the pointer must sit
+  // on the magnet itself instead of the padded link box.
+  const before = await magnet.boundingBox();
+  const linkBefore = await link.boundingBox();
   await page.mouse.move(before.x + before.width * .8, before.y + before.height * .65);
   await page.waitForFunction(() => {
     const transform = getComputedStyle(document.querySelector('#selected-work .category-magnet')).transform;
@@ -127,13 +130,13 @@ try {
   assert.ok(luminous.transform >= 1.024 && luminous.transform <= 1.026, `The large category label keeps restrained 2.5% feedback within its reserved hit area (got ${luminous.transform}).`);
   assert.ok((luminous.filter.match(/drop-shadow/g) || []).length >= 3 && luminous.filter.includes('255, 255, 255'), 'Normal hover retains a subtle bounded white glow.');
   const after = await link.boundingBox();
-  for (const property of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[property] - after[property]) < .25, 'Only the label/arrow wrapper may move, preserving the clickable area.');
+  for (const property of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(linkBefore[property] - after[property]) < .25, 'Only the label/arrow wrapper may move, preserving the clickable area.');
   const hoverCursor = await magnet.evaluate(element => getComputedStyle(element).cursor);
-  assert.equal(hoverCursor, defaultCursor, 'Hover stays inside the blanket custom-pointer contract.');
+  assert.equal(hoverCursor, defaultCursor, 'Hover stays inside the native h4 cursor contract.');
   await link.evaluate((element) => element.addEventListener('click', (event) => event.preventDefault(), { once: true }));
   await page.mouse.down();
   const pressedCursor = await magnet.evaluate(element => getComputedStyle(element).cursor);
-  assert.equal(pressedCursor, defaultCursor, 'Pressed state stays inside the blanket custom-pointer contract.');
+  assert.equal(pressedCursor, defaultCursor, 'Pressed state stays inside the native h4 cursor contract.');
   await page.mouse.up();
   await page.mouse.move(1, 1);
   await page.waitForFunction(() => {

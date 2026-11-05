@@ -75,7 +75,7 @@ try {
     }));
     assert.equal(cursor.fine, true);
     assert.notEqual(cursor.cursor, 'zoom-out');
-    assert.equal(cursor.cursor, 'none', 'An expanded photograph stays inside the blanket custom-pointer contract.');
+    assert.match(cursor.cursor, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/, 'An expanded photograph keeps the native h4 cursor.');
     assert.ok(cursor.width >= 900 && cursor.width <= 1440, 'The inline expansion uses a genuine high-resolution published source.');
     assert.ok(Math.abs(cursor.width / cursor.height - 1440 / 1920) < .01, 'The genuine artwork keeps its original proportions.');
     await page.keyboard.press('Escape');

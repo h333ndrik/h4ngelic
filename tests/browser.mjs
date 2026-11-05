@@ -61,9 +61,10 @@ try {
   const desktop = await browser.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
   const page = await desktop.newPage();
   const desktopErrors = collectErrors(page);
+  let desktopPick = null;
   await ready(page);
 
-  assert.equal(await page.locator('body').evaluate((element) => getComputedStyle(element).cursor), 'none', 'The runtime cursor class enables the blanket transparent pointer.');
+  assert.match(await page.locator('body').evaluate((element) => getComputedStyle(element).cursor), /h4ngelic-cursor\.svg["']?\)\s+8\s+2/, 'The native cursor contract paints the h4 silhouette on the page body.');
   assert.equal(await page.locator('#reveal-control').count(), 0, 'V3 removes the obsolete Reveal button while preserving angle-based artwork rendering.');
   const first = await snapshot(page);
   await page.waitForFunction(frame => window.__H4_TEST__.snapshot().frameCount > frame, first.frameCount, { timeout: 10000 });
@@ -109,6 +110,12 @@ try {
   assert.ok(magnitude(pushed.angularVelocity) > 0.001, 'An off-center cursor impact must create angular velocity.');
   await page.waitForTimeout(150);
   assert.ok(magnitude((await snapshot(page)).offset) > 0.001, 'An unpressed cursor impact must visibly displace the wordmark.');
+  const pickPoint = await page.evaluate(() => window.__H4_TEST__.hitPoint());
+  await page.mouse.move(pickPoint.x, pickPoint.y);
+  const pick = await page.evaluate(() => window.__H4_TEST__.pick());
+  assert.ok(pick && pick.delta < 2,
+    `The raycast must pick exactly under the pointer, not the previous frame: ${JSON.stringify(pick)}`);
+  desktopPick = pick;
   await page.mouse.move(1, 1);
   await page.waitForFunction(() => {
     const state = window.__H4_TEST__.snapshot();
@@ -169,7 +176,7 @@ try {
   await page.waitForFunction(() => Math.hypot(...window.__H4_TEST__.snapshot().offset) > 0.01, null, { timeout: 3000 });
   assert.deepEqual(desktopErrors, [], 'Desktop must not throw JavaScript errors.');
   await desktop.close();
-  console.log('PASS desktop: render, original cursor, controls, cursor push, drag, release momentum including a queued final movement, independent motion, smooth return.');
+  console.log(`PASS desktop: render, native cursor, controls, cursor push, drag, release momentum including a queued final movement, independent motion, smooth return (pick delta ${desktopPick.delta.toFixed(2)}px).`);
 
   const mobile = await browser.newContext({
     viewport: { width: 390, height: 844 },

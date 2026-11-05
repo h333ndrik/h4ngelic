@@ -40,29 +40,19 @@ async function frame(page) {
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
 }
 
-async function overlayAt(page, x, y) {
+/** Native strategy: the effective cursor belongs to the top painted element. */
+async function cursorAt(page, x, y) {
   return page.evaluate(({ x, y }) => {
-    const node = document.querySelector('[data-h4-cursor]');
-    const image = node?.querySelector('img');
-    if (!node || !image) return { exists: false };
-    const style = getComputedStyle(node), box = node.getBoundingClientRect();
-    return { exists: true, opacity: Number(style.opacity), visibility: style.visibility, display: style.display,
-      pointerEvents: style.pointerEvents, width: box.width, height: box.height,
-      xError: box.left + 9 - x, yError: box.top + 2 - y,
-      imageLoaded: image.complete && image.naturalWidth > 0, naturalWidth: image.naturalWidth };
+    const stack = document.elementsFromPoint(x, y);
+    const top = stack.find(element => getComputedStyle(element).pointerEvents !== 'none') || document.documentElement;
+    return { cursor: getComputedStyle(top).cursor, tag: top.tagName,
+      className: String(top.className?.baseVal ?? top.className ?? '') };
   }, { x, y });
 }
 
-function assertOverlay(overlay, label) {
-  assert.equal(overlay.exists, true, `${label} must have the h4 cursor overlay.`);
-  assert.equal(overlay.opacity, 1, `${label} cursor overlay must be opaque.`);
-  assert.equal(overlay.visibility, 'visible', `${label} cursor overlay must be visible.`);
-  assert.notEqual(overlay.display, 'none', `${label} cursor overlay must not be display:none.`);
-  assert.equal(overlay.pointerEvents, 'none', `${label} cursor overlay must not intercept the pointer.`);
-  assert.ok(overlay.width > 0 && overlay.height > 0, `${label} cursor overlay must have a painted box.`);
-  assert.ok(Math.abs(overlay.xError) <= .25 && Math.abs(overlay.yError) <= .25,
-    `${label} cursor hotspot must track the pointer exactly: ${JSON.stringify(overlay)}`);
-  assert.ok(overlay.imageLoaded && overlay.naturalWidth > 0, `${label} cursor image must be loaded.`);
+function assertNativeCursor(sample, label) {
+  assert.match(sample.cursor, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/,
+    `${label} must expose the native h4 cursor: ${JSON.stringify(sample)}`);
 }
 
 async function verifyLinkAt(page, index, label) {
@@ -83,7 +73,7 @@ async function verifyLinkAt(page, index, label) {
     return { cursor: style.cursor, pointerEvents: style.pointerEvents, arrowClass: arrow?.className || '',
       arrowHidden: arrow?.getAttribute('aria-hidden') || '', x, y };
   }, { x, y });
-  assert.equal(result.cursor, 'none', `${label} must keep the blanket cursor.`);
+  assert.match(result.cursor, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/, `${label} must keep the native h4 cursor.`);
   // B-F18: rubric links constrain the hit area to the visible label; the link is
   // still pointer-active through its .interaction-visual child.
   if (result.pointerEvents === 'none') {
@@ -97,8 +87,8 @@ async function verifyLinkAt(page, index, label) {
     assert.equal(result.arrowClass, 'arrow', `${label} must use the shared .arrow glyph source.`);
     assert.equal(result.arrowHidden, 'true', `${label} arrow must be decorative for assistive technology.`);
   }
-  const overlay = await overlayAt(page, x, y);
-  assertOverlay(overlay, label);
+  const overlay = await cursorAt(page, x, y);
+  assertNativeCursor(overlay, label);
   return { ...result, overlay };
 }
 
@@ -213,7 +203,7 @@ try {
       assert.deepEqual(errors, []);
       report.pages.push({ path, build: report.build, links: links.filter(link => link.visible && link.text), checked, indexAudit, errors });
       await save();
-      console.log(`PASS links ${path}: ${checked.length} visible text links use the approved glyph matrix and a visible pointer overlay.`);
+      console.log(`PASS links ${path}: ${checked.length} visible text links use the approved glyph matrix and the native h4 cursor.`);
     }
     assert.ok(arrowStyles.length > 0, 'The shared arrow source must be exercised.');
     const signatures = new Set(arrowStyles.map(style => JSON.stringify(style)));

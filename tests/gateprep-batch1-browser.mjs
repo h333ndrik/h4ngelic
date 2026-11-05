@@ -75,13 +75,23 @@ try {
       await page.locator('#pause-control').click();
       await page.waitForFunction(() => document.getElementById('pause-control').getAttribute('aria-pressed') === 'true');
 
+      // B-F1 is now owned by the browser: the native cursor disappears with the
+      // pointer and there is no overlay left that could freeze on screen.
       await page.mouse.move(width * .5, height * .45); await frames(page);
-      await page.evaluate(() => document.dispatchEvent(new PointerEvent('pointerout', { bubbles: true, composed: true,
-        pointerType: 'mouse', relatedTarget: null, clientX: -1, clientY: -1 })));
-      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) <= .001 && getComputedStyle(document.querySelector('[data-h4-cursor]')).visibility === 'hidden');
-      const cursor = await page.locator('[data-h4-cursor]').evaluate(element => ({ opacity: Number(getComputedStyle(element).opacity),
-        visibility: getComputedStyle(element).visibility, visible: element.dataset.h4CursorVisible }));
-      assert.deepEqual(cursor, { opacity: 0, visibility: 'hidden', visible: 'false' });
+      const cursor = await page.evaluate(() => ({ overlay: Boolean(document.querySelector('[data-h4-cursor]')),
+        classGate: document.documentElement.classList.contains('h4-custom-cursor'),
+        body: getComputedStyle(document.body).cursor,
+        naavi: getComputedStyle(document.querySelector('[data-naavi]')).cursor }));
+      assert.deepEqual({ overlay: cursor.overlay, classGate: cursor.classGate }, { overlay: false, classGate: false },
+        'No JS overlay or CSS gate may survive the native restore.');
+      const fine = await page.evaluate(() => matchMedia('(any-hover: hover) and (any-pointer: fine)').matches);
+      if (fine) {
+        assert.match(cursor.body, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/);
+        assert.match(cursor.naavi, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/);
+      } else {
+        assert.doesNotMatch(cursor.body, /h4ngelic-cursor/, 'Touch keeps the system cursor.');
+        assert.doesNotMatch(cursor.naavi, /h4ngelic-cursor/, 'Touch keeps the system cursor.');
+      }
 
       const bar = await page.evaluate(() => {
         const hero = document.querySelector('.hero'), nav = document.querySelector('.hero-nav'), controls = document.querySelector('.controls');

@@ -1,0 +1,3450 @@
+{
+  "checkedAt": "2026-11-05T12:29:46.055Z",
+  "base": "http://127.0.0.1:55232",
+  "build": "5a3557c66b25",
+  "spec": {
+    "media": "(any-hover: hover) and (any-pointer: fine)",
+    "normal": [
+      {
+        "svg": "/assets/h4ngelic-cursor.svg",
+        "png": "/assets/h4ngelic-cursor.png",
+        "hotspot": "8 2"
+      },
+      {
+        "svg": "/assets/h4ngelic-cursor.svg",
+        "png": "/assets/h4ngelic-cursor.png",
+        "hotspot": "8 2"
+      },
+      {
+        "svg": "/assets/h4ngelic-cursor-pressed.svg",
+        "png": "/assets/h4ngelic-cursor-pressed.png",
+        "hotspot": "8 2"
+      }
+    ],
+    "xray": [
+      {
+        "svg": "/assets/h4ngelic-cursor-other-r09.svg",
+        "png": "/assets/h4ngelic-cursor-other.png",
+        "hotspot": "8 2"
+      },
+      {
+        "svg": "/assets/h4ngelic-cursor-other-pressed-r09.svg",
+        "png": "/assets/h4ngelic-cursor-other-pressed.png",
+        "hotspot": "8 2"
+      }
+    ]
+  },
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 900,
+      "points": 4459,
+      "cursors": {
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer": 81,
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto": 4373,
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto": 5
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-moshlab",
+            "sample": {
+              "x": 205.453125,
+              "y": 866.03125,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-moshlab",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "visit",
+            "sample": {
+              "x": 307.7421875,
+              "y": 866.03125,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "footer-left",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "instagram",
+            "sample": {
+              "x": 1156.8828125,
+              "y": 866.03125,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-instagram",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "naavi-footer",
+            "sample": {
+              "x": 720,
+              "y": 866,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "naavi-slash",
+            "sample": {
+              "x": 722.96875,
+              "y": 866,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-home",
+            "sample": {
+              "x": 1326,
+              "y": 104,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-about",
+            "sample": {
+              "x": 1326,
+              "y": 201,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-contact",
+            "sample": {
+              "x": 1326,
+              "y": 247,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "tool-bar",
+            "sample": {
+              "x": 56.5546875,
+              "y": 854,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "speed-control",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "controls",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          }
+        ],
+        "drag": [
+          {
+            "x": 720,
+            "y": 450,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 744,
+            "y": 442,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 768,
+            "y": 434,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 792,
+            "y": 426,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 816,
+            "y": 418,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "sample": {
+              "x": 389.296875,
+              "y": 524.765625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-name",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-name",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "sample": {
+              "x": 957.296875,
+              "y": 524.765625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-email",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-email",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "sample": {
+              "x": 673.296875,
+              "y": 707.953125,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "TEXTAREA",
+              "id": "home-inquiry-message",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "TEXTAREA",
+                  "id": "home-inquiry-message",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field inquiry-field-message",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "sample": {
+              "x": 283.296875,
+              "y": 788.34375,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-files",
+              "className": "inquiry-file-input",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-files",
+                  "className": "inquiry-file-input",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-file-label",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-attachments",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "sample": {
+              "x": 334.0078125,
+              "y": 755.53125,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "inquiry-submit",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          }
+        ],
+        "dialog": null
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "points": 1139,
+      "cursors": {
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer": 566,
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto": 568,
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto": 5
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-moshlab",
+            "sample": {
+              "x": 104.28125,
+              "y": 809.65625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-moshlab",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "visit",
+            "sample": {
+              "x": 119.65625,
+              "y": 809.65625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "footer-left",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "instagram",
+            "sample": {
+              "x": 278.7890625,
+              "y": 809.65625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-instagram",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "naavi-footer",
+            "sample": {
+              "x": 195,
+              "y": 809.65625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "naavi-slash",
+            "sample": {
+              "x": 197.96875,
+              "y": 809.65625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-home",
+            "sample": {
+              "x": 288,
+              "y": 104,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-about",
+            "sample": {
+              "x": 288,
+              "y": 196,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-contact",
+            "sample": {
+              "x": 288,
+              "y": 242,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "tool-bar",
+            "sample": {
+              "x": 40.5078125,
+              "y": 706,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "speed-control",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "controls",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          }
+        ],
+        "drag": [
+          {
+            "x": 195,
+            "y": 422,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 219,
+            "y": 414,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 243,
+            "y": 406,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 267,
+            "y": 398,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 291,
+            "y": 390,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "sample": {
+              "x": 211.3359375,
+              "y": 296.859375,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-name",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-name",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "sample": {
+              "x": 211.3359375,
+              "y": 415.546875,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-email",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-email",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "sample": {
+              "x": 211.3359375,
+              "y": 569.890625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "TEXTAREA",
+              "id": "home-inquiry-message",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "TEXTAREA",
+                  "id": "home-inquiry-message",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field inquiry-field-message",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "sample": {
+              "x": 211.3359375,
+              "y": 694.890625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-files",
+              "className": "inquiry-file-input",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-files",
+                  "className": "inquiry-file-input",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-file-label",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-attachments",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "sample": {
+              "x": 143.9921875,
+              "y": 721.078125,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "inquiry-submit",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          }
+        ],
+        "dialog": null
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "points": 929,
+      "cursors": {
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer": 466,
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto": 458,
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto": 5
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-moshlab",
+            "sample": {
+              "x": 66.28125,
+              "y": 810.34375,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-moshlab",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "visit",
+            "sample": {
+              "x": 84.65625,
+              "y": 810.34375,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "footer-left",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "instagram",
+            "sample": {
+              "x": 243.7890625,
+              "y": 810.34375,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-instagram",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "naavi-footer",
+            "sample": {
+              "x": 160,
+              "y": 810,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "naavi-slash",
+            "sample": {
+              "x": 162.96875,
+              "y": 810,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-home",
+            "sample": {
+              "x": 218,
+              "y": 104,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "A",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-about",
+            "sample": {
+              "x": 218,
+              "y": 196,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "index-contact",
+            "sample": {
+              "x": 218,
+              "y": 242,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "tool-bar",
+            "sample": {
+              "x": 40.5078125,
+              "y": 706,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "speed-control",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "controls",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          }
+        ],
+        "drag": [
+          {
+            "x": 160,
+            "y": 422,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 184,
+            "y": 414,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 208,
+            "y": 406,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 232,
+            "y": 398,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          },
+          {
+            "x": 256,
+            "y": 390,
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+              }
+            ]
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "sample": {
+              "x": 176.3359375,
+              "y": 297.359375,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-name",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-name",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "sample": {
+              "x": 176.3359375,
+              "y": 416.046875,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-email",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-email",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "sample": {
+              "x": 176.3359375,
+              "y": 570.390625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "TEXTAREA",
+              "id": "home-inquiry-message",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "TEXTAREA",
+                  "id": "home-inquiry-message",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field inquiry-field-message",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "sample": {
+              "x": 176.3359375,
+              "y": 695.390625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+              "tag": "INPUT",
+              "id": "home-inquiry-files",
+              "className": "inquiry-file-input",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-files",
+                  "className": "inquiry-file-input",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-file-label",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-attachments",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "sample": {
+              "x": 143.9921875,
+              "y": 720.765625,
+              "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+              "tag": "SPAN",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "inquiry-submit",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+                }
+              ]
+            }
+          }
+        ],
+        "dialog": null
+      },
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "touch": {
+    "capability": false,
+    "body": "auto",
+    "link": "pointer",
+    "overlay": false
+  },
+  "pseudo": [
+    {
+      "selector": ".arrow",
+      "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+    },
+    {
+      "selector": "[data-outline-arrow]",
+      "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+    },
+    {
+      "selector": ".category-link .interaction-visual",
+      "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+    }
+  ],
+  "assets": [
+    {
+      "url": "/assets/h4ngelic-cursor.svg",
+      "ok": true,
+      "width": 20,
+      "height": 30
+    },
+    {
+      "url": "/assets/h4ngelic-cursor.png",
+      "ok": true,
+      "width": 20,
+      "height": 30
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-pressed.svg",
+      "ok": true,
+      "width": 21,
+      "height": 32
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-pressed.png",
+      "ok": true,
+      "width": 21,
+      "height": 32
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-r09.svg",
+      "ok": true,
+      "width": 20,
+      "height": 30
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other.png",
+      "ok": true,
+      "width": 20,
+      "height": 30
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-pressed-r09.svg",
+      "ok": true,
+      "width": 21,
+      "height": 32
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-pressed.png",
+      "ok": true,
+      "width": 21,
+      "height": 32
+    }
+  ],
+  "pressed": {
+    "x": 720,
+    "y": 866,
+    "rest": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "pressed": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+  },
+  "hybrid": {
+    "fine": false,
+    "anyFine": false,
+    "body": "auto"
+  },
+  "xray": {
+    "mode": "xray",
+    "cursor": "xray",
+    "points": 2221,
+    "cursors": {
+      "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other.png\") 8 2, auto": 2221
+    },
+    "naavi": {
+      "x": 720,
+      "y": 866,
+      "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other.png\") 8 2, auto",
+      "tag": "A",
+      "id": "",
+      "className": "chapter-counter naavi",
+      "stack": [
+        {
+          "tag": "A",
+          "id": "",
+          "className": "chapter-counter naavi",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other.png\") 8 2, auto"
+        },
+        {
+          "tag": "CANVAS",
+          "id": "logo-canvas",
+          "className": "",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other.png\") 8 2, auto"
+        },
+        {
+          "tag": "DIV",
+          "id": "stage",
+          "className": "stage is-ready",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other.png\") 8 2, auto"
+        },
+        {
+          "tag": "SECTION",
+          "id": "home-hero",
+          "className": "hero",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other.png\") 8 2, auto"
+        },
+        {
+          "tag": "MAIN",
+          "id": "",
+          "className": "",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other.png\") 8 2, auto"
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "className": "page-composition",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-other.png\") 8 2, auto"
+        }
+      ]
+    },
+    "offenders": [],
+    "passed": true
+  },
+  "failures": []
+}

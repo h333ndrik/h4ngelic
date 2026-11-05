@@ -51,8 +51,10 @@ async function bootState(page) {
       posterOpacity: Number(style?.opacity || 0), posterDisplay: style?.display || 'none',
       posterBackground: style?.backgroundImage || 'none', animation: style?.animationName || 'none', canvasDisplay: canvasStyle?.display || 'none',
       canvasOpacity: Number(canvasStyle?.opacity || 0), canvasAnimation: canvasStyle?.animationName || 'none',
-      entering: Boolean(stage?.classList.contains('is-entering')), cursorClass: document.documentElement.classList.contains('h4-custom-cursor'),
-      inlineCursorScript: [...document.head.querySelectorAll('script')].some(script => script.textContent.includes("classList.add('h4-custom-cursor')")),
+      entering: Boolean(stage?.classList.contains('is-entering')),
+      cursorClass: document.documentElement.classList.contains('h4-custom-cursor'),
+      overlayNodes: document.querySelectorAll('[data-h4-cursor]').length,
+      bodyCursor: getComputedStyle(document.body).cursor,
       entrance: window.__h4Entrance || null, heroReady: Boolean(window.__h4HeroReady), scrollY };
   });
 }
@@ -142,6 +144,12 @@ async function cursorStates(page, selectors) {
     await target.scrollIntoViewIfNeeded(); await frames(page);
     const rest = await cursorOf(target);
     assert.equal(rest.ok, true, `${selector} keeps the cursor image and hotspot at rest: ${rest.cursor}`);
+    // B-F8 made the visit line a decorative ghost: it carries the cursor but
+    // accepts no pointer interaction, so hover/focus/active do not apply.
+    if (await target.evaluate(element => getComputedStyle(element).pointerEvents) === 'none') {
+      states.push({ selector, rest: rest.cursor, hover: null, focus: null, active: null, note: 'decorative ghost' });
+      continue;
+    }
     await target.hover();
     const hover = await cursorOf(target);
     assert.equal(hover.ok, true, `${selector} keeps the cursor image and hotspot on hover: ${hover.cursor}`);
@@ -192,8 +200,10 @@ try {
       const booting = await bootState(page);
       assert.match(booting.build, /^[a-f0-9]{7,40}$/i, 'Every document carries a non-empty build SHA.');
       assert.equal(booting.build, booting.metaBuild, 'html[data-build] and the h4-build meta agree.');
-      assert.equal(booting.cursorClass, true);
-      assert.equal(booting.inlineCursorScript, true, 'The cursor class is set by inline head JavaScript.');
+      assert.equal(booting.cursorClass, false, 'The native cursor needs no runtime class.');
+      assert.equal(booting.overlayNodes, 0, 'The native cursor needs no overlay node.');
+      assert.match(booting.bodyCursor, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/,
+        'The cursor is already effective before the hero module loads.');
       assert.equal(booting.loading, 'true');
       assert.doesNotMatch(booting.stage, /is-ready/);
       assert.ok(booting.posterDisplay !== 'none' && booting.posterOpacity >= .54, `The poster is immediately visible: ${JSON.stringify(booting)}`);
@@ -296,11 +306,9 @@ try {
       const indexCursors = await indexCursorStates(page);
       const auditedWork = await findCursorOffenders(page);
       assert.deepEqual(auditedWork.offenders, [], `The whole Work page keeps one cursor at ${width}px.`);
-      await page.evaluate(() => document.documentElement.classList.remove('h4-custom-cursor'));
-      const noClass = await findCursorOffenders(page);
-      assert.equal(noClass.mode, 'system');
-      assert.deepEqual(noClass.offenders, [], 'Without the runtime class the page returns to ordinary system cursors.');
-      await page.evaluate(() => document.documentElement.classList.add('h4-custom-cursor'));
+      assert.equal(await page.locator('[data-h4-cursor]').count(), 0, 'The native strategy mounts no overlay element.');
+      assert.equal(await page.evaluate(() => document.documentElement.classList.contains('h4-custom-cursor')), false,
+        'The retired runtime class must not come back.');
       const auditedContact = await cursorAudit(page, '/contact', width);
       const formCursors = await cursorStates(page, ['.inquiry-field input[name="name"]',
         '.inquiry-field input[name="email"]', '.inquiry-field textarea[name="message"]',
@@ -334,7 +342,7 @@ try {
 
       reports.push({ width, booting, ready, slow: slowState, slowFailed, failed: failedState,
         greeting: { rest: lineRest, hover: lineHover, focus: lineFocus, touch: touchLine }, slash, wheel,
-        reduced: reducedState, cursor: { home: auditedHome, work: auditedWork, noClass, contact: auditedContact,
+        reduced: reducedState, cursor: { home: auditedHome, work: auditedWork, contact: auditedContact,
           footerStates: footerCursors, indexStates: indexCursors, formStates: formCursors }, messages, errors });
       console.log(`PASS ${width}px: build marker, entrance, cursor, greeting, slash ${slash.canonical.token.toFixed(2)}px, wheel contract.`);
     } catch (error) {

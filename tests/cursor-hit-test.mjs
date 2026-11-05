@@ -1,16 +1,17 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { CURSOR_TOKENS, cursorSpec, matchesContract } from './helpers/cursor-contract.mjs';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL(`../${process.env.H4_CURSOR_HIT_ARTIFACTS || 'artifacts/v312/r4-hit'}/`, import.meta.url);
-const reportName = process.env.H4_CURSOR_HIT_REPORT_NAME || 'results.json';
+const output = new URL(`../${process.env.H4_CURSOR_HIT_ARTIFACTS || 'artifacts/v312/cursor-native'}/`, import.meta.url);
+const reportName = process.env.H4_CURSOR_HIT_REPORT_NAME || 'hit-results.json';
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
-const report = { checkedAt: new Date().toISOString(), base, build: '', profiles: [], xray: null, failures: [] };
+const report = { checkedAt: new Date().toISOString(), base, build: '', spec: cursorSpec, profiles: [], touch: null, pseudo: null,
+  assets: null, pressed: null, hybrid: null, xray: null, failures: [] };
 const save = () => writeFile(new URL(reportName, output), JSON.stringify(report, null, 2) + '\n');
-const expectedCursor = mode => mode === 'xray' ? /url\(["']?[^"')]*h4ngelic-cursor-other-r09\.svg["']?\)\s+9\s+2/ : 'none';
 
 async function seed(context) {
   await context.addInitScript(() => {
@@ -32,47 +33,16 @@ async function pointAt(page, x, y) {
   }, { x, y });
 }
 
-function accepted(sample, mode) {
-  const expected = expectedCursor(mode);
-  return expected === 'none' ? sample.cursor === 'none' : expected.test(sample.cursor);
-}
-
-async function overlayAt(page, x, y) {
-  return page.evaluate(({ x, y }) => {
-    const overlay = document.querySelector('[data-h4-cursor]');
-    const image = overlay?.querySelector('img');
-    if (!overlay || !image) return { exists: false };
-    const style = getComputedStyle(overlay), box = overlay.getBoundingClientRect();
-    return { exists: true, opacity: Number(style.opacity), visibility: style.visibility, display: style.display,
-      pointerEvents: style.pointerEvents, left: box.left, top: box.top, width: box.width, height: box.height,
-      xError: box.left + 9 - x, yError: box.top + 2 - y,
-      containsPointer: x >= box.left && x <= box.right && y >= box.top && y <= box.bottom,
-      imageLoaded: image.complete && image.naturalWidth > 0, naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight };
-  }, { x, y });
-}
-
-function overlayAccepted(overlay, mode) {
-  if (mode === 'xray') return !overlay.exists || overlay.opacity === 0 || overlay.visibility === 'hidden';
-  return overlay.exists && overlay.opacity === 1 && overlay.visibility === 'visible' && overlay.display !== 'none'
-    && overlay.pointerEvents === 'none' && overlay.width > 0 && overlay.height > 0
-    && overlay.containsPointer && Math.abs(overlay.xError) <= .25 && Math.abs(overlay.yError) <= .25
-    && overlay.imageLoaded && overlay.naturalWidth > 0 && overlay.naturalHeight > 0;
-}
-
-async function checkPoint(page, { label, x, y, mode = 'blanket', offenders, counts }) {
+async function checkPoint(page, { label, x, y, mode = 'normal', offenders, counts }) {
   await page.mouse.move(x, y);
-  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
   const sample = await pointAt(page, x, y);
-  const overlay = await overlayAt(page, x, y);
   counts.points += 1;
   if (!label.includes(':')) counts.regions[label] = (counts.regions[label] || 0) + 1;
   counts.cursors[sample.cursor] = (counts.cursors[sample.cursor] || 0) + 1;
-  counts.overlayVisible = (counts.overlayVisible || 0) + (overlayAccepted(overlay, mode) ? 1 : 0);
-  if (!accepted(sample, mode) || !overlayAccepted(overlay, mode)) {
-    offenders.push({ label, ...sample, overlay,
-      className: sample.className, top: `${sample.tag}${sample.id ? `#${sample.id}` : ''}${sample.className ? `.${sample.className.trim().replace(/\s+/g, '.')}` : ''}` });
+  if (!matchesContract(sample.cursor, { mode, spec: cursorSpec })) {
+    offenders.push({ label, ...sample, top: `${sample.tag}${sample.id ? `#${sample.id}` : ''}${sample.className ? `.${sample.className.trim().replace(/\s+/g, '.')}` : ''}` });
   }
-  return { ...sample, overlay };
+  return sample;
 }
 
 async function scanViewport(page, { label, width, height, mode, offenders, counts, step = 24 }) {
@@ -116,13 +86,11 @@ async function targetContracts(page, { mode, offenders, counts }) {
     const locator = page.locator(selector).first();
     if (!await locator.count()) continue;
     const { x, y } = await centerPoint(locator);
-    const sample = await checkPoint(page, { label, x, y, mode, offenders, counts });
-    regions.push({ label, sample });
+    regions.push({ label, sample: await checkPoint(page, { label, x, y, mode, offenders, counts }) });
   }
   const slash = await slashPoint(page);
   assert.ok(slash, 'NAAVI exposes the literal slash glyph.');
-  const slashSample = await checkPoint(page, { label: 'naavi-slash', ...slash, mode, offenders, counts });
-  regions.push({ label: 'naavi-slash', sample: slashSample });
+  regions.push({ label: 'naavi-slash', sample: await checkPoint(page, { label: 'naavi-slash', ...slash, mode, offenders, counts }) });
   const naaviAudit = await page.locator('[data-naavi]').evaluate(element => [element, ...element.querySelectorAll('*')].map(node => {
     const style = getComputedStyle(node);
     return { tag: node.tagName.toLowerCase(), className: String(node.className?.baseVal ?? node.className ?? ''),
@@ -140,6 +108,12 @@ async function targetContracts(page, { mode, offenders, counts }) {
     regions.push({ label: `index-${name}`, sample: await checkPoint(page, { label: `index-${name}`, x, y, mode, offenders, counts }) });
   }
   await page.keyboard.press('Escape');
+
+  const controls = page.locator('[data-controls] button').first();
+  if (await controls.count()) {
+    const { x, y } = await centerPoint(controls);
+    regions.push({ label: 'tool-bar', sample: await checkPoint(page, { label: 'tool-bar', x, y, mode, offenders, counts }) });
+  }
 
   const hit = await page.evaluate(() => {
     const point = window.__H4_TEST__?.hitPoint?.();
@@ -171,7 +145,66 @@ async function targetContracts(page, { mode, offenders, counts }) {
     form.push({ label: selector, sample: await checkPoint(page, { label: selector, x, y, mode, offenders, counts }) });
   }
   assert.equal(form.length, 5, 'The inquiry form field contract covers all visible controls.');
-  return { regions, drag, naaviAudit, form };
+
+  const trigger = page.locator('[data-artwork-open]').first();
+  let dialog = null;
+  if (await trigger.count()) {
+    await trigger.scrollIntoViewIfNeeded();
+    await trigger.click();
+    const viewer = page.locator('.artwork-dialog[open]');
+    await viewer.waitFor({ timeout: 15000 });
+    const { x, y } = await centerPoint(page.locator('.artwork-dialog[open] .artwork-viewer-stage'));
+    dialog = await checkPoint(page, { label: 'artwork-dialog', x, y, mode, offenders, counts });
+    await page.keyboard.press('Escape');
+    await viewer.waitFor({ state: 'detached' }).catch(() => {});
+  }
+  return { regions, drag, naaviAudit, form, dialog };
+}
+
+async function assetProbe(page) {
+  const urls = [];
+  for (const token of Object.values(CURSOR_TOKENS)) {
+    for (const image of [token.svg.path, token.png.path]) if (!urls.includes(image)) urls.push(image);
+  }
+  return page.evaluate(async urls => {
+    const measure = (url, type) => new Promise(resolve => {
+      if (type === 'svg') {
+        const image = new Image();
+        image.onload = () => resolve({ url, ok: true, width: image.naturalWidth, height: image.naturalHeight });
+        image.onerror = () => resolve({ url, ok: false, width: 0, height: 0 });
+        image.src = url;
+        return;
+      }
+      fetch(url).then(response => response.ok ? response.blob() : Promise.reject(new Error(String(response.status))))
+        .then(blob => createImageBitmap(blob)).then(bitmap => resolve({ url, ok: true, width: bitmap.width, height: bitmap.height }))
+        .catch(() => resolve({ url, ok: false, width: 0, height: 0 }));
+    });
+    return Promise.all(urls.map(url => measure(url, url.endsWith('.svg') ? 'svg' : 'png')));
+  }, urls);
+}
+
+async function pressedProbe(page) {
+  const target = page.locator('[data-naavi]').first();
+  const { x, y } = await centerPoint(target);
+  await page.mouse.move(x, y);
+  const rest = (await pointAt(page, x, y)).cursor;
+  await page.mouse.down();
+  const pressed = (await pointAt(page, x, y)).cursor;
+  await page.mouse.up();
+  return { x, y, rest, pressed };
+}
+
+async function pseudoProbe(page) {
+  return page.evaluate(() => {
+    const selectors = ['.arrow', '[data-outline-arrow]', '.category-link .interaction-visual', '.skip-link'];
+    return selectors.flatMap(selector => {
+      const element = document.querySelector(selector);
+      if (!element) return [];
+      const style = getComputedStyle(element, '::before');
+      if (!style.content || style.content === 'none') return [];
+      return [{ selector, cursor: style.cursor }];
+    });
+  });
 }
 
 async function browserPage(viewport) {
@@ -185,40 +218,82 @@ async function browserPage(viewport) {
   await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true');
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 }).catch(() => {});
-  assert.equal(await page.locator('html').evaluate(element => element.classList.contains('h4-custom-cursor')), true);
-  assert.equal(await page.locator('html').getAttribute('data-cursor'), null);
-  // Warm the overlay past its 180 ms reveal fade so the grid samples the
-  // steady 1:1 tracking state, not the entrance ramp.
+  assert.equal(await page.locator('html').evaluate(element => matchMedia('(any-hover: hover) and (any-pointer: fine)').matches), true,
+    'The desktop profile must advertise a fine pointer.');
+  assert.equal(await page.locator('[data-h4-cursor]').count(), 0, 'The native strategy owns the pointer: no overlay element may exist.');
   await page.mouse.move(viewport.width / 2, viewport.height / 2);
-  await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-h4-cursor]')).opacity) >= .999);
   return { context, page, errors };
 }
 
 try {
   for (const profile of [{ width: 1440, height: 900 }, { width: 390, height: 844 }, { width: 320, height: 844 }]) {
-    console.log(`CHECK blanket cursor hit map ${profile.width}x${profile.height}`);
+    console.log(`CHECK native cursor hit map ${profile.width}x${profile.height}`);
     const { context, page, errors } = await browserPage(profile);
     const offenders = [], counts = { points: 0, cursors: {}, regions: {} };
     try {
       report.build ||= await page.locator('html').getAttribute('data-build');
+      if (!report.assets) {
+        report.assets = await assetProbe(page);
+        for (const asset of report.assets) {
+          assert.equal(asset.ok, true, `Cursor asset must load: ${asset.url}`);
+          assert.ok(asset.width <= 32 && asset.height <= 32, `Cursor asset must fit 32 CSS px: ${asset.url} is ${asset.width}x${asset.height}`);
+        }
+        report.pressed = await pressedProbe(page);
+        assert.match(report.pressed.rest, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/, 'The resting cursor uses the base silhouette.');
+        assert.match(report.pressed.pressed, /h4ngelic-cursor-pressed\.svg["']?\)\s+8\s+2/, 'Pressing swaps in the pre-scaled silhouette.');
+        report.pseudo = await pseudoProbe(page);
+        for (const item of report.pseudo) {
+          assert.ok(matchesContract(item.cursor, { mode: 'normal', spec: cursorSpec }), `Pseudo-element keeps the logo cursor: ${item.selector} ${item.cursor}`);
+        }
+      }
+      await page.mouse.move(profile.width / 2, 40);
       const top = { label: 'top', width: profile.width, height: profile.height };
-      await scanViewport(page, { ...top, mode: 'blanket', offenders, counts });
+      await scanViewport(page, { ...top, mode: 'normal', offenders, counts });
       await page.screenshot({ path: new URL(`top-${profile.width}.png`, output).pathname });
       await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
       await page.waitForTimeout(250);
-      await scanViewport(page, { ...top, label: 'footer', mode: 'blanket', offenders, counts });
+      await scanViewport(page, { ...top, label: 'footer', mode: 'normal', offenders, counts });
       await page.screenshot({ path: new URL(`footer-${profile.width}.png`, output).pathname });
-      const targets = await targetContracts(page, { mode: 'blanket', offenders, counts });
-      await page.screenshot({ path: new URL(`index-${profile.width}.png`, output).pathname });
-      assert.deepEqual(offenders, [], `${profile.width}px has no foreign cursor: ${JSON.stringify(offenders.slice(0, 8))}`);
+      const targets = await targetContracts(page, { mode: 'normal', offenders, counts });
+      await page.screenshot({ path: new URL(`regions-${profile.width}.png`, output).pathname });
+      assert.deepEqual(offenders, [], `${profile.width}px exposes the h4 cursor everywhere: ${JSON.stringify(offenders.slice(0, 8))}`);
       assert.deepEqual(errors, []);
       report.profiles.push({ ...profile, points: counts.points, cursors: counts.cursors, offenders: [], targets, errors, passed: true });
+      console.log(`  ok ${profile.width}px: ${counts.points} points, ${Object.keys(counts.cursors).length} distinct cursor values.`);
     } catch (error) {
-      report.failures.push({ ...profile, offenders, counts, error: error.stack });
+      report.failures.push({ ...profile, offenders: offenders.slice(0, 20), counts, error: error.stack });
       await page.screenshot({ path: new URL(`failure-${profile.width}.png`, output).pathname }).catch(() => {});
       throw error;
     } finally { await context.close(); await save(); }
   }
+
+  // Touch profile: no h4 artwork may be chosen, but the pointer must stay usable.
+  const touchContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+  await seed(touchContext);
+  const touchPage = await touchContext.newPage();
+  await touchPage.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+  await touchPage.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true');
+  const touch = await touchPage.locator('body').evaluate(body => ({ capability: matchMedia('(any-hover: hover) and (any-pointer: fine)').matches,
+    body: getComputedStyle(body).cursor, link: getComputedStyle(document.querySelector('[data-naavi]')).cursor,
+    overlay: Boolean(document.querySelector('[data-h4-cursor]')) }));
+  assert.equal(touch.capability, false, 'The touch profile must not advertise a fine pointer.');
+  assert.equal(touch.overlay, false, 'No overlay exists on touch either.');
+  for (const value of [touch.body, touch.link]) assert.doesNotMatch(value, /h4ngelic-cursor/, 'Touch keeps the system cursor.');
+  report.touch = touch;
+  await touchPage.screenshot({ path: new URL('touch-390.png', output).pathname });
+  await touchContext.close();
+  await save();
+
+  const hybrid = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1, hasTouch: true });
+  const hybridPage = await hybrid.newPage();
+  await hybridPage.goto(new URL('/', base).href, { waitUntil: 'domcontentloaded' });
+  await hybridPage.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true');
+  report.hybrid = await hybridPage.locator('body').evaluate(body => ({ fine: matchMedia('(any-pointer: fine)').matches,
+    anyFine: matchMedia('(any-hover: hover) and (any-pointer: fine)').matches, body: getComputedStyle(body).cursor }));
+  if (report.hybrid.anyFine) assert.match(report.hybrid.body, /h4ngelic-cursor/, 'A hybrid device with a mouse keeps the logo cursor.');
+  else assert.doesNotMatch(report.hybrid.body, /h4ngelic-cursor/, 'Without a fine pointer the logo cursor stays off.');
+  await hybrid.close();
+  await save();
 
   const { context, page, errors } = await browserPage({ width: 1440, height: 900 });
   try {
@@ -226,14 +301,13 @@ try {
     await page.keyboard.down('4');
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray', null, { timeout: 60000 });
     await page.keyboard.up('4');
-    await page.waitForFunction(() => document.documentElement.dataset.cursor === 'xray');
     const mode = { mode: await page.locator('html').getAttribute('data-mode'), cursor: await page.locator('html').getAttribute('data-cursor') };
     assert.deepEqual(mode, { mode: 'xray', cursor: 'xray' });
     const offenders = [], counts = { points: 0, cursors: {}, regions: {} };
     await scanViewport(page, { label: 'xray', width: 1440, height: 900, mode: 'xray', offenders, counts });
     const naavi = await centerPoint(page.locator('[data-naavi]'));
     const sample = await checkPoint(page, { label: 'xray-naavi', ...naavi, mode: 'xray', offenders, counts });
-    assert.deepEqual(offenders, [], `The xray allowlist has no foreign cursor: ${JSON.stringify(offenders.slice(0, 8))}`);
+    assert.deepEqual(offenders, [], `The xray mode keeps its own cursor everywhere: ${JSON.stringify(offenders.slice(0, 8))}`);
     assert.deepEqual(errors, []);
     report.xray = { ...mode, points: counts.points, cursors: counts.cursors, naavi: sample, offenders: [], passed: true };
     await page.screenshot({ path: new URL('xray-1440.png', output).pathname });
@@ -243,7 +317,7 @@ try {
     throw error;
   } finally { await context.close(); await save(); }
 
-  console.log(`PASS cursor hit map: ${report.profiles.map(item => `${item.width}px ${item.points}`).join(', ')}; xray ${report.xray.points}; zero foreign cursors, logo overlay aligned at every blanket point.`);
+  console.log(`PASS native cursor hit map: ${report.profiles.map(item => `${item.width}px ${item.points}`).join(', ')}; xray ${report.xray.points}; zero foreign cursors, one native image per state.`);
 } catch (error) {
   await save();
   throw error;
