@@ -291,8 +291,10 @@ test('Works has four unnumbered major rubrics, subordinate archive labels and an
   assert.match(markup, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow" aria-hidden="true"><\/i><\/a><\/h2>/);
   const model = markup.match(/<section[^>]+data-deferred-model>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(model);
-  assert.match(model, /^<h3[^>]+>3d model<\/h3>$/);
-  assert.doesNotMatch(model, /canvas|img|placeholder|loading|data-flash-mannequin/);
+  assert.match(model, /^<h3[^>]+>3d model<\/h3>/);
+  assert.match(model, /data-mannequin-preview data-mannequin-src="\/models\/mannequin\.glb" data-mannequin-state="deferred"/);
+  assert.match(model, /role="img" aria-label="White faceted dress form on a three-foot stand"/);
+  assert.doesNotMatch(model, /<canvas|<img|data-flash-mannequin|three\.js|GLTFLoader/);
 });
 
 test('homepage About copy remains one flowing paragraph and every relevant route exposes the same visit indicator', () => {

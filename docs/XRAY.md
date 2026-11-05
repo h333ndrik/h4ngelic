@@ -44,7 +44,7 @@ The existing hero render/visibility loop remains responsible for WebGL. Material
 
 `src/mode-audio.js` synthesizes related stereo cues from damped, inharmonic resonances, a brief strike and two quiet early reflections. Enter rises slightly; return descends. Both last 0.7 seconds by default. A short attack, bounded PCM peak, controlled master gain and compressor prevent abrupt level spikes. A new transition fades/stops the previous voice before starting its replacement; ended nodes disconnect.
 
-AudioContext allocation/resume starts from the accepted trusted key/pointer/button gesture. Sound playback starts at the actual mode transition, not at the beginning of a cancelled hold. The footer's `sound on/off` button mutes playback and stops a current voice; mute state remains in document memory across navigation. Unsupported or denied Web Audio is a silent fallback. There are no external audio files or runtime audio requests.
+AudioContext allocation/resume starts from the first trusted key/pointer/button gesture. WORLD 333 and WORLD 4 are lazy file-based loops owned by the same controller; mode changes play the matching one-shot and crossfade the shared transport. The SOUND ON/OFF and volume controls act on the complete mix, mute suspends the context, and a hidden tab suspends it. SMASH keeps priority by ducking the world bus. Unsupported, denied or missing audio remains a silent fallback. See [WORLD-SOUND.md](WORLD-SOUND.md) for paths, hashes, the 900 ms live crossfade setting and verified limits.
 
 Use `npm run sounds:export` to generate review WAVs from the same PCM/settings; exported review files are not runtime dependencies.
 
@@ -56,6 +56,7 @@ Use `npm run sounds:export` to generate review WAVs from the same PCM/settings; 
 | `src/data/xraySettings.js` | `shortcutHoldMs`, transition duration/rate, palette, saturation, channel separation and non-monotonic color tables |
 | `src/data/corruptionSettings.js` | Distress, material burn, grain, color/pixel corruption, glow, smear and recovery strength; field and device-quality bounds |
 | `src/data/modeAudioSettings.js` | Sound enable, volume, duration, partials, decay, enter/leave sweep and quiet reflections |
+| `src/audio/worldSoundSettings.js` | World WAV paths, mode mapping, loop/transition gains, crossfade source, limiter, ducking and one-shot cap |
 | `src/data/uiEffectSettings.js` | Shared hover magnification/glow, magnet distance and arrow geometry/spacing |
 | `src/data/easterSettings.js` | Hidden-copy timing, local visit policy and ink lifetime/cap |
 

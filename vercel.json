@@ -1,9 +1,20 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "headers": [
+    {
+      "source": "/assets/audio/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ],
   "redirects": [
+    { "source": "/creative/onskin/:id", "destination": "/creative/:id", "permanent": true },
+    { "source": "/creative/onskin", "destination": "/creative/tattoos", "permanent": true },
     { "source": "/work/tools/:id", "destination": "/creative/tools/:id", "permanent": true },
     { "source": "/work/tools", "destination": "/creative/tools", "permanent": true },
     { "source": "/work/tattoos/:id", "destination": "/creative/:id", "permanent": true },
-    { "source": "/work/tattoos", "destination": "/creative/onskin", "permanent": true },
+    { "source": "/work/tattoos", "destination": "/creative/tattoos", "permanent": true },
     { "source": "/work/:category/:id", "destination": "/creative/:id", "permanent": true },
     { "source": "/work/flashes", "destination": "/creative/flashes", "permanent": true },
     { "source": "/work/jewellery", "destination": "/creative/jewellery", "permanent": true },

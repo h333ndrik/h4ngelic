@@ -1,0 +1,10 @@
+{
+  "testedAt": "2026-11-03T23:13:55.870Z",
+  "base": "http://127.0.0.1:55341",
+  "passed": false,
+  "requested": [
+    "390"
+  ],
+  "reports": [],
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 0\n\n    at mobile (file:///Users/h4ngelic/Documents/Codex/2026-11-03/world-sound-h4ngelic/tests/mobile-interactions-browser.mjs:180:12)\n    at async file:///Users/h4ngelic/Documents/Codex/2026-11-03/world-sound-h4ngelic/tests/mobile-interactions-browser.mjs:323:10"
+}

@@ -1,3 +1,140 @@
+# Current checkpoint — WORLD SOUND v2 (90 s loops) — 2026-11-04
+
+Status: **IMPLEMENTED / CHROMIUM VERIFIED / NOT PUSHED**. One new commit on top
+of `27315c6` on local branch `v3.2-world-sound`; no history rewrite, no push, no
+merge, no deploy. V3.1-owned modules, layout, mannequin and `api/inquiry.js`
+were not touched.
+
+## Delivered in this pass
+
+- `scripts/renderWorldLoops.mjs` renders all four deliverables from one
+  deterministic synthesis graph: two 90 s loops (3,969,000 frames) and two
+  1.4 s transitions (61,740 frames), with one documented seed per file.
+- Loops are periodic by construction (all oscillator/LFO frequencies on the
+  1/90 Hz grid, envelopes as loop-phase functions, two-pass filtered noise bed)
+  and rendered with a 4 s pre-roll that warms echo and reverb before the exact
+  trim. The earlier equal-power wrap blend was removed; it added a measurable
+  level bump for coherent drones.
+- Build arc 0-15 s intro → layers 15-60 s → fullest 50-75 s → intro texture at
+  90 s. Measured first-2 s vs last-2 s difference: +0.43 dB (333), −0.48 dB (4).
+- Four anchors (43.6535 / 87.3071 / 103.8262 / 1046.5023 Hz) are continuous in
+  both loops; three probes per loop record their spectral presence.
+- Replaced the four committed M4A assets in a normal commit. Payload
+  2,087,514 → **5,771,564 bytes** (+176.5%), which is the requested threefold
+  loop duration at the same 256 kbps; v1 WAV masters were 17,129,180 bytes.
+- Encoder changed to macOS AudioToolbox (`afconvert`) plus a bit-exact ffmpeg
+  remux, with ffmpeg as the fallback. This removed an ffmpeg-native AAC start
+  artifact (a 0.042 offset over the first 512 samples) at the loop point.
+- `worldSoundSettings.js`: loop frame target 3,969,000, new `seconds` contract
+  (90 / 1.4). Fallback chain M4A → FLAC → WAV and every runtime behaviour
+  unchanged.
+- `worldSound.js` device-rate fix: asset acceptance now scales the expected
+  frame count to the context rate instead of demanding a 44.1 kHz context. On a
+  48 kHz output device the previous code rejected all loops and left the site
+  silent; that path is now tested at 44.1 and 48 kHz.
+
+## Verification (actual)
+
+- `npm test` outside sandbox: **393 passed, 0 failed** (385 baseline + 8 new).
+- Format decode: **4/4 files**, exact frames, zero audio-path long tasks.
+- World sound: **6/6 profiles** + missing-file degradation.
+- Mode audio: PASS. Sound controls: **8/8**. SMASH: PASS at 1440/390/320.
+- Production build: PASS, 18 routes + 404, exactly four M4A with matching hashes.
+- Determinism: 4/4 WAV and M4A pairs byte-identical on re-render.
+
+Evidence: `docs/validation/world-sound/v2/` plus
+[WORLD-SOUND.md](docs/WORLD-SOUND.md) for hashes, seams, LUFS and the listening
+checklist.
+
+## Open
+
+- **BLOCKED:** real iPhone Safari silent switch/route/interruption behaviour.
+- **BLOCKED at the visual boundary:** a second user gesture during a visual mode
+  transition is still rejected by the unchanged visual controller.
+- **OPEN for the user:** subjective listening review of the new loops.
+- **OBSERVATION:** pre-existing no-cold-WebGL-on-About failure in
+  `tests/mobile-interactions-browser.mjs`, present on base `11e78a1` too.
+- Deployed package has no FLAC/WAV fallback files.
+- PR #22 still points at `27315c6`; this commit is local until the user asks for
+  a push.
+
+# Current checkpoint — WORLD SOUND COMPLETION — 2026-11-04
+
+Status: **AUDIO COMPLETE / CHROMIUM VERIFIED / PARTIAL DEVICE COVERAGE**.
+Work remains isolated on `v3.2-world-sound` from base `11e78a1`. The original
+dirty checkout, V3.1-owned modules, `main` and `api/inquiry.js` were not changed.
+No merge, push or deployment occurred.
+
+## Merge integration — 2026-11-04
+
+PR #20 is merged into `origin/main` at `9123a00`. The sound branch's merge base
+is that commit, so `git rebase origin/main` was a clean no-op with no conflicts.
+Post-rebase serial verification passed: Node **385/385**; 12/12 format decodes
+with zero audio-path long tasks; world sound **6/6**; sound controls **8/8**;
+SMASH at 1440/390/320; mode interaction and V3.1 UI **6/6** each. Production
+build passed with exactly the four M4A files and unchanged hashes. Evidence:
+`docs/validation/world-sound/merge-pass/`.
+
+No V3.1-owned code changed. The known mobile cold-WebGL failure remains an
+OBSERVATION on base and branch. `v3.2-world-sound` was pushed and
+[PR #22](https://github.com/h333ndrik/h4ngelic/pull/22) opened against `main`.
+No merge or deployment occurred.
+
+## Delivered
+
+- Generated FLAC and 256 kbps AAC/M4A derivatives from the four local WAV
+  masters. Browser `decodeAudioData` proved exact master frame counts for all
+  three formats: loops 1,365,677 frames and transitions 61,740 frames.
+- Selected four M4A runtime files, the exact 2-loop + 2-transition manifest.
+  Payload fell from **17,129,180** to **2,087,514 bytes**, a **87.81%** saving.
+- Rewrote the unpushed branch commit so the WAV masters are absent from branch
+  history. Masters remain local-only; master and derivative SHA-256 values are
+  recorded in [WORLD-SOUND.md](docs/WORLD-SOUND.md).
+- Added ordered runtime candidates **M4A → FLAC → WAV** in
+  `src/audio/worldSoundSettings.js`. The engine validates sample rate, channel
+  count and exact frame count before accepting a candidate, automatically trying
+  the next format after fetch/decode/padding failure, then failing silent.
+- Added browser coverage for all 12 generated formats and no-double-fetch,
+  one-active-loop, full 1.4 s one-shot, crossfade alignment, arbitrary-phase
+  entry and asset-manifest contracts.
+- Added the required listening checklist for seam, visual tear, WORLD 4 density,
+  iOS silent switch, SMASH ducking and reload persistence.
+
+## Verification
+
+- `npm test`: **385 passed, 0 failed**.
+- `world-audio-formats-browser`: **12/12 format files PASS**, exact decoded
+  sample lengths, continuous non-zero loop boundaries, zero audio-path long
+  tasks.
+- `world-sound-browser`: **6/6 width/motion profiles PASS**, both modes, plus
+  missing-file degradation.
+- `mode-audio-browser`: PASS.
+- `sound-controls-browser`: **8/8 profiles PASS**.
+- `smash-v31-browser`: PASS at 1440/390/320.
+- `npm run build`: PASS; exactly four M4A files copied byte-for-byte.
+
+## OBSERVATION / limits
+
+- **OBSERVATION, not audio:** the preserved mobile test still fails its
+  no-cold-WebGL-on-About assertion on both this branch and base `11e78a1`; the
+  lazy mannequin preview creates the context. No V3.1/mannequin code was touched.
+- Real iOS Safari and hardware listening remain **BLOCKED**.
+- The visual controller still rejects a second gesture during an active visual
+  transition. Audio retargeting is directly tested but that user path is blocked.
+- Only primary M4A candidates are deployed. FLAC/WAV fallback URLs work if those
+  alternate files are added later; with the current four-file package, complete
+  primary failure degrades to silence.
+- The standalone preview does not embed the 2.1 MB world set.
+
+## Deferred
+
+Hero first-touch cue, color-mapped ink impacts and THE OTHER SIDE ambience remain
+TODO. Do not implement them in this pass.
+
+Exact next checkpoint: user review and merge of PR #22. After explicit merge
+authorization, Vercel deploys `main` automatically; the automation must not merge
+it independently.
+
 # Current review checkpoint — V3.1.1
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.
@@ -806,3 +943,304 @@ Actual serial verification, before builds:
 Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F17`. No merge/deploy/build performed for this fix.
 
 Exact next checkpoint: Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## WORLD SOUND v3 — DONE — 2026-11-05
+
+Real-source 90 s loops and matched transitions. New commit on
+`v3.2-world-sound` (no history rewrite); not pushed, merged or deployed.
+Audio scope only; no V3.1 module, layout, mannequin or `api/inquiry.js` change.
+
+Changed files: `.gitignore`, `docs/WORLD-SOUND.md`, `docs/validation/world-sound/measurements/`,
+`docs/validation/world-sound/v3-build.json`, `docs/validation/world-sound/v3/`,
+`public/assets/audio/{loop-333,loop-4,x-333-4,x-4-333}.m4a`,
+`scripts/buildWorldSound.mjs`, `src/audio/worldSound.js`,
+`src/audio/worldSoundSettings.js`, `src/mode-audio.js`,
+`tests/{mode-audio-browser.mjs,mode-audio.test.js,world-audio-formats-browser.mjs,world-sound-browser.mjs,world-sound.test.js,world-sound-v3.test.js}`,
+plus deletion of `tests/world-sound-v2.test.js`.
+
+Actual serial verification:
+
+- `npm test`: exit 0, **400 passed, 0 failed** (9.75 s). Output: `docs/validation/world-sound/v3/node-tests.txt`.
+- `tests/world-audio-formats-browser.mjs`: PASS, 4/4 files at 3,969,000 / 39,690 frames, no audio-path long tasks.
+- `tests/world-sound-browser.mjs`: PASS, 6/6 profiles at 1440/390/320 × full/reduced plus missing-file degradation.
+- `tests/mode-audio-browser.mjs`: PASS.
+- `tests/sound-controls-browser.mjs`: PASS, 8/8 profiles.
+- `tests/smash-v31-browser.mjs`: PASS at 1440/390/320.
+- `npm run build`: PASS; exactly four M4A in `dist`, hashes match (`docs/validation/world-sound/v3/build.txt`).
+- `node scripts/buildWorldSound.mjs --validate`: `pass: true`.
+
+Delivered: 5,680,943 B total. LUFS −18.0/−18.0/−18.0/−18.1; true peaks
+−3.4/−6.3/−10.6/−9.3 dBFS. Transition files are 39,690 frames, read from the
+900 ms visual config. Keys measure A minor (333) and F major (4), not F minor;
+no pitch shift was guessed.
+
+Exact next checkpoint: user listens to the four files in context. Then, only on
+explicit request, push `v3.2-world-sound`, update PR #22, and merge after review.
+No push/merge/deploy in this pass.
+
+## WORLD SOUND PHASE 4 — GUIDED LISTENING CORE — 2026-11-05
+
+Superseded by the completed Phase 4 entry below; the missing 4.3 b/c text was
+supplied in the next pass. This entry records the 4.1–4.3a milestone. No play
+button and no autoplay were added; SOUND remains the hard control.
+
+Changed files: `src/audio/guided-listening.js` (new), `src/mode-audio.js`,
+`src/audio/worldSound.js`, `src/xray.js`, `src/sound-controls.js`,
+`src/sound-controls.css`, `tests/guided-listening-browser.mjs` (new),
+`tests/world-sound.test.js`, `tests/mode-audio.test.js`,
+`tests/mode-audio-browser.mjs`, `tests/world-sound-browser.mjs`,
+`tests/memory-handoff.test.js`, `package.json`, `docs/WORLD-SOUND.md`.
+
+Implemented contract:
+
+- One lazy `AudioContext`; unlock on pointerdown/touchend/click/keydown, each
+  `{ once, passive }`; synchronous `resume()`; one-sample silent prime.
+- Unlock fetches and decodes nothing. A stored mute always wins; muted triggers
+  unlock only.
+- Stage 1 wordmark pointerdown fades the active loop over 1.8 s.
+- Stage 2 desktop pointermove > 200 px after unlock, throttled 100 ms.
+- Stage 3 first scroll that takes the hero out of view, throttled 120 ms.
+- Stages fire once per session; activation reuses an existing loop voice.
+- Failed visibility resume switches the SOUND control to “tap to resume”.
+- One-time iOS hint: “hearing nothing? check the silent switch.” for ~6 s.
+
+Actual verification:
+
+- `npm test`: **402 passed, 0 failed**. Output:
+  `docs/validation/world-sound/v3/phase4b/node-tests.txt`.
+- `tests/guided-listening-browser.mjs`: **6/6 scenarios pass**. Output:
+  `docs/validation/world-sound/v3/phase4b/guided-listening-browser.txt`.
+- `world-audio-formats-browser`, `world-sound-browser`, `mode-audio-browser`,
+  `sound-controls-browser`: pass.
+- `smash-v31-browser`: the first combined serial run had one transient 390 px
+  failure (“manual stop starts a real short fade”); the isolated rerun passed
+  3/3. Recorded as a test timing flake, not reproduced.
+
+Exact next checkpoint: user supplies the remainder of Phase 4 after “hearing
+nothing”. Then implement 4.3 b/c and later items on this branch; no push, merge
+or deploy.
+
+## WORLD SOUND PHASE 4 — DONE — 2026-11-05
+
+Completed 4.3 b/c/d, the 4.4 performance budgets and the 4.5 test set. The
+Phase 4 brief is now complete from 4.1 through 4.5. Audio scope only; SOUND
+remains the single hard control, with no play button and no autoplay.
+
+Changed files: `src/mode-audio.js`, `src/sound-controls.js`,
+`src/sound-controls.css`, `src/audio/guided-listening.js`,
+`src/audio/worldSound.js`, `tests/audio-performance-browser.mjs` (new),
+`tests/guided-listening-browser.mjs`, `tests/sound-controls-browser.mjs`,
+`tests/mode-audio.test.js`, `tests/smash-v31-browser.mjs`, `package.json`,
+`docs/WORLD-SOUND.md`, `NEXT_SESSION.md`.
+
+Delivered:
+
+- Three analyser-driven bars beside SOUND (`fftSize=32`, ≤30 reads/s),
+  `aria-hidden`, fixed 16×10 px slot, 3 bars only.
+- rAF and analyser disconnect synchronously on mute/suspend/hide; reduced motion
+  shows a static active state with no rAF.
+- SOUND text and accessible name are states: “sound on” / “sound off”.
+- “tap to resume” only after a failed resume, keyboard reachable, cleared on
+  success, no automatic retry spam while it stays failed.
+- iOS hint shown once, persisted dismissal, no live region.
+- Fade intent is created before async decode; the full 1.8 s fade starts on
+  resolve with one source and no gap.
+- Stage 3 now uses `IntersectionObserver`; no per-scroll layout reads.
+
+Actual verification:
+
+- `npm test`: **402 passed, 0 failed** (9.0 s).
+- `tests/guided-listening-browser.mjs`: **8/8 scenarios**.
+- `tests/audio-performance-browser.mjs`: PASS. Handler total 0.1 ms, startup
+  0.1 ms, context construction 105.2–174.5 ms (platform, reported separately),
+  analyser 16–20 reads/s, zero audio-only long tasks, zero indicator layout
+  shifts, in-flight decode exactly one start.
+- `sound-controls-browser`, `world-sound-browser`, `mode-audio-browser`,
+  `world-audio-formats-browser`: pass.
+
+Decoded PCM with one world resident is exactly **31,752,000 B**. Two full
+333→4→333 round-trips measured heap deltas of **−21,206 B** (latest), **+74,834 B** and
+**+144,786 B** (earlier runs) after forced GC, under the 2 MB budget. The outgoing loop buffer is
+released after its fade; the next switch reloads it. No idle prefetch is issued.
+
+Exact next checkpoint: user listening review of the four sounds in context.
+Push/PR #22 stays untouched until explicitly requested.
+
+## PHASE 4 VERIFICATION QUERIES — DONE — 2026-11-05
+
+Resolved the five verification queries without adding new features.
+
+1. Stage 2 removal: deleted the `pointermove` listener from
+   `src/audio/guided-listening.js`. Grep across `src/audio`, `src/mode-audio.js`,
+   `src/xray.js` and `src/sound-controls.js` returns no pointermove/mousemove
+   listener. There is no dwell, idle or time-on-page audio trigger. The remaining
+   entries are stage A (wordmark `pointerdown`) and stage B (`#selected-work`).
+2. Stage B condition: `#selected-work` (the WORKS section), observed by
+   `IntersectionObserver` with `threshold: [.25]` in
+   `src/audio/guided-listening.js`. Fires once. The old hero-out condition
+   (hero fully out of the viewport) is gone, together with its scroll fallback.
+   The observer re-attaches on `h4:pagechange`, because `#selected-work` is
+   re-created by `content.innerHTML = renderRoutePage(...)` on every route
+   change; without the re-arm stage B died after home → work → home. Confirmed
+   by a negative control: with the old single-shot observer the new browser
+   scenario fails, with the re-arm it passes.
+3. Heap: added outgoing-loop buffer eviction in
+   `src/audio/worldSound.js`. After the crossfade stops an inactive loop, its
+   `AudioBuffer` is dropped and the next switch re-fetches/re-decodes it.
+   Measured with CDP `HeapProfiler.collectGarbage` +
+   `performance.memory.usedJSHeapSize` before and after two full 333→4→333
+   round-trips: **+48,214 B** in the final evidence run (earlier runs −21,206 B,
+   +74,834 B and +144,786 B), all far inside the 2 MB budget. After the round-trips only the active loop is
+   resident (`bufferDuration: 90`), the inactive loop is `idle` with
+   `bufferDuration: 0`.
+4. Accessibility: stable `aria-label="sound"` plus `aria-pressed` (`true` = on,
+   `false` = off); visible text remains `sound on` / `sound off`. Resume state
+   keeps the specific name `tap to resume sound`. Tests updated in
+   `sound-controls-browser.mjs`, `guided-listening-browser.mjs`,
+   `mode-audio-browser.mjs`, `audio-performance-browser.mjs`.
+5. Docs: `docs/WORLD-SOUND.md` now states that 121–209 ms is localhost-only and
+   that a real mobile cold visit adds the ~2.8 MB loop download, making ~3 s to
+   first sound the realistic case. It also states that both baseline `a64f808`
+   and the new timing runs used stage A (wordmark pointerdown), not SOUND ON.
+
+Changed files: `src/audio/guided-listening.js`, `src/audio/worldSound.js`,
+`src/mode-audio.js`, `src/sound-controls.js`, `index.html`,
+`tests/world-sound.test.js`, `tests/guided-listening-browser.mjs`,
+`tests/audio-performance-browser.mjs`, `tests/sound-controls-browser.mjs`,
+`tests/mode-audio-browser.mjs`, `docs/WORLD-SOUND.md`, `NEXT_SESSION.md`.
+
+Actual verification after the changes:
+
+- `npm test`: **402 passed, 0 failed** (`phase4c/node-tests.txt`).
+- `guided-listening-browser`: **9/9 scenarios**, including pointermove-inert,
+  WORKS-25%-visible, touch WORKS visibility and the home → work → home re-arm.
+- `audio-performance-browser`: PASS; handler 0.2 ms, startup 0.2 ms, context
+  122.3 ms, round-trip heap delta +48,214 B, analyser 16 reads/s, 0 audio-only
+  long tasks, 0 console errors.
+- `world-audio-formats-browser`, `world-sound-browser` (6/6 profiles),
+  `mode-audio-browser`, `sound-controls-browser` (8/8 profiles),
+  `smash-v31-browser` (1440/390/320): pass.
+- Production build: exactly four M4A with unchanged hashes
+  (`phase4c/build.txt`). `public/images/optimized/*` was restored after the
+  build and is not part of the commit.
+
+### OBSERVATION (pre-existing, non-audio, not fixed here)
+
+- `tests/smash-v31-browser.mjs` polls a 1.8 s gain attack with a 5 s
+  `waitForFunction`. In the first back-to-back batch run it timed out at that
+  poll; a standalone run and the second full serial batch both passed at
+  1440/390/320. The assertion is load-sensitive, not a product defect. The file
+  belongs to the V3.1 feature set and was left unchanged.
+
+Exact next checkpoint: user listening review. No push, merge or deploy.
+
+## RELEASE — PR #22 MERGED — 2026-11-05
+
+Audio release step, no code changes in this pass (documentation only).
+
+**Pre-flight.** Branch `v3.2-world-sound`, no staged files, no stashes.
+Exactly four committed audio files (`loop-333.m4a`, `loop-4.m4a`,
+`x-333-4.m4a`, `x-4-333.m4a`); the media diff against `main` contains only
+those four. `masters/` is ignored (`.gitignore:159`). `npm test`: **402 passed,
+0 failed**. The only untracked entry is `node_modules` (not ignored by
+`.gitignore`; left untouched).
+
+**Scope finding (flagged, not changed).** `origin/main` is an ancestor of the
+branch, so the merge cannot drop main's work. The PR nevertheless carries 78
+pre-audio commits (the whole V3.2 line), which is why `git diff --stat
+origin/main...HEAD` shows 1601 files / +359,939 / −2,207 — about 1400 of them
+are `docs/validation` evidence files. The audio pass itself (`origin/v3.2-world-sound..HEAD`,
+5 commits) is confined to `src/audio/*`, `src/mode-audio.js`,
+`src/sound-controls.*`, `src/xray.js`, `index.html`, `package.json`, scripts,
+tests, docs and the four M4A. No V3.1 feature logic was edited during this pass.
+
+**Return-switch re-decode (new measurement).** Because `releaseLoopBuffer()`
+drops the outgoing PCM, every switch back re-fetches and decodes. Reference
+desktop, headless Chromium 1440 px, warm HTTP cache, three round-trips:
+`4 → 333` reaches audible in **126.6 / 142.2 / 168.4 ms** (decode 94–119 ms,
+fetch 3–7 ms); `333 → 4` in 96–112 ms. Against the 900 ms transition window the
+re-decode uses ~0.13–0.17 s. Slower devices can exceed the window, which would
+produce an audible gap; idle prefetch stays off deliberately (memory over
+latency — a second loop would pin another 31,752,000 B). Recorded in
+`docs/WORLD-SOUND.md`; raw data `docs/validation/world-sound/v3/phase5/re-decode-warm-cache.json`.
+
+**Push.** `17ae6e4` → `origin/v3.2-world-sound` (plain push, fast-forward from
+`27315c6`). PR #22 head moved to `17ae6e4`; `f654e49` is its parent and is
+contained. Mergeability at merge time: `MERGEABLE` / `CLEAN`, both status
+checks `SUCCESS`.
+
+**Merge.** `gh pr merge 22 --merge` — merge commit
+`b5634bc5be4073c678672dd69f64810849cc157d` at 2026-11-05T19:31:46Z, parents
+`9123a00` (main) and `17ae6e4`. No squash, no rebase, branch kept.
+
+**Deployment.** Vercel status `success` on `b5634bc`
+(`https://vercel.com/h333ndrik/h4ngelic/Gjp2nvfSU3aKBXD4bQK4sEqsmnyh`);
+production reports build marker `b5634bc5be40`.
+
+**Production asset verification** (`https://www.h4ngelic.com`; the apex 308s to
+`www`): all four files `200`, `content-type: audio/mp4`, exact lengths
+2,847,109 / 2,774,228 / 30,015 / 29,591 and SHA-256 identical to the committed
+files. `cache-control: public, max-age=0, must-revalidate` — a finding, because
+the files are not content-hashed, so they do not receive an immutable policy.
+
+**Indexing.** Unchanged and still closed: `<meta name="robots" content="noindex, follow">`
+and `robots.txt` `Disallow: /`.
+
+**Rollback.** `git revert -m 1 b5634bc` and push; or promote the `9123a00`
+deployment back to production in Vercel (previous deployments are retained).
+
+**Next step.** User listening pass on production plus a real iPhone test
+(silent switch, wordmark tap, activity bars, tap-to-resume after a call).
+`v3.2-mannequin-female` stays out of scope and must be rebased onto the new
+`main` before its next push.
+
+## POST-MERGE — CONTENT-HASHED AUDIO URLS + IMMUTABLE CACHE — 2026-11-05
+
+Audio scope only, new commit on `v3.2-world-sound` (not merged, not deployed).
+
+**Approach (b), build step.** The four files are published as
+`<name>.<sha256-first-12>.<ext>` and `src/audio/worldSoundManifest.js` is
+generated from them. (a) was rejected because `import.meta.glob`/`?url` are
+Vite-only: `worldSoundSettings.js` is imported directly by `node --test`, so the
+settings module must stay plain ESM. Option (b) keeps one copy per file, keeps
+the scripts able to read real paths, and leaves no stable name in `public/`.
+`scripts/hash-world-audio.mjs` verifies each hash against its file, rejects
+stable names and stray files, and runs in `predev` and `prebuild`
+(`npm run sounds:hash`).
+
+**Cache.** No immutable policy existed to inherit: on the live deployment both
+`/assets/main-BVhm8sXt.js` (hashed) and `/assets/audio/loop-333.m4a` (stable)
+returned `cache-control: public, max-age=0, must-revalidate`. `vercel.json` now
+sets `public, max-age=31536000, immutable` for `/assets/audio/(.*)` only. The
+rule is safe exactly because those names are content-hashed. It takes effect on
+the next deployment; this pass does not deploy.
+
+**Unchanged bytes.** All four SHA-256 values are identical to the ones recorded
+before the rename: `d28de005…`, `ab235d05…`, `5ee49fed…`, `477df723…`. Frame
+counts (3,969,000 / 39,690), LUFS (−18.0 / −18.1) and true peaks are untouched;
+nothing was re-encoded.
+
+**Old URLs.** `/assets/audio/<stable>.m4a` no longer exists. Production answers
+a missing file under that path with `404` + `text/html` (checked with a probe
+path), so an old client gets a 404, not a stale audio file.
+
+**.gitignore.** `node_modules/` added, plus a bare `node_modules` line because
+this worktree links `node_modules` to another checkout: git treats the symlink
+as a file, so the trailing-slash rule alone does not match. Verified with
+`git check-ignore -v node_modules` → `.gitignore:163:node_modules`. The literal
+`git check-ignore -v node_modules/` form fails with "beyond a symbolic link",
+which is a git limitation on symlinked paths, not a missing rule.
+
+**Finding: stray duplicates.** The working tree contained byte-identical
+`<name> 2.m4a` copies in `public/assets/audio/` (and ` 2` copies of many other
+files). Those four were untracked duplicates of the committed audio and would
+have been emitted into `dist/`; they were moved to `/tmp/h4ngelic-stray-audio/`
+unchanged. The other ` 2` files are outside the build output and were left alone.
+
+**Verification.** `npm test` 402/402. Browser suites: world-audio-formats,
+world-sound (6/6 profiles), guided-listening (9/9), audio-performance,
+mode-audio, sound-controls (8/8) — evidence in
+`docs/validation/world-sound/v3/phase6/`. Build: exactly four files in
+`dist/assets/audio/`, hashes matching the committed ones, no stable-name copies.
+Payload: audio unchanged (2,847,109 B first loop); main bundle 216,273 B raw /
+69,142 B gzip vs 216,289 / 69,073 on `fdd42f5`.

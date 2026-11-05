@@ -1,0 +1,20 @@
+      "lufs": -18,
+      "truePeakDbfs": -10.6,
+      "lufsInRange": true,
+      "peakBelowMinus1": true,
+      "gates": null
+    },
+    {
+      "path": "public/assets/audio/x-4-333.m4a",
+      "frames": 39690,
+      "expectedFrames": 39690,
+      "framesExact": true,
+      "lufs": -18.1,
+      "truePeakDbfs": -9.3,
+      "lufsInRange": true,
+      "peakBelowMinus1": true,
+      "gates": null
+    }
+  ],
+  "pass": true
+}

@@ -151,3 +151,13 @@ private/audio/
 
 # Turbo Repo
 .turbo
+
+# Local audio render output; WAV/FLAC masters stay out of Git.
+work/
+
+# Local source masters (user-supplied audio, never committed).
+masters/
+node_modules/
+# A trailing slash only matches a real directory; this worktree links
+# node_modules, so the bare path is ignored as well.
+node_modules

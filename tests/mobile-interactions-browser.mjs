@@ -140,7 +140,7 @@ async function mobile(width, reduced = false) {
     await page.waitForTimeout(2250);
     assert.equal(Number(await control.getAttribute('data-mobile-taps')), 0, 'Incomplete sequences reset within the two-second window.');
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal');
-    assert.equal(await page.evaluate(() => window.__mobileProbe.audio.length), 0, 'Incomplete taps prime, but never play, transition audio.');
+    assert.equal(await page.evaluate(() => window.__mobileProbe.audio.some(event => event.duration < 2)), false, 'Incomplete taps may unlock the world loop but must never play a transition one-shot.');
 
     // A press-drag and a long press cannot be counted as deliberate quick taps.
     const point = await controlPoint(page);
@@ -161,7 +161,7 @@ async function mobile(width, reduced = false) {
     assert.match(await control.getAttribute('aria-label'), /3|three/i);
     const first = await page.evaluate(() => window.__mobileProbe);
     assert.deepEqual(first.modes.map(event => event.mode), ['xray']);
-    if (first.contexts) assert.deepEqual(first.audio.map(event => event.mode), ['xray']);
+    if (first.contexts) assert.deepEqual(first.audio.filter(event => event.duration < 2).map(event => event.mode), ['xray']);
     assert.equal(await page.locator('[data-ink-mark]').count(), 0);
     await page.screenshot({ path: new URL(`${profile}-other.png`, output).pathname });
     await taps(page, cdp, 3, { feedback: true });
@@ -186,7 +186,7 @@ async function mobile(width, reduced = false) {
     assert.deepEqual(repeated.modes.map(event => event.mode), ['xray', 'normal', 'xray', 'normal']);
     if (repeated.contexts) {
       assert.equal(repeated.contexts, 1, 'Every route and direction shares the existing audio controller.');
-      assert.deepEqual(repeated.audio.map(event => event.mode), repeated.modes.map(event => event.mode));
+      assert.deepEqual(repeated.audio.filter(event => event.duration < 2).map(event => event.mode), repeated.modes.map(event => event.mode));
     }
 
     await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });

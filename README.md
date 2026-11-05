@@ -68,7 +68,7 @@ The build prerenders HTML for published routes, plus `404.html`, `sitemap.xml` a
 
 Progressive navigation retains same-document state and supports keyboard focus and path-specific back/forward scroll restoration. A different category is a real page change, not a hash tab that retains unrelated archive contents. Unsupported or reduced-motion browsers use simpler updates; failures fall back to normal navigation. Metadata lives in `src/data/seoContent.js`, with canonical origin `https://h4ngelic.com`. Builds default to preview `noindex`. `H4_DEPLOYMENT=production npm run build` only builds files; this pass does **not** merge or deploy. Empty archives and incomplete untitled projects stay excluded from indexing and the sitemap.
 
-The Three.js hero is lazy-imported only for the visible homepage. Cold Work and About routes do not download or initialize it. Rendering pauses outside the viewport and while the document is hidden. An optional validated Flash mannequin has its own deferred path and remains inactive without genuine configured content. No CMS, database or authentication dependency is needed.
+The Three.js hero is lazy-imported only for the visible homepage. Cold Work and About routes do not download or initialize it. Rendering pauses outside the viewport and while the document is hidden. The `3d model` subsection renders an original, procedural white dress form as one static frame after that section approaches the viewport; its GLB and Three.js module are not requested earlier. An optional validated Flash mannequin remains a separate deferred path and stays inactive without genuine configured content. No CMS, database or authentication dependency is needed.
 
 ## Motion and shared interactions
 

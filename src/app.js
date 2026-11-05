@@ -3,6 +3,7 @@ import './homepage.css';
 import './archive-structure.css';
 import './horizontal-drift.css';
 import './flash-mannequin.css';
+import './mannequin-preview.css';
 import './inquiry.css';
 import './v6-polish.css';
 import './easter-eggs.css';
@@ -30,6 +31,7 @@ import { initInquiry } from './inquiry.js';
 import { initConnectedWork } from './connected-work.js';
 import { heroPosterSettings } from './data/heroPosterSettings.js';
 import { fitRubricRows } from './rubric-fit.js';
+import { initMannequinPreviewLazy } from './mannequin-preview-loader.js';
 
 if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
 document.documentElement.dataset.h4StylesReady = 'true';
@@ -45,6 +47,7 @@ let stopImageReveals = () => {};
 let stopEndReveal = () => {};
 let stopDrift = () => {};
 let stopMannequins = () => {};
+let stopModelPreview = () => {};
 let heroObserver = null;
 let heroPreloadsActivated = false;
 const heroReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -331,9 +334,10 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopEndReveal();
   stopDrift();
   stopMannequins();
+  stopModelPreview();
   stopInquiry();
   stopConnectedWork();
-  stopDrift = stopMannequins = () => {};
+  stopDrift = stopMannequins = stopModelPreview = () => {};
   heroObserver?.disconnect();
   if (hero) hero.hidden = route.kind !== 'home';
   document.documentElement.dataset.page = route.kind;
@@ -350,6 +354,7 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopInquiry = initInquiry(content);
   stopInquiry.refreshContext?.(url);
   stopConnectedWork = initConnectedWork(content);
+  stopModelPreview = initMannequinPreviewLazy(content);
   scheduleSlashInset();
   document.fonts?.ready.then(scheduleSlashInset);
 
