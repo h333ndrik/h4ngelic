@@ -56,7 +56,7 @@ function audioFixture({ rejectResume = false, throwConstruction = false, storage
     createGain() { const node = Object.assign(new Node(), { gain: new Param() }); this.gains.push(node); return node; }
     createDynamicsCompressor() { return Object.assign(new Node(), Object.fromEntries(['threshold', 'knee', 'ratio', 'attack', 'release'].map(name => [name, new Param()]))); }
     createBiquadFilter() { return Object.assign(new Node(), { type: 'lowpass', frequency: new Param(), Q: new Param() }); }
-    createBuffer(channels, length) { return { channels: Array.from({ length: channels }, () => new Float32Array(length)), copyToChannel(data, index) { this.channels[index].set(data); } }; }
+    createBuffer(channels, length) { return { silent: length === 1, channels: Array.from({ length: channels }, () => new Float32Array(length)), copyToChannel(data, index) { this.channels[index].set(data); } }; }
     createBufferSource() { const source = new Source(); this.sources.push(source); return source; }
     createMediaElementSource(element) { const node = new Node(); node.media = element; return node; }
     decodeAudioData(bytes) {
@@ -91,6 +91,8 @@ function audioFixture({ rejectResume = false, throwConstruction = false, storage
   return { audio, contexts, media, storage, fetches, view };
 }
 
+const audibleSources = context => context.sources.filter(source => !source.buffer?.silent);
+
 test('Web Audio remains unallocated until a trusted user gesture, then primes before the hold timer', async () => {
   const { audio, contexts } = audioFixture();
   assert.equal(audio.snapshot().initialized, false);
@@ -101,8 +103,9 @@ test('Web Audio remains unallocated until a trusted user gesture, then primes be
   assert.equal(contexts[0].resumeCalls, 1, 'resume() must run synchronously inside the user gesture.');
   assert.equal(await ready, true);
   assert.equal(audio.play('xray'), true);
-  assert.equal(contexts[0].sources[0].started, contexts[0].currentTime, 'An idle cue starts with the actual transition.');
-  contexts[0].sources[0].end();
+  const [idleCue] = audibleSources(contexts[0]);
+  assert.equal(idleCue.started, contexts[0].currentTime, 'An idle cue starts with the actual transition.');
+  idleCue.end();
   assert.equal(audio.snapshot().allocatedVoices, 0);
   assert.equal(audio.snapshot().active, false);
   audio.dispose();
@@ -116,7 +119,7 @@ test('rapid transitions do not overlap and ended sources disconnect', async () =
   audio.play('xray');
   context.currentTime += .1;
   audio.play('normal');
-  const [first, second] = context.sources;
+  const [first, second] = audibleSources(context);
   assert.ok(first.stopped <= second.started, 'The old voice ends before the next one begins.');
   assert.ok(second.started - context.currentTime <= .01, 'Interruption protection does not add a perceptible delay.');
   first.end();
@@ -199,8 +202,8 @@ test('approved SMASH fetches once after a real gesture, fades precisely, ducks c
   assert.deepEqual(fetches[0], { url: '/audio/h4ngelic_v8_full_sound_remaster_v11.mp3', options: { cache: 'force-cache' } });
   assert.equal(media.length, 0, 'One central Web Audio controller owns playback without an independent media player.');
   const context = contexts[0];
-  const track = context.sources[0];
-  const envelope = context.gains[3].gain.events;
+  const track = audibleSources(context)[0];
+  const envelope = track.connections[0].gain.events;
   assert.equal(track.offset, 0, 'Every track activation begins at the first sample.');
   assert.deepEqual(envelope, [
     ['set', 0, 1], ['ramp', 1, 2.8],
@@ -219,7 +222,7 @@ test('approved SMASH fetches once after a real gesture, fades precisely, ducks c
   context.currentTime = 10;
   assert.equal(await audio.toggleSmash({ isTrusted: true }), false);
   assert.equal(track.stopped, 11, 'A second click schedules a one-second stop, not an immediate cut.');
-  assert.deepEqual(context.gains[3].gain.events.slice(-2), [['hold', 10], ['ramp', 0, 11]], 'Manual stop holds the current interpolated gain instead of jumping to a future scheduled value.');
+  assert.deepEqual(track.connections[0].gain.events.slice(-2), [['hold', 10], ['ramp', 0, 11]], 'Manual stop holds the current interpolated gain instead of jumping to a future scheduled value.');
   assert.equal(audio.snapshot().smashPhase, 'stopping');
   assert.equal(audio.play('normal'), false, 'Priority remains with the track through its short stop fade.');
   context.currentTime = 11;
@@ -229,7 +232,7 @@ test('approved SMASH fetches once after a real gesture, fades precisely, ducks c
   assert.equal(audio.play('normal'), true);
   assert.equal(await audio.toggleSmash({ isTrusted: true }), true);
   assert.equal(fetches.length, 1, 'A later activation reuses the cached decoded track without a second request.');
-  const restarted = context.sources.at(-1);
+  const restarted = audibleSources(context).at(-1);
   assert.equal(restarted.offset, 0);
   restarted.end();
   assert.equal(audio.smashPlaying, false);
@@ -251,6 +254,27 @@ test('missing or denied SMASH cannot substitute a track or leave cue priority st
   absent.audio.dispose(); denied.audio.dispose();
 });
 
+test('guided unlock is state-only, works while muted and never fetches before a trigger plays', async () => {
+  const storage = new Map([[modeAudioSettings.preferenceKey, JSON.stringify({ muted: true })]]);
+  const { audio, contexts, fetches } = audioFixture({ storage, worldSettings: worldSoundSettings });
+  assert.equal(audio.muted, true);
+  assert.equal(audio.unlock({ isTrusted: false }), false, 'Untrusted events cannot unlock.');
+  assert.equal(contexts.length, 0);
+  assert.equal(audio.unlock({ isTrusted: true }), true);
+  assert.equal(contexts.length, 1, 'Exactly one context is created lazily.');
+  assert.equal(fetches.length, 0, 'Unlock fetches zero bytes.');
+  const silent = contexts[0].sources[0];
+  assert.equal(silent.buffer.channels[0].length, 1, 'The iOS silent prime starts one sample.');
+  assert.equal(await audio.startListening({ isTrusted: true }), false, 'A stored mute preference wins over every trigger.');
+  assert.equal(fetches.length, 0, 'Muted triggers never play or fetch.');
+  audio.setMuted(false);
+  assert.equal(await audio.prime({ isTrusted: true }), true);
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(fetches.some(item => item.url.includes('/assets/audio/loop-333.m4a')), true, 'The SOUND switch starts the loop after unmuting.');
+  assert.equal(audio.snapshot().world.loops['333'].active, true);
+  audio.dispose();
+});
+
 test('canceling a pending track load does not create a stale source or duplicate its shared fetch', async () => {
   let complete;
   const pending = new Promise(resolve => { complete = resolve; });
@@ -264,15 +288,15 @@ test('canceling a pending track load does not create a stale source or duplicate
   complete({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) });
   assert.equal(await first, false);
   assert.equal(await second, true);
-  assert.equal(contexts[0].sources.length, 1, 'Only the latest trusted activation becomes audible after loading.');
+  assert.equal(audibleSources(contexts[0]).length, 1, 'Only the latest trusted activation becomes audible after loading.');
   audio.dispose();
-  assert.equal(contexts[0].sources[0].disconnected, true);
+  assert.equal(audibleSources(contexts[0])[0].disconnected, true);
 });
 
 test('stopping during the scheduled final tail cannot extend the track past its original end', async () => {
   const { audio, contexts } = audioFixture({ privateURL: modeAudioSettings.smashURL });
   await audio.toggleSmash({ isTrusted: true });
-  const context = contexts[0], track = context.sources[0];
+  const context = contexts[0], track = audibleSources(context)[0];
   context.currentTime = 101;
   audio.stopSmash();
   assert.equal(track.stopped, 101.310204);
@@ -291,7 +315,7 @@ test('mode switch cues are disabled by default while the re-enable path stays in
   const enabled = audioFixture({ modeSoundsEnabled: true });
   assert.equal(await enabled.audio.prime({ isTrusted: true }), true);
   assert.equal(enabled.audio.play('xray'), true);
-  assert.equal(enabled.contexts[0].sources.length, 1, 'The retained code path can still play the cue.');
+  assert.equal(audibleSources(enabled.contexts[0]).length, 1, 'The retained code path can still play the cue.');
 });
 
 

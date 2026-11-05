@@ -18,13 +18,21 @@ Updated 2026-11-05. Branch `v3.2-world-sound`, new local commit on top of
 | SOUND OFF / tab hide release SFX and dip | DONE | `world.release()` on mute and hide |
 | Lazy fetch, one decode per buffer, one active loop | DONE | 5× switch test + browser probe |
 | Manifest exactly 4 M4A files | DONE | directory listing + hashes + build output |
-| Full Node suite | DONE | 400/400 (`docs/validation/world-sound/v3/node-tests.txt`) |
+| Full Node suite | DONE | 402/402 (`docs/validation/world-sound/v3/phase4/node-tests.txt`) |
 | Browser suites (5, serial) | DONE | `docs/validation/world-sound/v3/*.txt` |
 | Production build ships 4 M4A | DONE | `docs/validation/world-sound/v3/build.txt` |
+| Guided listening 4.1–4.3a | DONE | `docs/validation/world-sound/v3/phase4/guided-listening-browser.txt` |
+| Phase 4 after “hearing nothing” | BLOCKED — brief truncated | request the rest of the text |
 | Subjective listening | OPEN — user | checklist in `docs/WORLD-SOUND.md` |
 | Key is F minor as briefed | NOT MET — measured A minor / F major | documented; no guessed pitch shift |
 | Real iOS Safari | BLOCKED — no device | recorded limitation |
 | Push / merge / deploy | NOT DONE — by request | PR #22 unchanged |
+
+## Pending input
+
+The Phase 4 brief was cut off after “hearing nothing”. Send the remainder before
+4.3 b/c or later phases are implemented. The current pass covers unlock, the
+three-stage trigger cascade, mute precedence, resume affordance and the iOS hint.
 
 ## Merge path (exact order)
 

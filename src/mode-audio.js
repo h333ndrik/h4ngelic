@@ -100,6 +100,8 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   let failed = false;
   let resume = null;
   let latestStop = 0;
+  let unlocked = false;
+  let needsResume = false;
 
   function notify() { for (const listener of subscribers) listener(); }
   function save() {
@@ -132,12 +134,71 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     if (!context || context.state !== 'running') return;
     try { Promise.resolve(context.suspend()).catch(() => {}); } catch { /* An unavailable suspend must not mute the UI. */ }
   }
-  function resumeContext() {
-    if (!context || muted || pageHidden || context.state === 'closed') return Promise.resolve(false);
+  /** Resume without the mute gate: unlocking is allowed while sound is off. */
+  function resumeNow() {
+    if (!context || context.state === 'closed' || pageHidden) return Promise.resolve(false);
     if (context.state === 'running') return Promise.resolve(true);
     if (!resume) resume = Promise.resolve(context.resume()).then(() => context.state === 'running', () => false)
       .finally(() => { resume = null; });
     return resume;
+  }
+  function resumeContext() {
+    if (muted) return Promise.resolve(false);
+    return resumeNow();
+  }
+  function ensureContext() {
+    if (context || disposed || failed || !AudioContext) return context;
+    try {
+      context = new AudioContext({ latencyHint: 'interactive' });
+      master = context.createGain();
+      master.gain.value = muted ? 0 : volume * maximumVolume;
+      cueBus = context.createGain();
+      cueBus.connect(master);
+      smashBus = context.createGain();
+      smashBus.gain.value = .85;
+      smashBus.connect(master);
+      compressor = context.createDynamicsCompressor();
+      compressor.threshold.value = -16;
+      compressor.knee.value = 10;
+      compressor.ratio.value = 5;
+      compressor.attack.value = .002;
+      compressor.release.value = .1;
+      master.connect(compressor);
+      compressor.connect(context.destination);
+      return context;
+    } catch { failed = true; return null; }
+  }
+  /** One-sample silent source for older iOS; it must follow resume() in the
+   * same trusted handler, before any await. */
+  function primeSilentBuffer() {
+    if (!context || context.state === 'closed') return;
+    try {
+      const source = context.createBufferSource();
+      const gain = context.createGain();
+      gain.gain.value = 0;
+      source.buffer = context.createBuffer(1, 1, context.sampleRate);
+      source.connect(gain);
+      gain.connect(context.destination);
+      source.start(0);
+    } catch { /* The silent prime is a compatibility nudge, never a failure. */ }
+  }
+  /** State-only unlock: no fetch, no decode. Safe while muted. */
+  function unlock(event) {
+    if (disposed || failed || !AudioContext || event?.isTrusted !== true) return false;
+    if (!ensureContext()) return false;
+    if (unlocked) {
+      if (context.state !== 'running') void resumeNow();
+      return true;
+    }
+    unlocked = true;
+    const resumed = resumeNow();
+    primeSilentBuffer();
+    void resumed.then((running) => {
+      needsResume = !running;
+      notify();
+      return running;
+    });
+    return true;
   }
   function releasePriority() {
     smashActive = false;
@@ -183,27 +244,13 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     if (!modeSoundsEnabled && !wantsWorld && !allowMuted) return Promise.resolve(false);
     if (disposed || (muted && !allowMuted) || failed || !AudioContext || event?.isTrusted !== true) return Promise.resolve(false);
     try {
-      if (!context) {
-        context = new AudioContext({ latencyHint: 'interactive' });
-        master = context.createGain();
-        master.gain.value = muted ? 0 : volume * maximumVolume;
-        cueBus = context.createGain();
-        cueBus.connect(master);
-        smashBus = context.createGain();
-        smashBus.gain.value = .85;
-        smashBus.connect(master);
-        compressor = context.createDynamicsCompressor();
-        compressor.threshold.value = -16;
-        compressor.knee.value = 10;
-        compressor.ratio.value = 5;
-        compressor.attack.value = .002;
-        compressor.release.value = .1;
-        master.connect(compressor);
-        compressor.connect(context.destination);
-      }
+      if (!ensureContext()) return Promise.resolve(false);
+      const firstUnlock = !unlocked;
+      unlocked = true;
       // Resume synchronously inside the original trusted gesture. Fetching the
       // track later never requires a second autoplay-sensitive media element.
       const resumed = resumeContext();
+      if (firstUnlock) primeSilentBuffer();
       if (modeSoundsEnabled) { bufferFor('xray'); bufferFor('normal'); }
       return resumed.then((running) => {
         if (!running || muted || disposed) return running;
@@ -214,6 +261,36 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
         return true;
       });
     } catch { failed = true; return Promise.resolve(false); }
+  }
+
+  /** Guided-listening entry: unlock, then fade the active loop in. Never
+   * activates a muted session; the SOUND switch remains the hard control. */
+  function startListening(event, { fadeSeconds = 1.8, worldId = null } = {}) {
+    unlock(event);
+    if (disposed || muted || pageHidden || failed || !context) return Promise.resolve(false);
+    const target = worldId || worldForMode(currentMode());
+    const engine = ensureWorld();
+    if (!engine) return Promise.resolve(false);
+    return Promise.resolve(engine.activate(target, { fadeIn: true, fadeSeconds })).then((ready) => {
+      if (ready) needsResume = false;
+      notify();
+      return ready;
+    }).catch(() => false);
+  }
+
+  /** Explicit resume from the SOUND affordance after a failed visibility resume. */
+  function resumeAudio(event) {
+    unlock(event);
+    if (disposed || muted || pageHidden || !context) return Promise.resolve(false);
+    return resumeContext().then((running) => {
+      needsResume = !running;
+      if (running) {
+        const target = worldForMode(currentMode());
+        void ensureWorld()?.activate(target, { fadeIn: true, fadeSeconds: 1.8 });
+      }
+      notify();
+      return running;
+    });
   }
 
   function play(mode) {
@@ -350,6 +427,9 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
 
   return {
     prime,
+    unlock,
+    startListening,
+    resume: resumeAudio,
     play,
     stop,
     prepareWorld,
@@ -359,6 +439,8 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     get supported() { return Boolean(AudioContext) && !failed; },
     get muted() { return muted; },
     get volume() { return volume; },
+    get unlocked() { return unlocked; },
+    get needsResume() { return needsResume; },
     get smashAvailable() { return Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed; },
     get smashPlaying() { return smashActive; },
     setMuted(value) {
@@ -382,11 +464,14 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     setPageHidden(hidden) {
       pageHidden = Boolean(hidden);
       if (pageHidden) { world?.release(); suspendContext(); }
-      else if (!muted) void resumeContext();
+      else if (!muted) {
+        void resumeContext().then((running) => { needsResume = unlocked && !running; notify(); return running; });
+      }
       notify();
     },
     subscribe(listener) { subscribers.add(listener); return () => subscribers.delete(listener); },
     snapshot: () => ({ initialized: Boolean(context), modeSoundsEnabled, state: context?.state || 'uninitialized', muted, volume, pageHidden,
+      unlocked, needsResume,
       world: world?.snapshot() || null,
       active: Boolean(active), allocatedVoices: voices.size, smashAvailable: Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed,
       smashPlaying: smashActive, smashPhase, smashCached: Boolean(smashBuffer), smashFetches,

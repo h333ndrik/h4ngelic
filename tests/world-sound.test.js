@@ -89,6 +89,19 @@ test('the manifest contains exactly four verified M4A loops/transitions with ord
   }
 });
 
+test('guided activation fades in over the supplied window and never restarts the loop', async () => {
+  const f = fixture();
+  assert.equal(await f.world.activate('333', { fadeSeconds: 1.8 }), true);
+  const loops = () => f.sources.filter(source => source.loop);
+  assert.equal(loops().length, 1);
+  const fade = loops()[0].connections[0];
+  assert.ok(fade.gain.events.some(([kind, value, time]) => kind === 'ramp' && value === 1 && Math.abs(time - 5.8) < 1e-9),
+    'The loop reaches unity 1.8 s after activation.');
+  assert.equal(await f.world.activate('333', { fadeSeconds: 1.2 }), true);
+  assert.equal(loops().length, 1, 'A second guided activation reuses the running voice.');
+  assert.ok(fade.gain.events.some(([kind, value, time]) => kind === 'ramp' && value === 1 && Math.abs(time - 5.2) < 1e-9));
+});
+
 test('transition one-shots reach the destination through their own SMASH duck', async () => {
   const f = fixture();
   assert.equal(await f.world.activate('333'), true);

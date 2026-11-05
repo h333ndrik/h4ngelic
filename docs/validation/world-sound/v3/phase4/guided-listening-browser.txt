@@ -1,0 +1,7 @@
+PASS guided listening: wordmark pointerdown unlocks, fades 1.8 s and fetches once
+PASS guided listening: desktop stage 2 needs 200 px after a neutral unlock
+PASS guided listening: stage 3 starts when the hero leaves view
+PASS guided listening: stored mute always wins until SOUND is switched on
+PASS guided listening: failed visibility resume exposes tap to resume
+PASS guided listening: one-time iOS silent-switch hint appears and clears
+PASS guided listening: 6 scenarios, 0 failures.

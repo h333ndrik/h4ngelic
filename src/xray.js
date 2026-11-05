@@ -5,6 +5,7 @@ import { bindModeHold } from './mode-hold.js';
 import { createModeAudio } from './mode-audio.js';
 import { worldForMode } from './audio/worldSoundSettings.js';
 import { initSoundControls } from './sound-controls.js';
+import { initGuidedListening } from './audio/guided-listening.js';
 import { corruptionSettings } from './data/corruptionSettings.js';
 import { createModeSnapshotTransition } from './mode-snapshot.js';
 import { initMobileMode } from './mobile-mode.js';
@@ -53,6 +54,7 @@ export function initXRay({ root = document, memory = null } = {}) {
   const previousProperties = new Map();
   const audio = createModeAudio({ view });
   const soundControls = initSoundControls({ doc, audio });
+  const guidedListening = initGuidedListening({ doc, audio });
   const snapshot = createModeSnapshotTransition({ doc, settings: corruptionSettings.transition });
   let mode = 'normal';
   let pendingMode = null;
@@ -288,23 +290,6 @@ export function initXRay({ root = document, memory = null } = {}) {
     const source = event.type === 'keydown' ? 'keyboard' : event.type === 'click' ? 'accessible' : 'pointer';
     doc.dispatchEvent(new view.CustomEvent('h4:modeprepare', { detail: { source } }));
   };
-  let gestureUnlocked = false;
-  const unlockWorldSound = (event) => {
-    if (gestureUnlocked || event.isTrusted !== true || audio.muted) return;
-    void audio.prime(event, { worldId: worldForMode(mode) }).then((ready) => {
-      if (!ready) return;
-      gestureUnlocked = true;
-      doc.removeEventListener('pointerdown', unlockWorldSound, true);
-      doc.removeEventListener('keydown', unlockWorldSound, true);
-      refresh();
-    });
-  };
-  doc.addEventListener('pointerdown', unlockWorldSound, { capture: true, passive: true });
-  doc.addEventListener('keydown', unlockWorldSound, { capture: true });
-  removers.push(() => {
-    doc.removeEventListener('pointerdown', unlockWorldSound, true);
-    doc.removeEventListener('keydown', unlockWorldSound, true);
-  });
   let stopPointer;
   const inputReady = () => !pendingMode && !html.hasAttribute('data-xray-transition');
   const entryReady = () => mode === 'normal' && inputReady();
@@ -353,6 +338,7 @@ export function initXRay({ root = document, memory = null } = {}) {
   });
   listen(doc, 'h4:navigationstart', cancelPendingEntry);
   listen(view, 'blur', cancelPendingEntry);
+  removers.push(guidedListening);
   updateQuality();
   if (import.meta.env?.DEV && new URLSearchParams(view.location?.search).has('test')) view.__H4_AUDIO__ = audio;
   html.dataset.mode = 'normal';

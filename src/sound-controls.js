@@ -53,9 +53,13 @@ export function initSoundControls({ doc = document, audio } = {}) {
     }
     for (const button of doc.querySelectorAll('[data-mode-mute]')) {
       const control = controls.get(button) || enhance(button);
-      button.textContent = audio.muted ? 'sound off' : 'sound on';
+      const needsResume = Boolean(audio.needsResume && !audio.muted);
+      button.textContent = needsResume ? 'tap to resume' : audio.muted ? 'sound off' : 'sound on';
+      if (needsResume) button.setAttribute('data-sound-resume', '');
+      else button.removeAttribute('data-sound-resume');
       button.setAttribute('aria-pressed', String(audio.muted));
-      button.setAttribute('aria-label', audio.supported ? (audio.muted ? 'turn sound on' : 'turn sound off') : 'sound unavailable');
+      button.setAttribute('aria-label', !audio.supported ? 'sound unavailable'
+        : needsResume ? 'tap to resume sound' : audio.muted ? 'turn sound on' : 'turn sound off');
       button.disabled = !audio.supported;
       control.arrow.disabled = !audio.supported;
       const percent = Math.round(audio.volume * 100);
@@ -75,6 +79,10 @@ export function initSoundControls({ doc = document, audio } = {}) {
   function click(event) {
     const mute = event.target.closest?.('[data-mode-mute]');
     if (mute && !mute.disabled) {
+      if (audio.needsResume && !audio.muted) {
+        void audio.resume(event).then(refresh);
+        return;
+      }
       audio.setMuted(!audio.muted);
       if (!audio.muted) void audio.prime(event).then(refresh);
       return;

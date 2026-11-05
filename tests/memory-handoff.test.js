@@ -21,7 +21,8 @@ source = source.replace("'./mode-snapshot.js'", JSON.stringify(moduleURL('export
   .replace("'./mode-audio.js'", JSON.stringify(moduleURL('export const createModeAudio = ({view}) => view.__audio;')))
   // This fixture tests capture/history ownership, not DOM audio controls. The
   // real controls and audio lifecycle are checked independently.
-  .replace("'./sound-controls.js'", JSON.stringify(moduleURL('export const initSoundControls = () => { const dispose = () => {}; dispose.refresh = () => {}; return dispose; };')));
+  .replace("'./sound-controls.js'", JSON.stringify(moduleURL('export const initSoundControls = () => { const dispose = () => {}; dispose.refresh = () => {}; return dispose; };')))
+  .replace("'./audio/guided-listening.js'", JSON.stringify(moduleURL('export const initGuidedListening = () => () => {};')));
 for (const name of ['xraySettings.js', 'corruptionSettings.js', 'livingDecaySettings.js']) source = source.replace(`'./data/${name}'`, JSON.stringify(new URL(`../src/data/${name}`, import.meta.url).href));
 source = source.replace("'./audio/worldSoundSettings.js'", JSON.stringify(new URL('../src/audio/worldSoundSettings.js', import.meta.url).href));
 const { initXRay } = await import(moduleURL(`${source}\n//# sourceURL=xray-memory-handoff-fixture.js`));

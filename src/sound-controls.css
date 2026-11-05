@@ -10,3 +10,5 @@
 html[data-mode='xray'] .sound-volume-popup { background: var(--surface-input); }
 @media (pointer: coarse) { .sound-volume-popup { padding-block: 10px; } }
 @media (prefers-reduced-motion: reduce) { .sound-volume-popup, .sound-volume-toggle span { transition: none; } }
+.sound-ios-hint { position: absolute; left: 0; bottom: calc(100% + 8px); z-index: 5; white-space: nowrap; font-size: 10px; line-height: 1.2; letter-spacing: .02em; opacity: .72; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .sound-ios-hint { transition: none; } }

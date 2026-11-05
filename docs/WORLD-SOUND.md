@@ -215,16 +215,63 @@ the crossfade plus `inactiveStopGraceMs`; retargeting cancels that stop and reus
 the voice. SOUND OFF and tab-hide call `world.release()`: no SFX is scheduled, the
 dip is dropped and the context is suspended.
 
+## Guided listening (Phase 4, partial brief)
+
+There is no play button and no autoplay. The SOUND switch remains the hard
+control; the following entry points only decide when the already-designed loop
+is allowed to fade in.
+
+### Unlock
+
+- Exactly one `AudioContext`, created lazily on the first trusted gesture.
+- Unlock is registered on `pointerdown`, `touchend`, `click` and `keydown`,
+  each with `{ once: true, passive: true }`; the first trusted event detaches
+  the set.
+- `resume()` is called synchronously inside the handler, before any await.
+- A one-sample silent source with gain 0 primes older iOS.
+- Unlock performs zero fetches and zero decodes. It is state only.
+- A stored mute preference always wins: unlocking is allowed, playing is not.
+  No trigger may fetch or activate a world while muted.
+- After a failed visibility resume, the SOUND control reads **tap to resume**
+  and the next press retries the same context instead of toggling mute.
+
+### Trigger cascade
+
+| Stage | Entry | Behaviour |
+| --- | --- | --- |
+| 1 | `pointerdown` on the chrome hero wordmark (`#stage`, `#logo-canvas`, poster) | unlock + fade the active loop in over 1.8 s |
+| 2 | first desktop `pointermove` that travels more than 200 px after unlock | same fade-in; throttled to one check per 100 ms; inert on coarse pointers |
+| 3 | first scroll that takes the hero fully out of view | same fade-in; throttled to one check per 120 ms |
+
+Each stage fires at most once per session; the first match wins and later stages
+become inert. Activation is idempotent: an already running loop is ramped, never
+restarted, and a fade requested during a decode starts as soon as the buffer
+resolves. The loop fade is scheduled only after unlock and never before the
+active loop's buffer is available.
+
+### iOS hint
+
+After the first successful activation on an iOS device, a quiet line appears
+attached to the SOUND control for about 6 s: “hearing nothing? check the silent
+switch.” It appears once per page session. The silent switch itself is never
+detected or probed.
+
+**Brief status:** the pasted Phase 4 text ended mid-sentence after
+“hearing nothing”. Sections 4.3 b/c and any later Phase 4 items are not
+implemented because they were not supplied; the hint copy above is the smallest
+sensible completion of the visible sentence.
+
 ## Verification (2026-11-05)
 
 All commands were run serially on this branch; actual output is under
-`docs/validation/world-sound/v3/`.
+`docs/validation/world-sound/v3/` and `.../v3/phase4/`.
 
 | Check | Actual result |
 | --- | --- |
-| `npm test` | **400 passed, 0 failed** (`node-tests.txt`) |
+| `npm test` | **402 passed, 0 failed** (`phase4/node-tests.txt`) |
 | `tests/world-audio-formats-browser.mjs` | 4/4 files decode at exact frame counts; 250 ms seam level continuity ≤ 1 dB; **0 audio-path long tasks**; 0 console errors |
 | `tests/world-sound-browser.mjs` | 6/6 profiles at 1440/390/320 × full/reduced; lazy load, one active loop, both transitions, full-length one-shots, SFX/crossfade end together, no audio-path long task, missing-file degradation |
+| `tests/guided-listening-browser.mjs` | 6/6 scenarios: wordmark + 1.8 s fade, 200 px stage 2, hero-out-of-view stage 3, stored mute precedence, tap-to-resume, one-time iOS hint (`phase4/guided-listening-browser.txt`) |
 | `tests/mode-audio-browser.mjs` | PASS: gesture-only startup, no legacy 0.7 s cue, file transitions, one shared context, route/mute persistence |
 | `tests/sound-controls-browser.mjs` | 8/8 profiles: mute suspension, volume, keyboard/touch, persistence, no early requests |
 | `tests/smash-v31-browser.mjs` | PASS at 1440/390/320: exact file, deferred fetch, attack/tail/stop, world-bus duck/release |
@@ -266,6 +313,8 @@ were restored after the build and are not part of this commit.
   audible seam.
 - **Bed dip during a switch:** `worldSoundSettings.bedDipDb` (−6 current). One
   constant, applied as a cosine bowl over the crossfade.
+- **Guided fade-in:** `initGuidedListening({ fadeSeconds: 1.8 })` in
+  `src/xray.js`; keep it inside the 1.5–2 s window.
 - **Transition direction:** swap the two entries in `transitionRouting`. No file
   rename, no logic edit.
 - **Bitrate / size:** `encodeAac()` in the builder (256 kbps current). If a loop

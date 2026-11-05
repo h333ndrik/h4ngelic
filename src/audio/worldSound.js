@@ -233,9 +233,22 @@ export function createWorldSound({
     return true;
   }
 
-  async function activate(worldId, { fadeIn = true } = {}) {
+  async function activate(worldId, { fadeIn = true, fadeSeconds = settings.activationFadeSeconds } = {}) {
     if (disposed || !worlds.has(worldId)) return false;
     intendedWorld = worldId;
+    const record = worlds.get(worldId);
+    // Guided listening can call activate after SOUND ON or after the loop is
+    // already running; never restart an existing transport or double-start it.
+    if (record?.voice && !record.voice.ended) {
+      if (fadeIn) {
+        const at = now();
+        hold(record.voice.fade.gain, at);
+        record.voice.fade.gain.linearRampToValueAtTime(1, at + Math.max(settings.minimumCrossfadeSeconds, Number(fadeSeconds) || 0));
+      }
+      currentWorld = worldId;
+      lastRequestedWorld = worldId;
+      return true;
+    }
     const buffer = await load('loops', worldId);
     if (disposed || intendedWorld !== worldId) return false;
     if (!buffer) {
@@ -249,7 +262,7 @@ export function createWorldSound({
     if (fadeIn) {
       const at = now();
       hold(voice.fade.gain, at);
-      voice.fade.gain.linearRampToValueAtTime(1, at + Math.max(settings.minimumCrossfadeSeconds, settings.activationFadeSeconds));
+      voice.fade.gain.linearRampToValueAtTime(1, at + Math.max(settings.minimumCrossfadeSeconds, Number(fadeSeconds) || 0));
     }
     currentWorld = worldId;
     lastRequestedWorld = worldId;

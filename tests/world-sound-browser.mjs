@@ -91,7 +91,10 @@ try {
       assert.deepEqual(probe.fetches, [], 'The world engine must not fetch bytes before the first user gesture.');
       assert.equal((await audioSnapshot(page)).world, null, 'The world engine must remain uninitialized before a gesture.');
 
-      await page.mouse.click(5, Math.min(500, width < 600 ? 800 : 900));
+      // The guided gesture itself is covered by tests/guided-listening-browser.mjs;
+      // this suite drives the same controller entry directly so every viewport
+      // exercises the engine without re-testing pointer heuristics.
+      await page.evaluate(() => window.__H4_AUDIO__.startListening({ isTrusted: true }));
       await page.waitForFunction(() => window.__worldProbe.contexts === 1
         && window.__H4_AUDIO__.snapshot().world?.loops['333'].status === 'ready'
         && window.__H4_AUDIO__.snapshot().world?.loops['333'].active, null, { timeout: 30000 });
@@ -221,7 +224,7 @@ try {
     const page = await context.newPage(), pageErrors = [];
     page.on('pageerror', error => pageErrors.push(error.message));
     await page.goto(new URL('/work/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
-    await page.mouse.click(5, 500);
+    await page.evaluate(() => window.__H4_AUDIO__.startListening({ isTrusted: true }));
     await page.waitForFunction(() => window.__H4_AUDIO__?.snapshot().world?.loops['333'].active);
     await enterMode(page);
     await page.waitForFunction(() => window.__H4_AUDIO__.snapshot().world?.loops['4'].status === 'missing');

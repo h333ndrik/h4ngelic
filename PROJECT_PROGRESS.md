@@ -977,3 +977,46 @@ no pitch shift was guessed.
 Exact next checkpoint: user listens to the four files in context. Then, only on
 explicit request, push `v3.2-world-sound`, update PR #22, and merge after review.
 No push/merge/deploy in this pass.
+
+## WORLD SOUND PHASE 4 — GUIDED LISTENING (PARTIAL BRIEF) — 2026-11-05
+
+Implemented the supplied Phase 4 text through 4.3a. The pasted brief ends
+mid-sentence at “hearing nothing”, so 4.3 b/c and any later items are not
+implemented. No play button and no autoplay were added; SOUND remains the hard
+control.
+
+Changed files: `src/audio/guided-listening.js` (new), `src/mode-audio.js`,
+`src/audio/worldSound.js`, `src/xray.js`, `src/sound-controls.js`,
+`src/sound-controls.css`, `tests/guided-listening-browser.mjs` (new),
+`tests/world-sound.test.js`, `tests/mode-audio.test.js`,
+`tests/mode-audio-browser.mjs`, `tests/world-sound-browser.mjs`,
+`tests/memory-handoff.test.js`, `package.json`, `docs/WORLD-SOUND.md`.
+
+Implemented contract:
+
+- One lazy `AudioContext`; unlock on pointerdown/touchend/click/keydown, each
+  `{ once, passive }`; synchronous `resume()`; one-sample silent prime.
+- Unlock fetches and decodes nothing. A stored mute always wins; muted triggers
+  unlock only.
+- Stage 1 wordmark pointerdown fades the active loop over 1.8 s.
+- Stage 2 desktop pointermove > 200 px after unlock, throttled 100 ms.
+- Stage 3 first scroll that takes the hero out of view, throttled 120 ms.
+- Stages fire once per session; activation reuses an existing loop voice.
+- Failed visibility resume switches the SOUND control to “tap to resume”.
+- One-time iOS hint: “hearing nothing? check the silent switch.” for ~6 s.
+
+Actual verification:
+
+- `npm test`: **402 passed, 0 failed**. Output:
+  `docs/validation/world-sound/v3/phase4/node-tests.txt`.
+- `tests/guided-listening-browser.mjs`: **6/6 scenarios pass**. Output:
+  `docs/validation/world-sound/v3/phase4/guided-listening-browser.txt`.
+- `world-audio-formats-browser`, `world-sound-browser`, `mode-audio-browser`,
+  `sound-controls-browser`: pass.
+- `smash-v31-browser`: the first combined serial run had one transient 390 px
+  failure (“manual stop starts a real short fade”); the isolated rerun passed
+  3/3. Recorded as a test timing flake, not reproduced.
+
+Exact next checkpoint: user supplies the remainder of Phase 4 after “hearing
+nothing”. Then implement 4.3 b/c and later items on this branch; no push, merge
+or deploy.
