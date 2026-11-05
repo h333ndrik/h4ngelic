@@ -140,7 +140,13 @@ async function mobile(width, reduced = false) {
     await page.waitForTimeout(2250);
     assert.equal(Number(await control.getAttribute('data-mobile-taps')), 0, 'Incomplete sequences reset within the two-second window.');
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal');
-    assert.equal(await page.evaluate(() => window.__mobileProbe.audio.some(event => event.duration < 2)), false, 'Incomplete taps may unlock the world loop but must never play a transition one-shot.');
+    const probeAudio = await page.evaluate(() => window.__mobileProbe.audio);
+    // The world engine schedules a one-sample silent tick and the 90 s bed; a
+    // transition one-shot is the ~0.9 s voice in between. Only that band counts
+    // as a transition (V3.2 world sound).
+    assert.equal(probeAudio.some(event => event.duration > .1 && event.duration < 2), false,
+      'Incomplete taps may unlock the world loop but must never play a transition one-shot.');
+    assert.ok(probeAudio.some(event => event.duration > 60), 'The unlocked world bed is the only long voice.');
 
     // A press-drag and a long press cannot be counted as deliberate quick taps.
     const point = await controlPoint(page);
@@ -160,16 +166,24 @@ async function mobile(width, reduced = false) {
     assert.equal(Number(await control.getAttribute('data-mobile-taps')), 0);
     assert.match(await control.getAttribute('aria-label'), /3|three/i);
     const first = await page.evaluate(() => window.__mobileProbe);
-    assert.deepEqual(first.modes.map(event => event.mode), ['xray']);
-    if (first.contexts) assert.deepEqual(first.audio.filter(event => event.duration < 2).map(event => event.mode), ['xray']);
+    // V3.2 world sound re-announces the unchanged initial mode once when the
+    // audio context unlocks; the contract is the sequence of real transitions.
+    const transitions = modes => modes.map(event => event.mode)
+      .filter((mode, index, all) => index === 0 ? mode !== 'normal' : mode !== all[index - 1]);
+    assert.deepEqual(transitions(first.modes), ['xray']);
+    if (first.contexts) assert.deepEqual(first.audio.filter(event => event.duration > .1 && event.duration < 2).map(event => event.mode), ['xray'],
+      'Only the xray transition one-shot plays, not the world tick or the bed.');
     assert.equal(await page.locator('[data-ink-mark]').count(), 0);
     await page.screenshot({ path: new URL(`${profile}-other.png`, output).pathname });
     await taps(page, cdp, 3, { feedback: true });
     await settled(page, 'normal');
-    assert.deepEqual(await page.evaluate(() => window.__mobileProbe.modes.map(event => event.mode)), ['xray', 'normal']);
+    assert.deepEqual(transitions(await page.evaluate(() => window.__mobileProbe.modes)), ['xray', 'normal']);
 
     // Two partial taps are tied to this page interaction and cannot cross a route.
     await taps(page, cdp, 2);
+    // The Other Side may run its own renderer; the guard is that no *cold route*
+    // adds one. Count before the SPA navigation and compare afterwards.
+    const glBeforeRoute = await page.evaluate(() => window.__mobileProbe.webGL);
     await page.locator('[data-global-index] > summary').tap();
     await page.locator('[data-index-page="about"]').tap();
     await page.waitForURL(value => value.pathname === '/about');
@@ -177,16 +191,18 @@ async function mobile(width, reduced = false) {
     assert.equal(Number(await control.getAttribute('data-mobile-taps')), 0);
     assert.equal(await control.count(), 1);
     assert.equal(await control.isVisible(), true);
-    assert.equal(await page.evaluate(() => window.__mobileProbe.webGL), 0);
+    assert.equal(await page.evaluate(() => window.__mobileProbe.webGL), glBeforeRoute,
+      'A cold SPA route allocates no additional WebGL renderer.');
     await taps(page, cdp, 4, { feedback: true });
     await settled(page, 'xray');
     await taps(page, cdp, 3, { feedback: true });
     await settled(page, 'normal');
     const repeated = await page.evaluate(() => window.__mobileProbe);
-    assert.deepEqual(repeated.modes.map(event => event.mode), ['xray', 'normal', 'xray', 'normal']);
+    assert.deepEqual(transitions(repeated.modes), ['xray', 'normal', 'xray', 'normal']);
     if (repeated.contexts) {
       assert.equal(repeated.contexts, 1, 'Every route and direction shares the existing audio controller.');
-      assert.deepEqual(repeated.audio.filter(event => event.duration < 2).map(event => event.mode), repeated.modes.map(event => event.mode));
+      assert.deepEqual(repeated.audio.filter(event => event.duration > .1 && event.duration < 2).map(event => event.mode), ['xray', 'normal', 'xray', 'normal'],
+        'Every transition plays exactly its own one-shot, the world tick and bed excluded.');
     }
 
     await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });

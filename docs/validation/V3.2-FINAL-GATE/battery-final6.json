@@ -1,0 +1,35 @@
+{
+  "phase": "final6",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T23:39:21.261Z",
+  "results": [
+    {
+      "suite": "smash-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 46615,
+      "passLine": "PASS actual SMASH 320px: exactfile, deferredfetch/cache, nativeattack/tail/stop, globalstate, routes and both realities",
+      "failLine": ""
+    },
+    {
+      "suite": "hover-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 15262,
+      "passLine": "PASS hover touch: no sticky mouse scale/glow, native focus and navigation retained.",
+      "failLine": ""
+    },
+    {
+      "suite": "cursor-hit-test",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 640120,
+      "passLine": "PASS native cursor hit map: 1440 4469, 390 1149, 320 939, 1440r 4469, 390r 1149, 320r 939; xray 2221; zero foreign cursors, keyword-only values rejected.",
+      "failLine": ""
+    }
+  ]
+}

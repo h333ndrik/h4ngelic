@@ -1,0 +1,44 @@
+{
+  "phase": "final5",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T23:27:31.063Z",
+  "results": [
+    {
+      "suite": "standalone-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 43880,
+      "passLine": "PASS standalone 320px: one-second native touch entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, permanent left-cluster visit, four-entry INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.",
+      "failLine": ""
+    },
+    {
+      "suite": "standalone-native-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10069,
+      "passLine": "",
+      "failLine": ""
+    },
+    {
+      "suite": "mannequin-preview-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 16117,
+      "passLine": "PASS mannequin preview: 6 static A/B renders at 1440/390/320; cold route made 0 WebGL and 0 GLB requests; visible section made exactly 1 GLB request.",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r2-performance-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 21437,
+      "passLine": "PASS performance: /creative/tattoos@1440 76.00ms, /contact@1440 52.00ms, /creative/tattoos@390 40.00ms, /contact@390 36.00ms, /creative/tattoos@320 40.00ms, /contact@320 40.00ms; preload /assets/main-CFtdFrCV.js; 1 main chunk; routes 23.",
+      "failLine": ""
+    }
+  ]
+}

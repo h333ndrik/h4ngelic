@@ -107,12 +107,16 @@ try {
     try {
       await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
       assert.equal(await page.locator('[data-smash]').count(), 0, 'Normal mode must not render SMASH at all.');
+      // V3.2 world sound: rendering the page allocates no context; the first
+      // trusted gesture (entering the Other Side) unlocks the one shared one.
+      assert.equal(await page.evaluate(() => window.__smashProbe.contexts.length), 0,
+        'No AudioContext is allocated just for rendering the page.');
       await mode(page, 'xray');
       await page.locator('[data-smash]').waitFor();
       assert.equal(await page.locator('[data-smash]').count(), 1, 'SMASH appears only on The Other Side.');
       assert.equal(await page.locator('[data-smash]').isDisabled(), false);
       assert.deepEqual(requests, [], 'The approved MP3 must not preload during page load.');
-      assert.equal(await page.evaluate(() => window.__smashProbe.contexts.length), 0, 'No AudioContext is allocated just for rendering the footer.');
+      assert.equal(await page.evaluate(() => window.__smashProbe.contexts.length), 1, 'Entering the Other Side is the first gesture and unlocks exactly one shared context.');
       await activate(page, width < 600);
       await page.waitForFunction(() => window.__smashProbe.sources.some(source => source.duration > 90));
       const initial = await trackState(page);

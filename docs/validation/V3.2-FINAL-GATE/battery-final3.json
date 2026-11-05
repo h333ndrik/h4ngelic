@@ -1,0 +1,80 @@
+{
+  "phase": "final3",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T23:09:55.489Z",
+  "results": [
+    {
+      "suite": "portfolio-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 130480,
+      "passLine": "PASS F16 320px reduced=true: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.",
+      "failLine": ""
+    },
+    {
+      "suite": "about-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 8082,
+      "passLine": "PASS About 320px reduce=true: shared modest inset, immediate deep link, bounded reversible entrance, readable copy and no overflow.",
+      "failLine": ""
+    },
+    {
+      "suite": "hero-poster-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 12239,
+      "passLine": "PASS hero poster 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "hero-boot-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 79197,
+      "passLine": "PASS 320px: build marker, entrance, cursor, greeting, slash 32.70px, wheel contract.",
+      "failLine": ""
+    },
+    {
+      "suite": "digital-ink-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 75447,
+      "passLine": "PASS Digital inline 320 reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "smash-v31-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 7603,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: No AudioContext is allocated just for rendering the footer."
+    },
+    {
+      "suite": "v312-r3-production-cursor",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 2288,
+      "passLine": "PASS production cursor a2540558e5a3: 5 token declarations, 4 targets, PNG fallbacks 200, no overlay, no-JS native cursor.",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r3-entrance-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 11961,
+      "passLine": "PASS entrance: opacity 1 constant; Y -795 -> -28 -> 0; transform 1100ms/827ms; breathing 0.550–1.000; CLS 0.",
+      "failLine": ""
+    }
+  ]
+}

@@ -39,11 +39,16 @@ try {
   await page.mouse.move(1, 1);
   const before = await sample(link);
   await link.locator('.interaction-visual').hover();
+  // Wait for the transition to settle instead of a fixed 300 ms: the ramp is
+  // ~400 ms and a fixed sleep sampled it mid-flight after the merge.
   await page.waitForFunction((element) => {
-    const matrix = new DOMMatrixReadOnly(getComputedStyle(element.querySelector('.interaction-visual')).transform);
-    return matrix.m11 >= 1.019;
-  }, await link.elementHandle());
-  await page.waitForTimeout(300);
+    const read = () => new DOMMatrixReadOnly(getComputedStyle(element.querySelector('.interaction-visual')).transform).m11;
+    if (!window.__hoverRamp) window.__hoverRamp = { last: read(), stable: 0 };
+    const value = read();
+    window.__hoverRamp.stable = Math.abs(value - window.__hoverRamp.last) < 1e-5 ? window.__hoverRamp.stable + 1 : 0;
+    window.__hoverRamp.last = value;
+    return value >= 1.019 && window.__hoverRamp.stable >= 3;
+  }, await link.elementHandle(), { polling: 'raf', timeout: 5000 });
   const hovered = await sample(link);
   assert.ok(hovered.scale >= 1.024 && hovered.scale <= 1.026, `A roomy category uses the restrained 2.5% feedback (got ${hovered.scale}).`);
   assert.notEqual(hovered.glow, 'none', 'Normal hover retains a restrained localized glow.');

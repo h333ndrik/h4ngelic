@@ -256,19 +256,21 @@ Offene Einschätzungen (keine Entscheidung ohne User):
 
 ## 12. Urteil
 
-**MERGE-REIF: nein** — nicht wegen der Technik, sondern wegen zweier offener
-Punkte:
+**MERGE-REIF: ja** — nach der Pensionierung von B-F27 (Abschnitt 15) und dem
+vollständigen Abschluss-Lauf ist keine Suite mehr rot:
 
-1. **B-F27 (blockierend für „null rote Suiten")**: `artwork-transitions-browser`
-   prüft einen Vertrag, den B-013/B-014 entfernt haben. Entweder pensionieren
-   (ein Commit, README, Registry-Zeile) oder neu definieren. Bis dahin bleibt
-   genau eine Suite rot.
-2. **Explizites „go"**: der Merge nach `main` ist laut AGENTS nur mit
-   User-Freigabe erlaubt; dieser Lauf hat nur den Branch synchronisiert.
+- 41 Browser-Suiten, 41 grün, 0 rot, seriell, je 3 Viewports × beide
+  Motion-Preferences (Tabelle in Abschnitt 15).
+- `npm test`: 404 Tests / 403 pass / 1 skipped (bewusst: Byte-Identität der
+  Audio-Deliverables, Source-Master sind local-only) / 0 fail.
+- Build `a2540558e5a3` (HEAD nach der Pensionierung): 23 Routen + 404, ein
+  main-Chunk, `modulepreload` auf den emittierten Chunk, `data-build` im HTML.
+- SEO: 23 Direktrouten, 12/12 Legacy-301, `/impressum` 200 + noindex + nicht in
+  der Sitemap, `/about` in der Produktions-Sitemap, keine 404 auf Alt-URLs.
+- Perf: FCP-Median 36–76 ms je Route/Breite, LCP ≤ 200 ms, CLS 0.
 
-Alles andere ist grün: 23 Routen + 404, ein main-Chunk, korrektes
-`modulepreload`, `data-build` im Output, SEO/301-Matrix vollständig, Perf-Guards
-und CLS 0 eingehalten, 37 Suiten vor und 15 nach dem Merge ohne Befund.
+**Bedingung:** der Merge nach `main` erfolgt erst nach deinem expliziten
+„go" (AGENTS.md). Dieser Lauf hat nur den Branch gepusht.
 
 ## 13. Queue-Statement mit Rollback
 
@@ -306,3 +308,117 @@ npm run build && node scripts/serve-preview.mjs --port 55242
 H4_GATE_DEV=http://127.0.0.1:5183 H4_GATE_PREVIEW=http://127.0.0.1:55242 \
   node scripts/gate-battery.mjs after
 ```
+
+## 15. Abschluss-Lauf nach der B-F27-Pensionierung
+
+### 15.1 Pensionierung (Commit `a254055`)
+
+`tests/artwork-transitions-browser.mjs` → `tests/legacy/`, eigenes README mit
+entferntem Vertrag (`<a data-artwork-link>` + View Transition auf
+Artwork-Kacheln), entfernenden Änderungen (B-013/B-014) und heutiger
+Ersatzabdeckung. Aus `package.json` (`test:artwork-transitions`) und aus
+`scripts/check-interaction-regressions.mjs` entfernt; `AGENTS.md` und die
+Legacy-Tabelle nennen sie. Registry B-F27 = **pensioniert**.
+
+Ersatzabdeckung, belegt durch grüne Suiten im selben Lauf:
+`gallery-browser` (Opener, Viewer, Tastatur, FLIP, Cleanup, 1440/390/320 × beide
+Motion-Preferences), `inline-artwork-expand.test.js` (Unit), `portfolio-browser`
+(Archiv/Routen), `navigation-browser`/`interaction-mosh-browser`
+(Route-View-Transitions).
+
+### 15.2 B-F26-Belege (kein Code in diesem Teil)
+
+| Prüfung | Ergebnis |
+| --- | --- |
+| Einzige Quelle | `sectionLabels` in `src/labels.js`, konsumiert von `src/data/siteContent.js` und (über `__H4_SECTION_*__`) `index.html` → `vite.config.js` |
+| `dist`-grep `02/ more about` | **0** in allen emittierten HTML-Dateien |
+| `more about` in `dist` | genau **1** Vorkommen: `<a … href="/about">more about</a>` — der CTA-Link (B-F11), kein Sektionsheading |
+| Wortgrenzen-grep `vision` in `src/` | **0** |
+| `/about` | 200, prerendert, `index, follow`, in der Produktions-Sitemap (5 indexierbare Routen: `/`, `/creative/tools`, beide Tools, `/about`) |
+| `/impressum` | 200, prerendert, `noindex, follow`, nicht in der Sitemap |
+
+Die CTA-Entscheidung ist damit dokumentiert: der Link unter dem Abschnitt bleibt
+„more about" (Kleinschreibung, B-F11); willst du dort ebenfalls „about", ist das
+ein separates Ein-Zeilen-Commit an `siteContent.home.moreAboutLabel`.
+
+### 15.3 Battery (seriell, 41 Suiten, Build `a2540558e5a3` bzw. `…` nach dem Report)
+
+| Suite | Server | Ergebnis | Laufzeit |
+| --- | --- | --- | --- |
+| `about-browser` | dev | PASS | 8 s |
+| `cursor-hit-test` | dev | PASS | 640 s |
+| `digital-ink-browser` | dev | PASS | 75 s |
+| `footer-v31-browser` | preview | PASS | 63 s |
+| `footer-zone-contract` | dev | PASS | 13 s |
+| `gallery-browser` | dev | PASS | 18 s |
+| `greeting-browser` | preview | PASS | 10 s |
+| `hero-boot-browser` | dev | PASS | 79 s |
+| `hero-poster-browser` | preview | PASS | 12 s |
+| `hover-browser` | preview | PASS | 15 s |
+| `label-format-browser` | preview | PASS | 19 s |
+| `link-glyph-contract` | dev | PASS | 22 s |
+| `lowercase-sweep` | preview | PASS | 10 s |
+| `mannequin-preview-browser` | preview | PASS | 16 s |
+| `master-accessibility-browser` | preview | PASS | 7 s |
+| `microinteractions-browser` | dev | PASS | 10 s |
+| `mobile-interactions-browser` | dev | PASS | 60 s |
+| `naavi-format-browser` | preview | PASS | 2 s |
+| `portfolio-browser` | preview | PASS | 130 s |
+| `row-geometry-contract` | preview | PASS | 57 s |
+| `rubric-gap-browser` | preview | PASS | 27 s |
+| `rubric-hit-area-browser` | preview | PASS | 15 s |
+| `seo-browser` | preview | PASS | 29 s |
+| `smash-v31-browser` | preview | PASS | 47 s |
+| `standalone-browser` | preview | PASS | 44 s |
+| `standalone-native-browser` | preview | PASS | 10 s |
+| `tokens-audit` | dev | PASS | 0 s |
+| `tools-rubric-browser` | preview | PASS | 11 s |
+| `typography-contract` | preview | PASS | 20 s |
+| `v23-static-titles-browser` | preview | PASS | 25 s |
+| `v25-cross-links-browser` | preview | PASS | 53 s |
+| `v31-navigation-browser` | preview | PASS | 122 s |
+| `v31-ui-browser` | preview | PASS | 85 s |
+| `v312-r2-performance-browser` | dev | PASS | 21 s |
+| `v312-r3-entrance-browser` | dev | PASS | 12 s |
+| `v312-r3-production-cursor` | preview | PASS | 2 s |
+| `v32-micro-browser` | preview | PASS | 10 s |
+| `v32-structure-browser` | preview | PASS | 33 s |
+| `v7-visitor-tiers-browser` | dev | PASS | 75 s |
+| `world-audio-formats-browser` | dev | PASS | 3 s |
+| `world-sound-browser` | dev | PASS | 45 s |
+
+SUITES=41 PASS=41 FAIL=0
+
+`artwork-transitions` taucht nicht mehr auf. Kein Skip außer dem begründeten
+Node-Skip.
+
+### 15.4 Vertrags-Anpassungen in diesem Lauf (alle sichtbar kommentiert)
+
+| Suite | Befund nach dem Merge | Anpassung |
+| --- | --- | --- |
+| `smash-v31-browser` | „No AudioContext is allocated just for rendering the footer" stand **hinter** dem Wechsel in die Other Side — der ist seit dem World-Sound-Merge selbst die erste Geste und schaltet genau einen Kontext frei (1 statt 0). | Assertion geteilt: beim Laden weiterhin **0**, nach dem Wechsel **genau 1**. Keine Abschwächung, eine zusätzliche Zusicherung. |
+| `mobile-interactions-browser` | Der World-Sound meldet beim Freischalten einmal den unveränderten Modus (`'normal'`) und legt einen 1-Sample-Silent-Tick (0,00002 s) an; die Suiten verglichen die rohe Ereignisliste. | Modus-Stream wird auf echte Übergänge normalisiert (führendes `normal` = Initialmeldung) und Audio auf das Transition-Band 0,1–2 s geprüft; zusätzlich: der 90-s-Bed ist die einzige lange Stimme. Die WebGL-Zusicherung gilt jetzt pro Kalt-Route (kein zusätzlicher Renderer), nicht gegen den Renderer der Other Side. |
+| `hover-browser` | Fester `300 ms`-Sleep traf die ~400 ms-Rampe mitten im Flug (1,02391 statt 1,02449). | Wartet jetzt, bis der Wert drei Frames stabil ist, dann gilt weiter 1,024–1,026. |
+
+Keine dieser Anpassungen senkt eine Schwelle; zwei von drei fügen eine
+Zusicherung hinzu.
+
+### 15.5 Nicht blockierende offene Punkte (Board)
+
+| Punkt | Warum er den Merge nicht blockiert | Beleg |
+| --- | --- | --- |
+| B-016 Nutzdaten + Datenschutz (Art. 13/14 DSGVO; Resend, Vercel-Logs mit IP, localStorage) | Der Platzhalter ist **entlinkt**; er ist damit nicht mehr öffentlich beworben und die Route ist `noindex`. Die Rechtstexte sind Inhalt, nicht Code. | `docs/validation/B-016-UNLINK/`; `seo-browser` (noindex + Sitemap-Ausschluss) |
+| Vercel Analytics an/aus (entscheidet über Cookie-Banner) | Kein Tracking ist im Code aktiviert; die Entscheidung ändert keinen Build. | kein Analytics-Snippet in `index.html`/`src/` |
+| B-F19 Cursor in echter Browser-/OS-Umgebung | Headless misst 100 % Bild-Cursor in der Zone und auf der ganzen Seite, Asset dekodiert; die Restvariable ist die Umgebung des Users. | `docs/validation/B-F19-FOOTER-ZONE/`, `battery` (cursor-hit-test 4469/1149/939 ×2 + xray) |
+| B-F25 User-Bestätigung | Vertrag ist implementiert und in `row-geometry-contract` (5 Viewports) belegt; es fehlt nur die Sichtprüfung. | `docs/validation/B-F25-ROW-MECHANISM/` |
+| iPhone-Echttest (Silent-Switch, Thermal, PWA-Standalone) | Nur auf echter Hardware prüfbar, nicht Teil des Merge-Gates; die Standalone-Suiten sind grün. | `standalone-browser`, `standalone-native-browser` |
+
+**Keiner dieser Punkte blockiert** — es sind Inhalts-, Hardware- oder
+Bestätigungsfragen, keine offenen Vertragsverletzungen.
+
+### 15.6 Sync-Regel für Position 3 (verbindlich)
+
+`mail-01-diagnostics` holt `origin/main` ausschließlich per **`git merge
+origin/main`**. Ein Rebase ist verboten, weil er einen Force-Push erzwingt und
+die gepushte Historie umschreibt; `git push --force*` und `git reset --hard` auf
+geteilten Branches ebenso.

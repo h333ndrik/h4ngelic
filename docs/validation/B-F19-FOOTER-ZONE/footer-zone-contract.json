@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-05T22:05:04.054Z",
+  "checkedAt": "2026-11-05T22:54:32.951Z",
   "base": "http://127.0.0.1:5183",
-  "build": "c4d6b292c255",
+  "build": "a2540558e5a3",
   "guard": "a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable=\"true\"],[role=\"button\"],[role=\"link\"],[role=\"checkbox\"],[role=\"switch\"],[role=\"radio\"],[role=\"tab\"],[role=\"menuitem\"],[role=\"combobox\"],[role=\"slider\"],[role=\"spinbutton\"],[contenteditable]:not([contenteditable=\"false\"]),[tabindex]:not([tabindex=\"-1\"]):not([role=\"group\"]),[aria-disabled=\"true\"],.is-unconfigured,[data-no-ink]",
   "profiles": [
     {
@@ -15,10 +15,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 103.82,
-              "top": 886.76,
-              "width": 58.35,
-              "height": 58.35,
+              "left": 99.85,
+              "top": 882.78,
+              "width": 66.31,
+              "height": 66.31,
               "opacity": "0.8",
               "visible": true
             }
@@ -32,18 +32,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 101.12,
-              "top": 884.06,
-              "width": 63.75,
-              "height": 63.75,
+              "left": 96.93,
+              "top": 879.87,
+              "width": 72.13,
+              "height": 72.13,
               "opacity": "0.8",
               "visible": true
             },
             {
-              "left": 1270.14,
-              "top": 866.25,
-              "width": 99.38,
-              "height": 99.38,
+              "left": 1284.87,
+              "top": 880.98,
+              "width": 69.91,
+              "height": 69.91,
               "opacity": "0.8",
               "visible": true
             }
@@ -51,7 +51,7 @@
         }
       ],
       "measured": {
-        "build": "c4d6b292c255",
+        "build": "a2540558e5a3",
         "zone": {
           "top": 893.95,
           "bottom": 937.95,
@@ -188,10 +188,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 55.89,
-              "top": 759.55,
-              "width": 100.21,
-              "height": 100.21,
+              "left": 80.01,
+              "top": 783.66,
+              "width": 51.99,
+              "height": 51.99,
               "opacity": "0.8",
               "visible": true
             }
@@ -205,18 +205,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 51.37,
-              "top": 755.03,
-              "width": 109.25,
-              "height": 109.25,
+              "left": 77.66,
+              "top": 781.31,
+              "width": 56.69,
+              "height": 56.69,
               "opacity": "0.8",
               "visible": true
             },
             {
-              "left": 272.76,
-              "top": 769.41,
-              "width": 80.49,
-              "height": 80.49,
+              "left": 278.99,
+              "top": 775.65,
+              "width": 68.02,
+              "height": 68.02,
               "opacity": "0.8",
               "visible": true
             }
@@ -224,7 +224,7 @@
         }
       ],
       "measured": {
-        "build": "c4d6b292c255",
+        "build": "a2540558e5a3",
         "zone": {
           "top": 787.66,
           "bottom": 831.66,
@@ -361,10 +361,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 76.06,
-              "top": 780.39,
-              "width": 59.87,
-              "height": 59.87,
+              "left": 71.19,
+              "top": 775.52,
+              "width": 69.62,
+              "height": 69.62,
               "opacity": "0.8",
               "visible": true
             }
@@ -378,18 +378,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 73.63,
-              "top": 777.96,
-              "width": 64.75,
-              "height": 64.75,
-              "opacity": "0.79897",
+              "left": 68.22,
+              "top": 772.54,
+              "width": 75.57,
+              "height": 75.57,
+              "opacity": "0.8",
               "visible": true
             },
             {
-              "left": 238.35,
-              "top": 770.68,
-              "width": 79.29,
-              "height": 79.29,
+              "left": 249.07,
+              "top": 781.4,
+              "width": 57.85,
+              "height": 57.85,
               "opacity": "0.8",
               "visible": true
             }
@@ -397,7 +397,7 @@
         }
       ],
       "measured": {
-        "build": "c4d6b292c255",
+        "build": "a2540558e5a3",
         "zone": {
           "top": 788.34,
           "bottom": 832.34,
