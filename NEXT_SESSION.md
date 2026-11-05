@@ -1,8 +1,9 @@
 # Next checkpoint — WORLD SOUND v3 merged, live on production
 
-Updated 2026-11-05 after the release pass. **PR #22 is merged into `main`.**
-`main` = `b5634bc5be4073c678672dd69f64810849cc157d` (merge commit), production
-build marker `b5634bc5be40`. Vercel deployed it automatically.
+Updated 2026-11-05 after the cache-hashing release. **PR #22 and PR #23 are
+merged into `main`.** `main` = `bae1b3f13b5befa49be3be3685a6cef92a799efd`
+(merge commit of PR #23), production build marker `bae1b3f13b5b`. Vercel
+deployed it automatically.
 
 ## Per-item status
 
@@ -37,7 +38,7 @@ build marker `b5634bc5be40`. Vercel deployed it automatically.
 | iPhone device test | OPEN — user | see next checkpoint below |
 | Key is F minor as briefed | NOT MET — measured A minor / F major | documented; no guessed pitch shift |
 | Push / merge for `v3.2-mannequin-female` | OUT OF SCOPE | must be rebased onto the new `main` before its next push |
-| Content-hashed audio URLs | DONE, UNMERGED | `<name>.<sha256:12>.m4a` + generated `src/audio/worldSoundManifest.js`; `vercel.json` immutable rule for `/assets/audio/(.*)` — header only visible after the next deploy |
+| Content-hashed audio URLs | DONE, LIVE | `<name>.<sha256:12>.m4a` + generated `src/audio/worldSoundManifest.js`; `vercel.json` rule verified on production: `public, max-age=31536000, immutable` |
 
 ## Merge record
 
@@ -49,19 +50,23 @@ build marker `b5634bc5be40`. Vercel deployed it automatically.
 - Vercel: status context `Vercel` = success on `b5634bc`
   (deployment `https://vercel.com/h333ndrik/h4ngelic/Gjp2nvfSU3aKBXD4bQK4sEqsmnyh`).
 
-Post-merge asset check on `https://www.h4ngelic.com` (apex `h4ngelic.com`
-308-redirects to `www`):
+Second merge: PR #23 — https://github.com/h333ndrik/h4ngelic/pull/23 — head
+`b1a83b7` (`V3.2-M10`), merged with a merge commit at 2026-11-05T20:25:13Z.
+`main`: `fdd42f5` → `bae1b3f13b5befa49be3be3685a6cef92a799efd`. Branch kept.
 
-| File | Status | Content-Type | Content-Length | SHA-256 vs repo |
-| --- | --- | --- | --- | --- |
-| `loop-333.m4a` | 200 | `audio/mp4` | 2,847,109 | match `d28de005…` |
-| `loop-4.m4a` | 200 | `audio/mp4` | 2,774,228 | match `ab235d05…` |
-| `x-333-4.m4a` | 200 | `audio/mp4` | 30,015 | match `5ee49fed…` |
-| `x-4-333.m4a` | 200 | `audio/mp4` | 29,591 | match `477df723…` |
+Post-merge asset check on `https://www.h4ngelic.com` (apex 308-redirects to
+`www`), all four content-hashed URLs:
 
-`cache-control: public, max-age=0, must-revalidate` on all four. The files live
-in `public/assets/audio/` and keep their names, so they are not content-hashed
-and do not get the immutable policy. Recorded as a finding, not changed.
+| URL | Status | Content-Type | Content-Length | Cache-Control |
+| --- | --- | --- | ---: | --- |
+| `/assets/audio/loop-333.d28de00523a5.m4a` | 200 | `audio/mp4` | 2,847,109 | `public, max-age=31536000, immutable` |
+| `/assets/audio/loop-4.ab235d059fec.m4a` | 200 | `audio/mp4` | 2,774,228 | `public, max-age=31536000, immutable` |
+| `/assets/audio/x-333-4.5ee49fedc6d4.m4a` | 200 | `audio/mp4` | 30,015 | `public, max-age=31536000, immutable` |
+| `/assets/audio/x-4-333.477df723d4d9.m4a` | 200 | `audio/mp4` | 29,591 | `public, max-age=31536000, immutable` |
+
+Byte counts match the committed files; the four stable paths return `404`. Before
+this change the same URLs (and the hashed JS chunks) were served with
+`public, max-age=0, must-revalidate`, which is why `vercel.json` was added.
 
 Indexing deliberately unchanged: `<meta name="robots" content="noindex, follow">`
 and `robots.txt` = `User-agent: * / Disallow: /`.
@@ -75,18 +80,32 @@ and `robots.txt` = `User-agent: * / Disallow: /`.
 2. **iPhone device test** (real hardware, not emulation): silent switch, tap on
    the wordmark, activity bars beside SOUND, and tap-to-resume after a call or
    a backgrounded tab.
-3. Then decide whether the cache policy for the four non-hashed M4A files needs
-   a follow-up, and whether the F-minor brief key is re-cut or accepted.
-4. Only after that: rebase `v3.2-mannequin-female` (local and remote both
-   `b2433f5`) onto the new `main` before its next push. It stayed out of scope
-   for this release and was not touched.
+3. Then decide whether the F-minor brief key is re-cut or accepted.
+4. **Rebase `v3.2-mannequin-female` (local and remote both `b2433f5`) onto the
+   new `main` BEFORE its next push.** It stayed out of scope for both releases
+   and was not touched.
+
+## Serving model (audio)
+
+- Four files only, served as `/assets/audio/<name>.<sha256:12>.m4a`. The old
+  stable names (`/assets/audio/loop-333.m4a` …) are gone and return `404`.
+- `vercel.json` sets `Cache-Control: public, max-age=31536000, immutable` for
+  `/assets/audio/(.*)` only — verified live on the four URLs. It contains
+  nothing else (no buildCommand, outputDirectory, framework, rewrites or
+  redirects), so the dashboard settings and routing stay untouched.
+- **Use `npm run dev`, not a bare `vite`.** `predev` runs
+  `node scripts/hash-world-audio.mjs`, which verifies the content hashes and
+  regenerates `src/audio/worldSoundManifest.js`. A bare Vite start skips that
+  step, so after replacing an audio file the dev server would still serve the
+  old manifest. `npm run sounds:hash -- --check` verifies without writing.
 
 ## Rollback
 
-- Git: `git revert -m 1 b5634bc` on `main`, then push. This reverts the merge as
-  a new commit; history stays intact and the branch can be merged again later.
+- Git: `git revert -m 1 bae1b3f` on `main`, then push. This reverts PR #23 (the
+  hashed URLs and the cache rule) as a new commit; history stays intact.
+  The earlier release is reverted the same way with `git revert -m 1 b5634bc`.
 - Vercel: previous production deployments are kept. Promote the deployment of
-  `9123a00` back to production for an instant rollback without a new build.
+  `fdd42f5` back to production for an instant rollback without a new build.
 
 ## Known issues outside audio scope
 
@@ -96,6 +115,11 @@ and `robots.txt` = `User-agent: * / Disallow: /`.
   run and the second full serial batch both passed at 1440/390/320. Evidence:
   `docs/validation/world-sound/v3/phase4c/smash-v31-browser.txt`. Do not treat
   a single timeout here as a new product defect — re-run it alone first.
+- **`tests/world-sound-v3.test.js` — “the same source bytes rebuild
+  byte-identical deliveries” is a known intermittent flake.** It re-encodes
+  from `masters/` and compares M4A hashes. It failed once with
+  “loop-333 is not reproducible”, then passed on an isolated re-run and in the
+  full 402-test suite. Re-run it alone before treating it as a regression.
 - `tests/mobile-interactions-browser.mjs` fails the no-cold-WebGL-on-About
   assertion on base `11e78a1` as well. Diagnostics:
   `docs/validation/world-sound/mobile-interactions-current.json` and
