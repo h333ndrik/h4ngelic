@@ -76,8 +76,8 @@ and `robots.txt` = `User-agent: * / Disallow: /`.
    a backgrounded tab.
 3. Then decide whether the cache policy for the four non-hashed M4A files needs
    a follow-up, and whether the F-minor brief key is re-cut or accepted.
-4. Only after that: rebase `v3.2-mannequin-female` (local `d40218d`, remote
-   `ad5ab14`) onto the new `main` before its next push. It stayed out of scope
+4. Only after that: rebase `v3.2-mannequin-female` (local and remote both
+   `b2433f5`) onto the new `main` before its next push. It stayed out of scope
    for this release and was not touched.
 
 ## Rollback
