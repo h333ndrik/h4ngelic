@@ -517,3 +517,124 @@ Derivats).
 stehen jetzt in `CREDITS.md`; die Notiz ausserhalb des Repos wurde korrigiert
 (FBX-Import statt "lokale Neuerstellung"). Weiterhin gilt: kein Merge und kein
 Deploy in diesem Lauf.
+
+## M4a — Vorbereitung (Credits, Provenienz, MTL)
+
+### Credits-Status
+
+Die Lizenz des Basismeshs ist **geklärt: CC0 1.0 Universal (Public Domain
+Dedication)**, bestätigt durch den Nutzer am 05.11.2026. Öffentliche Angabe im
+Repo: `CREDITS.md` (Titel, Lizenz, Lizenzlink, Belegstatus, Bearbeitung,
+Audit-Verweis). Kein Lizenzartefakt im Download-ZIP — die Angabe beruht auf der
+Asset-Seite. Autor und Quell-URL sind bewusst „nicht erfasst" statt geraten.
+
+Bundle-Nachweis: `dist/` enthält weder als Dateiname noch als Inhalt
+`LICENSE-NOTE`, `CREDITS` oder den Namen der Bezugsplattform (0 Treffer);
+`docs/` und `CREDITS.md` werden nicht gebundelt. Der Preview-Test prüft alle
+drei Begriffe, der Unit-Test prüft stattdessen den Inhalt von `CREDITS.md`.
+
+### Korrigierte Stellen (Vorher → Nachher)
+
+| Datei | Vorher | Nachher |
+| --- | --- | --- |
+| `LICENSE-NOTE-C.md` (außerhalb Repo) | „lokale Neuerstellung des Users (Remesh/Join)" | durchgestrichen + „KORRIGIERT am 05.11.2026: FBX-Import des Basismeshs" mit Vertex-Beleg; Statuszeile auf CC0 gesetzt |
+| `REPORT.md` (4 Stellen) | „Sketchfab-Basismesh", offener Redistributions-Befund | belegte Kette FBX → Blend → Remesh → Dezimierung; Merge-Gate als **aufgehoben** markiert |
+| `PROJECT_PROGRESS.md` | „Lizenz ungeklärt, Branch nicht gepusht" | „Lizenz geklärt, CC0, `CREDITS.md`, Audit-Pfad" |
+| `MANNEQUIN-PROCEDURAL` / `MANNEQUIN-CHROME` Lizenznotizen | — | **unangetastet** (andere Assets). Beobachtung: die Formulierung „contains no third-party mannequin asset" bezieht sich auf `mannequin.glb` und könnte beim Lesen auf das ganze Repo bezogen werden; nicht geändert, hier vermerkt |
+
+Rest-Treffer im Repo: `CREDITS.md` (Dokumentation), Bundle-Guard in
+`tests/mannequin-preview-browser.mjs` (Verbote-Liste). Beide gewollt.
+
+### Zwei-Bake-Nachweis
+
+| Ziel | Auflösung | Bytes | SHA-256 (Anfang) | UV-Füllgrad |
+| --- | --- | --- | --- | --- |
+| Web-GLB | 1024 | 457.000 | `d76abc164512…` | 0.372054 |
+| Web-Textur (`skincolor_baked.png`) | 1024 | 333.524 | `109a6e06a026…` | — |
+| Procreate-Malfläche | 2048 | 955.528 | `cb9095e33740…` | — |
+| Procreate-OBJ (unverändert) | — | 5.918.099 | `8b7ee09f0c81…` | 0.372064 |
+
+Beide Bakes mit identischen Parametern (AO 0,18 / 0,35 · 64 Samples · Blur 2 ·
+Verlauf 4 % · Basis `#f0efeb`), identischem UV-Layout (`uvFillBefore` =
+`uvFillAfter` = 0.372054 in beiden Reports) und 49.838 Tris. Das Web-GLB bleibt
+**byte-identisch** (`d76abc16…c06976`); nur die Malfläche wuchs von 1024 auf 2048.
+
+Neuer Modus `node scripts/retexture-mannequin-c.mjs --paint-only` backt
+ausschließlich die Malfläche und lässt das ausgelieferte GLB unangetastet.
+
+### MTL & Paket
+
+`mannequin_paint.mtl` (325 B, `13ce0c1bbafe…`): `map_Kd skincolor.png` relativ,
+`illum 1`, `Ks 0 0 0`, `Ns 0`. Die Glanzwerte des Ursprungsmaterials
+(`Ns 722.500000`, `Ks 0.500000`, `illum 2`) sind nicht übernommen.
+
+`scripts/check-procreate-package.mjs` prüft das gesamte Paket (OBJ, MTL, README,
+PNG) auf `/Users/`-Pfade, relatives `map_Kd`, Glanzwerte und PNG-Auflösung.
+Ergebnis `procreate-package.json`: **0 Verstöße**, 4 Dateien.
+
+### Merge-Probe (kein Merge ausgeführt)
+
+| Prüfung | Ergebnis |
+| --- | --- |
+| `main` / `origin/main` | `9123a00` (Merge PR #20), unverändert |
+| merge-base | `9123a00` — `main` ist **Vorfahre** von HEAD |
+| Divergenz | `main..HEAD` = 98 Commits, `HEAD..main` = **0** |
+| `git diff --stat main...HEAD` | 1.627 Dateien |
+| Probe-Merge (`--no-commit --no-ff`, Wegwerf-Worktree) | **0 Konflikte**, 1.627 Dateien übernommen, danach `--abort`, Worktree entfernt |
+| Routing-Dateien auf `main` neu/geändert | keine — der Hinweis auf „creative/3dmodel" trifft auf diesen `main`-Stand nicht zu; Rubrik bleibt `/work/<kategorie>` mit `id="model-3d"` |
+
+Erwartete Konflikte: **keine**. Der Merge wäre ein Fast-Forward-Inhalt ohne
+Konfliktstellen; Konfliktrisiko entsteht erst, wenn `main` vor dem Merge neue
+Commits bekommt.
+
+Testreihenfolge für den Merge:
+`verify:assets` → `npm test` → `npm run build` → `npm run test:seo` →
+`npm run test:mannequin-preview` (3×).
+
+### Readiness
+
+| Bereich | Status | Beleg |
+| --- | --- | --- |
+| Credits/Lizenz | **OK** | `CREDITS.md`, CC0 bestätigt |
+| Asset-Hash/Manifest | **OK** | `verify:assets` grün |
+| Bundle-Abgrenzung | **OK** | 0 Treffer in `dist/` |
+| Procreate-Paket | **OK** | Scanner 0 Verstöße, 2048er Malfläche |
+| Merge-Probe | **OK** | 0 Konflikte |
+| Routing | **offen (nach Merge)** | Rubrik-Route wird in M4b gesetzt, hier nicht angefasst |
+| Deployment-Config | **offen** | Keine `vercel.json`/`_headers` im Repo. Erwartung: `Content-Type: model/gltf-binary` und `Cache-Control: public, max-age=31536000, immutable` für `/models/mannequin-c.<hash>.glb`. Vorschlag notiert, **nicht** angelegt (Freigabe nötig) |
+| Procreate-Roundtrip | **offen** | iPad-Test durch den Nutzer |
+
+### Offene Punkte
+
+| # | Punkt | Status | Auswirkung |
+|---|---|---|---|
+| 1 | Basismesh-Autor unbekannt | offen | CC0 verlangt keine Attribution |
+| 2 | Quell-URL unbekannt | offen | Herkunft nur über Audit belegt |
+| 3 | Kein Lizenzartefakt im ZIP | offen | Lizenz = Nutzerbestätigung 05.11.2026 |
+| 4 | Rubrik-Route unbestimmt | offen (nach Merge) | Verdrahtung in M4b |
+| 5 | Procreate-Roundtrip ungetestet | offen | iPad-Test durch Nutzer |
+
+### Beobachtungen (nicht angefasst)
+
+- **Pipeline nicht idempotent:** ein voller Re-Run dekodiert das eigene
+  Draco-Ergebnis und enkodiert erneut; der Bitstrom wandert um wenige Dutzend
+  Bytes (457.000 → 456.968 B bei identischen Pixeln und Tris). Die Textur ist
+  byte-stabil, die Geometrie-Quantisierung nicht. Deshalb wurde das Web-GLB in
+  M4a nicht neu gebaut, sondern `--paint-only` genutzt.
+- **Timing-Annahmen in älteren Browser-Tests:** drei feste Wartezeiten
+  (60/120/350 ms) reichten auf dem Software-Renderer nicht mehr, weil ein Frame
+  dort ~200 ms braucht. Umgestellt auf Frame-Warts und `waitForFunction`; keine
+  Assertion wurde abgeschwächt.
+- `test:mobile` scheitert bereits auf `9dd66ce` (unverändert), `.chapter-counter`
+  überlappt je nach Scroll den Frame-Rand, A/B bleiben −Z-orientiert.
+
+### Tests (M4a)
+
+| Suite | Ergebnis |
+| --- | --- |
+| `npm test` | **392/392** |
+| `npm run test:mannequin-preview` | **3× PASS** (3 Viewports, C-only, Einfahrt, A11y, Reduced Motion, No-WebGL, Leak, Bundle ohne `LICENSE-NOTE`/`CREDITS`/Bezugsplattform) |
+| `npm run test:mannequin-entrance` | PASS (Assert A–D) |
+| `npm run test:seo` | 18 Routen + 404 |
+| `npm run build` | 18 Routen + 404 |
+| `npm run verify:assets` | OK (457.000 B, `d76abc16…c06976`) |

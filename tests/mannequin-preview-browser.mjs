@@ -179,14 +179,21 @@ try {
     const angleHeldB = await angle();
     assert.ok(Math.abs(angleHeldB - angleHeldA) < 0.02, `Rotation pauses while dragging (${angleHeldA} -> ${angleHeldB}).`);
     await page.mouse.move(centerX + 240, centerY, { steps: 6 });
-    await page.waitForTimeout(60);
+    // Der Winkel steht erst nach dem naechsten Frame im DOM; im Headless-
+    // Renderer dauert ein Frame gut 200 ms.
+    await page.evaluate(() => new Promise((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    }));
     assert.ok(Math.abs(await angle() - angleHeldB) > 0.1, 'Dragging rotates the model.');
     await page.mouse.up();
-    await page.waitForTimeout(120);
     assert.equal(await preview.getAttribute('data-mannequin-flicks'), '1',
       `A strong flick triggers the documented fallback animation (peak ${await preview.getAttribute('data-mannequin-peak')}).`);
-    assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'playing');
-    await page.waitForTimeout(1800);
+    await page.waitForFunction(
+      () => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinShoot === 'playing',
+      null, { timeout: 4000 });
+    await page.waitForFunction(
+      () => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinShoot === 'idle',
+      null, { timeout: 8000 });
     assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'idle', 'The model returns into the viewport.');
 
     const figureCount = await page.locator('figure.project-image').count();
@@ -296,17 +303,32 @@ try {
     assert.equal(prevented.focused, true, 'A focused viewer swallows the arrow key.');
     assert.equal(prevented.unfocused, false, 'An unfocused viewer leaves scrolling alone.');
 
-    // Escape bricht einen laufenden Flick ab.
+    // Escape bricht einen laufenden Flick ab. Ob der Peak ueber 2,4 rad/s
+    // kommt, haengt am Event-Timing des Headless-Chromium; deshalb echte
+    // Pointer-Gesten mit wachsender Distanz, bis der Flick wirklich greift.
+    const viewer = page.locator('[data-mannequin-preview]');
+    const flickCount = async () => Number((await viewer.getAttribute('data-mannequin-flicks')) || 0);
     const box = await page.locator('.mannequin-preview-frame').boundingBox();
     const centerX = box.x + box.width / 2;
     const centerY = box.y + box.height / 2;
-    await page.mouse.move(centerX, centerY);
-    await page.mouse.down();
-    await page.mouse.move(centerX + 260, centerY, { steps: 5 });
-    await page.mouse.up();
-    await page.waitForTimeout(80);
-    assert.equal(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-shoot'), 'playing');
-    await page.locator('[data-mannequin-preview]').focus();
+    const flicksBefore = await flickCount();
+    for (const [distance, steps] of [[260, 5], [420, 4], [560, 3]]) {
+      if (await flickCount() > flicksBefore) break;
+      await page.mouse.move(centerX - distance / 2, centerY);
+      await page.mouse.down();
+      await page.mouse.move(centerX + distance / 2, centerY, { steps });
+      await page.mouse.up();
+      await page.waitForTimeout(80);
+    }
+    assert.ok(await flickCount() > flicksBefore,
+      `Die Geste muss einen Flick ausloesen (Peak ${await viewer.getAttribute('data-mannequin-peak')}).`);
+    // Der Shoot-Zustand wird erst im naechsten Frame gesetzt; im Headless-
+    // Renderer dauert ein Frame nach der Geste gut 150 ms.
+    await page.waitForFunction(
+      () => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinShoot === 'playing',
+      null, { timeout: 3000 });
+    await viewer.focus();
+    assert.equal(await viewer.getAttribute('data-mannequin-shoot'), 'playing', 'Der Flick laeuft beim Druecken von Escape noch.');
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-shoot'), 'idle',
       'Escape cancels the running flick.');
@@ -348,7 +370,13 @@ try {
         const section = document.querySelector(name);
         scrollTo({ top: Math.max(0, section.getBoundingClientRect().top + scrollY - top), behavior: 'instant' });
       }, [selector, target]);
-      await page.waitForTimeout(350);
+      // Der Pose-Loop laeuft frameweise; im Headless-Software-Renderer dauert
+      // ein Frame gut 200 ms. Deshalb zwei echte Frames abwarten statt einer
+      // festen Zeit, sonst wird eine veraltete Pose gelesen.
+      await page.evaluate(() => new Promise((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      }));
+      await page.waitForTimeout(120);
       return read(page);
     };
     const home = [];

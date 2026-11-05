@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-05T11:46:02.791Z",
+  "checkedAt": "2026-11-05T14:12:55.042Z",
   "harness": "tests/fixtures/section-entrance.html (nur src/section-entrance.js)",
   "viewport": {
     "width": 390,
@@ -16,7 +16,7 @@
       }
     },
     "visible": {
-      "rafPer500ms": 30,
+      "rafPer500ms": 31,
       "pose": {
         "x": 2.68,
         "opacity": 0.8472
