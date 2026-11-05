@@ -57,7 +57,7 @@ html[data-mode='xray'] .artwork-dialog.artwork-dialog[data-artwork-flight='closi
 .artwork-viewer-stage.is-switching img { opacity: 0; transform: scale(.992); }
 .artwork-dialog::after { content: ''; position: absolute; inset: auto 0 0 0; height: 96px; background: linear-gradient(to top, #151517 0%, #151517 58%, rgb(21 21 23 / 0%) 100%); pointer-events: none; z-index: 0; }
 .artwork-viewer-caption { position: relative; z-index: 1; height: 3em; min-height: 3em; flex: 0 0 3em; overflow: auto; font-size: 12px; line-height: 1.5; color: #deded8; margin-top: 14px; text-shadow: 0 1px 3px #151517; }
-.artwork-viewer-navigation { position: relative; z-index: 1; display: grid; grid-template-columns: 44px auto 44px; place-items: center; justify-content: center; align-items: center; gap: var(--rubric-gap); min-height: 44px; flex: 0 0 auto; }
+.artwork-viewer-navigation { position: relative; z-index: 1; display: grid; grid-template-columns: 44px auto 44px; place-items: center; justify-content: center; align-items: center; gap: var(--viewer-nav-gap); min-height: 44px; flex: 0 0 auto; }
 .artwork-viewer-navigation button { min-width: 44px; min-height: 44px; font-size: 20px; line-height: 1; }
 .artwork-viewer-count { font-size: 12px; line-height: 1.5; margin: 0; color: #b3b3af; }
 .artwork-image-error { color: #b3b3af; font-size: 16px; }

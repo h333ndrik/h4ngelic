@@ -5,11 +5,42 @@
   --radius-soft: 4px;
   --surface-input: #303033;
   --header-item-gap: clamp(10px, 2.2vw, 32px);
-  --rubric-gap: clamp(10px, 1.35vw, 22px);
   --ui-arrow-gap: clamp(10px, .28em, 22px);
-  /* Rubric rows own their own arrow spacing so a row can change its rhythm
-     without touching every link. */
-  --rubric-arrow-gap: var(--ui-arrow-gap);
+
+  /* ---------- Type A: distributed ----------
+     Rows that stretch between two measured insets: the frontpage 01/ creative
+     strip and the cross-links under a rubric page. The visible gap is the free
+     space left after the labels, never a vw formula, so every label pair ends
+     up with the same distance.
+     ADJUST:
+       --row-gap-min higher      = larger minimum distance between labels
+       --row-inset lower         = wider row, therefore larger gaps
+       --row-slot-mode           = width (word-width placeholder) | collapse  */
+  --row-gap-min: 19px;
+  --row-inset: var(--slash-inset);
+  --row-slot-mode: width;
+  --row-slot-visibility: hidden;
+  /* One baseline correction for every row arrow; the arrow stays inside the
+     link so its click target travels with the word. */
+  --row-arrow-gap: var(--ui-arrow-gap);
+
+  /* ---------- Type B: chips ----------
+     The filter row: horizontal scroll, fixed height, 44px targets and the
+     wordmark h4ngelic as the baseline anchor. Owns no Type A token. */
+  --chips-gap: clamp(10px, 1.35vw, 22px);
+  --chips-height: 44px;
+  --chips-underline-offset: 6px;
+  --chips-target-min: 44px;
+
+  /* ---------- Type C: cluster ----------
+     Footer link clusters: own spacing, 44px targets, unchanged optically. */
+  --cluster-gap: clamp(12px, 2vw, 30px);
+  --cluster-target-min: 44px;
+
+  /* Non-row consumers that used to ride on the shared row gap. They keep
+     their previous values without coupling to any row type. */
+  --viewer-nav-gap: clamp(10px, 1.35vw, 22px);
+  --tool-gallery-gap: clamp(10px, 1.35vw, 22px);
   /* Measured baseline correction: with the arrow as a baseline flex item its
      bottom edge sits exactly on the text baseline, which is the optical
      centre of a .72em square. Any later tuning happens here, not per row. */

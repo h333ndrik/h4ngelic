@@ -1,25 +1,27 @@
-/* One component for every rubric row: the frontpage strip, the archive filter
-   row and the cross-links at the end of a rubric page.
+/* Row typology (B-F25). Every row of repeated links carries exactly one type
+   and consumes only that type's tokens. Shared selectors were the reason a gap
+   tuned for the frontpage silently moved the filter chips and the footer.
 
-   Geometry is structure, not a number. Content flows with one shared gap and
-   one shared baseline, so the distance between a word, its arrow and the next
-   word is identical everywhere. Equal-width columns (the old grid tracks) made
-   that distance depend on the label length: jewellery's arrow touched tools
-   while tattoos left a hole. */
-.rubric-row {
+   A distributed — frontpage 01/ creative and the cross-links of a rubric page.
+   B chips       — the archive filter row (scrolls, fixed height, 44px).
+   C cluster     — footer link groups (own spacing, unchanged optics). */
+
+/* ---------- A: distributed ---------- */
+[data-row='distributed'] {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: flex-start;
-  column-gap: var(--rubric-gap);
+  justify-content: space-between;
+  column-gap: var(--row-gap-min);
   row-gap: 0;
   line-height: 1;
+  padding-inline: var(--row-inset);
 }
 
-/* Above 600px the pair wrappers disappear, so all links share one flex line. */
-.rubric-row > .rubric-line { display: contents; }
+/* Above 600px the pair wrappers disappear and all positions share one line. */
+[data-row='distributed'] > .rubric-line { display: contents; }
 
-.rubric-row .rubric-item {
+[data-row='distributed'] .row-item {
   display: inline-flex;
   align-items: baseline;
   flex: 0 0 auto;
@@ -30,21 +32,83 @@
   white-space: nowrap;
 }
 
-/* Baseline flex alignment puts the arrow's bottom edge on the text baseline.
-   The optical correction lives in one token, never per row. */
-.rubric-row .rubric-item .arrow {
-  margin-inline-start: var(--rubric-arrow-gap);
+/* The current rubric keeps its position and its word width, but it is an image,
+   not a control: invisible, unfocusable, no href, no pointer target. */
+[data-row='distributed'] .row-slot {
+  display: inline-flex;
+  align-items: baseline;
+  flex: 0 0 auto;
+  gap: 0;
+  margin: 0;
+  white-space: nowrap;
+  visibility: var(--row-slot-visibility);
+  pointer-events: none;
+}
+
+[data-row='distributed'][data-slot-mode='collapse'] .row-slot {
+  flex-basis: 0;
+  width: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* The arrow belongs to the word: one shared margin, never a per-row gap. */
+[data-row='distributed'] .arrow {
+  margin-inline-start: var(--row-arrow-gap);
   position: relative;
   top: var(--arrow-baseline-shift);
 }
+[data-row='distributed'] .category-magnet { gap: 0; }
 
 @media (max-width: 600px) {
-  /* Two real flex lines: same gap in both, both starting on the slash column. */
-  .rubric-row { row-gap: var(--rubric-gap); }
-  .rubric-row > .rubric-line {
+  /* Two real lines, two positions each, both starting on --row-inset. The
+     slot keeps its width so the rubric sequence never shifts between pages. */
+  [data-row='distributed'] { row-gap: var(--row-gap-min); }
+  [data-row='distributed'] > .rubric-line {
     display: flex;
     flex: 0 0 100%;
     align-items: baseline;
-    column-gap: var(--rubric-gap);
+    justify-content: space-between;
+    column-gap: var(--row-gap-min);
   }
+}
+
+/* ---------- B: chips ---------- */
+[data-row='chips'] {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  column-gap: var(--chips-gap);
+  min-height: var(--chips-height);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  white-space: nowrap;
+}
+[data-row='chips']::-webkit-scrollbar { display: none; }
+
+/* Each chip is centred like the wordmark so its text baseline sits on the
+   header baseline. The underline is drawn by text-decoration and therefore
+   never adds height to the item. */
+[data-row='chips'] .row-item {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: var(--chips-target-min);
+  line-height: normal;
+}
+[data-row='chips'] .row-item[aria-current='page'] {
+  text-decoration: underline;
+  text-underline-offset: var(--chips-underline-offset);
+  text-decoration-thickness: 1px;
+}
+
+/* ---------- C: cluster ---------- */
+[data-row='cluster'] { column-gap: var(--cluster-gap); }
+[data-row='cluster'] .row-item {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cluster-target-min);
 }

@@ -65,10 +65,31 @@ let otherSideController = null;
 const carouselPositions = new Map();
 const globalNavigation = initGlobalNavigation(document);
 
+function setSlashInset(inset) {
+  if (Number.isFinite(inset) && inset > 0) {
+    document.documentElement.style.setProperty('--slash-inset', `${Math.round(inset * 100) / 100}px`);
+  }
+}
+
+/** Interior pages carry no numbered heading, so the measured slash column of
+ *  the homepage is unavailable there. The same two index digits at the same
+ *  display type give the identical advance, keeping the Type A row inset the
+ *  same on both sides of the navigation. */
+function measureSlashInsetFromType() {
+  const probe = document.createElement('span');
+  probe.setAttribute('aria-hidden', 'true');
+  probe.textContent = '01';
+  probe.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;white-space:pre;line-height:1;font-weight:400;font-size:var(--type-display);letter-spacing:var(--type-display-tracking)';
+  document.body.append(probe);
+  const width = probe.getBoundingClientRect().width;
+  probe.remove();
+  setSlashInset(width);
+}
+
 function measureSlashInset() {
   const heading = document.querySelector('#selected-work-title .kinetic-heading-text');
   const section = heading?.closest('.content-section');
-  if (!heading || !section) return;
+  if (!heading || !section) { measureSlashInsetFromType(); return; }
   const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
   let node, slashOffset = -1;
   while ((node = walker.nextNode())) {
@@ -83,10 +104,7 @@ function measureSlashInset() {
   const translation = transform === 'none' ? 0 : new DOMMatrixReadOnly(transform).m41;
   const sectionBox = section.getBoundingClientRect();
   const contentLeft = sectionBox.left + parseFloat(getComputedStyle(section).paddingLeft || '0');
-  const inset = range.getBoundingClientRect().left - translation - contentLeft;
-  if (Number.isFinite(inset) && inset > 0) {
-    document.documentElement.style.setProperty('--slash-inset', `${Math.round(inset * 100) / 100}px`);
-  }
+  setSlashInset(range.getBoundingClientRect().left - translation - contentLeft);
 }
 
 function scheduleSlashInset() {
