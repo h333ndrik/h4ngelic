@@ -16,35 +16,60 @@
   --h4-cursor-xray-pressed: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 8 2, url('/assets/h4ngelic-cursor-other-pressed.png') 8 2, auto;
 }
 
+/* Escalation, all the way up:
+   every declaration is !important and the layers are ordered by specificity,
+   so no third-party, user-agent or legacy stylesheet can paint a different
+   pointer. The media query stays: without a fine pointer there is no cursor
+   image at all, touch keeps the system cursor.
+
+   Specificity ladder (all !important):
+   1. base            html body *                           0,0,1
+   2. interactive     html :is(a[href], button, ...)        0,0,2
+   3. pressed         ... :active                           0,1,2
+   4. xray base       html[data-mode='xray'] *              0,1,1
+   5. xray interactive / pressed                            0,1,2 / 0,2,2 */
 @media (any-hover: hover) and (any-pointer: fine) {
+  /* Ebene 1: Basis — gewinnt gegen jede Alt-Regel.
+     Die :root-Variante ist kein Zierrat: sie hebt die Spezifität über eine
+     gleich spezifische Fremdregel, die später im Dokument steht. */
   html,
-  html *,
-  html *::before,
-  html *::after {
-    cursor: var(--h4-cursor);
+  html body,
+  html body *,
+  html body *::before,
+  html body *::after,
+  html:root body,
+  html:root body *,
+  html:root body *::before,
+  html:root body *::after {
+    cursor: var(--h4-cursor) !important;
   }
 
-  html :is(a, button, summary, [role='button'], input, select, textarea, label, canvas) {
-    cursor: var(--h4-cursor-interactive);
+  /* Ebene 2: interaktiv — höhere Spezifität, gewinnt gegen Ebene 1. */
+  html :is(a[href], button, summary, [role='button'],
+        input, select, textarea, label, canvas) {
+    cursor: var(--h4-cursor-interactive) !important;
   }
 
-  html :is(a, button, summary, [role='button'], input, select, textarea, label, canvas):active {
-    cursor: var(--h4-cursor-pressed);
+  html :is(a[href], button, summary, [role='button'],
+        input, select, textarea, label, canvas):active {
+    cursor: var(--h4-cursor-pressed) !important;
   }
 
   html[data-mode='xray'],
   html[data-mode='xray'] *,
   html[data-mode='xray'] *::before,
   html[data-mode='xray'] *::after {
-    cursor: var(--h4-cursor-xray);
+    cursor: var(--h4-cursor-xray) !important;
   }
 
-  html[data-mode='xray'] :is(a, button, summary, [role='button'], input, select, textarea, label, canvas) {
-    cursor: var(--h4-cursor-xray);
+  html[data-mode='xray'] :is(a[href], button, summary, [role='button'],
+        input, select, textarea, label, canvas) {
+    cursor: var(--h4-cursor-xray) !important;
   }
 
-  html[data-mode='xray'] :is(a, button, summary, [role='button'], input, select, textarea, label, canvas):active {
-    cursor: var(--h4-cursor-xray-pressed);
+  html[data-mode='xray'] :is(a[href], button, summary, [role='button'],
+        input, select, textarea, label, canvas):active {
+    cursor: var(--h4-cursor-xray-pressed) !important;
   }
 }
 

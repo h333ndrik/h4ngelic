@@ -74,6 +74,37 @@ desktop 1440 → **0 Lücken / 570 Punkte**; touch 390 → 144 Lücken, alle auf
 | `npm test` | 376 / 376 |
 | Physik | `tests/physics.test.js` 13 / 13, `tests/gateprep-batch1-physics.mjs` 179.99° → 39.60°, Pick-Delta **0.00 px** (`tests/browser.mjs`) |
 
+## Eskalation (`!important`, zwei Ebenen)
+
+Jede `cursor`-Deklaration ist jetzt `!important` und in fünf Spezifitätsstufen
+geordnet (Basis → interaktiv → `:active` → Xray-Basis → Xray interaktiv/aktiv).
+Damit kann keine Alt-, UA- oder Fremdregel den Zeiger neu bemalen.
+
+| Ebene | Selektor | Spezifität | Token |
+| --- | --- | --- | --- |
+| 1 Basis | `html body *` (+ `html:root body *`) | 0,0,3 / **0,1,1** | `--h4-cursor` |
+| 2 interaktiv | `html :is(a[href], button, summary, …)` | 0,1,1 | `--h4-cursor-interactive` |
+| 3 gedrückt | …`:active` | 0,2,1 | `--h4-cursor-pressed` |
+| 4 Xray | `html[data-mode='xray'] *` | 0,1,1 | `--h4-cursor-xray` |
+| 5 Xray gedrückt | `html[data-mode='xray'] :is(…):active` | 0,2,1 | `--h4-cursor-xray-pressed` |
+
+Zwei bewusste Abweichungen von der Vorlage:
+
+- **Media-Query bleibt.** Ohne `(any-hover: hover) and (any-pointer: fine)`
+  würde ein Touch-Gerät ein Cursor-Bild anfordern, das es dort nicht gibt —
+  `tests/browser.mjs` (mobile) und `tests/cursor-hit-test.mjs` (Touch-Kontext)
+  belegen den Systemcursor dort.
+- **Die `:root`-Variante der Basis.** `html body *` und eine später eingefügte
+  Fremdregel mit demselben Selektor haben identische Spezifität; bei beiden
+  `!important` gewinnt die spätere. `html:root body *` (0,1,1) schließt das.
+
+Beweis: `tests/cursor-native-browser.mjs` injiziert zwei Fremd-Stylesheets
+(`html body a { cursor: pointer }` und `html body * { cursor: grab !important }`)
+und prüft, dass der berechnete Cursor an Link und Body das h4-Bild bleibt
+(`report.escalation`). Hit-Test danach: 4459 / 1139 / 929 Punkte, Xray 2221,
+0 Fremd-Cursor. `tokens-audit` schlägt fehl, sobald eine `cursor`-Deklaration
+ohne `!important` in `cursor.css` steht.
+
 ## Vertragsänderungen (bewusst)
 
 - `tests/cursor-kernel-browser.mjs` und `tests/cursor-fade-browser.mjs` sind

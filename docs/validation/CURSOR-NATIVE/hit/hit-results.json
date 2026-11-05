@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-05T12:37:32.486Z",
+  "checkedAt": "2026-11-05T13:49:33.093Z",
   "base": "http://127.0.0.1:55232",
-  "build": "903da305733a",
+  "build": "736e71d472bc",
   "spec": {
     "media": "(any-hover: hover) and (any-pointer: fine)",
     "normal": [
@@ -40,8 +40,8 @@
       "height": 900,
       "points": 4459,
       "cursors": {
-        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer": 87,
-        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto": 4367,
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer": 85,
+        "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto": 4369,
         "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto": 5
       },
       "offenders": [],
@@ -51,7 +51,7 @@
             "label": "footer-moshlab",
             "sample": {
               "x": 205.453125,
-              "y": 866.03125,
+              "y": 866.34375,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "id": "",
@@ -106,7 +106,7 @@
             "label": "visit",
             "sample": {
               "x": 307.7421875,
-              "y": 866.03125,
+              "y": 866.34375,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "id": "",
@@ -161,7 +161,7 @@
             "label": "instagram",
             "sample": {
               "x": 1156.8828125,
-              "y": 866.03125,
+              "y": 866.34375,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "id": "",
@@ -326,7 +326,7 @@
             "label": "index-home",
             "sample": {
               "x": 1326,
-              "y": 109,
+              "y": 104,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "A",
               "id": "",
@@ -847,7 +847,7 @@
             "label": "[data-inquiry-form] input[name=\"name\"]",
             "sample": {
               "x": 389.296875,
-              "y": 524.765625,
+              "y": 525.078125,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "INPUT",
               "id": "home-inquiry-name",
@@ -902,7 +902,7 @@
             "label": "[data-inquiry-form] input[name=\"email\"]",
             "sample": {
               "x": 957.296875,
-              "y": 524.765625,
+              "y": 525.078125,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "INPUT",
               "id": "home-inquiry-email",
@@ -957,7 +957,7 @@
             "label": "[data-inquiry-form] textarea[name=\"message\"]",
             "sample": {
               "x": 673.296875,
-              "y": 707.953125,
+              "y": 708.265625,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "TEXTAREA",
               "id": "home-inquiry-message",
@@ -1012,7 +1012,7 @@
             "label": "[data-inquiry-form] input[type=\"file\"]",
             "sample": {
               "x": 283.296875,
-              "y": 788.34375,
+              "y": 787.65625,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
               "tag": "INPUT",
               "id": "home-inquiry-files",
@@ -1067,7 +1067,7 @@
             "label": "[data-inquiry-submit]",
             "sample": {
               "x": 334.0078125,
-              "y": 755.53125,
+              "y": 755.84375,
               "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
               "tag": "SPAN",
               "id": "",
@@ -1639,12 +1639,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "",
+            "className": "is-hovering is-dragging",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "",
+                "className": "is-hovering is-dragging",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -1691,12 +1691,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "",
+            "className": "is-dragging",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "",
+                "className": "is-dragging",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -1743,12 +1743,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "",
+            "className": "is-dragging",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "",
+                "className": "is-dragging",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -1795,12 +1795,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "",
+            "className": "is-dragging",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "",
+                "className": "is-dragging",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -1847,12 +1847,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "",
+            "className": "is-dragging",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "",
+                "className": "is-dragging",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -2728,12 +2728,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "is-hovering is-dragging",
+            "className": "",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "is-hovering is-dragging",
+                "className": "",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -2780,12 +2780,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "is-hovering is-dragging",
+            "className": "is-hovering",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "is-hovering is-dragging",
+                "className": "is-hovering",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -2832,12 +2832,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "is-hovering is-dragging",
+            "className": "is-hovering",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "is-hovering is-dragging",
+                "className": "is-hovering",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -2884,12 +2884,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "is-dragging",
+            "className": "is-hovering",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "is-dragging",
+                "className": "is-hovering",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },
@@ -2936,12 +2936,12 @@
             "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
             "tag": "CANVAS",
             "id": "logo-canvas",
-            "className": "is-dragging",
+            "className": "",
             "stack": [
               {
                 "tag": "CANVAS",
                 "id": "logo-canvas",
-                "className": "is-dragging",
+                "className": "",
                 "pointerEvents": "auto",
                 "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
               },

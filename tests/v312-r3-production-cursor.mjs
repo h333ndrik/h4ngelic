@@ -14,8 +14,11 @@ const index = await readFile(new URL('../dist/index.html', import.meta.url), 'ut
 const cssName = [...await readdir(new URL('../dist/assets/', import.meta.url))].find(name => /^index-.*\.css$/.test(name));
 assert.ok(cssName, 'The production build emits its entry stylesheet.');
 const css = await readFile(new URL(`../dist/assets/${cssName}`, import.meta.url), 'utf8');
-const declarations = [...css.matchAll(/(?<![-\w])cursor\s*:\s*([^;}]+)/g)].map(match => match[1].trim());
+const rawDeclarations = [...css.matchAll(/(?<![-\w])cursor\s*:\s*([^;}]+)/g)].map(match => match[1].trim());
+const declarations = rawDeclarations.map(value => value.replace(/\s*!important$/, ''));
 const literals = declarations.filter(value => !/^var\(--h4-cursor(?:-interactive|-pressed|-xray|-xray-pressed)?\)$/.test(value));
+const impure = rawDeclarations.filter(value => !/!important$/.test(value));
+assert.deepEqual(impure, [], `Every emitted cursor declaration must be !important: ${JSON.stringify(impure)}`);
 assert.deepEqual(literals, [], `Only the cursor tokens may be consumed: ${JSON.stringify(literals)}`);
 assert.deepEqual([...new Set(declarations)].sort(), ['var(--h4-cursor)', 'var(--h4-cursor-interactive)', 'var(--h4-cursor-pressed)', 'var(--h4-cursor-xray)', 'var(--h4-cursor-xray-pressed)'],
   `cursor.css owns every emitted declaration: ${JSON.stringify(declarations)}`);

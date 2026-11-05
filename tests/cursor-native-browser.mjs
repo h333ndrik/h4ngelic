@@ -12,8 +12,11 @@ await mkdir(output, { recursive: true });
 const cssName = [...await readdir(new URL('../dist/assets/', import.meta.url))].find(name => /^index-.*\.css$/.test(name));
 assert.ok(cssName, 'The production build emits its entry stylesheet.');
 const emitted = await readFile(new URL(`../dist/assets/${cssName}`, import.meta.url), 'utf8');
-const declarations = [...emitted.matchAll(/(?<![-\w])cursor\s*:\s*([^;}]+)/g)].map(match => match[1].trim());
+const rawDeclarations = [...emitted.matchAll(/(?<![-\w])cursor\s*:\s*([^;}]+)/g)].map(match => match[1].trim());
+const declarations = rawDeclarations.map(value => value.replace(/\s*!important$/, ''));
 const literals = declarations.filter(value => !/^var\(--h4-cursor(?:-interactive|-pressed|-xray|-xray-pressed)?\)$/.test(value));
+const impure = rawDeclarations.filter(value => !/!important$/.test(value));
+assert.deepEqual(impure, [], `Every emitted cursor declaration must be !important: ${JSON.stringify(impure)}`);
 assert.deepEqual(literals, [], `The emitted CSS may only consume the cursor tokens: ${JSON.stringify(literals)}`);
 assert.deepEqual([...new Set(declarations)].sort(), ['var(--h4-cursor)', 'var(--h4-cursor-interactive)', 'var(--h4-cursor-pressed)', 'var(--h4-cursor-xray)', 'var(--h4-cursor-xray-pressed)'],
   `cursor.css owns every declaration: ${JSON.stringify(declarations)}`);
@@ -99,6 +102,19 @@ try {
   assert.match(pressed, /h4ngelic-cursor-pressed\.svg["']?\)\s+8\s+2/, 'The pressed state uses the pre-scaled sprite.');
   report.pressed = { rest, pressed, scale: Number(scale.toFixed(4)), hotspot: '8 2',
     pressedSize: `${pressedSprite.width}x${pressedSprite.height}` };
+
+  // Escalation proof: a legacy stylesheet, with and without !important, cannot
+  // repaint the pointer. The :root base rule exists exactly for the second case.
+  await page.addStyleTag({ content: 'html body a { cursor: pointer } html body * { cursor: grab }' });
+  const legacy = await target.evaluate(element => getComputedStyle(element).cursor);
+  await page.addStyleTag({ content: 'html body a { cursor: grab !important } html body * { cursor: grab !important }' });
+  const hostile = await target.evaluate(element => getComputedStyle(element).cursor);
+  const hostileBody = await page.locator('body').evaluate(element => getComputedStyle(element).cursor);
+  for (const [label, value] of [['legacy', legacy], ['hostile', hostile], ['hostile-body', hostileBody]]) {
+    assert.ok(matchesContract(value, { mode: 'normal', spec: cursorSpec }),
+      `${label} stylesheet must not repaint the pointer: ${value}`);
+  }
+  report.escalation = { legacy, hostile, hostileBody };
 
   // The 108 % swap is instantaneous: two samples inside one frame are already pressed.
   report.fade = await page.evaluate(async () => {

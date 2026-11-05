@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-05T12:37:26.602Z",
+  "checkedAt": "2026-11-05T13:58:59.924Z",
   "base": "http://127.0.0.1:55232",
-  "css": "index-C01KL1Yn.css",
+  "css": "index-CvSC71IM.css",
   "declarations": [
     "var(--h4-cursor)",
     "var(--h4-cursor-interactive)",
@@ -10,7 +10,7 @@
     "var(--h4-cursor-xray-pressed)"
   ],
   "literals": [],
-  "build": "903da305733a",
+  "build": "736e71d472bc",
   "overlay": {
     "nodes": 0,
     "classGate": false,
@@ -91,6 +91,11 @@
     "body": "auto"
   },
   "failures": [],
+  "escalation": {
+    "legacy": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "hostile": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "hostileBody": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+  },
   "pseudo": [
     {
       "selector": ".arrow",

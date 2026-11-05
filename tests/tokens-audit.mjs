@@ -56,10 +56,15 @@ const foreignCursorDeclarations = allSource
     .map(match => ({ file: relative(entry.file.pathname), value: match[2].trim().slice(0, 60) })));
 assert.deepEqual(foreignCursorDeclarations, [],
   `Only cursor.css may declare cursor: ${JSON.stringify(foreignCursorDeclarations)}`);
-const cursorLiterals = [...css['src/cursor.css'].matchAll(/(?<![-\w])cursor\s*:\s*([^;]+);/g)]
-  .map(match => match[1].trim())
-  .filter(value => !/^var\(--h4-cursor(?:-interactive|-pressed|-xray|-xray-pressed)?\)$/.test(value));
+const cursorDeclarations = [...css['src/cursor.css'].matchAll(/(?<![-\w])cursor\s*:\s*([^;]+);/g)]
+  .map(match => match[1].trim());
+const cursorLiterals = cursorDeclarations
+  .filter(value => !/^var\(--h4-cursor(?:-interactive|-pressed|-xray|-xray-pressed)?\)(?:\s*!important)?$/.test(value));
 assert.deepEqual(cursorLiterals, [], `cursor.css must only consume the cursor tokens: ${JSON.stringify(cursorLiterals)}`);
+// Escalation contract: every cursor declaration is !important, so no legacy or
+// third-party rule can repaint the pointer.
+const impureDeclarations = cursorDeclarations.filter(value => !/!important$/.test(value));
+assert.deepEqual(impureDeclarations, [], `Every cursor declaration must be !important: ${JSON.stringify(impureDeclarations)}`);
 assert.match(css['src/cursor.css'], /@media \(any-hover: hover\) and \(any-pointer: fine\)/,
   'The cursor block must key off the any-* capabilities so hybrids keep the logo.');
 assert.doesNotMatch(css['src/cursor.css'], /\(hover: hover\) and \(pointer: fine\)/,
