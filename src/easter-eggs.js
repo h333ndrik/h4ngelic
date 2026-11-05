@@ -293,7 +293,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     const messages = hotspot ? [...hotspot.querySelectorAll('[data-secret-message]')] : [];
     if (!messages.length || disposed) return;
     const hideAfter = settings.hint.visibleMs
-      + (hotspot.hasAttribute('data-other-side-hint') || hotspot.hasAttribute('data-visit-counter-hotspot') || reduced.matches ? 0 : settings.hint.fadeMs);
+      + (hotspot.hasAttribute('data-other-side-hint') || reduced.matches ? 0 : settings.hint.fadeMs);
     for (const message of messages) {
       clearHintTimer(message);
       message.classList.add('is-discovered');
@@ -356,7 +356,6 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     }
     const hotspot = secretTarget(event);
     if (hotspot) revealSecret(hotspot);
-    else if (cluster?.matches('.footer-left')) revealSecret(cluster.querySelector('[data-visit-counter-hotspot]'));
   });
   listen(root, 'h4:pagechange', () => {
     clearSecrets();

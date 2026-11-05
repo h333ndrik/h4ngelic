@@ -292,6 +292,6 @@ test('homepage About copy remains one flowing paragraph and every relevant route
   assert.doesNotMatch(paragraph, /<br|<span/);
   for (const markup of [home, renderWorkPage(), renderAboutPage(), renderArtworkPage(artworks[0])]) {
     assert.equal((markup.match(/data-visit-number/g) || []).length, 1);
-    assert.match(markup, /footer-brand[\s\S]*?data-visit-counter-hotspot/);
+    assert.match(markup, /footer-brand[\s\S]*?data-visit-count/);
   }
 });

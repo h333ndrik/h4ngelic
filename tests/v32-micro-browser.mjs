@@ -100,7 +100,7 @@ for (const width of [1440, 390, 320]) {
       const style = getComputedStyle(element), box = element.getBoundingClientRect();
       return { text: element.textContent.trim(), opacity: Number(style.opacity), color: style.color,
         tracking: style.letterSpacing, visibility: style.visibility, width: box.width, height: box.height,
-        followsMoshlab: Boolean(document.querySelector('.footer-moshlab').compareDocumentPosition(element.closest('[data-visit-counter-hotspot]')) & Node.DOCUMENT_POSITION_FOLLOWING) };
+        followsMoshlab: Boolean(document.querySelector('.footer-moshlab').compareDocumentPosition(element.closest('[data-visit-count]')) & Node.DOCUMENT_POSITION_FOLLOWING) };
     });
     assert.match(visit.text, /^visit \d{4,}$/);
     assert.equal(visit.opacity, .35);

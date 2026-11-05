@@ -99,7 +99,7 @@ async function normalPresentation(page) {
   await assertNormalTheme(page);
   assert.equal(await page.locator('[data-other-side-hint][data-mode-hold]').count(), 1, 'The activated mode has its subtle footer hold control.');
   assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'hold 4 to see the other side.');
-  assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1, 'The permanent local count lives in the footer identity row.');
+  assert.equal(await page.locator('[data-visit-count]').count(), 1, 'The permanent local count lives in the footer identity row.');
   assert.equal(await page.locator('[data-controls] [data-mode-mute]').count(), 1);
   assert.equal(await page.locator('.page-footer [data-mode-mute]').count(), 0);
 }
@@ -161,9 +161,9 @@ try {
   assert.equal(await page.locator('#selected-work .category-sublinks,#contact .contact-link').count(), 0, 'V6 keeps homepage sublabels out and replaces Contact links with the shared inquiry.');
   assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
   assert.equal(await page.locator('#selected-work img,#selected-work picture,#contact .contact-link-primary').count(), 0);
-  const localCounter = await page.locator('[data-visit-counter-hotspot]').boundingBox();
+  const localCounter = await page.locator('[data-visit-count]').boundingBox();
   assert.ok(localCounter.x >= 0 && localCounter.x + localCounter.width < 720, 'The permanent local count sits in the left footer cluster.');
-  assert.ok(Number(await page.locator('[data-visit-message]').evaluate((element) => getComputedStyle(element).opacity)) < .01);
+  assert.equal(await page.locator('[data-visit-message]').count(), 0, 'B-F8: the counter reveals no phrase.');
   const moreAbout = page.locator('.about-preview .kinetic-heading');
   assert.ok(parseFloat(await moreAbout.evaluate((element) => getComputedStyle(element).fontSize)) >= 48, 'MORE ABOUT keeps the shared prominent editorial heading size.');
   await normalPresentation(page);
@@ -337,12 +337,12 @@ try {
     await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 13200 });
     await page.locator('[data-floating-brand]').click(); await pageKind(page, 'home');
     await page.locator('#stage.is-ready').waitFor();
-    assert.equal(await page.locator('[data-visit-message]').textContent(), 'nice to meet you.');
+    assert.equal(await page.locator('[data-visit-count]').evaluate(element => getComputedStyle(element).pointerEvents), 'none');
     const remembered = await page.evaluate(() => JSON.parse(localStorage.getItem('h4ngelic.visits.v1')));
     assert.equal(remembered.count, 1, 'Route navigation belongs to the same local visit.');
     assert.deepEqual(Object.keys(remembered).sort(), ['count', 'lastSeen'], 'Visit memory stores only its count and last activity.');
     await page.reload({ waitUntil: 'networkidle' });
-    assert.equal(await page.locator('[data-visit-message]').textContent(), 'nice to meet you.');
+    assert.equal(await page.locator('[data-visit-count]').evaluate(element => getComputedStyle(element).pointerEvents), 'none');
     assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('h4ngelic.visits.v1')).count), 1, 'An immediate reload does not increment the visit counter.');
     const writes = await page.evaluate(() => window.__storageWrites);
     assert.ok(writes.some((entry) => entry.method === 'setItem' && entry.key === 'h4ngelic.visits.v1'));
@@ -369,7 +369,7 @@ try {
     const responsiveHeadings = await p.locator('.kinetic-heading').evaluateAll((items) => items.map((item) => parseFloat(getComputedStyle(item).fontSize)));
     assert.ok(responsiveHeadings.every((size) => size >= 32 && size <= 88 && size === responsiveHeadings[0]), `The shared editorial heading scale remains legible at ${width}px.`);
     assert.deepEqual(await p.locator('#selected-work .category-link').evaluateAll((links) => links.map((link) => new URL(link.href).pathname + new URL(link.href).hash)), categoryPaths);
-    const visitor = await p.locator('[data-visit-counter-hotspot]').boundingBox();
+    const visitor = await p.locator('[data-visit-count]').boundingBox();
     assert.ok(visitor.x >= 0 && visitor.x + visitor.width <= width + 1, `The local visit count stays inside the ${width}px viewport.`);
     const gap = await p.locator('[data-footer-secret-space]').boundingBox();
     assert.ok(gap.height >= (width < 600 ? 844 : 1000) * .25);

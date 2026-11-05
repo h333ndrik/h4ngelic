@@ -59,24 +59,21 @@ try {
       await page.screenshot({ path: new URL(`home-${profile.width}-${profile.reduced}.png`, output).pathname });
 
       await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' })); await frames(page);
-      const counter = page.locator('[data-visit-counter-hotspot]');
       await page.locator('.footer-left').evaluate(element => { element.scrollLeft = element.scrollWidth; });
       await frames(page);
-      const counterBox = await counter.boundingBox();
-      await page.touchscreen.tap(counterBox.x + counterBox.width / 2, counterBox.y + counterBox.height / 2);
-      await page.waitForFunction(() => document.querySelector('[data-visit-message]')?.classList.contains('is-discovered'));
-      await page.waitForTimeout(800);
       const footer = await page.evaluate(() => {
         const box = selector => { const element = document.querySelector(selector); if (!element) return null;
           const r = element.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; };
-        return { moshlab: box('.footer-moshlab'), counter: box('[data-visit-counter-hotspot]'), smash: box('.footer-smash'),
+        return { moshlab: box('.footer-moshlab'), counter: box('[data-visit-count]'), smash: box('.footer-smash'),
           instagram: box('.footer-instagram'), impressum: box('.footer-details .footer-impressum:not(.footer-impressum-other-side)'),
-          location: box('.footer-location'), naavi: box('[data-naavi]'),
-          phrase: document.querySelector('[data-visit-message]').textContent, pageWidth: document.documentElement.scrollWidth,
-          messageOpacity: Number(getComputedStyle(document.querySelector('[data-visit-message]')).opacity) };
+          location: box('.footer-location'), naavi: box('[data-naavi]'), pageWidth: document.documentElement.scrollWidth,
+          count: document.querySelector('[data-visit-number]').textContent.trim(),
+          opacity: Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity),
+          message: document.querySelectorAll('[data-visit-message]').length };
       });
-      assert.equal(footer.phrase, visitorMessage(5));
-      assert.ok(footer.messageOpacity > .3, `The discovered footer message is visibly painted; opacity=${footer.messageOpacity}.`);
+      assert.match(footer.count, /^visit \d{4,}$/, 'The ghost counter is permanently readable on touch.');
+      assert.equal(footer.opacity, .35, 'B-F8: the counter keeps the HOLD-4 ghost opacity.');
+      assert.equal(footer.message, 0, 'B-F8: the counter owns no hidden phrase.');
       assert.equal(overlap(footer.moshlab, footer.counter), false, 'visit and moshlab stay separate.');
       assert.equal(footer.smash, null, 'Normal mode keeps SMASH out of the DOM.');
       assert.equal(overlap(footer.instagram, footer.impressum), false);

@@ -55,38 +55,18 @@
 .footer-impressum, .footer-smash { color: var(--h4-ghost-color); opacity: var(--h4-ghost-opacity); letter-spacing: var(--h4-ghost-tracking); }
 [data-smash-slot]:empty { display: none; }
 .exhibition-footer :is(a, button, [role='group']):focus-visible { outline: 1px solid currentColor; outline-offset: -3px; }
-.footer-visit-hotspot.secret-hotspot {
-  position: relative;
+/* B-F8: one static ghost line in the footer row — same register as the
+   HOLD-4 hint, no target, no hover, no reveal. */
+.footer-visit {
+  display: inline-flex;
+  align-items: center;
   flex: 0 0 auto;
+  min-height: 44px;
   font: inherit;
   letter-spacing: inherit;
+  pointer-events: none;
+  user-select: none;
 }
-/* V7: the footer reveals the same seven-tier phrase used above the hero.
-   The phrase floats above the counter, so revealing it never reflows the row. */
-.footer-visit-memory {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 20px);
-  width: max-content;
-  max-width: min(280px, calc(100vw - 44px));
-  padding: 7px 10px;
-  border-radius: var(--radius-soft);
-  background: var(--surface-input);
-  color: #dededb;
-  box-shadow: 0 12px 28px -14px rgb(0 0 0 / .8);
-  font-size: 12px;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-align: right;
-  white-space: normal;
-  z-index: 4;
-}
-.footer-visit-hotspot:hover .footer-visit-memory,
-.footer-visit-hotspot:focus-visible .footer-visit-memory,
-.footer-visit-memory.is-discovered { opacity: .9; }
-
-/* The personal counter is always present in the shared ghost register.
-   Only the optional visitor-memory phrase uses the secret reveal. */
 .footer-visit-count {
   color: var(--h4-ghost-color);
   opacity: var(--h4-ghost-opacity);
@@ -137,8 +117,8 @@
   z-index: 3;
   font-size: clamp(15px, 1.5vw, 21px);
 }
-html[data-mode='xray'] :is(.footer-secret, .footer-visit-hotspot) { color: #fff; }
-html[data-mode='xray'] :is(.footer-secret, .footer-visit-hotspot) .secret-message {
+html[data-mode='xray'] .footer-secret { color: #fff; }
+html[data-mode='xray'] .footer-secret .secret-message {
   text-shadow: 0 1px 2px #080216, 0 0 6px #080216, 0 0 12px #8011ff, 0 0 24px #8011ff88;
 }
 

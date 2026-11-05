@@ -37,7 +37,7 @@ try {
         await page.goto(new URL(`/?v7tier=${count}`, base).href, { waitUntil: 'networkidle' });
         await page.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
         const line = page.locator('[data-returning-visitor]');
-        const message = page.locator('[data-visit-message]');
+        const counterNumber = page.locator('[data-visit-number]');
         if (profile.width >= 600) {
           await page.mouse.move(profile.width / 2, 30);
           await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) >= .349);
@@ -45,7 +45,7 @@ try {
         assert.equal(await line.isVisible(), true);
         const expected = visitorMessage(count);
         assert.equal(await line.textContent(), expected, `Hero tier ${count}`);
-        assert.equal(await message.textContent(), expected, `Footer tier ${count}`);
+        assert.equal(await counterNumber.textContent(), `visit ${String(count).padStart(4, '0')}`, `Footer counter keeps tier ${count}`);
         const box = await line.evaluate(element => {
           const r = element.getBoundingClientRect(), s = getComputedStyle(element);
           const range = document.createRange(); range.selectNodeContents(element);
@@ -65,20 +65,20 @@ try {
         assert.ok(box.textHeight <= box.lineHeight + 1, 'The fixed recognition row remains one line.');
         tiers.push({ count, expected });
       }
-      const visit = page.locator('[data-visit-counter-hotspot]');
+      const visit = page.locator('[data-visit-count]');
       const row = page.locator('[data-footer-row]');
       await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' })); await frames(page);
       const before = await row.evaluate(element => { const r = element.getBoundingClientRect(); return { width: r.width, height: r.height, page: document.documentElement.scrollWidth }; });
-      const phrase = page.locator('[data-visit-message]');
-      if (profile.width < 600) await visit.tap(); else await visit.hover();
-      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-visit-message]')).opacity) > .45, null, { timeout: 3000 });
-      const reveal = await phrase.evaluate(element => { const s = getComputedStyle(element), r = element.getBoundingClientRect(), host = element.closest('[data-visit-counter-hotspot]').getBoundingClientRect();
-        return { opacity: Number(s.opacity), above: r.bottom <= host.top + 1, phrase: { top: r.top, bottom: r.bottom }, host: { top: host.top, bottom: host.bottom }, width: r.width, height: r.height }; });
-      assert.ok(reveal.opacity > .45, `Phrase reveals: ${JSON.stringify(reveal)}`);
-      assert.equal(reveal.above, true, `The portal phrase floats above the counter: ${JSON.stringify(reveal)}`);
+      // B-F8: the counter is permanent static ghost text — no tap, hover or phrase.
+      assert.equal(await page.locator('[data-visit-message]').count(), 0, 'The footer counter hides no phrase.');
+      assert.equal(await visit.evaluate(element => getComputedStyle(element).pointerEvents), 'none');
+      if (profile.width >= 600) {
+        await visit.hover({ force: true });
+        await page.waitForTimeout(250);
+      }
       const after = await row.evaluate(element => { const r = element.getBoundingClientRect(); return { width: r.width, height: r.height, page: document.documentElement.scrollWidth }; });
-      assert.ok(Math.abs(after.width - before.width) < 1 && Math.abs(after.height - before.height) < 1, 'Revealing the phrase never reflows the footer row.');
-      assert.ok(after.page <= profile.width + 1, 'The portal phrase never creates horizontal overflow.');
+      assert.deepEqual(after, before, 'Hovering the counter changes nothing.');
+      assert.ok(after.page <= profile.width + 1, 'The footer never creates horizontal overflow.');
       await page.screenshot({ path: new URL(`tier-${profile.width}-${profile.reduced}.png`, output).pathname });
       await page.goto(new URL('/?v7first=1', base).href, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
@@ -90,8 +90,8 @@ try {
         assert.equal(await firstLine.isVisible(), false, 'First visit keeps the desktop recognition line at rest hidden.');
       }
       assert.deepEqual(errors, []);
-      reports.push({ ...profile, tiers, reveal, before, after, errors }); await save();
-      console.log(`PASS V7 ${profile.width}px reduced=${profile.reduced}: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, ${profile.width < 600 ? 'tap' : 'hover'} reveals an absolute portal with no reflow, first visit ${profile.width < 600 ? 'greets as a ghost' : 'hidden at rest'}.`);
+      reports.push({ ...profile, tiers, before, after, errors }); await save();
+      console.log(`PASS V7 ${profile.width}px reduced=${profile.reduced}: nine count samples map to seven hero phrases plus the matching static counter, recognition centered in the fixed branding gap, no counter hover or reflow, first visit ${profile.width < 600 ? 'greets as a ghost' : 'hidden at rest'}.`);
     } catch (error) {
       failures.push({ ...profile, error: error.stack, errors }); await save();
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});

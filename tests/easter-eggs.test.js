@@ -44,19 +44,18 @@ test('shared footer groups contain the permanent ghost count, matching arrows an
   assert.match(html, /h4ngelic © 2026/);
   assert.match(html, /berlin, de/);
   assert.match(html, /data-footer-secret-space/);
-  assert.match(html, /data-visit-message id="footer-visit-memory">nice to meet you\./);
   assert.match(html, /data-other-side-hint data-secret-hotspot data-mode-hold/);
   assert.match(html, />hold 4 to see the other side\.<\/span>/);
-  assert.match(html, /data-visit-counter-hotspot/);
-  assert.match(html, /aria-describedby="footer-visit-count footer-visit-memory"/);
+  assert.doesNotMatch(html, /data-visit-message|data-visit-counter-hotspot/, 'The counter is a statement, not a secret control.');
+  assert.match(html, /<span class="footer-visit" data-visit-count>/);
   assert.match(html, /data-visit-number id="footer-visit-count"/);
   assert.match(html, />visit 0001<\/span>/);
   assert.doesNotMatch(html, /<button[^>]+\bdata-smash\b/, 'Normal mode contains no hidden soundtrack control.');
   assert.match(html, /data-smash-slot/);
   assert.match(html, /class="footer-impressum" href="\/impressum">impressum/);
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
-  assert.ok(html.indexOf('data-visit-counter-hotspot') > html.indexOf('class="footer-moshlab"'));
-  assert.ok(html.indexOf('data-visit-counter-hotspot') < html.indexOf('class="footer-details"'));
+  assert.ok(html.indexOf('data-visit-count') > html.indexOf('class="footer-moshlab"'));
+  assert.ok(html.indexOf('data-visit-count') < html.indexOf('class="footer-details"'));
   assert.match(html, /class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
   assert.ok(html.indexOf('footer-moshlab') > html.indexOf('footer-brand') && html.indexOf('footer-moshlab') < html.indexOf('footer-details'));
   assert.equal((html.match(/class="arrow"/g) || []).length, 2, 'MOSH LAB and Instagram use the shared arrow; SMASH is mode-only and arrowless.');
@@ -75,7 +74,7 @@ test('the shared release gate can still omit all alternate-mode controls indepen
   const html = renderFooter({ home: true, otherSideEnabled: false });
   assert.doesNotMatch(html, /data-other-side-hint|data-mode-hold|data-mode-mute|data-mode-status/);
   assert.match(html, /data-visit-number/);
-  assert.match(renderFooter(), /data-visit-counter-hotspot/, 'The shared local visit count is present on interior routes too.');
+  assert.match(renderFooter(), /data-visit-count/, 'The shared local visit count is present on interior routes too.');
 });
 
 test('ink remains temporary for six to twelve seconds with a bounded active count', () => {

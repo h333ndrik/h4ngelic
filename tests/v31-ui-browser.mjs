@@ -148,7 +148,7 @@ async function formContract(page, profile) {
   const targets = await coverage(page, ['[data-global-index] summary', '[data-global-index] a', '[data-naavi]',
     '.about-preview .text-link', '.footer-moshlab', '.footer-details > .footer-impressum:not(.footer-impressum-other-side)',
     '.footer-instagram', '.footer-location',
-    '[data-visit-counter-hotspot]', '[data-inquiry-submit]', '[data-controls] button']);
+    '[data-inquiry-submit]', '[data-controls] button']);
   const smash = await page.locator('.footer-smash').count();
   if (await page.locator('html').getAttribute('data-mode') === 'xray') {
     assert.equal(smash, 1, 'Other Side owns the only SMASH control.');
@@ -156,7 +156,7 @@ async function formContract(page, profile) {
     assert.equal(await page.locator('.footer-smash .arrow').count(), 0);
   } else assert.equal(smash, 0, 'Normal mode keeps SMASH out of the DOM.');
   const surfaces = await radiusScope(page, ['.inquiry-field input', '.inquiry-field textarea', '.global-index-links',
-    '[data-naavi]', '[data-other-side-hint]', '[data-visit-counter-hotspot]'], 4);
+    '[data-naavi]', '[data-other-side-hint]'], 4);
   await page.screenshot({ path: new URL(`form-${profile.width}-${profile.reduced}-${await page.locator('html').getAttribute('data-mode')}.png`, output).pathname });
   return { fields, focused, panel, targets, surfaces, menuHover, smash };
 }

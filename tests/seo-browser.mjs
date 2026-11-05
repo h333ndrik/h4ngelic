@@ -120,7 +120,7 @@ try {
     assert.equal(await page.locator('[data-global-index] summary').isVisible(), true);
     assert.equal(await page.locator('#reveal-control').count(), 0);
     assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00/', '01/', '02/', '03/']);
-    assert.equal(await page.locator('[data-visit-message]').count(), 1);
+    assert.equal(await page.locator('[data-visit-count]').count(), 1, 'The static ghost counter is present.');
     assert.match(await page.locator('[data-visit-number]').textContent(), /^visit \d{4,}$/);
     if (path !== '/') assert.equal(await page.locator('[data-inquiry-form]').count(), 0, 'Only Home contains the contact form.');
     assert.ok((await page.locator('h1').count()) >= 1);

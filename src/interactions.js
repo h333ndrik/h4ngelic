@@ -208,9 +208,8 @@ export function initInteractions(root = document, { revealSections = true, setti
   }
 
   function enhance(target) {
-    const visitCounter = target.matches?.('.footer-visit-hotspot');
     if (!target.matches?.(interactiveSelector)
-      || !visitCounter && (target.matches(excludedSelector) || target.closest('.secret-hotspot, [data-secret-hotspot]'))
+      || (target.matches(excludedSelector) || target.closest('.secret-hotspot, [data-secret-hotspot]'))
       || target.matches(':disabled, [aria-disabled="true"]')) return;
     let wrapper = target.querySelector(':scope > .interaction-visual, :scope > .category-magnet, :scope > .kinetic-item > .category-magnet');
     if (!wrapper) {

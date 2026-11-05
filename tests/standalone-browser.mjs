@@ -68,7 +68,7 @@ async function identityGeometry(page) {
       return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom,
         centerX: rect.left + rect.width / 2, centerY: rect.top + rect.height / 2 };
     };
-    const counter = row.querySelector('[data-visit-counter-hotspot]');
+    const counter = row.querySelector('[data-visit-count]');
     return { row: box(row), counter: box(counter), counterInLeftCluster: counter.closest('.footer-left') !== null,
       brand: box(row.querySelector('.footer-brand')), left: box(row.querySelector('.footer-left')),
       right: box(row.querySelector('.footer-details')), naavi: box(document.querySelector('[data-naavi]')),
@@ -176,8 +176,8 @@ try {
       await page.keyboard.press('Escape');
       assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), false);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'hold 4 to see the other side.');
-      assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1);
-      assert.equal(await page.locator('[data-visit-message]').count(), 1, 'The shared seven-tier phrase node is present.');
+      assert.equal(await page.locator('[data-visit-count]').count(), 1);
+      assert.equal(await page.locator('[data-visit-message]').count(), 0, 'B-F8: the counter hides no phrase.');
       assert.match(await page.locator('[data-visit-number]').textContent(), /^visit \d{4,}$/);
       await footerAtRest(page);
       const identity = await identityGeometry(page);
@@ -191,12 +191,8 @@ try {
       assert.equal(await page.locator('.footer-instagram .arrow').count(), 1);
       assert.equal(await page.locator('[data-visit-number]').evaluate(element => Number(getComputedStyle(element).opacity)), 0.35,
         'The four-digit count is permanently visible in the ghost footer.');
-      const visit = page.locator('[data-visit-counter-hotspot]');
-      await visit.focus();
-      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity) > .2);
       const revealedIdentity = await identityGeometry(page);
-      assert.equal(revealedIdentity.pageHeight, identity.pageHeight, 'Counter discovery never adds page height.');
-      assert.deepEqual(revealedIdentity.row, identity.row, 'Counter discovery never reflows the footer row.');
+      assert.deepEqual(revealedIdentity, identity, 'B-F8: the static counter never reflows the footer row.');
       assert.equal(await page.locator('[data-smash]').count(), 0, 'SMASH renders only on The Other Side, never as hidden normal-mode DOM.');
       let offlineSmash = { played: false };
       await routeNavigate(page, 'home');
@@ -390,10 +386,8 @@ try {
       await footerAtRest(page);
       const finalCount = await page.locator('[data-visit-number]').textContent();
       assert.match(finalCount, /^visit \d{4,}$/);
-      if (mobile) await page.locator('[data-visit-counter-hotspot]').tap(); else await page.locator('[data-visit-counter-hotspot]').focus();
-      await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity) > .2);
-      assert.equal(await page.locator('[data-visit-number]').textContent(), finalCount, 'Discovering a count does not increment it.');
-      assert.equal(await page.locator('[data-visit-message]').count(), 1);
+      assert.equal(await page.locator('[data-visit-number]').textContent(), finalCount, 'Navigation never increments the count.');
+      assert.equal(await page.locator('[data-visit-count]').evaluate(element => getComputedStyle(element).pointerEvents), 'none');
       assert.deepEqual(errors, []);
       assert.deepEqual(requests, [], 'Standalone mode, texture, sound and navigation must require no HTTP requests.');
       reports.push({ width, mobile, externalHttpRequests: requests.length, runtimeErrors: errors.length,

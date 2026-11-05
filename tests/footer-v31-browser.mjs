@@ -103,11 +103,11 @@ try {
       await page.goto(new URL('/#final-secret',base).href,{waitUntil:'networkidle'});
       await page.evaluate(() => scrollTo({ top:document.documentElement.scrollHeight, behavior:'instant' }));
       await settled(page);
-      assert.equal(await page.locator('[data-visit-message]').count(),1,'One shared seven-tier phrase node exists in the footer.');
-      assert.equal(await page.locator('[data-visit-message]').textContent(), "you're part of this place now.");
-      const count = page.locator('[data-visit-number]'), visit = page.locator('[data-visit-counter-hotspot]');
+      assert.equal(await page.locator('[data-visit-message]').count(),0,'B-F8: the counter is a statement, not a reveal.');
+      const count = page.locator('[data-visit-number]'), visit = page.locator('[data-visit-count]');
       assert.equal(await count.textContent(),'visit 0012');
-      assert.equal(await visit.getAttribute('aria-describedby'),'footer-visit-count footer-visit-memory');
+      assert.equal(await visit.getAttribute('aria-describedby'), null);
+      assert.equal(await visit.evaluate(element => getComputedStyle(element).pointerEvents), 'none', 'B-F8: no pointer target.');
       assert.equal(await count.evaluate(el=>el.closest('.footer-left')!==null),true,'The counter belongs to the left cluster.');
       assert.equal(await visit.evaluate(el=>el.previousElementSibling?.matches('.footer-moshlab')),true,'visit follows moshlab directly.');
       assert.equal(await page.locator('.footer-moshlab').getAttribute('href'),'#');
@@ -131,7 +131,7 @@ try {
       await counterVisible(page,true);
       const beforeReveal = await geometry(page);
       // Native focus must reveal and horizontally expose each interactive item.
-      for (const selector of ['.footer-moshlab','[data-visit-counter-hotspot]','.footer-impressum','.footer-instagram']) {
+      for (const selector of ['.footer-moshlab','.footer-impressum','.footer-instagram']) {
         const target=page.locator(selector);
         if(await target.isDisabled())continue;
         await target.focus();
@@ -139,7 +139,6 @@ try {
         const port=await target.evaluate(el=>{const r=el.closest('.footer-left,.footer-details').getBoundingClientRect();return {left:r.left,right:r.right};});
         assert.ok(r.x>=port.left-1&&r.x+r.width<=port.right+1,`${selector} remains keyboard-reachable inside its local scrollport.`);
       }
-      await visit.focus();
       await counterVisible(page,true);
       const afterReveal=await geometry(page);
       assert.equal(afterReveal.pageHeight,beforeReveal.pageHeight,'Revealing the count does not alter page height.');
@@ -160,7 +159,6 @@ try {
       await page.evaluate(()=>document.activeElement?.blur());
       await page.mouse.move(width/2,100);
       await counterVisible(page,true);
-      if(width<600)await visit.tap();else await visit.hover();
       await counterVisible(page,true);
       const beforePlaceholder={url:page.url(),y:await page.evaluate(()=>scrollY)};
       await page.locator('.footer-moshlab').click();
@@ -170,7 +168,6 @@ try {
       await mode(page,'xray');
       await page.evaluate(() => scrollTo({ top:document.documentElement.scrollHeight, behavior:'instant' }));
       await settled(page);
-      if(width<600)await visit.tap();else await visit.focus();
       await counterVisible(page,true);
       const other=await geometry(page);
       assert.ok(other.documentWidth<=width+1);
@@ -187,7 +184,7 @@ try {
       // refreshes the newly rendered footer. data-page alone is not route completion.
       await page.waitForFunction(() => document.querySelector('[data-visit-number]')?.textContent === 'visit 0012');
       assert.equal(await count.textContent(),'visit 0012','Internal route changes do not increment personal visits.');
-      assert.equal(await page.locator('[data-visit-message]').count(),1);
+      assert.equal(await page.locator('[data-visit-count]').count(),1,'The static ghost counter survives route changes.');
       await page.evaluate(()=>document.activeElement?.blur());
       await page.mouse.move(width/2,100); await counterVisible(page,true);
       await page.locator('[data-global-index] summary').click();

@@ -10,9 +10,12 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
       <span class="secret-message" data-secret-message data-xray-hint id="footer-other-side-message"><span data-xray-hint-text>hold 4 to see the other side.</span></span>
     </button>` : '';
   const arrow = '<i class="arrow" aria-hidden="true"></i>';
-  const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count and visitor memory" aria-describedby="footer-visit-count footer-visit-memory">
-      <span class="footer-visit-count" data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span><span class="secret-message footer-visit-memory" data-secret-message data-visit-message id="footer-visit-memory">nice to meet you.</span>
-    </button>` : '';
+  // B-F8: the counter is a quiet statement, not a control. It keeps the ghost
+  // register of the HOLD-4 hint, stays permanently visible and owns no link,
+  // button, hover or reveal behaviour of its own.
+  const counter = easterSettings.visits.showNumber ? `<span class="footer-visit" data-visit-count>
+      <span class="footer-visit-count" data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span>
+    </span>` : '';
   return `${home ? `<div class="footer-secret-space end-reveal" id="final-secret" data-footer-secret-space data-end-reveal>
     <div class="end-reveal-mark" aria-hidden="true">
       <svg class="end-reveal-relief" viewBox="0 0 615 1006" focusable="false">

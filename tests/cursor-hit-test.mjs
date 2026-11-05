@@ -111,7 +111,7 @@ async function targetContracts(page, { mode, offenders, counts }) {
   await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
   await page.waitForTimeout(250);
   const regions = [];
-  for (const [label, selector] of [['footer-moshlab', '.footer-moshlab'], ['visit', '[data-visit-counter-hotspot]'],
+  for (const [label, selector] of [['footer-moshlab', '.footer-moshlab'], ['visit', '[data-visit-count]'],
     ['smash', '.footer-smash'], ['instagram', '.footer-instagram'], ['naavi-footer', '[data-naavi]']]) {
     const locator = page.locator(selector).first();
     if (!await locator.count()) continue;
