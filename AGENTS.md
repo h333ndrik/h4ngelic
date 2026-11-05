@@ -142,6 +142,11 @@ checklist adds evidence requirements, not a shortcut.
   records status, fix commit and evidence path.
 - [ ] **User check:** the evidence README contains two or three concrete
   “so prüfst du es” steps using the visible page or browser console.
+- [ ] **Geometry is measured:** every claim about “flush”, “equal spacing” or
+  “same height” needs baseline and gap measurements in the evidence folder.
+  Screenshots without numbers do not count. Layout relationships (alignment,
+  spacing, row rhythm) are proven with `tests/row-geometry-contract.mjs` and a
+  row entry in `tests/rows.manifest.json`, not with a single changed number.
 
 Evidence follows [GALLERY-CONVENTION.md](docs/validation/GALLERY-CONVENTION.md)
 for new fixes. A fix cannot be marked `verified-by-user` until the user explicitly
