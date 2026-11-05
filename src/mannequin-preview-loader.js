@@ -15,7 +15,9 @@ export function initMannequinPreviewLazy(root) {
       const target = entry.target;
       observer.unobserve(target);
       target.dataset.mannequinState = 'loading';
-      const status = target.querySelector('[data-mannequin-status]');
+      // Die Live-Region liegt ausserhalb des Frames (role="img" macht Kinder
+      // presentational), deshalb ueber die Figure suchen.
+      const status = target.closest('.mannequin-preview')?.querySelector('[data-mannequin-status]');
       if (status) status.textContent = 'Loading mannequin preview.';
       import('./mannequin-preview.js').then(({ initMannequinPreview }) => {
         if (cancelled || !target.isConnected) return;

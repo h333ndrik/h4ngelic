@@ -200,6 +200,133 @@ try {
     await context.close();
   }
 
+  // Barrierefreiheit: Semantik, Fokusring, Tastaturdrehung.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const { page, errors } = await trackPage(context);
+    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await scrollSectionTo(page, '#model-3d', 120);
+    await waitReady(page);
+    await page.waitForTimeout(250);
+
+    const semantics = await page.evaluate(() => {
+      const frame = document.querySelector('[data-mannequin-preview]');
+      const help = document.getElementById('mannequin-viewer-help');
+      const canvas = frame.querySelector('canvas');
+      const helpStyle = help ? getComputedStyle(help) : null;
+      return {
+        role: frame.getAttribute('role'),
+        label: frame.getAttribute('aria-label'),
+        describedBy: frame.getAttribute('aria-describedby'),
+        shortcuts: frame.getAttribute('aria-keyshortcuts'),
+        tabIndex: frame.tabIndex,
+        help: help?.textContent.trim() || '',
+        helpPosition: helpStyle?.position || '',
+        helpWidth: helpStyle?.width || '',
+        canvasHidden: canvas?.getAttribute('aria-hidden'),
+        liveInsideImage: document.querySelectorAll('[data-mannequin-preview] [role="status"], [data-mannequin-preview] [aria-live]').length,
+        statusOutsideImage: Boolean(document.querySelector('.mannequin-preview > [data-mannequin-status][role="status"]')),
+      };
+    });
+    assert.equal(semantics.role, 'img');
+    assert.match(semantics.label, /arrow keys/i, 'The label names the keyboard control.');
+    assert.equal(semantics.describedBy, 'mannequin-viewer-help');
+    assert.match(semantics.shortcuts || '', /ArrowLeft ArrowRight/);
+    assert.equal(semantics.tabIndex, 0, 'The viewer is reachable with Tab.');
+    assert.match(semantics.help, /15 degree steps/);
+    assert.equal(semantics.helpPosition, 'absolute', 'The help text is sr-only.');
+    assert.equal(semantics.helpWidth, '1px');
+    assert.equal(semantics.canvasHidden, 'true', 'The canvas stays decorative.');
+    assert.equal(semantics.liveInsideImage, 0, 'No live region inside role="img" (presentational children).');
+    assert.ok(semantics.statusOutsideImage, 'The status region lives outside the image role.');
+
+    // Tab-Reihenfolge: das Element davor fokussieren, ein Tab landet im Viewer.
+    const tabTarget = await page.evaluate(() => {
+      const frame = document.querySelector('[data-mannequin-preview]');
+      const focusable = [...document.querySelectorAll('a[href], button:not([disabled]), [tabindex="0"]')];
+      const index = focusable.indexOf(frame);
+      focusable[index - 1]?.focus();
+      return { index, previous: focusable[index - 1]?.tagName || null };
+    });
+    assert.ok(tabTarget.index > 0, 'The viewer has a predecessor in the tab order.');
+    await page.keyboard.press('Tab');
+    assert.equal(await page.evaluate(() => document.activeElement?.matches('[data-mannequin-preview]')), true,
+      'Tab reaches the 3D viewer.');
+
+    const ring = await page.evaluate(() => {
+      const style = getComputedStyle(document.querySelector('[data-mannequin-preview]'));
+      return { outlineStyle: style.outlineStyle, outlineWidth: Number.parseFloat(style.outlineWidth), color: style.outlineColor };
+    });
+    assert.notEqual(ring.outlineStyle, 'none', 'The keyboard focus ring is visible.');
+    assert.ok(ring.outlineWidth >= 2, `Focus ring width ${ring.outlineWidth}px.`);
+
+    const angle = async () => Number(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-angle'));
+
+    // Pfeiltaste rechts: ein Druck = ~15 Grad.
+    const beforeStep = await angle();
+    await page.keyboard.press('ArrowRight');
+    await page.waitForTimeout(40);
+    const afterStep = await angle();
+    assert.ok(afterStep - beforeStep > 0.2 && afterStep - beforeStep < 0.4,
+      `ArrowRight turns about 15 degrees (${(afterStep - beforeStep).toFixed(3)} rad).`);
+
+    // Gehaltene Taste dreht kontinuierlich weiter.
+    await page.keyboard.down('ArrowRight');
+    await page.waitForTimeout(300);
+    const whileHeld = await angle();
+    await page.keyboard.up('ArrowRight');
+    assert.ok(whileHeld - afterStep > 0.08, `Holding the key keeps turning (${(whileHeld - afterStep).toFixed(3)} rad).`);
+
+    // Home setzt auf initialYaw (C = 0) zurueck.
+    await page.keyboard.press('Home');
+    await page.waitForTimeout(40);
+    assert.equal(await angle(), mannequinVariant('C').initialYaw, 'Home resets to the documented initial yaw.');
+
+    // preventDefault nur im fokussierten Viewer.
+    const prevented = await page.evaluate(() => {
+      const frame = document.querySelector('[data-mannequin-preview]');
+      frame.focus();
+      const focused = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true });
+      frame.dispatchEvent(focused);
+      frame.blur();
+      const unfocused = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true });
+      frame.dispatchEvent(unfocused);
+      return { focused: focused.defaultPrevented, unfocused: unfocused.defaultPrevented };
+    });
+    assert.equal(prevented.focused, true, 'A focused viewer swallows the arrow key.');
+    assert.equal(prevented.unfocused, false, 'An unfocused viewer leaves scrolling alone.');
+
+    // Escape bricht einen laufenden Flick ab.
+    const box = await page.locator('.mannequin-preview-frame').boundingBox();
+    const centerX = box.x + box.width / 2;
+    const centerY = box.y + box.height / 2;
+    await page.mouse.move(centerX, centerY);
+    await page.mouse.down();
+    await page.mouse.move(centerX + 260, centerY, { steps: 5 });
+    await page.mouse.up();
+    await page.waitForTimeout(80);
+    assert.equal(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-shoot'), 'playing');
+    await page.locator('[data-mannequin-preview]').focus();
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-shoot'), 'idle',
+      'Escape cancels the running flick.');
+    assert.match(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-keyboard'), /escape/);
+
+    // Reduced Motion: Tastatur dreht weiter, Auto-Rotation bleibt aus.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.waitForTimeout(120);
+    const reducedBefore = await angle();
+    await page.keyboard.press('ArrowLeft');
+    const reducedAfter = await angle();
+    assert.ok(Math.abs(reducedAfter - reducedBefore) > 0.2, 'Keyboard turning survives reduced motion.');
+    await page.waitForTimeout(2200);
+    assert.ok(Math.abs((await angle()) - reducedAfter) < 0.02, 'Reduced motion keeps the auto rotation off.');
+
+    assert.deepEqual(errors, [], 'no console errors in the accessibility checks');
+    results.push({ accessibility: { role: semantics.role, tabIndex: semantics.tabIndex, stepRadians: Number((afterStep - beforeStep).toFixed(3)), prevented } });
+    await context.close();
+  }
+
   // Einfahrt identisch zur Frontpage: bei gleicher Section-Position im Viewport
   // muss die Modell-Section dieselbe Pose zeigen wie die Rubrik-Links von
   // "01 / creative".

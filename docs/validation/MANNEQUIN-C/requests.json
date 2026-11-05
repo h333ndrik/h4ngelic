@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-05T11:52:01.698Z",
+  "checkedAt": "2026-11-05T12:02:34.043Z",
   "route": "/work/tattoos",
   "source": "production preview build",
   "profiles": [
@@ -29,7 +29,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-1440.png",
-      "autoAngle": 0.363,
+      "autoAngle": 0.2913,
       "mockups": 8,
       "errors": []
     },
@@ -40,7 +40,7 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-390.png",
-      "autoAngle": 0.4051,
+      "autoAngle": 0.3718,
       "mockups": 8,
       "errors": []
     },
@@ -51,9 +51,20 @@
       "glbRequests": 1,
       "switcherButtons": 0,
       "screenshot": "variant-c-320.png",
-      "autoAngle": 0.4102,
+      "autoAngle": 0.4103,
       "mockups": 8,
       "errors": []
+    },
+    {
+      "accessibility": {
+        "role": "img",
+        "tabIndex": 0,
+        "stepRadians": 0.262,
+        "prevented": {
+          "focused": true,
+          "unfocused": false
+        }
+      }
     },
     {
       "entrance": {

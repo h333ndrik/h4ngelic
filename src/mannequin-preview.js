@@ -24,8 +24,9 @@ export function initMannequinPreview(container) {
   const config = mannequinPreviewConfig;
   const design = config.design;
   const motion = config.motion;
-  const status = container.querySelector('[data-mannequin-status]');
   const figure = container.closest('.mannequin-preview');
+  // Die Live-Region liegt ausserhalb von role="img" (presentational children).
+  const status = figure?.querySelector('[data-mannequin-status]');
   const designButton = figure?.querySelector('[data-mannequin-design-toggle]');
   const captionStatus = figure?.querySelector('.mannequin-preview-status');
   const designHint = figure?.querySelector('[data-mannequin-design-hint]');
@@ -66,6 +67,8 @@ export function initMannequinPreview(container) {
     hover: false,
     shootStart: 0,
     peakVelocity: 0,
+    // -1 links, 1 rechts, 0 losgelassen
+    keyDirection: 0,
   };
 
   const setData = (key, value) => { container.dataset[key] = String(value); };
@@ -186,7 +189,11 @@ export function initMannequinPreview(container) {
 
     if (!view.dragging) {
       const idle = time - view.lastInteraction > motion.idleDelay;
-      const wanted = reducedMotion.matches ? 0 : view.hover ? motion.hoverSpeed : idle ? motion.autoSpeed : 0;
+      // Gehaltene Pfeiltasten drehen auch bei Reduced Motion (nur Auto und
+      // Flick sind dort aus).
+      const wanted = view.keyDirection
+        ? view.keyDirection * motion.keySpeed
+        : reducedMotion.matches ? 0 : view.hover ? motion.hoverSpeed : idle ? motion.autoSpeed : 0;
       const blend = Math.min(1, delta * motion.inertiaDamping);
       view.velocity += (wanted - view.velocity) * blend;
       if (Math.abs(view.velocity) < 1e-4) view.velocity = 0;
@@ -257,6 +264,76 @@ export function initMannequinPreview(container) {
     if (!view.hover) view.lastInteraction = performance.now();
     wake();
   }
+
+  /** Beendet Flick und Restgeschwindigkeit und setzt die Figur zurueck. */
+  function cancelMotion() {
+    view.keyDirection = 0;
+    view.velocity = 0;
+    view.shootStart = 0;
+    view.peakVelocity = 0;
+    pivot.position.set(0, 0, 0);
+    pivot.scale.setScalar(1);
+    setData('mannequinShoot', 'idle');
+  }
+
+  function handleKeyDown(event) {
+    // preventDefault nur im fokussierten Viewer; ausserhalb scrollt die Seite
+    // unveraendert weiter.
+    if (document.activeElement !== container) return;
+    const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+    if (step) {
+      event.preventDefault();
+      view.keyDirection = step;
+      // Erster Druck = ein messbarer 15-Grad-Schritt; Wiederholungen nicht
+      // noch einmal, sonst rast die Figur bei gehaltener Taste.
+      if (!event.repeat) {
+        view.angle += step * motion.keyStep;
+        // Sofort spiegeln: der Frame-Loop laeuft erst im naechsten Bild.
+        setData('mannequinAngle', view.angle.toFixed(4));
+      }
+      view.lastInteraction = performance.now();
+      setData('mannequinKeyboard', 'turn');
+      wake();
+      return;
+    }
+    if (event.key === 'Home' || event.key === '0') {
+      event.preventDefault();
+      cancelMotion();
+      view.angle = mannequinVariant(variant).initialYaw || 0;
+      view.lastInteraction = performance.now();
+      setData('mannequinAngle', view.angle.toFixed(4));
+      setData('mannequinKeyboard', 'reset');
+      wake();
+      return;
+    }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      cancelMotion();
+      // Auto-Rotation kommt nach der normalen Idle-Zeit zurueck (idleDelay).
+      view.lastInteraction = performance.now();
+      setData('mannequinKeyboard', 'escape');
+      wake();
+    }
+  }
+
+  function handleKeyUp(event) {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    view.keyDirection = 0;
+    view.lastInteraction = performance.now();
+    wake();
+  }
+
+  function handleBlur() {
+    // Fokus weg, Taste evtl. noch gedrueckt: nicht weiterdrehen.
+    view.keyDirection = 0;
+  }
+
+  const onKeyDown = (event) => handleKeyDown(event);
+  const onKeyUp = (event) => handleKeyUp(event);
+  const onBlur = () => handleBlur();
+  container.addEventListener('keydown', onKeyDown);
+  container.addEventListener('keyup', onKeyUp);
+  container.addEventListener('blur', onBlur);
 
   const onPointerDown = (event) => handlePointerDown(event);
   const onPointerMove = (event) => handlePointerMove(event);
@@ -481,6 +558,9 @@ export function initMannequinPreview(container) {
     container.removeEventListener('pointercancel', onPointerUp);
     container.removeEventListener('pointerenter', onPointerEnter);
     container.removeEventListener('pointerleave', onPointerLeave);
+    container.removeEventListener('keydown', onKeyDown);
+    container.removeEventListener('keyup', onKeyUp);
+    container.removeEventListener('blur', onBlur);
     designButton?.removeEventListener('click', onDesignClick);
     disposeModel();
     pivot.removeFromParent();

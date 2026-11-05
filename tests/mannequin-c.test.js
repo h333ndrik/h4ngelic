@@ -103,6 +103,22 @@ test('only variant C is visible; A/B stay registered but hidden', () => {
   assert.equal(typeof mannequinVariant('C').initialYaw, 'number');
 });
 
+test('the viewer is announced as an image and documents its keyboard control', () => {
+  const markup = renderMannequinPreview();
+  assert.match(markup, /role="img"/);
+  assert.equal(markup.includes('tabindex="-1"'), false);
+  assert.match(markup, /tabindex="0"/);
+  assert.match(markup, /aria-label="[^"]*arrow keys[^"]*"/i, 'The label names the keyboard control.');
+  assert.match(markup, /aria-describedby="mannequin-viewer-help"/);
+  assert.match(markup, /aria-keyshortcuts="ArrowLeft ArrowRight Home Escape"/);
+  assert.match(markup, /<p class="sr-only" id="mannequin-viewer-help">[^<]+<\/p>/, 'The help text exists as DOM text, not only as an attribute.');
+  // role="img" macht seine Kinder presentational — die Live-Region muss draussen liegen.
+  const frame = markup.match(/<div class="mannequin-preview-frame"[\s\S]*?<\/div>/);
+  assert.ok(frame, 'The viewer frame is a single div without nested divs.');
+  assert.equal(frame[0].includes('data-mannequin-status'), false, 'No live region inside role="img".');
+  assert.equal(markup.includes('aria-live'), false, 'Rotation updates are never announced.');
+});
+
 test('variant C is the default and every variant points at an existing GLB', async () => {
   assert.equal(mannequinPreviewConfig.defaultVariant, 'C');
   assert.deepEqual(mannequinVariantList().map((variant) => variant.key), ['A', 'B', 'C']);

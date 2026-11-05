@@ -11,7 +11,7 @@ const design = mannequinPreviewConfig.design;
  */
 export function renderMannequinPreview() {
   return `<figure class="mannequin-preview">
-    <div class="mannequin-preview-frame" data-mannequin-preview data-mannequin-variant="${defaultVariant}" data-mannequin-src="${defaultProfile.model}" data-mannequin-design-src="${design.url}" data-mannequin-state="deferred" role="img" aria-label="Female sculpted mannequin in a static A-pose preview">
+    <div class="mannequin-preview-frame" data-mannequin-preview data-mannequin-variant="${defaultVariant}" data-mannequin-src="${defaultProfile.model}" data-mannequin-design-src="${design.url}" data-mannequin-state="deferred" role="img" tabindex="0" aria-label="3D model: female mannequin. Use the left and right arrow keys to turn it." aria-describedby="mannequin-viewer-help" aria-keyshortcuts="ArrowLeft ArrowRight Home Escape">
       <svg class="mannequin-preview-poster" viewBox="0 0 220 600" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="mannequin-poster-silver" x1="0" y1="0" x2="1" y2="1">
@@ -30,8 +30,11 @@ export function renderMannequinPreview() {
         </g>
       </svg>
       <span class="mannequin-preview-ground" aria-hidden="true"></span>
-      <p class="sr-only" data-mannequin-status role="status">Mannequin preview waits until it is visible.</p>
     </div>
+    <!-- Ausserhalb von role="img": ein Bild-Role macht seine Kinder zu
+         presentational, dann waere die Live-Region fuer Screenreader weg. -->
+    <p class="sr-only" data-mannequin-status role="status">Mannequin preview waits until it is visible.</p>
+    <p class="sr-only" id="mannequin-viewer-help">Interactive 3D viewer. Left and right arrow keys turn the mannequin in 15 degree steps, holding a key keeps it turning, Home resets the view, Escape stops a spin. Dragging with the pointer does the same.</p>
     <figcaption>
       <span class="mannequin-preview-meta">
         <button class="mannequin-preview-design" type="button" data-mannequin-design-toggle aria-pressed="false" aria-disabled="true" aria-describedby="mannequin-design-hint" disabled>${design.label}</button>

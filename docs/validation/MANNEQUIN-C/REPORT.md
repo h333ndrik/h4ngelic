@@ -418,3 +418,61 @@ Dateien (GLB, Manifest/Pins, Procreate-PNG).
 angenommene Koerpergroesse 1.70 m → 1 Einheit = 0.3394 m. Daraus folgt
 AO_DISTANCE 0.18 = **6.11 cm** an einer echten Figur — der nachvollziehbare
 Ersatz fuer den frueheren Richtwert "1 Einheit ~34 cm".
+
+## V3.2-M3 Nachzug — Barrierefreiheit des Viewers
+
+### Semantik
+
+| Element | vorher | nachher |
+| --- | --- | --- |
+| Viewer-Frame | `role="img"`, Label "…static A-pose preview", nicht fokussierbar | `role="img"`, `tabindex="0"`, Label nennt die Pfeiltasten, `aria-keyshortcuts="ArrowLeft ArrowRight Home Escape"` |
+| Beschreibung | nur im `aria-label` | zusaetzlich `<p class="sr-only" id="mannequin-viewer-help">` als DOM-Text, per `aria-describedby` verknuepft |
+| Canvas | `aria-hidden="true"` | unveraendert (dekorativ, kein Doppel-Vorlesen) |
+| Live-Region | lag **innen** im `role="img"` | liegt jetzt in der `<figure>` |
+
+Der Umzug der Live-Region war noetig: `role="img"` macht seine Kinder
+presentational, damit war `role="status"` fuer Screenreader gar nicht
+vorhanden. Betroffen war auch `src/mannequin-preview-loader.js` — es sucht den
+Status jetzt ueber `closest('.mannequin-preview')` statt im Frame.
+
+Rotations-Updates bleiben stumm: Winkel, Bewegung und Shoot-Zustand liegen
+weiterhin nur in `data-*`-Attributen, nie in einer Live-Region.
+
+### Tastatur
+
+| Taste | Verhalten |
+| --- | --- |
+| `←` / `→` | 15° pro Tastendruck (`keyStep = π/12`); gehalten dreht mit `keySpeed` 1.35 rad/s und derselben Daempfung wie das Ziehen (`inertiaDamping` 3.2) |
+| `Home` / `0` | zurueck auf `initialYaw` der Variante (C = 0 rad), Flick wird abgebrochen |
+| `Escape` | bricht den laufenden Flick ab, Pivot und Skalierung zurueck auf Ruhe, danach Auto-Rotation |
+| Fokusverlust | gehaltene Taste wird vergessen (`blur`), die Figur dreht nicht weiter |
+
+Auto-Rotation pausiert bei jeder Tastaturinteraktion und kommt nach
+`idleDelay` 2000 ms zurueck. `preventDefault` greift nur, wenn der Viewer
+`document.activeElement` ist — ausserhalb scrollt die Seite unveraendert.
+Reduced Motion schaltet weiterhin nur Auto-Rotation und Flick ab; Tastatur und
+Ziehen bleiben aktiv.
+
+Fokusring: 2 px `#ecece8`, Offset 3 px — dasselbe Token wie der
+Demo-Design-Button, nur ausserhalb des Frames, damit er auf dem dunklen Bild
+nicht als Rahmen verschwindet.
+
+### Tests
+
+Neu im Production-Lauf (`tests/mannequin-preview-browser.mjs`): Rolle, Label,
+`tabindex`, sr-only-Text, Canvas versteckt, keine Live-Region im Bild-Role,
+Tab erreicht den Viewer, Fokusring im Computed Style, `ArrowRight` ≈ 15°,
+gehaltene Taste dreht weiter, `Home` setzt zurueck, `preventDefault` nur
+fokussiert, `Escape` beendet den Flick, Reduced Motion haelt die Auto-Rotation
+aus. Dazu ein Markup-Test in `tests/mannequin-c.test.js`.
+
+Axe ist im Repo nicht installiert (keine neuen Dependencies) — die Pruefung
+laeuft daher ueber explizite Attribut- und Verhaltens-Asserts.
+
+| Suite | Ergebnis |
+| --- | --- |
+| `npm test` | **388/388** (neu: Viewer-Semantik) |
+| `npm run test:mannequin-preview` | 3× hintereinander PASS, inkl. A11y-Block |
+| `npm run test:mannequin-variants-dev` | PASS (A/B weiter nur im Dev) |
+| `npm run test:seo` | 18 Routen + 404, ohne Three.js/Font/Reflexions-Requests |
+| `npm run build` | 18 Routen + 404 |

@@ -279,7 +279,7 @@ test('Works has three unnumbered major rubrics, subordinate archive labels and a
   assert.ok(model);
   assert.match(model, /^<h3[^>]+>3d model<\/h3>/);
   assert.match(model, /data-mannequin-preview data-mannequin-variant="C" data-mannequin-src="\/models\/mannequin-c\.[a-f0-9]+\.glb" data-mannequin-design-src="\/textures\/designs\/demo-mark\.png" data-mannequin-state="deferred"/);
-  assert.match(model, /role="img" aria-label="Female sculpted mannequin in a static A-pose preview"/);
+  assert.match(model, /role="img" tabindex="0" aria-label="3D model: female mannequin\. Use the left and right arrow keys to turn it\."/);
   assert.doesNotMatch(model, /<canvas|<img|data-flash-mannequin|three\.js|GLTFLoader/);
 });
 

@@ -101,6 +101,13 @@
   outline: 2px solid #ecece8;
   outline-offset: 3px;
 }
+/* Fokusring des Viewers: bewusst ausserhalb des Frames, damit er auf dem
+   dunklen Bild nicht als Rahmen verschwindet. :focus-visible greift nur bei
+   Tastaturbedienung, nicht beim Klick. */
+.mannequin-preview-frame:focus-visible {
+  outline: 2px solid #ecece8;
+  outline-offset: 3px;
+}
 html[data-mode='xray'] .mannequin-preview-frame {
   background:
     radial-gradient(ellipse at 50% 43%, #392848 0%, #241c2c 42%, #17121c 76%),

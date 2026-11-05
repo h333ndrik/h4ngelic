@@ -76,6 +76,10 @@ export const mannequinPreviewConfig = Object.freeze({
     idleDelay: 2000,
     dragSensitivity: 0.0075,
     inertiaDamping: 3.2,
+    // Tastatur: 15 Grad pro Tastendruck; gehalten laeuft die Drehung mit
+    // derselben Daempfung wie das Ziehen weiter.
+    keyStep: Math.PI / 12,
+    keySpeed: 1.35,
     // 2.4 rad/s entspricht rund 320 px/s Zeigergeschwindigkeit: ein beherzter
     // Wisch loest die Animation aus, ein ruhiges Ziehen nicht.
     flickVelocity: 2.4,
