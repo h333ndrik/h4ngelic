@@ -1133,3 +1133,63 @@ Actual verification after the changes:
   belongs to the V3.1 feature set and was left unchanged.
 
 Exact next checkpoint: user listening review. No push, merge or deploy.
+
+## RELEASE — PR #22 MERGED — 2026-11-05
+
+Audio release step, no code changes in this pass (documentation only).
+
+**Pre-flight.** Branch `v3.2-world-sound`, no staged files, no stashes.
+Exactly four committed audio files (`loop-333.m4a`, `loop-4.m4a`,
+`x-333-4.m4a`, `x-4-333.m4a`); the media diff against `main` contains only
+those four. `masters/` is ignored (`.gitignore:159`). `npm test`: **402 passed,
+0 failed**. The only untracked entry is `node_modules` (not ignored by
+`.gitignore`; left untouched).
+
+**Scope finding (flagged, not changed).** `origin/main` is an ancestor of the
+branch, so the merge cannot drop main's work. The PR nevertheless carries 78
+pre-audio commits (the whole V3.2 line), which is why `git diff --stat
+origin/main...HEAD` shows 1601 files / +359,939 / −2,207 — about 1400 of them
+are `docs/validation` evidence files. The audio pass itself (`origin/v3.2-world-sound..HEAD`,
+5 commits) is confined to `src/audio/*`, `src/mode-audio.js`,
+`src/sound-controls.*`, `src/xray.js`, `index.html`, `package.json`, scripts,
+tests, docs and the four M4A. No V3.1 feature logic was edited during this pass.
+
+**Return-switch re-decode (new measurement).** Because `releaseLoopBuffer()`
+drops the outgoing PCM, every switch back re-fetches and decodes. Reference
+desktop, headless Chromium 1440 px, warm HTTP cache, three round-trips:
+`4 → 333` reaches audible in **126.6 / 142.2 / 168.4 ms** (decode 94–119 ms,
+fetch 3–7 ms); `333 → 4` in 96–112 ms. Against the 900 ms transition window the
+re-decode uses ~0.13–0.17 s. Slower devices can exceed the window, which would
+produce an audible gap; idle prefetch stays off deliberately (memory over
+latency — a second loop would pin another 31,752,000 B). Recorded in
+`docs/WORLD-SOUND.md`; raw data `docs/validation/world-sound/v3/phase5/re-decode-warm-cache.json`.
+
+**Push.** `17ae6e4` → `origin/v3.2-world-sound` (plain push, fast-forward from
+`27315c6`). PR #22 head moved to `17ae6e4`; `f654e49` is its parent and is
+contained. Mergeability at merge time: `MERGEABLE` / `CLEAN`, both status
+checks `SUCCESS`.
+
+**Merge.** `gh pr merge 22 --merge` — merge commit
+`b5634bc5be4073c678672dd69f64810849cc157d` at 2026-11-05T19:31:46Z, parents
+`9123a00` (main) and `17ae6e4`. No squash, no rebase, branch kept.
+
+**Deployment.** Vercel status `success` on `b5634bc`
+(`https://vercel.com/h333ndrik/h4ngelic/Gjp2nvfSU3aKBXD4bQK4sEqsmnyh`);
+production reports build marker `b5634bc5be40`.
+
+**Production asset verification** (`https://www.h4ngelic.com`; the apex 308s to
+`www`): all four files `200`, `content-type: audio/mp4`, exact lengths
+2,847,109 / 2,774,228 / 30,015 / 29,591 and SHA-256 identical to the committed
+files. `cache-control: public, max-age=0, must-revalidate` — a finding, because
+the files are not content-hashed, so they do not receive an immutable policy.
+
+**Indexing.** Unchanged and still closed: `<meta name="robots" content="noindex, follow">`
+and `robots.txt` `Disallow: /`.
+
+**Rollback.** `git revert -m 1 b5634bc` and push; or promote the `9123a00`
+deployment back to production in Vercel (previous deployments are retained).
+
+**Next step.** User listening pass on production plus a real iPhone test
+(silent switch, wordmark tap, activity bars, tap-to-resume after a call).
+`v3.2-mannequin-female` stays out of scope and must be rebased onto the new
+`main` before its next push.
