@@ -16,22 +16,23 @@
   --h4-cursor-xray-pressed: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 8 2, url('/assets/h4ngelic-cursor-other-pressed.png') 8 2, auto;
 }
 
-/* Escalation, all the way up:
-   every declaration is !important and the layers are ordered by specificity,
-   so no third-party, user-agent or legacy stylesheet can paint a different
-   pointer. The media query stays: without a fine pointer there is no cursor
-   image at all, touch keeps the system cursor.
+/* Escalation. Ein nativer Cursor hat kein JS-Sicherheitsnetz: die Cascade ist
+   die Garantie. Deshalb traegt jede Deklaration !important und die Ebenen
+   sind nach Spezifitaet gestaffelt, damit die Reihenfolge im Bundle keine
+   Rolle spielt.
 
-   Specificity ladder (all !important):
-   1. base            html body *                           0,0,1
-   2. interactive     html :is(a[href], button, ...)        0,0,2
-   3. pressed         ... :active                           0,1,2
-   4. xray base       html[data-mode='xray'] *              0,1,1
-   5. xray interactive / pressed                            0,1,2 / 0,2,2 */
+   Ebenso bewusst: die Media-Query bleibt. Ohne feinen Pointer gibt es kein
+   Cursor-Bild, Touch behaelt den Systemcursor.
+
+   Spezifitaet (alle !important):
+   1 Basis            html body *                                 0,0,3 (html:root 0,1,1)
+   2 interaktiv       html body :is(a[href], a, button, ...)      0,1,3
+   3 pressed          ...:active                                  0,2,3
+   4 xray             html[data-mode='xray'] body *               0,1,3
+   5 xray pressed     ...:is(..):active                           0,3,3 */
 @media (any-hover: hover) and (any-pointer: fine) {
-  /* Ebene 1: Basis — gewinnt gegen jede Alt-Regel.
-     Die :root-Variante ist kein Zierrat: sie hebt die Spezifität über eine
-     gleich spezifische Fremdregel, die später im Dokument steht. */
+  /* Ebene 1 — Basis. Die :root-Variante hebt die Spezifitaet ueber eine
+     gleich spezifische Fremdregel, die spaeter im Dokument steht. */
   html,
   html body,
   html body *,
@@ -44,31 +45,35 @@
     cursor: var(--h4-cursor) !important;
   }
 
-  /* Ebene 2: interaktiv — höhere Spezifität, gewinnt gegen Ebene 1. */
-  html :is(a[href], button, summary, [role='button'],
-        input, select, textarea, label, canvas) {
+  /* Ebene 2 — interaktiv: eigene Ebene, damit Trefferflaechen den Pointer-
+     Fallback behalten und die Basis nicht gewinnt. */
+  html body :is(a[href], a, button, summary, [role='button'],
+      input, select, textarea, label, canvas) {
     cursor: var(--h4-cursor-interactive) !important;
   }
 
-  html :is(a[href], button, summary, [role='button'],
-        input, select, textarea, label, canvas):active {
+  /* Ebene 3 — pressed. Ohne sie geht der vorab skalierte 1,08x-Cursor verloren. */
+  html body :is(a[href], a, button, summary, [role='button'],
+      input, select, textarea, label, canvas):active {
     cursor: var(--h4-cursor-pressed) !important;
   }
 
-  html[data-mode='xray'],
-  html[data-mode='xray'] *,
-  html[data-mode='xray'] *::before,
-  html[data-mode='xray'] *::after {
+  /* Ebene 4 — Other Side. Ohne sie kippt der Xray-Modus auf den normalen Cursor. */
+  html[data-mode='xray'] body,
+  html[data-mode='xray'] body *,
+  html[data-mode='xray'] body *::before,
+  html[data-mode='xray'] body *::after {
     cursor: var(--h4-cursor-xray) !important;
   }
 
-  html[data-mode='xray'] :is(a[href], button, summary, [role='button'],
-        input, select, textarea, label, canvas) {
+  html[data-mode='xray'] body :is(a[href], a, button, summary, [role='button'],
+      input, select, textarea, label, canvas) {
     cursor: var(--h4-cursor-xray) !important;
   }
 
-  html[data-mode='xray'] :is(a[href], button, summary, [role='button'],
-        input, select, textarea, label, canvas):active {
+  /* Ebene 5 — pressed im Other Side. */
+  html[data-mode='xray'] body :is(a[href], a, button, summary, [role='button'],
+      input, select, textarea, label, canvas):active {
     cursor: var(--h4-cursor-xray-pressed) !important;
   }
 }
