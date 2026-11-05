@@ -460,18 +460,28 @@ try {
 // Bundle-Nachweis: kein LICENSE-NOTE-String und kein docs-Ordner im Build.
 {
   const dist = join(root, 'dist');
+  // Weder Lizenz-/Herkunftsnotizen noch der Bezugsplattform-Name gehoeren in
+  // das ausgelieferte Bundle — weder als Datei noch als String.
+  const forbidden = ['LICENSE-NOTE', 'sketchfab', 'CREDITS'];
   const hits = [];
   const walk = async (directory) => {
     for (const entry of await readdir(directory, { withFileTypes: true })) {
       const path = join(directory, entry.name);
-      if (entry.isDirectory()) await walk(path);
-      else if (/\.(js|css|html|json|txt|xml|map)$/.test(entry.name) && (await readFile(path, 'utf8')).includes('LICENSE-NOTE')) hits.push(path);
+      if (entry.isDirectory()) { await walk(path); continue; }
+      const name = entry.name.toLowerCase();
+      const named = forbidden.find((term) => name.includes(term.toLowerCase()));
+      if (named) { hits.push(`${path} (Dateiname: ${named})`); continue; }
+      if (!/\.(js|css|html|json|txt|xml|map|md|webmanifest)$/.test(entry.name)) continue;
+      const content = (await readFile(path, 'utf8')).toLowerCase();
+      const found = forbidden.find((term) => content.includes(term.toLowerCase()));
+      if (found) hits.push(`${path} (Inhalt: ${found})`);
     }
   };
   await walk(dist);
-  assert.deepEqual(hits, [], 'The built output must not mention LICENSE-NOTE.');
+  assert.deepEqual(hits, [], 'The built output must not mention LICENSE-NOTE, sketchfab or CREDITS.');
   assert.equal(existsSync(join(dist, 'docs')), false, 'Validation docs are never bundled.');
-  results.push({ bundle: { licenseNoteHits: hits.length, docsBundled: false } });
+  assert.equal(existsSync(join(dist, 'CREDITS.md')), false, 'CREDITS.md stays outside the bundle.');
+  results.push({ bundle: { forbidden, hits: hits.length, docsBundled: false, creditsBundled: false } });
 }
 
 await writeFile(new URL('requests.json', evidence), JSON.stringify({

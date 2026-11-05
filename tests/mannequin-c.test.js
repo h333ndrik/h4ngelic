@@ -183,12 +183,13 @@ test('the baked albedo is not a flat colour any more', async () => {
   assert.ok(bake.gradientStrength >= 0 && bake.gradientStrength <= 0.05, 'Vertical gradient stays subtle.');
 });
 
-test('the derivative pipeline is committed, deterministic and FBX-free', async () => {
+test('the derivative pipeline is committed and deterministic', async () => {
   const script = await readFile(new URL('../scripts/build-mannequin-c.mjs', import.meta.url), 'utf8');
   const blender = await readFile(new URL('../scripts/build-mannequin-web-asset.py', import.meta.url), 'utf8');
   for (const source of [script, blender]) {
-    assert.doesNotMatch(source, /\.fbx/i, 'The web pipeline must not import the licensed FBX.');
-    assert.doesNotMatch(source, /sketchfab/i);
+    // Der Web-Build arbeitet auf dem freigegebenen Zwischenstand, nie direkt
+    // auf dem Download-Asset.
+    assert.doesNotMatch(source, /\.fbx/i, 'The web pipeline must not import the FBX directly.');
   }
   assert.match(script, /--simplify-ratio/);
   assert.match(script, /--quantize-texcoord', '16'/);
@@ -198,6 +199,19 @@ test('the derivative pipeline is committed, deterministic and FBX-free', async (
   assert.equal(manifest.source.committed, false);
   assert.equal(manifest.uv.overlapPairsAfterRepair, 0);
   assert.ok(manifest.uv.repairedFaces > 0);
+});
+
+test('CREDITS.md documents the base mesh provenance and its license', async () => {
+  const credits = await readFile(new URL('../CREDITS.md', import.meta.url), 'utf8');
+  assert.match(credits, /free-female-mannequin-base-mesh/, 'The base mesh is named.');
+  assert.match(credits, /CC0 1\.0 Universal \(Public Domain Dedication\)/, 'The license is stated.');
+  assert.match(credits, /creativecommons\.org\/publicdomain\/zero\/1\.0/, 'The license link points at CC0.');
+  assert.match(credits, /female_mannequin\.fbx/, 'The original file is named.');
+  assert.match(credits, /97\.794 Polygone \/ 48\.872 Vertices/, 'The source geometry is quantified.');
+  assert.match(credits, /keine Attributionspflicht/i, 'CC0 is explained as voluntary provenance documentation.');
+  assert.match(credits, /Nutzer, 05\.11\.2026/, 'The license confirmation is dated and attributed.');
+  assert.match(credits, /audit-2026-11-05/, 'The provenance audit is referenced.');
+  assert.match(credits, /nicht erfasst/, 'Author and URL are not invented.');
 });
 
 test('UV overlap reports prove the Procreate and web layouts are seam-safe', async () => {
