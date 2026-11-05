@@ -43,8 +43,6 @@
     "test:standalone": "node tests/standalone-browser.mjs && node tests/standalone-native-browser.mjs",
     "test:mobile": "node tests/mobile-interactions-browser.mjs",
     "test:color-memory": "node tests/color-memory-browser.mjs",
-    "test:hero-ink": "node tests/hero-ink-browser.mjs",
-    "test:hero-background": "node tests/hero-background-browser.mjs",
     "test:drift": "node tests/horizontal-drift-browser.mjs",
     "test:drift-performance": "node tests/horizontal-drift-performance.mjs",
     "test:pointer-focus": "node tests/pointer-focus-browser.mjs",
