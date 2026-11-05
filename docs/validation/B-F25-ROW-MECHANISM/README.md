@@ -112,6 +112,9 @@ At 390/320 the delta is 0.5px because the wordmark (14.82px) and the chips
 
 ## 7. Verification
 
+Runtime of the whole contract: **≈54 s** (five viewports, five rows, coupling
+negatives and the font-fallback pass), inside the 60 s Fast-Mode budget.
+
 ```bash
 npm run build
 node scripts/serve-preview.mjs --port 55232 &

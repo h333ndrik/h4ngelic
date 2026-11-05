@@ -114,7 +114,7 @@ async function settleRow(page, container) {
     if (transform === 'none') return true;
     return Math.abs(new DOMMatrixReadOnly(transform).m41) < .5;
   }, container, { timeout: 5000 }).catch(() => {});
-  await page.waitForTimeout(120);
+  await page.waitForTimeout(80);
 }
 
 function assertNoOverflow(row, label, { scrollport = false } = {}) {
@@ -320,7 +320,9 @@ try {
       results.push({ ...home, manifestCheck: true });
 
       // Manifest in both directions: every [data-row] on a page is declared.
-      for (const route of ['/', '/creative', '/creative/tattoos', '/creative/tools/m4shlab', '/about']) {
+      // The last route is the one the coupling checks need, so the page is
+      // never loaded twice inside the same viewport.
+      for (const route of ['/', '/about', '/creative', '/creative/tools/m4shlab', '/creative/tattoos']) {
         if (route !== '/') {
           await page.goto(new URL(route, base).href, { waitUntil: 'networkidle' });
           await page.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true');
@@ -346,8 +348,7 @@ try {
       }
 
       // 18/19/20: token and slot-mode changes never cross the type boundary.
-      await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
-      await page.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true');
+      // The page is still /creative/tattoos from the manifest pass above.
       await settleRow(page, '.rubric-cross-links');
       const rowSelectors = ['.work-filters', '.footer-left', '.footer-details'];
       const crossBefore = await snapshot(page, ['.rubric-cross-links', ...rowSelectors]);
