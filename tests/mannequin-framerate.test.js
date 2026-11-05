@@ -4,14 +4,18 @@ import { readFile } from 'node:fs/promises';
 import { mannequinPreviewConfig } from '../src/mannequin-preview-config.js';
 
 /**
- * Quelltext-Waechter fuer Framerate- (M4f) und Pointer-Audit (M4g). Die
- * Messreihen laufen in tests/mannequin-framerate-browser.mjs und
- * tests/mannequin-pointer-rate-browser.mjs; hier stehen nur die Konstanten und
- * die Integrationsform, damit ein Rueckfall (fester Faktor pro Frame oder pro
- * Pointer-Ereignis) sofort auffaellt.
+ * Quelltext-Waechter fuer Framerate- (M4f) und Pointer-Audit (M4g).
+ *
+ * Einordnung (M4i): Diese Waechter lesen Quelltext und brechen bei Umbenennungen,
+ * obwohl das Verhalten stimmt — sie sind bewusst die zweite Absicherung. Die
+ * Verhaltensabdeckung liegt bei:
+ * - tests/mannequin-framerate-browser.mjs (30/60/144 Hz, Rampen, Auto-Rate)
+ * - tests/mannequin-pointer-rate-browser.mjs (1/4,17/8/16 ms, Flick-Peak)
+ * - tests/mannequin-pointer-window.test.js (Fensterlaenge, Stillstands-Regel)
  */
 const motion = mannequinPreviewConfig.motion;
 const source = await readFile(new URL('../src/mannequin-preview.js', import.meta.url), 'utf8');
+const windowSource = await readFile(new URL('../src/mannequin-pointer-window.js', import.meta.url), 'utf8');
 
 test('motion uses per-second constants with a documented reference framerate', () => {
   assert.equal(motion.referenceFrameRate, 60);
@@ -19,12 +23,9 @@ test('motion uses per-second constants with a documented reference framerate', (
   assert.equal(motion.hoverSpeed, 0.55);
   assert.equal(motion.maxAngularAcceleration, 1.1);
   assert.equal(motion.inertiaDamping, 3.2);
-  // Die Ziehgeschwindigkeit laeuft seit M4g ueber ein Zeitfenster von
-  // 60-80 ms (rund vier Frames bei 60 Hz) statt ueber ein Ereignis.
-  assert.ok(motion.pointerWindowMs >= 60 && motion.pointerWindowMs <= 80);
-  assert.equal('dragVelocityFloor' in motion, false, 'Kein ereignisbasierter Boden mehr in der Config.');
   // 3.7125 /s entspricht bei 60 Hz exakt dem alten Faktor 0.94 pro Frame.
   assert.ok(Math.abs(motion.peakDecayPerSecond + Math.log(0.94) * 60) < 1e-3);
+  assert.equal('dragVelocityFloor' in motion, false, 'Kein ereignisbasierter Boden mehr in der Config.');
 });
 
 test('the render loop integrates with delta time instead of per-frame factors', () => {
@@ -36,8 +37,6 @@ test('the render loop integrates with delta time instead of per-frame factors', 
     'Der Winkel wird mit der Trapezregel integriert.');
   assert.match(source, /view\.peakVelocity \*= Math\.exp\(-motion\.peakDecayPerSecond \* delta\)/,
     'Der Flick-Peak zerfaellt pro Frame-Zeit, nicht pro Pointer-Ereignis.');
-  assert.match(source, /function windowVelocity\(now\)/, 'Die Ziehgeschwindigkeit kommt aus dem Zeitfenster.');
-  assert.match(source, /const MIN_POINTER_DELTA = 1 \/ 2000;/, 'Der Divisionsschutz ist benannt und klein genug.');
 });
 
 test('no fixed per-frame factors remain in the motion path', () => {
@@ -50,10 +49,12 @@ test('no fixed per-frame factors remain in the motion path', () => {
 test('the pointer path is rate independent and bounds are cached', () => {
   assert.match(source, /typeof event\.getCoalescedEvents === 'function'/,
     'getCoalescedEvents wird per Feature-Detection benutzt, nicht angenommen.');
-  assert.match(source, /pointerSamples\.push\(point\)/, 'Ereignispositionen landen im Ringpuffer.');
-  assert.match(source, /Math\.max\(span, MIN_POINTER_DELTA\)/,
+  assert.match(source, /pointerWindow\.push\(point\)/, 'Ereignispositionen landen im Zeitfenster.');
+  assert.match(source, /view\.velocity = windowVelocity\(view\.lastInteraction\)/,
+    'Beim Loslassen entscheidet die Fenstergeschwindigkeit, nicht der Peak.');
+  assert.match(windowSource, /Math\.max\(span, minDelta\)/,
     'MIN_POINTER_DELTA dient nur als Divisionsschutz (keine Glaettung).');
-  assert.doesNotMatch(source, /Math\.max\(motion\.dragVelocityFloor/, 'Kein ereignisbasierter Geschwindigkeitsboden mehr.');
+  assert.match(source, /const MIN_POINTER_DELTA = 1 \/ 2000;/);
   // applyShoot darf die Bounds nicht mehr aus dem Szenengraph bauen.
   const shoot = source.slice(source.indexOf('function applyShoot'), source.indexOf('function tick'));
   assert.doesNotMatch(shoot, /setFromObject/, 'applyShoot traversiert die Geometrie nicht mehr.');

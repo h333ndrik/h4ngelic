@@ -86,10 +86,16 @@ export const mannequinPreviewConfig = Object.freeze({
     // Uebergang von Auto- (0.18) auf Hover-Drehung (0.55) auf rund 0.34 s,
     // damit die Figur beim Ueberfahren nicht schlagartig losdreht.
     maxAngularAcceleration: 1.1,
-    // Die Ziehgeschwindigkeit wird ueber ein Zeitfenster von 70 ms gemessen
-    // (Ringpuffer im Modul), nicht mehr pro Ereignis. Rund vier Frames bei
-    // 60 Hz: lang genug fuer ein ruhiges Signal, kurz genug fuer den Flick.
-    pointerWindowMs: 70,
+    // Messeinheit der Ziehgeschwindigkeit (Implementierung:
+    // src/mannequin-pointer-window.js): Distanz der Zeigerpositionen im
+    // Zeitfenster geteilt durch deren Zeitspanne. 100 ms entspricht dem
+    // ueblichen Velocity-Tracker (rund sechs Frames bei 60 Hz) und glaettet
+    // einzelne Ausreisser. Messreihe 70/100/150 ms in M4i.
+    pointerWindowMs: 100,
+    // Stillstand, der einen Flick abbricht. Eigene Regel, damit das Ergebnis
+    // nicht an der Bildrate haengt: bei 10 fps liegt zwischen zwei Ereignissen
+    // schon ein ganzes Fenster. 150 ms ist die Vorgabe der Abnahmeregel.
+    pointerStopMs: 150,
     dragVelocityLimit: 8,
     // Zerfall des Spitzenwerts (Flick-Schwelle) in 1/s. 3.7125 = -ln(0.94)*60,
     // d. h. bei der Referenzframerate 60 Hz genau der alte Faktor 0.94 pro

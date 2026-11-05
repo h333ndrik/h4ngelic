@@ -1,0 +1,169 @@
+{
+  "measuredAt": "2026-11-05T20:04:47.443Z",
+  "eventIntervalMs": 8,
+  "flickVelocity": 2.4,
+  "chosen": {
+    "pointerWindowMs": 100,
+    "pointerStopMs": 150
+  },
+  "rule": [
+    "schneller und langsamer Wisch flick",
+    "Stillstand >= 150 ms flick nicht",
+    "kein Doppel-Trigger"
+  ],
+  "table": {
+    "70": {
+      "schnell 900 px/s": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "langsam 380 px/s": {
+        "release": 2.85,
+        "peak": 2.85,
+        "median": 2.85,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+60 ms Stillstand": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+100 ms Stillstand": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+150 ms Stillstand": {
+        "release": 0,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": false,
+        "backMs": 917
+      },
+      "+200 ms Stillstand": {
+        "release": 0,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": false,
+        "backMs": 917
+      },
+      "Ausreisser +60 px": {
+        "release": 3,
+        "peak": 8,
+        "median": 3,
+        "flicks": true,
+        "backMs": 2477
+      }
+    },
+    "100": {
+      "schnell 900 px/s": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "langsam 380 px/s": {
+        "release": 2.85,
+        "peak": 2.85,
+        "median": 2.85,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+60 ms Stillstand": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+100 ms Stillstand": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+150 ms Stillstand": {
+        "release": 0,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": false,
+        "backMs": 917
+      },
+      "+200 ms Stillstand": {
+        "release": 0,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": false,
+        "backMs": 917
+      },
+      "Ausreisser +60 px": {
+        "release": 3,
+        "peak": 7.69,
+        "median": 3,
+        "flicks": true,
+        "backMs": 2477
+      }
+    },
+    "150": {
+      "schnell 900 px/s": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "langsam 380 px/s": {
+        "release": 2.85,
+        "peak": 2.85,
+        "median": 2.85,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+60 ms Stillstand": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+100 ms Stillstand": {
+        "release": 6.75,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": true,
+        "backMs": 2477
+      },
+      "+150 ms Stillstand": {
+        "release": 0,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": false,
+        "backMs": 917
+      },
+      "+200 ms Stillstand": {
+        "release": 0,
+        "peak": 6.75,
+        "median": 6.75,
+        "flicks": false,
+        "backMs": 917
+      },
+      "Ausreisser +60 px": {
+        "release": 3,
+        "peak": 6.13,
+        "median": 3,
+        "flicks": true,
+        "backMs": 2477
+      }
+    }
+  }
+}

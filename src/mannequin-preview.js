@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import { mannequinPreviewConfig, mannequinDevVariant, mannequinVariant, mannequinVariantOrder } from './mannequin-preview-config.js';
+import { createPointerWindow } from './mannequin-pointer-window.js';
 
 const safePreviewURL = (value, pattern) => typeof value === 'string' && pattern.test(value);
 const MODEL_PATTERN = /^\/models\/[a-z0-9.-]+\.glb$/;
@@ -60,9 +61,14 @@ export function initMannequinPreview(container) {
   let visible = true;
 
   const buffers = new Map();
-  // Ringpuffer der letzten Zeigerpositionen (Zeitstempel + x) fuer die
-  // Geschwindigkeit ueber das Zeitfenster.
-  const pointerSamples = [];
+  // Zeitfenster der Zeigerpositionen (siehe mannequin-pointer-window.js).
+  const pointerWindow = createPointerWindow({
+    windowMs: motion.pointerWindowMs,
+    stopMs: motion.pointerStopMs,
+    sensitivity: motion.dragSensitivity,
+    limit: motion.dragVelocityLimit,
+    minDelta: MIN_POINTER_DELTA,
+  });
   let pointerSampleCount = 0;
   let coalescedSampleCount = 0;
   // Einmal gemessene Modell-Bounds; applyShoot transformiert nur diese Kopie.
@@ -301,9 +307,7 @@ export function initMannequinPreview(container) {
   }
 
   function pushPointerPoint(point) {
-    pointerSamples.push(point);
-    const cutoff = point.t - motion.pointerWindowMs;
-    while (pointerSamples.length > 2 && pointerSamples[0].t < cutoff) pointerSamples.shift();
+    pointerWindow.push(point);
     pointerSampleCount += 1;
     setData('mannequinPointerSamples', pointerSampleCount);
     if (point.coalesced) {
@@ -312,25 +316,9 @@ export function initMannequinPreview(container) {
     }
   }
 
-  /**
-   * Geschwindigkeit aus dem Zeitfenster statt aus einem einzelnen Ereignis:
-   * (Distanz im Fenster) / (Zeitspanne im Fenster). Damit haengt das Ergebnis
-   * nicht davon ab, wie oft der Zeiger Ereignisse liefert.
-   */
+  /** Geschwindigkeit ueber das Zeitfenster (reine Funktion in eigener Datei). */
   function windowVelocity(now) {
-    const cutoff = now - motion.pointerWindowMs;
-    const lastIndex = pointerSamples.length - 1;
-    // Ohne Allokation rueckwaerts bis zum aeltesten Sample im Fenster laufen:
-    // bei 1000 Hz sind das rund 70 Positionen pro Abfrage.
-    let firstIndex = lastIndex;
-    while (firstIndex > 0 && pointerSamples[firstIndex - 1].t >= cutoff) firstIndex -= 1;
-    if (firstIndex === lastIndex) return 0;
-    const first = pointerSamples[firstIndex];
-    const last = pointerSamples[lastIndex];
-    const span = (last.t - first.t) / 1000;
-    const pixelsPerSecond = (last.x - first.x) / Math.max(span, MIN_POINTER_DELTA);
-    return THREE.MathUtils.clamp(pixelsPerSecond * motion.dragSensitivity,
-      -motion.dragVelocityLimit, motion.dragVelocityLimit);
+    return pointerWindow.velocity(now);
   }
 
   function handlePointerDown(event) {
@@ -341,12 +329,13 @@ export function initMannequinPreview(container) {
     view.velocity = 0;
     view.peakVelocity = 0;
     view.lastInteraction = performance.now();
-    pointerSamples.length = 0;
     pointerSampleCount = 0;
     coalescedSampleCount = 0;
     setData('mannequinPointerSamples', 0);
     setData('mannequinCoalescedSamples', 0);
-    pushPointerPoint({ t: view.lastInteraction, x: event.clientX, coalesced: false });
+    pointerWindow.reset({ t: view.lastInteraction, x: event.clientX });
+    setData('mannequinPointerSamples', 1);
+    pointerSampleCount = 1;
     container.setPointerCapture?.(event.pointerId);
     container.dataset.mannequinDragging = 'true';
     wake();
@@ -377,10 +366,12 @@ export function initMannequinPreview(container) {
     container.releasePointerCapture?.(event?.pointerId ?? 0);
     container.dataset.mannequinDragging = 'false';
     view.lastInteraction = performance.now();
-    // Auch beim Loslassen gilt nur das letzte Zeitfenster: wer vor dem
-    // Loslassen 70 ms stillgehalten hat, loest keinen Flick aus.
+    // Flick = Loslassen waehrend der Bewegung. Entscheidend ist die
+    // Geschwindigkeit im letzten Zeitfenster, nicht der gedämpfte Spitzenwert:
+    // ein Stillstand vor dem Loslassen loescht den Flick damit unabhaengig
+    // davon, wie schnell der Wisch vorher war.
     view.velocity = windowVelocity(view.lastInteraction);
-    if (!reducedMotion.matches && view.peakVelocity > motion.flickVelocity) {
+    if (!reducedMotion.matches && Math.abs(view.velocity) > motion.flickVelocity) {
       view.velocity = 0;
       view.shootStart = performance.now();
       setData('mannequinFlicks', Number(container.dataset.mannequinFlicks || 0) + 1);
