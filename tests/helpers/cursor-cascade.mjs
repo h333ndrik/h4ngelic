@@ -56,10 +56,13 @@ export function installCursorCascadeProbe() {
       collect(rules, '', sink);
       for (const rule of sink) {
         if (!mediaMatches(rule.media)) continue;
-        let matches = false;
-        try { matches = element.matches(rule.selector); } catch { matches = false; }
-        if (!matches) continue;
-        const spec = specificity(rule.selector);
+        let matched = [];
+        try { matched = splitTop(rule.selector).filter(part => { try { return element.matches(part.trim()); } catch { return false; } }); } catch { matched = []; }
+        if (!matched.length) continue;
+        // A selector list applies with the specificity of its matching member,
+        // not with the strongest member that may target another element.
+        const specs = matched.map(part => specificity(part)).sort(compareSpec);
+        const spec = specs[0];
         candidates.push({ ...rule, href: sheet.href || 'inline', spec: spec.join(','), weight: spec });
       }
     }
