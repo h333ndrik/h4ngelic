@@ -3,8 +3,7 @@ import { easterSettings, formatVisitCount, visitorMessage, nextVisit, canRemembe
 import { createInkImprint } from './ink-imprint.js';
 import { createTouchInkSampler } from './touch-ink.js';
 import { isExposedHeroBackground } from './hero-background-ink.js';
-
-const interactive = 'a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable="true"],[role="button"],[role="link"],[role="checkbox"],[role="switch"],[role="radio"],[role="tab"],[role="menuitem"],[role="combobox"],[role="slider"],[role="spinbutton"],[contenteditable]:not([contenteditable="false"]),[tabindex]:not([tabindex="-1"]),[aria-disabled="true"],.is-unconfigured,[data-no-ink]';
+import { INK_INTERACTIVE_SELECTOR as interactive } from './ink-guard.js';
 /** Local count/last activity only. A host can opt out or require a consent gate. */
 export function initEasterEggs(root = document, { settings = easterSettings, hasVisitorConsent = () => false, storage } = {}) {
   const pageDocument = root.ownerDocument || root;
