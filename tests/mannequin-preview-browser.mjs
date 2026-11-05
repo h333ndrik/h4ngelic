@@ -177,8 +177,11 @@ try {
     assert.equal(presentation.borderWidth, '0px');
     assert.equal(presentation.alpha, true, 'The WebGL context keeps an alpha channel.');
     assert.equal(presentation.clearAlpha, 0, 'The renderer clears with alpha 0.');
-    assert.match(presentation.source, /mannequin-poster-(wide|tall)-[a-f0-9]{8}\.png$/,
+    // WebP zuerst, PNG als Fallback — beide sind echte Renderer-Bilder.
+    assert.match(presentation.source, /mannequin-poster-(wide|tall)-[a-f0-9]{8}\.(webp|png)$/,
       'The poster is a real render, not the old inline SVG.');
+    assert.equal(/\.webp$/.test(presentation.source), true,
+      `Chromium nimmt die kleinere WebP-Variante (${presentation.source}).`);
     assert.equal(width < 600 ? /tall/.test(presentation.source) : /wide/.test(presentation.source), true,
       `The ${width < 600 ? 'portrait' : 'landscape'} poster matches the viewport.`);
     for (const edge of ['left', 'top', 'width', 'height']) {

@@ -18,7 +18,11 @@ export function renderMannequinPreview() {
            sprung. Zwei Zuschnitte, weil der Renderer je nach Seitenverhaeltnis
            auf Hoehe oder Breite einpasst. -->
       <picture class="mannequin-preview-poster" aria-hidden="true">
+        <!-- WebP zuerst (rund 60 % kleiner, Alpha verlustfrei), PNG bleibt
+             Fallback fuer Browser ohne WebP. Gleiche Pixelmaße und Breakpoints. -->
+        <source media="(max-width: 600px)" type="image/webp" srcset="/images/mannequin-poster-tall-fdf806bf.webp" width="692" height="906">
         <source media="(max-width: 600px)" srcset="/images/mannequin-poster-tall-915dcaff.png" width="692" height="906">
+        <source type="image/webp" srcset="/images/mannequin-poster-wide-2e2cce6c.webp" width="2740" height="1442">
         <img src="/images/mannequin-poster-wide-20c3b7b4.png" alt="" width="2740" height="1442" decoding="async">
       </picture>
     </div>
