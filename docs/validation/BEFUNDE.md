@@ -1,10 +1,11 @@
 # Befund-Registry — V3.2
 
-Verification baseline: `b3cc401` (`origin/v3.1.1-fixes`), production build
-`b3cc401bcf72`. Batch 1 commits: `735ea49`, `ba5f3a3`, `f12423a`, `53df27c`,
+Verification baseline: `70a01a5` (`origin/v3.1.1-fixes`), production build
+`70a01a5fa93e`. Batch 1 commits: `735ea49`, `ba5f3a3`, `f12423a`, `53df27c`,
 `e3028c8`; Batch 2 commits: `93372c6`, `3bb8aa5`, `fedcc8d`, `a2f973b`;
 Batch 2.5 commits: `4c7ef3f` (B-F17), `d165b34` (B-F18); Batch 3 commits:
-`51437eb` (B-F7), `3f3eeb8` (B-F6), `bd15724` (B-F4/F12), `b3cc401` (test reconciliation).
+`51437eb` (B-F7), `3f3eeb8` (B-F6), `bd15724` (B-F4/F12), `b3cc401` (test reconciliation);
+Batch 4 commits: `2d52ca3` (B-F8), `70a01a5` (B-F15/B-F16, B-F14 verified).
 A registry entry is evidence, not a promise: `fixed` means the implementation exists and its named automated proof passes at this baseline.
 `verified-by-user` is used only after the user explicitly confirms the result.
 
@@ -58,15 +59,15 @@ screenshot supplied there.
 | B-F5 | Slash alignment/type | Slash-Abstand zwischen Headings inkonsistent; Größen unvollständig. | fixed | `3bb8aa5` | `docs/validation/GATEPREP/BATCH-2/gallery/results.json`; `heading-{home,about,creative}-*.png` | `tests/typography-contract.mjs`: Slash-Spalte 88.31 px (1440) / 32.7 px (390/320) auf `/`, `/about`, `/creative`, gleiche Größe/Leading/Tracking. |
 | B-F6 | NAAVI total/format | `03 / 03` soll `04/ 04` werden; Other Side bleibt viertes Kapitel, nur der INDEX-Eintrag wurde entfernt. | fixed | `3f3eeb8` | `docs/validation/NAAVI/results.json`; `naavi-final-secret-1440.png` | `tests/naavi-format-browser.mjs`: 00/ 04 … 04/ 04 am End-Reveal, INDEX unverändert 00–03; `tests/global-navigation.test.js`. |
 | B-F7 | Creative tattoo route | `/creative/onskin` soll `/creative/tattoos` heißen und `on skin` zu `tattoos` werden; 301 inklusive Deep-Links. | fixed | `51437eb` | `docs/validation/GATEPREP/BATCH-3/gallery/retired-slug.json`; `retired-slug-work-1440.png` | `tests/retired-slug-browser.mjs`: 6 Redirects (inkl. `/creative/onskin/tattoo-01`, `?category=onskin`, `/work/onskin`), Labels `tattoos`, 0 `onskin` in 144 dist-HTML, 1 Redirect-Map im JS; `tests/seo.test.js`. |
-| B-F8 | VISIT counter | `visit 0000` soll permanent im Ghost-Stil wie der HOLD-4-Hinweis erscheinen, ohne Link oder Hover. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F8 | VISIT counter | `visit 0000` soll permanent im Ghost-Stil wie der HOLD-4-Hinweis erscheinen, ohne Link oder Hover. | fixed | `2d52ca3` | `docs/validation/GATEPREP/BATCH-4/gallery/batch4.json`; `footer-visit-{1440,390,320}.png` | `tests/gateprep-batch4-browser.mjs`: `<span>` statt Button, `pointer-events: none`, Farbe #f0efeb, Opazität .35, Tracking .84px, keine Phrase, Hover ändert nichts; `tests/v7-visitor-tiers-browser.mjs`, `tests/footer-v31-browser.mjs`, `tests/standalone-browser.mjs` grün. |
 | B-F9 | Inquiry submit | `SEND MESSAGE` soll `send message` heißen. | fixed | `93372c6` | `docs/validation/GATEPREP/BATCH-2/gallery/lowercase.json`; `lowercase-form-*.png` | `tests/lowercase-sweep.mjs` @1440/390/320; `tests/inquiry.test.js`; `tests/master-inquiry-browser.mjs`. |
 | B-F10 | Inquiry labels | Labels sollen `your name`, `how to reach you`, `what's on your mind?` lauten. | fixed | `93372c6` | `docs/validation/GATEPREP/BATCH-2/gallery/lowercase.json`; `lowercase-form-*.png` | `tests/lowercase-sweep.mjs` (exakte Strings, kein CSS-Re-Casing); `tests/master-inquiry-browser.mjs`. |
 | B-F11 | About link | `MORE ABOUT` soll `more about` heißen. | fixed | `93372c6` | `docs/validation/GATEPREP/BATCH-2/gallery/lowercase.json`; `lowercase-about-*.png` | `tests/lowercase-sweep.mjs`: exakt `more about`, `text-transform: none`. |
 | B-F12 | Cross-link rows | Unterrubrik-Cross-Links sollen bündig und mit gleichen Abständen stehen. | fixed | `bd15724` | `docs/validation/GATEPREP/BATCH-3/gallery/cross-links-{1440,390,320}.png`; `rubric-gap.json` | `tests/rubric-gap-browser.mjs`: Reihe startet auf der Inhaltsspalte (±2 px), V25-Spalten bleiben fix, Labels bleiben in ihrer Spalte (Fit 15,05 px @390); `tests/v25-cross-links-browser.mjs` 6/6. |
 | B-F13 | Artwork viewer arrows | Pfeile haben falschen Abstand/Seite oder überschneiden sich. | fixed | `fedcc8d` | `docs/validation/GATEPREP/BATCH-2/gallery/viewer-*.png`; `results.json` | `tests/typography-contract.mjs` (flankierend, kein Overlap, Scrim); `tests/gateprep-batch2-browser.mjs` @1440/390/320. |
-| B-F14 | Tool detail heading | `/creative/tools/m4shlab` rendert möglicherweise fälschlich `3d model`. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
-| B-F15 | Tool detail navigation | Tool-Seiten brauchen die obere Unterrubriken-Leiste wie `/creative/onskin`; Breadcrumb `home / tools` entfernen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
-| B-F16 | Tool detail footer line | Weißen Trennstrich und Fakten-Punkte-Zeile unten entfernen. | open | — | User-Screenshot, Chat/Preview 2026-11-04 | — |
+| B-F14 | Tool detail heading | `/creative/tools/m4shlab` rendert möglicherweise fälschlich `3d model`. | fixed (kein Befund) | — | `docs/validation/GATEPREP/BATCH-4/gallery/tool-top-m4shlab-1440.png` | Phase 0 + `tests/gateprep-batch4-browser.mjs`: H1 ist der Tool-Titel, kein `3d model` auf beiden Werkzeugseiten (direkt und per SPA-Navigation), auch nicht im prerenderten HTML. |
+| B-F15 | Tool detail navigation | Tool-Seiten brauchen die obere Unterrubriken-Leiste wie `/creative/onskin`; Breadcrumb `home / tools` entfernen. | fixed | `70a01a5` | `docs/validation/GATEPREP/BATCH-4/gallery/tool-top-*.png`; `batch4.json` | `tests/gateprep-batch4-browser.mjs`: 4 Filter-Links, `tools` aktiv, Zeile auf der Header-Geometrie (y 21/16), 0 Breadcrumbs; `tests/v32-structure-browser.mjs`. |
+| B-F16 | Tool detail footer line | Weißen Trennstrich und Fakten-Punkte-Zeile unten entfernen. | fixed | `70a01a5` | `docs/validation/GATEPREP/BATCH-4/gallery/tool-bottom-{1440,390,320}.png` | `tests/gateprep-batch4-browser.mjs`: 0 `.tool-facts`, 0 weiße `border-top` im Tool-Detail, Seite endet mit der Installations-Anleitung. |
 | B-F17 | Kopfzeile, Begrüßung | Begrüßung ist auf der Preview nicht sichtbar geworden. | fixed | `4c7ef3f` | `docs/validation/GATEPREP/BATCH-2.5/gallery/greeting.json`; `greeting-{hover,focus}-1440.png`; `greeting-touch-*.png` | `tests/greeting-browser.mjs`: Ruhe unsichtbar / Hover 35 % / Focus 52 % @1440, Touch 35 % @390/320, kein Overlap. Ursache waren `hidden` + globales `[hidden]{display:none}`. |
 | B-F18 | Rubrik-Links (tattoos/jewellery/tools/more) | Klickfläche der Unterrubriken-Links ist zu groß. | fixed | `d165b34` | `docs/validation/GATEPREP/BATCH-2.5/gallery/hit-areas.json`; `hit-before-*.png` (Zelle) / `hit-after-*.png` (Label) | `tests/rubric-hit-area-browser.mjs`: Text/Pfeil klickbar, 20 px rechts vom Pfeil inert, ≥44 px hoch, Zelle 310/154/119 px vs. Label 276/95/71 px. |
 
