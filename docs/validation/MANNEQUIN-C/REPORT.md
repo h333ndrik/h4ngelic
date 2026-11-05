@@ -538,12 +538,14 @@ drei Begriffe, der Unit-Test prüft stattdessen den Inhalt von `CREDITS.md`.
 | Datei | Vorher | Nachher |
 | --- | --- | --- |
 | `LICENSE-NOTE-C.md` (außerhalb Repo) | „lokale Neuerstellung des Users (Remesh/Join)" | durchgestrichen + „KORRIGIERT am 05.11.2026: FBX-Import des Basismeshs" mit Vertex-Beleg; Statuszeile auf CC0 gesetzt |
-| `REPORT.md` (4 Stellen) | „Sketchfab-Basismesh", offener Redistributions-Befund | belegte Kette FBX → Blend → Remesh → Dezimierung; Merge-Gate als **aufgehoben** markiert |
+| `REPORT.md` (4 Stellen) | Basismesh der Bezugsplattform, offener Redistributions-Befund | belegte Kette FBX → Blend → Remesh → Dezimierung; Merge-Gate als **aufgehoben** markiert |
 | `PROJECT_PROGRESS.md` | „Lizenz ungeklärt, Branch nicht gepusht" | „Lizenz geklärt, CC0, `CREDITS.md`, Audit-Pfad" |
 | `MANNEQUIN-PROCEDURAL` / `MANNEQUIN-CHROME` Lizenznotizen | — | **unangetastet** (andere Assets). Beobachtung: die Formulierung „contains no third-party mannequin asset" bezieht sich auf `mannequin.glb` und könnte beim Lesen auf das ganze Repo bezogen werden; nicht geändert, hier vermerkt |
 
-Rest-Treffer im Repo: `CREDITS.md` (Dokumentation), Bundle-Guard in
-`tests/mannequin-preview-browser.mjs` (Verbote-Liste). Beide gewollt.
+Rest-Treffer im Repo: `CREDITS.md` (Dokumentation) und der Bundle-Guard in
+`tests/mannequin-preview-browser.mjs` (Verbote-Liste). Beide gewollt. Die
+wörtlichen Altformulierungen der Korrekturen stehen unverändert in der
+Git-Historie (`d0d826b` und älter).
 
 ### Zwei-Bake-Nachweis
 
