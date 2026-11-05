@@ -179,11 +179,12 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
 /* V25: fixed rubric cross-links. The current page keeps its column empty,
    so tattoos, jewellery, tools and more never change position. */
 .rubric-cross-links {
-  /* The row geometry comes from .rubric-row; this block only owns type and
-     colour. Equal columns were the reason jewellery's arrow touched tools. */
+  /* Type A row (rubric-row.css). The type scale is the frontpage scale on
+     purpose: same labels, same widths, same x positions across pages.
+     Equal columns were the reason jewellery's arrow touched tools. */
   margin-top: clamp(70px, 12vw, 180px);
-  padding: clamp(24px, 4vw, 54px) 0 0;
-  font-size: min(clamp(16px, 3.6vw, 56px), var(--row-type-fit, 100vw));
+  padding-block-start: clamp(24px, 4vw, 54px);
+  font-size: min(var(--type-category-link), var(--row-type-fit, var(--type-category-link)));
   line-height: 1.12;
   letter-spacing: -.045em;
 }
@@ -194,7 +195,6 @@ html[data-mode='xray'] .work-filters .filter-link:is(.is-active, [aria-current='
 }
 .rubric-cross-links a:hover, .rubric-cross-links a:focus-visible { color: #f0efeb; }
 html[data-mode='xray'] .rubric-cross-links a { color: #eadff1; text-shadow: 0 1px 3px #08020e, 0 0 7px #10051b; }
-.rubric-cross-links a .arrow { font-size: .72em; }
 @media (max-width: 600px) {
   .rubric-cross-links a { width: auto; }
   /* V25 fixed slots are retired: the row flows with one shared gap, so the
@@ -209,7 +209,7 @@ html[data-mode='xray'] .rubric-cross-links a { color: #eadff1; text-shadow: 0 1p
 .tool-section p, .tool-steps { max-width: 62ch; font-size: 17px; line-height: 1.65; }
 .tool-steps { padding-left: 1.2em; }
 .tool-steps li + li { margin-top: 14px; }
-.tool-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--rubric-gap, 12px); margin-top: clamp(64px, 9vw, 140px); }
+.tool-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--tool-gallery-gap); margin-top: clamp(64px, 9vw, 140px); }
 .tool-shot { margin: 0; aspect-ratio: 16 / 10; background: #1d1d1d; border-radius: var(--radius-soft); overflow: clip; }
 .tool-shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tool-video-slot { grid-column: 1 / -1; color: #b9b9b4; font-size: 12px; }

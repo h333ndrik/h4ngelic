@@ -1,14 +1,13 @@
-/** Keep every rubric row inside its own scrollport so --rubric-gap stays
- * visible. The word list drives the fit, not a magic font-size: if the row
- * overflows its container, the shared row token shrinks just enough.
+/** Keep every Type A row (frontpage strip, rubric cross-links) inside its own
+ * insets. The word list drives the fit, not a magic font-size: if the row
+ * overflows, the shared fit token shrinks just enough. Both rows render the
+ * same four labels, so they receive the same size and the same x positions.
  *
- * The rows no longer use equal grid columns (that made the gap depend on the
- * label length), so the fit is a single overflow measurement per row: one
- * custom property, no layout writes per item. Without JavaScript the token
- * size stays active and the strip keeps its own horizontal scrollport. */
+ * The fit is one overflow measurement per row: one custom property, no layout
+ * writes per item. Without JavaScript the type token stays active and the
+ * strip keeps its own horizontal scrollport. */
 const rows = [
-  { row: '.category-strip', item: '.category-link' },
-  { row: '.rubric-cross-links', item: 'a' },
+  { row: '[data-row="distributed"]', item: '.row-item' },
 ];
 
 export function fitRubricRows(doc = document) {

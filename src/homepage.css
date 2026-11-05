@@ -25,14 +25,8 @@
   min-width: 0;
   gap: inherit;
 }
-/* The subordinate row begins on the shared slash column. The strip keeps its
-   own scrollport on narrow screens, so only the first content edge moves. */
-.category-strip {
-  gap: var(--rubric-gap);
-  /* The first word starts exactly on the slash column; the row padding is the
-     only inset, so the visible gap equals the gap token. */
-  padding-left: var(--slash-inset);
-}
+/* The strip is a Type A row (rubric-row.css): insets, gap floor and baseline
+   live in the row type, so this file only owns type size and the scrollport. */
 .category-link { pointer-events: none; }
 /* The rubric type never exceeds the measured fit for its own row. Without
    JS (no --row-type-fit) the shared display token stays in charge. */
@@ -119,8 +113,6 @@
 .hero .controls button:hover:not(:disabled) { border: 0; background: transparent; }
 .hero-nav { right: 35px; bottom: max(24px, env(safe-area-inset-bottom)); min-height: 44px; align-items: center; }
 :is(.hero-nav, .page-nav, .text-link) .category-magnet { gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
-/* Rubric rows space their arrow through the shared token, not a flex gap. */
-.rubric-row .category-magnet { gap: 0; }
 :is(.category-link, .contact-link, .hero-nav a, .page-nav a, .text-link) .arrow {
   transition: transform 300ms cubic-bezier(.2,.8,.25,1);
 }

@@ -53,8 +53,8 @@ function renderToolCards() {
 export function renderHomepageSections(context = '') {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
     <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
-    <div class="category-strip rubric-row" role="navigation" aria-label="Works categories" tabindex="0">
-      ${rubricLines(siteContent.workGroups.map((group) => `<a class="category-link rubric-item" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`))}
+    <div class="category-strip" data-row="distributed" data-row-id="home-strip" role="navigation" aria-label="Works categories" tabindex="0">
+      ${rubricLines(siteContent.workGroups.map((group) => `<a class="category-link row-item" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`))}
     </div>
   </div></section>
   <section class="content-section about-preview" id="about-preview" tabindex="-1" aria-labelledby="about-preview-title" data-motion="about"><div class="section-pin">
@@ -120,8 +120,25 @@ export function renderProject(project) {
 
 /** The one sub-rubric row: same four destinations on every creative surface. */
 function renderWorkFilters(activeGroup) {
-  return `<nav class="work-filters rubric-row" aria-label="Works sections">
-      ${siteContent.workGroups.map(filter => `<a class="filter-link rubric-item${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
+  return `<nav class="work-filters" data-row="chips" data-row-id="archive-filters" aria-label="Works sections">
+      ${siteContent.workGroups.map(filter => `<a class="filter-link row-item${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
+    </nav>`;
+}
+
+/** Type A cross-links: four fixed positions in rubric order. The current
+ * rubric is an invisible replica of its own label, arrow spacing included, so
+ * the visible words keep the frontpage x positions and nothing jumps between
+ * pages. The replica carries no href, no focus and no pointer target. */
+const rowSlotMode = 'width';
+function renderCrossLinks(selectedGroup) {
+  const positions = siteContent.workGroups.map(group => {
+    const content = `<span class="category-magnet"><span>${escape(group.archiveLabel ?? group.label)}</span>${arrow}</span>`;
+    return group.id === selectedGroup.id
+      ? `<span class="row-slot" aria-hidden="true">${content}</span>`
+      : `<a class="row-item" href="${categoryURL(group.id)}">${content}</a>`;
+  });
+  return `<nav class="rubric-cross-links" data-row="distributed" data-row-id="rubric-cross-links" data-slot-mode="${rowSlotMode}" aria-label="Other creative sections">
+      ${rubricLines(positions)}<span class="sr-only">current: ${escape(selectedGroup.label)}</span>
     </nav>`;
 }
 
@@ -183,10 +200,7 @@ export function renderWorkPage(category = 'all') {
     ? leaf(selectedCategory, { nested: false })
     : selected === 'all' ? siteContent.categories.filter(entry => entry.legacy
       && projects.some(project => project.category === entry.id)).map(entry => leaf(entry, { nested: false })).join('') : '';
-  const crossLinks = selectedGroup ? `<nav class="rubric-cross-links rubric-row" aria-label="Other creative sections">
-      ${siteContent.workGroups.filter(group => group.id !== selectedGroup.id)
-        .map(group => `<a class="rubric-item" href="${categoryURL(group.id)}">${escape(group.archiveLabel ?? group.label)} ${arrow}</a>`).join('')}
-    </nav>` : '';
+  const crossLinks = selectedGroup ? renderCrossLinks(selectedGroup) : '';
   return `${header('work')}
   <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
     <h1 class="page-heading${selected === 'all' ? ' numbered-heading' : ''}${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>

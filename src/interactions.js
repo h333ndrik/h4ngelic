@@ -149,11 +149,11 @@ export function initInteractions(root = document, { revealSections = true, setti
       // genuinely unused room. Counting it keeps the restrained 2.5% feedback
       // alive when a label already fills its own content box.
       let available = target.clientWidth - parseFloat(style.paddingLeft);
-      if (target.matches('.rubric-item')) {
+      if (target.matches('.row-item')) {
         // In a flowing row the free room is the gap to the next item, not a
         // column sized around the label. Without this the label would clamp
         // itself to scale 1 and lose the shared hover language.
-        const siblings = [...target.parentElement.children].filter(node => node.matches('.rubric-item'));
+        const siblings = [...target.parentElement.children].filter(node => node.matches('.row-item'));
         const next = siblings[siblings.indexOf(target) + 1];
         if (next) available = next.getBoundingClientRect().left - target.getBoundingClientRect().left - 2;
       }
