@@ -1004,11 +1004,16 @@ Laufs ein zweites Mal bewegt:
 | --- | --- | --- |
 | Self-Check (erster Fetch) | `b5634bc` | `Merge pull request #22 from h333ndrik/v3.2-world-sound` |
 | nach dem Probe-Merge (zweiter Fetch) | `e66e7b6` | `Record the world sound release: merge b5634bc, deployment and live asset verification` (aendert nur `NEXT_SESSION.md` und `PROJECT_PROGRESS.md`) |
+| nach dem Report-Push (dritter Fetch) | `fdd42f5` | `Correct the mannequin branch SHAs in the release handoff` (nur `NEXT_SESSION.md`) |
 
-Der zweite Commit entstand in einer parallelen Session (Worktree
-`2026-11-03/world-sound-h4ngelic`, dort ist `main` ausgecheckt). Deshalb wurde
-der Probe-Merge gegen den neuen Stand `e66e7b6` **wiederholt**; die Zahlen unten
-gelten fuer `e66e7b6`. Nichts wurde korrigiert oder umgeschrieben.
+Die Commits entstanden in einer parallelen Session (Worktree
+`2026-11-03/world-sound-h4ngelic`, dort ist `main` ausgecheckt) — main wandert
+waehrend dieses Laufs zweimal. Deshalb wurde der Probe-Merge gegen `e66e7b6`
+**wiederholt**; die Zahlen unten gelten fuer `e66e7b6`. Fuer den letzten Stand
+`fdd42f5` wurde ohne Worktree nachgeprueft
+(`git merge-tree --write-tree origin/main v3.2-mannequin-female`): identische
+drei Konfliktdateien, `fdd42f5` beruehrt ohnehin nur `NEXT_SESSION.md`.
+Nichts wurde korrigiert oder umgeschrieben.
 
 | Erwartet | Gemessen (`e66e7b6`) |
 | --- | --- |
@@ -1100,8 +1105,8 @@ keinen Dateikonflikt in Quellcode oder Assets.
    (Init-Pfade). Der Auto-Merge sieht sauber aus, ist aber nur syntaktisch
    geprueft: nach dem Merge ist die volle Suite Pflicht, besonders
    `test:world-sound` und `test:mode-audio` neben den Mannequin-Suiten.
-   Zusatzrisiko: main bewegt sich weiter (waehrend dieses Laufs +1 Commit), der
-   Merge-Base muss unmittelbar vor dem echten Merge neu geprueft werden.
+   Zusatzrisiko: main bewegt sich weiter (waehrend dieses Laufs zwei Commits),
+   der Probe-Merge muss unmittelbar vor dem echten Merge neu laufen.
 3. **Kalte Routen / SEO**: beide Zweige haben an Layout und Routen gearbeitet
    (World Sound an WORKS, Mannequin an `/work/tattoos`). Erwartung: 18 Routen +
    404 bleiben; muss nach dem Merge neu geprueft werden.
