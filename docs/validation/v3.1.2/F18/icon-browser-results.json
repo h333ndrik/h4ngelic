@@ -1,0 +1,64 @@
+{
+  "measuredAt": "2026-11-03T04:24:01.313Z",
+  "base": "http://127.0.0.1:55173",
+  "reports": [
+    {
+      "label": "desktop",
+      "iconsRestored": true,
+      "cursor": "one base image and 9 2 hotspot in every state",
+      "appropriatePrefetchCount": 4,
+      "runtimeErrors": 0
+    },
+    {
+      "label": "reduced",
+      "iconsRestored": true,
+      "cursor": "one base image and 9 2 hotspot in every state",
+      "appropriatePrefetchCount": 4,
+      "runtimeErrors": 0
+    },
+    {
+      "label": "touch-390",
+      "iconsRestored": true,
+      "cursor": "native touch, no custom cursor",
+      "appropriatePrefetchCount": 3,
+      "runtimeErrors": 0
+    },
+    {
+      "label": "touch-320",
+      "iconsRestored": true,
+      "cursor": "native touch, no custom cursor",
+      "appropriatePrefetchCount": 3,
+      "runtimeErrors": 0
+    },
+    {
+      "label": "browser-svg-decoder",
+      "comparisons": [
+        {
+          "normal": "/assets/h4ngelic-cursor.svg",
+          "other": "/assets/h4ngelic-cursor-other-r09.svg",
+          "alphaChanged": 0,
+          "colorChanged": 2591,
+          "width": 92,
+          "height": 140
+        },
+        {
+          "normal": "/assets/h4ngelic-cursor-hover.svg",
+          "other": "/assets/h4ngelic-cursor-other-hover-r09.svg",
+          "alphaChanged": 0,
+          "colorChanged": 3033,
+          "width": 100,
+          "height": 148
+        },
+        {
+          "normal": "/assets/h4ngelic-cursor-pressed.svg",
+          "other": "/assets/h4ngelic-cursor-other-pressed-r09.svg",
+          "alphaChanged": 0,
+          "colorChanged": 2366,
+          "width": 88,
+          "height": 132
+        }
+      ]
+    }
+  ],
+  "limitations": "Computed CSS cursor URLs/hotspots and browser SVG rasterization are verified; Playwright screenshots do not capture the operating-system cursor overlay or browser tab chrome."
+}

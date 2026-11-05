@@ -5,8 +5,8 @@ import { contentURL } from './content-utils.js';
 export const contactURL = (artworkId = '') => `/${artworkId ? `?artwork=${encodeURIComponent(artworkId)}` : ''}#contact`;
 
 export const categoryURL = (category) => `/work/${encodeURIComponent(category)}`;
-/** New navigation uses one connected Work document; old category URLs remain valid. */
-export const workAnchorURL = (category) => category === 'all' ? '/work' : `/work#${encodeURIComponent(category)}`;
+/** Compatibility export: rubric destinations are real routes, never hash tabs. */
+export const workAnchorURL = (category) => categoryURL(category === 'all' ? 'tattoos' : category);
 export const categoryById = (id) => siteContent.categories.find((category) => category.id === id);
 export const groupById = (id) => siteContent.workGroups.find((group) => group.id === id);
 const knownCategory = (category) => Boolean(categoryById(category));
@@ -15,7 +15,7 @@ const knownArchive = (category) => knownCategory(category) || Boolean(groupById(
 /** Shared category matching for rendering, metadata and group navigation. */
 export function matchesArchive(project, category = 'all') {
   return category === 'all' || project.category === category
-    || (!knownCategory(category) && groupById(category)?.children.includes(project.category));
+    || Boolean(groupById(category)?.children.includes(project.category));
 }
 
 export function projectURL(project) {
@@ -30,7 +30,8 @@ export function publishedProjects() {
 
 export function resolveRoute(input) {
   const url = input instanceof URL ? input : new URL(input, 'https://routing.invalid');
-  const path = url.pathname.replace(/\/+$/, '') || '/';
+  const requestedPath = url.pathname.replace(/\/+$/, '') || '/';
+  const path = requestedPath === '/work/index.html' ? '/work' : requestedPath;
   let kind = 'not-found';
   let category = 'all';
   let project;
@@ -44,7 +45,8 @@ export function resolveRoute(input) {
   } else if (path === '/work') {
     kind = 'work';
     const requested = url.searchParams.get('category');
-    if (knownArchive(requested)) { category = requested; canonicalPath = categoryURL(category); }
+    category = knownArchive(requested) ? requested : 'tattoos';
+    canonicalPath = categoryURL(category);
   } else {
     const segments = path.split('/').filter(Boolean);
     if (segments[0] === 'work' && knownArchive(segments[1])) {
@@ -63,7 +65,7 @@ export function resolveRoute(input) {
 
 /** Only genuine, published projects can produce detail routes. */
 export function routeDefinitions() {
-  const paths = ['/', '/work', ...new Set([...siteContent.categories, ...siteContent.workGroups].map(({ id }) => categoryURL(id))), '/about', ...publishedProjects().map(projectURL)];
+  const paths = ['/', ...new Set([...siteContent.categories, ...siteContent.workGroups].map(({ id }) => categoryURL(id))), '/about', ...publishedProjects().map(projectURL)];
   if (new Set(paths).size !== paths.length) throw new Error('Published artwork IDs must have unique category URLs.');
   return paths.map((path) => resolveRoute(path));
 }

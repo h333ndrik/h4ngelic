@@ -1,0 +1,17 @@
+node tests/portfolio-browser.mjs
+PASS 1440 / 390 / 320 px, full and reduced motion (6/6).
+Rubric child headings are plain text; cross-route filters and navigation remain.
+
+node tests/v31-navigation-browser.mjs
+PASS 1440 / 390 / 320 px, full and reduced motion (6/6).
+
+node tests/v31-motion-browser.mjs
+PASS 1440 / 390 / 320 px, full and reduced motion (6/6).
+Child headings keep their static first-paint pose with no entrance enhancement.
+
+Measured /work/more:
+h1 text "more", class "page-heading sr-only", 1 x 1px clipped box, not visible;
+document title unchanged.
+digital artworks and analog photography: 0 links, 0 arrows.
+"view work" fallbacks: 0; digital artwork still has 1 inline expand control.
+Cross-links: tattoos -> /work/tattoos, jewellery -> /work/jewellery.

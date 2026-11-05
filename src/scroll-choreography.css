@@ -34,30 +34,7 @@
   transition: none;
 }
 
-/* Keep the accepted native Work sticky interval. Calm content reaches rest at
-   the end of the same scroll range, with no viewport-wide kinetic flight. */
-[data-scroll-choreography] [data-motion-pin] {
-  display: block;
-  padding: 0;
-  min-height: calc(var(--motion-pin-height) + var(--motion-run));
-  scroll-margin-top: 0;
-}
-[data-scroll-choreography] [data-motion-pin] > .section-pin {
-  position: sticky;
-  top: 0;
-  min-height: var(--motion-pin-height);
-  padding: clamp(48px, 6vh, 80px) 35px;
-  display: grid;
-  align-content: start;
-  overflow: clip;
-}
-[data-scroll-choreography] [data-motion-pin] .category-strip,
-[data-scroll-choreography] [data-motion-pin] .contact-links {
-  min-width: 0;
-  width: 100%;
-  overflow: visible;
-}
-[data-scroll-choreography] :is([data-motion='about'], [data-motion='contact']) > .section-pin {
+[data-scroll-choreography] [data-motion] > .section-pin {
   overflow: clip;
   overflow-clip-margin: 8px;
 }
@@ -68,29 +45,15 @@
   transform-origin: 50% 50%;
 }
 
-/* Both existing bar halves share opacity and remain in their original layout.
-   Reduced motion switches the value instantly through the same scroll clock. */
-.hero :is(.controls, .hero-nav) { opacity: var(--hero-bar-opacity, 1); }
+/* Both existing bar halves translate out without changing layout or opacity.
+   Reduced motion switches the same value instantly through the scroll clock. */
+.hero :is(.controls, .hero-nav) {
+  opacity: 1;
+  transform: translate3d(0, var(--hero-bar-shift, 0%), 0);
+}
 .hero[data-hero-bar-state='hidden'] :is(.controls, .hero-nav) { pointer-events: none; }
 
-@media (max-width: 700px) {
-  [data-scroll-choreography] [data-motion-pin] > .section-pin { padding: 48px 22px; }
-  [data-scroll-choreography] [data-motion-state='settled'] .category-strip,
-  [data-scroll-choreography] [data-motion-state='focus'] .category-strip,
-  [data-scroll-choreography] [data-motion-state='settled'] .contact-links,
-  [data-scroll-choreography] [data-motion-state='focus'] .contact-links {
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-  }
-}
-@media (max-height: 600px) {
-  [data-scroll-choreography] [data-motion-pin] > .section-pin { padding-block: clamp(24px, 5vh, 48px); }
-  [data-scroll-choreography] [data-motion-pin] .category-link,
-  [data-scroll-choreography] [data-motion-pin] .contact-link { padding-block: clamp(24px, 5vh, 48px); }
-}
 @media (prefers-reduced-motion: reduce) {
-  [data-scroll-choreography] [data-motion-pin] { min-height: 0; padding: 0; }
-  [data-scroll-choreography] [data-motion-pin] > .section-pin { position: static; min-height: 0; }
   [data-scroll-choreography] [data-motion] [data-scroll-item],
   [data-scroll-choreography] .kinetic-heading-text,
   [data-scroll-choreography] [data-scroll-heading],

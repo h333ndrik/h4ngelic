@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { measureEntrancePerformance } from './helpers/v311-motion-performance.mjs';
+import { aboutSectionProgress, sampleAboutItem } from '../src/data/motionSettings.js';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL('../artifacts/v31-motion/', import.meta.url);
+const output = new URL(`../${process.env.H4_MOTION_ARTIFACTS || 'artifacts/v31-motion'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
 const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })))
   .filter(profile => !process.env.H4_MOTION_WIDTHS || process.env.H4_MOTION_WIDTHS.split(',').map(Number).includes(profile.width));
@@ -21,9 +23,16 @@ async function settle(page) {
   await frames(page);
 }
 async function indexLink(page, name, kind) {
-  const menu = page.locator('[data-global-index]');
-  if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
-  await menu.locator(`[data-index-page="${name}"]`).click();
+  // INDEX now exposes only the approved 00–03 route set. Work remains a real
+  // hero-nav destination; other calls continue through their INDEX entry.
+  if (name === 'work') {
+    await page.locator('.hero-nav a[href="/work"]').click();
+    await page.waitForFunction(() => location.pathname === '/work/tattoos');
+  } else {
+    const menu = page.locator('[data-global-index]');
+    if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
+    await menu.locator(`[data-index-page="${name}"]`).click();
+  }
   await page.locator(`html[data-page="${kind}"]`).waitFor();
   await settle(page);
 }
@@ -42,19 +51,20 @@ const sectionState = (page, id) => page.locator(`#${id}`).evaluate(section => {
   };
   return { y: scrollY, height: document.documentElement.scrollHeight,
     heading: pose(section.querySelector('.kinetic-heading-text')),
-    items: [...section.querySelectorAll('[data-scroll-item], .category-link > .kinetic-item, .inquiry-enter')].map(pose) };
+    items: [...section.querySelectorAll('[data-scroll-item], .kinetic-item[data-motion-item], .category-link > .kinetic-item, .inquiry-enter')].map(pose) };
 });
 async function homeEntrances(page, profile, world) {
   const records = [];
-  for (const id of ['selected-work', 'contact']) {
+  for (const id of ['selected-work', 'about-preview', 'contact']) {
     const geometry = await page.locator(`#${id}`).evaluate(element => ({
       top: element.getBoundingClientRect().top + scrollY,
-      run: parseFloat(element.style.getPropertyValue('--motion-run')) || 0,
-      height: innerHeight,
+      height: innerHeight, pin: element.hasAttribute('data-motion-pin'),
+      run: element.style.getPropertyValue('--motion-run'),
+      position: getComputedStyle(element.querySelector(':scope > .section-pin')).position,
     }));
-    const origin = geometry.top - geometry.height * (id === 'selected-work' && !profile.reduced ? .85 : .68);
-    const distance = id === 'selected-work' && !profile.reduced
-      ? geometry.height * .85 + geometry.run : geometry.height * (.68 - .10);
+    assert.ok(!geometry.pin && geometry.run === '' && geometry.position !== 'sticky', 'Editorial entrances reserve no pinned scroll interval.');
+    const origin = geometry.top - geometry.height * .68;
+    const distance = geometry.height * (.68 - .10);
     const samples = [];
     for (const progress of [0, .2, .5, .8, 1]) {
       await move(page, origin + progress * distance);
@@ -65,10 +75,12 @@ async function homeEntrances(page, profile, world) {
         assert.ok(item.opacity >= 0 && item.opacity <= 1);
         assert.ok(close(item.x, sample.items[0].x) && close(item.opacity, sample.items[0].opacity), 'The whole content strip arrives simultaneously.');
       }
-      if (id === 'contact') {
-        assert.ok(close(sample.heading.x, sample.items[0].x) && close(sample.heading.y, 0));
-        assert.ok(close(sample.heading.opacity, sample.items[0].opacity), 'Contact title and inquiry form share the exact same right-entry pose.');
-      }
+      assert.ok(close(sample.heading.x, sample.items[0].x) && close(sample.heading.y, 0));
+      assert.ok(close(sample.heading.opacity, sample.items[0].opacity), 'Section title and content share the exact same sampler pose.');
+      const expected = profile.reduced ? { x: 0, opacity: 1 }
+        : sampleAboutItem(aboutSectionProgress(sample.y, geometry.top, geometry.height), id === 'contact' ? 'copy' : 'link', profile.width);
+      assert.ok(sample.items.every(item => close(item.x, expected.x) && close(item.opacity, expected.opacity)),
+        `${id} uses the exact MORE ABOUT sampler, progress, easing and parameters.`);
       if (profile.reduced) assert.ok(sample.items.every(item => item.x === 0 && item.opacity === 1));
       samples.push(sample);
     }
@@ -93,7 +105,8 @@ async function homeEntrances(page, profile, world) {
       'A route anchor focused on the section cannot disable reverse scrub.');
       await page.evaluate(() => document.activeElement?.blur());
     }
-    records.push({ world, id, samples });
+    const performance = await measureEntrancePerformance(page, { selector: `#${id}`, profile, label: `${world} ${id}` });
+    records.push({ world, id, samples, performance });
   }
   assert.equal(await page.locator('[data-inquiry-reveal], .motion-echo').count(), 0, 'Retired one-shot and kinetic echo systems stay absent.');
   const field = page.locator('[data-inquiry-contact]');
@@ -104,33 +117,46 @@ async function homeEntrances(page, profile, world) {
   return records;
 }
 async function archiveEntrances(page, profile, world) {
+  const firstPaint = await page.locator('.rubric-category-heading[data-motion-static]').evaluateAll(headings => headings.map(heading => {
+    const visual = heading.querySelector(':scope > a, :scope > .archive-scroll-label') || heading;
+    const style = getComputedStyle(visual), transform = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
+    return { id: heading.id, static: heading.hasAttribute('data-motion-static'),
+      enhanced: heading.hasAttribute('data-scroll-heading'), opacity: Number(getComputedStyle(heading).opacity),
+      x: transform.m41, y: transform.m42,
+      inlineX: heading.style.getPropertyValue('--archive-heading-x'), inlineOpacity: heading.style.getPropertyValue('--archive-heading-opacity') };
+  }));
+  assert.ok(firstPaint.length >= 1, 'The rubric child label is present immediately after arrival.');
+  for (const heading of firstPaint) assert.ok(heading.static && !heading.enhanced && heading.opacity === 1
+    && heading.x === 0 && heading.y === 0 && heading.inlineX === '' && heading.inlineOpacity === '',
+  `${heading.id} keeps its final CSS first-paint pose without entrance enhancement.`);
   const result = [];
   for (const group of await page.locator('.work-group').all()) {
-    const origin = await group.locator('.work-group-heading').evaluate(element => element.getBoundingClientRect().top + scrollY - innerHeight * .68);
+    const origin = await group.locator('.work-group-heading, .archive-category-heading').first().evaluate(element => element.getBoundingClientRect().top + scrollY - innerHeight * .68);
     const observations = [];
     for (const progress of [0, .2, .5, .8, 1]) {
-      await move(page, origin + progress * 844 * (.68 - .10));
+      await move(page, origin + progress * 844 * (.68 - .10) + (progress === 1 ? 2 : 0));
       const sample = await group.evaluate(element => ({
         y: scrollY, documentHeight: document.documentElement.scrollHeight,
         poses: [...element.querySelectorAll('.work-group-heading, .archive-category-heading')].map(heading => {
           const visual = heading.querySelector(':scope > a, :scope > .archive-scroll-label') || heading;
           const style = getComputedStyle(visual), matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
-          return { text: heading.textContent.trim(), x: matrix.m41, y: matrix.m42,
+          return { text: heading.textContent.trim(), static: heading.hasAttribute('data-motion-static'), x: matrix.m41, y: matrix.m42,
             rotation: Math.atan2(matrix.m12, matrix.m11), opacity: Number(getComputedStyle(heading).opacity) };
         }),
       }));
       for (const pose of sample.poses) {
         assert.ok(pose.x >= 0 && pose.x <= 36.001 && close(pose.y, 0) && close(pose.rotation, 0));
-        assert.ok(close(pose.x, sample.poses[0].x) && close(pose.opacity, sample.poses[0].opacity), 'Subcategory labels cannot arrive later than their parent.');
-        if (profile.reduced) assert.ok(pose.x === 0 && pose.opacity === 1);
+        const animated = sample.poses.find(item => !item.static);
+        if (!pose.static && animated) assert.ok(close(pose.x, animated.x) && close(pose.opacity, animated.opacity), 'Animated labels share their unchanged group timeline.');
+        if (pose.static || profile.reduced) assert.ok(pose.x === 0 && pose.opacity === 1);
       }
       observations.push(sample);
     }
-    assert.ok(observations.at(-1).poses.every(pose => close(pose.x, 0) && pose.opacity === 1));
+    assert.ok(observations.at(-1).poses.every(pose => Math.abs(pose.x) < .05 && pose.opacity > .998), `Final archive poses settle exactly: ${JSON.stringify(observations.at(-1).poses)}`);
     assert.ok(observations.every(sample => sample.documentHeight === observations[0].documentHeight));
     for (const expected of observations.toReversed()) {
       await move(page, expected.y);
-      const actual = await group.locator('.work-group-heading').evaluate(element => parseFloat(element.style.getPropertyValue('--archive-heading-x')) || 0);
+      const actual = await group.locator('.work-group-heading, .archive-category-heading').first().evaluate(element => parseFloat(element.style.getPropertyValue('--archive-heading-x')) || 0);
       assert.ok(close(actual, expected.poses[0].x), `Archive reversal ${await group.getAttribute('data-work-group')} y=${expected.y}: ${actual} versus ${expected.poses[0].x}`);
     }
     result.push({ world, group: await group.getAttribute('data-work-group'), observations });
@@ -145,16 +171,21 @@ async function heroBar(page, profile, world) {
     await move(page, geometry.top + geometry.height * progress);
     const sample = await page.locator('.hero').evaluate(element => ({
       y: scrollY, height: document.documentElement.scrollHeight, state: element.dataset.heroBarState,
-      bars: [...element.querySelectorAll('.controls, .hero-nav')].map(bar => ({ opacity: Number(getComputedStyle(bar).opacity),
-        pointerEvents: getComputedStyle(bar).pointerEvents, inert: bar.inert })),
+      bars: [...element.querySelectorAll('.controls, .hero-nav')].map(bar => {
+        const style = getComputedStyle(bar), matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
+        return { opacity: Number(style.opacity), shift: matrix.m42, scale: Math.hypot(matrix.m11, matrix.m12),
+          height: bar.getBoundingClientRect().height, pointerEvents: style.pointerEvents, inert: bar.inert };
+      }),
     }));
-    assert.ok(close(sample.bars[0].opacity, sample.bars[1].opacity), 'Both original halves fade together.');
-    if (progress >= .6) assert.ok(sample.bars.every(bar => bar.opacity === 0 && bar.pointerEvents === 'none' && bar.inert));
-    if (progress === 0) assert.ok(sample.bars.every(bar => bar.opacity === 1 && !bar.inert));
-    if (profile.reduced) assert.ok(sample.bars.every(bar => bar.opacity === 0 || bar.opacity === 1));
+    assert.ok(sample.bars.every(bar => bar.opacity === 1 && close(bar.scale, 1, .0001)), 'The bar keeps full opacity and only translates.');
+    assert.ok(close(sample.bars[0].shift / sample.bars[0].height, sample.bars[1].shift / sample.bars[1].height, .01), 'Both bar halves share the same percentage shift.');
+    if (progress >= .6) assert.ok(sample.bars.every(bar => close(bar.shift, -bar.height, 1) && bar.pointerEvents === 'none' && bar.inert));
+    if (progress === 0) assert.ok(sample.bars.every(bar => close(bar.shift, 0, .1) && !bar.inert));
+    if (!profile.reduced && (progress === .2 || progress === .4)) assert.ok(sample.bars.every(bar => bar.shift < -.1 && bar.shift > -bar.height + .1));
+    if (profile.reduced) assert.ok(sample.bars.every(bar => close(bar.shift, 0, .1) || close(bar.shift, -bar.height, 1)));
     samples.push(sample);
   }
-  assert.ok(samples.every(sample => sample.height === samples[0].height), 'Bar fading cannot change page height or pinning.');
+  assert.ok(samples.every(sample => sample.height === samples[0].height), 'Bar translation cannot change page height or pinning.');
   return { world, samples };
 }
 try {
@@ -184,9 +215,9 @@ try {
       reports.push({ ...profile, normalHome, normalWork, otherWork, otherHome, otherBar, normalBar, errors });
       await page.screenshot({ path: new URL(`home-${profile.width}-${profile.reduced ? 'reduced' : 'normal'}.png`, output).pathname });
       await save();
-      console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: calm synchronized entrances, exact reversal, parent/subhead timing, both-mode bar fade.`);
+      console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: exact MORE ABOUT section pipeline, no pinning, measured native reversal, static top labels, both-mode bar fade.`);
     } catch (error) {
-      failures.push({ ...profile, error: error.stack, errors });
+      failures.push({ ...profile, error: error.stack, errors, motionPerformance: error.motionPerformance || null });
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});
       await save(); throw error;
     } finally { await context.close(); }

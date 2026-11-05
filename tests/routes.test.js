@@ -11,7 +11,10 @@ test('canonical categories preserve legacy query links and distinguish actual mi
   assert.equal(legacy.canonicalPath, '/work/tattoos');
   assert.equal(legacy.redirectPath, '/work/tattoos#project');
   assert.equal(resolveRoute('/work/jewellery').category, 'jewellery');
-  assert.equal(resolveRoute('/work?category=unknown').category, 'all');
+  assert.equal(resolveRoute('/work?category=unknown').category, 'tattoos');
+  assert.equal(resolveRoute('/work').redirectPath, '/work/tattoos');
+  assert.equal(resolveRoute('/work/index.html').redirectPath, '/work/tattoos');
+  assert.equal(routeDefinitions().some(route => route.path === '/work'), false);
   for (const path of ['/work/missing', '/work/tattoos/missing', '/about/missing']) assert.equal(resolveRoute(path).kind, 'not-found');
   assert.equal(resolveRoute('/about/').redirectPath, '/about');
 });
@@ -29,8 +32,8 @@ test('new leaf archives and More group resolve while paintings and existing URLs
   assert.equal(matchesArchive({ category: 'analog-photography' }, 'more'), true);
   assert.equal(matchesArchive({ category: 'digital-artworks' }, 'more'), true);
   assert.equal(matchesArchive({ category: 'tattoos' }, 'more'), false);
-  assert.equal(matchesArchive({ category: 'flashes' }, 'tattoos'), false);
-  // A parent heading does not conflate finished tattoos with available flashes.
+  assert.equal(matchesArchive({ category: 'flashes' }, 'tattoos'), true);
+  // The real Tattoos group page includes its On Skin and Flashes children.
   assert.equal(matchesArchive({ category: 'flashes' }, 'flashes'), true);
   const original = resolveRoute('/work/digital-artworks/green-black-original');
   assert.equal(original.kind, 'artwork', 'The supplied original now has its real canonical detail route.');
@@ -71,5 +74,6 @@ test('Contact is a shared Home anchor and the old URL redirects preserving artwo
   }
   assert.equal(resolveRoute('/contact?artwork=green-black-original').redirectPath, '/?artwork=green-black-original#contact');
   assert.equal(routeDefinitions().some(route => route.path === '/contact'), false);
-  assert.deepEqual([...new Set(routeDefinitions().filter(route => ['home','work','about'].includes(route.kind) && (route.kind !== 'work' || route.category === 'all')).map(route => route.kind))], ['home','work','about']);
+  assert.deepEqual([...new Set(routeDefinitions().filter(route => ['home','work','about'].includes(route.kind)).map(route => route.kind))], ['home','work','about']);
+  assert.equal(routeDefinitions().some(route => route.path === '/work'), false, 'The old landing route is absent from the static route set.');
 });

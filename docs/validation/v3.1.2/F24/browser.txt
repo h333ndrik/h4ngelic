@@ -1,0 +1,15 @@
+node tests/mode-snapshot-browser.mjs
+PASS native snapshot: actual glyph-pixel displacement, preserved source colors, exact restoration,
+once-only callbacks, interrupted/zero-strength/reduced/unsupported cleanup.
+brightBefore 2576 / brightAfter 3357 / movedOutsideMask 2828 / unexpectedColors 0
+native animation 900ms (desktop elapsed 970ms; mobile elapsed 972ms and 1162ms at 390,
+970ms and 1192ms at 320, including capture and cleanup).
+
+node tests/xray-browser.mjs
+PASS 1440 full / 1440 reduced / 390 full / 390 reduced / 320 full / 320 reduced.
+All captured mode-change events recorded duration 900ms; reduced motion remains uncaptured.
+
+node tests/smart-v3-browser.mjs
+Duration assertion updated to 900ms. The suite stops later at its pre-existing Home Contact
+anchor check (scrollY 2474ms versus expected 2128.7, and a Home WebGL count of 1), which is
+outside F24's timing scope; no F24 assertion failed before that point.

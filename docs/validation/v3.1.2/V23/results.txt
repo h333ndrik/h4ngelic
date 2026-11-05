@@ -1,0 +1,12 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:static-titles
+PASS V23 1440px reduced=false: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.
+PASS V23 1440px reduced=true: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.
+PASS V23 390px reduced=false: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.
+PASS V23 390px reduced=true: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.
+PASS V23 320px reduced=false: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.
+PASS V23 320px reduced=true: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.
+
+Command: npm test
+tests 371
+pass 371
+fail 0

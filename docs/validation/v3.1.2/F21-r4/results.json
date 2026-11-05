@@ -1,0 +1,318 @@
+{
+  "checkedAt": "2026-11-03T14:15:49.672Z",
+  "base": "http://127.0.0.1:55187",
+  "build": "78e3fc92f003",
+  "results": {
+    "desktop": {
+      "rest": {
+        "color": "rgb(240, 239, 235)",
+        "opacity": 0,
+        "letterSpacing": "0.84px",
+        "fontSize": "14px",
+        "lineHeight": "19.6px",
+        "textTransform": "lowercase",
+        "textShadow": "none",
+        "whiteSpace": "nowrap",
+        "transitionProperty": "opacity, visibility",
+        "transitionDuration": "0.2s, 0s",
+        "visibility": "hidden",
+        "left": 114.90625,
+        "right": 1374,
+        "top": 21,
+        "bottom": 65,
+        "width": 1259.09375,
+        "height": 44,
+        "textLeft": 643.34375,
+        "textRight": 845.546875,
+        "textWidth": 202.203125,
+        "textHeight": 16,
+        "clientWidth": 1259,
+        "scrollWidth": 1259
+      },
+      "greeting": {
+        "color": "rgb(240, 239, 235)",
+        "opacity": 0.35,
+        "letterSpacing": "0.84px",
+        "fontSize": "14px",
+        "lineHeight": "19.6px",
+        "textTransform": "lowercase",
+        "textShadow": "none",
+        "whiteSpace": "nowrap",
+        "transitionProperty": "opacity, visibility",
+        "transitionDuration": "0.2s, 0s",
+        "visibility": "visible",
+        "left": 114.90625,
+        "right": 1374,
+        "top": 21,
+        "bottom": 65,
+        "width": 1259.09375,
+        "height": 44,
+        "textLeft": 643.34375,
+        "textRight": 845.546875,
+        "textWidth": 202.203125,
+        "textHeight": 16,
+        "clientWidth": 1259,
+        "scrollWidth": 1259
+      },
+      "hint": {
+        "color": "rgb(240, 239, 235)",
+        "opacity": 0.35,
+        "letterSpacing": "0.84px",
+        "fontSize": "21px",
+        "lineHeight": "29.4px",
+        "textTransform": "none",
+        "textShadow": "none",
+        "whiteSpace": "normal",
+        "transitionProperty": "opacity",
+        "transitionDuration": "0.6s",
+        "visibility": "visible",
+        "left": 535.1015625,
+        "right": 904.8984375,
+        "top": 3714.21875,
+        "bottom": 3743.609375,
+        "width": 369.796875,
+        "height": 29.390625,
+        "textLeft": 535.1015625,
+        "textRight": 904.8984375,
+        "textWidth": 369.796875,
+        "textHeight": 23,
+        "clientWidth": 370,
+        "scrollWidth": 370
+      },
+      "focused": {
+        "color": "rgb(240, 239, 235)",
+        "opacity": 0.52,
+        "letterSpacing": "0.84px",
+        "fontSize": "14px",
+        "lineHeight": "19.6px",
+        "textTransform": "lowercase",
+        "textShadow": "none",
+        "whiteSpace": "nowrap",
+        "transitionProperty": "opacity, visibility",
+        "transitionDuration": "0.2s, 0s",
+        "visibility": "visible",
+        "left": 114.90625,
+        "right": 1374,
+        "top": 21,
+        "bottom": 65,
+        "width": 1259.09375,
+        "height": 44,
+        "textLeft": 643.34375,
+        "textRight": 845.546875,
+        "textWidth": 202.203125,
+        "textHeight": 16,
+        "clientWidth": 1259,
+        "scrollWidth": 1259
+      },
+      "aligned": {
+        "brandBox": {
+          "left": 35,
+          "right": 114.90625,
+          "top": 21,
+          "bottom": 65,
+          "centerX": 74.953125,
+          "centerY": 43
+        },
+        "brandText": {
+          "left": 35,
+          "right": 114.90625,
+          "top": 32,
+          "bottom": 54,
+          "centerX": 74.953125,
+          "centerY": 43
+        },
+        "greetingBox": {
+          "left": 114.90625,
+          "right": 1374,
+          "top": 21,
+          "bottom": 65,
+          "centerX": 744.453125,
+          "centerY": 43
+        },
+        "greetingText": {
+          "left": 643.34375,
+          "right": 845.546875,
+          "top": 34.203125,
+          "bottom": 50.203125,
+          "centerX": 744.4453125,
+          "centerY": 42.203125
+        },
+        "indexBox": {
+          "left": 1374,
+          "right": 1418,
+          "top": 21,
+          "bottom": 65,
+          "centerX": 1396,
+          "centerY": 43
+        },
+        "indexText": {
+          "left": 1387.53125,
+          "right": 1404.46875,
+          "top": 27,
+          "bottom": 58,
+          "centerX": 1396,
+          "centerY": 42.5
+        },
+        "centerDelta": {
+          "brand": -0.796875,
+          "index": -0.296875
+        },
+        "topDelta": {
+          "brand": 0,
+          "index": 0
+        },
+        "gaps": {
+          "left": 528.4375,
+          "right": 528.453125
+        },
+        "gapDelta": 0.015625
+      },
+      "layoutShifts": [],
+      "contrast": {
+        "hover": 2.913844072885395,
+        "focus": 4.708812829347682
+      }
+    },
+    "narrow": {
+      "greeting": {
+        "color": "rgb(240, 239, 235)",
+        "opacity": 0.35,
+        "letterSpacing": "0.84px",
+        "fontSize": "9px",
+        "lineHeight": "12.6px",
+        "textTransform": "lowercase",
+        "textShadow": "none",
+        "whiteSpace": "nowrap",
+        "transitionProperty": "opacity, visibility",
+        "transitionDuration": "0.2s, 0s",
+        "visibility": "visible",
+        "left": 80.875,
+        "right": 266,
+        "top": 16,
+        "bottom": 60,
+        "width": 185.125,
+        "height": 44,
+        "textLeft": 103.9375,
+        "textRight": 242.921875,
+        "textWidth": 138.984375,
+        "textHeight": 10,
+        "clientWidth": 185,
+        "scrollWidth": 185
+      },
+      "aligned": {
+        "brandBox": {
+          "left": 22,
+          "right": 80.875,
+          "top": 16,
+          "bottom": 60,
+          "centerX": 51.4375,
+          "centerY": 38
+        },
+        "brandText": {
+          "left": 22,
+          "right": 80.875,
+          "top": 30,
+          "bottom": 46,
+          "centerX": 51.4375,
+          "centerY": 38
+        },
+        "greetingBox": {
+          "left": 80.875,
+          "right": 266,
+          "top": 16,
+          "bottom": 60,
+          "centerX": 173.4375,
+          "centerY": 38
+        },
+        "greetingText": {
+          "left": 103.9375,
+          "right": 242.921875,
+          "top": 32.703125,
+          "bottom": 42.703125,
+          "centerX": 173.4296875,
+          "centerY": 37.703125
+        },
+        "indexBox": {
+          "left": 266,
+          "right": 310,
+          "top": 16,
+          "bottom": 60,
+          "centerX": 288,
+          "centerY": 38
+        },
+        "indexText": {
+          "left": 279.53125,
+          "right": 296.46875,
+          "top": 22,
+          "bottom": 53,
+          "centerX": 288,
+          "centerY": 37.5
+        },
+        "centerDelta": {
+          "brand": -0.296875,
+          "index": 0.203125
+        },
+        "topDelta": {
+          "brand": 0,
+          "index": 0
+        },
+        "gaps": {
+          "left": 23.0625,
+          "right": 23.078125
+        },
+        "gapDelta": 0.015625
+      }
+    },
+    "touch": {
+      "color": "rgb(240, 239, 235)",
+      "opacity": 0.35,
+      "letterSpacing": "0.84px",
+      "fontSize": "11px",
+      "lineHeight": "15.4px",
+      "textTransform": "lowercase",
+      "textShadow": "none",
+      "whiteSpace": "nowrap",
+      "transitionProperty": "none",
+      "transitionDuration": "0s",
+      "visibility": "visible",
+      "left": 84.3203125,
+      "right": 335.9921875,
+      "top": 16,
+      "bottom": 60,
+      "width": 251.671875,
+      "height": 44,
+      "textLeft": 128.0078125,
+      "textRight": 292.2890625,
+      "textWidth": 164.28125,
+      "textHeight": 12,
+      "clientWidth": 252,
+      "scrollWidth": 252
+    },
+    "reduced": {
+      "color": "rgb(240, 239, 235)",
+      "opacity": 0.35,
+      "letterSpacing": "0.84px",
+      "fontSize": "14px",
+      "lineHeight": "19.6px",
+      "textTransform": "lowercase",
+      "textShadow": "none",
+      "whiteSpace": "nowrap",
+      "transitionProperty": "none",
+      "transitionDuration": "0s",
+      "visibility": "visible",
+      "left": 114.90625,
+      "right": 1374,
+      "top": 21,
+      "bottom": 65,
+      "width": 1259.09375,
+      "height": 44,
+      "textLeft": 643.34375,
+      "textRight": 845.546875,
+      "textWidth": 202.203125,
+      "textHeight": 16,
+      "clientWidth": 1259,
+      "scrollWidth": 1259
+    }
+  },
+  "passed": true
+}

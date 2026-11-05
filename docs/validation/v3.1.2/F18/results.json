@@ -1,0 +1,39 @@
+{
+  "capturedAt": "2026-11-03T04:26:26.056Z",
+  "base": "http://127.0.0.1:55173",
+  "reports": [
+    {
+      "reduced": false,
+      "mode": "normal",
+      "cursorAssets": [
+        "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+      ],
+      "values": {
+        "body": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "link": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "indexSummaryHover": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "indexSummaryActive": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "openIndexLinkHover": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "openIndexLinkActive": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "naaviHover": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+      }
+    },
+    {
+      "reduced": true,
+      "mode": "normal",
+      "cursorAssets": [
+        "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+      ],
+      "values": {
+        "body": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "link": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "indexSummaryHover": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "indexSummaryActive": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "openIndexLinkHover": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "openIndexLinkActive": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto",
+        "naaviHover": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+      }
+    }
+  ],
+  "limitations": "Computed CSS values are recorded; operating-system cursor pixels are not captured by Playwright screenshots."
+}

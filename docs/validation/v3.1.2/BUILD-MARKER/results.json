@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-11-03T13:23:04.498Z",
+  "base": "http://127.0.0.1:55186",
+  "build": "cf7141342e18",
+  "meta": "cf7141342e18",
+  "consoleLogSeen": true,
+  "profiles": [
+    {
+      "width": 1440,
+      "build": "cf7141342e18",
+      "meta": "cf7141342e18"
+    },
+    {
+      "width": 390,
+      "build": "cf7141342e18",
+      "meta": "cf7141342e18"
+    },
+    {
+      "width": 320,
+      "build": "cf7141342e18",
+      "meta": "cf7141342e18"
+    }
+  ],
+  "noJsAudit": {
+    "css": "index-DyJvM4Hy.css",
+    "build": "cf7141342e18",
+    "meta": "cf7141342e18",
+    "inlineClass": true,
+    "defenseLast": true
+  }
+}

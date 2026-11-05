@@ -124,7 +124,7 @@ try {
   const page = await context.newPage();
   const errors = errorsFor(page);
   await readyHome(page);
-  assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'mixed media');
+  assert.equal(await page.locator('.identity').count(), 0, 'The hero tagline is removed entirely.');
   assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01 / SELECTED WORKS', '02 / ABOUT', '03 / CONTACT']);
   assert.equal(await page.locator('#page-content > .content-section').count(), 3);
   const headerLabels = await page.evaluate(() => [document.querySelector('.masthead h1'), document.querySelector('.global-index > summary')].map((item) => {
@@ -360,7 +360,7 @@ try {
     assert.ok(scrolled.scroll > anchored.scroll + 20, 'The ink-position check must exercise actual document scrolling.');
     assert.ok(Math.abs(scrolled.y + scrolled.scroll - anchored.y - anchored.scroll) < 1, 'Ink stays at its exact document position while the viewport moves.');
     const count = await page.locator('[data-ink-mark]').count();
-    await page.locator('.work-filters a[href="/work"]').click(); await pageKind(page, 'work');
+    await page.locator('.work-filters a[href="/work/tattoos"]').click(); await pageKind(page, 'work');
     assert.ok(await page.locator('[data-ink-mark]').count() <= count, 'Functional navigation must not add ink.');
     await page.waitForFunction(() => document.querySelectorAll('[data-ink-mark]').length === 0, null, { timeout: 13200 });
     await page.locator('.brand-link').click(); await pageKind(page, 'home');
@@ -412,10 +412,10 @@ try {
     assert.ok(gap.height >= (width < 600 ? 844 : 1000) * .25);
     await normalPresentation(p);
     const layout = await p.evaluate(() => {
-      const tagline = document.querySelector('.identity').getBoundingClientRect(), navigation = document.querySelector('.hero-nav').getBoundingClientRect();
-      return { separated: tagline.right < navigation.left || tagline.top >= navigation.bottom || tagline.bottom <= navigation.top };
+      const navigation = document.querySelector('.hero-nav').getBoundingClientRect();
+      return { inside: navigation.left >= 0 && navigation.right <= innerWidth + 1 && navigation.bottom <= innerHeight + 1 };
     });
-    assert.ok(layout.separated, `Tagline/navigation do not collide at ${width}px.`);
+    assert.ok(layout.inside, `Navigation stays inside the hero at ${width}px.`);
     if (width === 390) await captureHomepage(p, 'master-mobile-normal.png');
     assert.deepEqual(errors, []); await responsive.close();
     console.log(`PASS master responsive ${width}px: horizontal strips, reversible motion, centered hidden header, hidden mode instruction/count and reduced motion.`);

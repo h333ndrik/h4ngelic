@@ -1,6 +1,6 @@
-.inquiry { width: calc(100% - clamp(12px, 3vw, 48px)); max-width: 1100px; margin-left: clamp(12px, 3vw, 48px); }
-.inquiry-intro { font-size: clamp(21px, 3.5vw, 48px); line-height: 1.2; letter-spacing: -.035em; margin: 0 0 clamp(34px, 6vw, 75px); max-width: 23ch; }
-.inquiry-form { position: relative; }
+.inquiry { width: calc(100% - var(--slash-inset)); max-width: 1100px; margin-left: var(--slash-inset); }
+.inquiry-intro { font-size: clamp(21px, 3.5vw, 48px); line-height: 1.2; letter-spacing: -.035em; margin: 0 0 clamp(14px, 2vw, 28px); max-width: 23ch; }
+.inquiry-form { position: relative; margin-left: 0; }
 .inquiry-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
 .inquiry-field { display: block; min-width: 0; }
 .inquiry-field > span, .inquiry-file-label { font-size: 12px; letter-spacing: .07em; line-height: 1.5; }

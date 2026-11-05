@@ -1,0 +1,11 @@
+node tests/v15-mobile-browser.mjs
+PASS 390 / 320 px, full and reduced motion (4/4).
+
+The mobile suite now asserts F21's real contract:
+- recognition line top = 21px without a safe-area inset;
+- recognition line centred in the measured branding-to-INDEX gap, not the
+  viewport centre;
+- footer counter reached by scrolling its local footer-left cluster, tapped
+  with a native touch at its measured position;
+- discovery asserted through the canonical is-discovered class plus visible
+  opacity, instead of a brittle mid-fade opacity threshold.

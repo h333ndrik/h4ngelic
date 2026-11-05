@@ -1,0 +1,109 @@
+{
+  "checkedAt": "2026-11-05T17:59:12.062Z",
+  "base": "http://127.0.0.1:5173",
+  "reports": [
+    {
+      "profile": "desktop",
+      "reserved": {
+        "x": 211.9375,
+        "y": 949,
+        "width": 16,
+        "height": 10
+      },
+      "reads": 15,
+      "handlerTotal": 0.699999988079071,
+      "startupTotal": 0.09999996423721313,
+      "contextCreateMs": 124.40000003576279,
+      "unlockMs": 0,
+      "startMs": 0.5,
+      "indicatorStartMs": 0.19999998807907104,
+      "heapBefore": 20952621,
+      "heapNow": 31129663,
+      "heapDelta": 10177042,
+      "decodedBytes": 31752000,
+      "coldGestureToStartMs": 126.6,
+      "fetches": [
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/x-333-4.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/x-4-333.m4a"
+      ],
+      "errors": []
+    },
+    {
+      "profile": "reduced",
+      "before": {
+        "x": 211.9375,
+        "y": 949,
+        "width": 16,
+        "height": 10
+      },
+      "after": {
+        "x": 211.9375,
+        "y": 949,
+        "width": 16,
+        "height": 10
+      },
+      "rafAudio": 0
+    },
+    {
+      "profile": "390px-full",
+      "box": {
+        "x": 177.671875,
+        "y": 857,
+        "width": 16,
+        "height": 10
+      },
+      "overflow": 0
+    },
+    {
+      "profile": "390px-reduced",
+      "box": {
+        "x": 177.671875,
+        "y": 857,
+        "width": 16,
+        "height": 10
+      },
+      "overflow": 0
+    },
+    {
+      "profile": "320px-full",
+      "box": {
+        "x": 177.671875,
+        "y": 857,
+        "width": 16,
+        "height": 10
+      },
+      "overflow": 0
+    },
+    {
+      "profile": "320px-reduced",
+      "box": {
+        "x": 177.671875,
+        "y": 857,
+        "width": 16,
+        "height": 10
+      },
+      "overflow": 0
+    },
+    {
+      "profile": "inflight-decode",
+      "starts": 1,
+      "decodes": 1
+    },
+    {
+      "profile": "gesture-to-audible",
+      "times": [
+        {
+          "pass": "cold",
+          "ms": 164.2
+        },
+        {
+          "pass": "warm",
+          "ms": 126.8
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

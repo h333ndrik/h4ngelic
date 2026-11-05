@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { motionSettings, progressBetween, sampleCalmProgress, sampleCalmItem, sampleHeading, sampleHero,
-  sampleHeroBar, sampleKineticItem, pinnedProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn } from '../src/data/motionSettings.js';
+  sampleHeroBar, sampleKineticItem, aboutSectionProgress, kineticItemProgress, sampleMotionTrail, sampleFlyIn } from '../src/data/motionSettings.js';
 
 test('editorial content enters from a bounded right offset without rotation or overshoot', () => {
   for (const width of [320, 390, 1440]) {
@@ -63,26 +63,26 @@ test('numeric heading rise and accepted hero recession keep exact rest states', 
   assert.equal(progressBetween(200, 0, 100), 1);
 });
 
-test('the existing native sticky clock remains continuous with shorter phone reservation', () => {
-  const height = 1000, top = 2000, run = height * motionSettings.pin.work;
-  assert.equal(pinnedProgress(top - height * motionSettings.approach, top, height, run), 0);
-  assert.equal(pinnedProgress(top + run, top, height, run), 1);
-  assert.ok(motionSettings.pin.mobileWork < motionSettings.pin.work);
-  assert.ok(sampleCalmItem(pinnedProgress(top, top, height, run), 1440).opacity > 0);
+test('all editorial sections use the same native About approach without a sticky reservation', () => {
+  const height = 1000, top = 2000;
+  assert.equal(aboutSectionProgress(top - height * motionSettings.about.approach, top, height), 0);
+  assert.equal(aboutSectionProgress(top - height * motionSettings.about.finish, top, height), 1);
+  assert.equal(aboutSectionProgress(top - height * .39, top, height), .5);
+  assert.equal('pin' in motionSettings, false);
 });
 
-test('the whole hero bar fades reversibly and is hidden before the next section fills the screen', () => {
-  assert.deepEqual(sampleHeroBar(0), { opacity: 1, hidden: false });
-  assert.deepEqual(sampleHeroBar(.55), { opacity: 0, hidden: true });
-  assert.deepEqual(sampleHeroBar(1), { opacity: 0, hidden: true });
+test('the whole hero bar translates out reversibly and is hidden before the next section fills the screen', () => {
+  assert.deepEqual(sampleHeroBar(0), { shift: 0, hidden: false });
+  assert.deepEqual(sampleHeroBar(.55), { shift: -100, hidden: true });
+  assert.deepEqual(sampleHeroBar(1), { shift: -100, hidden: true });
   const progress = [0, .02, .1, .25, .4, .55, .8, 1];
   const down = progress.map(p => sampleHeroBar(p));
   assert.deepEqual(down, progress.toReversed().map(p => sampleHeroBar(p)).toReversed());
-  assert.ok(down.slice(1).every((pose, index) => pose.opacity <= down[index].opacity));
-  assert.ok(sampleHeroBar(.25).opacity > 0 && sampleHeroBar(.25).opacity < 1);
+  assert.ok(down.slice(1).every((pose, index) => pose.shift <= down[index].shift));
+  assert.ok(sampleHeroBar(.25).shift < 0 && sampleHeroBar(.25).shift > -100);
 });
 
 test('reduced motion switches the hero bar instantly and remains reversible', () => {
-  for (const progress of [-1, 0, .2, .54]) assert.deepEqual(sampleHeroBar(progress, { reduced: true }), { opacity: 1, hidden: false });
-  for (const progress of [.55, .8, 1, 2]) assert.deepEqual(sampleHeroBar(progress, { reduced: true }), { opacity: 0, hidden: true });
+  for (const progress of [-1, 0, .2, .54]) assert.deepEqual(sampleHeroBar(progress, { reduced: true }), { shift: 0, hidden: false });
+  for (const progress of [.55, .8, 1, 2]) assert.deepEqual(sampleHeroBar(progress, { reduced: true }), { shift: -100, hidden: true });
 });

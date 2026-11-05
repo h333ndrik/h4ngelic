@@ -10,8 +10,8 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
       <span class="secret-message" data-secret-message data-xray-hint id="footer-other-side-message"><span data-xray-hint-text>HOLD 4 TO SEE THE OTHER SIDE.</span></span>
     </button>` : '';
   const arrow = '<i class="arrow" aria-hidden="true"></i>';
-  const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count" aria-describedby="footer-visit-count">
-      <span class="secret-message" data-secret-message data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span>
+  const counter = easterSettings.visits.showNumber ? `<button class="footer-visit-hotspot secret-hotspot" type="button" data-secret-hotspot data-visit-counter-hotspot aria-label="local visit count and visitor memory" aria-describedby="footer-visit-count footer-visit-memory">
+      <span class="secret-message" data-secret-message data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span><span class="secret-message footer-visit-memory" data-secret-message data-visit-message id="footer-visit-memory">nice to meet you.</span>
     </button>` : '';
   return `${home ? `<div class="footer-secret-space end-reveal" id="final-secret" data-footer-secret-space data-end-reveal>
     <div class="end-reveal-mark" aria-hidden="true">
@@ -31,12 +31,13 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
         <image href="/assets/h4-monogram.svg" width="615" height="1006" filter="url(#h4-end-relief)" />
       </svg><span class="end-reveal-material"></span></div>${hint}</div>` : ''}<footer class="page-footer exhibition-footer${home ? ' exhibition-footer-home' : ''}" data-artist-footer>
     <div class="footer-identity" data-footer-row>
-      <span class="footer-left" role="group" aria-label="artist and h4 moshlab" tabindex="0">
+      <span class="footer-left" role="group" aria-label="artist, h4 moshlab and local visit count" tabindex="0">
         <span class="footer-brand">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>
         <a class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured">h4 moshlab ${arrow}</a>
+        ${counter}
       </span>
-      <span class="footer-details" role="group" aria-label="visit and footer links, scroll horizontally when needed" tabindex="0">
-        ${counter}<button type="button" class="footer-smash" data-smash aria-pressed="false" aria-label="play soundtrack" disabled>smash ${arrow}</button>${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : ''}<span class="footer-location">${escape(siteContent.location)}</span>
+      <span class="footer-details" role="group" aria-label="footer links, scroll horizontally when needed" tabindex="0">
+        <button type="button" class="footer-smash" data-smash aria-pressed="false" aria-label="play soundtrack" disabled>smash ${arrow}</button>${instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : ''}<span class="footer-location">${escape(siteContent.location)}</span>
       </span>
     </div>
     ${otherSideEnabled ? '<span class="sr-only" data-mode-status role="status" aria-live="polite"></span>' : ''}

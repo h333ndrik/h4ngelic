@@ -1,0 +1,4218 @@
+{
+  "checkedAt": "2026-11-02T23:11:02.013Z",
+  "reports": [
+    {
+      "profile": {
+        "width": 1440,
+        "reduced": false
+      },
+      "home": [
+        {
+          "kind": "[data-floating-brand]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "#about-preview .text-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        }
+      ],
+      "work": [
+        {
+          "kind": ".work-filters a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": true,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": true,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 4,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 5,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 6,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 7,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": true,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-naavi]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        }
+      ],
+      "index": [
+        {
+          "kind": "[data-global-index] summary",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor-hover.svg\") 10 2, pointer"
+          }
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "className": "",
+        "focusVisible": true,
+        "outline": "solid 1px",
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "profile": {
+        "width": 1440,
+        "reduced": true
+      },
+      "home": [
+        {
+          "kind": "[data-floating-brand]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "#about-preview .text-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        }
+      ],
+      "work": [
+        {
+          "kind": ".work-filters a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": true,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": true,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 4,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 5,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 6,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 7,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": true,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-naavi]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        }
+      ],
+      "index": [
+        {
+          "kind": "[data-global-index] summary",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "className": "",
+        "focusVisible": true,
+        "outline": "solid 1px",
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "profile": {
+        "width": 390,
+        "reduced": false
+      },
+      "home": [
+        {
+          "kind": "[data-floating-brand]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#about-preview .text-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "work": [
+        {
+          "kind": ".work-filters a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 4,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 5,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 6,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 7,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-naavi]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "index": [
+        {
+          "kind": "[data-global-index] summary",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "auto"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "className": "",
+        "focusVisible": true,
+        "outline": "solid 1px",
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "profile": {
+        "width": 390,
+        "reduced": true
+      },
+      "home": [
+        {
+          "kind": "[data-floating-brand]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#about-preview .text-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "work": [
+        {
+          "kind": ".work-filters a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 4,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 5,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 6,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 7,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-naavi]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "index": [
+        {
+          "kind": "[data-global-index] summary",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "auto"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "className": "",
+        "focusVisible": true,
+        "outline": "solid 1px",
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "profile": {
+        "width": 320,
+        "reduced": false
+      },
+      "home": [
+        {
+          "kind": "[data-floating-brand]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#about-preview .text-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "work": [
+        {
+          "kind": ".work-filters a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 4,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 5,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 6,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 7,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-naavi]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "index": [
+        {
+          "kind": "[data-global-index] summary",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "auto"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "className": "",
+        "focusVisible": true,
+        "outline": "solid 1px",
+        "transform": "none"
+      },
+      "errors": []
+    },
+    {
+      "profile": {
+        "width": 320,
+        "reduced": true
+      },
+      "home": [
+        {
+          "kind": "[data-floating-brand]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".hero-nav a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#selected-work .category-link",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "#about-preview .text-link",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".page-footer a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(179, 179, 175)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "work": [
+        {
+          "kind": ".work-filters a",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "underline",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": ".work-filters a",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-previous]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-drift-next]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 4,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 5,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 6,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-horizontal-drift=\"tattoos\"] [data-artwork-open]",
+          "index": 7,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          },
+          "past": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(240, 239, 235)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "default"
+          }
+        },
+        {
+          "kind": "[data-naavi]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "index": [
+        {
+          "kind": "[data-global-index] summary",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "auto"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "auto"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 0,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 1,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(255, 255, 255)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 2,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        },
+        {
+          "kind": "[data-index-page]",
+          "index": 3,
+          "rest": {
+            "focus": false,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          },
+          "past": {
+            "focus": true,
+            "focusVisible": false,
+            "outline": "none 3px",
+            "outlineColor": "rgb(195, 195, 192)",
+            "boxShadow": "none",
+            "textDecoration": "none",
+            "cursor": "pointer"
+          }
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "className": "",
+        "focusVisible": true,
+        "outline": "solid 1px",
+        "transform": "none"
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

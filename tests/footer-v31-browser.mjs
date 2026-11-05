@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const out = new URL('../artifacts/v31-footer/', import.meta.url);
+const out = new URL(`../${process.env.H4_FOOTER_ARTIFACTS || 'artifacts/v31-footer'}/`, import.meta.url);
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -41,8 +41,39 @@ async function mode(page, target) {
     && !document.documentElement.hasAttribute('data-mode-snapshot') && !document.documentElement.hasAttribute('data-xray-transition'), target, { timeout:30000 });
 }
 try {
-  for (const { width, reduced } of [{width:1440,reduced:false},{width:390,reduced:false},{width:320,reduced:false},{width:320,reduced:true}]) {
+  for (const { width, reduced } of [1440,390,320].flatMap(width => [false,true].map(reduced => ({width,reduced})))) {
     console.log(`CHECK V3.1 footer ${width}px reduced=${reduced}`);
+    const recognitionContext = await browser.newContext({ viewport:{width,height:844}, deviceScaleFactor:1,
+      isMobile:width<600, hasTouch:width<600, reducedMotion:reduced?'reduce':'no-preference' });
+    try {
+      const recognitionPage = await recognitionContext.newPage();
+      recognitionPage.setDefaultTimeout(60000);
+      await recognitionPage.goto(new URL('/',base).href,{waitUntil:'networkidle'});
+      await recognitionPage.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
+      const line=recognitionPage.locator('[data-returning-visitor]');
+      assert.equal(await line.isVisible(),false,'The first visit has no recognition line.');
+      const initialHeight=await recognitionPage.evaluate(()=>document.documentElement.scrollHeight);
+      await recognitionPage.reload({waitUntil:'networkidle'});
+      await recognitionPage.waitForFunction(() => document.documentElement.dataset.h4EasterEggsReady === 'true');
+      assert.equal(await line.textContent(),'nice to meet you.');
+      assert.equal(await line.evaluate(el=>getComputedStyle(el).pointerEvents),'none');
+      if (width < 600) {
+        await line.waitFor({state:'visible'});
+        assert.equal(await line.evaluate(el=>getComputedStyle(el).transitionDuration),'0s','Touch devices show the greeting permanently.');
+      } else {
+        assert.equal(await line.isVisible(),false,'The returning greeting rests hidden on a fine pointer.');
+        await recognitionPage.mouse.move(width / 2,30);
+        await recognitionPage.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-returning-visitor]')).opacity) >= .349);
+        await line.waitFor({state:'visible',timeout:2000});
+        assert.equal(await line.isVisible(),true,'Hovering the header reveals the returning greeting.');
+      }
+      assert.equal(await recognitionPage.evaluate(()=>document.documentElement.scrollHeight),initialHeight,'Recognition never changes page layout.');
+      assert.ok(await recognitionPage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+      await recognitionPage.screenshot({path:new URL(`returning-${width}-${reduced}.png`,out).pathname});
+      await recognitionPage.evaluate(()=>localStorage.clear());
+      await recognitionPage.reload({waitUntil:'networkidle'});
+      assert.equal(await line.isVisible(),false,'Clearing local memory restores first-visit behaviour.');
+    } finally { await recognitionContext.close(); }
     const context = await browser.newContext({ viewport:{width,height:844}, deviceScaleFactor:1,
       isMobile:width<600, hasTouch:width<600, reducedMotion:reduced?'reduce':'no-preference' });
     await context.addInitScript(() => {
@@ -60,11 +91,13 @@ try {
       await page.goto(new URL('/#final-secret',base).href,{waitUntil:'networkidle'});
       await page.evaluate(() => scrollTo({ top:document.documentElement.scrollHeight, behavior:'instant' }));
       await settled(page);
-      assert.equal(await page.locator('[data-visit-message]').count(),0,'All seven phrase-stage nodes are retired.');
+      assert.equal(await page.locator('[data-visit-message]').count(),1,'One shared seven-tier phrase node exists in the footer.');
+      assert.equal(await page.locator('[data-visit-message]').textContent(), "you're part of this place now.");
       const count = page.locator('[data-visit-number]'), visit = page.locator('[data-visit-counter-hotspot]');
       assert.equal(await count.textContent(),'VISIT 0012');
-      assert.equal(await visit.getAttribute('aria-describedby'),'footer-visit-count');
-      assert.equal(await count.evaluate(el=>el.closest('.footer-details')!==null),true,'The counter belongs to the right cluster.');
+      assert.equal(await visit.getAttribute('aria-describedby'),'footer-visit-count footer-visit-memory');
+      assert.equal(await count.evaluate(el=>el.closest('.footer-left')!==null),true,'The counter belongs to the left cluster.');
+      assert.equal(await visit.evaluate(el=>el.previousElementSibling?.matches('.footer-moshlab')),true,'VISIT follows moshlab directly.');
       assert.equal(await page.locator('.footer-moshlab').getAttribute('href'),'#');
       assert.equal(await page.locator('.footer-moshlab .arrow').count(),1);
       assert.equal(await page.locator('.footer-smash .arrow').count(),1);
@@ -100,11 +133,17 @@ try {
       assert.deepEqual(afterReveal.row,beforeReveal.row,'Revealing the count does not reflow the footer.');
       assert.equal(await count.textContent(),'VISIT 0012');
       const hintFont=await page.evaluate(()=>{
-        const a=getComputedStyle(document.querySelector('[data-other-side-hint]'));
+        const a=getComputedStyle(document.querySelector('.footer-moshlab'));
         const b=getComputedStyle(document.querySelector('[data-visit-counter-hotspot]'));
         return {hint:[a.fontFamily,a.fontSize,a.fontWeight,a.letterSpacing],count:[b.fontFamily,b.fontSize,b.fontWeight,b.letterSpacing]};
       });
-      assert.deepEqual(hintFont.count,hintFont.hint,'Counter reveal uses the established mode-hint typography.');
+      assert.deepEqual(hintFont.count,hintFont.hint,'Counter uses the adjacent footer-link typography.');
+      const fade=await page.evaluate(()=>{
+        const read=selector=>{const s=getComputedStyle(document.querySelector(selector));return [s.transitionProperty,s.transitionDuration,s.transitionTimingFunction];};
+        return {count:read('[data-visit-number]'),hint:read('[data-other-side-hint] .secret-message')};
+      });
+      assert.deepEqual(fade.count,fade.hint,'Counter uses exactly the HOLD4 fade.');
+      await page.locator('.footer-left').focus(); await counterVisible(page,true);
       await page.evaluate(()=>document.activeElement?.blur());
       await page.mouse.move(width/2,100);
       await counterVisible(page,false);
@@ -127,16 +166,37 @@ try {
       assert.equal(await count.textContent(),'VISIT 0012');
       await page.screenshot({path:new URL(`other-${width}-${reduced}.png`,out).pathname});
       await mode(page,'normal');
-      await page.locator('[data-global-index] summary').click();
-      await page.locator('[data-global-index] [data-index-page="work"]').click();
+      await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
       await page.locator('html[data-page="work"]').waitFor();
       // Work mounts optional carousel enhancements before h4:pagechange
       // refreshes the newly rendered footer. data-page alone is not route completion.
       await page.waitForFunction(() => document.querySelector('[data-visit-number]')?.textContent === 'VISIT 0012');
       assert.equal(await count.textContent(),'VISIT 0012','Internal route changes do not increment personal visits.');
-      assert.equal(await page.locator('[data-visit-message]').count(),0);
+      assert.equal(await page.locator('[data-visit-message]').count(),1);
+      await page.evaluate(()=>document.activeElement?.blur());
+      await page.mouse.move(width/2,100); await counterVisible(page,false);
+      await page.locator('[data-global-index] summary').click();
+      await page.locator('[data-global-index] [data-index-page="about"]').click();
+      await page.locator('html[data-page="about"]').waitFor();
+      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='VISIT 0012');
+      await page.evaluate(()=>document.activeElement?.blur());
+      await page.mouse.move(width/2,100); await counterVisible(page,false);
+      await page.locator('.footer-left').focus(); await counterVisible(page,true);
+      // Seed a genuinely separated visit before app initialization. Navigation
+      // and a second immediate reload must retain the incremented local count.
+      await context.addInitScript(()=>{
+        if(location.search.includes('footer-revisit')&&!sessionStorage.getItem('footer-revisit-seeded')) {
+          localStorage.setItem('h4ngelic.visits.v1',JSON.stringify({count:12,lastSeen:Date.now()-31*60*1000}));
+          sessionStorage.setItem('footer-revisit-seeded','1');
+        }
+      });
+      await page.goto(new URL('/about?footer-revisit=1',base).href,{waitUntil:'networkidle'});
+      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='VISIT 0013');
+      await counterVisible(page,false);
+      await page.reload({waitUntil:'networkidle'});
+      await page.waitForFunction(()=>document.querySelector('[data-visit-number]')?.textContent==='VISIT 0013');
       assert.deepEqual(errors,[]);
-      results.push({width,reduced,normal,other,parity,hintFont,errors});
+      results.push({width,reduced,normal,other,parity,hintFont,fade,revisit:'VISIT 0013',errors});
       console.log(`PASS V3.1 footer ${width}px reduced=${reduced}`);
     } finally { await context.close(); }
   }

@@ -40,6 +40,24 @@ export const easterSettings = {
   },
 };
 
+
+export const visitorMessages = Object.freeze([
+  'nice to meet you.',
+  'you came back.',
+  "we're practically friends now.",
+  "getting familiar, aren't we?",
+  'you know your way around here.',
+  'some things are worth returning to.',
+  "you're part of this place now.",
+]);
+
+/** The single seven-tier table shared by the hero recognition line and footer. */
+export function visitorMessage(count) {
+  const visit = Number.isSafeInteger(count) && count > 0 ? count : 1;
+  const index = visit >= 10 ? 6 : visit >= 6 ? 5 : visit - 1;
+  return visitorMessages[index];
+}
+
 /** Local personal count, with four digits as a minimum rather than a public total. */
 export function formatVisitCount(count) {
   const visit = Number.isSafeInteger(count) && count >= 0 ? count : 1;

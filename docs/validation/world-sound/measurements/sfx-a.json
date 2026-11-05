@@ -1,0 +1,27 @@
+{
+    "programs": [
+
+    ],
+    "stream_groups": [
+
+    ],
+    "streams": [
+        {
+            "index": 0,
+            "codec_name": "mp3",
+            "codec_type": "audio",
+            "sample_rate": "48000",
+            "channels": 2,
+            "bits_per_sample": 0,
+            "start_time": "0.000000",
+            "duration": "3.024000"
+        }
+    ],
+    "format": {
+        "filename": "/Users/h4ngelic/Downloads/poorartistt-cinematic-whoosh-sfx-type-05-566460.mp3",
+        "format_name": "mp3",
+        "duration": "3.024000",
+        "size": "96768",
+        "bit_rate": "256000"
+    }
+}

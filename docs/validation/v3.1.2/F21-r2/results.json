@@ -1,0 +1,121 @@
+{
+  "checkedAt": "2026-11-03T09:49:32.784Z",
+  "base": "http://127.0.0.1:55183",
+  "note": "Fine pointers: hidden at rest, visible on header hover/focus. Coarse pointers: permanently visible.",
+  "profiles": [
+    {
+      "width": 1440,
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        }
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        }
+      },
+      "errors": []
+    }
+  ]
+}

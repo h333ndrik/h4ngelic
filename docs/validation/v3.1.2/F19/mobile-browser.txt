@@ -1,0 +1,8 @@
+CHECK V15 mobile 390px reduced=false
+PASS V15 390px reduced=false: centered tier line, touch cursor off, INDEX 00-03, footer tap, non-overlap, flat carousel swipe/expand, digital fit, lower-case rubrics, cross-links.
+CHECK V15 mobile 390px reduced=true
+PASS V15 390px reduced=true: centered tier line, touch cursor off, INDEX 00-03, footer tap, non-overlap, flat carousel swipe/expand, digital fit, lower-case rubrics, cross-links.
+CHECK V15 mobile 320px reduced=false
+PASS V15 320px reduced=false: centered tier line, touch cursor off, INDEX 00-03, footer tap, non-overlap, flat carousel swipe/expand, digital fit, lower-case rubrics, cross-links.
+CHECK V15 mobile 320px reduced=true
+PASS V15 320px reduced=true: centered tier line, touch cursor off, INDEX 00-03, footer tap, non-overlap, flat carousel swipe/expand, digital fit, lower-case rubrics, cross-links.

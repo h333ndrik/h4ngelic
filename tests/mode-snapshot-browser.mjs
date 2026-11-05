@@ -29,7 +29,9 @@ try {
     };
     window.__snapshotProbe.controller.prepare({ variant: 1947 });
   });
-  const clip = { x: 0, y: 120, width: 760, height: 270 };
+  // Photograph rows begin at y=225; keep the pixel proof on typography so
+  // real skin tones cannot be mistaken for a colored displacement map.
+  const clip = { x: 0, y: 120, width: 760, height: 120 };
   const original = await page.screenshot({ clip, path: new URL('original-typography.png', destination).pathname });
   await page.evaluate(() => {
     const probe = window.__snapshotProbe;
@@ -75,19 +77,28 @@ try {
   assert.equal(await page.locator('html').getAttribute('data-mode-snapshot'), null);
   const restored = await page.screenshot({ clip, path: new URL('restored-typography.png', destination).pathname });
   const restoredPixels = await sharp(restored).removeAlpha().raw().toBuffer();
-  assert.deepEqual(restoredPixels, beforePixels, 'The native snapshot effect must not permanently alter live DOM pixels.');
+  let restoredMaxDifference = 0;
+  for (let offset = 0; offset < beforePixels.length; offset++) {
+    restoredMaxDifference = Math.max(restoredMaxDifference, Math.abs(restoredPixels[offset] - beforePixels[offset]));
+  }
+  assert.ok(restoredMaxDifference <= 2, `The native snapshot must not permanently alter live DOM pixels; observed a ${restoredMaxDifference}-level difference (ambient film dithering allowance: 2).`);
 
   const realtime = await page.evaluate(async () => {
     const probe = window.__snapshotProbe;
     const calls = [];
+    await probe.controller.prepare({ variant: 2231 }).ready;
     const started = performance.now();
     const handle = probe.controller.run(detail => calls.push(detail), { mode: 'normal', variant: 2231 });
+    await handle.ready;
+    const animation = document.getAnimations().find(item => item.effect?.pseudoElement === '::view-transition-old(root)');
+    const animationMs = Number(animation?.effect?.getTiming().duration);
     await handle.finished;
-    return { elapsedMs: Math.round(performance.now() - started), calls, flag: document.documentElement.hasAttribute('data-mode-snapshot'), snapshot: probe.controller.snapshot() };
+    return { elapsedMs: Math.round(performance.now() - started), animationMs, calls, flag: document.documentElement.hasAttribute('data-mode-snapshot'), snapshot: probe.controller.snapshot() };
   });
   assert.deepEqual(realtime.calls.map(detail => detail.captured), [true]);
-  assert.equal(realtime.snapshot.last.duration, 1400);
-  assert.ok(realtime.elapsedMs >= 1200 && realtime.elapsedMs < 5000, `The unpaused 1.4-second native transition must finish within its bounded lifecycle; observed ${realtime.elapsedMs}ms.`);
+  assert.equal(realtime.snapshot.last.duration, 900);
+  assert.ok(Math.abs(realtime.animationMs - 900) <= 150, `The native animation must run for 900 ±150ms; observed ${realtime.animationMs}ms.`);
+  assert.ok(realtime.elapsedMs >= 750 && realtime.elapsedMs < 2500, `The unpaused native transition must finish within its bounded lifecycle; observed ${realtime.elapsedMs}ms including capture and cleanup.`);
   assert.equal(realtime.flag, false);
   assert.equal(realtime.snapshot.active, false);
 
@@ -139,14 +150,18 @@ try {
       const controller = createModeSnapshotTransition();
       const results = [];
       for (const mode of ['xray', 'normal']) {
+        const variant = mode === 'xray' ? 1947 : 2231;
+        await controller.prepare({ variant }).ready;
         const started = performance.now();
         const calls = [];
-        const handle = controller.run(detail => calls.push(detail), { mode, variant: mode === 'xray' ? 1947 : 2231 });
+        const handle = controller.run(detail => calls.push(detail), { mode, variant });
         await handle.ready;
         const style = getComputedStyle(document.documentElement, '::view-transition-old(root)');
         const captured = { transform: style.transform, filter: style.filter };
+        const animation = document.getAnimations().find(item => item.effect?.pseudoElement === '::view-transition-old(root)');
+        const animationMs = Number(animation?.effect?.getTiming().duration);
         await handle.finished;
-        results.push({ mode, elapsedMs: Math.round(performance.now() - started), duration: handle.duration,
+        results.push({ mode, elapsedMs: Math.round(performance.now() - started), animationMs, duration: handle.duration,
           calls, captured, snapshot: controller.snapshot(), retainedMaps: document.querySelectorAll('.mode-snapshot-definitions [href]').length,
           overflow: document.documentElement.scrollWidth > innerWidth });
       }
@@ -154,11 +169,12 @@ try {
       return results;
     });
     for (const result of transitions) {
-      assert.equal(result.duration, 1400);
+      assert.equal(result.duration, 900);
       assert.deepEqual(result.calls.map(detail => detail.captured), [true]);
       assert.equal(result.captured.transform, 'none', 'Actual page captures never zoom away from the viewport.');
       assert.match(result.captured.filter, /h4-mode-snapshot/);
-      assert.ok(result.elapsedMs >= 1200 && result.elapsedMs < 5000, `Mobile ${width} ${result.mode}: ${result.elapsedMs}ms.`);
+      assert.ok(Math.abs(result.animationMs - 900) <= 150, `Mobile ${width} ${result.mode}: native animation 900 ±150ms expected, observed ${result.animationMs}ms.`);
+      assert.ok(result.elapsedMs >= 750 && result.elapsedMs < 2500, `Mobile ${width} ${result.mode}: bounded native transition expected, observed ${result.elapsedMs}ms including capture and cleanup.`);
       assert.equal(result.snapshot.active, false);
       assert.equal(result.retainedMaps, 0);
       assert.equal(result.overflow, false);

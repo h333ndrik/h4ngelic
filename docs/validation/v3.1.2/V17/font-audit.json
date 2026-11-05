@@ -1,0 +1,32 @@
+{
+  "sourceBytes": 414568,
+  "runtimeBytes": 3414,
+  "runtimeGlyphCount": 10,
+  "runtimeGlyphs": [
+    "4",
+    "h",
+    "n",
+    "g",
+    "e",
+    "l",
+    "i",
+    "c",
+    "?",
+    " "
+  ],
+  "usedGlyphs": [
+    "h",
+    "4",
+    "n",
+    "g",
+    "e",
+    "l",
+    "i",
+    "c",
+    "?",
+    " "
+  ],
+  "unusedRuntimeGlyphs": [],
+  "savedBytes": 411154,
+  "action": "no subset needed: the served font is already glyph-limited"
+}

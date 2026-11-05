@@ -1,0 +1,14 @@
+[
+  {
+    "command": "node tests/footer-v31-browser.mjs",
+    "exitCode": 0,
+    "seconds": 133.653,
+    "log": "docs/validation/v3.1.1/F17/browser.txt"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 3.518,
+    "log": "docs/validation/v3.1.1/F17/node.txt"
+  }
+]

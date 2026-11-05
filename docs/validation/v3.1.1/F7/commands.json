@@ -1,0 +1,14 @@
+[
+  {
+    "command": "node tests/v31-navigation-browser.mjs",
+    "exitCode": 0,
+    "seconds": 69.801,
+    "log": "docs/validation/v3.1.1/F7/browser.txt"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "log": "docs/validation/v3.1.1/F7/node.txt",
+    "note": "Final Node run363/363 passes after explicit F7 arrow contract/parser updates. Original failing attempts retained."
+  }
+]

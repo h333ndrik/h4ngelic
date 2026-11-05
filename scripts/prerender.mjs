@@ -19,6 +19,7 @@ function replaceBlock(html, name, replacement) {
 
 /** Preserve the original hero, with no active hero DOM or asset requests on other pages. */
 export function prerenderHTML(shell, route, metadata = getPageMetadata(route)) {
+  if (route.kind !== 'home') shell = shell.replace(/\s*<link rel="preload" href="\/assets\/wordmark-fallback\.svg"[^>]*data-hero-poster-preload[^>]*>/,'');
   const hero = shell.match(/<!--hero:start-->([\s\S]*?)<!--hero:end-->/)?.[1];
   if (!hero) throw new Error('Built index.html is missing its hero markers.');
   const heroMarkup = route.kind === 'home'

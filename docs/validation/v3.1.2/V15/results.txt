@@ -1,0 +1,18 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:mobile-v15
+PASS V15 390px reduced=false: centered tier line, touch cursor off, INDEX 00-03, footer tap, non-overlap, carousel swipe/depth/expand, digital fit, lower-case rubrics, cross-links.
+PASS V15 390px reduced=true
+PASS V15 320px reduced=false
+PASS V15 320px reduced=true
+
+Supporting serial suites:
+- node tests/horizontal-drift-browser.mjs: 6/6, 1440/390/320 full/reduced, including touch momentum, native vertical escape and inline expansion.
+- node tests/horizontal-drift-performance.mjs: 121 frames per width. 1440 p95 16.70ms, 390 p95 16.80ms, 320 p95 16.70ms, zero LongTasks.
+- npm run test:hero-poster: 6/6 mobile poster/crossfade/reduced-motion.
+- node tests/v31-navigation-browser.mjs: 6/6 INDEX, header contrast and geometry.
+- node tests/portfolio-browser.mjs: 6/6 rubric/content routes.
+- node tests/v31-ui-browser.mjs: 6/6 artwork size, form and inline enlargement.
+- node tests/ref09-icons-browser.mjs: desktop/reduced/touch-390/touch-320, no custom touch cursor.
+- node tests/footer-v31-browser.mjs: 6/6 visit counter and footer links.
+- npm test: 372/372.
+
+REAL IPHONE SAFARI: BLOCKED. No physical iPhone is attached and no iOS simulator/WebKit runtime is installed in this environment. The screenshots and numbers above are Chromium touch emulation at 390x844 and 320x844, not Safari or a real device.

@@ -1,0 +1,47 @@
+{
+  "base": "http://127.0.0.1:55173",
+  "generatedAt": "2026-11-03T01:20:10.259Z",
+  "method": "After network idle, font readiness, all carousel image decodes and a 500ms warm-up, observe RAF intervals for two seconds while the carousel stays in drift.",
+  "caveat": "Headless Chromium with SwiftShader. RAF observation adds a bounded callback; this is not physical-device FPS, GPU compositor timing or an INP measurement.",
+  "reports": [
+    {
+      "width": 1440,
+      "elapsedMs": 2006.200000011915,
+      "frames": 121,
+      "frameGapP50Ms": 16.69999999999709,
+      "frameGapP95Ms": 16.70000000001164,
+      "frameGapMaxMs": 16.80000000000291,
+      "longTasks": 0,
+      "maximumLongTaskMs": 0,
+      "phase": "drift",
+      "position": 1989.546,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "elapsedMs": 2007.0000000119326,
+      "frames": 121,
+      "frameGapP50Ms": 16.699999999982538,
+      "frameGapP95Ms": 16.79999999998836,
+      "frameGapMaxMs": 16.800000000017462,
+      "longTasks": 0,
+      "maximumLongTaskMs": 0,
+      "phase": "drift",
+      "position": 624.6,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "elapsedMs": 2005.2000000178814,
+      "frames": 121,
+      "frameGapP50Ms": 16.699999999982538,
+      "frameGapP95Ms": 16.70000000001164,
+      "frameGapMaxMs": 16.800000000017462,
+      "longTasks": 0,
+      "maximumLongTaskMs": 0,
+      "phase": "drift",
+      "position": 540.998,
+      "errors": []
+    }
+  ]
+}

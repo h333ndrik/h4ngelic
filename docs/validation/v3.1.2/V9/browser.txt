@@ -1,0 +1,7 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:drift
+PASS F9 1440px reduced=false: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.
+PASS F9 1440px reduced=true: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.
+PASS F9 390px reduced=false: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.
+PASS F9 390px reduced=true: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.
+PASS F9 320px reduced=false: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.
+PASS F9 320px reduced=true: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.

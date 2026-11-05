@@ -1,0 +1,135 @@
+F18
+5:    --h4-native-cursor: url('/assets/h4ngelic-cursor.svg') 9 2, auto;
+6:    cursor: var(--h4-native-cursor);
+9:    --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto;
+10:    cursor: var(--h4-native-cursor);
+12:  html body * { cursor: var(--h4-native-cursor) !important; }
+17:    const mode = doc.documentElement.dataset.mode === 'xray' ? 'other' : 'normal';
+25:    const sources = Object.values(settings.favicon.other);
+27:      sources.push(settings.cursor.other.base);
+
+F19
+5:  cardWidth: 300,
+7:  cardHeight: 420,
+11:  spacing: 100,
+13:  inertia: 0.05,
+15:  wheelSensitivity: 8.0,
+33:  depthScale: false,
+47:  hoverLift: 6,
+49:  neighborShift: 12,
+55:  maximumWheelDelta: 120,
+14:.drift-viewport { position: relative; max-width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior: auto; scrollbar-width: thin; scrollbar-color: #858580 transparent; touch-action: pan-x pan-y pinch-zoom; }
+17:.is-drift-enhanced .drift-viewport { overflow-x: hidden; touch-action: pan-y pinch-zoom; }
+23:.drift-item .inline-artwork-frame { display: block; height: var(--carousel-card-height); aspect-ratio: auto; --inline-rest-margin: calc((var(--carousel-card-width) - var(--inline-rest-width)) / 2); --inline-rest-width: var(--carousel-card-width); --inline-rest-margin: 0; --inline-rest-fraction: 1; --inline-artwork-fit: cover; }
+26:.horizontal-drift .drift-item .inline-artwork-frame > .artwork-open { width: var(--inline-rest-width); height: var(--carousel-card-height); max-width: none; margin: 0; aspect-ratio: auto; }
+28:.drift-item .artwork-open[data-inline-expanded] { --inline-artwork-fit: contain; }
+src/horizontal-drift.css:17:.is-drift-enhanced .drift-viewport { overflow-x: hidden; touch-action: pan-y pinch-zoom; }
+src/horizontal-drift.js:110:      const depthScale = settings.depthScale ? 1 - depthMagnitude * (1 - settings.edgeScaleFloor) : 1;
+src/horizontal-drift.js:111:      const depthRotation = settings.depthScale ? -depthOffset * settings.edgeRotation : 0;
+src/horizontal-drift.js:219:    listen(state.viewport, 'wheel', event => {
+src/horizontal-drift.js:224:      const delta = clamp(raw * unit, -settings.maximumWheelDelta, settings.maximumWheelDelta);
+src/horizontal-drift.js:228:      event.preventDefault();
+src/horizontal-drift.js:229:      const impulse = delta * settings.wheelSensitivity / 60;
+src/horizontal-drift.js:240:      event.preventDefault();
+src/horizontal-drift.js:263:      if (event.cancelable) event.preventDefault();
+src/horizontal-drift.js:291:      event.preventDefault(); event.stopImmediatePropagation();
+src/horizontal-drift.js:321:    listen(state.viewport, 'dragstart', event => event.preventDefault());
+
+F21
+.returning-visitor-line {
+  position: fixed;
+  top: max(21px, env(safe-area-inset-top));
+  left: calc(var(--recognition-left, 50vw) + var(--recognition-width, 0px) / 2);
+  z-index: 12;
+  width: var(--recognition-width, max-content);
+  max-width: calc(100vw - 44px);
+  margin: 0;
+  transform: translateX(-50%);
+  color: #e8e8e4;
+  text-shadow: 0 1px 3px #151515, 0 0 5px #151515;
+  font-size: clamp(11px, 1vw, 14px);
+  line-height: 1.4;
+  letter-spacing: .02em;
+  text-align: center;
+  pointer-events: none;
+  transition: none;
+}
+
+F22
+export function sampleHeroBar(progress, { reduced = false, settings = motionSettings.heroBar } = {}) {
+  const amount = reduced ? Number(progress >= settings.end)
+    : smoothProgress(progressBetween(progress, settings.start, settings.end));
+  return { shift: amount ? -100 * amount : 0, hidden: amount >= 1 };
+}
+
+// Compatibility exports for existing consumers. The kinetic implementation,
+/* Both existing bar halves translate out without changing layout or opacity.
+   Reduced motion switches the same value instantly through the scroll clock. */
+.hero :is(.controls, .hero-nav) {
+  opacity: 1;
+  transform: translate3d(0, var(--hero-bar-shift, 0%), 0);
+}
+.hero[data-hero-bar-state='hidden'] :is(.controls, .hero-nav) { pointer-events: none; }
+
+    const sample = sampleHeroBar((position - heroTop) / heroHeight, { reduced: !animated });
+    setValue(hero, '--hero-bar-shift', `${sample.shift.toFixed(4)}%`);
+    if (sample.hidden !== barHidden) {
+      barHidden = sample.hidden;
+      hero.dataset.heroBarState = sample.hidden ? 'hidden' : 'visible';
+      for (const bar of heroBars) bar.element.inert = sample.hidden || bar.inert;
+    }
+  }
+
+F23
+.inquiry { --inquiry-form-offset: clamp(60px, 24vw, 640px); width: calc(100% - clamp(12px, 3vw, 48px)); max-width: 1100px; margin-left: clamp(12px, 3vw, 48px); }
+.inquiry-intro { font-size: clamp(21px, 3.5vw, 48px); line-height: 1.2; letter-spacing: -.035em; margin: 0 0 clamp(14px, 2vw, 28px); max-width: 23ch; }
+.inquiry-form { position: relative; margin-left: var(--inquiry-form-offset, clamp(60px, 24vw, 640px)); }
+@media (max-width: 600px) {
+  .inquiry { --inquiry-form-offset: 0px; }
+  .inquiry-fields { grid-template-columns: 1fr; gap: 30px; }
+  .inquiry-field-message { grid-column: auto; }
+  .inquiry-file-label { font-size: 11px; gap: 8px; }
+  .inquiry-file-label svg { flex: 0 0 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+
+F24
+  smearingIntensity: 1.35,
+  // Higher recoverySpeed restores the original pixels sooner.
+  recoverySpeed: 1,
+  recoveryMs: 2350,
+  ambient: ambientFilmSettings,
+  transition: Object.freeze({ minimumDurationMs: 900, maximumDurationMs: 900, framesPerSecond: 30,
+    displacementPx: 180, smearPx: 220, channelOffsetPx: 9, colorStrength: .86, columns: 18, rows: 12 }),
+  rendering: Object.freeze({ maximumSourceStretch: 190, maximumHistoryStretch: 250,
+    sourceSmearRatio: .55, historySmearRatio: .72, historyOpacity: .74, stripeOpacity: .66, stripeEvery: 3 }),
+tests/mode-snapshot-browser.mjs:94:    const animationMs = Number(animation?.effect?.getTiming().duration);
+tests/mode-snapshot-browser.mjs:96:    return { elapsedMs: Math.round(performance.now() - started), animationMs, calls, flag: document.documentElement.hasAttribute('data-mode-snapshot'), snapshot: probe.controller.snapshot() };
+tests/mode-snapshot-browser.mjs:99:  assert.equal(realtime.snapshot.last.duration, 900);
+tests/mode-snapshot-browser.mjs:100:  assert.ok(Math.abs(realtime.animationMs - 900) <= 150, `The native animation must run for 900 ±150ms; observed ${realtime.animationMs}ms.`);
+tests/mode-snapshot-browser.mjs:162:        const animationMs = Number(animation?.effect?.getTiming().duration);
+tests/mode-snapshot-browser.mjs:164:        results.push({ mode, elapsedMs: Math.round(performance.now() - started), animationMs, duration: handle.duration,
+tests/mode-snapshot-browser.mjs:172:      assert.equal(result.duration, 900);
+tests/mode-snapshot-browser.mjs:176:      assert.ok(Math.abs(result.animationMs - 900) <= 150, `Mobile ${width} ${result.mode}: native animation 900 ±150ms expected, observed ${result.animationMs}ms.`);
+tests/xray-browser.mjs:195:      assert.ok(modeTransitions.every(event => event.duration === 900), 'Captured mode transitions use the approved 900ms duration.');
+tests/smart-v3-browser.mjs:54:  if(!reduced && result.event.captured) assert.equal(result.event.duration,900,'Captured transitions use the approved 900ms target in both directions.');
+
+F25
+119:  const modelSection = '<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3></section>';
+133:        ${group.id === 'tattoos' ? modelSection : ''}
+140:      ${group.id === 'tattoos' ? modelSection : ''}
+
+F26
+154:    <h1 class="page-heading${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
+{"page":"tattoos","h1":{"class":"page-heading","text":"on skin"},"headings":[{"id":"archive-flashes-title","class":"archive-category-heading rubric-category-heading","text":"flashes","links":0,"arrows":0},{"id":"archive-model-title","class":"archive-category-heading rubric-category-heading","text":"3d model","links":0,"arrows":0}],"viewWork":0}
+{"page":"more","h1":{"class":"page-heading sr-only","text":"more"},"headings":[{"id":"archive-digital-artworks-title","class":"archive-category-heading rubric-category-heading","text":"digital artworks","links":0,"arrows":0},{"id":"archive-analog-photography-title","class":"archive-category-heading rubric-category-heading","text":"analog photography","links":0,"arrows":0}],"viewWork":0}
+{"page":"jewellery","h1":{"class":"page-heading","text":"jewellery"},"headings":[],"viewWork":0}
+
+F27
+14:    { id: 'tattoos', label: 'tattoos', archiveLabel: 'on skin', group: 'tattoos', presentation: 'drift' },
+26:    { id: 'tattoos', label: 'tattoos', archiveLabel: 'on skin', children: ['tattoos', 'flashes'] },
+104:    : selectedGroup?.archiveLabel ?? selectedGroup?.label ?? (selectedCategory?.archiveLabel ?? selectedCategory?.label ?? '').toUpperCase();
+115:      <${nested ? 'h3' : 'h2'} class="archive-category-heading" id="archive-${escape(entry.id)}-title"${entry.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${categoryURL(entry.id)}">${escape(entry.archiveLabel || entry.label)}</a></${nested ? 'h3' : 'h2'}>
+126:        const heading = primary ? '' : `<h3 class="archive-category-heading rubric-category-heading" id="${escape(titleId)}" data-motion-static>${escape(entry.archiveLabel || entry.label)}</h3>`;
+150:        : `<a href="${categoryURL(group.id)}">${escape(group.archiveLabel ?? group.label)} ${arrow}</a>`).join('')}
+156:      ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}

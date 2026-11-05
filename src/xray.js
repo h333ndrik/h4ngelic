@@ -3,7 +3,9 @@ import { xraySettings, chooseXRayQuality, solarizedChannels } from './data/xrayS
 import { bindXRayShortcut, bindReverseShortcut } from './xray-shortcut.js';
 import { bindModeHold } from './mode-hold.js';
 import { createModeAudio } from './mode-audio.js';
+import { worldForMode } from './audio/worldSoundSettings.js';
 import { initSoundControls } from './sound-controls.js';
+import { initGuidedListening } from './audio/guided-listening.js';
 import { corruptionSettings } from './data/corruptionSettings.js';
 import { createModeSnapshotTransition } from './mode-snapshot.js';
 import { initMobileMode } from './mobile-mode.js';
@@ -37,7 +39,7 @@ function filterMarkup(id, separated) {
 /**
  * One document-level controller survives ordinary enhanced page navigation.
  * It stores no persistent state. The return value is a disposer with optional
- * .setMode(mode), .toggle() and .refresh() methods for integration and tests.
+ * .setMode(mode), entry-only legacy .toggle() and .refresh() integration methods.
  */
 export function initXRay({ root = document, memory = null } = {}) {
   const doc = root.nodeType === 9 ? root : root.ownerDocument;
@@ -52,6 +54,7 @@ export function initXRay({ root = document, memory = null } = {}) {
   const previousProperties = new Map();
   const audio = createModeAudio({ view });
   const soundControls = initSoundControls({ doc, audio });
+  const guidedListening = initGuidedListening({ doc, audio });
   const snapshot = createModeSnapshotTransition({ doc, settings: corruptionSettings.transition });
   let mode = 'normal';
   let pendingMode = null;
@@ -121,15 +124,15 @@ export function initXRay({ root = document, memory = null } = {}) {
     for (const button of doc.querySelectorAll('[data-xray-toggle]')) button.setAttribute('aria-pressed', String(mode === 'xray'));
     for (const button of doc.querySelectorAll('[data-mode-hold]')) {
       button.setAttribute('aria-pressed', String(mode === 'xray'));
-      button.setAttribute('aria-label', mode === 'xray' ? 'hold for one second to return to normal mode' : 'hold for one second to enter the other side');
-      button.setAttribute('aria-keyshortcuts', '4');
+      button.setAttribute('aria-label', mode === 'xray' ? 'press 3 times 3 to reverse' : 'hold for one second to enter the other side');
+      button.setAttribute('aria-keyshortcuts', mode === 'xray' ? '3' : '4');
     }
-    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'HOLD 4 TO REVERSE.' : 'HOLD 4 TO SEE THE OTHER SIDE.';
+    for (const label of doc.querySelectorAll('[data-xray-hint-text]')) label.textContent = mode === 'xray' ? 'press 3 times 3 to reverse' : 'HOLD 4 TO SEE THE OTHER SIDE.';
     soundControls.refresh();
   }
 
   function announce() {
-    for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = mode === 'xray' ? 'the other side is on. hold 4 for one second or press 3 three times within two seconds to return. on touch, tap h4 three times.' : 'the other side is off.';
+    for (const status of doc.querySelectorAll('[data-mode-status]')) status.textContent = mode === 'xray' ? 'the other side is on. press 3 three times within two seconds to return. on touch, tap h4 three times.' : 'the other side is off.';
   }
 
   function finish(target) {
@@ -157,7 +160,10 @@ export function initXRay({ root = document, memory = null } = {}) {
     html.dataset.mode = mode;
     refresh();
     announce();
-    if (!doc.hidden) audio.play(mode);
+    if (!doc.hidden) {
+      audio.play(mode);
+      void audio.switchMode(mode, duration);
+    }
     doc.dispatchEvent(new view.CustomEvent('h4:modechange', { detail: { mode, captured, duration, variant } }));
     const theme = doc.querySelector('meta[name="theme-color"]');
     if (theme) theme.content = mode === 'xray' ? xraySettings.palette.background : normalThemeColor;
@@ -271,11 +277,14 @@ export function initXRay({ root = document, memory = null } = {}) {
     beginTransition(next, request);
   }
 
-  const toggle = () => setMode((pendingMode || mode) === 'xray' ? 'normal' : 'xray');
   const endHold = () => html.removeAttribute('data-mode-holding');
-  const prepare = (event, hold = true) => {
+  const prepare = (event, hold = true, targetMode = null) => {
     // Priming and preloading happen inside the original gesture, not its timer.
-    void audio.prime(event).then(refresh);
+    const targetWorld = targetMode ? worldForMode(targetMode) : null;
+    void audio.prime(event).then((ready) => {
+      if (ready && targetWorld) void audio.prepareWorld(targetWorld);
+      refresh();
+    });
     snapshot.prepare();
     if (hold) html.setAttribute('data-mode-holding', '');
     const source = event.type === 'keydown' ? 'keyboard' : event.type === 'click' ? 'accessible' : 'pointer';
@@ -283,33 +292,37 @@ export function initXRay({ root = document, memory = null } = {}) {
   };
   let stopPointer;
   const inputReady = () => !pendingMode && !html.hasAttribute('data-xray-transition');
-  const stopKeyboard = bindXRayShortcut(doc, toggle, {
-    isEnabled: inputReady,
-    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); stopReverse.cancel(); prepare(event); }, onEnd: endHold,
+  const entryReady = () => mode === 'normal' && inputReady();
+  // An ignored entry gesture must not prime sound or prepare another snapshot.
+  const enter = () => { if (entryReady()) setMode('xray'); };
+  const stopKeyboard = bindXRayShortcut(doc, enter, {
+    isEnabled: entryReady,
+    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); stopReverse.cancel(); prepare(event, true, 'xray'); }, onEnd: endHold,
   });
   const stopReverse = bindReverseShortcut(doc, () => setMode('normal'), {
     isEnabled: () => mode === 'xray' && inputReady(),
-    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); stopKeyboard.cancel(); prepare(event, false); },
+    onStart(event) { stopMobile?.cancel(); stopPointer?.cancel(); stopKeyboard.cancel(); prepare(event, false, 'normal'); },
   });
-  stopPointer = bindModeHold(doc, toggle, {
-    onStart(event) { stopMobile?.cancel(); stopKeyboard.cancel(); stopReverse.cancel(); prepare(event); }, onEnd: endHold,
+  stopPointer = bindModeHold(doc, enter, {
+    isEnabled: entryReady,
+    onStart(event) { stopMobile?.cancel(); stopKeyboard.cancel(); stopReverse.cancel(); prepare(event, true, 'xray'); }, onEnd: endHold,
   });
   removers.push(stopKeyboard, stopReverse, stopPointer);
   stopMobile = initMobileMode({ doc, getMode: () => pendingMode || mode,
     isBusy: () => Boolean(pendingMode || html.hasAttribute('data-xray-transition')),
     onPrepare(event) {
       stopKeyboard.cancel(); stopReverse.cancel(); stopPointer.cancel();
-      endHold(); prepare(event, false);
+      endHold(); prepare(event, false, mode === 'xray' ? 'normal' : 'xray');
     }, onChange: setMode });
   removers.push(stopMobile);
   listen(doc, 'click', (event) => {
     const button = event.target.closest?.('[data-xray-toggle]');
-    if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
+    if (!entryReady() || !button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
     stopKeyboard.cancel();
     stopPointer.cancel();
-    prepare(event);
+    prepare(event, true, 'xray');
     endHold();
-    toggle();
+    enter();
   });
   listen(doc, 'h4:pagechange', refresh);
   listen(view, 'pageshow', refresh);
@@ -319,10 +332,15 @@ export function initXRay({ root = document, memory = null } = {}) {
     view.cancelAnimationFrame(frame);
     finish(mode === 'xray' ? 1 : 0);
   });
-  listen(doc, 'visibilitychange', () => { if (doc.hidden) { audio.stop(); cancelPendingEntry(); } });
+  listen(doc, 'visibilitychange', () => {
+    audio.setPageHidden(doc.hidden);
+    if (doc.hidden) { audio.stop(); cancelPendingEntry(); }
+  });
   listen(doc, 'h4:navigationstart', cancelPendingEntry);
   listen(view, 'blur', cancelPendingEntry);
+  removers.push(guidedListening);
   updateQuality();
+  if (import.meta.env?.DEV && new URLSearchParams(view.location?.search).has('test')) view.__H4_AUDIO__ = audio;
   html.dataset.mode = 'normal';
   html.dataset.xrayReady = '';
   refresh();
@@ -337,6 +355,7 @@ export function initXRay({ root = document, memory = null } = {}) {
     releaseMemory();
     soundControls();
     audio.dispose();
+    if (view.__H4_AUDIO__ === audio) delete view.__H4_AUDIO__;
     for (const remove of removers) remove();
     defs.remove();
     overlay.remove();
@@ -356,7 +375,7 @@ export function initXRay({ root = document, memory = null } = {}) {
     if (theme) theme.content = normalThemeColor;
     controllers.delete(doc);
   }
-  Object.assign(dispose, { setMode, toggle, refresh });
+  Object.assign(dispose, { setMode, toggle: enter, refresh });
   controllers.set(doc, dispose);
   return dispose;
 }

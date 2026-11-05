@@ -1,0 +1,255 @@
+{
+  "checkedAt": "2026-11-03T05:52:34.578Z",
+  "reports": [
+    {
+      "label": "1440px full",
+      "width": 1440,
+      "reducedMotion": "no-preference",
+      "ignored": {
+        "changes": 1,
+        "preparations": 2,
+        "mode": "xray",
+        "holding": false,
+        "transition": false,
+        "snapshot": false,
+        "preparing": false
+      },
+      "modes": [
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal"
+      ],
+      "modeTransitions": [
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        },
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        },
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        }
+      ],
+      "touchThreeTapReturn": false,
+      "errors": []
+    },
+    {
+      "label": "1440px reduced",
+      "width": 1440,
+      "reducedMotion": "reduce",
+      "ignored": {
+        "changes": 1,
+        "preparations": 2,
+        "mode": "xray",
+        "holding": false,
+        "transition": false,
+        "snapshot": false,
+        "preparing": false
+      },
+      "modes": [
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal"
+      ],
+      "modeTransitions": [],
+      "touchThreeTapReturn": false,
+      "errors": []
+    },
+    {
+      "label": "390px full",
+      "width": 390,
+      "reducedMotion": "no-preference",
+      "ignored": {
+        "changes": 1,
+        "preparations": 2,
+        "mode": "xray",
+        "holding": false,
+        "transition": false,
+        "snapshot": false,
+        "preparing": false
+      },
+      "modes": [
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal"
+      ],
+      "modeTransitions": [
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        },
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        },
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        },
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        }
+      ],
+      "touchThreeTapReturn": true,
+      "errors": []
+    },
+    {
+      "label": "390px reduced",
+      "width": 390,
+      "reducedMotion": "reduce",
+      "ignored": {
+        "changes": 1,
+        "preparations": 2,
+        "mode": "xray",
+        "holding": false,
+        "transition": false,
+        "snapshot": false,
+        "preparing": false
+      },
+      "modes": [
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal"
+      ],
+      "modeTransitions": [],
+      "touchThreeTapReturn": true,
+      "errors": []
+    },
+    {
+      "label": "320px full",
+      "width": 320,
+      "reducedMotion": "no-preference",
+      "ignored": {
+        "changes": 1,
+        "preparations": 2,
+        "mode": "xray",
+        "holding": false,
+        "transition": false,
+        "snapshot": false,
+        "preparing": false
+      },
+      "modes": [
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal"
+      ],
+      "modeTransitions": [
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        },
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        },
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        },
+        {
+          "mode": "xray",
+          "duration": 900
+        },
+        {
+          "mode": "normal",
+          "duration": 900
+        }
+      ],
+      "touchThreeTapReturn": true,
+      "errors": []
+    },
+    {
+      "label": "320px reduced",
+      "width": 320,
+      "reducedMotion": "reduce",
+      "ignored": {
+        "changes": 1,
+        "preparations": 2,
+        "mode": "xray",
+        "holding": false,
+        "transition": false,
+        "snapshot": false,
+        "preparing": false
+      },
+      "modes": [
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal",
+        "xray",
+        "normal"
+      ],
+      "modeTransitions": [],
+      "touchThreeTapReturn": true,
+      "errors": []
+    }
+  ],
+  "failures": []
+}

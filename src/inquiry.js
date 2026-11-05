@@ -27,6 +27,35 @@ export function initInquiry(root = document) {
     const originalDisabled = new Map(controls.map(control => [control, control.disabled]));
     const offline = doc.documentElement.dataset.preview === 'standalone';
     let files = [], objectURLs = [], controller = null, disposed = false;
+    const draftKey = 'h4ngelic.inquiry.draft.v1';
+    const draftFields = ['name', 'email', 'message'];
+    const draftControls = draftFields.map(name => form.elements.namedItem(name)).filter(Boolean);
+    let draftTimer = 0;
+    const readDraft = () => {
+      try { return JSON.parse(view.localStorage?.getItem(draftKey) || 'null'); } catch { return null; }
+    };
+    const clearDraft = () => {
+      if (draftTimer) view.clearTimeout(draftTimer);
+      draftTimer = 0;
+      try { view.localStorage?.removeItem(draftKey); } catch { /* Storage is optional. */ }
+    };
+    const writeDraft = () => {
+      draftTimer = 0;
+      if (disposed) return;
+      const draft = Object.fromEntries(draftControls.map(control => [control.name, control.value]));
+      try {
+        if (draftFields.some(name => draft[name]?.trim())) view.localStorage?.setItem(draftKey, JSON.stringify({ ...draft, updated: Date.now() }));
+        else view.localStorage?.removeItem(draftKey);
+      } catch { /* Storage denial leaves the live form intact. */ }
+    };
+    const scheduleDraft = () => {
+      if (draftTimer) return;
+      draftTimer = view.setTimeout(writeDraft, 2000);
+    };
+    const savedDraft = readDraft();
+    if (savedDraft && typeof savedDraft === 'object') {
+      for (const control of draftControls) if (!control.value && typeof savedDraft[control.name] === 'string') control.value = savedDraft[control.name];
+    }
     form.dataset.enhanced = '';
     started.value = String(Date.now());
     let url;
@@ -79,7 +108,9 @@ export function initInquiry(root = document) {
         setStatus('sending is unavailable in this downloaded preview. please email your inquiry instead.', 'error');
         fallback.hidden = false; return;
       }
-      const message = validateInquiryFiles(files);
+      const fields = {};
+      for (const [key, value] of new FormData(form)) if (typeof value === 'string') fields[key] = value;
+      const message = validateInquiryFiles(files, fields);
       if (message) { error.textContent = message; input.setAttribute('aria-invalid', 'true'); input.focus(); return; }
       const body = new FormData(form);
       body.delete('attachments');
@@ -102,7 +133,7 @@ export function initInquiry(root = document) {
         }
         if (disposed) return;
         setStatus("thank you. i'll get back to you.", 'success');
-        form.reset(); files = []; renderFiles();
+        form.reset(); files = []; renderFiles(); clearDraft();
         contextInput.value = ''; contextLabel.hidden = true; started.value = String(Date.now());
       } catch (failure) {
         if (!disposed) {
@@ -121,8 +152,9 @@ export function initInquiry(root = document) {
     }
     input.addEventListener('change', change);
     contact?.addEventListener('input', validateContact);
+    form.addEventListener('input', scheduleDraft);
     form.addEventListener('submit', send);
-    disposers.push(() => { disposed = true; controller?.abort(); entrance(); input.removeEventListener('change', change); contact?.removeEventListener('input', validateContact); form.removeEventListener('submit', send); clearURLs(); });
+    disposers.push(() => { if (draftTimer) writeDraft(); disposed = true; controller?.abort(); entrance(); input.removeEventListener('change', change); contact?.removeEventListener('input', validateContact); form.removeEventListener('input', scheduleDraft); form.removeEventListener('submit', send); clearURLs(); });
   }
   const stop = () => { for (const dispose of disposers) dispose(); contextRefreshers.length = 0; };
   stop.refreshContext = url => { for (const refresh of contextRefreshers) refresh(url); };

@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-11-03T00:24:13.979Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "hint": "jpg, png, webp, avif, gif or pdf · up to 5 files, 4 MB total.",
+      "limitMessage": "each reference must be 4 MB or smaller.",
+      "submissions": [],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "hint": "jpg, png, webp, avif, gif or pdf · up to 5 files, 4 MB total.",
+      "limitMessage": "each reference must be 4 MB or smaller.",
+      "submissions": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "hint": "jpg, png, webp, avif, gif or pdf · up to 5 files, 4 MB total.",
+      "limitMessage": "each reference must be 4 MB or smaller.",
+      "submissions": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "hint": "jpg, png, webp, avif, gif or pdf · up to 5 files, 4 MB total.",
+      "limitMessage": "each reference must be 4 MB or smaller.",
+      "submissions": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "hint": "jpg, png, webp, avif, gif or pdf · up to 5 files, 4 MB total.",
+      "limitMessage": "each reference must be 4 MB or smaller.",
+      "submissions": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "hint": "jpg, png, webp, avif, gif or pdf · up to 5 files, 4 MB total.",
+      "limitMessage": "each reference must be 4 MB or smaller.",
+      "submissions": [],
+      "errors": []
+    }
+  ],
+  "failures": []
+}

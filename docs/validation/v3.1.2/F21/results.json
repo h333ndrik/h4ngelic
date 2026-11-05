@@ -1,0 +1,74 @@
+{
+  "capturedAt": "2026-11-03T05:26:53.596Z",
+  "reports": [
+    {
+      "width": 1440,
+      "text": "you're part of this place now.",
+      "top": 21,
+      "left": 114.90625,
+      "right": 1374,
+      "center": 744.453125,
+      "widthPx": 1259.09375,
+      "position": "fixed",
+      "color": "rgb(232, 232, 228)",
+      "shadow": "rgb(21, 21, 21) 0px 1px 3px, rgb(21, 21, 21) 0px 0px 5px",
+      "brand": {
+        "left": 35,
+        "right": 114.90625
+      },
+      "index": {
+        "left": 1374,
+        "right": 1418
+      },
+      "gapLeft": 114.90625,
+      "gapRight": 1374,
+      "noOverlap": true
+    },
+    {
+      "width": 390,
+      "text": "you're part of this place now.",
+      "top": 21,
+      "left": 84.3203125,
+      "right": 335.9921875,
+      "center": 210.15625,
+      "widthPx": 251.671875,
+      "position": "fixed",
+      "color": "rgb(232, 232, 228)",
+      "shadow": "rgb(21, 21, 21) 0px 1px 3px, rgb(21, 21, 21) 0px 0px 5px",
+      "brand": {
+        "left": 22,
+        "right": 84.328125
+      },
+      "index": {
+        "left": 336,
+        "right": 380
+      },
+      "gapLeft": 84.328125,
+      "gapRight": 336,
+      "noOverlap": true
+    },
+    {
+      "width": 320,
+      "text": "you're part of this place now.",
+      "top": 21,
+      "left": 80.875,
+      "right": 266,
+      "center": 173.4375,
+      "widthPx": 185.125,
+      "position": "fixed",
+      "color": "rgb(232, 232, 228)",
+      "shadow": "rgb(21, 21, 21) 0px 1px 3px, rgb(21, 21, 21) 0px 0px 5px",
+      "brand": {
+        "left": 22,
+        "right": 80.875
+      },
+      "index": {
+        "left": 266,
+        "right": 310
+      },
+      "gapLeft": 80.875,
+      "gapRight": 266,
+      "noOverlap": true
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+    "programs": [
+
+    ],
+    "stream_groups": [
+
+    ],
+    "streams": [
+        {
+            "index": 0,
+            "codec_name": "mp3",
+            "codec_type": "audio",
+            "sample_rate": "44100",
+            "channels": 2,
+            "bits_per_sample": 0,
+            "start_time": "0.000000",
+            "duration": "313.531519",
+            "nb_frames": "12003"
+        }
+    ],
+    "format": {
+        "filename": "/Users/h4ngelic/Desktop/h4ngelic_sounddesign.mov",
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "duration": "313.531519",
+        "size": "10083473",
+        "bit_rate": "257287"
+    }
+}

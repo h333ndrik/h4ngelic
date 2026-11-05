@@ -1,0 +1,65 @@
+.mannequin-preview {
+  width: 100%;
+  margin: clamp(26px, 4vw, 52px) 0 0;
+}
+.mannequin-preview-frame {
+  position: relative;
+  width: 100%;
+  height: clamp(470px, 55vw, 720px);
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% 43%, #454540 0%, #2d2d2a 38%, #1f201e 72%),
+    #1f201e;
+}
+.mannequin-preview-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(112deg, #ffffff0b 0%, transparent 28%, transparent 72%, #ffffff08 100%),
+    linear-gradient(180deg, #ffffff05, transparent 28%);
+}
+.mannequin-preview-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.mannequin-preview-ground {
+  position: absolute;
+  left: 50%;
+  bottom: 9%;
+  z-index: 0;
+  width: min(54%, 480px);
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #050505a8 0%, #0505054d 38%, transparent 72%);
+  filter: blur(13px);
+  transform: translateX(-50%);
+}
+.mannequin-preview figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 12px;
+  color: #a8a8a4;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding-bottom: 2px;
+}
+html[data-mode='xray'] .mannequin-preview-frame {
+  background:
+    radial-gradient(ellipse at 50% 43%, #392848 0%, #241c2c 42%, #17121c 76%),
+    #17121c;
+}
+@media (max-width: 600px) {
+  .mannequin-preview-frame { height: clamp(390px, 116vw, 560px); }
+  .mannequin-preview-ground { bottom: 8%; width: 68%; height: 8%; }
+}

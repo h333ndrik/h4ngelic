@@ -1,0 +1,14 @@
+npm run build (Phase 4 complete)
+built: 2026-11-05T17:57:28Z
+
+dist/assets/audio/loop-333.m4a
+dist/assets/audio/loop-4.m4a
+dist/assets/audio/x-333-4.m4a
+dist/assets/audio/x-4-333.m4a
+
+d28de00523a59d246403c8edfcfc0ff169b4b99943fa6c7b9ff4dbc8e697f821  dist/assets/audio/loop-333.m4a
+ab235d059fec354ebbdf60e0e056e7469883489194825a8d25ea7211f86f8476  dist/assets/audio/loop-4.m4a
+5ee49fedc6d43cb0e144b7e5272ae13086fe2e9728d2e90fb4dba297e4447090  dist/assets/audio/x-333-4.m4a
+477df723d4d9de83c3757aad3cd0958de53b92444fa616225aa7c4346a102878  dist/assets/audio/x-4-333.m4a
+
+count: 4

@@ -94,9 +94,8 @@ function structuredData(route, metadata, config) {
   };
   const graph = [person, website, page];
   const crumbs = [{ name: 'h4ngelic', path: '/' }];
-  if (route.kind === 'work' || route.kind === 'artwork') crumbs.push({ name: 'work', path: '/work' });
-  if ((route.kind === 'work' || route.kind === 'artwork') && route.category !== 'all') {
-    crumbs.push({ name: route.category, path: categoryURL(route.category) });
+  if (route.kind === 'work' || route.kind === 'artwork') {
+    crumbs.push({ name: 'creative', path: categoryURL(route.category === 'all' ? 'tattoos' : route.category) });
   }
   if (route.kind === 'about') crumbs.push({ name: 'about', path: '/about' });
   if (route.kind === 'artwork') crumbs.push({ name: artworkLabel(route.project) || route.category, path: route.canonicalPath });
@@ -145,11 +144,10 @@ export function getPageMetadata(route, options = {}) {
   const contentReady = route.kind === 'home' || route.kind === 'about'
     || (route.kind === 'artwork' && isIndexableProject(route.project))
     || (route.kind === 'work' && projects.some((project) => isIndexableProject(project) && matchesArchive(project, route.category)));
-  // Legacy category documents now contain the same connected archive. Retain
-  // their working URLs, but consolidate search indexing on the Work document.
-  const archiveAlias = route.kind === 'work' && route.category !== 'all';
-  const indexable = config.indexing && Boolean(contentReady) && !archiveAlias;
-  const canonicalURL = route.kind !== 'not-found' && config.productionURL ? `${config.productionURL}${archiveAlias ? '/work' : route.canonicalPath}` : '';
+  // Category pages now contain distinct real collections. Keep each canonical
+  // identity; previews and incomplete artist metadata still remain noindex.
+  const indexable = config.indexing && Boolean(contentReady);
+  const canonicalURL = route.kind !== 'not-found' && config.productionURL ? `${config.productionURL}${route.canonicalPath}` : '';
   const image = imageMetadata(route.project?.seo?.image || realImages(route.project)[0] || seoContent.openGraphImage, config.productionURL);
   const metadata = {
     path: route.canonicalPath, status: route.kind === 'not-found' ? 404 : 200,

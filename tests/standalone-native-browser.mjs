@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { writeFile, readFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
-const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', headless: true,
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const errors = [];
 const external = [];
@@ -29,7 +29,7 @@ try {
   await page.setContent(html, { waitUntil: 'load' });
   await page.locator('html[data-xray-ready][data-page="work"]').waitFor();
   assert.equal(await page.locator('[data-floating-brand]').count(), 1);
-  assert.equal(await page.locator('[data-global-index]').isVisible(), true);
+  assert.equal(await page.locator('[data-global-index] > summary').isVisible(), true);
   assert.equal(await page.locator('[data-naavi]').isVisible(), true);
   assert.equal(await page.locator('[data-inquiry-form]').count(), 0, 'Cold offline Work has no second Contact form.');
   assert.equal(await page.locator('#reveal-control').count(), 0, 'The obsolete Reveal UI is absent even in the inert hero template.');

@@ -216,15 +216,11 @@ try {
     const mobileMagnet = mobilePage.locator('#selected-work .category-magnet').first();
     assert.ok(Math.hypot(...Object.values(await translation(mobileMagnet))) < .05, 'Touch devices must not receive magnetic movement.');
     assert.doesNotMatch(await mobileMagnet.evaluate((element) => getComputedStyle(element).cursor), /h4ngelic-cursor/);
-    const footer = await mobilePage.evaluate(() => {
-      const tagline = document.querySelector('.identity').getBoundingClientRect(), navigation = document.querySelector('.hero-nav').getBoundingClientRect();
-      return { separated: tagline.right < navigation.left || tagline.top >= navigation.bottom || tagline.bottom <= navigation.top };
-    });
-    assert.ok(footer.separated, `The coordinated tagline and navigation must not overlap at ${width}px.`);
+    assert.equal(await mobilePage.locator('.identity').count(), 0, 'The hero tagline stays removed on mobile.');
   }
   assert.deepEqual(mobileErrors, []);
   await mobile.close();
-  console.log('PASS microinteractions mobile: 390/320px horizontal categories, keyboard reachability, no magnetic/custom-pointer feedback, tagline spacing and mobile DPR cap.');
+  console.log('PASS microinteractions mobile: 390/320px horizontal categories, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.');
 } finally {
   await browser.close();
 }

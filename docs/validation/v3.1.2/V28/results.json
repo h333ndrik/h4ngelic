@@ -1,0 +1,156 @@
+{
+  "checkedAt": "2026-11-03T00:13:10.443Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "layout": {
+        "hero": {
+          "width": 1440,
+          "height": 844
+        },
+        "stage": {
+          "width": 1440,
+          "height": 844
+        },
+        "stageFillsHero": true,
+        "hintSrOnly": true,
+        "visibleBelowLogo": [],
+        "pageWidth": 1440,
+        "width": 1440
+      },
+      "cls": 0,
+      "stage": {
+        "poster": false,
+        "canvas": "block"
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "layout": {
+        "hero": {
+          "width": 1440,
+          "height": 844
+        },
+        "stage": {
+          "width": 1440,
+          "height": 844
+        },
+        "stageFillsHero": true,
+        "hintSrOnly": true,
+        "visibleBelowLogo": [],
+        "pageWidth": 1440,
+        "width": 1440
+      },
+      "cls": 0,
+      "stage": {
+        "poster": true,
+        "canvas": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "layout": {
+        "hero": {
+          "width": 390,
+          "height": 844
+        },
+        "stage": {
+          "width": 390,
+          "height": 844
+        },
+        "stageFillsHero": true,
+        "hintSrOnly": true,
+        "visibleBelowLogo": [],
+        "pageWidth": 390,
+        "width": 390
+      },
+      "cls": 0,
+      "stage": {
+        "poster": false,
+        "canvas": "block"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "layout": {
+        "hero": {
+          "width": 390,
+          "height": 844
+        },
+        "stage": {
+          "width": 390,
+          "height": 844
+        },
+        "stageFillsHero": true,
+        "hintSrOnly": true,
+        "visibleBelowLogo": [],
+        "pageWidth": 390,
+        "width": 390
+      },
+      "cls": 0,
+      "stage": {
+        "poster": true,
+        "canvas": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "layout": {
+        "hero": {
+          "width": 320,
+          "height": 844
+        },
+        "stage": {
+          "width": 320,
+          "height": 844
+        },
+        "stageFillsHero": true,
+        "hintSrOnly": true,
+        "visibleBelowLogo": [],
+        "pageWidth": 320,
+        "width": 320
+      },
+      "cls": 0,
+      "stage": {
+        "poster": false,
+        "canvas": "block"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "layout": {
+        "hero": {
+          "width": 320,
+          "height": 844
+        },
+        "stage": {
+          "width": 320,
+          "height": 844
+        },
+        "stageFillsHero": true,
+        "hintSrOnly": true,
+        "visibleBelowLogo": [],
+        "pageWidth": 320,
+        "width": 320
+      },
+      "cls": 0,
+      "stage": {
+        "poster": true,
+        "canvas": "none"
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

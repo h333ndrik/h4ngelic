@@ -1,0 +1,12 @@
+CHECK V3.1 UI 1440px reduced=false
+PASS V3.1 UI 1440px reduced=false: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+CHECK V3.1 UI 1440px reduced=true
+PASS V3.1 UI 1440px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+CHECK V3.1 UI 390px reduced=false
+PASS V3.1 UI 390px reduced=false: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+CHECK V3.1 UI 390px reduced=true
+PASS V3.1 UI 390px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+CHECK V3.1 UI 320px reduced=false
+PASS V3.1 UI 320px reduced=false: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.
+CHECK V3.1 UI 320px reduced=true
+PASS V3.1 UI 320px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.

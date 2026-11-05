@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-11-03T06:01:07.774Z",
+  "model": {
+    "fontSize": "74.88px",
+    "fontWeight": "400",
+    "lineHeight": "83.8656px",
+    "letterSpacing": "-3.3696px",
+    "textTransform": "none",
+    "color": "rgb(240, 239, 235)",
+    "margin": "0px",
+    "classes": "archive-category-heading rubric-category-heading"
+  },
+  "flashes": {
+    "fontSize": "74.88px",
+    "fontWeight": "400",
+    "lineHeight": "83.8656px",
+    "letterSpacing": "-3.3696px",
+    "textTransform": "none",
+    "color": "rgb(240, 239, 235)",
+    "margin": "0px",
+    "classes": "archive-category-heading rubric-category-heading"
+  },
+  "modelLinks": 0,
+  "modelArrows": 0,
+  "modelText": "3d model",
+  "duplicateModels": 1,
+  "section": "<section class=\"archive-category archive-model\" id=\"model-3d\" tabindex=\"-1\" aria-labelledby=\"archive-model-title\" data-deferred-model=\"\"><h3 class=\"archive-category-heading rubric-category-heading\" id=\"archive-model-title\" data-motion-static=\"\"><span class=\"archive-scroll-label\">3d model</span></h3></section>"
+}

@@ -1,0 +1,78 @@
+
+> h4ngelic@0.1.0 preview:export
+> npm run build && node scripts/export-preview.mjs
+
+
+> h4ngelic@0.1.0 prebuild
+> npm run images:optimize
+
+
+> h4ngelic@0.1.0 images:optimize
+> node scripts/optimize-images.mjs
+
+/images/digital-artworks/green-black-original.jpg: 1440×1920 → 320, 640, 960, 1440px WebP
+/images/tattoos/tattoo-01.jpg: 1170×1470 → 320, 640, 960, 1170px WebP
+/images/tattoos/tattoo-02.jpg: 1170×1734 → 320, 640, 960, 1170px WebP
+/images/tattoos/tattoo-03.jpg: 1170×1674 → 320, 640, 960, 1170px WebP
+/images/tattoos/tattoo-04.jpg: 2476×3606 → 320, 640, 960, 1440, 1920px WebP
+/images/tattoos/tattoo-05.jpg: 2480×3307 → 320, 640, 960, 1440, 1920px WebP
+/images/tattoos/tattoo-06.jpg: 2480×3308 → 320, 640, 960, 1440, 1920px WebP
+/images/tattoos/tattoo-07.jpg: 2480×3308 → 320, 640, 960, 1440, 1920px WebP
+/images/tattoos/tattoo-08.jpg: 2480×3308 → 320, 640, 960, 1440, 1920px WebP
+Prepared 9 local portfolio/portrait images. Originals preserved.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> h4ngelic@0.1.0 build
+> vite build && node scripts/prerender.mjs
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 116 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             4.35 kB │ gzip:   1.43 kB
+dist/assets/corruption-DUz8IwdS.css         1.26 kB │ gzip:   0.56 kB
+dist/assets/index-CaPn1BSa.css             70.36 kB │ gzip:  13.92 kB
+dist/assets/wordmark-xray--rdf0qQg.js       4.37 kB │ gzip:   1.67 kB
+dist/assets/horizontal-drift-B4qMoEUm.js    9.37 kB │ gzip:   3.49 kB
+dist/assets/corruption-D3ihhaZy.js         24.87 kB │ gzip:  10.13 kB
+dist/assets/index-Bwd6NH4S.js             204.97 kB │ gzip:  66.15 kB
+dist/assets/main-DTAeJOlR.js              610.38 kB │ gzip: 158.03 kB
+
+✓ built in 596ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+Prerendered 19 routes + 404 (preview; 0 indexable).
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 116 modules transformed.
+rendering chunks...
+computing gzip size...
+artifacts/.preview-build/index.html                   4.35 kB │ gzip:   1.43 kB
+artifacts/.preview-build/assets/index-7RWD2aSb.css   71.63 kB │ gzip:  14.18 kB
+artifacts/.preview-build/assets/index-Bb6anQbC.js   856.00 kB │ gzip: 239.05 kB
+
+✓ built in 350ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+Exported self-contained interactive preview: /workspace/h4ngelic/artifacts/h4ngelic-preview.html
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

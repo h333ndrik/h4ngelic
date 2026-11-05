@@ -1,3 +1,5 @@
+import { corruptionSettings } from './corruptionSettings.js';
+
 /** Shared, bounded controls for the Other Side. Consumers read one stable
  * object per frame; updates replace it rather than mutating frozen defaults.
  */
@@ -22,7 +24,7 @@ export const livingDecayDefaults = Object.freeze({
   negativeExposure: .14,
   recoverySpeed: .8,
   parallaxStrength: .4,
-  modeTransitionMs: 1400,
+  modeTransitionMs: corruptionSettings.transition.minimumDurationMs,
   navigationTransitionMs: 340,
   blockSize: 28,
   organicDecay: 1.15,

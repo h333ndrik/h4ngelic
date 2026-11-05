@@ -1,5 +1,5 @@
 import './easter-eggs.css';
-import { easterSettings, formatVisitCount, nextVisit, canRememberVisits } from './data/easterSettings.js';
+import { easterSettings, formatVisitCount, visitorMessage, nextVisit, canRememberVisits } from './data/easterSettings.js';
 import { createInkImprint } from './ink-imprint.js';
 import { createTouchInkSampler } from './touch-ink.js';
 import { isExposedHeroBackground } from './hero-background-ink.js';
@@ -17,6 +17,8 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   let layer = null;
   let disposed = false;
   let authorized = false;
+  let returningVisitor = false;
+  let visitWritten = false;
   let visitStorage = null;
   let visit = { count: 1, lastSeen: Date.now() };
   let lastWrite = 0;
@@ -32,6 +34,12 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   }
 
   function updateVisitorCopy() {
+    const memory = visitorMessage(visit.count);
+    for (const element of root.querySelectorAll('[data-returning-visitor]')) {
+      element.textContent = memory;
+      element.hidden = !returningVisitor;
+    }
+    for (const element of root.querySelectorAll('[data-visit-message]')) element.textContent = memory;
     for (const element of root.querySelectorAll('[data-visit-number]')) element.textContent = formatVisitCount(visit.count);
   }
 
@@ -45,6 +53,8 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
       try { visitStorage.removeItem(settings.visits.storageKey); } catch { /* Best-effort deletion after consent withdrawal. */ }
     }
     authorized = false;
+    returningVisitor = false;
+    visitWritten = false;
     visitStorage = null;
     visit = { count: 1, lastSeen: Date.now() };
     updateVisitorCopy();
@@ -54,7 +64,13 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     if (!authorized || !visitStorage) return;
     // Recheck at every write as well as the integration's privacy-change event.
     if (!canRememberVisits(settings.visits, consentGranted())) { forgetVisitorMemory(); return; }
-    try { visitStorage.setItem(settings.visits.storageKey, JSON.stringify(visit)); lastWrite = Date.now(); }
+    try {
+      // Do not resurrect explicitly cleared memory from a cached pagehide state.
+      if (visitWritten && visitStorage.getItem(settings.visits.storageKey) === null) { forgetVisitorMemory(); return; }
+      visitStorage.setItem(settings.visits.storageKey, JSON.stringify(visit));
+      visitWritten = true;
+      lastWrite = Date.now();
+    }
     catch { authorized = false; visitStorage = null; /* Retain the in-memory count when storage is unavailable. */ }
   }
 
@@ -72,7 +88,9 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
       visitStorage = storage || view.localStorage;
       authorized = Boolean(visitStorage);
       if (authorized) {
-        visit = nextVisit(readVisit(), Date.now(), settings.visits.separatedVisitMs);
+        const previous = readVisit();
+        returningVisitor = Number.isSafeInteger(previous?.count) && previous.count > 0;
+        visit = nextVisit(previous, Date.now(), settings.visits.separatedVisitMs);
         writeVisit();
       }
     } catch { authorized = false; visitStorage = null; }
@@ -147,7 +165,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
       layer = pageDocument.createElement('div');
       layer.className = 'ink-layer';
       layer.setAttribute('aria-hidden', 'true');
-      pageDocument.body.append(layer);
+      (pageDocument.querySelector('[data-page-composition]') || pageDocument.body).append(layer);
     }
     while (marks.size >= Math.max(1, settings.ink.maximumMarks)) forgetMark(marks.keys().next().value);
     const mark = pageDocument.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -273,17 +291,19 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   }
 
   function revealSecret(hotspot) {
-    const message = hotspot?.querySelector('[data-secret-message]');
-    if (!message || disposed) return;
-    clearHintTimer(message);
-    message.classList.add('is-discovered');
+    const messages = hotspot ? [...hotspot.querySelectorAll('[data-secret-message]')] : [];
+    if (!messages.length || disposed) return;
     const hideAfter = settings.hint.visibleMs
       + (hotspot.hasAttribute('data-other-side-hint') || hotspot.hasAttribute('data-visit-counter-hotspot') || reduced.matches ? 0 : settings.hint.fadeMs);
-    const hide = setTimeout(() => {
-      message.classList.remove('is-discovered');
-      hintTimers.delete(message);
-    }, hideAfter);
-    hintTimers.set(message, [hide]);
+    for (const message of messages) {
+      clearHintTimer(message);
+      message.classList.add('is-discovered');
+      const hide = setTimeout(() => {
+        message.classList.remove('is-discovered');
+        hintTimers.delete(message);
+      }, hideAfter);
+      hintTimers.set(message, [hide]);
+    }
   }
 
   function secretTarget(event) {
@@ -337,6 +357,7 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     }
     const hotspot = secretTarget(event);
     if (hotspot) revealSecret(hotspot);
+    else if (cluster?.matches('.footer-left')) revealSecret(cluster.querySelector('[data-visit-counter-hotspot]'));
   });
   listen(root, 'h4:pagechange', () => {
     clearSecrets();
@@ -355,6 +376,9 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
     for (const [mark, record] of marks) if (intersectsHint(record, bounds)) forgetMark(mark);
   });
   listen(root, 'h4:privacychange', refreshConsent);
+  listen(view, 'storage', event => {
+    if ((event.key === null || event.key === settings.visits.storageKey) && !event.newValue) { returningVisitor = false; updateVisitorCopy(); }
+  });
   listen(pageDocument, 'visibilitychange', () => {
     candidate = null;
     clearTouch();

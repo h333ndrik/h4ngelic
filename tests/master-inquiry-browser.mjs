@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const out = new URL('../artifacts/v31/', import.meta.url);
 await mkdir(out, { recursive: true });
-const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', headless: true,
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const reports = [], failures = [];
 let currentProfile = null;
@@ -89,9 +89,28 @@ try {
     // even when the same 1.5 declaration also styles a multiline textarea.
     assert.equal(geometry[0].placeholder.lineHeight, geometry[1].placeholder.lineHeight);
     assert.equal(parseFloat(geometry[2].placeholder.lineHeight), parseFloat(geometry[2].placeholder.fontSize) * 1.5);
-    const grid = await page.evaluate(() => ({ form: document.querySelector('[data-inquiry]').getBoundingClientRect().left,
-      about: document.querySelector('.about-preview-copy').getBoundingClientRect().left }));
-    assert.ok(Math.abs(grid.form - grid.about) < 1, JSON.stringify(grid));
+    const grid = await page.evaluate(() => {
+      const inquiry = document.querySelector('[data-inquiry]'), intro = inquiry.querySelector('.inquiry-intro'), form = inquiry.querySelector('[data-inquiry-form]');
+      const fields = form.querySelector('.inquiry-fields'), submit = form.querySelector('[data-inquiry-submit]'), fileLabel = form.querySelector('.inquiry-file-label');
+      return { inquiryLeft: inquiry.getBoundingClientRect().left, introLeft: intro.getBoundingClientRect().left,
+        formLeft: form.getBoundingClientRect().left, formMarginLeft: getComputedStyle(form).marginLeft, aboutLeft: document.querySelector('.about-preview-copy').getBoundingClientRect().left,
+        introMarginBottom: getComputedStyle(intro).marginBottom, offset: getComputedStyle(inquiry).getPropertyValue('--inquiry-form-offset').trim(),
+        slashInset: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--slash-inset')),
+        columns: getComputedStyle(fields).gridTemplateColumns.split(' ').length,
+        submitHeight: submit.getBoundingClientRect().height, fileLabelHeight: fileLabel.getBoundingClientRect().height,
+        scrollMarginBottom: getComputedStyle(form.querySelector('[data-inquiry-contact]')).scrollMarginBottom,
+        pageWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth };
+    });
+    assert.ok(Math.abs(grid.introLeft - grid.aboutLeft) < 1, 'The intro remains on the shared page inset.');
+    assert.ok(Math.abs(grid.formLeft - grid.introLeft) < 1, `The form starts on the same slash column as the intro: ${JSON.stringify(grid)}`);
+    assert.equal(parseFloat(grid.formMarginLeft), 0, 'The form has no separate offset.');
+    assert.equal(grid.offset, '', 'The retired inquiry offset token is gone.');
+    assert.ok(grid.slashInset > 0, 'The shared slash token is measured.');
+    assert.equal(grid.introMarginBottom, `${Math.min(28, Math.max(14, width * .02))}px`);
+    assert.equal(grid.columns, width <= 600 ? 1 : 2, 'The form stays single-column on mobile.');
+    assert.ok(grid.submitHeight >= 44 && grid.fileLabelHeight >= 44);
+    assert.equal(grid.scrollMarginBottom, '88px');
+    assert.ok(grid.pageWidth <= grid.viewportWidth + 1, 'The form offset never creates horizontal overflow.');
     const before = await contact.boundingBox();
     await contact.focus();
     const after = await contact.boundingBox();

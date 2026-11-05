@@ -1,0 +1,5 @@
+Command: npm test
+tests 371
+pass 371
+fail 0
+duration_ms 1172.457916

@@ -7,6 +7,8 @@ function fixture() {
   let now = 0;
   let id = 0;
   let unlocks = 0;
+  let entryAllowed = true;
+  const starts = [];
   const tasks = new Map();
   const view = Object.assign(new EventTarget(), {
     performance: { now: () => now },
@@ -14,7 +16,9 @@ function fixture() {
     clearTimeout(handle) { tasks.delete(handle); },
   });
   const doc = Object.assign(new EventTarget(), { defaultView: view, hidden: false, activeElement: null });
-  const dispose = bindXRayShortcut(doc, () => unlocks++);
+  const dispose = bindXRayShortcut(doc, () => unlocks++, {
+    isEnabled: () => entryAllowed, onStart: event => starts.push(event.type),
+  });
   const send = (type, properties = {}, target = doc) => {
     const event = new Event(type, { cancelable: true });
     Object.assign(event, properties);
@@ -33,7 +37,7 @@ function fixture() {
     }
     now = end;
   };
-  return { doc, view, key, send, tick, dispose, get unlocks() { return unlocks; }, get pending() { return tasks.size; } };
+  return { doc, view, key, send, tick, dispose, starts, setEntryAllowed(value) { entryAllowed = value; }, get unlocks() { return unlocks; }, get pending() { return tasks.size; } };
 }
 
 test('the shortcut requires a full continuous second and fires only once per press', () => {
@@ -52,7 +56,7 @@ test('the shortcut requires a full continuous second and fires only once per pre
   f.key('keyup');
   f.key('keydown');
   f.tick(1000);
-  assert.equal(f.unlocks, 2, 'A new full hold can toggle back.');
+  assert.equal(f.unlocks, 2, 'The reusable binder accepts a new hold only while its entry gate allows it.');
   f.dispose();
 });
 
@@ -131,4 +135,30 @@ test('disposal removes a pending timer and all shortcut listeners', () => {
   assert.equal(f.key('keydown').defaultPrevented, false);
   f.tick(2000);
   assert.equal(f.unlocks, 0);
+});
+
+
+test('entry-only gating leaves a fresh 4 hold inert on the Other Side', () => {
+  const f = fixture();
+  f.key('keydown'); f.tick(1000); f.key('keyup');
+  assert.equal(f.unlocks, 1);
+  f.setEntryAllowed(false);
+  const ignored = f.key('keydown');
+  f.tick(1500); f.key('keyup');
+  assert.equal(ignored.defaultPrevented, false);
+  assert.equal(f.unlocks, 1);
+  assert.equal(f.pending, 0);
+  assert.deepEqual(f.starts, ['keydown'], 'The ignored hold does not prime another snapshot or audio cue.');
+  f.dispose();
+});
+
+test('a pending key hold cannot complete after its entry gate closes', () => {
+  const f = fixture();
+  f.key('keydown'); f.tick(700); f.setEntryAllowed(false); f.tick(400);
+  assert.equal(f.unlocks, 0);
+  assert.equal(f.pending, 0);
+  f.key('keyup'); f.setEntryAllowed(true);
+  f.key('keydown'); f.tick(1000);
+  assert.equal(f.unlocks, 1);
+  f.dispose();
 });

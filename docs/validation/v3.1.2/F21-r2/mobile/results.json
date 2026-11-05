@@ -1,0 +1,366 @@
+{
+  "checkedAt": "2026-11-03T09:19:32.211Z",
+  "reports": [
+    {
+      "width": 390,
+      "reduced": false,
+      "recognition": {
+        "centre": 210.15625,
+        "top": 21,
+        "height": 15.390625,
+        "lineHeight": 15.4
+      },
+      "cursor": {
+        "body": "auto",
+        "link": "pointer"
+      },
+      "header": {
+        "brand": "difference",
+        "index": "difference"
+      },
+      "footer": {
+        "moshlab": {
+          "left": 3.234375,
+          "right": 76.328125,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "counter": {
+          "left": 88.328125,
+          "right": 145.390625,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "smash": {
+          "left": 245,
+          "right": 292.25,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "instagram": {
+          "left": 304.25,
+          "right": 368.828125,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "location": {
+          "left": 380.828125,
+          "right": 429.171875,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832
+        },
+        "phrase": "you know your way around here.",
+        "pageWidth": 390,
+        "messageOpacity": 0.9
+      },
+      "style": {
+        "visibility": "auto",
+        "heading": "on skin",
+        "categorySize": "20.28px",
+        "frontSize": "20.28px"
+      },
+      "positionBefore": 3197.599,
+      "positionAfter": 684.023,
+      "widthBefore": 300,
+      "expanded": {
+        "x": 12.142822265625,
+        "y": 236,
+        "width": 377.857177734375,
+        "height": 529
+      },
+      "digitalBox": {
+        "x": 99.0625,
+        "y": 261.875,
+        "width": 191.875,
+        "height": 255.828125
+      },
+      "crossBox": {
+        "width": 346,
+        "height": 68,
+        "scrollWidth": 346,
+        "labels": [
+          "jewellery",
+          "more"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "recognition": {
+        "centre": 210.15625,
+        "top": 21,
+        "height": 15.390625,
+        "lineHeight": 15.4
+      },
+      "cursor": {
+        "body": "auto",
+        "link": "pointer"
+      },
+      "header": {
+        "brand": "difference",
+        "index": "difference"
+      },
+      "footer": {
+        "moshlab": {
+          "left": 3.234375,
+          "right": 76.328125,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "counter": {
+          "left": 88.328125,
+          "right": 145.390625,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "smash": {
+          "left": 245,
+          "right": 292.25,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "instagram": {
+          "left": 304.25,
+          "right": 368.828125,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "location": {
+          "left": 380.828125,
+          "right": 429.171875,
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 788,
+          "bottom": 832
+        },
+        "phrase": "you know your way around here.",
+        "pageWidth": 390,
+        "messageOpacity": 0.9
+      },
+      "style": {
+        "visibility": "auto",
+        "heading": "on skin",
+        "categorySize": "20.28px",
+        "frontSize": "20.28px"
+      },
+      "positionBefore": 0,
+      "positionAfter": 0,
+      "widthBefore": 300,
+      "expanded": {
+        "x": 6.0714263916015625,
+        "y": 236,
+        "width": 377.85716247558594,
+        "height": 529
+      },
+      "digitalBox": {
+        "x": 99.0625,
+        "y": 261.875,
+        "width": 191.875,
+        "height": 255.828125
+      },
+      "crossBox": {
+        "width": 346,
+        "height": 68,
+        "scrollWidth": 346,
+        "labels": [
+          "jewellery",
+          "more"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "recognition": {
+        "centre": 173.4375,
+        "top": 21,
+        "height": 15.390625,
+        "lineHeight": 15.4
+      },
+      "cursor": {
+        "body": "auto",
+        "link": "pointer"
+      },
+      "header": {
+        "brand": "difference",
+        "index": "difference"
+      },
+      "footer": {
+        "moshlab": {
+          "left": -31.765625,
+          "right": 41.328125,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "counter": {
+          "left": 53.328125,
+          "right": 110.390625,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "smash": {
+          "left": 210,
+          "right": 257.25,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "instagram": {
+          "left": 269.25,
+          "right": 333.828125,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "location": {
+          "left": 345.828125,
+          "right": 394.171875,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832
+        },
+        "phrase": "you know your way around here.",
+        "pageWidth": 320,
+        "messageOpacity": 0.350516
+      },
+      "style": {
+        "visibility": "auto",
+        "heading": "on skin",
+        "categorySize": "18px",
+        "frontSize": "18px"
+      },
+      "positionBefore": 3190.399,
+      "positionAfter": 546.409,
+      "widthBefore": 300,
+      "expanded": {
+        "x": 0,
+        "y": 253.99998474121094,
+        "width": 320,
+        "height": 448.00001525878906
+      },
+      "digitalBox": {
+        "x": 81.28125,
+        "y": 250.140625,
+        "width": 157.4375,
+        "height": 209.90625
+      },
+      "crossBox": {
+        "width": 276,
+        "height": 68,
+        "scrollWidth": 276,
+        "labels": [
+          "jewellery",
+          "more"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "recognition": {
+        "centre": 173.4375,
+        "top": 21,
+        "height": 15.390625,
+        "lineHeight": 15.4
+      },
+      "cursor": {
+        "body": "auto",
+        "link": "pointer"
+      },
+      "header": {
+        "brand": "difference",
+        "index": "difference"
+      },
+      "footer": {
+        "moshlab": {
+          "left": -31.765625,
+          "right": 41.328125,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "counter": {
+          "left": 53.328125,
+          "right": 110.390625,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "smash": {
+          "left": 210,
+          "right": 257.25,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "instagram": {
+          "left": 269.25,
+          "right": 333.828125,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "location": {
+          "left": 345.828125,
+          "right": 394.171875,
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 788,
+          "bottom": 832
+        },
+        "phrase": "you know your way around here.",
+        "pageWidth": 320,
+        "messageOpacity": 0.9
+      },
+      "style": {
+        "visibility": "auto",
+        "heading": "on skin",
+        "categorySize": "18px",
+        "frontSize": "18px"
+      },
+      "positionBefore": 0,
+      "positionAfter": 0,
+      "widthBefore": 300,
+      "expanded": {
+        "x": -0.0000152587890625,
+        "y": 253.99998474121094,
+        "width": 320.00001525878906,
+        "height": 448.00001525878906
+      },
+      "digitalBox": {
+        "x": 81.28125,
+        "y": 250.140625,
+        "width": 157.4375,
+        "height": 209.90625
+      },
+      "crossBox": {
+        "width": 276,
+        "height": 68,
+        "scrollWidth": 276,
+        "labels": [
+          "jewellery",
+          "more"
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

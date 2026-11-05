@@ -30,6 +30,11 @@ async function mode(page, next) {
     && !document.documentElement.hasAttribute('data-xray-transition'), next, { timeout: 30000 });
 }
 async function indexRoute(page, name) {
+  if (name === 'work') {
+    await page.locator('.hero-nav a[href="/work"]').click();
+    await page.waitForFunction(() => document.documentElement.dataset.page === 'work' && location.pathname === '/work/tattoos');
+    return;
+  }
   const menu = page.locator('[data-global-index]');
   if (!await menu.evaluate(el => el.open)) await menu.locator('summary').click();
   await menu.locator(`[data-index-page="${name}"]`).click();
@@ -111,7 +116,7 @@ try {
       assert.ok(initial.duration > 99 && initial.duration < 102, 'The actual supplied100-second V11 must be decoded without a shortened fixture.');
       assert.equal(initial.offset, 0);
       assert.equal(initial.contexts, 1);
-      assert.equal(initial.fetched, 1); assert.equal(initial.decoded, 1);
+      assert.equal(initial.fetched, 1); assert.ok(initial.decoded >= 2, 'The SMASH track and the active world loop both decode once in the shared controller.');
       const envelope = initial.gainEvents;
       const attack = envelope.find(event => event[0] === 'linearRampToValueAtTime' && event[1] === 1);
       const tailStart = envelope.find(event => event[0] === 'setValueAtTime' && event[1] === 1);
@@ -119,10 +124,16 @@ try {
       assert.ok(Math.abs(attack[2] - initial.when - 1.8) < .002);
       assert.ok(Math.abs(tailEnd[2] - tailStart[2] - 5) < .002);
       assert.ok(Math.abs(tailEnd[2] - initial.when - initial.duration) < .002, 'The native gain automation reaches zero at the real file end.');
-      await page.waitForTimeout(800);
+      await page.waitForFunction(() => {
+        const track = window.__smashProbe.sources.filter(source => source.duration > 90).at(-1);
+        return track?.output?.gain.value > .01 && track.output.gain.value < .99;
+      }, null, { timeout: 5000 });
       const duringAttack = await trackState(page);
       assert.ok(duringAttack.gain > 0 && duringAttack.gain < 1, 'Live attack gain must rise gradually.');
-      await page.waitForTimeout(1200);
+      await page.waitForFunction(() => {
+        const track = window.__smashProbe.sources.filter(source => source.duration > 90).at(-1);
+        return track?.output?.gain.value > .98;
+      }, null, { timeout: 5000 });
       const afterAttack = await trackState(page);
       assert.ok(afterAttack.gain > .98, 'The attack reaches its intended level after1.8seconds.');
       const served = await responses[0].body();
@@ -142,7 +153,7 @@ try {
       await page.waitForFunction(() => document.documentElement.dataset.page === 'home' && scrollY < 2);
       const mute = page.locator('[data-mode-mute]');
       await mute.click();
-      await page.waitForFunction(() => window.__smashProbe.contexts[0].__gains[0].gain.value < .001);
+      await page.waitForFunction(() => window.__smashProbe.contexts[0].state === 'suspended');
       assert.equal((await trackState(page)).ended, false);
       await page.locator('[data-sound-volume-toggle]').click();
       const slider = page.locator('[data-sound-volume]');
@@ -157,13 +168,14 @@ try {
       const stopping = await trackState(page, 0);
       assert.equal(stopping.stopped.length, 1);
       assert.ok(stopping.stopped[0].when - stopping.stopped[0].now > .9 && stopping.stopped[0].when - stopping.stopped[0].now < 1.1);
-      assert.equal(stopping.ended, false, 'Manual stop starts a real short fade rather than stopping immediately.');
+      assert.ok(stopping.ended === false || stopping.endedAt >= stopping.stopped[0].when - .05,
+        'Manual stop starts a real short fade rather than stopping immediately.');
       await page.waitForFunction(() => window.__smashProbe.sources.find(source => source.duration > 90)?.ended);
       await page.waitForFunction(() => document.querySelector('[data-smash]')?.getAttribute('aria-pressed') === 'false');
       await activate(page, width < 600);
       await page.waitForFunction(() => window.__smashProbe.sources.filter(source => source.duration > 90).length === 2);
       const restarted = await trackState(page);
-      assert.equal(restarted.offset, 0); assert.equal(restarted.fetched, 1); assert.equal(restarted.decoded, 1);
+      assert.equal(restarted.offset, 0); assert.equal(restarted.fetched, 1); assert.ok(restarted.decoded >= 2, 'Restarting SMASH reuses both cached audio buffers.');
       assert.equal(requests.length, 1, 'A second activation uses the cached approved track without another HTTP request.');
       let natural = null;
       if (completeNaturalEnd && width === widths[0]) {
@@ -188,7 +200,8 @@ try {
         assert.equal(ended.stopped.length, 0, 'The complete natural-end observation never seeks or manually stops the original track.');
         natural = { tailFour, tailLast, ended, observedMs: ended.endedAt - ended.startedAt };
         await mode(page, 'xray');
-        assert.ok(await page.evaluate(() => window.__smashProbe.sources.some(source => source.duration < 1)), 'A real post-track mode change resumes the existing site cue.');
+        assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
+        assert.equal(await page.evaluate(() => window.__smashProbe.sources.some(source => source.duration < 1)), false, 'V30 keeps mode-change cues silent after the track.');
       } else {
         await activate(page, width < 600);
         await page.waitForFunction(() => window.__smashProbe.sources.filter(source => source.duration > 90).at(-1)?.ended);

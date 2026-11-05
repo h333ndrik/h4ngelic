@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-11-03T06:20:47.197Z",
+  "tattoos": {
+    "path": "/work/tattoos",
+    "heading": "on skin",
+    "filters": [
+      {
+        "href": "/work/tattoos",
+        "text": "on skin",
+        "current": "page"
+      },
+      {
+        "href": "/work/jewellery",
+        "text": "jewellery",
+        "current": null
+      },
+      {
+        "href": "/work/more",
+        "text": "more",
+        "current": null
+      }
+    ],
+    "cross": [
+      {
+        "href": "/work/jewellery",
+        "text": "jewellery"
+      },
+      {
+        "href": "/work/more",
+        "text": "more"
+      }
+    ],
+    "groupId": "tattoos"
+  },
+  "all": {
+    "filters": [
+      {
+        "href": "/work/tattoos",
+        "text": "on skin"
+      },
+      {
+        "href": "/work/jewellery",
+        "text": "jewellery"
+      },
+      {
+        "href": "/work/more",
+        "text": "more"
+      }
+    ],
+    "groups": []
+  },
+  "home": [
+    "tattoos",
+    "jewellery",
+    "more"
+  ]
+}

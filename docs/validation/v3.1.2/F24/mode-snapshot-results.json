@@ -1,0 +1,273 @@
+{
+  "measuredAt": "2026-11-03T05:49:56.193Z",
+  "reports": [
+    {
+      "profile": "native-desktop",
+      "brightBefore": 2576,
+      "brightAfter": 3357,
+      "movedOutsideMask": 2828,
+      "unexpectedColors": 0,
+      "metadata": {
+        "callbacks": [
+          {
+            "captured": true,
+            "duration": 1000,
+            "variant": 1947,
+            "kind": "mode",
+            "strength": 1
+          }
+        ],
+        "filter": "url(\"#h4-mode-snapshot-3-old\")",
+        "source": "SourceGraphic",
+        "controller": {
+          "active": true,
+          "prepared": false,
+          "nativeCount": 1,
+          "current": {
+            "kind": "mode",
+            "strength": 1,
+            "variant": 1947,
+            "duration": 1000,
+            "frames": 4,
+            "native": true
+          },
+          "last": null
+        }
+      },
+      "realtime": {
+        "elapsedMs": 970,
+        "animationMs": 900,
+        "calls": [
+          {
+            "captured": true,
+            "duration": 900,
+            "variant": 2231,
+            "kind": "mode",
+            "strength": 1
+          }
+        ],
+        "flag": false,
+        "snapshot": {
+          "active": false,
+          "prepared": false,
+          "nativeCount": 2,
+          "current": null,
+          "last": {
+            "kind": "mode",
+            "strength": 1,
+            "variant": 2231,
+            "duration": 900,
+            "frames": 9,
+            "native": true,
+            "skipped": false
+          }
+        }
+      },
+      "fallback": {
+        "calls": [
+          {
+            "captured": false
+          }
+        ],
+        "handle": null,
+        "active": false,
+        "flag": false
+      },
+      "interruption": {
+        "calls": [
+          {
+            "captured": false,
+            "duration": 800,
+            "variant": 13,
+            "kind": "mode",
+            "strength": 1
+          }
+        ],
+        "invalid": false,
+        "flag": false,
+        "snapshot": {
+          "active": false,
+          "prepared": false,
+          "nativeCount": 1,
+          "current": null,
+          "last": {
+            "kind": "mode",
+            "strength": 1,
+            "variant": 13,
+            "duration": 800,
+            "frames": 1,
+            "native": true,
+            "skipped": true
+          }
+        }
+      }
+    },
+    {
+      "profile": "native-mobile-390",
+      "transitions": [
+        {
+          "mode": "xray",
+          "elapsedMs": 972,
+          "animationMs": 900,
+          "duration": 900,
+          "calls": [
+            {
+              "captured": true,
+              "duration": 900,
+              "variant": 1947,
+              "kind": "mode",
+              "strength": 1
+            }
+          ],
+          "captured": {
+            "transform": "none",
+            "filter": "url(\"#h4-mode-snapshot-3-old\")"
+          },
+          "snapshot": {
+            "active": false,
+            "prepared": false,
+            "nativeCount": 1,
+            "current": null,
+            "last": {
+              "kind": "mode",
+              "strength": 1,
+              "variant": 1947,
+              "duration": 900,
+              "frames": 11,
+              "native": true,
+              "skipped": false
+            }
+          },
+          "retainedMaps": 0,
+          "overflow": false
+        },
+        {
+          "mode": "normal",
+          "elapsedMs": 1162,
+          "animationMs": 900,
+          "duration": 900,
+          "calls": [
+            {
+              "captured": true,
+              "duration": 900,
+              "variant": 2231,
+              "kind": "mode",
+              "strength": 1
+            }
+          ],
+          "captured": {
+            "transform": "none",
+            "filter": "url(\"#h4-mode-snapshot-3-old\")"
+          },
+          "snapshot": {
+            "active": false,
+            "prepared": false,
+            "nativeCount": 2,
+            "current": null,
+            "last": {
+              "kind": "mode",
+              "strength": 1,
+              "variant": 2231,
+              "duration": 900,
+              "frames": 12,
+              "native": true,
+              "skipped": false
+            }
+          },
+          "retainedMaps": 0,
+          "overflow": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "profile": "native-mobile-320",
+      "transitions": [
+        {
+          "mode": "xray",
+          "elapsedMs": 970,
+          "animationMs": 900,
+          "duration": 900,
+          "calls": [
+            {
+              "captured": true,
+              "duration": 900,
+              "variant": 1947,
+              "kind": "mode",
+              "strength": 1
+            }
+          ],
+          "captured": {
+            "transform": "none",
+            "filter": "url(\"#h4-mode-snapshot-3-old\")"
+          },
+          "snapshot": {
+            "active": false,
+            "prepared": false,
+            "nativeCount": 1,
+            "current": null,
+            "last": {
+              "kind": "mode",
+              "strength": 1,
+              "variant": 1947,
+              "duration": 900,
+              "frames": 14,
+              "native": true,
+              "skipped": false
+            }
+          },
+          "retainedMaps": 0,
+          "overflow": false
+        },
+        {
+          "mode": "normal",
+          "elapsedMs": 1192,
+          "animationMs": 900,
+          "duration": 900,
+          "calls": [
+            {
+              "captured": true,
+              "duration": 900,
+              "variant": 2231,
+              "kind": "mode",
+              "strength": 1
+            }
+          ],
+          "captured": {
+            "transform": "none",
+            "filter": "url(\"#h4-mode-snapshot-3-old\")"
+          },
+          "snapshot": {
+            "active": false,
+            "prepared": false,
+            "nativeCount": 2,
+            "current": null,
+            "last": {
+              "kind": "mode",
+              "strength": 1,
+              "variant": 2231,
+              "duration": 900,
+              "frames": 14,
+              "native": true,
+              "skipped": false
+            }
+          },
+          "retainedMaps": 0,
+          "overflow": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "profile": "reduced-motion",
+      "calls": [
+        {
+          "captured": false
+        }
+      ],
+      "prepared": null,
+      "handle": null,
+      "nodes": 0
+    }
+  ]
+}

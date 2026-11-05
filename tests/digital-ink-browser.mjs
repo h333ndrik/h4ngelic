@@ -1,247 +1,102 @@
+// Legacy command name retained: Digital is an ordinary image, without ink reveal.
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
-import { mkdir, writeFile, readFile } from 'node:fs/promises';
-import sharp from 'sharp';
-
-const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
-  args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
-const widths = (process.env.H4_DIGITAL_WIDTHS || '1000,390,320').split(',').map(Number);
-const results = process.env.H4_DIGITAL_RESUME === '1'
-  ? JSON.parse(await readFile('artifacts/digital-ink-results.json', 'utf8')).results.filter(result => !widths.includes(result.width)) : [];
-await mkdir('artifacts/digital-ink', { recursive: true });
-const deadline = setTimeout(() => void browser.close(), 180000);
-try {
-  for (const width of widths) {
-    const page = await browser.newPage({ viewport: { width, height: 800 }, deviceScaleFactor: 1,
-      isMobile: width < 600, hasTouch: width < 600 });
-    const errors = [];
-    page.on('pageerror', error => errors.push(error.message));
-    await page.route('**/images/ink-test-only.svg', route => route.fulfill({ contentType: 'image/svg+xml', body:
-      '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800"><rect width="600" height="800" fill="#19b76e"/><path d="M0 0L600 800M600 0L0 800" stroke="#13231c" stroke-width="60"/><circle cx="300" cy="400" r="100" fill="#abe7d4"/></svg>' }));
-    const requests = [];
-    page.on('request', request => requests.push(new URL(request.url()).pathname));
-    await page.goto(`${base}/work/digital-artworks?test=1`, { waitUntil: 'networkidle' });
-    await page.waitForSelector('.is-ink-enhanced');
-    const original = await page.locator('.digital-ink-open img').evaluate(image => ({
-      source: image.currentSrc, naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight,
-      alt: image.alt, count: document.querySelectorAll('[data-digital-ink]').length,
-    }));
-    assert.equal(original.count, 1, 'The real supplied original is published once.');
-    assert.ok(original.source.includes('green-black-original'));
-    // Responsive candidates expose density-corrected, integer CSS dimensions;
-    // those can round independently even for the exact 1440×1920 original.
-    assert.ok(original.naturalWidth > 0 && original.naturalHeight > 0
-      && Math.abs(original.naturalWidth * 4 - original.naturalHeight * 3) <= 4, JSON.stringify(original));
-    const realPose = async progress => {
-      await page.evaluate(progress => {
-        const section = document.querySelector('[data-digital-ink]');
-        const bounds = section.getBoundingClientRect();
-        scrollTo({ top: bounds.top + scrollY - innerHeight * .12 + (bounds.height - innerHeight) * progress, behavior: 'instant' });
-      }, progress);
-      await page.waitForFunction(progress => Math.abs(Number(document.querySelector('[data-digital-ink]').dataset.inkProgress) - progress) < .002, progress);
-      return page.locator('.digital-ink-canvas').evaluate(canvas => {
-        const pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
-        let visible = 0, hash = 2166136261;
-        const alpha = new Uint8Array(pixels.length / 4);
-        for (let index = 3; index < pixels.length; index += 4) {
-          if (pixels[index]) visible++;
-          hash = Math.imul(hash ^ pixels[index], 16777619) >>> 0;
-          alpha[(index - 3) / 4] = pixels[index];
-        }
-        const section = document.querySelector('[data-digital-ink]');
-        const progress = Number(section.dataset.inkProgress);
-        let repeatDelta;
-        if (!window.__originalInkAlpha) window.__originalInkAlpha = { progress, alpha };
-        else if (progress === window.__originalInkAlpha.progress && alpha.length === window.__originalInkAlpha.alpha.length) {
-          let sum = 0, maximum = 0, changed = 0;
-          for (let index = 0; index < alpha.length; index++) {
-            const delta = Math.abs(alpha[index] - window.__originalInkAlpha.alpha[index]);
-            sum += delta; maximum = Math.max(maximum, delta); changed += delta > 2;
-          }
-          repeatDelta = { maximum, mean: sum / alpha.length, changedFraction: changed / alpha.length };
-        }
-        return { visible, hash, width: canvas.width, height: canvas.height,
-          progress, repeatDelta, scroll: scrollY,
-          sectionTop: section.getBoundingClientRect().top, sectionHeight: section.getBoundingClientRect().height };
-      });
-    };
-    const originalFirst = await realPose(.32);
-    await page.screenshot({ path: `artifacts/digital-ink/original-first-${width}.png` });
-    const originalLater = await realPose(.72);
-    await page.screenshot({ path: `artifacts/digital-ink/original-later-${width}.png` });
-    const originalReverse = await realPose(.32);
-    assert.ok(originalLater.visible > originalFirst.visible);
-    assert.ok(originalReverse.repeatDelta?.mean < .25 && originalReverse.repeatDelta.changedFraction < .005,
-      `The real original must retain its deterministic contour within measured sparse edge resampling: ${JSON.stringify({ originalFirst, originalLater, originalReverse })}`);
-    await realPose(1);
-    await page.mouse.move(0, 0);
-    await page.waitForTimeout(450);
-    const image = page.locator('.digital-ink-open img');
-    const fullState = await image.evaluate(image => {
-      const style = getComputedStyle(image), visual = image.closest('.interaction-visual');
-      const parentStyle = visual && getComputedStyle(visual);
-      const bounds = image.getBoundingClientRect();
-      return { visibility: style.visibility, imageFilter: style.filter, parentFilter: parentStyle?.filter,
-        parentTransform: parentStyle?.transform, canvasDisplay: getComputedStyle(document.querySelector('.digital-ink-canvas')).display,
-        bounds: { x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height } };
-    });
-    assert.equal(fullState.visibility, 'visible');
-    assert.equal(fullState.canvasDisplay, 'none');
-    assert.equal(fullState.imageFilter, 'none');
-    assert.ok(!fullState.parentFilter || fullState.parentFilter === 'none');
-    const full = await image.screenshot();
-    // Compare actual completed page pixels with a clean, unfiltered <img> of
-    // the exact same responsive file at the same position. This detects a
-    // remaining mask, blur, color filter, cropping or canvas resampling.
-    await image.evaluate(image => {
-      const bounds = image.getBoundingClientRect();
-      const visual = image.closest('.interaction-visual');
-      const parentBounds = visual?.getBoundingClientRect() || bounds;
-      const host = document.createElement('div');
-      host.id = 'clean-original-reference-host';
-      if (visual) host.className = 'interaction-visual';
-      // Use the same stationary parent geometry/identity transform so the
-      // reference has the same subpixel sampling phase as the original.
-      Object.assign(host.style, { position: 'fixed', left: `${parentBounds.left}px`, top: `${parentBounds.top}px`,
-        display: 'block', width: `${parentBounds.width}px`, height: `${parentBounds.height}px`,
-        filter: 'none',
-        zIndex: '2147483647', pointerEvents: 'none' });
-      const clone = image.cloneNode(false);
-      clone.loading = 'eager';
-      clone.id = 'clean-original-pixel-reference';
-      Object.assign(clone.style, { display: 'block',
-        width: `${bounds.width}px`, height: `${bounds.height}px`, maxWidth: 'none', maxHeight: 'none',
-        margin: '0 auto', padding: '0', border: '0', objectFit: 'contain', filter: 'none', pointerEvents: 'none' });
-      host.append(clone); document.body.append(host);
-      return clone.decode();
-    });
-    const clean = await page.locator('#clean-original-pixel-reference').screenshot();
-    const actualPixels = await sharp(full).removeAlpha().raw().toBuffer();
-    const cleanPixels = await sharp(clean).removeAlpha().raw().toBuffer();
-    assert.equal(actualPixels.length, cleanPixels.length);
-    let channelDifference = 0, maximumDifference = 0;
-    for (let index = 0; index < actualPixels.length; index++) {
-      const delta = Math.abs(actualPixels[index] - cleanPixels[index]);
-      channelDifference += delta; maximumDifference = Math.max(maximumDifference, delta);
+import { mkdir, writeFile } from 'node:fs/promises';
+const base=process.env.H4_BASE_URL||'http://127.0.0.1:55173';
+const output=process.env.H4_DIGITAL_ARTIFACTS||'artifacts/v311/F10/digital';
+await mkdir(output,{recursive:true});
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const reports=[], failures=[];
+const profiles=[1440,390,320].flatMap(width=>[false,true].map(reduced=>({width,reduced})));
+const settled=page=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+const pose=element=>{ const r=element.getBoundingClientRect(),s=getComputedStyle(element);return {x:r.x,y:r.y,width:r.width,height:r.height,filter:s.filter,radius:s.borderRadius,objectFit:s.objectFit,transform:s.transform,visibility:s.visibility,source:element.currentSrc,srcset:element.srcset,sizes:element.sizes}; };
+async function changeMode(page,world){
+  if(await page.locator('html').getAttribute('data-mode')===world)return;
+  await page.evaluate(()=>document.activeElement?.blur());
+  if(world==='xray'){await page.keyboard.down('4');try{await page.waitForFunction(()=>document.documentElement.dataset.mode==='xray',null,{timeout:30000});}finally{await page.keyboard.up('4');}}
+  else for(let i=0;i<3;i++)await page.keyboard.press('3');
+  await page.waitForFunction(world=>document.documentElement.dataset.mode===world&&!document.documentElement.hasAttribute('data-mode-snapshot')&&!document.documentElement.hasAttribute('data-xray-transition'),world,{timeout:60000});
+}
+try{
+ for(const profile of profiles){
+  const page=await browser.newPage({viewport:{width:profile.width,height:844},deviceScaleFactor:1,isMobile:profile.width<600,hasTouch:profile.width<600,reducedMotion:profile.reduced?'reduce':'no-preference'});
+  const errors=[],requests=[];page.on('pageerror',error=>errors.push(error.message));page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});page.on('request',request=>requests.push(new URL(request.url()).pathname));
+  try{
+   const worlds=[];
+   for(const [route,selector,kind] of [['/work/digital-artworks','#digital-artworks','archive'],['/work/digital-artworks/green-black-original','.artwork-detail','detail']]){
+    const routeRequestStart=requests.length;
+    await page.goto(`${base}${route}?test=1`,{waitUntil:'networkidle'});
+    const trigger=page.locator(`${selector} [data-inline-expand]`).first();
+    await trigger.waitFor();
+    assert.equal(await trigger.evaluate(element=>element.tagName),'BUTTON','Inline expand is a native button with Space/Enter activation.');
+    const image=trigger.locator('img'),frame=trigger.locator('xpath=..');
+    const fullSource=await image.getAttribute('data-full-src');
+    assert.ok(fullSource,'The shared viewer retains its explicit high-resolution source.');
+    const fullURL=new URL(fullSource,page.url()).href,fullPath=new URL(fullURL).pathname;
+    const previewAttributes=await image.evaluate(element=>Object.fromEntries(['src','srcset','sizes'].map(name=>[name,element.getAttribute(name)])));
+    await image.evaluate(image=>image.decode());
+    assert.equal(await page.locator('[data-digital-ink],.digital-ink-canvas').count(),0,'Digital ink reveal remains retired.');
+    for(const world of ['normal','xray']){
+     await changeMode(page,world);
+     await frame.evaluate(element=>element.scrollIntoView({block:'center',behavior:'instant'}));
+     await page.mouse.move(profile.width-2,100);await page.waitForTimeout(profile.reduced?0:400);await settled(page);
+     const before=await image.evaluate(pose), geometry=await frame.evaluate(element=>({width:element.getBoundingClientRect().width,height:element.getBoundingClientRect().height,base:getComputedStyle(element).getPropertyValue('--digital-base-width')}));
+     assert.ok(before.source.includes('green-black-original')&&before.srcset.includes('960w')&&!before.srcset.includes('1440w'));
+     if(world==='normal'){
+      assert.ok(!before.source.includes('-1440.webp'),'Full source is not selected on cold resting load.');
+      assert.ok(!requests.slice(routeRequestStart).includes(fullPath),'No full-resolution request precedes the first trusted expansion gesture on this route.');
+     }
+     assert.equal(before.objectFit,'contain');if(world==='normal')assert.equal(before.filter,'none');assert.equal(before.visibility,'visible');assert.equal(before.radius,'4px');
+     const expectedBase=kind==='archive'?Math.min(profile.width*.492,660):Math.min((profile.width-(profile.width<600?44:70))*.6,720);
+     const expected=Math.min(expectedBase,(844-152)*.75/1.4);
+     assert.ok(Math.abs(before.width-expected)<2,JSON.stringify({kind,profile,before,expected,geometry}));
+     const unchanged=await page.evaluate(()=>({y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow}));
+     await page.screenshot({path:`${output}/rest-${kind}-${profile.width}-${profile.reduced}-${world}.png`});
+     // Observe the first real full-source request before issuing the trusted
+     // click. Subsequent uses may resolve from the existing decoded/image cache.
+     const firstFullRequest=!requests.includes(fullPath)?page.waitForRequest(request=>new URL(request.url()).pathname===fullPath):null;
+     await trigger.click();
+     if(firstFullRequest)await firstFullRequest;
+     await page.waitForFunction(({element,fullURL})=>element.currentSrc===fullURL&&element.complete&&element.naturalWidth>0,
+      {element:await image.elementHandle(),fullURL},{timeout:20000});
+     await image.evaluate(element=>element.decode());
+     await page.waitForFunction(element=>{
+      const scaleOf=target=>{const value=getComputedStyle(target).transform,matrix=new DOMMatrixReadOnly(value==='none'?undefined:value);return Math.hypot(matrix.m11,matrix.m12);};
+      const target=Number(getComputedStyle(element).getPropertyValue('--inline-view-scale'))||1;
+      const visual=element.querySelector('.interaction-visual');
+      return element.hasAttribute('data-inline-expanded')&&Math.abs(scaleOf(element)-target)<.001&&(!visual||Math.abs(scaleOf(visual)-1)<.001);
+     },await trigger.elementHandle(),{timeout:15000});
+     await settled(page);
+     assert.equal(await trigger.getAttribute('aria-pressed'),'true');
+     const expanded=await image.evaluate(pose),ratio=expanded.width/before.width;
+     assert.equal(expanded.source,fullURL,'The decoded explicit full source is shown only after activation.');
+     assert.ok(requests.includes(fullPath),'A real trusted expansion requested the supplied full source.');
+     assert.ok(Math.abs(parseFloat(expanded.radius)*ratio-4)<.06,'Scale compensation retains an approximately4px physical corner in the expanded view.');
+     assert.ok(ratio>=1.2,JSON.stringify({before,expanded,ratio}));assert.equal(expanded.filter,before.filter,'Inline mechanics do not alter the world’s image treatment.');
+     assert.ok(expanded.x>=-1&&expanded.y>=-1&&expanded.x+expanded.width<=profile.width+1&&expanded.y+expanded.height<=845);
+     assert.equal(await page.locator('dialog[open]').count(),0);assert.deepEqual(await page.evaluate(()=>({y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow})),unchanged);
+     await page.screenshot({path:`${output}/expanded-${kind}-${profile.width}-${profile.reduced}-${world}.png`});
+     await trigger.click();
+     assert.deepEqual(await image.evaluate(element=>Object.fromEntries(['src','srcset','sizes'].map(name=>[name,element.getAttribute(name)]))),previewAttributes,'Collapse restores every original source-selection attribute exactly.');
+     // Compare resting geometry after leaving the legitimate shared hover,
+     // rather than mistaking its1.025x feedback for a failed expansion restore.
+     await page.mouse.move(profile.width-2,100);await page.evaluate(()=>document.activeElement?.blur());
+     await page.waitForFunction(element=>{
+      const scaleOf=target=>{const value=getComputedStyle(target).transform,matrix=new DOMMatrixReadOnly(value==='none'?undefined:value);return Math.hypot(matrix.m11,matrix.m12);};
+      const visual=element.querySelector('.interaction-visual');
+      return !element.hasAttribute('data-inline-expanded')&&Math.abs(scaleOf(element)-1)<.001&&(!visual||Math.abs(scaleOf(visual)-1)<.001);
+     },await trigger.elementHandle(),{timeout:15000});
+     await settled(page);
+     assert.equal(await trigger.getAttribute('aria-pressed'),'false');const restored=await image.evaluate(pose);assert.ok(Math.abs(restored.width-before.width)<1);
+     await trigger.focus();await page.keyboard.press('Enter');assert.equal(await trigger.getAttribute('aria-pressed'),'true');await page.keyboard.press('Escape');assert.equal(await trigger.getAttribute('aria-pressed'),'false');
+     await trigger.focus();await page.keyboard.press('Space');assert.equal(await trigger.getAttribute('aria-pressed'),'true');await page.keyboard.press('Escape');assert.equal(await trigger.getAttribute('aria-pressed'),'false');
+     await trigger.click();await page.mouse.click(profile.width-2,300);assert.equal(await trigger.getAttribute('aria-pressed'),'false');
+     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+     worlds.push({kind,world,before,geometry,expectedBase,expected,expanded,ratio,restored});
     }
-    const meanChannelDifference = channelDifference / actualPixels.length;
-    await writeFile('artifacts/digital-ink/partial-original-results.json', JSON.stringify({ width, original,
-      originalFirst, originalLater, originalReverse, fullState, meanChannelDifference, maximumDifference }, null, 2));
-    // Separate DOM image instances need not rasterize byte-identically. This
-    // guard allows under 1% mean 8-bit channel error; metadata above separately
-    // proves that the original responsive image is shown without a canvas or
-    // filter. Report the actual difference, without claiming pixel identity.
-    assert.ok(meanChannelDifference < 255 * .01, `Completed artwork must retain the clean original appearance (${meanChannelDifference}).`);
-    await page.locator('#clean-original-reference-host').evaluate(host => host.remove());
-    await page.screenshot({ path: `artifacts/digital-ink/original-complete-${width}.png` });
-    let otherSide;
-    if (width === 1000) {
-      await page.evaluate(() => {
-        window.__originalInkNode = document.querySelector('[data-digital-ink]');
-        window.__digitalEdges = [];
-        document.addEventListener('h4:visualmotion', event => {
-          for (const sample of event.detail.samples || []) if (sample.target?.classList?.contains('digital-ink-canvas')) {
-            window.__digitalEdges.push({ kind: sample.kind, points: sample.points });
-          }
-        });
-      });
-      await page.keyboard.down('4');
-      try {
-        await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray'
-          && !document.documentElement.hasAttribute('data-mode-snapshot')
-          && !document.documentElement.hasAttribute('data-xray-transition'), null, { timeout: 20000 });
-      } finally { await page.keyboard.up('4'); }
-      assert.equal(await page.evaluate(() => window.__originalInkNode === document.querySelector('[data-digital-ink]')), true);
-      await realPose(.32);
-      await page.waitForTimeout(120);
-      await realPose(.62);
-      await page.waitForFunction(() => window.__digitalEdges.length >= 2);
-      otherSide = await page.evaluate(() => ({ sameNode: window.__originalInkNode === document.querySelector('[data-digital-ink]'),
-        progress: Number(document.querySelector('[data-digital-ink]').dataset.inkProgress), events: window.__digitalEdges }));
-      assert.ok(otherSide.events.every(event => event.points.length === 8));
-      assert.notDeepEqual(otherSide.events[0].points, otherSide.events.at(-1).points, 'Real moving mask edges feed different geometric motion samples to shared corruption.');
-      for (let index = 0; index < 3; index++) await page.keyboard.press('3');
-      await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal'
-        && !document.documentElement.hasAttribute('data-mode-snapshot')
-        && !document.documentElement.hasAttribute('data-xray-transition'), null, { timeout: 20000 });
-      assert.equal(await page.evaluate(() => window.__originalInkNode === document.querySelector('[data-digital-ink]')), true);
-    }
-    assert.ok(!requests.some(path => /\/src\/main\.js|\/three(?:\/|\.)|wordmark\.typeface/.test(path)), 'A cold digital archive never downloads the hero or Three.js.');
-    await page.goto(`${base}/work/jewellery?test=1`, { waitUntil: 'networkidle' });
-    await page.evaluate(async () => {
-      const { renderDigitalInk } = await import('/src/digital-ink-content.js');
-      const { initDigitalInk } = await import('/src/digital-ink.js');
-      const root = document.getElementById('page-content');
-      root.innerHTML = '<div style="height:30vh"></div>' + renderDigitalInk([{ id: 'browser-only-fixture',
-        category: 'digital-artworks', title: 'test fixture — not portfolio artwork', images: [{ src: '/images/ink-test-only.svg',
-          alt: 'test geometry', width: 600, height: 800 }] }]) + '<div style="height:100vh"></div>';
-      window.stopTestInk = initDigitalInk(root);
-    });
-    await page.waitForSelector('.is-ink-enhanced');
-    async function pose(progress) {
-      await page.evaluate(progress => {
-        const section = document.querySelector('[data-digital-ink]');
-        const bounds = section.getBoundingClientRect();
-        const top = bounds.top + scrollY;
-        scrollTo({ top: top - innerHeight * .12 + (bounds.height - innerHeight) * progress, behavior: 'instant' });
-      }, progress);
-      await page.waitForFunction(progress => Math.abs(Number(document.querySelector('[data-digital-ink]').dataset.inkProgress) - progress) < .002, progress);
-      return page.evaluate(() => {
-        const canvas = document.querySelector('.digital-ink-canvas');
-        const pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
-        let sum = 0, visible = 0, hash = 2166136261;
-        const alpha = new Uint8Array(pixels.length / 4);
-        for (let index = 3; index < pixels.length; index += 4) {
-          sum += pixels[index]; if (pixels[index]) visible++;
-          hash = Math.imul(hash ^ pixels[index], 16777619) >>> 0;
-          alpha[(index - 3) / 4] = pixels[index];
-        }
-        const progress = Number(document.querySelector('[data-digital-ink]').dataset.inkProgress);
-        let repeatDelta;
-        if (progress > .31 && progress < .33) {
-          if (!window.__fixtureInkAlpha) window.__fixtureInkAlpha = alpha;
-          else {
-            let total = 0, maximum = 0, changed = 0;
-            for (let index = 0; index < alpha.length; index++) {
-              const difference = Math.abs(alpha[index] - window.__fixtureInkAlpha[index]);
-              total += difference; maximum = Math.max(maximum, difference); changed += difference > 2;
-            }
-            repeatDelta = { mean: total / alpha.length, maximum, changedFraction: changed / alpha.length };
-          }
-        }
-        return { progress, sum, visible, hash, repeatDelta };
-      });
-    }
-    const initial = await pose(.05), first = await pose(.32);
-    await page.screenshot({ path: `artifacts/digital-ink/first-${width}.png` });
-    const later = await pose(.72);
-    await page.screenshot({ path: `artifacts/digital-ink/later-${width}.png` });
-    const reverse = await pose(.32);
-    assert.ok(later.visible > first.visible && first.visible > initial.visible);
-    assert.ok(reverse.repeatDelta?.mean < .25 && reverse.repeatDelta.changedFraction < .005,
-      `Reverse scrolling restores the contour within measured sparse edge resampling: ${JSON.stringify(reverse.repeatDelta)}`);
-    await pose(1);
-    const complete = await page.evaluate(() => ({
-      canvas: getComputedStyle(document.querySelector('.digital-ink-canvas')).display,
-      image: getComputedStyle(document.querySelector('.digital-ink-open img')).visibility,
-      width: document.documentElement.scrollWidth,
-      overflow: [...document.querySelectorAll('*')].filter(element => element.getBoundingClientRect().right > innerWidth + 1).slice(0,12).map(element => ({ tag:element.tagName, cls:element.className, right:element.getBoundingClientRect().right, width:element.getBoundingClientRect().width })),
-    }));
-    assert.equal(complete.canvas, 'none'); assert.equal(complete.image, 'visible'); assert.ok(complete.width <= width + 1, JSON.stringify({ width, complete }));
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.waitForFunction(() => !document.querySelector('.is-ink-enhanced'));
-    const reduced = await page.evaluate(() => ({ visibility: getComputedStyle(document.querySelector('.digital-ink-open img')).visibility,
-      position: getComputedStyle(document.querySelector('.digital-ink-sticky')).position }));
-    assert.equal(reduced.visibility, 'visible'); assert.equal(reduced.position, 'static');
-    await page.evaluate(() => window.stopTestInk());
-    assert.deepEqual(errors, []);
-    results.push({ width, original, originalFirst, originalLater, originalReverse,
-      originalFidelity: { meanChannelDifference, maximumDifference, fullState }, otherSide, initial, first, later, reverse, complete, reduced, errors });
-    await writeFile('artifacts/digital-ink-results.json', JSON.stringify({ passed: false, results }, null, 2));
-    await page.close();
-  }
-  await mkdir('artifacts', { recursive: true });
-  await writeFile('artifacts/digital-ink-results.json', JSON.stringify({ passed: [1000,390,320].every(width => results.some(result => result.width === width)), checkedAt: new Date().toISOString(), base, note: 'The seeded mask is exact in Node. Browser GPU/CPU readback can resample sparse contour edges; require under .25 mean alpha levels and under .5% pixels changing by more than 2 levels. No byte-identity claim.', results: results.sort((a,b) => b.width-a.width) }, null, 2));
-  console.log(JSON.stringify({ passed: true, results }, null, 2));
-} finally { clearTimeout(deadline); await browser.close(); }
+   }
+   assert.ok(!requests.some(path=>/\/src\/main\.js|\/three(?:\/|\.)|wordmark\.typeface/.test(path)),'Cold interior never downloads hero/Three.');
+   assert.deepEqual(errors,[]);reports.push({profile,worlds,errors});console.log(`PASS Digital inline ${profile.width} reduced=${profile.reduced}`);
+  }catch(error){failures.push({profile,error:error.stack,errors});throw error;}finally{await page.close();await writeFile(`${output}/results.json`,JSON.stringify({reports,failures},null,2));}
+ }
+}finally{await browser.close();}

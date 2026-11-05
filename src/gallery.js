@@ -2,11 +2,14 @@ import './gallery.css';
 import { animateArtworkFlight, artworkRect } from './artwork-transitions.js';
 import { inquiryArtwork } from './inquiry-content.js';
 import { contactURL } from './routes.js';
+import { initInlineArtworkExpand, isInlineArtworkTrigger } from './inline-artwork-expand.js';
 
 /** Native modal artwork viewer. No scene, animation library or scroll handler. */
 export function initGallery(root = document) {
-  const triggers = [...root.querySelectorAll('[data-artwork-open]')];
-  if (!triggers.length) return () => {};
+  const disposeInline = initInlineArtworkExpand(root);
+  const triggers = [...root.querySelectorAll('[data-artwork-open]')]
+    .filter(trigger => !isInlineArtworkTrigger(trigger) && !trigger.closest('[data-horizontal-drift]'));
+  if (!triggers.length) return disposeInline;
 
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const dialog = document.createElement('dialog');
@@ -57,27 +60,6 @@ export function initGallery(root = document) {
   let outsidePress = null;
   let openingImage = null;
   let openingVisibility = '';
-  let expanded = null;
-
-  // Native archives keep their own image in its existing layout slot. The
-  // same gallery controller handles this deliberately smaller interaction;
-  // regular project images retain the established accessible detail viewer.
-  function collapseInline() {
-    if (!expanded) return;
-    expanded.classList.remove('is-drift-expanded');
-    expanded.setAttribute('aria-pressed', 'false');
-    expanded.closest('[data-drift-item]')?.classList.remove('is-drift-expanded');
-    expanded = null;
-  }
-  function toggleInline(trigger) {
-    const same = expanded === trigger;
-    collapseInline();
-    if (same) return;
-    expanded = trigger;
-    trigger.classList.add('is-drift-expanded');
-    trigger.setAttribute('aria-pressed', 'true');
-    trigger.closest('[data-drift-item]')?.classList.add('is-drift-expanded');
-  }
 
   const listen = (element, type, handler, options) => {
     element.addEventListener(type, handler, options);
@@ -272,23 +254,11 @@ export function initGallery(root = document) {
 
   for (const trigger of triggers) listen(trigger, 'click', event => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
-    if (trigger.closest('[data-horizontal-drift]')) {
-      event.preventDefault();
-      toggleInline(trigger);
-      return;
-    }
-    collapseInline();
     // Published image links retain their detail URLs without JavaScript;
     // modified clicks retain native new-tab behavior.
     if (typeof dialog.showModal !== 'function') return;
     event.preventDefault();
     open(trigger);
-  });
-  listen(document, 'click', event => {
-    if (expanded && !expanded.contains(event.target)) collapseInline();
-  });
-  listen(document, 'keydown', event => {
-    if (event.key === 'Escape' && expanded) { event.preventDefault(); collapseInline(); }
   });
   listen(closeButton, 'click', requestClose);
   listen(previousButton, 'click', () => showImage(selected - 1));
@@ -333,7 +303,7 @@ export function initGallery(root = document) {
 
   return () => {
     closed = true;
-    collapseInline();
+    disposeInline();
     ++ticket;
     cancelFlight();
     clearTimeout(closeTimer);

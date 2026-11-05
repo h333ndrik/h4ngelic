@@ -1,0 +1,111 @@
+{
+  "generator": "scripts/mannequin-build.py",
+  "blender_version": "4.5.0 Alpha",
+  "variant": "B",
+  "seed": 320032,
+  "output": "public/models/mannequin.glb",
+  "bytes": 119740,
+  "sha256": "2b144ddec12b3490a71718a26c8c814247518fe475d7dfa59c76f0ed445952ad",
+  "segments": 32,
+  "height_units": 1.5,
+  "origin": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "up_axis": "+Y",
+  "front_axis": "+Z",
+  "before_join": [
+    {
+      "name": "Torso",
+      "vertices": 450,
+      "polygons": 896,
+      "triangles": 896
+    },
+    {
+      "name": "Neck",
+      "vertices": 48,
+      "polygons": 92,
+      "triangles": 92
+    },
+    {
+      "name": "NeckKnob",
+      "vertices": 162,
+      "polygons": 320,
+      "triangles": 320
+    },
+    {
+      "name": "Stand",
+      "vertices": 40,
+      "polygons": 76,
+      "triangles": 76
+    },
+    {
+      "name": "StandCollar",
+      "vertices": 48,
+      "polygons": 92,
+      "triangles": 92
+    },
+    {
+      "name": "BaseHub",
+      "vertices": 48,
+      "polygons": 92,
+      "triangles": 92
+    },
+    {
+      "name": "BaseFoot1",
+      "vertices": 32,
+      "polygons": 60,
+      "triangles": 60
+    },
+    {
+      "name": "BaseFoot2",
+      "vertices": 32,
+      "polygons": 60,
+      "triangles": 60
+    },
+    {
+      "name": "BaseFoot3",
+      "vertices": 32,
+      "polygons": 60,
+      "triangles": 60
+    }
+  ],
+  "after_merge": {
+    "name": "mannequin",
+    "vertices": 892,
+    "polygons": 1748,
+    "triangles": 1748
+  },
+  "decimation": {
+    "ratio": 1.0,
+    "applied": false,
+    "reason": "authored low-poly geometry is already below the 60k triangle budget"
+  },
+  "cleanup": {
+    "duplicate_merge_distance": 1e-06,
+    "non_manifold_edges": 0,
+    "loose_edges": 0,
+    "loose_vertices": 0
+  },
+  "materials": [
+    "mannequin_matt"
+  ],
+  "texture_count": 0,
+  "image_count": 0,
+  "bounds_gltf": {
+    "min": [
+      -0.190110445022583,
+      0,
+      -0.14094825088977814
+    ],
+    "max": [
+      0.190110445022583,
+      1.5,
+      0.20750001072883606
+    ]
+  },
+  "exported_triangles": 1748,
+  "draco": false,
+  "external_mesh_inputs": []
+}

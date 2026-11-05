@@ -1,6 +1,8 @@
 /** Short, related metallic-glass cues; generated locally after user input. */
 export const modeAudioSettings = Object.freeze({
   enabled: true,
+  // V30: metallic 333/4 cues are disabled while the code path remains intact.
+  modeSoundsEnabled: false,
   durationSeconds: .7,
   volume: .3,
   maximumVolume: .5,

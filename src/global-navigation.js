@@ -1,4 +1,5 @@
 import './global-navigation.css';
+import { initHeaderContrast } from './header-contrast.js';
 import { resolveRoute } from './routes.js';
 import { activeChapter, naaviUsesDisplayContrast } from './global-navigation-state.js';
 import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from './naavi-content.js';
@@ -8,9 +9,10 @@ import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from './naavi-
 export function initGlobalNavigation(doc = document) {
   const view = doc.defaultView;
   if (!view) return Object.assign(() => {}, { refresh: () => {} });
+  const headerContrast = initHeaderContrast(doc);
   let link = doc.querySelector('[data-naavi]');
   if (!link) {
-    doc.body.insertAdjacentHTML('beforeend', renderNAAVI({ kind: doc.documentElement.dataset.page || 'home' }));
+    (doc.querySelector('[data-page-composition]') || doc.body).insertAdjacentHTML('beforeend', renderNAAVI({ kind: doc.documentElement.dataset.page || 'home' }));
     link = doc.querySelector('[data-naavi]');
   }
   const index = doc.querySelector('[data-global-index]');
@@ -21,6 +23,7 @@ export function initGlobalNavigation(doc = document) {
   let stops = [], measured = [], frame = 0, dirty = true, disposed = false;
   let current = -1, digitAnimation, routeKind = '', initialIndex = 0, resizeObserver;
   let displayBounds = [], quietBounds = [], footerBounds = null, dockBounds = null;
+  let headerHover = null;
   const displaySelector = '.kinetic-heading, .page-heading, .work-group-heading > a, .archive-category-heading > a, .about-preview-copy, .category-link .interaction-visual';
   const quietSelector = '.inquiry, [data-inquiry-form], [data-controls], [data-global-index], .work-filters, [data-footer-row]';
   const listen = (target, name, handler, options) => {
@@ -28,6 +31,21 @@ export function initGlobalNavigation(doc = document) {
     listeners.push(() => target.removeEventListener(name, handler, options));
   };
   const href = value => doc.documentElement.dataset.preview === 'standalone' ? `#${value}` : value;
+
+  // The returning-visitor line is deliberately hover-only. Track the real
+  // pointer position instead of adding an invisible click-blocking band.
+  const setHeaderHover = active => {
+    if (headerHover === active) return;
+    headerHover = active;
+    doc.documentElement.dataset.headerHover = String(active);
+  };
+  if (doc.querySelector('[data-returning-visitor]')) {
+    listen(doc, 'pointermove', event => {
+      if (event.pointerType === 'touch') return;
+      setHeaderHover(event.clientY <= 76);
+    }, { passive: true });
+    listen(doc, 'pointerleave', () => setHeaderHover(false), { passive: true });
+  }
 
   function closeIndex({ focus = false } = {}) {
     if (!index?.open) return;
@@ -37,9 +55,9 @@ export function initGlobalNavigation(doc = document) {
     if (focus) summary.focus({ preventScroll: true });
   }
   function paintIndex(chapter) {
-    const primary = routeKind === 'artwork' ? 'work' : routeKind;
+    const primary = routeKind === 'artwork' || routeKind === 'work' ? 'creative' : routeKind;
     for (const item of indexLinks) {
-      const homeDestination = ['home', 'work', 'about', 'contact', 'secret'][chapter] || 'home';
+      const homeDestination = ['home', 'creative', 'about', 'contact'][chapter];
       const active = item.dataset.indexPage === (primary === 'home' ? homeDestination : primary);
       if (active) item.setAttribute('aria-current', primary === 'home' && chapter > 0 ? 'location' : 'page');
       else item.removeAttribute('aria-current');
@@ -79,13 +97,22 @@ export function initGlobalNavigation(doc = document) {
     dockBounds = link.getBoundingClientRect();
     const brand = doc.querySelector('[data-floating-brand]');
     const filters = doc.querySelector('.work-filters');
-    if (brand && filters && index) {
+    const recognition = doc.querySelector('[data-returning-visitor]');
+    if (brand && index) {
       const brandBox = brand.getBoundingClientRect();
-      const indexBox = index.getBoundingClientRect();
-      const left = brandBox.right + 12;
-      filters.style.setProperty('--work-row-top', `${brandBox.top}px`);
-      filters.style.setProperty('--work-row-left', `${left}px`);
-      filters.style.setProperty('--work-row-width', `${Math.max(0, indexBox.left - left - 12)}px`);
+      const indexBox = (summary || index).getBoundingClientRect();
+      const gap = filters ? parseFloat(view.getComputedStyle(filters).columnGap) || 0
+        : parseFloat(view.getComputedStyle(doc.documentElement).getPropertyValue('--header-item-gap')) || 10;
+      const left = brandBox.right + gap;
+      if (filters) {
+        filters.style.setProperty('--work-row-top', `${brandBox.top}px`);
+        filters.style.setProperty('--work-row-left', `${left}px`);
+        filters.style.setProperty('--work-row-width', `${Math.max(0, indexBox.left - left - gap)}px`);
+      }
+      if (recognition) {
+        recognition.style.setProperty('--recognition-left', `${brandBox.right}px`);
+        recognition.style.setProperty('--recognition-width', `${Math.max(0, indexBox.left - brandBox.right)}px`);
+      }
     }
     displayBounds = [...doc.querySelectorAll(displaySelector)].flatMap(element => {
       const style = view.getComputedStyle(element);
@@ -153,6 +180,7 @@ export function initGlobalNavigation(doc = document) {
   }
   function refresh() {
     closeIndex();
+    headerContrast.refresh();
     routeKind = doc.documentElement.dataset.page || 'home';
     const standalone = doc.documentElement.dataset.preview === 'standalone';
     const url = standalone ? new URL(view.location.hash.slice(1) || '/', 'https://preview.invalid') : new URL(view.location.href);
@@ -195,6 +223,10 @@ export function initGlobalNavigation(doc = document) {
   listen(link, 'click', event => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const state = naaviState(stops, current);
+    const currentURL = doc.documentElement.dataset.preview === 'standalone'
+      ? new URL(view.location.hash.slice(1) || '/', 'https://preview.invalid') : new URL(view.location.href);
+    const destinationURL = new URL(state.destination.href, currentURL);
+    if (destinationURL.pathname !== currentURL.pathname || destinationURL.search !== currentURL.search) return;
     const target = stops.find(stop => stop.id === state.destination.id && stop.href === state.destination.href)?.element;
     if (!target) return; // The normal route enhancer handles cross-route HOME.
     event.preventDefault();
@@ -231,6 +263,7 @@ export function initGlobalNavigation(doc = document) {
     link.removeAttribute('data-naavi-footer-docked');
     link.removeAttribute('data-naavi-display-contrast');
     resizeObserver?.disconnect();
+    headerContrast();
     listeners.forEach(remove => remove());
   }, { refresh });
 }

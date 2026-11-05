@@ -1,7 +1,7 @@
-H4NGELIC — V3.1 REFINEMENT
+H4NGELIC — V3.1.1 REVIEW-NAVIGATION
 
 Öffnen
-1. Auf GitHub im Branch feat/smart-continuation-v3 die Datei
+1. Auf GitHub im Branch v3.1.1-fixes die Datei
    docs/previews/h4ngelic-preview.html öffnen.
 2. „Download raw file“ wählen, die HTML-Datei speichern und auf einem
    Computer im Browser öffnen. Die GitHub-Codeansicht führt die Website nicht aus.
@@ -17,6 +17,12 @@ Navigation und Gestaltung
 - Das + oben rechts öffnet das nummerierte INDEX-Menü 00 / bis 04 /.
   INDEX bleibt getrennt von NAAVI unten in der Mitte.
 - h4ngelic oben links führt zur Startseite.
+- Die Startseitenüberschriften bleiben 01 / WORKS, 02 / ABOUT und 03 / CONTACT.
+  01 / WORKS öffnet das vollständige Archiv /work. tattoos / jewellery / more
+  öffnen eigene Kategorieseiten mit großen Überschriften und ausschließlich
+  zugehörigen Arbeiten. Direkter Aufruf, Neuladen und Browser-Zurück funktionieren
+  über echte Routen; nur diese Offline-Datei schreibt sie als #/work/tattoos,
+  #/work/jewellery und #/work/more. Die Website selbst verwendet normale Pfade.
 - Kontakt liegt ausschließlich in 03 / CONTACT auf der Startseite.
   Links aus Work und About führen dorthin; Artwork-Kontext bleibt erhalten.
 - HOW TO REACH YOU akzeptiert E-Mail, Instagram oder Telefonnummer.
@@ -78,15 +84,20 @@ beginnen auch hier erst nach Bedienung. Ist Sound ausgeschaltet, bleibt die
 Wiedergabe stumm, bis Sound wieder eingeschaltet wird.
 
 THE OTHER SIDE
-Taste 4 oder Numpad 4 mindestens eine Sekunde halten; zurück mit 333 oder
-nochmaligem Halten von 4. Kurzes Antippen reicht nicht. Auf Touch-Geräten den
-h4-Schalter viermal antippen, zum Zurückkehren dreimal. Eingabefelder vorher
+Taste 4 oder Numpad 4 mindestens eine Sekunde halten, um THE OTHER SIDE zu
+betreten. Erneutes Halten von 4 dort bewirkt nichts. Zurück ausschließlich mit
+drei schnellen 3-/Numpad-3-Tastendrücken innerhalb von zwei Sekunden; zwei
+Tastendrücke reichen nicht. Der Rückkehrhinweis lautet genau:
+press 3 times 3 to reverse
+Auf Touch-Geräten den h4-Schalter viermal antippen, zum Zurückkehren dreimal.
+Der 1400-ms-Korruptionsübergang bleibt unverändert. Eingabefelder vorher
 verlassen. Reduzierte Bewegung wird respektiert. Bestehender Chrome-Hero,
 Physik, finales originales h4 und Memory-Moshing bleiben erhalten.
 
 Offline-Grenzen
 Alle benötigten lokalen Website-Assets sind eingebettet. Interne Seiten nutzen
-in dieser Datei #-Adressen. Externe Links benötigen weiterhin Internet.
+ausschließlich in dieser Offline-Datei Hash-Routen wie #/work/tattoos;
+dies ist keine normale /work#tattoos-Sprungnavigation. Externe Links benötigen weiterhin Internet.
 Echter Anfrageversand benötigt einen konfigurierten Mail-Dienst und ist in
 einer Offline-Datei nicht verfügbar. Eine Vorschau bestätigt keinen Mailversand.
 

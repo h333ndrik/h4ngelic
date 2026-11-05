@@ -1,0 +1,14 @@
+[
+  {
+    "command": "node tests/v31-motion-browser.mjs",
+    "exitCode": 0,
+    "seconds": 127.836,
+    "log": "docs/validation/v3.1.1/F3/browser.txt"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 3.306,
+    "log": "docs/validation/v3.1.1/F3/node.txt"
+  }
+]

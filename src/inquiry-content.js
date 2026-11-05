@@ -31,7 +31,7 @@ export function renderInquiryForm({ context = '', id = 'inquiry' } = {}) {
   const address = inquirySettings.email;
   return `<div class="inquiry" data-inquiry>
     <p class="inquiry-intro">for tattoos, jewellery or other projects.</p>
-    <form class="inquiry-form" action="${inquirySettings.endpoint}" method="post" enctype="multipart/form-data" data-inquiry-form aria-describedby="${prefix}-status">
+    <form class="inquiry-form" action="${inquirySettings.endpoint}" method="post" enctype="multipart/form-data" data-inquiry-form aria-describedby="${prefix}-status" data-max-request-bytes="${inquirySettings.maximumRequestBytes}">
       <input type="hidden" name="artwork" value="${escape(project?.id || '')}" data-inquiry-artwork />
       <input type="hidden" name="started" value="" data-inquiry-started />
       <p class="inquiry-context" data-inquiry-context${project ? '' : ' hidden'}>${project ? `regarding ${escape(project.title || project.id.replaceAll('-', ' '))}.` : ''}</p>
@@ -45,14 +45,14 @@ feel free to write anything." maxlength="${inquirySettings.maximumMessageLength}
       <div class="inquiry-attachments">
         <label class="inquiry-file-label" for="${prefix}-files"><svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><path d="m8 13 6-6a3 3 0 0 1 4 4l-8 8a5 5 0 0 1-7-7l9-9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg><span>ATTACH REFERENCES / IMAGES</span></label>
         <input class="inquiry-file-input" id="${prefix}-files" type="file" name="attachments" accept="${inquirySettings.accept}" multiple aria-describedby="${prefix}-file-help ${prefix}-file-error" />
-        <p class="inquiry-file-help" id="${prefix}-file-help">jpg, png, webp, avif, gif or pdf · up to 5 files, 5 MB each, 12 MB total.</p>
+        <p class="inquiry-file-help" id="${prefix}-file-help">jpg, png, webp, avif, gif or pdf · up to 5 files, 4 MB total.</p>
         <p class="inquiry-error" id="${prefix}-file-error" data-inquiry-file-error role="alert"></p>
         <ul class="inquiry-file-list" data-inquiry-files aria-label="Selected references"></ul>
       </div>
       <button class="inquiry-submit" type="submit" data-inquiry-submit><span>SEND MESSAGE</span><i class="arrow" aria-hidden="true"></i></button>
       <p class="inquiry-status" id="${prefix}-status" data-inquiry-status role="status" aria-live="polite" aria-atomic="true"></p>
       <p class="inquiry-email-fallback" data-inquiry-email-fallback hidden>you can also email <a href="mailto:${address}">${address}</a>.</p>
-      <noscript><p>send the form directly, or email <a href="mailto:${address}">${address}</a>. references are limited to 5 files and 12 MB in total.</p></noscript>
+      <noscript><p>send the form directly, or email <a href="mailto:${address}">${address}</a>. references are limited to 5 files and 4 MB in total.</p></noscript>
     </form>
   </div>`;
 }

@@ -1,0 +1,994 @@
+{
+  "checkedAt": "2026-11-03T12:54:37.903Z",
+  "base": "http://127.0.0.1:55180",
+  "reports": [
+    {
+      "width": 1440,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.55,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": {
+          "entering": true,
+          "animation": "hero-wordmark-arrive",
+          "duration": "0.7s",
+          "at": 4288.800000011921
+        },
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.802487,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 19.59375
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 143.4375,
+          "token": 108.44
+        },
+        "values": {
+          "works": 143.421875,
+          "about": 143.4375,
+          "more": 143.4375,
+          "intro": 143.4375,
+          "form": 143.4375
+        },
+        "offsets": {
+          "works": -0.015625,
+          "about": 0,
+          "more": 0,
+          "intro": 0,
+          "form": 0
+        },
+        "pageWidth": 1440,
+        "innerWidth": 1440
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 32,
+          "position": 3195.202
+        },
+        "over": {
+          "scrollY": 32,
+          "position": 158.158
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "reduced": {
+        "poster": 1,
+        "animation": "none",
+        "canvas": "none"
+      },
+      "cursor": {
+        "home": {
+          "total": 223,
+          "offenders": []
+        },
+        "work": {
+          "total": 254,
+          "offenders": []
+        },
+        "noClass": {
+          "total": 254,
+          "offenders": []
+        },
+        "contact": {
+          "total": 223,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".floating-brand",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ],
+        "indexStates": [
+          {
+            "selector": "[data-global-index] summary",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"home\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"about\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"contact\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ],
+        "formStates": [
+          {
+            "selector": ".inquiry-field input[name=\"name\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-field input[name=\"email\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-field textarea[name=\"message\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-inquiry-submit]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-file-input",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "messages": [
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "[.WebGL-0x13c000cba00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[.WebGL-0x13c000cba00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "[.WebGL-0x13c000cba00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "[.WebGL-0x13c000cba00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+        "A preload for 'http://127.0.0.1:55180/assets/tattoo-texture.webp' is found, but is not used because the request credentials mode does not match. Consider taking a look at crossorigin attribute.",
+        "The resource http://127.0.0.1:55180/assets/tattoo-texture.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "A preload for 'http://127.0.0.1:55180/assets/tattoo-texture.webp' is found, but is not used because the request credentials mode does not match. Consider taking a look at crossorigin attribute.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9"
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.553097,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": {
+          "entering": true,
+          "animation": "hero-wordmark-arrive",
+          "duration": "0.7s",
+          "at": 1682.7999999523163
+        },
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.82068,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 15.390625
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 62.156253051757815,
+          "token": 40.16
+        },
+        "values": {
+          "works": 62.140625,
+          "about": 62.15625,
+          "more": 62.15625,
+          "intro": 62.15625,
+          "form": 62.15625
+        },
+        "offsets": {
+          "works": -0.015628051757815342,
+          "about": -0.000003051757815342171,
+          "more": -0.000003051757815342171,
+          "intro": -0.000003051757815342171,
+          "form": -0.000003051757815342171
+        },
+        "pageWidth": 390,
+        "innerWidth": 390
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 0,
+          "position": 3188.299
+        },
+        "over": {
+          "scrollY": 0,
+          "position": 267.923
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "reduced": {
+        "poster": 1,
+        "animation": "none",
+        "canvas": "none"
+      },
+      "cursor": {
+        "home": {
+          "total": 223,
+          "offenders": []
+        },
+        "work": {
+          "total": 254,
+          "offenders": []
+        },
+        "noClass": {
+          "total": 254,
+          "offenders": []
+        },
+        "contact": {
+          "total": 223,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".floating-brand",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ],
+        "indexStates": [
+          {
+            "selector": "[data-global-index] summary",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"home\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"about\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"contact\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ],
+        "formStates": [
+          {
+            "selector": ".inquiry-field input[name=\"name\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-field input[name=\"email\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-field textarea[name=\"message\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-inquiry-submit]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-file-input",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "messages": [
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "The resource http://127.0.0.1:55180/assets/tattoo-texture-640.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9"
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.553098,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": {
+          "entering": true,
+          "animation": "hero-wordmark-arrive",
+          "duration": "0.7s",
+          "at": 1784.0999999642372
+        },
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.811602,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "872d472b36e9",
+        "metaBuild": "872d472b36e9",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 0,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 1,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 15.390625
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 62.15625152587891,
+          "token": 40.16
+        },
+        "values": {
+          "works": 62.15625,
+          "about": 62.15625,
+          "more": 62.15625,
+          "intro": 62.15625,
+          "form": 62.15625
+        },
+        "offsets": {
+          "works": -0.0000015258789076710855,
+          "about": -0.0000015258789076710855,
+          "more": -0.0000015258789076710855,
+          "intro": -0.0000015258789076710855,
+          "form": -0.0000015258789076710855
+        },
+        "pageWidth": 320,
+        "innerWidth": 320
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 0,
+          "position": 3188.301
+        },
+        "over": {
+          "scrollY": 0,
+          "position": 263.447
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "reduced": {
+        "poster": 1,
+        "animation": "none",
+        "canvas": "none"
+      },
+      "cursor": {
+        "home": {
+          "total": 223,
+          "offenders": []
+        },
+        "work": {
+          "total": 254,
+          "offenders": []
+        },
+        "noClass": {
+          "total": 254,
+          "offenders": []
+        },
+        "contact": {
+          "total": 223,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".floating-brand",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-moshlab",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ],
+        "indexStates": [
+          {
+            "selector": "[data-global-index] summary",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"home\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"about\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-index-page=\"contact\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ],
+        "formStates": [
+          {
+            "selector": ".inquiry-field input[name=\"name\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-field input[name=\"email\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-field textarea[name=\"message\"]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": "[data-inquiry-submit]",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          {
+            "selector": ".inquiry-file-input",
+            "rest": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "hover": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "focus": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "active": "url(\"http://127.0.0.1:55180/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        ]
+      },
+      "messages": [
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "The resource http://127.0.0.1:55180/assets/tattoo-texture-640.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9",
+        "[vite] connecting...",
+        "[vite] connected.",
+        "[h4ngelic] build 872d472b36e9"
+      ],
+      "errors": []
+    }
+  ],
+  "failures": []
+}

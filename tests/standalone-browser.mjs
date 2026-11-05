@@ -29,11 +29,13 @@ async function routeNavigate(page, name) {
   const current = await page.locator('html').getAttribute('data-page');
   if (name === 'contact' && current === 'about') {
     await page.locator('.about-copy a[href="#/#contact"]').click();
+  } else if (name === 'work' && current === 'work') {
+    await page.evaluate(() => { location.hash = '#/work'; });
   } else if (name === 'home') {
     await page.locator('[data-floating-brand]').click();
   } else {
     await page.locator('[data-global-index] summary').click();
-    await page.locator(`[data-index-page="${name}"]`).click();
+    await page.locator(`[data-index-page="${name === 'work' ? 'creative' : name}"]`).click();
   }
   await page.waitForFunction(expected => document.documentElement.dataset.page === expected, name === 'contact' ? 'home' : name);
   // A route's data-page attribute changes before optional carousel imports
@@ -67,7 +69,7 @@ async function identityGeometry(page) {
         centerX: rect.left + rect.width / 2, centerY: rect.top + rect.height / 2 };
     };
     const counter = row.querySelector('[data-visit-counter-hotspot]');
-    return { row: box(row), counter: box(counter), counterInRightCluster: counter.closest('.footer-details') !== null,
+    return { row: box(row), counter: box(counter), counterInLeftCluster: counter.closest('.footer-left') !== null,
       brand: box(row.querySelector('.footer-brand')), left: box(row.querySelector('.footer-left')),
       right: box(row.querySelector('.footer-details')), naavi: box(document.querySelector('[data-naavi]')),
       pageHeight: document.documentElement.scrollHeight, pageWidth: document.documentElement.scrollWidth };
@@ -158,7 +160,7 @@ try {
               transition: snapshot.transition, queued: snapshot.queued, frames: snapshot.frames } });
         });
       });
-      await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
+      await page.locator('#stage.is-poster-static').waitFor({ timeout: 60000 });
       await waitMode(page, 'normal');
       assert.equal(await page.evaluate(() => window.__offlineAudioProbe.contexts), 0, 'Embedding bytes does not initialize Web Audio during offline startup.');
       assert.equal(await page.evaluate(() => window.__offlineAudioProbe.decodes), 0, 'The embedded track is not decoded before a trusted activation.');
@@ -170,16 +172,16 @@ try {
       assert.equal(await page.locator('[data-global-index] summary').textContent(), '+');
       await page.locator('[data-global-index] summary').click();
       assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), true);
-      assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00 /', '01 /', '02 /', '03 /', '04 /']);
+      assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00 /', '01 /', '02 /', '03 /']);
       await page.keyboard.press('Escape');
       assert.equal(await page.locator('[data-global-index]').evaluate(element => element.open), false);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
       assert.equal(await page.locator('[data-visit-counter-hotspot]').count(), 1);
-      assert.equal(await page.locator('[data-visit-message], [data-visitor-hotspot]').count(), 0, 'The seven-stage phrase system is removed.');
+      assert.equal(await page.locator('[data-visit-message]').count(), 1, 'The shared seven-tier phrase node is present.');
       assert.match(await page.locator('[data-visit-number]').textContent(), /^VISIT \d{4,}$/);
       await footerAtRest(page);
       const identity = await identityGeometry(page);
-      assert.equal(identity.counterInRightCluster, true, 'The local count belongs to the right footer cluster.');
+      assert.equal(identity.counterInLeftCluster, true, 'The local count follows moshlab in the left footer cluster.');
       assert.ok(Math.abs(identity.row.centerY - identity.naavi.centerY) < 2, 'Footer and NAAVI share one baseline.');
       assert.ok(identity.left.right <= identity.naavi.left + 1 && identity.naavi.right <= identity.right.left + 1,
         'The middle reservation keeps the shared NAAVI clear of both footer clusters.');
@@ -264,12 +266,23 @@ try {
       assert.equal(released.snapshot.sourceInitializations, 1);
       assert.equal(released.snapshot.queued, false, 'Reduced-motion offline memory stays static.');
       assert.equal(released.snapshot.transition.claimedFrame, prepared.snapshot.frames);
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 times 3 to reverse');
       await page.waitForTimeout(1100);
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Hold completion/release cannot toggle twice.');
+      const beforeIgnored4 = await page.evaluate(() => ({ mode: document.documentElement.dataset.mode,
+        handoffs: window.__offlineMemoryHandoffs.length }));
       await page.keyboard.down('4');
-      try { await waitMode(page, 'normal'); } finally { await page.keyboard.up('4'); }
-      assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal', 'V6 allows a fresh one-second 4 hold to reverse.');
+      try { await page.waitForTimeout(1250); } finally { await page.keyboard.up('4'); }
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'A fresh one-second 4 hold on The Other Side has no effect.');
+      assert.equal(await page.evaluate(() => document.documentElement.hasAttribute('data-mode-holding')
+        || document.documentElement.hasAttribute('data-mode-snapshot')
+        || document.documentElement.hasAttribute('data-memory-mosh-preparing')
+        || document.documentElement.hasAttribute('data-xray-transition')), false);
+      assert.equal(await page.evaluate(() => window.__offlineMemoryHandoffs.length), beforeIgnored4.handoffs,
+        'Ignored 4 cannot prepare or release another memory handoff.');
+      await page.keyboard.press('3'); await page.keyboard.press('3');
+      assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Two presses cannot reverse.');
+      await page.keyboard.press('3'); await waitMode(page, 'normal');
       await enterWith4(page);
       await page.evaluate(() => document.activeElement?.blur());
       await page.mouse.move(2, 2);
@@ -294,9 +307,9 @@ try {
         if (mobile) await mute.tap(); else await mute.click();
         assert.equal(await mute.getAttribute('aria-pressed'), 'true');
       }
-      await page.locator('#selected-work a').first().click();
+      await page.locator('#selected-work .category-link[href="#/work/tattoos"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
-      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="location"]')?.textContent.trim() === 'tattoos');
+      await page.waitForFunction(() => document.querySelector('.work-filters a[aria-current="page"]')?.textContent.trim() === 'on skin');
       assert.equal(await page.locator('#logo-canvas').isVisible(), false);
       const tattoos = page.locator('[data-horizontal-drift="tattoos"]');
       assert.equal(await tattoos.getAttribute('data-carousel-total'), '8');
@@ -321,15 +334,18 @@ try {
         'Work does not acquire a visible duplicate sound control.');
       if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true');
 
-      await page.locator('.archive-category-heading a[href="#/work#flashes"]').click();
-      await page.waitForFunction(() => location.hash === '#/work#flashes' && document.querySelector('#flashes').getBoundingClientRect().top < innerHeight);
-      assert.equal(await page.locator('.work-page h1').textContent(), '01 / WORKS', 'Anchor navigation keeps the connected Work document.');
-      await page.locator('.work-filters a[href="#/work#more"]').click();
-      await page.waitForFunction(() => location.hash === '#/work#more' && document.querySelector('#more').getBoundingClientRect().top < innerHeight);
-      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography']);
-      await page.locator('.archive-category-heading a[href="#/work#digital-artworks"]').click();
-      await page.waitForFunction(() => location.hash === '#/work#digital-artworks' && document.querySelector('#digital-artworks').getBoundingClientRect().top < innerHeight);
-      assert.equal(await page.locator('.portfolio-archive img').count(), 9, 'All eight supplied Tattoo photographs and the digital original are embedded.');
+      await page.evaluate(() => { location.hash = '#/work/flashes'; });
+      await page.waitForFunction(() => location.hash === '#/work/flashes' && document.querySelector('[data-work-context="flashes"]'));
+      assert.equal(await page.locator('.work-page h1').textContent(), 'FLASHES', 'The standalone Flash category is a real route with its own heading.');
+      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['flashes']);
+      await page.locator('.work-filters a[href="#/work/more"]').click();
+      await page.waitForFunction(() => location.hash === '#/work/more' && document.querySelector('[data-work-context="more"]'));
+      assert.equal(await page.locator('.work-page h1').textContent(), 'more');
+      assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(sections => sections.map(section => section.dataset.archiveCategory)), ['digital-artworks', 'analog-photography']);
+      await page.evaluate(() => { location.hash = '#/work/digital-artworks'; });
+      await page.waitForFunction(() => location.hash === '#/work/digital-artworks' && document.querySelector('[data-work-context="digital-artworks"]'));
+      assert.equal(await page.locator('.work-page h1').textContent(), 'DIGITAL ARTWORKS');
+      assert.equal(await page.locator('.portfolio-archive img').count(), 1, 'The Digital route embeds its real image without unrelated Tattoo slides.');
       const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
       await original.evaluate(image => image.decode());
       assert.match(await original.getAttribute('src'), /^data:image\//, 'Offline artwork uses an embedded image.');
@@ -355,14 +371,14 @@ try {
       await page.waitForFunction(() => document.documentElement.dataset.page === 'home'
         && location.hash === '#/#contact' && document.querySelector('#contact').getBoundingClientRect().top < innerHeight);
       assert.ok(await page.locator('#contact').evaluate(element => element.getBoundingClientRect().top < innerHeight));
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO REVERSE.');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 times 3 to reverse');
       await reverseWith3(page);
       assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
       const filters = await page.locator('#logo-canvas,.project-image img').evaluateAll(images => images.map(image => getComputedStyle(image).filter));
       assert.ok(filters.every(filter => filter === 'none'));
       await page.evaluate(() => { location.hash = '#/'; });
       await page.waitForFunction(() => scrollY === 0);
-      assert.equal(await page.locator('#logo-canvas').isVisible(), true);
+      assert.equal(await page.locator('#logo-canvas').isVisible(), false, 'Reduced-motion Home keeps the static poster instead of WebGL.');
       const homeHash = await page.evaluate(() => location.hash);
       await page.locator('#contact').evaluate(element => element.scrollIntoView({ behavior: 'instant' }));
       assert.ok(await page.evaluate(() => scrollY > 0), 'Prepare a real scrolled Home document without changing its hash.');
@@ -376,16 +392,16 @@ try {
       if (mobile) await page.locator('[data-visit-counter-hotspot]').tap(); else await page.locator('[data-visit-counter-hotspot]').focus();
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity) > .2);
       assert.equal(await page.locator('[data-visit-number]').textContent(), finalCount, 'Discovering a count does not increment it.');
-      assert.equal(await page.locator('[data-visit-message], [data-visitor-hotspot]').count(), 0);
+      assert.equal(await page.locator('[data-visit-message]').count(), 1);
       assert.deepEqual(errors, []);
       assert.deepEqual(requests, [], 'Standalone mode, texture, sound and navigation must require no HTTP requests.');
       reports.push({ width, mobile, externalHttpRequests: requests.length, runtimeErrors: errors.length,
         footerBaselineDelta: identity.naavi.centerY - identity.row.centerY, footerGeometry: identity, reverseHint, memoryHandoff, offlineSmash,
-        verified: ['WebGL hero', 'short hold cancellation', mobile ? 'native touch hold' : 'one-second 4 hold',
-          'one-second 4 reverse', 'released 333 return', 'temporary faint hint', 'embedded film',
+        verified: ['reduced-motion poster hero', 'short hold cancellation', mobile ? 'native touch hold' : 'one-second 4 hold',
+          'ignored one-second 4 on Other Side', 'exact released triple-3 return', 'temporary faint hint', 'embedded film',
           'retained transition pixels', 'two bounded memory buffers', 'no pristine CSS source', 'lower hero mute',
           'hidden four-digit right-cluster visit', 'numbered persistent INDEX', 'eight genuine embedded Tattoo photographs', 'inline photo enlargement', 'embedded SMASH availability', 'connected Work anchors', 'About', 'Home-only Contact inquiry', 'horizontal bounds'] });
-      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, 4/333 return, temporary faint hint, lower hero mute, hidden right-cluster visit, numbered INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.`);
+      console.log(`PASS standalone ${width}px: one-second${mobile ? ' native touch' : ' keyboard 4'} entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, hidden right-cluster visit, numbered INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL('../artifacts/control-offline-results.json', import.meta.url), JSON.stringify({

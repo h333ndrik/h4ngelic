@@ -14,13 +14,18 @@ const originalHashes = {
   pressed: '33e9fbc08561183352cf35b9c4ca46ee1fff3a760a2df0004ab56c83bf7ee3e3',
 };
 
-const previousViewports = {
+const originalViewports = {
   base: { width: '27.2', height: '40.8' },
   hover: { width: '28.832', height: '43.248' },
   pressed: { width: '26.112', height: '39.168' },
 };
+const approvedViewports = {
+  base: { width: '23.26', height: '34.88' },
+  hover: { width: '24.65136', height: '36.97704' },
+  pressed: { width: '22.32576', height: '33.48864' },
+};
 
-test('V3.1 reduces all cursor viewports exactly5% while retaining original symbol bytes and alternate alpha geometry', async () => {
+test('V2 sets the approved compact cursor viewport while retaining original symbol bytes and alternate alpha geometry', async () => {
   for (const state of ['base', 'hover', 'pressed']) {
     const original = await source(settings.cursor.normal[state]);
     const alternate = (await source(settings.cursor.other[state])).toString();
@@ -28,12 +33,12 @@ test('V3.1 reduces all cursor viewports exactly5% while retaining original symbo
     const root = svg.match(/^<svg[^>]*>/)[0];
     for (const attribute of ['width', 'height']) {
       const actual = Number(root.match(new RegExp(`${attribute}="([^"]+)"`))[1]);
-      assert.ok(Math.abs(actual - Number(previousViewports[state][attribute]) * .95) < 1e-8,
-        `${state} ${attribute} must decrease exactly5%.`);
+      assert.ok(Math.abs(actual - Number(approvedViewports[state][attribute])) < 1e-8,
+        `${state} ${attribute} must use the approved compact viewport.`);
     }
     const normalized = svg.replace(/^<svg[^>]*>/, tag => tag
-      .replace(/\bwidth="[^"]+"/, `width="${previousViewports[state].width}"`)
-      .replace(/\bheight="[^"]+"/, `height="${previousViewports[state].height}"`));
+      .replace(/\bwidth="[^"]+"/, `width="${originalViewports[state].width}"`)
+      .replace(/\bheight="[^"]+"/, `height="${originalViewports[state].height}"`));
     assert.equal(createHash('sha256').update(normalized).digest('hex'), originalHashes[state],
       'Only the approved viewport dimensions may change; original supplied glyph bytes remain exact.');
     assert.deepEqual(geometry(alternate), geometry(original.toString()));
@@ -58,7 +63,7 @@ test('alternate SVG pixels retain the alpha silhouette at native size and4× wit
         alphaRoundingPixels += alphaDifference > 0;
         if (Math.abs(left.data[index] - right.data[index]) + Math.abs(left.data[index + 1] - right.data[index + 1]) + Math.abs(left.data[index + 2] - right.data[index + 2]) > 30) colored++;
       }
-      assert.ok(alphaRoundingPixels <= 2, 'The fractional5% viewport may round at most two edge pixels by one alpha level; paths/viewBox remain exact.');
+      assert.ok(alphaRoundingPixels <= 2, 'The compact viewport may round at most two edge pixels by one alpha level; paths/viewBox remain exact.');
       assert.ok(colored > 30, 'The material must visibly change actual interior pixels.');
     }
   }
@@ -88,8 +93,8 @@ test('cursor material masks remain exact when rasterized in the original logical
   for (const state of ['base', 'hover', 'pressed']) {
     const images = await Promise.all(['normal', 'other'].map(async mode => {
       const svg = (await source(settings.cursor[mode][state])).toString().replace(/^<svg[^>]*>/, tag => tag
-        .replace(/\bwidth="[^"]+"/, `width="${previousViewports[state].width}"`)
-        .replace(/\bheight="[^"]+"/, `height="${previousViewports[state].height}"`));
+        .replace(/\bwidth="[^"]+"/, `width="${originalViewports[state].width}"`)
+        .replace(/\bheight="[^"]+"/, `height="${originalViewports[state].height}"`));
       return sharp(Buffer.from(svg)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
     }));
     assert.deepEqual(images[0].info, images[1].info);

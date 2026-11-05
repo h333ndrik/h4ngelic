@@ -1,0 +1,138 @@
+[
+  {
+    "width": 1440,
+    "reducedMotion": "no-preference",
+    "popup": {
+      "x": 139.46875,
+      "y": 872,
+      "width": 164,
+      "height": 52
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contextsAfterGesture": 1,
+    "contextsAfterReload": 0,
+    "horizontalOverflow": 0,
+    "audioRequests": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "reducedMotion": "reduce",
+    "popup": {
+      "x": 139.46875,
+      "y": 872,
+      "width": 164,
+      "height": 52
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contextsAfterGesture": 1,
+    "contextsAfterReload": 0,
+    "horizontalOverflow": 0,
+    "audioRequests": [],
+    "errors": []
+  },
+  {
+    "width": 810,
+    "reducedMotion": "no-preference",
+    "popup": {
+      "x": 139.46875,
+      "y": 872,
+      "width": 164,
+      "height": 52
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contextsAfterGesture": 1,
+    "contextsAfterReload": 0,
+    "horizontalOverflow": 0,
+    "audioRequests": [],
+    "errors": []
+  },
+  {
+    "width": 810,
+    "reducedMotion": "reduce",
+    "popup": {
+      "x": 139.46875,
+      "y": 872,
+      "width": 164,
+      "height": 52
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contextsAfterGesture": 1,
+    "contextsAfterReload": 0,
+    "horizontalOverflow": 0,
+    "audioRequests": [],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "reducedMotion": "no-preference",
+    "popup": {
+      "x": 113.515625,
+      "y": 628,
+      "width": 164,
+      "height": 48
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contextsAfterGesture": 1,
+    "contextsAfterReload": 0,
+    "horizontalOverflow": 0,
+    "audioRequests": [],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "reducedMotion": "reduce",
+    "popup": {
+      "x": 113.515625,
+      "y": 628,
+      "width": 164,
+      "height": 48
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contextsAfterGesture": 1,
+    "contextsAfterReload": 0,
+    "horizontalOverflow": 0,
+    "audioRequests": [],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "reducedMotion": "no-preference",
+    "popup": {
+      "x": 113.515625,
+      "y": 628,
+      "width": 164,
+      "height": 48
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contextsAfterGesture": 1,
+    "contextsAfterReload": 0,
+    "horizontalOverflow": 0,
+    "audioRequests": [],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "reducedMotion": "reduce",
+    "popup": {
+      "x": 113.515625,
+      "y": 628,
+      "width": 164,
+      "height": 48
+    },
+    "persistedVolume": 1,
+    "persistedMuted": true,
+    "contextsAfterGesture": 1,
+    "contextsAfterReload": 0,
+    "horizontalOverflow": 0,
+    "audioRequests": [],
+    "errors": []
+  }
+]

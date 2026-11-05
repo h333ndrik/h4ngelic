@@ -1,0 +1,293 @@
+{
+  "checkedAt": "2026-11-03T13:21:49.566Z",
+  "base": "http://127.0.0.1:55186",
+  "results": {
+    "normal": {
+      "start": {
+        "entering": true,
+        "opacity": 0,
+        "transform": "matrix(0.985, 0, 0, 0.985, 0, 8)",
+        "animation": "hero-wordmark-arrive",
+        "duration": "0.7s",
+        "stage": "stage is-ready is-entering"
+      },
+      "mid": {
+        "entering": true,
+        "opacity": 0.0399128,
+        "transform": "matrix(0.985599, 0, 0, 0.985599, 0, 7.6807)",
+        "animation": "hero-wordmark-arrive",
+        "duration": "0.7s",
+        "stage": "stage is-ready is-entering"
+      },
+      "end": {
+        "entering": false,
+        "opacity": 1,
+        "transform": "matrix(1, 0, 0, 1, 0, 0)",
+        "animation": "none",
+        "duration": "0s",
+        "stage": "stage is-ready"
+      },
+      "shifts": 0
+    },
+    "reduced": {
+      "poster": 1,
+      "animation": "none",
+      "canvas": "none",
+      "entering": false
+    },
+    "failed": {
+      "poster": 1,
+      "entering": false,
+      "canvas": "none"
+    },
+    "breathing": {
+      "minOpacity": 0.550124,
+      "maxOpacity": 1,
+      "minScale": 0.988007,
+      "maxScale": 1.012,
+      "samples": [
+        {
+          "opacity": 0.551966,
+          "scale": 0.988105
+        },
+        {
+          "opacity": 0.556116,
+          "scale": 0.988326
+        },
+        {
+          "opacity": 0.562662,
+          "scale": 0.988675
+        },
+        {
+          "opacity": 0.571701,
+          "scale": 0.989157
+        },
+        {
+          "opacity": 0.587636,
+          "scale": 0.990007
+        },
+        {
+          "opacity": 0.602599,
+          "scale": 0.990805
+        },
+        {
+          "opacity": 0.620044,
+          "scale": 0.991736
+        },
+        {
+          "opacity": 0.639842,
+          "scale": 0.992792
+        },
+        {
+          "opacity": 0.661832,
+          "scale": 0.993964
+        },
+        {
+          "opacity": 0.685821,
+          "scale": 0.995244
+        },
+        {
+          "opacity": 0.711475,
+          "scale": 0.996612
+        },
+        {
+          "opacity": 0.73827,
+          "scale": 0.998041
+        },
+        {
+          "opacity": 0.765769,
+          "scale": 0.999508
+        },
+        {
+          "opacity": 0.793447,
+          "scale": 1.00098
+        },
+        {
+          "opacity": 0.820771,
+          "scale": 1.00244
+        },
+        {
+          "opacity": 0.847238,
+          "scale": 1.00385
+        },
+        {
+          "opacity": 0.872281,
+          "scale": 1.00519
+        },
+        {
+          "opacity": 0.895704,
+          "scale": 1.00644
+        },
+        {
+          "opacity": 0.923597,
+          "scale": 1.00793
+        },
+        {
+          "opacity": 0.941845,
+          "scale": 1.0089
+        },
+        {
+          "opacity": 0.957633,
+          "scale": 1.00974
+        },
+        {
+          "opacity": 0.970878,
+          "scale": 1.01045
+        },
+        {
+          "opacity": 0.981582,
+          "scale": 1.01102
+        },
+        {
+          "opacity": 0.989775,
+          "scale": 1.01145
+        },
+        {
+          "opacity": 0.995528,
+          "scale": 1.01176
+        },
+        {
+          "opacity": 0.998895,
+          "scale": 1.01194
+        },
+        {
+          "opacity": 1,
+          "scale": 1.012
+        },
+        {
+          "opacity": 0.998901,
+          "scale": 1.01194
+        },
+        {
+          "opacity": 0.99553,
+          "scale": 1.01176
+        },
+        {
+          "opacity": 0.989792,
+          "scale": 1.01146
+        },
+        {
+          "opacity": 0.981605,
+          "scale": 1.01102
+        },
+        {
+          "opacity": 0.966778,
+          "scale": 1.01023
+        },
+        {
+          "opacity": 0.952691,
+          "scale": 1.00948
+        },
+        {
+          "opacity": 0.936076,
+          "scale": 1.00859
+        },
+        {
+          "opacity": 0.917076,
+          "scale": 1.00758
+        },
+        {
+          "opacity": 0.895714,
+          "scale": 1.00644
+        },
+        {
+          "opacity": 0.872389,
+          "scale": 1.00519
+        },
+        {
+          "opacity": 0.847283,
+          "scale": 1.00386
+        },
+        {
+          "opacity": 0.820783,
+          "scale": 1.00244
+        },
+        {
+          "opacity": 0.793462,
+          "scale": 1.00098
+        },
+        {
+          "opacity": 0.765782,
+          "scale": 0.999508
+        },
+        {
+          "opacity": 0.738336,
+          "scale": 0.998045
+        },
+        {
+          "opacity": 0.711486,
+          "scale": 0.996613
+        },
+        {
+          "opacity": 0.685931,
+          "scale": 0.99525
+        },
+        {
+          "opacity": 0.654356,
+          "scale": 0.993566
+        },
+        {
+          "opacity": 0.633027,
+          "scale": 0.992428
+        },
+        {
+          "opacity": 0.613968,
+          "scale": 0.991412
+        },
+        {
+          "opacity": 0.597357,
+          "scale": 0.990526
+        },
+        {
+          "opacity": 0.583263,
+          "scale": 0.989774
+        },
+        {
+          "opacity": 0.571712,
+          "scale": 0.989158
+        },
+        {
+          "opacity": 0.562686,
+          "scale": 0.988677
+        },
+        {
+          "opacity": 0.556132,
+          "scale": 0.988327
+        },
+        {
+          "opacity": 0.551975,
+          "scale": 0.988105
+        },
+        {
+          "opacity": 0.550124,
+          "scale": 0.988007
+        },
+        {
+          "opacity": 0.550484,
+          "scale": 0.988026
+        },
+        {
+          "opacity": 0.553086,
+          "scale": 0.988165
+        },
+        {
+          "opacity": 0.558023,
+          "scale": 0.988428
+        },
+        {
+          "opacity": 0.568389,
+          "scale": 0.988981
+        },
+        {
+          "opacity": 0.579085,
+          "scale": 0.989551
+        },
+        {
+          "opacity": 0.592302,
+          "scale": 0.990256
+        }
+      ]
+    }
+  },
+  "passed": true
+}

@@ -1,0 +1,12 @@
+CHECK F20 hero 1440px reduced=false
+PASS F20 1440px reduced=false: poster FCP median 60.00ms (52.00/60.00/64.00), preloads present and texture deferred after frame 1 with CLS 0.
+CHECK F20 hero 1440px reduced=true
+PASS F20 1440px reduced=true: poster FCP median 64.00ms (68.00/64.00/60.00), static no-WebGL path stayed intact.
+CHECK F20 hero 390px reduced=false
+PASS F20 390px reduced=false: poster FCP median 64.00ms (64.00/32.00/68.00), preloads present and texture deferred after frame 1 with CLS 0.
+CHECK F20 hero 390px reduced=true
+PASS F20 390px reduced=true: poster FCP median 40.00ms (88.00/40.00/28.00), static no-WebGL path stayed intact.
+CHECK F20 hero 320px reduced=false
+PASS F20 320px reduced=false: poster FCP median 48.00ms (36.00/64.00/48.00), preloads present and texture deferred after frame 1 with CLS 0.
+CHECK F20 hero 320px reduced=true
+PASS F20 320px reduced=true: poster FCP median 64.00ms (44.00/64.00/64.00), static no-WebGL path stayed intact.

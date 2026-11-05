@@ -1,173 +1,1135 @@
-# V3.1 progress — final build and artifact verification
+# Current checkpoint — WORLD SOUND v2 (90 s loops) — 2026-11-04
 
-Updated 2026-10-29. Branch: `feat/smart-continuation-v3` / PR #20. Starting verified V3 HEAD: `96820e5`; the branch was clean before this pass. Asset commit `f1841e4` contains the eight originals and approved SMASH file. Source commit **`daeaff8`** now contains the V3.1 refinement and generated image variants. The final Node run passes 357/357 after all runtime corrections; all approved functional-browser suites and the six production Digital comparisons pass. Production build/export succeeds for 19 routes plus 404 in preview/noindex mode. All 17 source items are DONE; live production-route and exact offline HTML/package validation now pass. Artifact/evidence commit `3b424e9` is pushed, remote HTML bytes match, and PR #20 is OPEN and ready for review. Delivery is complete; the exact next action is user review and any new external input.
+Status: **IMPLEMENTED / CHROMIUM VERIFIED / NOT PUSHED**. One new commit on top
+of `27315c6` on local branch `v3.2-world-sound`; no history rewrite, no push, no
+merge, no deploy. V3.1-owned modules, layout, mannequin and `api/inquiry.js`
+were not touched.
 
-The [full brief](docs/V3.1-REFINEMENT.md) plus the user’s **eight-photo correction** define the active scope. The former V3 evidence is historical where V3.1 changes behaviour; it must not be presented as new verification. [PROJECT_PLAN.md](PROJECT_PLAN.md) tracks the complete requirements.
+## Delivered in this pass
 
-## Per-item status
+- `scripts/renderWorldLoops.mjs` renders all four deliverables from one
+  deterministic synthesis graph: two 90 s loops (3,969,000 frames) and two
+  1.4 s transitions (61,740 frames), with one documented seed per file.
+- Loops are periodic by construction (all oscillator/LFO frequencies on the
+  1/90 Hz grid, envelopes as loop-phase functions, two-pass filtered noise bed)
+  and rendered with a 4 s pre-roll that warms echo and reverb before the exact
+  trim. The earlier equal-power wrap blend was removed; it added a measurable
+  level bump for coherent drones.
+- Build arc 0-15 s intro → layers 15-60 s → fullest 50-75 s → intro texture at
+  90 s. Measured first-2 s vs last-2 s difference: +0.43 dB (333), −0.48 dB (4).
+- Four anchors (43.6535 / 87.3071 / 103.8262 / 1046.5023 Hz) are continuous in
+  both loops; three probes per loop record their spectral presence.
+- Replaced the four committed M4A assets in a normal commit. Payload
+  2,087,514 → **5,771,564 bytes** (+176.5%), which is the requested threefold
+  loop duration at the same 256 kbps; v1 WAV masters were 17,129,180 bytes.
+- Encoder changed to macOS AudioToolbox (`afconvert`) plus a bit-exact ffmpeg
+  remux, with ffmpeg as the fallback. This removed an ffmpeg-native AAC start
+  artifact (a 0.042 offset over the first 512 samples) at the loop point.
+- `worldSoundSettings.js`: loop frame target 3,969,000, new `seconds` contract
+  (90 / 1.4). Fallback chain M4A → FLAC → WAV and every runtime behaviour
+  unchanged.
+- `worldSound.js` device-rate fix: asset acceptance now scales the expected
+  frame count to the context rate instead of demanding a 44.1 kHz context. On a
+  48 kHz output device the previous code rejected all loops and left the site
+  silent; that path is now tested at 44.1 and 48 kHz.
 
-All 17 source items below now have current evidence. Final artifact delivery is tracked separately. Both exact offline suites and matching package now pass; only the delivery commit/push and PR handoff remain.
+## Verification (actual)
 
-| Item | Actual state / remaining work | Files | Tests recorded so far | Desktop | Mobile |
-| --- | --- | --- | --- | --- | --- |
-| 1 | DONE — Numbered INDEX destinations, native menu interaction and route/NAAVI consistency pass four profiles in both realities. | `index.html`, `global-navigation*`, `naavi-content.js` | 357/357 broad Node; navigation4, both modes; empty failures/runtime errors. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 2 | DONE — Shared 300ms glow/scale and target coverage pass in all six UI profiles, both realities, including reduced motion and actual photo interactions. No earlier MP3 request is introduced. | `ui-tokens.css`, `uiEffectSettings.js`, `interactions.js/.css`, component styles | UI6, both modes; empty failures/console/page-error lists and no early MP3 request. `docs/validation/v3.1-refinement/ui.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
-| 3 | DONE — All six cursor viewport sizes are reduced by 5%; NAAVI uses the primary h4 hover variant. Four browser profiles pass in both realities. | `public/assets/h4ngelic-cursor*.svg`, `cursor.css` | 357/357 broad Node; navigation4, both modes; empty failures/runtime errors. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 4 | DONE — Digits and separator share scoped contrast; form/small UI exclusions and footer docking pass. Hidden headings/children/ancestors release contrast immediately without hot geometry reads. | `global-navigation.js/.css`, `global-navigation-state.js`, footer styles | 357/357 broad Node; navigation4, both modes; empty failures/runtime errors. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 5 | DONE — Panel/input surface parity, white border, shared radius, focus and viewport bounds pass four profiles in both realities. | `global-navigation.css`, `ui-tokens.css`, `inquiry.css` | 357/357 broad Node; navigation4, both modes; empty failures/runtime errors. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 6 | DONE — Contact title and form share one calm bounded right-entry pose with exact reverse scroll and immediate reduced-motion presentation. All six motion profiles pass in both realities. | `scroll-choreography*`, `motionSettings.js`, `inquiry-entrance.js` | Motion6, both modes; empty failures/console/page-error lists; exact reverse and stable height. `docs/validation/v3.1-refinement/motion.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
-| 7a | DONE — Works parent headings use bounded simultaneous right-entry without rotation or overshoot; the numbered heading rise remains. All six motion profiles pass in both realities. | `scroll-choreography*`, `motionSettings.js` | Motion6, both modes; empty failures/console/page-error lists; exact reverse and stable height. `docs/validation/v3.1-refinement/motion.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
-| 7b | DONE — The measured category strip stays beside the floating brand and clear of INDEX, with reachable local scrolling and no page overflow at tested widths. | `global-navigation*`, `archive-structure.css`, `pages.js` | 357/357 broad Node; navigation4, both modes; empty failures/runtime errors. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 7c | DONE — Every archive subcategory shares its parent progress and pose, so labels never arrive later. All six motion profiles pass in both realities. | `scroll-choreography*`, `motionSettings.js` | Motion6, both modes; empty failures/console/page-error lists; exact reverse and stable height. `docs/validation/v3.1-refinement/motion.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
-| 7d | DONE — SMASH and Instagram now have matching typography, colour and arrows in four footer profiles and both realities. Playback remains separately tracked under item 16. | `footer.js`, `easter-eggs.css`, sound controller | Footer4, both modes; empty console/page-error lists; no page overflow. Evidence: `docs/validation/v3.1-refinement/footer.json`. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 8 | DONE — Numbered page, category-link and sub-rubric sizes match shared reference tokens; responsive navigation/sticky geometry checks pass. | `ui-tokens.css`, `archive-structure.css`, navigation styles | 357/357 broad Node; navigation4, both modes; empty failures/runtime errors. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 9 | DONE — The old wide fly/stagger/rotation/echo runtime is retired; calm simultaneous Home Works/Contact motion and exact reversal pass, with stable compatibility exports. All six motion profiles pass in both realities. | `motionSettings.js`, `scroll-choreography.js/.css`, motion tests | Motion6, both modes; empty failures/console/page-error lists; exact reverse and stable height. `docs/validation/v3.1-refinement/motion.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
-| 10 | DONE — The form has one lighter field surface, exact max musterperson placeholder, labels above fields and stable dimensions on focus. All six UI profiles pass in both realities. | `inquiry-content.js`, `inquiry.css`, `ui-tokens.css` | UI6, both modes; empty failures/console/page-error lists and no early MP3 request. `docs/validation/v3.1-refinement/ui.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
-| 11 | DONE — All six actual production archive/detail comparisons pass: display width halves; image body bytes fall 46.06% at 1440px and 68.32% at 390px, while320px remains 40410B because the baseline already uses the minimum 320w variant. Lazy loading, explicit original dimensions, constrained320/640 candidates and no upscaling remain verified. | `pages.js`, `image-assets.js`, `archive-structure.css`, Digital asset tests | Digital6 archive/detail actual production comparison passes, no failures/errors/overflow. `docs/validation/v3.1-refinement/digital-payload.json`. | 1440 archive/detail widths halved; image body−46.06%. | 390 image body−68.32%; 320 unchanged minimum 320w bytes; all widths halved. |
-| 12 | DONE — The hidden right-cluster VISIT counter uses matching hint typography, reveals on hover/focus/tap without reflow, preserves its count across route changes and has no phrase stages. Four footer profiles pass in both realities. | `footer.js`, `easter-eggs.js/.css`, `easterSettings.js` | Footer4, both modes; empty console/page-error lists; no page overflow. Evidence: `docs/validation/v3.1-refinement/footer.json`. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 13 | DONE — The accessible h4 moshlab arrow placeholder sits beside branding, remains reachable in narrow local scrollports and does not navigate or jump. Four footer profiles pass in both realities; the real URL remains TODO. | `footer.js`, `easter-eggs.js/.css`, interactions | Footer4, both modes; empty console/page-error lists; no page overflow. Evidence: `docs/validation/v3.1-refinement/footer.json`. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 14a | DONE — Hero buttons and connected header/popup/range surfaces have no border or outline; genuine keyboard focus retains its underline. All six UI profiles pass in both realities. | `style.css`, `sound-controls.css`, interaction styles | UI6, both modes; empty failures/console/page-error lists and no early MP3 request. `docs/validation/v3.1-refinement/ui.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
-| 14b | DONE — Both hero bottom-bar halves fade together, become inert while hidden, restore on reverse and leave document height/pinning unchanged; reduced motion is instant. All six motion profiles pass in both realities. | `scroll-choreography.js/.css`, `homepage.css`, `motionSettings.js` | Motion6, both modes; empty failures/console/page-error lists; exact reverse and stable height. `docs/validation/v3.1-refinement/motion.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
-| 15 | DONE — All eight originals are committed unchanged in f1841e4 with Git blob SHA-256 values matching the supplied ZIP. The complete four-profile real-photo carousel and retained fixture stress/input suite now pass; all eight photographs are wired with original dimensions and neutral metadata. | `public/images/tattoos/`, `artworks.js`, `horizontal-drift.js`, `docs/assets/tattoo-originals-v31.json`, `CONTENT.md` | Eight committed JPEG hashes verified; 20 focused asset checks; carousel4 real photos in both modes plus retained fixture stress/input suite. `docs/validation/v3.1-refinement/carousel.json`. | 1440 normal, both modes PASS | 390/320 normal +320 reduced, both modes PASS |
-| 16 | DONE — The exact committed approved MP3 passes real playback at 1440/390/320: one deferred fetch/decode, cached restart, 1.8s attack, final 5s tail, approximately 1s manual stop, duck/restore, global mute/volume and route/reality continuity. Full unshortened natural end is observed at 1440px. | `public/audio/`, `mode-audio.js`, `modeAudioSettings.js`, `sound-controls*`, export/package scripts | Committed MP3 SHA verified; SMASH3 actual native playback/cache/fades/mode/route/global-state PASS, including one complete natural end. `docs/validation/v3.1-refinement/smash.json`. | 1440 normal, both modes + full natural end PASS | 390/320 normal, both modes PASS; sound-controls reduced-motion coverage also passes. |
-| 17 | DONE — Named UI surfaces use the shared 4px radius; all real photographs, Digital images and page/hero canvases keep square edges. All six UI profiles pass in both realities. | `ui-tokens.css`, form/navigation/controls/viewer/footer styles | UI6, both modes; empty failures/console/page-error lists and no early MP3 request. `docs/validation/v3.1-refinement/ui.json`. | 1440 normal + reduced, both modes PASS | 390/320 normal + reduced, both modes PASS |
+- `npm test` outside sandbox: **393 passed, 0 failed** (385 baseline + 8 new).
+- Format decode: **4/4 files**, exact frames, zero audio-path long tasks.
+- World sound: **6/6 profiles** + missing-file degradation.
+- Mode audio: PASS. Sound controls: **8/8**. SMASH: PASS at 1440/390/320.
+- Production build: PASS, 18 routes + 404, exactly four M4A with matching hashes.
+- Determinism: 4/4 WAV and M4A pairs byte-identical on re-render.
 
-## Confirmed input recovery
+Evidence: `docs/validation/world-sound/v2/` plus
+[WORLD-SOUND.md](docs/WORLD-SOUND.md) for hashes, seams, LUFS and the listening
+checklist.
 
-### Tattoo photographs — eight originals available
+## Open
 
-The initial inline-chat images were not usable as original-byte files, so item 15 was initially blocked. That blocker is now resolved by `sediment://file_00000000c8dc81f49374162adacce007`, **New Folder With Items 2.zip**. The user explicitly requested all eight JPEGs rather than the first five.
+- **BLOCKED:** real iPhone Safari silent switch/route/interruption behaviour.
+- **BLOCKED at the visual boundary:** a second user gesture during a visual mode
+  transition is still rejected by the unchanged visual controller.
+- **OPEN for the user:** subjective listening review of the new loops.
+- **OBSERVATION:** pre-existing no-cold-WebGL-on-About failure in
+  `tests/mobile-interactions-browser.mjs`, present on base `11e78a1` too.
+- Deployed package has no FLAC/WAV fallback files.
+- PR #22 still points at `27315c6`; this commit is local until the user asks for
+  a push.
 
-All eight files are now present at `public/images/tattoos/tattoo-01.jpg` through `tattoo-08.jpg`. The manifest [tattoo-originals-v31.json](docs/assets/tattoo-originals-v31.json) records ZIP entry order, destination paths, byte counts, SHA-256 values, dimensions and orientation. ZIP SHA-256: `35046b97d44446a7d67bc60564780e5e84b5e91eebb77b7513be558c37c47782`. macOS resource-fork metadata is excluded. Do not re-encode/crop the originals or substitute resized chat images.
+# Current checkpoint — WORLD SOUND COMPLETION — 2026-11-04
 
-Item 15 is **DONE**: eight On Skin entries are implemented and all originals are committed in `f1841e4`. Root verified each committed JPEG’s SHA-256 against its original ZIP bytes. The focused asset/metadata checks pass (20 checks), including unique neutral fallback headings/SEO for untitled work, and the complete four-profile real-photo/input suite now passes. Do not redo asset recovery or integrity work.
+Status: **AUDIO COMPLETE / CHROMIUM VERIFIED / PARTIAL DEVICE COVERAGE**.
+Work remains isolated on `v3.2-world-sound` from base `11e78a1`. The original
+dirty checkout, V3.1-owned modules, `main` and `api/inquiry.js` were not changed.
+No merge, push or deployment occurred.
 
-### Approved SMASH file available
+## Merge integration — 2026-11-04
 
-Exact supplied file: `public/audio/h4ngelic_v8_full_sound_remaster_v11.mp3`.
+PR #20 is merged into `origin/main` at `9123a00`. The sound branch's merge base
+is that commit, so `git rebase origin/main` was a clean no-op with no conflicts.
+Post-rebase serial verification passed: Node **385/385**; 12/12 format decodes
+with zero audio-path long tasks; world sound **6/6**; sound controls **8/8**;
+SMASH at 1440/390/320; mode interaction and V3.1 UI **6/6** each. Production
+build passed with exactly the four M4A files and unchanged hashes. Evidence:
+`docs/validation/world-sound/merge-pass/`.
 
-- Bytes: **3,210,973**.
-- SHA-256: `307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b`.
-- Duration: **100.310204 seconds**, from read-only ffprobe inspection.
-- The user explicitly approved committing and embedding this exact version; the previous private-only rule is superseded.
-- The file is committed in `f1841e4`; root verified its Git blob SHA-256 against the upload. All nine supplied binary originals (eight JPEGs plus MP3) match their sources.
+No V3.1-owned code changed. The known mobile cold-WebGL failure remains an
+OBSERVATION on base and branch. `v3.2-world-sound` was pushed and
+[PR #22](https://github.com/h333ndrik/h4ngelic/pull/22) opened against `main`.
+No merge or deployment occurred.
 
-The central controller now contains first-use fetch/decode caching, a 1.8s attack, final five-second tail and one-second manual stop, with sound-design priority and global mute/volume. The actual three-width SMASH browser suite now verifies these behaviours, including the complete native natural end at 1440px. Export/package code is prepared to embed and verify the supplied MP3 once for the offline preview. The served website must still defer network fetch until first use; offline embedding inherently includes the bytes in the downloaded file while decoding remains deferred.
+## Delivered
 
-## Existing implementation and test queue
+- Generated FLAC and 256 kbps AAC/M4A derivatives from the four local WAV
+  masters. Browser `decodeAudioData` proved exact master frame counts for all
+  three formats: loops 1,365,677 frames and transitions 61,740 frames.
+- Selected four M4A runtime files, the exact 2-loop + 2-transition manifest.
+  Payload fell from **17,129,180** to **2,087,514 bytes**, a **87.81%** saving.
+- Rewrote the unpushed branch commit so the WAV masters are absent from branch
+  history. Masters remain local-only; master and derivative SHA-256 values are
+  recorded in [WORLD-SOUND.md](docs/WORLD-SOUND.md).
+- Added ordered runtime candidates **M4A → FLAC → WAV** in
+  `src/audio/worldSoundSettings.js`. The engine validates sample rate, channel
+  count and exact frame count before accepting a candidate, automatically trying
+  the next format after fetch/decode/padding failure, then failing silent.
+- Added browser coverage for all 12 generated formats and no-double-fetch,
+  one-active-loop, full 1.4 s one-shot, crossfade alignment, arbitrary-phase
+  entry and asset-manifest contracts.
+- Added the required listening checklist for seam, visual tear, WORLD 4 density,
+  iOS silent switch, SMASH ducking and reload persistence.
 
-The current source includes numbered INDEX entries, reduced cursor SVG viewports, cached NAAVI contrast/baseline logic, shared surface/type/hover/radius tokens, calm reversible motion, the revised footer/counter, smaller Digital previews and the central soundtrack controller. These are refinements of existing systems, not replacement components.
+## Verification
 
-The final broad `npm test` passes **357/357** after all runtime corrections (`docs/validation/v3.1-refinement/node-tests.txt`, 3416.202864ms; zero failures/skips). The earlier passing run was recorded in `/tmp/h4-v31-node.log`. The initial broad attempt passed 347/352: stale V3 contracts and duplicated untitled metadata were corrected, and the final passing run is recorded rather than treating the failed attempt as success. Component-focused checks listed above are now supported by the broad pass. Prepared harnesses include `footer-v31-browser.mjs`, `v31-motion-browser.mjs`, `v31-digital-payload-browser.mjs` and `smash-v31-browser.mjs`; inspect their actual contracts before execution.
+- `npm test`: **385 passed, 0 failed**.
+- `world-audio-formats-browser`: **12/12 format files PASS**, exact decoded
+  sample lengths, continuous non-zero loop boundaries, zero audio-path long
+  tasks.
+- `world-sound-browser`: **6/6 width/motion profiles PASS**, both modes, plus
+  missing-file degradation.
+- `mode-audio-browser`: PASS.
+- `sound-controls-browser`: **8/8 profiles PASS**.
+- `smash-v31-browser`: PASS at 1440/390/320.
+- `npm run build`: PASS; exactly four M4A files copied byte-for-byte.
 
-Preserved Digital baseline: `/tmp/h4-v31-before-digital-dist`. Keep it until actual before/after route transfer measurements are complete. Do not run asset preparation/builds during active browser checks; they may reload the development page.
+## OBSERVATION / limits
 
+- **OBSERVATION, not audio:** the preserved mobile test still fails its
+  no-cold-WebGL-on-About assertion on both this branch and base `11e78a1`; the
+  lazy mannequin preview creates the context. No V3.1/mannequin code was touched.
+- Real iOS Safari and hardware listening remain **BLOCKED**.
+- The visual controller still rejects a second gesture during an active visual
+  transition. Audio retargeting is directly tested but that user path is blocked.
+- Only primary M4A candidates are deployed. FLAC/WAV fallback URLs work if those
+  alternate files are added later; with the current four-file package, complete
+  primary failure degrades to silence.
+- The standalone preview does not embed the 2.1 MB world set.
 
-### Navigation milestone — current browser evidence
+## Deferred
 
-`H4_BASE_URL=http://127.0.0.1:55173 node tests/v31-navigation-browser.mjs` passes four profiles: 1440, 390 and 320px with normal motion, plus 320px reduced motion. Each profile checks both 333 and 4. Evidence: `docs/validation/v3.1-refinement/navigation.json` and `/tmp/h4-v31-navigation-final.log`; the failure list and all runtime-error lists are empty.
+Hero first-touch cue, color-mapped ink impacts and THE OTHER SIDE ambience remain
+TODO. Do not implement them in this pass.
 
-Verified items **1, 3, 4, 5, 7b and 8**: INDEX numbering/menu interaction, exact cursor sizing/NAAVI form, panel/input surface parity, matching typography, compact brand/category row, footer baseline and scoped contrast. The contrast tests prove that opacity changes on a heading, its child or an ancestor immediately release blending when invisible, and that the scroll path reuses cached geometry rather than measuring it again. Inquiry content has priority over nearby display type. These results do not mark the separate footer, motion or shared-UI suites complete.
+Exact next checkpoint: user review and merge of PR #22. After explicit merge
+authorization, Vercel deploys `main` automatically; the automation must not merge
+it independently.
 
-PR #20 was DRAFT during V3.1 verification. It is now OPEN and ready for review after the verified artifact push and remote-byte check. No merge or deployment occurred.
+# Current review checkpoint — V3.1.1
 
-### Footer milestone — current browser evidence
+All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.
 
-`H4_BASE_URL=http://127.0.0.1:55173 node tests/footer-v31-browser.mjs` passes four profiles: 1440/390/320px normal motion and 320px reduced motion, each in both 333 and 4. Evidence: `docs/validation/v3.1-refinement/footer.json` and `/tmp/h4-v31-footer.log`. Console-error and page-error lists are empty; the document width equals its viewport in every profile.
+# V3.1.1 progress — V3.1.2 continuation
 
-Verified items **7d, 12 and 13**: SMASH/Instagram type and arrow parity, VISIT count formatting and phrase removal, identical hint typography, hover/focus/tap discovery without reflow, route persistence and the honest moshlab placeholder. Footer groups remain separate from centred NAAVI and have the same row baseline.
+## V15 — PARTIAL — 2026-11-03
 
-Two initial failures were investigated rather than recorded as success. The route assertion read a newly mounted default counter before asynchronous carousel enhancement and `h4:pagechange`; the harness now waits for route completion. Separately, native browser focus left a partially visible mobile link clipped. `src/easter-eggs.js` now exposes the full focused target by scrolling only its footer cluster. The passing rerun verifies the actual fix; there is no page-level horizontal scroll or vertical jump.
+All mobile adaptations pass at 390x844 and 320x844 in Chromium touch
+emulation, full and reduced motion: centered one-line visitor memory,
+tap-revealed footer portal, no footer overlap, 00–03 INDEX, compact touch
+cursor off, mobile carousel drift/swipe/expansion, digital artwork fit,
+lowercase rubrics and fixed cross-links. Hero poster and reduced-motion
+crossfade pass all six profiles. Carousel drift remains at 0 LongTasks with
+p95 16.70–16.80ms in the headless renderer.
 
-The first motion attempt also exposed a harness conversion bug: `Number('0.000px')` produced `NaN` when comparing the reverse pose. The harness now parses the CSS length correctly. The corrected full six-profile rerun now passes; the actual result is recorded below. The subsequent final 357/357 Node run covers these source corrections.
+REAL IPHONE SAFARI: BLOCKED. No physical iPhone is attached and this host has
+no iOS simulator or Playwright WebKit runtime. Chromium touch emulation is not
+Safari and does not prove real-device FPS/INP. This remains the one unresolved
+V15 acceptance check; no substitute evidence is claimed.
 
-### Motion milestone — six profiles in both realities
-
-`H4_BASE_URL=http://127.0.0.1:55173 node tests/v31-motion-browser.mjs` passes all six profiles: 1440/390/320px, each with normal and reduced motion, and each checking 333 and 4. Evidence: `docs/validation/v3.1-refinement/motion.json` and `/tmp/h4-v31-motion.log`; all six error lists and the failure list are empty.
-
-Verified items **6, 7a, 7c, 9 and 14b**: Contact title/form exact shared pose and reverse, calm simultaneous Home Works content, matching parent/subheading archive timing, absence of retired echo/one-shot markup, and both hero-bar halves fading/inert/restoring without height changes. A section-container focus cannot lock the reverse scrub, while real field focus reveals the form immediately. Reduced motion presents content at rest and switches the hero-bar state instantly.
-
-A further attempted run hit `ERR_CONNECTION_REFUSED` after the previous context's dev server expired. Root restarted the same development server before the complete passing six-profile run. This connection failure was an environment lifecycle issue, not a successful motion test.
-
-The first shared-UI attempt at 1440px found a computed resting input outline of 3px from the browser default. `src/inquiry.css` now explicitly resets the base outline to zero; the field retains its existing subtle focus treatment. The current UI milestone below records the complete passing rerun after the explicit resets. These visual outline resets do not change accepted motion geometry, so the completed motion suite need not be repeated.
-
-### Shared UI milestone — six profiles in both realities
-
-`H4_BASE_URL=http://127.0.0.1:55173 node tests/v31-ui-browser.mjs` passes all six profiles: 1440/390/320px, each with normal and reduced motion, each in 333 and 4. Evidence: `docs/validation/v3.1-refinement/ui.json` and `/tmp/h4-v31-ui.log`. The failure list and all console/page-error lists are empty; no early MP3 requests occurred.
-
-Verified items **2, 10, 14a and 17**: shared hover/timing and target coverage, form placeholder/single surface/labels/stable focus, borderless hero and sound surfaces with genuine keyboard underlines, and shared UI corner radius with square images/canvases. Actual eight-photo enlargement is 1.1 in place, opens no modal, retains the slot/order/scroll position and restores. The separate full carousel input/stress suite has since passed, as recorded below.
-
-The initial computed browser outline issue is now explicitly reset in `src/inquiry.css`, hero buttons in `src/style.css`, and connected header/popup/input surfaces in `src/sound-controls.css`; existing keyboard underlines remain. Two harness comparisons were corrected without further source changes: range focus is tested by an actual Tab gesture, and photo restoration compares the same pointer-away baseline rather than a hovered image with a resting one. The passing rerun checks the resulting behaviour rather than inferring it from code.
-
-Export packaging now also guards all eight original photograph hashes and once-only embedding, in addition to the approved soundtrack guard. Package execution now passes; see the final artifact milestone below.
-
-### Carousel milestone — eight originals and retained stress checks
-
-`H4_BASE_URL=http://127.0.0.1:55173 node tests/horizontal-drift-browser.mjs` passes four profiles: 1440/390/320px normal motion and 320px reduced motion. Evidence: `docs/validation/v3.1-refinement/carousel.json`; its results array contains four successful records with empty error lists.
-
-Item **15 is DONE** with the earlier committed-byte proof. Every profile checks all eight genuine photographs in 333 and 4: ZIP order, original dimensions and full-source URLs, lazy loading, contained original proportions, square corners, final-photo controls/count, keyboard/native input, exact in-place 1.1 enlargement and restored context without a modal. The retained six-photo multi-image fixture stress suite also passes all four profiles, covering horizontal/Shift-wheel, vertical release, partial mouse drag or native touch pan, exact inline restoration and teardown.
-
-The real-photo test exposed and verified one runtime correction: `src/horizontal-drift.js` disables arrows against actual first/last centred targets rather than the rounded maximum, so fractional photo widths cannot leave the final arrow enabled without an advance. Harness setup also now uses optimized viewer URLs, a genuinely partial neighbouring photo and visible pointer coordinates for activation; this avoids Playwright locator auto-scrolling changing the context under test. No remaining carousel failure is claimed.
-
-### Gallery, inquiry and sound-control regression milestones
-
-- Existing gallery suite: **3/3 profiles PASS** at 1440/390/320px, `docs/validation/v3.1-refinement/gallery.txt`. It retains proportionate transparent-viewer/FLIP transitions, keyboard/touch/Escape closing, decoding races, error-state checks, original geometry and cleanup.
-- Inquiry: **6/6 profiles PASS** at 1440/390/320px × normal/reduced motion, `docs/validation/v3.1-refinement/inquiry.json`. Labels/single surfaces/focus dimensions, free-form contact validation, real PDF fixture upload, draft/context retention, failed-response preservation and mocked success reset all pass. Failure and unexpected console/page-error lists are empty. One intentionally mocked HTTP 503 diagnostic per profile is recorded separately as expected; these controlled failures are not hidden or described as actual mail delivery. `liveEmailVerified` remains false.
-- Sound controls: **8/8 profiles PASS** at 1440/810/390/320px × normal/reduced motion, `docs/validation/v3.1-refinement/sound-controls.json`. Keyboard/Escape/touch popup interaction, persisted mute/volume, no startup AudioContext, no early MP3 requests and zero horizontal overflow pass; all error lists are empty.
-
-The complete actual SMASH playback suite now passes all three widths, as recorded below. Browser-decoded duration is **100.270s**; the unchanged MP3 container duration from ffprobe remains **100.310204s** because decoder padding differs.
-
-### SMASH milestone — exact original and complete native natural end
-
-`H4_BASE_URL=http://127.0.0.1:55173 H4_SMASH_NATURAL_END=1 node tests/smash-v31-browser.mjs` passes **3/3 profiles**, 1440/390/320px. Evidence: `docs/validation/v3.1-refinement/smash.json` and `/tmp/h4-v31-smash.log`; failures and every error list are empty, and every document width exactly matches its viewport.
-
-Item **16 is DONE**. Every profile verifies the unchanged approved bytes, no startup fetch/AudioContext, one first-use fetch/decode with cached restart, native 1.8s attack/final five-second tail/approximately one-second manual stop, sound ducking/restoration, global mute/volume, route continuity and uninterrupted 333↔4 transitions. At 1440px the full **100.270s decoded original** runs to its natural end without seeking or shortening. Live gain falls during the final four seconds and final 0.6 seconds, reaches silence, restores the ordinary cue bus and allows the next mode cue. The ended-event observation lasts approximately 100.836 seconds including browser scheduling; it is not a shortened fixture.
-
-All approved functional-browser work is now verified. The final `npm test` passes **357/357** at `docs/validation/v3.1-refinement/node-tests.txt` (3416.202864ms, no failures/skips), covering all runtime/source corrections. Source commit daeaff8 has now been built/exported, and the subsequent six actual Digital comparisons pass. Live-route and exact offline/package delivery QA pass, artifact commit 3b424e9 is pushed and PR #20 is ready for review.
-
-### Production build and measured Digital milestone
-
-Source commit **`daeaff8`** is complete. `npm run preview:export` passes (`docs/validation/v3.1-refinement/build.txt`), prerendering **19 routes plus 404**, in preview mode with **zero indexable routes**, then exporting `artifacts/h4ngelic-preview.html`. The production runtime is unchanged after the source commit. A fresh current server uses 55385; old 55383 is cached and must not be used. The preserved V3 baseline uses 55384.
-
-`tests/v31-digital-payload-browser.mjs` passes **6/6 actual production comparisons**, archive and detail at 1440/390/320px. Evidence: `docs/validation/v3.1-refinement/digital-payload.json`; failures are empty. Item **11 is DONE**. Measurements use fresh DPR1 browser contexts and actual image body/route transfer bytes, with original proportions, lazy loading, matching 320/640 candidates, explicit dimensions, no upscaling and no overflow/errors.
-
-| Width | Route | Display width before → after | Image body bytes before → after | Image saving | Total route transfer bytes before → after |
-| --- | --- | --- | --- | --- | --- |
-|1440|Work archive|1100→550px|236,494→127,562|46.06%|322,483→726,657|
-|1440|Digital detail|1200→600px|236,494→127,562|46.06%|318,750→211,769|
-|390|Work archive|319.80→159.89px|127,562→40,410|68.32%|213,551→185,705|
-|390|Digital detail|346→173px|127,562→40,410|68.32%|209,818→124,617|
-|320|Work archive|262.39→131.19px|40,410→40,410|0%|126,399→214,815|
-|320|Digital detail|276→138px|40,410→40,410|0%|122,666→124,617|
-
-At 320px the old preview already selected the minimum 320w asset, so halving display size cannot reduce that file further within the approved 320/640 variants. The first harness assumed a strict byte decrease there; it now permits only this genuine smallest-variant plateau while retaining strict decreases elsewhere. **The full Work route can grow because it now loads eight real photographs.** These figures support the specific Digital image change, not a blanket whole-route performance claim.
-
-### Final production, offline and package milestone
-
-All delivery QA now passes against the exact export from source **daeaff8**. Committable evidence is preserved in [docs/validation/v3.1-refinement](docs/validation/v3.1-refinement): all suite JSONs, final Node/build logs and gallery results. This is current V3.1 evidence, not the historical V3 checkpoint.
-
-- **SEO:** `seo.json` reports `passed: true`, 19 static-route records and 17 live direct/refresh records. No-JavaScript HTML, canonical/robots policies, redirects, strict 404 behaviour, cold Work/About without Three.js, asset loading and no early MP3 requests pass. Console/page errors and horizontal overflow are zero.
-- **Exact standalone HTML:** `npm run test:standalone` exits 0. `offline-controls.json` passes 1440/390/320px reduced-motion controls; `offline-native.json` passes 390px normal-motion real 4/3 touch switching and byte-exact memory handoff. Both reports match the HTML size/SHA below, with zero HTTP requests, console/page errors and horizontal overflow. The 390px offline check additionally plays the exact supplied 100-second SMASH buffer only after a trusted tap and verifies cached restart without a startup AudioContext.
-- **Package:** `npm run preview:package` passes. `offline-package.json` confirms that ZIP HTML matches the exact tested export and both offline reports; all eight JPEG originals, approved MP3 and original Digital artwork are embedded unchanged; fixture content is excluded.
-
-| Artifact | Verified bytes | SHA-256 |
-| --- | ---: | --- |
-| [h4ngelic-preview.html](docs/previews/h4ngelic-preview.html) |24,484,734|`6c11473dd0360a15c5e459ae8ee95deeffa3c34c01cad0ffe790bd5d734ce001`|
-| [portfolio-preview.zip](docs/previews/portfolio-preview.zip) |17,305,532|`61da29cabd658cb4fee3eb158e0b98dbc81bee65fb8f363ccef7c9abf5932770`|
-
-Artifact source revision: `daeaff83ec0b8a6b48873c3d77d63e3a2d706ead`. Artifact/evidence commit **`3b424e91f386d75359c2463e6245fc0eeeaae752`** is pushed to `origin/feat/smart-continuation-v3`. GitHub confirms PR #20 is OPEN, `isDraft:false`, base `main`, same feature head and head OID 3b424e9. The remote HTML is 24,484,734 bytes with Git blob SHA-1 `404e1127ab7323f851ba9b59f2b61cedeccbdf9b`, matching the local committed blob exactly; the SHA-256 remains the value above. No merge/deployment occurred. No further approved implementation is needed without new input.
+Evidence: `docs/validation/v3.1.2/V15/` (screenshots, JSON and real logs).
 
 
-## TODO / external inputs
+## V7 — DONE — 2026-11-03
 
-- Real `h4 moshlab` destination: TODO; approved accessible `#` placeholder remains.
-- Real mail delivery: still unverified; do not infer provider/hosting configuration from the existing API adapter.
-- Genuine unpublished Loose Thread content: still absent.
+The seven visitor tiers are restored through one exported
+`visitorMessage(count)` table. The recognition line above the hero and the
+floating footer phrase use that same source. The footer phrase reveals on
+hover, keyboard focus or tap, floats above the counter without reflow and
+keeps the numeric VISIT counter. On mobile the recognition line is centered
+one line below the header row.
+
+Actual serial checks before builds:
+
+- New `npm run test:visitor-tiers`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Nine count samples map to the exact seven phrases, hero and
+  footer match, the portal has no reflow or overflow, and first visit stays
+  hidden.
+- `node tests/footer-v31-browser.mjs`: 6/6 PASS.
+- `npm test`: 372/372 PASS.
+- Evidence: `docs/validation/v3.1.2/V7/`.
+
+
+## V2 — DONE — 2026-11-03
+
+All six normal/other cursor SVGs now use the approved compact viewport:
+23.26 x 34.88px base, 24.65136 x 36.97704px hover and 22.32576 x
+33.48864px pressed. Supplied path bytes are unchanged. The native cursor
+covers the complete page on fine pointers, keeps a pointer fallback in reduced
+motion, and is absent on touch devices.
+
+Actual serial checks before builds:
+
+- `node --test tests/mode-icon-assets.test.js`: 4/4 PASS.
+- `node tests/ref09-icons-browser.mjs`: desktop, reduced, touch-390 and
+  touch-320 PASS, plus the browser SVG decode comparison.
+- Evidence: `docs/validation/v3.1.2/V2/`.
+
+
+## V17 — DONE — 2026-11-03
+
+The page now defers easter-egg and ink initialization until after first paint
+and idle; the runtime wordmark font is already subset to its ten real glyphs.
+During the unchanged 1400ms mode transition the hero renders at pixel ratio 1
+with 30 physics substeps per second, then restores adaptive quality. The
+target shader is prepared while `4` is held. Below-fold editorial/archive
+sections use `content-visibility: auto`, conservative hover-prefetch rules
+cover `/about` and `/work/*`, the inquiry keeps a 2s local draft and clears it
+after success, and the first two carousel photos warm during idle at low
+priority.
+
+Changed files: `index.html`, `src/app.js`, `src/main.js`, `src/physics.js`,
+`src/style.css`, `src/inquiry.js`, `src/horizontal-drift.js`,
+`scripts/audit-fonts.mjs`, `scripts/measure-v17.mjs`,
+`tests/v17-performance-browser.mjs`, route-suite assertions and package
+scripts.
+
+Actual serial checks before builds:
+
+- New `npm run test:performance-v17`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Verified idle start after FCP, speculation rules, content
+  visibility, shader prewarm, 1x/30Hz transition quality, draft restore and
+  clear, and idle carousel warmup.
+- `node tests/portfolio-browser.mjs`: 6/6 PASS.
+- `node tests/v31-navigation-browser.mjs`: 6/6 PASS.
+- `npm run test:drift`: 6/6 PASS.
+- `node tests/v31-ui-browser.mjs`: 6/6 PASS.
+- `npm test`: 372/372 PASS.
+- Real before/after medians (3 runs each, headless Chromium/SwiftShader) are
+  recorded in `before.json` and `after.json`; 1440px FCP 192.0 -> 176.0ms,
+  LCP 204.0 -> 176.0ms, 390px LCP unchanged 52.0ms, 320px LCP 48.0 -> 44.0ms.
+  Long-task totals remained within synthetic-run noise.
+- Font audit: 414,568-byte source TTF, 3,414-byte served JSON, 10 glyphs and
+  zero unused runtime glyphs. No subset action needed.
+- Evidence: `docs/validation/v3.1.2/V17/`.
+
+
+## V26 — DONE — 2026-11-03
+
+The form now advertises and enforces the honest limit: up to 5 files and
+4 MB total. The client rejects oversized files and request payloads before
+upload. The server caps the raw request body at exactly 4 MB and independently
+checks each file and the total file bytes. Original attachment bytes remain
+untouched.
+
+Actual serial checks before builds:
+
+- New `npm run test:mail-limits`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. The hint reads `up to 5 files, 4 MB total`; a file at the
+  configured limit is accepted; one byte over shows a clear 4 MB error before
+  any network request.
+- `node tests/inquiry-http.mjs`: loopback HTTP integration PASS, including
+  accepted bytes and existing 403/415/429/502/503 behavior.
+- `npm test`: 372/372 PASS. Boundary unit tests accept the exact configured
+  payload and reject a 4 MB + 1 byte request.
+- Evidence: `docs/validation/v3.1.2/V26/`.
+
+
+## V30 — DONE — 2026-11-03
+
+Metallic 333/4 mode-switch cues are disabled through
+`modeAudioSettings.modeSoundsEnabled: false`. The synthesis and playback path
+remain in the controller and can be re-enabled by changing that field. Mode
+changes no longer allocate Web Audio. SMASH playback, deferred fetch/cache,
+global mute and volume remain unchanged.
+
+Actual serial checks before builds:
+
+- `node tests/mode-audio-browser.mjs`: PASS for silent mode transitions, zero
+  Web Audio allocation, persistent mute state and both visual realities.
+- `node tests/smash-v31-browser.mjs` (desktop, full natural end): PASS for the
+  exact approved MP3, deferred fetch, attack/tail/stop, global mute/volume,
+  route and mode continuity.
+- `npm test`: 372/372 PASS, 0 failures, including the re-enable-path unit test.
+- Evidence: `docs/validation/v3.1.2/V30/`.
+
+
+## V28 — DONE — 2026-11-03
+
+The `mixed media` hero tagline is gone from source, rendered knowledge and
+tests. The area below the logo is empty; the full stage keeps its previous
+geometry and the V8 poster/reduced-motion path is unchanged.
+
+Actual serial checks before builds:
+
+- New `npm run test:hero-tagline`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced, with no tagline element or visible copy, a full-stage hero,
+  no horizontal overflow and measured CLS 0.0000.
+- Existing `npm run test:hero-poster`: 6/6 profiles PASS.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V28/`.
+
+
+## V19 — DONE — 2026-11-03
+
+The INDEX panel now has a soft dark two-layer depth halo while keeping its F1
+form-color surface, 4px radius, zero border and zero outline. Contact form
+fields remain flat. Readability is unchanged.
+
+Actual serial checks before builds:
+
+- New `npm run test:index-glow`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Verified the dark shadow layers, unchanged surface/radius,
+  contrast >= 4.5:1, flat form boxes, pixel falloff without a hard band over a
+  bright surface, and screenshots over a bright photograph.
+- `node tests/v31-navigation-browser.mjs`: 6/6 profiles PASS with the updated
+  depth-halo contract.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V19/`.
+
+
+## V18 — DONE — 2026-11-03
+
+The Other Side hint now reads exactly `press 3 times 3 to reverse` in text and
+accessible labels. Reverse behavior is unchanged: three released 3 presses
+inside the fixed two-second window, never two, and holding 4 on the Other Side
+remains inert.
+
+Actual serial checks before builds:
+
+- `node tests/xray-browser.mjs`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced motion, including the exact hint text, ignored reverse 4,
+  double-press rejection, triple-3 return, touch triple-tap and both 1400ms
+  transitions.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V18/`.
+
+
+## V25 — DONE — 2026-11-03
+
+Each rubric page now ends with one fixed three-column cross-link row. Tattoos
+is always left, jewellery middle and more right; the current page's column
+stays empty. The two remaining destinations are real links with the shared
+arrow, magnetic label hover, keyboard focus and reduced-motion rest state. The
+row scales down without wrapping at 320px.
+
+Changed files: `src/pages.js`, `src/archive-structure.css`,
+`src/rubric-activation.js`, `tests/v25-cross-links-browser.mjs`,
+`package.json` and this checkpoint set.
+
+Actual serial checks before builds:
+
+- New `npm run test:cross-links`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Verified equal line height, fixed relative columns, empty
+  current slot, exact labels/hrefs, no overflow or wrapping, logical Tab order,
+  desktop unified hover and reduced-motion rest states.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V25/`.
+
+
+## V23 — DONE — 2026-11-03
+
+Only real links receive the typographic hover now. `01 / creative`,
+`02 / ABOUT` and `03 / CONTACT` are static headings with no anchor, tab stop,
+scale or glow; the shared heading-hover CSS is scoped to headings that
+actually contain a link, and heading hover measurement binds only to those.
+Rubrik links, branding, footer links, NAAVI, carousel cards and artwork keep
+their existing unified hover.
+
+Actual serial checks before builds:
+
+- New `npm run test:static-titles`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. Each title remains pixel- and style-identical after a 400ms
+  hover; no title contains a link or tab stop; the desktop rubric link still
+  receives its unified transform.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V23/`.
+
+
+## V21 + V24 + V27 — DONE — 2026-11-03
+
+The homepage section is now the static `01 / creative` title, with no route
+link or typographic hover. The rubric links beneath it remain the direct
+entries. `/work` is no longer a destination: it and `/work/index.html`
+permanently redirect to `/work/tattoos`, while `?category=` bookmarks map to
+their canonical category paths. Artwork detail URLs remain
+`/work/{category}/{id}` and the prerender/sitemap route set no longer contains
+an orphan `/work` page.
+
+INDEX now reads `00 / home`, static `01 / creative`, `02 / about`,
+`03 / contact`; the creative entry is not focusable. NAAVI uses `creative`
+and `creative / tattoos`. The status doc labels V21/V24/V27 as DONE.
+
+Actual serial checks before builds:
+
+- `node tests/portfolio-browser.mjs`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced motion, both realities. Confirmed the static title, direct
+  rubrik destinations, `/work` redirect, canonical query redirects, reload and
+  back navigation, and no Three.js on cold category routes.
+- `node tests/v31-navigation-browser.mjs`: 6/6 profiles PASS, including the
+  four INDEX entries, exact targets, non-focusable creative title, tab order,
+  panel geometry and reduced motion.
+- `npm test`: 371/371 PASS, 0 failures.
+- Evidence: `docs/validation/v3.1.2/V21/`.
+
+
+## V20 — DONE — 2026-11-03
+
+The About page now reads exactly `03/ about`, retaining the lower-case route
+label and the existing page-heading treatment. There is no layout, copy or
+navigation change.
+
+Actual serial checks before builds: new `npm run test:about-heading` passed
+6/6 profiles at 1440/390/320px, full/reduced, with the exact text, lower-case
+rendering, no overflow and no first-paint transform. `npm test` passed 371/371.
+Evidence: `docs/validation/v3.1.2/V20/`.
+
+## V12–V14 — DONE — 2026-11-03
+
+The tattoos, jewellery and more routes now share the corrected structure:
+lower-case `tattoos`, `jewellery` and `more` page titles; no self-link group
+header; and real child categories promoted directly beneath the title at the
+same size as the frontpage tattoo link with the shared arrow treatment.
+Tattoos promotes `flashes`; more promotes `digital artworks` and
+`analog photography`; jewellery has no invented child category. Visible rubric
+category labels carry `data-motion-static`, so they have no entrance pose at
+first paint. Later page content keeps the existing reversible scroll motion.
+
+Changed files: `src/pages.js`, `src/archive-structure.css`, content, portfolio,
+SEO and standalone contracts, plus checkpoint evidence.
+
+Actual serial checks before builds:
+
+- `node tests/portfolio-browser.mjs`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced, in both realities. Confirmed lower-case headings, no
+  `.work-group-heading` on rubric pages, promoted links/arrows, full
+  category-link font parity, static first-paint transforms, real routes,
+  canonicals, reload/back and cold interiors without Three.js. Evidence:
+  `docs/validation/v3.1.2/V12/`.
+- `npm test`: 370/370 PASS, 0 failures. Evidence: `V12/node.txt`.
+
+## V11 + V16 — DONE — 2026-11-03
+
+Pointer and touch activation no longer paints a focus outline, translucent
+selection box or underline flash on header, INDEX, rubric, footer, carousel or
+artwork controls. The root rule uses `:focus:not(:focus-visible)` and suppresses
+the Safari/Chromium tap highlight. Programmatic pointer focus inside inline
+artwork uses a temporary marker that is cleared by the next keyboard event.
+Keyboard `:focus-visible` and Skip Link focus remain visible.
+
+Changed files: `src/style.css`, `src/interactions.css`,
+`src/artwork-transitions.css`, `src/horizontal-drift.css`,
+`src/inline-artwork-expand.js`, `tests/pointer-focus-browser.mjs` and
+`package.json`.
+
+Actual serial checks before builds:
+
+- New `npm run test:pointer-focus`: 6/6 profiles PASS at 1440/390/320px,
+  full/reduced. It clicks/taps every sampled header, category, footer, INDEX,
+  carousel and artwork control and compares outline, box-shadow and
+  text-decoration before/after; it separately proves keyboard focus remains
+  visible. Evidence: `docs/validation/v3.1.2/V11/`.
+- Existing `npm run test:drift`: 6/6 profiles PASS after the inline-focus
+  change.
+- `npm test`: 369/369 PASS, 0 failures.
+
+## V10 — DONE — 2026-11-03
+
+INDEX now contains only the stable 00–03 destinations. The 04 “the other
+side” entry and its INDEX route mapping were removed; 00–03 were not
+renumbered. The actual footer h4 reveal remains available through its existing
+end-of-page experience and NAAVI, not a duplicate INDEX shortcut.
+
+Changed files: `index.html`, `src/global-navigation.js`, navigation/SEO/
+standalone assertions and checkpoint evidence. `npm test` passed 369/369.
+`tests/v31-navigation-browser.mjs` passed all six 1440/390/320px full/reduced
+profiles, including four destinations, exact targets, keyboard tab order,
+visible focus, panel contrast and no overflow. Evidence:
+`docs/validation/v3.1.2/V10/`.
+
+## V9 — DONE — 2026-11-03
+
+The existing eight-photo archive now drifts automatically left-to-right and
+wraps through the real cards without clones. CSS perspective at a 900px camera
+distance gives inward edge rotation and scaling with no Three.js or WebGL on
+Works pages. Hover and keyboard focus pause drift; drag and touch take over with
+finite momentum, then drift resumes. Vertical wheel and touch input remain
+native. Reduced motion keeps a static row with instant interaction states.
+
+Changed files: `src/carouselSettings.js`, `src/horizontal-drift.js`,
+`src/horizontal-drift.css`, `src/horizontal-drift-content.js`,
+`tests/horizontal-drift-browser.mjs`, `tests/horizontal-drift-performance.mjs`,
+`tests/v31-ui-browser.mjs`, `package.json` and this checkpoint set.
+
+Actual serial checks before builds:
+
+- `npm run test:drift`: 6/6 profiles PASS at 1440/390/320px, full/reduced,
+  each in 333/4. Included drift, hover pause, drag takeover/resume, native
+  vertical escape, seamless wrap, depth, expansion, keyboard, reduced motion,
+  eight genuine images and no Three.js requests. Evidence:
+  `docs/validation/v3.1.2/V9/carousel/` and `browser.txt`.
+- `node tests/v31-ui-browser.mjs`: 6/6 profiles PASS. Shared interaction,
+  form, photo enlargement, borderless controls and radius contracts remain
+  intact. Evidence: `docs/validation/v3.1.2/V9/ui/` and `ui.txt`.
+- `npm test`: 369/369 PASS, 0 failures. Evidence: `node.txt`.
+- `npm run test:drift-performance`: 121 observed RAF intervals per profile
+  over about two seconds after image decode and warm-up. 1440px p95 16.80ms,
+  390px p95 16.70ms, 320px p95 16.70ms; zero LongTasks. This is headless
+  Chromium with SwiftShader, not physical-device FPS or INP. Evidence:
+  `performance.json` and `performance.txt`.
+
+No build, merge or deployment was performed.
+
+## V8 — DONE — 2026-11-02
+
+Hero poster is now first-paint critical markup, not a post-JavaScript fallback.
+`index.html` carries layout-critical CSS and the empty poster element; Vite
+injects `src/data/heroPosterSettings.js`. The normal path crossfades after the
+first rendered frame. Reduced motion keeps the poster and does not import or
+request the Three.js scene, fonts or textures.
+
+Changed files: `index.html`, `src/data/heroPosterSettings.js`, `src/app.js`,
+`src/style.css`, `vite.config.js`, `package.json`, `tests/hero-poster.test.js`,
+`tests/hero-poster-browser.mjs`, `tests/browser.mjs`.
+
+Actual checks: `npm test` 369/369 PASS; `npm run test:hero-poster` 6/6 profiles
+PASS with zero measured CLS; existing hero suite passes desktop, mobile,
+reduced-poster and WebGL-failure paths. Evidence: `docs/validation/v3.1.2/V8/`
+plus `docs/V3.1.2-STATUS.md`. No build, merge or deployment performed.
+
+# V3.1.1 progress — F17 done
+
+## Current committed checkpoint — 2026-11-02
+
+At resume, `v3.1.1-fixes` was clean at **`7238478`**, five commits ahead of the merged baseline. Verified commits: F1 `f57f759`, F9 `36f574d`, F2 `3d01241`, F3 `7028dbc`, F4 `7238478`. Their evidence is committed under `docs/validation/v3.1.1/`. These fixes are DONE; do not restart their verified work without a relevant new change. The dynamic-count F9 follow-up is complete: unused five-pose helper removed, totals driven by actual projects/slides, Node coverage0/1/3/5/8/9 and all eight paths/alt/srcset verified.
+
+F5 is the first unfinished task: implement one measured horizontal gap throughout Works branding → tattoos → jewellery → more. Branding-to-first and category-to-category gaps must match at1440/390/320px, without wrapping or changing the V3.1 baseline. Root owns the active serial navigation browser checks, Node tests and the separate F5 commit. After F5 continue F6,F7,F8,F10,F11,F13,F14,F15,F16, one fix per commit; preserve verified work and do not launch.
+
+Updated 2026-11-02. Active branch **`v3.1.1-fixes`**, based on fetched main **`9123a00b21b9a7d3873fe97ba7c36fb90b74c3e5`**. PR #20 was merged by the user at 2026-10-30T11:41:11Z. This round does not reopen, edit, merge or deploy it. Merged V3.1 source and assets are present; no missing baseline prerequisite has been established.
+
+Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest continuation](docs/V3.1.1-CONTINUATION.md). The continuation overrides matching requirements and adds F16. Its prioritized F9 is now verified and committed; **F5 is the first unfinished task**. User clarification independently confirms F5 and F10 below. Previous checkpoints remain unchanged in [V3.1 history](docs/history/v3.1-checkpoint-2026-10-29).
+
+| Fix | Status | Verified state / exact next requirement |
+| --- | --- | --- |
+| F1 | DONE | Borderless INDEX surface/focus retained. Navigation6 + UI6 in333/4 and Node357/357 passed. Commit `f57f759`; evidence `docs/validation/v3.1.1/F1`. |
+| F2 | DONE | VISIT follows moshlab with shared secret reveal; footer browser6 and Node pass. Commit `3d01241`; evidence `docs/validation/v3.1.1/F2`. |
+| F3 | DONE | Top TATTOOS/ON SKIN static from first paint; motion browser6 and Node pass. Commit `7028dbc`; evidence `docs/validation/v3.1.1/F3`. |
+| F4 | DONE | Contact shares About section clock; browser6 and Node363/363 pass. Commit `7238478`;12windows0LongTasks, but RAFp95 up to566.5ms; see measured limitations below. |
+| F5 | DONE | Use one gap throughout the Works floating row; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F5. |
+| F6 | DONE | Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6. |
+| F7 | DONE | TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved. |
+| F8 | DONE | Cover every interactive area with the native h4 cursor; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F8. |
+| F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
+| F10 | DONE | Reuse inline viewing for the resized Digital artwork; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F10. |
+| F11 | DONE | Round photographs with the shared radius token; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F11. |
+| F13 | DONE | Unify route-link and branding hover feedback; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F13. |
+| F14 | BLOCKED | Chromium pixel/navigation6 and Node363 pass; Safari/Firefox/real-mannequin unavailable, legacy corruption recovery test times out. |
+| F15 | DONE | Make4 entry-only and require triple3 for return; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F15. |
+| F16a | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
+| F16b | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
+| F17 | DONE | Restore returning-visitor recognition above the hero; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F17. |
+
+There is no F12. TODO means not started; PARTIAL means code/verification underway; DONE requires actual current checks. REVIEW NEEDED is intent uncertainty, not a missing V3.1 feature.
+
+## F1 — actual verification
+
+Runtime: `src/global-navigation.css`, `.global-index-links` now `border:0; outline:0; box-shadow:none`, retaining `var(--surface-input)`, `var(--radius-soft)` and individual focus rules. No photo/mode/hero/audio runtime changed under F1. Harness: `tests/v31-navigation-browser.mjs` six profiles, actual panel contrast/screenshots and reduced native cursor expectation; `tests/v31-ui-browser.mjs` borderless panel expectation, evidence path and enlargement diagnostics.
+
+- Navigation: `H4_BASE_URL=http://127.0.0.1:55173 H4_NAV_ARTIFACTS=artifacts/v311/F1/navigation node tests/v31-navigation-browser.mjs` — **6/6 PASS**, each profile333/4. `artifacts/v311/F1/navigation/results.json`: six reports, zero failures, all error lists empty. `/tmp/h4-v311-F1-navigation.log`. Panel `rgb(48,48,51)`,4px radius,0px border/outline, no filter/shadow. Actual inactive contrast7.447169:1, active13.155752:1. Focus/navigation/geometry/no overflow pass. Twelve `index-{1440,390,320}-{false,true}-{normal,xray}.png` panel screenshots.
+- Broad UI fresh-server repeat: `H4_BASE_URL=http://127.0.0.1:55173 H4_UI_ARTIFACTS=artifacts/v311/F1/ui node tests/v31-ui-browser.mjs` — **6/6 PASS**, each profile333/4. `artifacts/v311/F1/ui/results.json`: six reports, zero failures, all errors/audio-request lists empty. `/tmp/h4-v311-F1-ui.log` records six PASS lines. This verifies baseline shared interaction/form/enlargement/hero/radius contracts, not future F9 changes.
+- `npm test` — **357/357 PASS**, fail0/skipped0,3493.473929ms, `/tmp/h4-v311-F1-node.log`.
+- Prior incomplete UI attempts remain failure history: first ratio1 vs1.1, retry mode timeout with13ERR_CONNECTION_REFUSED. Root found the dev server dead, restarted it and the full six-profile repeat passed. Do not label F9/F15 feature prerequisites BLOCKED or unresolved from those stale attempts. Preserve incomplete evidence separately from final passing output.
+
+F1 was committed as `f57f759`; no V3.1.1 build/export is claimed by this documentation update. Root owns serial runs, commits and final artifacts.
+
+## V9 carousel configuration contract (F9 baseline retained)
+
+Actual single source: `src/carouselSettings.js`, exported `carouselSettings` with JSDoc per field. Both prerender markup and runtime enhancement consume the same `carouselStyleProperties()` dimensions. Changing these values is sufficient after rebuild; no component edits needed. V9 status: **DONE**; see `docs/validation/v3.1.2/V9/`.
+
+| Field | Actual default | Meaning |
+| --- | --- | --- |
+| `cardWidth` |`300`| Resting card width in px; narrow screens cap it at the available page width. |
+| `cardHeight` |`420`| Maximum resting photograph height; its original ratio is preserved. |
+| `cardViewportInset` |`24`| Resting card clearance from either edge of a narrow viewport, in pixels. |
+| `spacing` |`100`| Horizontal space between adjacent card slots, in pixels. |
+| `inertia` |`0.05`| Fraction of velocity lost per 60Hz frame; larger values stop sooner. |
+| `wheelSensitivity` |`8.0`| Legacy wheel impulse value; vertical wheel capture is off. |
+| `wrap` |`true`| Recycle real cards seamlessly through the ambient loop; no duplicate artwork. |
+| `hoverStraighten` |`true`| Lift the hovered card slightly, retaining the site's own scale/glow. |
+| `neighborDisplacement` |`true`| Move immediate neighbours aside with transforms while a card is hovered. |
+| `scrollCapture` |`'none'`| Legacy horizontal-wheel mode; the shipped value leaves vertical input native. |
+| `autoDrift` |`true`| Enable the approved carousel-only ambient time loop. |
+| `autoScroll` |`0.3`| Rightward drift distance in CSS pixels per 60 Hz frame, about 18px/s. |
+| `hoverPause` |`true`| Pause ambient drift while a fine pointer or keyboard focus is inside the carousel. |
+| `perspectiveZoom` |`45`| Perspective field-of-view value for the CSS depth composition. |
+| `cameraDistance` |`900`| Camera distance in pixels applied as the CSS perspective plane. |
+| `depthScale` |`true`| Enable edge scaling and inward rotation without WebGL. |
+| `edgeRotation` |`12`| Maximum inward card rotation at the viewport edge, in degrees. |
+| `edgeScaleFloor` |`0.92`| Minimum edge-card scale at the viewport boundary. |
+| `pointerLabel` |`false`| Reserved for compatibility: the native h4 cursor is the sole affordance. |
+| `expandWithinLayout` |`true`| Enable the common in-page image expansion; never opens a modal. |
+| `expansionScale` |`1.65`| Largest reserved viewing height relative to the resting card height. |
+| `restingFrameFraction` |`0.7`| Resting photo may occupy at most this fraction of its reserved frame. |
+| `viewportInlineInset` |`12`| Horizontal clearance between an expanded photograph and the viewport. |
+| `viewportBlockInset` |`76`| Top/bottom viewport clearance for floating navigation during expansion. |
+| `hoverLift` |`6`| The hovered card's optional vertical lift, in pixels. |
+| `neighborShift` |`12`| Immediate neighbours' optional horizontal displacement, in pixels. |
+| `dragThreshold` |`8`| Pointer movement required before a click becomes a horizontal drag. |
+| `wheelLinePixels` |`16`| Wheel line delta normalization, in pixels. |
+| `maximumWheelDelta` |`120`| Per-event wheel limit avoids unusually large device impulses. |
+| `maximumVelocity` |`100`| Maximum shared velocity, in pixels per 60Hz frame. |
+| `velocityCutoff` |`0.12`| Stop scheduling animation when velocity falls below this threshold. |
+| `dragClickGuardMs` |`350`| Suppress the synthetic click immediately following a completed drag. |
+| `announcementDelayMs` |`140`| Delay before politely announcing the selected artwork to screen readers. |
+
+`autoDrift` is the only approved time loop and runs only while the carousel is near the viewport. Shared hover scale/glow and neighbour displacement remain active. Works pages still load no Three.js/WebGL. All eight confirmed photographs use existing optimized assets, alt text and lazy loading; original bytes are untouched. Reduced motion is static with instant state changes.
+
+## Changed checkpoint files
+
+Original brief `docs/V3.1.1-FIX-ROUND.md` and latest `docs/V3.1.1-CONTINUATION.md` are preserved verbatim. Previous root files remain unchanged under `docs/history/v3.1-checkpoint-2026-10-29/`. These root checkpoints reconcile current code, actual passing F1 outputs and latest user clarifications; delegated documentation work does not run browsers/builds or commit.
+
+**One fix = one commit**, with checkpoint updates and real outputs. After each fix run affected existing browser suites **serially before builds**, at1440/390/320 × full/reduced, both333/4 where relevant. No browser parallelism or asset preparation/build while browser checks run. Preserve unaffected assertions; update only superseded contracts. Capture F1/F2/F9/F10/F14 screenshots and measure actual F4/F6/F14 frame/long-task/compositing costs. Report failures with their actual causes/evidence. Do not rerun the historical full100s SMASH observation for an unrelated CSS change.
+
+## Last verified downloadable preview
+
+Checked-in `docs/previews/h4ngelic-preview.html` and `portfolio-preview.zip` are merged **V3.1**, not current V3.1.1. HTML24,484,734bytes, SHA-256 `6c11473dd0360a15c5e459ae8ee95deeffa3c34c01cad0ffe790bd5d734ce001`; ZIP17,305,532bytes, SHA-256 `61da29cabd658cb4fee3eb158e0b98dbc81bee65fb8f363ccef7c9abf5932770`. Export after serial browser work, then verify exact new bytes before review delivery.
+
+## Boundaries
+
+Keep working chrome hero/physics, accepted memory-mosh, approved SMASH and1400ms transition. INDEX stays separate from NAAVI; Contact exclusively Home03/CONTACT. Cold Work/About must never download or initialize Three.js. Preserve uncommitted user/agent work and finish existing components.
+
+Preserve all eight original JPEGs `public/images/tattoos/tattoo-01.jpg`…`tattoo-08.jpg` and approved MP3 byte-for-byte. Photo provenance: `docs/assets/tattoo-originals-v31.json`. MP3 SHA-256 `307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b`. The user has now explicitly confirmed all eight photographs remain in the carousel, resolving the continuation text’s old reference to five. No photo-count question remains open.
+
+Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, force-push, merge, close, deploy, launch, connect domains or enable analytics. Deferred WORLD/mannequin/Flowfield and other Easter Eggs stay parked; F17 returning-visitor recognition is now explicitly approved. Real moshlab URL, actual mail configuration/delivery and unpublished Loose Thread artwork are external inputs; do not invent substitutes. Actual Safari is unavailable on Linux; WebKit is not Safari. Record concrete installed-browser capabilities before claiming cross-browser success.
 
 ## Exact next checkpoint
 
-User review of the verified HTML/ZIP and [ready PR #20](https://github.com/h333ndrik/h4ngelic/pull/20). Artifact/evidence commit 3b424e9 is already pushed and remote HTML verified. Keep the tested artifacts unchanged unless a relevant source change requires a new export. All 17 approved items and all recorded QA are complete. Do not repeat QA or add implementation without a relevant new change/input.
+Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
 
-To open the delivered website, visit [the HTML on GitHub](https://github.com/h333ndrik/h4ngelic/blob/feat/smart-continuation-v3/docs/previews/h4ngelic-preview.html), choose **Download raw file**, save it with the `.html` extension and open it in a browser. If Raw displays source text, save that file rather than trying to view the GitHub source page as a website. The [ZIP](https://github.com/h333ndrik/h4ngelic/raw/refs/heads/feat/smart-continuation-v3/docs/previews/portfolio-preview.zip) contains the same tested HTML; download, extract and open it locally. No deployment is required for this preview.
+## Confirmed continuation answers — 2026-10-31
 
-External inputs remain only the real h4 moshlab URL, real mail delivery configuration/verification and genuine unpublished Loose Thread content. No merge, launch, deployment, main/API edit or dependency change is authorized.
+The user confirmed all **eight** supplied photographs remain in the carousel. Home stays **01 / WORKS, 02 / ABOUT, 03 / CONTACT**. The tattoos / jewellery / more rubric links must open their own real category pages; Contact remains exclusively on Home. F16 intent is resolved; this is TODO, not an unresolved review blocker. F1 was committed as `f57f759`. F9 was subsequently verified and committed as `36f574d`; the current first unfinished task is F5.
+
+## Historical record — F9 — DONE — 2026-10-31 19:02 UTC
+
+The horizontal carousel and dynamic photo count are complete.
+
+Changed files: `src/carouselSettings.js`, `src/horizontal-drift-content.js`, `src/horizontal-drift.js`, `src/horizontal-drift.css`, `src/gallery.js`, shared `src/inline-artwork-expand.js/.css`, existing carousel/UI/Node tests and `docs/CAROUSEL-EDITING.md`. All26 tuning fields are documented in the checkpoint tables. The retired unused five-pose helper is removed; totals, recycling, indices and counters derive from the actual published projects/mounted slides. Node tests exercise0/1/3/5/8/9 entries. All8 original paths/alt/srcset/proportions remain verified.
+
+Actual serial verification before builds:
+
+- Existing `tests/horizontal-drift-browser.mjs`:1440/390/320 × full/reduced, each333/4; six successful profiles across the recorded desktop/mobile runs. Wheel/drag/touch share finite momentum; real touch transfer, wrapping, second/outside/Escape collapse, keyboard focus, viewport fit, native vertical escape and cold-Work no-Three/no-MP3 checks pass. **CLS0 in every profile; all console/page error lists empty.**24 required normal/expanded screenshots and complete JSON in `docs/validation/v3.1.1/F9/`.
+- Existing `tests/v31-ui-browser.mjs`:6/6 PASS, both modes. `/tmp/h4-v311-F9-ui.log`, persisted `ui.txt/ui.json`. A prior first attempt hit an expired dev server before navigation; a fresh detached local server produced this full pass.
+- `npm test`:363/363 PASS,0 fail/skipped,3514.249524ms; persisted `node.txt`.
+
+Corrections verified during F9: rounded inner-wrapper clipping no longer suppresses the common hover; implicit touch-capture transfer does not end an active swipe; finite velocity settles at exactly0. CSS completion checks compare settled poses rather than assuming a sleep represents a rendered frame. Existing site-wide full/lite Other Side media treatment remains intact. Original JPEG/MP3 bytes and hero/memory-mosh remain untouched. No build/export/merge/deploy occurred.
+
+Historical next step recorded then (superseded by the current checkpoint above): F2 is first unfinished: apply the prepared VISIT-left-cluster change, run existing footer browser6 profiles serially and npm test, save actual screenshots/results and commit F2 alone. Then continue F3/F4/F5/F6/F7/F8/F10/F11/F13/F14/F15/F16 in the user order. F9 is verified; do not rebuild or repeat it without a new relevant change. No launch.
+
+## Historical record — F2 — DONE — 2026-10-31 19:04 UTC
+
+Move VISIT after moshlab with shared secret reveal.
+
+Changed files: `src/footer.js`, `src/easter-eggs.css`, `src/easter-eggs.js`, `tests/footer-v31-browser.mjs`, `tests/easter-eggs.test.js`, `tests/standalone-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/footer-v31-browser.mjs`: exit 0, 80.233s. Actual output: `docs/validation/v3.1.1/F2/browser.txt`.
+- `npm test`: exit 0, 3.306s. Actual output: `docs/validation/v3.1.1/F2/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F2`. No merge/deploy/build performed for this fix.
+
+Historical next step recorded then (superseded by the current checkpoint above): F3: static first-paint TATTOOS and ON SKIN headings. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## Historical record — F3 — DONE — 2026-10-31 19:06 UTC
+
+Keep top tattoo labels static from first paint.
+
+Changed files: `src/pages.js`, `src/scroll-choreography.js`, `tests/v31-motion-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-motion-browser.mjs`: exit 0, 127.836s. Actual output: `docs/validation/v3.1.1/F3/browser.txt`.
+- `npm test`: exit 0, 3.306s. Actual output: `docs/validation/v3.1.1/F3/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F3`. No merge/deploy/build performed for this fix.
+
+Historical next step recorded then (superseded by the current checkpoint above): F4: audit Contact native scrub and measure actual scroll costs. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## Historical record — F4 — DONE — 2026-10-31 19:09 UTC
+
+Share the About section clock with Contact.
+
+Changed files: `src/scroll-choreography.js`, `src/data/motionSettings.js`, `tests/v31-motion-browser.mjs`, `tests/helpers/v311-motion-performance.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-motion-browser.mjs`: exit 0, 163.965s. Actual output: `docs/validation/v3.1.1/F4/browser.txt`.
+- `npm test`: exit 0, 3.374s. Actual output: `docs/validation/v3.1.1/F4/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F4`. No merge/deploy/build performed for this fix.
+
+Historical next step recorded then (superseded by the current checkpoint above): F5: equal measured gaps throughout the floating Works row. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## Verified F4 performance limits
+
+Current recorded evidence: `docs/validation/v3.1.1/F4/results.json` has six profiles at 1440/390/320px × full/reduced motion, each in 333/4; zero failures/console errors. All **12 Contact measurement windows recorded 0 LongTasks**. The full-motion 1440px Other Side window nevertheless recorded **RAF p95 566.5ms / max 616.7ms**; its observed entrance script maximum was **6.3ms** (forced style/layout 6.0ms). Full-motion 390px Normal recorded **RAF p95 216.7ms / max 316.6ms**. Entrance attribution was unavailable in 5/12 windows; zero observed attribution in other windows does not mean zero callback cost.
+
+These are headlessChromium/SwiftShader software-renderer measurements, limited by the cloud hardware/rendering environment; they do **not** prove universally smooth motion or identify the entrance as the sole cause of slow frames. F4 verifies native uncancelled input, reversible poses and unchanged document height, not a guaranteed device frame rate. Preserve this measured limitation and continue F5; do not repeat verified F4 solely to obtain prettier numbers. F4 browser suite6/6 passed; recorded Node 363/363 passed (`node.txt`, 3167.274028ms); the shell-level 3.374s includes command overhead.
+
+## F5 — DONE — 2026-11-02 16:10 UTC
+
+Use one gap throughout the Works floating row.
+
+Changed files: `src/ui-tokens.css`, `src/global-navigation.js`, `src/archive-structure.css`, `tests/v31-navigation-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-navigation-browser.mjs`: exit 0, 70.128s. Actual output: `docs/validation/v3.1.1/F5/browser.txt`.
+- `npm test`: exit 0, 3.616s. Actual output: `docs/validation/v3.1.1/F5/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F5`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F6: replace the Home strip entrance with the exact MORE ABOUT path. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F10 viewport decision — confirmed 2026-11-02
+
+The user explicitly approved an additional responsive height cap in short browser windows. Keep the nominal60% original-width base, but reserve a visibly larger full-image view that fits the viewport. Report actual capped dimensions; do not claim a physical660px resting image in an844px-high window.
+
+## F6 — DONE — 2026-11-02 16:16 UTC
+
+Replace Work pinning with the MORE ABOUT scrub path.
+
+Changed files: `src/scroll-choreography.js`, `src/scroll-choreography.css`, `src/data/motionSettings.js`, `tests/v31-motion-browser.mjs`, `tests/scroll-motion.test.js`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-motion-browser.mjs`: exit 0, 311.963s. Actual output: `docs/validation/v3.1.1/F6/browser.txt`.
+- `npm test`: exit 0, 3.776s. Actual output: `docs/validation/v3.1.1/F6/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F6`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F7: match the TATTOOS heading to Home size and arrow. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F7 — PARTIAL — 2026-11-02 16:21 UTC
+
+Match the tattoo heading size and arrow: verification incomplete.
+
+Actual failing command: `npm test`, exit 1. Output: `docs/validation/v3.1.1/F7/node.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F7: inspect docs/validation/v3.1.1/F7/node.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F6 measured performance limits
+
+The36 native-scroll measurement windows cover Work/About/Contact in both modes and all6 profiles. The largest observed entrance script duration in attributable long animation frames was5.7ms;20windows did not expose usable source attribution. One whole-page118ms Long Task occurred in390px/full-motion Normal About, with browser attribution `unknown`/`window`; it cannot honestly be assigned to or excluded from the entrance solely from that entry. Preserve the complete JSON. Functional reversal/native-input checks pass, but these cloud/SwiftShader measurements do not establish universally hitch-free hardware rendering.
+
+## F7 — DONE — 2026-11-02 16:24 UTC
+
+TATTOOS now shares the Home category typography token and the common arrow. F3 static markers remain. Changed files: `src/ui-tokens.css`, `src/style.css`, `src/archive-structure.css`, `src/pages.js`, existing navigation/content tests.
+
+Existing navigation browser suite:6/6 PASS,1440/390/320 × full/reduced,333/4, zero console errors/overflow. Actual font parity and arrow count are stored in `docs/validation/v3.1.1/F7/results.json`; browser output in `browser.txt`. `npm test`:363/363 PASS, zero failures. A superseded text-only HTML parser initially omitted the new arrow-bearing TATTOOS link; the parser now compares actual text content while the browser separately verifies exactly one arrow. Failed attempts remain recorded. No browser rerun was needed for a test-parser-only correction.
+
+F6 performance limitations were added to PROJECT_PROGRESS.md from its actual36 measurement windows; no universal smoothness claim is made. No build/deploy/merge.
+
+Exact next checkpoint: F8: apply the native h4 cursor coverage fix, verify all interactive surfaces with existing navigation suite6 and npm test, record actual results and commit separately. Then continue F10/F11/F13/F14/F15/F16; no launch.
+
+## F7 checkpoint correction
+
+The first F7 Node run retained a superseded prohibition on heading arrows. The approved Tattoo arrow and text parsing are now asserted explicitly; final `npm test` is363/363 PASS. The earlier DONE checkpoint was premature and has been corrected in the unpublished F7 commit. All failed Node attempts remain in `docs/validation/v3.1.1/F7/`; its previously successful navigation6 run is unchanged. F8 source is only staged later after its own serial checks.
+
+## F8 — DONE — 2026-11-02 16:27 UTC
+
+Cover every interactive area with the native h4 cursor.
+
+Changed files: `src/cursor.css`, `tests/v31-navigation-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-navigation-browser.mjs`: exit 0, 86.937s. Actual output: `docs/validation/v3.1.1/F8/browser.txt`.
+- `npm test`: exit 0, 6.254s. Actual output: `docs/validation/v3.1.1/F8/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F8`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F10: Digital width base60% and shared inline expansion. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F10 — PARTIAL — 2026-11-02 16:31 UTC
+
+Reuse inline viewing for the resized Digital artwork: verification incomplete.
+
+Actual failing command: `node tests/v31-ui-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F10/ui.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F10: inspect docs/validation/v3.1.1/F10/ui.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F10 — PARTIAL — 2026-11-02 16:32 UTC
+
+Reuse inline viewing for the resized Digital artwork: verification incomplete.
+
+Actual failing command: `node tests/v31-ui-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F10/ui.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F10: inspect docs/validation/v3.1.1/F10/ui.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F10 — PARTIAL — 2026-11-02 16:36 UTC
+
+Reuse inline viewing for the resized Digital artwork: verification incomplete.
+
+Actual failing command: `node tests/v31-ui-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F10/ui.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F10: inspect docs/validation/v3.1.1/F10/ui.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F10 — DONE — 2026-11-02 16:41 UTC
+
+Reuse inline viewing for the resized Digital artwork.
+
+Changed files: `src/pages.js`, `src/archive-structure.css`, `tests/v31-ui-browser.mjs`, `tests/digital-ink-browser.mjs`, `tests/v31-digital-payload-browser.mjs`, `tests/v31-digital-assets.test.js`.
+
+Actual serial verification, before builds:
+
+- `node tests/digital-ink-browser.mjs`: exit 0, 132.874s. Actual output: `docs/validation/v3.1.1/F10/browser.txt`.
+- `node tests/v31-ui-browser.mjs`: exit 0, 179.838s. Actual output: `docs/validation/v3.1.1/F10/ui.txt`.
+- `npm test`: exit 0, 3.676s. Actual output: `docs/validation/v3.1.1/F10/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F10`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F11: finish shared4px photo corners while retaining effect exclusions. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F11 — DONE — 2026-11-02 16:42 UTC
+
+Round photographs with the shared radius token.
+
+Changed files: `src/gallery.css`, `tests/gallery-browser.mjs`, `src/artwork-transitions.css`.
+
+Actual serial verification, before builds:
+
+- `node tests/gallery-browser.mjs`: exit 0, 21.994s. Actual output: `docs/validation/v3.1.1/F11/browser.txt`.
+- `npm test`: exit 0, 3.357s. Actual output: `docs/validation/v3.1.1/F11/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F11`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F13: align route-link and branding hover feedback. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F13 — DONE — 2026-11-02 16:46 UTC
+
+Unify route-link and branding hover feedback.
+
+Changed files: `src/style.css`, `tests/v31-ui-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/v31-ui-browser.mjs`: exit 0, 182.584s. Actual output: `docs/validation/v3.1.1/F13/browser.txt`.
+- `npm test`: exit 0, 3.651s. Actual output: `docs/validation/v3.1.1/F13/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F13`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F14: floating header blend, actual palette and compositing checks. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F14 — PARTIAL — 2026-11-02 16:47 UTC
+
+Invert floating headers against actual page content: verification incomplete.
+
+Actual failing command: `node tests/v31-navigation-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F14/browser.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F14: inspect docs/validation/v3.1.1/F14/browser.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F14 — PARTIAL — 2026-11-02 16:58 UTC
+
+Invert floating headers against actual page content: verification incomplete.
+
+Actual failing command: `node tests/corruption-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F14/corruption.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F14: inspect docs/validation/v3.1.1/F14/corruption.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F14 — PARTIAL — 2026-11-02 17:05 UTC
+
+Invert floating headers against actual page content: verification incomplete.
+
+Actual failing command: `node tests/corruption-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F14/corruption.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F14: inspect docs/validation/v3.1.1/F14/corruption.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F14 — BLOCKED — 2026-11-02 17:11 UTC
+
+Floating header inversion is implemented. Changed index.html, header-contrast.js/.css, global-navigation.js, ink/mobile placement, corruption/xray layering and existing navigation/corruption tests. Actual navigation/pixel/compositing suite6/6 passes at1440/390/320 full/reduced,333/4; no errors/overflow. Actual palette RGB samples and synthetic WebGL ABBA timings are in results.json; screenshots included. npm test363/363 PASS.
+
+BLOCKED verification: actual Safari cannot run on Linux; Firefox is not installed. Actual mannequin remains unconfigured, so WebGL measurements are explicitly synthetic. The additional legacy corruption suite does NOT pass: recovered() expects the running/queued state to disappear, but its7000ms wait times out with the accepted persistent-memory renderer. Failed logs retained; no change to accepted mosh was made merely to satisfy this expectation. Do not report this suite as passing.
+
+Exact next checkpoint: F15: apply entry-only4/triple3 proposal, verify sixprofiles serially and npmtest. F14 implementation/pixels are verified in Chromium, but cross-browser/real-mannequin and the legacy corruption recovery contract remain explicitly blocked. Continue F16 realroutes and new F17 returning-visitor line, then build/export; no launch.
+
+## F17 approved history finding
+
+`git log -S "you know your way around"` identifies introduction in4feb4bf and removal in daeaff8. The exact sentence was one entry in the old seven-stage visitor-message array, rendered in the footer. V3.1 retired that phrase system when introducing the numeric-only VISIT counter; this removed the sentence. The newly approved placement is above the hero logo, with a fixed single returning-visitor sentence, not revival of the seven-stage system.
+
+## F15 — DONE — 2026-11-02 17:17 UTC
+
+Make4 entry-only and require triple3 for return.
+
+Changed files: `src/xray.js`, `src/mode-hold.js`, `tests/mode-hold.test.js`, `tests/xray-shortcut.test.js`, `tests/xray-browser.mjs`, `README.md`, `docs/CONTENT.md`, `docs/previews/README-WEBSITE-UPDATE.txt`, `tests/standalone-browser.mjs`, `tests/ref09-foundation-browser.mjs`, `tests/end-reveal-browser.mjs`, `tests/v6-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/xray-browser.mjs`: exit 0, not separately timeds. Actual output: `docs/validation/v3.1.1/F15/browser.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F15`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F16: clickable Works heading and real category pages. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F16a — DONE — 2026-11-02 17:21 UTC
+
+Make Works and category destinations real routes.
+
+Changed files: `README.md`, `docs/CONTENT.md`, `docs/previews/README-WEBSITE-UPDATE.txt`, `src/app.js`, `src/connected-work.js`, `src/global-navigation.js`, `src/homepage.css`, `src/naavi-content.js`, `src/navigation.js`, `src/pages.js`, `src/routes.js`, `src/seo.js`, `tests/content.test.js`, `tests/helpers/v311-header-contrast.mjs`, `tests/navigation-prerender.test.js`, `tests/portfolio-browser.mjs`, `tests/routes.test.js`, `tests/seo-browser.mjs`, `tests/seo.test.js`, `tests/standalone-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/portfolio-browser.mjs`: exit 0, 181.363s. Actual output: `docs/validation/v3.1.1/F16/browser.txt`.
+- `npm test`: exit 0, 3.435s. Actual output: `docs/validation/v3.1.1/F16/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F16`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F17: restore returning-visitor recognition above the hero. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F16b — DONE — 2026-11-02 17:21 UTC
+
+Make Works and category destinations real routes.
+
+Changed files: `README.md`, `docs/CONTENT.md`, `docs/previews/README-WEBSITE-UPDATE.txt`, `src/app.js`, `src/connected-work.js`, `src/global-navigation.js`, `src/homepage.css`, `src/naavi-content.js`, `src/navigation.js`, `src/pages.js`, `src/routes.js`, `src/seo.js`, `tests/content.test.js`, `tests/helpers/v311-header-contrast.mjs`, `tests/navigation-prerender.test.js`, `tests/portfolio-browser.mjs`, `tests/routes.test.js`, `tests/seo-browser.mjs`, `tests/seo.test.js`, `tests/standalone-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/portfolio-browser.mjs`: exit 0, 181.363s. Actual output: `docs/validation/v3.1.1/F16/browser.txt`.
+- `npm test`: exit 0, 3.435s. Actual output: `docs/validation/v3.1.1/F16/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F16`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: F17: restore returning-visitor recognition above the hero. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## F17 — PARTIAL — 2026-11-02 17:21 UTC
+
+Restore returning-visitor recognition above the hero: verification incomplete.
+
+Actual failing command: `node tests/footer-v31-browser.mjs`, exit 1. Output: `docs/validation/v3.1.1/F17/browser.txt`. Source changes remain uncommitted. Inspect the actual failure before repeating checks.
+
+Exact next checkpoint: Resume F17: inspect docs/validation/v3.1.1/F17/browser.txt, correct the failing contract or implementation, then rerun the affected serial check. Do not reapply the patch or claim completion.
+
+## F17 — DONE — 2026-11-02 17:24 UTC
+
+Restore returning-visitor recognition above the hero.
+
+Changed files: `index.html`, `src/easter-eggs.js`, `src/easter-eggs.css`, `tests/footer-v31-browser.mjs`.
+
+Actual serial verification, before builds:
+
+- `node tests/footer-v31-browser.mjs`: exit 0, 133.653s. Actual output: `docs/validation/v3.1.1/F17/browser.txt`.
+- `npm test`: exit 0, 3.518s. Actual output: `docs/validation/v3.1.1/F17/node.txt`.
+
+Browser JSON and relevant screenshots: `docs/validation/v3.1.1/F17`. No merge/deploy/build performed for this fix.
+
+Exact next checkpoint: Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
+
+## WORLD SOUND v3 — DONE — 2026-11-05
+
+Real-source 90 s loops and matched transitions. New commit on
+`v3.2-world-sound` (no history rewrite); not pushed, merged or deployed.
+Audio scope only; no V3.1 module, layout, mannequin or `api/inquiry.js` change.
+
+Changed files: `.gitignore`, `docs/WORLD-SOUND.md`, `docs/validation/world-sound/measurements/`,
+`docs/validation/world-sound/v3-build.json`, `docs/validation/world-sound/v3/`,
+`public/assets/audio/{loop-333,loop-4,x-333-4,x-4-333}.m4a`,
+`scripts/buildWorldSound.mjs`, `src/audio/worldSound.js`,
+`src/audio/worldSoundSettings.js`, `src/mode-audio.js`,
+`tests/{mode-audio-browser.mjs,mode-audio.test.js,world-audio-formats-browser.mjs,world-sound-browser.mjs,world-sound.test.js,world-sound-v3.test.js}`,
+plus deletion of `tests/world-sound-v2.test.js`.
+
+Actual serial verification:
+
+- `npm test`: exit 0, **400 passed, 0 failed** (9.75 s). Output: `docs/validation/world-sound/v3/node-tests.txt`.
+- `tests/world-audio-formats-browser.mjs`: PASS, 4/4 files at 3,969,000 / 39,690 frames, no audio-path long tasks.
+- `tests/world-sound-browser.mjs`: PASS, 6/6 profiles at 1440/390/320 × full/reduced plus missing-file degradation.
+- `tests/mode-audio-browser.mjs`: PASS.
+- `tests/sound-controls-browser.mjs`: PASS, 8/8 profiles.
+- `tests/smash-v31-browser.mjs`: PASS at 1440/390/320.
+- `npm run build`: PASS; exactly four M4A in `dist`, hashes match (`docs/validation/world-sound/v3/build.txt`).
+- `node scripts/buildWorldSound.mjs --validate`: `pass: true`.
+
+Delivered: 5,680,943 B total. LUFS −18.0/−18.0/−18.0/−18.1; true peaks
+−3.4/−6.3/−10.6/−9.3 dBFS. Transition files are 39,690 frames, read from the
+900 ms visual config. Keys measure A minor (333) and F major (4), not F minor;
+no pitch shift was guessed.
+
+Exact next checkpoint: user listens to the four files in context. Then, only on
+explicit request, push `v3.2-world-sound`, update PR #22, and merge after review.
+No push/merge/deploy in this pass.
+
+## WORLD SOUND PHASE 4 — GUIDED LISTENING CORE — 2026-11-05
+
+Superseded by the completed Phase 4 entry below; the missing 4.3 b/c text was
+supplied in the next pass. This entry records the 4.1–4.3a milestone. No play
+button and no autoplay were added; SOUND remains the hard control.
+
+Changed files: `src/audio/guided-listening.js` (new), `src/mode-audio.js`,
+`src/audio/worldSound.js`, `src/xray.js`, `src/sound-controls.js`,
+`src/sound-controls.css`, `tests/guided-listening-browser.mjs` (new),
+`tests/world-sound.test.js`, `tests/mode-audio.test.js`,
+`tests/mode-audio-browser.mjs`, `tests/world-sound-browser.mjs`,
+`tests/memory-handoff.test.js`, `package.json`, `docs/WORLD-SOUND.md`.
+
+Implemented contract:
+
+- One lazy `AudioContext`; unlock on pointerdown/touchend/click/keydown, each
+  `{ once, passive }`; synchronous `resume()`; one-sample silent prime.
+- Unlock fetches and decodes nothing. A stored mute always wins; muted triggers
+  unlock only.
+- Stage 1 wordmark pointerdown fades the active loop over 1.8 s.
+- Stage 2 desktop pointermove > 200 px after unlock, throttled 100 ms.
+- Stage 3 first scroll that takes the hero out of view, throttled 120 ms.
+- Stages fire once per session; activation reuses an existing loop voice.
+- Failed visibility resume switches the SOUND control to “tap to resume”.
+- One-time iOS hint: “hearing nothing? check the silent switch.” for ~6 s.
+
+Actual verification:
+
+- `npm test`: **402 passed, 0 failed**. Output:
+  `docs/validation/world-sound/v3/phase4b/node-tests.txt`.
+- `tests/guided-listening-browser.mjs`: **6/6 scenarios pass**. Output:
+  `docs/validation/world-sound/v3/phase4b/guided-listening-browser.txt`.
+- `world-audio-formats-browser`, `world-sound-browser`, `mode-audio-browser`,
+  `sound-controls-browser`: pass.
+- `smash-v31-browser`: the first combined serial run had one transient 390 px
+  failure (“manual stop starts a real short fade”); the isolated rerun passed
+  3/3. Recorded as a test timing flake, not reproduced.
+
+Exact next checkpoint: user supplies the remainder of Phase 4 after “hearing
+nothing”. Then implement 4.3 b/c and later items on this branch; no push, merge
+or deploy.
+
+## WORLD SOUND PHASE 4 — DONE — 2026-11-05
+
+Completed 4.3 b/c/d, the 4.4 performance budgets and the 4.5 test set. The
+Phase 4 brief is now complete from 4.1 through 4.5. Audio scope only; SOUND
+remains the single hard control, with no play button and no autoplay.
+
+Changed files: `src/mode-audio.js`, `src/sound-controls.js`,
+`src/sound-controls.css`, `src/audio/guided-listening.js`,
+`src/audio/worldSound.js`, `tests/audio-performance-browser.mjs` (new),
+`tests/guided-listening-browser.mjs`, `tests/sound-controls-browser.mjs`,
+`tests/mode-audio.test.js`, `tests/smash-v31-browser.mjs`, `package.json`,
+`docs/WORLD-SOUND.md`, `NEXT_SESSION.md`.
+
+Delivered:
+
+- Three analyser-driven bars beside SOUND (`fftSize=32`, ≤30 reads/s),
+  `aria-hidden`, fixed 16×10 px slot, 3 bars only.
+- rAF and analyser disconnect synchronously on mute/suspend/hide; reduced motion
+  shows a static active state with no rAF.
+- SOUND text and accessible name are states: “sound on” / “sound off”.
+- “tap to resume” only after a failed resume, keyboard reachable, cleared on
+  success, no automatic retry spam while it stays failed.
+- iOS hint shown once, persisted dismissal, no live region.
+- Fade intent is created before async decode; the full 1.8 s fade starts on
+  resolve with one source and no gap.
+- Stage 3 now uses `IntersectionObserver`; no per-scroll layout reads.
+
+Actual verification:
+
+- `npm test`: **402 passed, 0 failed** (9.0 s).
+- `tests/guided-listening-browser.mjs`: **8/8 scenarios**.
+- `tests/audio-performance-browser.mjs`: PASS. Handler total 0.1 ms, startup
+  0.1 ms, context construction 105.2–174.5 ms (platform, reported separately),
+  analyser 16–20 reads/s, zero audio-only long tasks, zero indicator layout
+  shifts, in-flight decode exactly one start.
+- `sound-controls-browser`, `world-sound-browser`, `mode-audio-browser`,
+  `world-audio-formats-browser`: pass.
+
+Decoded PCM with one world resident is exactly **31,752,000 B**. Two full
+333→4→333 round-trips measured heap deltas of **−21,206 B** (latest), **+74,834 B** and
+**+144,786 B** (earlier runs) after forced GC, under the 2 MB budget. The outgoing loop buffer is
+released after its fade; the next switch reloads it. No idle prefetch is issued.
+
+Exact next checkpoint: user listening review of the four sounds in context.
+Push/PR #22 stays untouched until explicitly requested.
+
+## PHASE 4 VERIFICATION QUERIES — DONE — 2026-11-05
+
+Resolved the five verification queries without adding new features.
+
+1. Stage 2 removal: deleted the `pointermove` listener from
+   `src/audio/guided-listening.js`. Grep across `src/audio`, `src/mode-audio.js`,
+   `src/xray.js` and `src/sound-controls.js` returns no pointermove/mousemove
+   listener. There is no dwell, idle or time-on-page audio trigger. The remaining
+   entries are stage A (wordmark `pointerdown`) and stage B (`#selected-work`).
+2. Stage B condition: `#selected-work` (the WORKS section), observed by
+   `IntersectionObserver` with `threshold: [.25]` in
+   `src/audio/guided-listening.js`. Fires once. The old hero-out condition
+   (hero fully out of the viewport) is gone, together with its scroll fallback.
+   The observer re-attaches on `h4:pagechange`, because `#selected-work` is
+   re-created by `content.innerHTML = renderRoutePage(...)` on every route
+   change; without the re-arm stage B died after home → work → home. Confirmed
+   by a negative control: with the old single-shot observer the new browser
+   scenario fails, with the re-arm it passes.
+3. Heap: added outgoing-loop buffer eviction in
+   `src/audio/worldSound.js`. After the crossfade stops an inactive loop, its
+   `AudioBuffer` is dropped and the next switch re-fetches/re-decodes it.
+   Measured with CDP `HeapProfiler.collectGarbage` +
+   `performance.memory.usedJSHeapSize` before and after two full 333→4→333
+   round-trips: **+48,214 B** in the final evidence run (earlier runs −21,206 B,
+   +74,834 B and +144,786 B), all far inside the 2 MB budget. After the round-trips only the active loop is
+   resident (`bufferDuration: 90`), the inactive loop is `idle` with
+   `bufferDuration: 0`.
+4. Accessibility: stable `aria-label="sound"` plus `aria-pressed` (`true` = on,
+   `false` = off); visible text remains `sound on` / `sound off`. Resume state
+   keeps the specific name `tap to resume sound`. Tests updated in
+   `sound-controls-browser.mjs`, `guided-listening-browser.mjs`,
+   `mode-audio-browser.mjs`, `audio-performance-browser.mjs`.
+5. Docs: `docs/WORLD-SOUND.md` now states that 121–209 ms is localhost-only and
+   that a real mobile cold visit adds the ~2.8 MB loop download, making ~3 s to
+   first sound the realistic case. It also states that both baseline `a64f808`
+   and the new timing runs used stage A (wordmark pointerdown), not SOUND ON.
+
+Changed files: `src/audio/guided-listening.js`, `src/audio/worldSound.js`,
+`src/mode-audio.js`, `src/sound-controls.js`, `index.html`,
+`tests/world-sound.test.js`, `tests/guided-listening-browser.mjs`,
+`tests/audio-performance-browser.mjs`, `tests/sound-controls-browser.mjs`,
+`tests/mode-audio-browser.mjs`, `docs/WORLD-SOUND.md`, `NEXT_SESSION.md`.
+
+Actual verification after the changes:
+
+- `npm test`: **402 passed, 0 failed** (`phase4c/node-tests.txt`).
+- `guided-listening-browser`: **9/9 scenarios**, including pointermove-inert,
+  WORKS-25%-visible, touch WORKS visibility and the home → work → home re-arm.
+- `audio-performance-browser`: PASS; handler 0.2 ms, startup 0.2 ms, context
+  122.3 ms, round-trip heap delta +48,214 B, analyser 16 reads/s, 0 audio-only
+  long tasks, 0 console errors.
+- `world-audio-formats-browser`, `world-sound-browser` (6/6 profiles),
+  `mode-audio-browser`, `sound-controls-browser` (8/8 profiles),
+  `smash-v31-browser` (1440/390/320): pass.
+- Production build: exactly four M4A with unchanged hashes
+  (`phase4c/build.txt`). `public/images/optimized/*` was restored after the
+  build and is not part of the commit.
+
+### OBSERVATION (pre-existing, non-audio, not fixed here)
+
+- `tests/smash-v31-browser.mjs` polls a 1.8 s gain attack with a 5 s
+  `waitForFunction`. In the first back-to-back batch run it timed out at that
+  poll; a standalone run and the second full serial batch both passed at
+  1440/390/320. The assertion is load-sensitive, not a product defect. The file
+  belongs to the V3.1 feature set and was left unchanged.
+
+Exact next checkpoint: user listening review. No push, merge or deploy.

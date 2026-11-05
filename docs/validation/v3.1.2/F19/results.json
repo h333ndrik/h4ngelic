@@ -1,0 +1,188 @@
+{
+  "capturedAt": "2026-11-03T05:03:01.588Z",
+  "reports": [
+    {
+      "width": 1440,
+      "card": {
+        "width": 300,
+        "height": 420,
+        "fit": "cover"
+      },
+      "perspective": "none",
+      "touchAction": "pan-y pinch-zoom",
+      "items": [
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        }
+      ],
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "card": {
+        "width": 300,
+        "height": 420,
+        "fit": "cover"
+      },
+      "perspective": "none",
+      "touchAction": "pan-y pinch-zoom",
+      "items": [
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        }
+      ],
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "card": {
+        "width": 300,
+        "height": 420,
+        "fit": "cover"
+      },
+      "perspective": "none",
+      "touchAction": "pan-y pinch-zoom",
+      "items": [
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        },
+        {
+          "width": 300,
+          "height": 420,
+          "scale": 1,
+          "rotation": 0
+        }
+      ],
+      "overflow": 0
+    }
+  ]
+}

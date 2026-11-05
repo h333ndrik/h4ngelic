@@ -1,0 +1,4 @@
+START V3.1.1 F9 carousel 1440px reduced=false
+PASS F9 1440px reduced=false: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.
+START V3.1.1 F9 carousel 1440px reduced=true
+PASS F9 1440px reduced=true: eight genuine images, wrapping controls, unified hover, actual inline fit, finite wheel/drag/touch momentum, vertical escape, no Three.js, both333/4.

@@ -7,6 +7,7 @@ import { LogoPhysics } from './physics.js';
 import { sampleBase } from './motion.js';
 import { bindControls } from './controls.js';
 import { attachArtwork, revealWeight } from './reveal.js';
+import { heroPosterSettings } from './data/heroPosterSettings.js';
 import { chooseRenderQuality, AdaptiveResolution } from './render-quality.js';
 import { featureFlags } from './data/featureFlags.js';
 import { createHeroDepth } from './hero-depth.js';
@@ -14,6 +15,7 @@ import { sampleHero } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 import { createHeroInk, isHeroInkClick } from './hero-ink.js';
 import { registerHeroInkHitTest, rememberHeroInkHit } from './hero-background-ink.js';
+import { corruptionSettings } from './data/corruptionSettings.js';
 
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
@@ -36,12 +38,20 @@ let previousPoint = null;
 let previousPointerTime = 0;
 let lastHit = -Infinity;
 let artwork = null;
+let artworkRequested = false;
+let firstFrameHadArtwork = null;
+let firstFrameAt = null;
+let artworkRequestedAt = null;
+let artworkReadyAt = null;
 let disposeScene = () => {};
 let stageIsVisible = false;
 let sceneReady = false;
 let animationFrame = 0;
 let pendingPointer = null;
 let syncRendering = () => {};
+let modeTransitioning = false;
+let modeTransitionTimer = 0;
+let heroEntranceTimer = 0;
 const quality = chooseRenderQuality({
   pixelRatio: devicePixelRatio,
   coarsePointer: matchMedia('(pointer: coarse)').matches,
@@ -58,10 +68,26 @@ const controls = bindControls({
   onReveal: (value) => { revealEnabled = value; },
 });
 
+function markHeroReady() {
+  document.documentElement.dataset.heroLoading = 'false';
+  clearTimeout(heroEntranceTimer);
+  stage.classList.remove('is-boot-slow', 'is-boot-failed', 'is-entering');
+  stage.classList.add('is-ready', 'is-entering');
+  heroEntranceTimer = setTimeout(() => {
+    heroEntranceTimer = 0;
+    stage.classList.remove('is-entering');
+  }, 1100);
+  document.dispatchEvent(new CustomEvent('h4:heroready'));
+}
+
 function fallback(message) {
   running = false;
-  stage.classList.remove('is-ready');
-  stage.classList.add('is-fallback');
+  clearTimeout(heroEntranceTimer);
+  heroEntranceTimer = 0;
+  stage.classList.remove('is-ready', 'is-boot-slow', 'is-entering');
+  stage.classList.add('is-fallback', 'is-boot-failed');
+  document.documentElement.dataset.heroLoading = 'false';
+  document.dispatchEvent(new CustomEvent('h4:herofailed', { detail: { message } }));
   status.textContent = message;
   document.getElementById('interaction-hint').textContent = 'h4ngelic';
   for (const id of ['pause-control', 'speed-control', 'reveal-control']) {
@@ -121,16 +147,28 @@ async function initialize() {
   document.addEventListener('h4:pagechange', cancelInkGesture);
   window.addEventListener('blur', cancelInkGesture);
 
-  // Only an explicitly supplied original artwork is loaded. No substitute art.
-  const artworkUrl = import.meta.env.VITE_TATTOO_ARTWORK_URL || (quality.name === 'desktop' ? '/assets/tattoo-texture.webp' : '/assets/tattoo-texture-640.webp');
-  if (artworkUrl) {
+  // Only an explicitly supplied original artwork is loaded. It starts after
+  // the first chrome frame so texture decode and shader preparation cannot
+  // hold the poster or critical navigation. No substitute art is used.
+  const artworkUrl = import.meta.env.VITE_TATTOO_ARTWORK_URL
+    || (quality.name === 'desktop' ? heroPosterSettings.artwork.desktop : heroPosterSettings.artwork.mobile);
+  const startArtwork = async () => {
+    if (artworkRequested || !artworkUrl) return;
+    artworkRequested = true;
+    artworkRequestedAt = performance.now();
+    stage.dataset.artworkRequestedAt = String(artworkRequestedAt);
     try {
-      artwork = await attachArtwork(chrome, { url: artworkUrl, width: size.x, height: size.y });
+      const prepared = await attachArtwork(chrome, { url: artworkUrl, width: size.x, height: size.y });
+      if (!running) { prepared.dispose(); return; }
+      artwork = prepared;
+      artworkReadyAt = performance.now();
+      stage.dataset.artworkReady = 'true';
+      stage.dataset.artworkReadyAt = String(artworkReadyAt);
       controls.setRevealAvailable(true);
     } catch (error) {
       console.warn('Tattoo artwork could not be loaded; reveal remains unavailable.', error);
     }
-  }
+  };
   // Install after the artwork hook so both treatments share one mesh program.
   // Uniform updates leave the hero's existing visibility/RAF lifecycle intact.
   let wordmarkXRay = null;
@@ -360,16 +398,42 @@ async function initialize() {
     if (artwork) artwork.opacity.value = revealEnabled ? revealWeight(logo.quaternion, Number(import.meta.env.VITE_REVEAL_ANGLE || 150)) : 0;
     renderer.render(scene, camera);
     if (frameCount === 0) {
-      stage.classList.add('is-ready');
+      firstFrameHadArtwork = Boolean(artwork);
+      firstFrameAt = performance.now();
+      stage.dataset.firstFrameHadArtwork = String(firstFrameHadArtwork);
+      stage.dataset.firstFrameAt = String(firstFrameAt);
+      stage.dataset.artworkRequestedAt = String(artworkRequestedAt);
+      markHeroReady();
       status.textContent = '3D wordmark ready. Use the animation controls below; pointer dragging is optional.';
+      void startArtwork();
     }
-    const nextRatio = resolution.sample(dt, timestamp);
+    const nextRatio = modeTransitioning ? null : resolution.sample(dt, timestamp);
     if (nextRatio !== null) {
       renderer.setPixelRatio(nextRatio);
       resize();
     }
     frameCount++;
   }
+
+  function beginModeTransition(event) {
+    if (!renderer || !sceneReady || reducedMotion.matches) return;
+    const duration = Math.max(0, Math.min(2000, Number(event?.detail?.duration) || corruptionSettings.transition.minimumDurationMs));
+    modeTransitioning = true;
+    clearTimeout(modeTransitionTimer);
+    resolveRatio = resolution.pixelRatio;
+    renderer.setPixelRatio(1);
+    resize();
+    physics.setSubstepRate(30);
+    modeTransitionTimer = setTimeout(() => {
+      if (!modeTransitioning) return;
+      modeTransitioning = false;
+      physics.setSubstepRate(120);
+      renderer.setPixelRatio(resolveRatio || resolution.pixelRatio);
+      resize();
+    }, duration);
+  }
+  let resolveRatio = 0;
+  document.addEventListener('h4:modechange', beginModeTransition);
 
   syncRendering = () => {
     if (!running || !sceneReady || document.hidden || !stageIsVisible) {
@@ -392,7 +456,7 @@ async function initialize() {
 
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
+      snapshot: () => ({ baseTime: animationTime, substeps: physics.substepRate, modeTransitioning, xrayPrepared: Boolean(wordmarkXRay), position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, artworkReady: Boolean(artwork), artworkRequested, firstFrameHadArtwork, firstFrameAt, artworkRequestedAt, artworkReadyAt, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
         heroInk: { ...heroInk.snapshot(), gpu: { ...renderer.info.memory } } }),
       hitPoint: ({ minFacing = 0, maxFacing = 1, minAbsNormalZ = 0, maxAbsNormalZ = 1 } = {}) => {
         // Search real geometry instead of guessing a point inside a glyph hole.
@@ -436,6 +500,8 @@ async function initialize() {
     materialDisposed = true;
     document.removeEventListener('h4:modeprepare', prepareMaterial);
     document.removeEventListener('h4:modechange', cancelInkGesture);
+    document.removeEventListener('h4:modechange', beginModeTransition);
+    clearTimeout(modeTransitionTimer);
     document.removeEventListener('h4:pagechange', cancelInkGesture);
     window.removeEventListener('blur', cancelInkGesture);
     heroInk.dispose();
@@ -465,6 +531,7 @@ canvas.addEventListener('webglcontextlost', (event) => {
 addEventListener('pagehide', (event) => {
   if (event.persisted) return;
   running = false;
+  clearTimeout(heroEntranceTimer);
   startupObserver.disconnect();
   document.removeEventListener('visibilitychange', startVisibleHero);
   controls.destroy();

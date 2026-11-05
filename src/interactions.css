@@ -32,8 +32,6 @@ html[data-mode='xray'] [data-ui-interactive] { --ui-hover-glow: var(--ui-hover-g
 
 /* Selection is brief and belongs to the existing label, never its hit area. */
 [data-ui-selected] .interaction-visual {
-  outline: 1px solid rgb(255 255 255 / .85);
-  outline-offset: .12em;
   filter: var(--ui-hover-glow);
   --ui-active-scale: var(--ui-target-scale, 1.025);
 }

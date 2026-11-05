@@ -1,0 +1,6 @@
+PASS V3.1 inquiry 1440px scrubbed: validation, real upload/draft retention, shared field surfaces and retired one-shot entrance.
+PASS V3.1 inquiry 1440px reduced: validation, real upload/draft retention, shared field surfaces and retired one-shot entrance.
+PASS V3.1 inquiry 390px scrubbed: validation, real upload/draft retention, shared field surfaces and retired one-shot entrance.
+PASS V3.1 inquiry 390px reduced: validation, real upload/draft retention, shared field surfaces and retired one-shot entrance.
+PASS V3.1 inquiry 320px scrubbed: validation, real upload/draft retention, shared field surfaces and retired one-shot entrance.
+PASS V3.1 inquiry 320px reduced: validation, real upload/draft retention, shared field surfaces and retired one-shot entrance.

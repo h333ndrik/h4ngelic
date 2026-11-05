@@ -17,12 +17,12 @@
   .kinetic-heading > .kinetic-heading-text {
     transition: scale var(--ui-hover-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1)), filter var(--ui-hover-duration, 300ms) ease-out;
   }
-  .kinetic-heading:hover .kinetic-heading-text {
+  .kinetic-heading:has(a):hover .kinetic-heading-text {
     scale: var(--heading-hover-scale, 1);
     filter: drop-shadow(0 0 1px rgb(255 255 255 / calc(.67 * var(--ui-glow-strength, .2)))) drop-shadow(0 0 4px rgb(255 255 255 / calc(.33 * var(--ui-glow-strength, .2))));
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .kinetic-heading > .kinetic-heading-text { transition: none; }
-  .kinetic-heading:hover .kinetic-heading-text { scale: 1; }
+  .kinetic-heading:has(a):hover .kinetic-heading-text { scale: 1; }
 }

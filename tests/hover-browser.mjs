@@ -51,7 +51,7 @@ try {
   assert.ok(ordinary.duration.split(',').every(value => Math.abs(parseFloat(value) - .3) < .001), 'Hover and release share 300ms timing.');
   const alphas = [...ordinary.filter.matchAll(/rgba\([^)]*,\s*([\d.]+)\)/g)].map(match => Number(match[1]));
   assert.ok(alphas.length >= 3 && alphas.every(alpha => alpha <= .2), 'White hover layers retain at most 20% opacity.');
-  assert.match(await link.evaluate(element => getComputedStyle(element).cursor), /h4ngelic-cursor-hover\.svg/, 'Navigation uses the standard h4 hover cursor.');
+  assert.match(await link.evaluate(element => getComputedStyle(element).cursor), /h4ngelic-cursor\.svg/, 'Navigation keeps the standard h4 cursor while hovered.');
   for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[key] - hovered[key]) < .25, 'Magnification must not move or resize the real link target.');
   await page.mouse.move(1, 1);
   await page.waitForTimeout(380);

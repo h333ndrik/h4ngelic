@@ -1,0 +1,661 @@
+{
+  "checkedAt": "2026-11-03T05:39:21.858Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "entrance": {
+        "duration": "0s",
+        "opacity": 1,
+        "x": 0,
+        "y": 0,
+        "headingOpacity": 1,
+        "oneShotAttributes": 0
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 423.78125,
+          "right": 782.984375,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "19px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 818.984375,
+          "right": 1178.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "19px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 423.78125,
+          "right": 1178.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "19px",
+            "lineHeight": "28.5px",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        }
+      ],
+      "surface": {
+        "radius": "4px",
+        "panel": "rgb(48, 48, 51)"
+      },
+      "grid": {
+        "inquiryLeft": 78.1875,
+        "introLeft": 78.1875,
+        "formLeft": 423.78125,
+        "formMarginLeft": "345.6px",
+        "aboutLeft": 78.1875,
+        "introMarginBottom": "28px",
+        "offset": "clamp(60px, 24vw, 640px)",
+        "columns": 2,
+        "submitHeight": 112,
+        "fileLabelHeight": 44,
+        "scrollMarginBottom": "88px",
+        "pageWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "scrubReplacesOnceOnlyEntrance": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": [],
+      "unexpectedConsoleErrors": [],
+      "expected503DiagnosticCount": 1,
+      "expected503Diagnostics": [
+        {
+          "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+          "url": "http://127.0.0.1:55173/api/inquiry"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "opacity": 1,
+        "x": 0,
+        "y": 0,
+        "headingOpacity": 1,
+        "oneShotAttributes": 0
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 423.78125,
+          "right": 782.984375,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "19px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 818.984375,
+          "right": 1178.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "19px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 423.78125,
+          "right": 1178.1875,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "19px",
+            "lineHeight": "28.5px",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        }
+      ],
+      "surface": {
+        "radius": "4px",
+        "panel": "rgb(48, 48, 51)"
+      },
+      "grid": {
+        "inquiryLeft": 78.1875,
+        "introLeft": 78.1875,
+        "formLeft": 423.78125,
+        "formMarginLeft": "345.6px",
+        "aboutLeft": 78.1875,
+        "introMarginBottom": "28px",
+        "offset": "clamp(60px, 24vw, 640px)",
+        "columns": 2,
+        "submitHeight": 112,
+        "fileLabelHeight": 44,
+        "scrollMarginBottom": "88px",
+        "pageWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "scrubReplacesOnceOnlyEntrance": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": [],
+      "unexpectedConsoleErrors": [],
+      "expected503DiagnosticCount": 1,
+      "expected503Diagnostics": [
+        {
+          "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+          "url": "http://127.0.0.1:55173/api/inquiry"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "entrance": {
+        "duration": "0s",
+        "opacity": 1,
+        "x": 0,
+        "y": 0,
+        "headingOpacity": 1,
+        "oneShotAttributes": 0
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        }
+      ],
+      "surface": {
+        "radius": "4px",
+        "panel": "rgb(48, 48, 51)"
+      },
+      "grid": {
+        "inquiryLeft": 34,
+        "introLeft": 34,
+        "formLeft": 34,
+        "formMarginLeft": "0px",
+        "aboutLeft": 34,
+        "introMarginBottom": "14px",
+        "offset": "0px",
+        "columns": 1,
+        "submitHeight": 70,
+        "fileLabelHeight": 44,
+        "scrollMarginBottom": "88px",
+        "pageWidth": 390,
+        "viewportWidth": 390
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "scrubReplacesOnceOnlyEntrance": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": [],
+      "unexpectedConsoleErrors": [],
+      "expected503DiagnosticCount": 1,
+      "expected503Diagnostics": [
+        {
+          "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+          "url": "http://127.0.0.1:55173/api/inquiry"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "opacity": 1,
+        "x": 0,
+        "y": 0,
+        "headingOpacity": 1,
+        "oneShotAttributes": 0
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 368,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        }
+      ],
+      "surface": {
+        "radius": "4px",
+        "panel": "rgb(48, 48, 51)"
+      },
+      "grid": {
+        "inquiryLeft": 34,
+        "introLeft": 34,
+        "formLeft": 34,
+        "formMarginLeft": "0px",
+        "aboutLeft": 34,
+        "introMarginBottom": "14px",
+        "offset": "0px",
+        "columns": 1,
+        "submitHeight": 70,
+        "fileLabelHeight": 44,
+        "scrollMarginBottom": "88px",
+        "pageWidth": 390,
+        "viewportWidth": 390
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "scrubReplacesOnceOnlyEntrance": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": [],
+      "unexpectedConsoleErrors": [],
+      "expected503DiagnosticCount": 1,
+      "expected503Diagnostics": [
+        {
+          "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+          "url": "http://127.0.0.1:55173/api/inquiry"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "entrance": {
+        "duration": "0s",
+        "opacity": 1,
+        "x": 0,
+        "y": 0,
+        "headingOpacity": 1,
+        "oneShotAttributes": 0
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        }
+      ],
+      "surface": {
+        "radius": "4px",
+        "panel": "rgb(48, 48, 51)"
+      },
+      "grid": {
+        "inquiryLeft": 34,
+        "introLeft": 34,
+        "formLeft": 34,
+        "formMarginLeft": "0px",
+        "aboutLeft": 34,
+        "introMarginBottom": "14px",
+        "offset": "0px",
+        "columns": 1,
+        "submitHeight": 70,
+        "fileLabelHeight": 44,
+        "scrollMarginBottom": "88px",
+        "pageWidth": 320,
+        "viewportWidth": 320
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "scrubReplacesOnceOnlyEntrance": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": [],
+      "unexpectedConsoleErrors": [],
+      "expected503DiagnosticCount": 1,
+      "expected503Diagnostics": [
+        {
+          "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+          "url": "http://127.0.0.1:55173/api/inquiry"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "entrance": {
+        "duration": "0s",
+        "opacity": 1,
+        "x": 0,
+        "y": 0,
+        "headingOpacity": 1,
+        "oneShotAttributes": 0
+      },
+      "labelsAboveFields": true,
+      "focusSizeStable": true,
+      "geometry": [
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "normal",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        },
+        {
+          "gap": 12,
+          "left": 34,
+          "right": 298,
+          "fieldBorder": "1px",
+          "labelBorder": "0px",
+          "fieldBackground": "rgb(48, 48, 51)",
+          "labelBackground": "rgba(0, 0, 0, 0)",
+          "radius": "4px",
+          "shadow": "none",
+          "outline": "0px",
+          "placeholder": {
+            "fontSize": "14px",
+            "lineHeight": "21px",
+            "color": "rgb(189, 189, 185)",
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "fontWeight": "400",
+            "opacity": "1"
+          }
+        }
+      ],
+      "surface": {
+        "radius": "4px",
+        "panel": "rgb(48, 48, 51)"
+      },
+      "grid": {
+        "inquiryLeft": 34,
+        "introLeft": 34,
+        "formLeft": 34,
+        "formMarginLeft": "0px",
+        "aboutLeft": 34,
+        "introMarginBottom": "14px",
+        "offset": "0px",
+        "columns": 1,
+        "submitHeight": 70,
+        "fileLabelHeight": 44,
+        "scrollMarginBottom": "88px",
+        "pageWidth": 320,
+        "viewportWidth": 320
+      },
+      "contextRefreshPreservesDraftAndUploads": true,
+      "acceptsEmailSocialPhone": true,
+      "errorsPreserveAllContent": true,
+      "scrubReplacesOnceOnlyEntrance": true,
+      "mockAcceptanceOnly": true,
+      "runtimeErrors": [],
+      "unexpectedConsoleErrors": [],
+      "expected503DiagnosticCount": 1,
+      "expected503Diagnostics": [
+        {
+          "message": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+          "url": "http://127.0.0.1:55173/api/inquiry"
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "liveEmailVerified": false
+}

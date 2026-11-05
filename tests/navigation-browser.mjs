@@ -147,7 +147,7 @@ try {
     const page = await direct.newPage();
     const { requests, errors } = track(page);
     await page.goto(routeURL('/work'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/work');
+    await pageKind(page, 'work', '/work/tattoos');
     const token = (await probe(page)).documentToken;
     const template = await page.locator('#hero-template').count();
     if (template) assert.equal(await page.locator('.hero, #logo-canvas').count(), 0, 'Prerendered interior hero markup must stay inert.');
@@ -159,7 +159,7 @@ try {
     await assertSameDocument(page, token);
     if (template) assert.equal(await page.locator('#hero-template').count(), 0, 'The inert template is consumed exactly once.');
     await page.locator('.hero-nav a[href="/work"]').click();
-    await pageKind(page, 'work', '/work');
+    await pageKind(page, 'work', '/work/tattoos');
     await finishedTransition(page);
     await assertScenePaused(page);
     await page.locator('.brand-link').click();
@@ -190,7 +190,7 @@ try {
     const moduleURL = await waitForHeld(held);
     const token = (await probe(page)).documentToken;
     await page.locator('.hero-nav a[href="/work"]').click();
-    await pageKind(page, 'work', '/work');
+    await pageKind(page, 'work', '/work/tattoos');
     await assertSameDocument(page, token);
     release();
     // Resolving this import proves that the held module has actually evaluated.
@@ -218,7 +218,7 @@ try {
     const page = await historyContext.newPage();
     const { errors } = track(page);
     await page.goto(routeURL('/work'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/work');
+    await pageKind(page, 'work', '/work/tattoos');
     const token = (await probe(page)).documentToken;
     // Give an empty real archive a deterministic scroll range without adding
     // fake artwork or changing repository content. The style survives SPA renders.
@@ -231,7 +231,11 @@ try {
     async function activate(path, kind) {
       // Activating an ordinary anchor programmatically preserves the outgoing
       // scroll position; locator.click would first scroll its header into view.
-      await page.locator(`[data-global-index] a[href="${path}"]`).evaluate((link) => link.click());
+      // Creative is now a static INDEX title, so use a temporary real anchor for
+      // that destination instead of resurrecting the removed /work landing link.
+      const link = page.locator(`[data-global-index] a[href="${path}"]`);
+      if (await link.count()) await link.evaluate(anchor => anchor.click());
+      else await page.evaluate(value => { const anchor = document.createElement('a'); anchor.href = value; document.body.append(anchor); anchor.click(); anchor.remove(); }, path);
       await pageKind(page, kind, path);
       await page.waitForFunction(() => scrollY < 2);
       await finishedTransition(page);
@@ -241,11 +245,11 @@ try {
     await scroll(340);
     await activate('/about', 'about');
     await scroll(620);
-    await activate('/work', 'work');
+    await activate('/work/tattoos', 'work');
     await scroll(930);
     for (const [direction, path, kind, top] of [
-      ['back', '/about', 'about', 620], ['back', '/work', 'work', 340],
-      ['forward', '/about', 'about', 620], ['forward', '/work', 'work', 930],
+      ['back', '/about', 'about', 620], ['back', '/work/tattoos', 'work', 340],
+      ['forward', '/about', 'about', 620], ['forward', '/work/tattoos', 'work', 930],
     ]) {
       if (direction === 'back') await page.goBack(); else await page.goForward();
       await pageKind(page, kind, path);
@@ -271,11 +275,11 @@ try {
     await scroll(contactStart + 80);
     const contactSaved = await page.evaluate(() => scrollY);
     await page.goBack();
-    await pageKind(page, 'work', '/work');
+    await pageKind(page, 'work', '/work/tattoos');
     await page.waitForFunction(() => Math.abs(scrollY - 930) < 2);
     await finishedTransition(page);
     await assertSameDocument(page, token);
-    await assertTransitionCommit(page, '/work', 930, 'page-content');
+    await assertTransitionCommit(page, '/work/tattoos', 930, 'page-content');
     await page.goForward();
     await pageKind(page, 'home', '/#contact');
     await page.waitForFunction((top) => Math.abs(scrollY - top) < 2, contactSaved);
@@ -294,7 +298,7 @@ try {
     const page = await fallback.newPage();
     const { requests, errors } = track(page);
     await page.goto(routeURL('/work'), { waitUntil: 'domcontentloaded' });
-    await pageKind(page, 'work', '/work');
+    await pageKind(page, 'work', '/work/tattoos');
     const token = (await probe(page)).documentToken;
     await indexNavigate(page, 'about', { touch: true });
     await pageKind(page, 'about', '/about');
@@ -303,7 +307,7 @@ try {
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://h4ngelic.com/about');
     assert.equal(await page.locator('#page-content').evaluate((element) => element === document.activeElement), true);
     await page.goBack();
-    await pageKind(page, 'work', '/work');
+    await pageKind(page, 'work', '/work/tattoos');
     await indexNavigate(page, 'contact', { touch: true });
     await pageKind(page, 'contact', '/contact');
     assert.equal(await page.locator('[data-inquiry-form]').count(), 1);

@@ -3,7 +3,7 @@ import { xraySettings } from './data/xraySettings.js';
 /** Discreet touch/pointer hold, with native button activation for keyboard/AT.
  * Pointer taps only discover the hint; scrolling or moving cancels the hold.
  */
-export function bindModeHold(doc, activate, { onStart = () => {}, onEnd = () => {} } = {}) {
+export function bindModeHold(doc, activate, { onStart = () => {}, onEnd = () => {}, isEnabled = () => true } = {}) {
   const view = doc.defaultView;
   const removers = [];
   let held = null;
@@ -15,7 +15,7 @@ export function bindModeHold(doc, activate, { onStart = () => {}, onEnd = () => 
     removers.push(() => target.removeEventListener(type, callback, options));
   };
   const control = (event) => event.target?.closest?.('[data-mode-hold]');
-  const enabled = (button) => button && !button.disabled && button.getAttribute('aria-disabled') !== 'true';
+  const enabled = (button) => isEnabled() && button && !button.disabled && button.getAttribute('aria-disabled') !== 'true';
   const cancel = () => {
     view.clearTimeout(timer);
     timer = 0;

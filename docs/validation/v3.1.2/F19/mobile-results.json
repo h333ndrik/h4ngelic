@@ -1,0 +1,362 @@
+{
+  "checkedAt": "2026-11-03T05:06:11.836Z",
+  "reports": [
+    {
+      "width": 390,
+      "reduced": false,
+      "recognition": {
+        "centre": 195,
+        "top": 74,
+        "height": 16.796875,
+        "lineHeight": 16.8
+      },
+      "cursor": {
+        "body": "auto",
+        "link": "pointer"
+      },
+      "header": {
+        "brand": "difference",
+        "index": "difference"
+      },
+      "footer": {
+        "moshlab": {
+          "left": 3.234375,
+          "right": 76.328125,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "counter": {
+          "left": 88.328125,
+          "right": 145.390625,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "smash": {
+          "left": 245,
+          "right": 292.25,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "instagram": {
+          "left": 304.25,
+          "right": 368.828125,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "location": {
+          "left": 380.828125,
+          "right": 429.171875,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "phrase": "you know your way around here.",
+        "pageWidth": 390
+      },
+      "style": {
+        "visibility": "auto",
+        "heading": "tattoos",
+        "categorySize": "20.28px",
+        "frontSize": "20.28px"
+      },
+      "positionBefore": 3196.1,
+      "positionAfter": 691.458,
+      "widthBefore": 300,
+      "expanded": {
+        "x": 12.142822265625,
+        "y": 236,
+        "width": 377.857177734375,
+        "height": 529
+      },
+      "digitalBox": {
+        "x": 99.0625,
+        "y": 315.171875,
+        "width": 191.875,
+        "height": 255.828125
+      },
+      "crossBox": {
+        "width": 346,
+        "height": 68,
+        "scrollWidth": 346,
+        "labels": [
+          "jewellery",
+          "more"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "recognition": {
+        "centre": 195,
+        "top": 74,
+        "height": 16.796875,
+        "lineHeight": 16.8
+      },
+      "cursor": {
+        "body": "auto",
+        "link": "pointer"
+      },
+      "header": {
+        "brand": "difference",
+        "index": "difference"
+      },
+      "footer": {
+        "moshlab": {
+          "left": 3.234375,
+          "right": 76.328125,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "counter": {
+          "left": 88.328125,
+          "right": 145.390625,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "smash": {
+          "left": 245,
+          "right": 292.25,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "instagram": {
+          "left": 304.25,
+          "right": 368.828125,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "location": {
+          "left": 380.828125,
+          "right": 429.171875,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 787.546875,
+          "bottom": 831.546875
+        },
+        "phrase": "you know your way around here.",
+        "pageWidth": 390
+      },
+      "style": {
+        "visibility": "auto",
+        "heading": "tattoos",
+        "categorySize": "20.28px",
+        "frontSize": "20.28px"
+      },
+      "positionBefore": 0,
+      "positionAfter": 0,
+      "widthBefore": 300,
+      "expanded": {
+        "x": 6.0714263916015625,
+        "y": 236,
+        "width": 377.85716247558594,
+        "height": 529
+      },
+      "digitalBox": {
+        "x": 99.0625,
+        "y": 315.171875,
+        "width": 191.875,
+        "height": 255.828125
+      },
+      "crossBox": {
+        "width": 346,
+        "height": 68,
+        "scrollWidth": 346,
+        "labels": [
+          "jewellery",
+          "more"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "recognition": {
+        "centre": 160,
+        "top": 74,
+        "height": 16.796875,
+        "lineHeight": 16.8
+      },
+      "cursor": {
+        "body": "auto",
+        "link": "pointer"
+      },
+      "header": {
+        "brand": "difference",
+        "index": "difference"
+      },
+      "footer": {
+        "moshlab": {
+          "left": -31.765625,
+          "right": 41.328125,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "counter": {
+          "left": 53.328125,
+          "right": 110.390625,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "smash": {
+          "left": 210,
+          "right": 257.25,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "instagram": {
+          "left": 269.25,
+          "right": 333.828125,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "location": {
+          "left": 345.828125,
+          "right": 394.171875,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "phrase": "you know your way around here.",
+        "pageWidth": 320
+      },
+      "style": {
+        "visibility": "auto",
+        "heading": "tattoos",
+        "categorySize": "18px",
+        "frontSize": "18px"
+      },
+      "positionBefore": 3190.099,
+      "positionAfter": 564.141,
+      "widthBefore": 300,
+      "expanded": {
+        "x": 0,
+        "y": 253.99998474121094,
+        "width": 320,
+        "height": 448.00001525878906
+      },
+      "digitalBox": {
+        "x": 81.28125,
+        "y": 305.984375,
+        "width": 157.4375,
+        "height": 209.90625
+      },
+      "crossBox": {
+        "width": 276,
+        "height": 68,
+        "scrollWidth": 276,
+        "labels": [
+          "jewellery",
+          "more"
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "recognition": {
+        "centre": 160,
+        "top": 74,
+        "height": 16.796875,
+        "lineHeight": 16.8
+      },
+      "cursor": {
+        "body": "auto",
+        "link": "pointer"
+      },
+      "header": {
+        "brand": "difference",
+        "index": "difference"
+      },
+      "footer": {
+        "moshlab": {
+          "left": -31.765625,
+          "right": 41.328125,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "counter": {
+          "left": 53.328125,
+          "right": 110.390625,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "smash": {
+          "left": 210,
+          "right": 257.25,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "instagram": {
+          "left": 269.25,
+          "right": 333.828125,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "location": {
+          "left": 345.828125,
+          "right": 394.171875,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 787.6875,
+          "bottom": 831.6875
+        },
+        "phrase": "you know your way around here.",
+        "pageWidth": 320
+      },
+      "style": {
+        "visibility": "auto",
+        "heading": "tattoos",
+        "categorySize": "18px",
+        "frontSize": "18px"
+      },
+      "positionBefore": 0,
+      "positionAfter": 0,
+      "widthBefore": 300,
+      "expanded": {
+        "x": -0.0000152587890625,
+        "y": 253.99998474121094,
+        "width": 320.00001525878906,
+        "height": 448.00001525878906
+      },
+      "digitalBox": {
+        "x": 81.28125,
+        "y": 305.984375,
+        "width": 157.4375,
+        "height": 209.90625
+      },
+      "crossBox": {
+        "width": 276,
+        "height": 68,
+        "scrollWidth": 276,
+        "labels": [
+          "jewellery",
+          "more"
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

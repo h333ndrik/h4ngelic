@@ -1,9 +1,6 @@
 /** Native scroll is the single clock for all editorial entrances. */
 const calm = Object.freeze({ start: .16, end: .90, distanceVw: .055, maximumDistance: 36 });
 export const motionSettings = Object.freeze({
-  mobileBreakpoint: 700,
-  approach: .85,
-  pin: Object.freeze({ work: .68, contact: .58, mobileWork: .48, mobileContact: .44 }),
   calm,
   heading: Object.freeze({ start: 0, end: .27, rise: 112 }),
   // Keep the approved About paragraph/link timing and modest relative inset.
@@ -33,12 +30,6 @@ export function smoothProgress(value) {
   return p ** 3 * (10 + p * (-15 + 6 * p));
 }
 
-/** The existing native sticky Work interval remains independent of animation. */
-export function pinnedProgress(position, top, viewportHeight, pinRun, settings = motionSettings) {
-  const approach = Math.max(0, viewportHeight * settings.approach);
-  return (position - top + approach) / Math.max(1, approach + pinRun);
-}
-
 export function sampleCalmProgress(progress, distance = 0) {
   const amount = smoothProgress(progress);
   const boundedDistance = Math.max(0, Number.isFinite(distance) ? distance : 0);
@@ -49,6 +40,12 @@ export function sampleCalmItem(sectionProgress, viewportWidth, settings = motion
   const distance = Math.min(settings.maximumDistance,
     Math.max(0, Number(viewportWidth) || 0) * settings.distanceVw);
   return sampleCalmProgress(progressBetween(sectionProgress, settings.start, settings.end), distance);
+}
+
+/** One native section clock for About and Contact; no pinning or event capture. */
+export function aboutSectionProgress(position, top, viewportHeight, settings = motionSettings.about) {
+  return progressBetween(position, top - viewportHeight * settings.approach,
+    top - viewportHeight * settings.finish);
 }
 
 /** About retains its approved copy/link offsets through the same calm sampler. */
@@ -78,11 +75,12 @@ export function sampleHero(progress, settings = motionSettings.hero) {
   return { scale: 1 + (settings.scale - 1) * local, opacity: 1 - local };
 }
 
-/** The bar is completely gone before the next section fills the viewport. */
+/** Both bar halves translate completely out before the next section fills the
+ * viewport. Opacity stays at 1, so the exit is a physical compositor movement. */
 export function sampleHeroBar(progress, { reduced = false, settings = motionSettings.heroBar } = {}) {
-  const opacity = reduced ? Number(progress < settings.end)
-    : 1 - smoothProgress(progressBetween(progress, settings.start, settings.end));
-  return { opacity, hidden: opacity <= .001 };
+  const amount = reduced ? Number(progress >= settings.end)
+    : smoothProgress(progressBetween(progress, settings.start, settings.end));
+  return { shift: amount ? -100 * amount : 0, hidden: amount >= 1 };
 }
 
 // Compatibility exports for existing consumers. The kinetic implementation,

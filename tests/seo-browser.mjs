@@ -10,9 +10,12 @@ const originalPath = '/work/digital-artworks/green-black-original';
 const tattooPaths = Array.from({ length: 8 }, (_, index) => `/work/tattoos/tattoo-${String(index + 1).padStart(2, '0')}`);
 const artworkPaths = [originalPath, ...tattooPaths];
 const isArtwork = path => artworkPaths.includes(path);
-const paths = ['/', '/work', ...archiveIDs.map(id => `/work/${id}`), '/about', ...artworkPaths];
+const paths = ['/', ...archiveIDs.map(id => `/work/${id}`), '/about', ...artworkPaths];
 const route = (path) => new URL(path, baseURL).href;
 
+const landing = await fetch(route('/work'), { redirect: 'manual' });
+assert.equal(landing.status, 301, 'The removed Work landing route redirects permanently.');
+assert.equal(new URL(landing.headers.get('location'), baseURL).pathname, '/work/tattoos');
 for (const category of archiveIDs) {
   const response = await fetch(route(`/work?category=${category}`), { redirect: 'manual' });
   assert.equal(response.status, 301, 'Existing category-query bookmarks must redirect permanently to the canonical route.');
@@ -31,9 +34,10 @@ const manifestResponse = await fetch(route('/route-manifest.json'));
 assert.equal(manifestResponse.status, 200);
 const manifest = await manifestResponse.json();
 assert.equal(manifest.routes.some(entry => entry.path === '/contact'), false);
-assert.equal(manifest.routes.length, 19, 'The current build includes eight genuine Tattoo details, not fixture or empty-photo routes.');
+assert.equal(manifest.routes.length, 18, 'The build contains 18 real routes without an orphan Work landing page.');
 assert.deepEqual(manifest.routes.map(entry => entry.path).sort(), [...paths].sort());
-assert.deepEqual(manifest.routes.filter(entry => ['/', '/work', '/about'].includes(entry.path)).map(entry => entry.path), ['/', '/work', '/about']);
+assert.deepEqual(manifest.routes.filter(entry => ['/', '/about'].includes(entry.path)).map(entry => entry.path), ['/', '/about']);
+assert.equal(manifest.routes.some(entry => entry.path === '/work'), false);
 const missing = await fetch(route('/missing-page-for-seo-test'));
 assert.equal(missing.status, 404, 'Unknown page paths must return an actual HTTP 404.');
 const missingHTML = await missing.text();
@@ -93,8 +97,7 @@ try {
     assert.ok(metadata.title.length > 10);
     assert.equal(metadata.horizontalOverflow, 0, `${path} must fit the no-JS desktop viewport.`);
     assert.ok(metadata.description.length > 25);
-    const archiveAlias = path.startsWith('/work/') && !isArtwork(path);
-    assert.equal(metadata.canonical, `${origin}${archiveAlias ? '/work' : path}`);
+    assert.equal(metadata.canonical, `${origin}${path}`);
     assert.equal(metadata.ogTitle, metadata.title);
     assert.equal(metadata.ogDescription, metadata.description);
     assert.equal(metadata.ogURL, metadata.canonical);
@@ -110,8 +113,8 @@ try {
     assert.equal(await page.locator('[data-floating-brand]').count(), 1);
     assert.equal(await page.locator('[data-global-index] summary').isVisible(), true);
     assert.equal(await page.locator('#reveal-control').count(), 0);
-    assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00 /', '01 /', '02 /', '03 /', '04 /']);
-    assert.equal(await page.locator('[data-visit-message], [data-visitor-hotspot]').count(), 0);
+    assert.deepEqual(await page.locator('[data-global-index] .index-number').allTextContents(), ['00 /', '01 /', '02 /', '03 /']);
+    assert.equal(await page.locator('[data-visit-message]').count(), 1);
     assert.match(await page.locator('[data-visit-number]').textContent(), /^VISIT \d{4,}$/);
     if (path !== '/') assert.equal(await page.locator('[data-inquiry-form]').count(), 0, 'Only Home contains the contact form.');
     assert.ok((await page.locator('h1').count()) >= 1);
@@ -120,11 +123,11 @@ try {
       assert.equal(await page.locator('[data-naavi]').isVisible(), true, 'The single NAAVI remains usable without JavaScript.');
       assert.equal(await page.locator('[data-naavi]').getAttribute('href'), '/#selected-work');
       assert.equal(await page.locator('.hero').count(), 1);
-      assert.equal(await page.locator('#selected-work .category-link[href="/work#tattoos"]').count(), 1);
+      assert.equal(await page.locator('#selected-work .category-link[href="/work/tattoos"]').count(), 1);
       assert.deepEqual(await page.locator('#selected-work .category-link').allTextContents(), ['tattoos', 'jewellery', 'more']);
       assert.equal(await page.locator('#selected-work .category-sublinks').count(), 0);
       assert.equal(await page.locator('#contact [data-inquiry-form]').count(), 1);
-      assert.match(metadata.text, /01 \/ WORKS/);
+      assert.match(metadata.text, /01 \/ creative/);
       assert.equal(await page.locator('.fallback').isVisible(), true, 'The no-JS homepage retains the accessible static wordmark.');
     } else {
       assert.equal(await page.locator('[data-global-index]').count(), 1);
@@ -154,23 +157,27 @@ try {
         assert.equal(artwork.dateCreated, undefined, 'No creation year is inferred from the supplied photograph.');
       } else if (path.startsWith('/work')) {
         const category = path.split('/')[2] || 'all';
-        const expectedEmpty = category === 'paintings' ? 4 : 3;
-        assert.deepEqual(await page.locator('.archive-empty').allTextContents(), Array(expectedEmpty).fill('archive in progress.'));
-        assert.equal(await page.locator('.portfolio-archive img').count(), 9,
-          'Connected Work retains all eight supplied Tattoo photographs and the digital original in every category context.');
-        assert.equal(await page.locator('.portfolio-archive .project-image').count(), 9, 'Only the nine genuine supplied images have figures; remaining empty categories do not invent artwork.');
-        assert.equal(await page.locator('[data-horizontal-drift="tattoos"] [data-drift-item]').count(), 8);
-        assert.equal(await page.locator('[data-horizontal-drift="tattoos"]').getAttribute('data-carousel-total'), '8');
-        assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)),
-          ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography', ...(category === 'paintings' ? ['paintings'] : [])]);
-        assert.match(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('src'), /green-black-original/);
-        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('width'), '1440');
-        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').getAttribute('height'), '1920');
-        assert.equal(await page.locator('[data-archive-category="digital-artworks"] .project-image img').isVisible(), true,
-          'Without JavaScript, the actual original stays visible and needs no reveal interaction.');
+        const expected = {
+          all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
+          tattoos: ['tattoos', 'flashes'], flashes: ['flashes'], jewellery: ['jewellery'],
+          more: ['digital-artworks', 'analog-photography'], 'digital-artworks': ['digital-artworks'],
+          'analog-photography': ['analog-photography'], paintings: ['paintings'],
+        }[category];
+        assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)), expected);
+        const photos = expected.includes('tattoos') ? 8 : 0, digital = expected.includes('digital-artworks') ? 1 : 0;
+        assert.equal(await page.locator('.portfolio-archive .project-image').count(), photos + digital);
+        assert.equal(await page.locator('[data-horizontal-drift="tattoos"] [data-drift-item]').count(), photos);
+        if (digital) {
+          const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');
+          assert.match(await original.getAttribute('src'), /green-black-original/);
+          assert.equal(await original.getAttribute('width'), '1440'); assert.equal(await original.getAttribute('height'), '1920');
+          assert.equal(await original.isVisible(), true, 'Real Digital artwork is visible without an ink reveal.');
+        }
         assert.deepEqual(await page.locator('.work-filters a').evaluateAll(links => links.map(link => link.getAttribute('href'))),
-          ['/work#tattoos', '/work#jewellery', '/work#more']);
-        assert.equal(await page.locator('.work-page .page-heading').innerText(), '01 / WORKS');
+          ['/work/tattoos', '/work/jewellery', '/work/more']);
+        const label = ['tattoos', 'jewellery', 'more'].includes(category)
+          ? (category === 'tattoos' ? 'on skin' : category) : category.replaceAll('-', ' ').toUpperCase();
+        assert.equal(await page.locator('.work-page .page-heading').innerText(), label);
         assert.equal(await page.locator('[data-connected-work]').getAttribute('data-work-context'), category);
       } else {
         assert.match(metadata.text, /hi, i'm hendrik\./);

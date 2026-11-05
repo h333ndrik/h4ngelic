@@ -1,0 +1,8 @@
+node tests/portfolio-browser.mjs
+PASS 1440 / 390 / 320 px, full and reduced motion (6/6).
+Rubric pages, route-specific content, reload/back and both worlds remain intact.
+
+Measured on /work/tattoos:
+3d model font 74.88px / weight 400 / line-height 83.8656px / letter-spacing -3.3696px
+flashes  font 74.88px / weight 400 / line-height 83.8656px / letter-spacing -3.3696px
+3d model links 0, arrows 0, duplicate #model-3d nodes 1.

@@ -89,7 +89,7 @@ try {
   const page = await context.newPage();
   const errors = errorsFor(page);
   await readyHome(page);
-  assert.equal((await page.locator('.identity').innerText()).replace(/\s+/g, ' ').trim(), 'mixed media');
+  assert.equal(await page.locator('.identity').count(), 0, 'The hero tagline is removed entirely.');
   assert.deepEqual((await page.locator('.kinetic-heading').allTextContents()).map((text) => text.toUpperCase()), ['01 / SELECTED WORKS', '02 / ABOUT', '03 / CONTACT']);
   assert.equal(await page.locator('#page-content > .content-section').count(), 3, 'The homepage contains exactly three major sections.');
   const headingStyles = await page.locator('.kinetic-heading').evaluateAll((headings) => headings.map((heading) => {
@@ -272,12 +272,12 @@ try {
     assert.deepEqual(await responsivePage.locator('#selected-work .category-link').evaluateAll((links) => links.map((link) => new URL(link.href).pathname + new URL(link.href).hash)), categories.map((category) => `/work#${category}`));
     await responsivePage.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
     const layout = await responsivePage.evaluate(() => {
-      const tagline = document.querySelector('.identity').getBoundingClientRect(), navigation = document.querySelector('.hero-nav').getBoundingClientRect();
-      return { separated: tagline.right < navigation.left || tagline.top >= navigation.bottom || tagline.bottom <= navigation.top,
+      const navigation = document.querySelector('.hero-nav').getBoundingClientRect();
+      return { inside: navigation.left >= 0 && navigation.right <= innerWidth + 1 && navigation.bottom <= innerHeight + 1,
         pageWidth: document.documentElement.scrollWidth };
     });
     assert.ok(layout.pageWidth <= width + 1);
-    assert.ok(layout.separated, `Tagline and navigation must not collide at ${width}px.`);
+    assert.ok(layout.inside, `Navigation stays inside the hero at ${width}px.`);
     if (width === 390) {
       const contact = responsivePage.locator('#contact');
       await contact.scrollIntoViewIfNeeded();

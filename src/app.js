@@ -3,8 +3,11 @@ import './homepage.css';
 import './archive-structure.css';
 import './horizontal-drift.css';
 import './flash-mannequin.css';
+import './mannequin-preview.css';
 import './inquiry.css';
 import './v6-polish.css';
+import './easter-eggs.css';
+import './cursor.css';
 import { siteContent } from './data/siteContent.js';
 import { renderRoutePage } from './pages.js';
 import { resolveRoute } from './routes.js';
@@ -13,7 +16,6 @@ import { initInteractions } from './interactions.js';
 import { initGallery } from './gallery.js';
 import { initScrollChoreography } from './scroll-choreography.js';
 import { initNavigation } from './navigation.js';
-import { initEasterEggs } from './easter-eggs.js';
 import { initImageReveals } from './image-reveals.js';
 import { featureFlags } from './data/featureFlags.js';
 import { initCorruptionLifecycle } from './corruption-lifecycle.js';
@@ -26,6 +28,12 @@ import { initMotionMosh } from './motion-mosh.js';
 import { initGlobalNavigation } from './global-navigation.js';
 import { initInquiry } from './inquiry.js';
 import { initConnectedWork } from './connected-work.js';
+import { heroPosterSettings } from './data/heroPosterSettings.js';
+import { initMannequinPreviewLazy } from './mannequin-preview-loader.js';
+
+if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
+document.documentElement.dataset.h4StylesReady = 'true';
+document.documentElement.classList.add('h4-custom-cursor');
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -38,16 +46,118 @@ let stopImageReveals = () => {};
 let stopEndReveal = () => {};
 let stopDrift = () => {};
 let stopMannequins = () => {};
+let stopModelPreview = () => {};
 let heroObserver = null;
+let heroPreloadsActivated = false;
+const heroReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const heroBootTimeoutMs = 6000;
+let heroBootTimer = 0;
+let heroSceneReady = false;
+let heroBootFailed = false;
 let moshTransitions = null;
 let renderRevision = 0;
 let renderedKind = '';
+let renderedPath = '';
 let stopInquiry = () => {};
 let stopConnectedWork = () => {};
+let slashInsetFrame = 0;
 // One scroll offset for each real carousel; route changes reuse these small
 // records rather than retaining detached gallery nodes or image resources.
 const carouselPositions = new Map();
 const globalNavigation = initGlobalNavigation(document);
+
+function measureSlashInset() {
+  const heading = document.querySelector('#selected-work-title .kinetic-heading-text');
+  const section = heading?.closest('.content-section');
+  if (!heading || !section) return;
+  const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+  let node, slashOffset = -1;
+  while ((node = walker.nextNode())) {
+    const index = node.textContent.indexOf('/');
+    if (index >= 0) { slashOffset = index; break; }
+  }
+  if (slashOffset < 0) return;
+  const range = document.createRange();
+  range.setStart(node, slashOffset);
+  range.setEnd(node, slashOffset + 1);
+  const transform = getComputedStyle(heading).transform;
+  const translation = transform === 'none' ? 0 : new DOMMatrixReadOnly(transform).m41;
+  const sectionBox = section.getBoundingClientRect();
+  const contentLeft = sectionBox.left + parseFloat(getComputedStyle(section).paddingLeft || '0');
+  const inset = range.getBoundingClientRect().left - translation - contentLeft;
+  if (Number.isFinite(inset) && inset > 0) {
+    document.documentElement.style.setProperty('--slash-inset', `${Math.round(inset * 100) / 100}px`);
+  }
+}
+
+function scheduleSlashInset() {
+  if (slashInsetFrame) return;
+  slashInsetFrame = requestAnimationFrame(() => {
+    slashInsetFrame = 0;
+    measureSlashInset();
+  });
+}
+
+addEventListener('resize', scheduleSlashInset, { passive: true });
+document.fonts?.ready.then(scheduleSlashInset);
+
+function clearHeroBootTimer() {
+  if (!heroBootTimer) return;
+  clearTimeout(heroBootTimer);
+  heroBootTimer = 0;
+}
+
+function heroStage() {
+  return hero?.querySelector('#stage') || null;
+}
+
+function setHeroStatus(message) {
+  const status = hero?.querySelector('#scene-status');
+  if (status) status.textContent = message;
+}
+
+function markHeroReady() {
+  heroSceneReady = true;
+  heroBootFailed = false;
+  clearHeroBootTimer();
+  document.documentElement.dataset.heroLoading = 'false';
+  const stage = heroStage();
+  stage?.classList.remove('is-boot-slow', 'is-boot-failed', 'is-fallback');
+}
+
+function showHeroFailure(message = 'Static h4ngelic wordmark. The interactive version could not be loaded.') {
+  clearHeroBootTimer();
+  heroSceneReady = true;
+  heroBootFailed = true;
+  document.documentElement.dataset.heroLoading = 'false';
+  const stage = heroStage();
+  stage?.classList.remove('is-ready', 'is-boot-slow');
+  stage?.classList.add('is-boot-failed', 'is-fallback');
+  setHeroStatus(message);
+  const hint = hero?.querySelector('#interaction-hint');
+  if (hint) hint.textContent = 'h4ngelic';
+  for (const id of ['pause-control', 'speed-control', 'reveal-control']) {
+    const control = document.getElementById(id);
+    if (control) control.disabled = true;
+  }
+}
+
+function markHeroFailed(error) {
+  showHeroFailure();
+  console.error('Unable to load the interactive wordmark.', error);
+}
+
+function startHeroBoot() {
+  if (heroReducedMotion.matches || heroSceneReady) return;
+  document.documentElement.dataset.heroLoading = 'true';
+  if (heroBootTimer) return;
+  heroBootTimer = setTimeout(() => {
+    heroBootTimer = 0;
+    if (heroSceneReady || !hero || hero.hidden) return;
+    heroStage()?.classList.add('is-boot-slow');
+    setHeroStatus('The interactive wordmark is taking longer than usual.');
+  }, heroBootTimeoutMs);
+}
 
 function ensureHero() {
   if (!hero) {
@@ -59,26 +169,82 @@ function ensureHero() {
   }
   const brand = document.querySelector('[data-floating-brand]');
   if (brand) brand.textContent = siteContent.name;
-  const tagline = hero.querySelector('.identity');
-  if (tagline) tagline.textContent = siteContent.home.tagline;
+}
+
+
+function activateHeroPreloads() {
+  if (heroPreloadsActivated) return;
+  heroPreloadsActivated = true;
+  const template = document.getElementById('hero-preloads');
+  if (!template) return;
+  for (const link of template.content.querySelectorAll('[data-hero-preload]')) {
+    if (document.head.querySelector(`[data-hero-preload="${link.dataset.heroPreload}"]`)) continue;
+    document.head.append(link.cloneNode(true));
+  }
+  template.remove();
+}
+
+function configureHeroPoster() {
+  const poster = hero?.querySelector('[data-hero-poster]');
+  if (!poster) return;
+  poster.style.setProperty('--hero-poster-image', `url("${heroPosterSettings.src}")`);
+  poster.setAttribute('aria-label', heroPosterSettings.alt);
+  const stage = hero.querySelector('#stage');
+  stage?.style.setProperty('--hero-poster-fade', `${heroPosterSettings.fadeDurationMs}ms`);
+}
+
+function startsOnHero() {
+  if (!location.hash) return true;
+  let id = location.hash.slice(1);
+  try { id = decodeURIComponent(id); } catch { /* Use the literal fragment. */ }
+  const target = document.getElementById(id);
+  return !target || target === hero || hero.contains(target);
 }
 
 function prepareHero() {
   ensureHero();
   if (!hero) return;
   hero.hidden = false;
-  if (heroLoaded) return;
+  configureHeroPoster();
+  if (heroBootFailed) {
+    showHeroFailure();
+    return;
+  }
+  clearHeroBootTimer();
+  const stage = heroStage();
+  stage?.classList.remove('is-boot-slow', 'is-boot-failed');
+  heroSceneReady = Boolean(stage?.classList.contains('is-ready') || stage?.classList.contains('is-poster-static'));
+  document.documentElement.dataset.heroLoading = heroSceneReady ? 'false' : 'true';
+  if (heroReducedMotion.matches && heroPosterSettings.reducedMotionStatic) {
+    stage?.classList.add('is-poster-static');
+    const status = hero.querySelector('#scene-status');
+    if (status) status.textContent = 'Static h4ngelic wordmark. Motion is disabled by your device preference.';
+    heroSceneReady = true;
+    document.documentElement.dataset.heroLoading = 'false';
+    return;
+  }
+  stage?.classList.remove('is-poster-static');
+  // A direct Home anchor such as /#contact opens below the hero. Do not fetch
+  // the Three.js chunk, font or texture until the hero actually approaches.
+  if (startsOnHero()) activateHeroPreloads();
+  if (heroLoaded) {
+    if (!heroSceneReady) startHeroBoot();
+    return;
+  }
   heroObserver?.disconnect();
   heroObserver = new IntersectionObserver(([entry]) => {
     if (!entry.isIntersecting || heroLoaded || hero.hidden) return;
     heroLoaded = true;
     heroObserver.disconnect();
-    import('./main.js').catch((error) => {
-      console.error('Unable to load the interactive wordmark.', error);
-    });
+    activateHeroPreloads();
+    startHeroBoot();
+    import('./main.js').catch(markHeroFailed);
   });
   heroObserver.observe(hero);
 }
+
+document.addEventListener('h4:heroready', markHeroReady);
+document.addEventListener('h4:herofailed', event => showHeroFailure(event.detail?.message));
 
 function currentURL() {
   // The downloadable preview uses hash routes so its pages work without a server.
@@ -94,9 +260,6 @@ function scrollToTarget(url, { reset = false, restoreScroll, smoothAnchor = fals
   let target = null;
   if (url.hash) {
     try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { /* Ignore malformed fragments. */ }
-  } else {
-    const route = resolveRoute(url);
-    if (route.kind === 'work' && route.category !== 'all') target = document.getElementById(route.category);
   }
   if (restoreScroll) {
     scrollTo({ left: restoreScroll[0], top: restoreScroll[1], behavior: 'instant' });
@@ -121,11 +284,10 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
     else history.replaceState(history.state, '', route.redirectPath);
     url = new URL(route.redirectPath, url);
   }
-  // Anchors in Home/Work navigate the existing document. Retain canvas state,
-  // gallery positions and input values instead of remounting the page.
-  const workTargetExists = route.kind !== 'work' || route.category === 'all'
-    || document.getElementById(route.category);
-  if (renderedKind === route.kind && ['home', 'work'].includes(route.kind) && workTargetExists) {
+  // Same-document anchors retain canvas/input state; a different category is
+  // a real page and must mount its own content even if the old archive has it.
+  const sameDocument = route.kind === 'home' || route.kind === 'work' && renderedPath === route.canonicalPath;
+  if (renderedKind === route.kind && sameDocument) {
     stopInquiry.refreshContext?.(url);
     if (route.kind === 'work') content.querySelector('[data-connected-work]').dataset.workContext = route.category;
     const metadataOptions = typeof __H4_SEO_CONFIG__ === 'undefined' ? {} : __H4_SEO_CONFIG__;
@@ -139,6 +301,7 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
     carouselPositions.set(section.dataset.horizontalDrift, section.querySelector('.drift-viewport').scrollLeft);
   }
   renderedKind = '';
+  renderedPath = '';
   stopInteractions();
   stopGallery();
   stopMotion();
@@ -146,9 +309,10 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopEndReveal();
   stopDrift();
   stopMannequins();
+  stopModelPreview();
   stopInquiry();
   stopConnectedWork();
-  stopDrift = stopMannequins = () => {};
+  stopDrift = stopMannequins = stopModelPreview = () => {};
   heroObserver?.disconnect();
   if (hero) hero.hidden = route.kind !== 'home';
   document.documentElement.dataset.page = route.kind;
@@ -165,6 +329,8 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopInquiry = initInquiry(content);
   stopInquiry.refreshContext?.(url);
   stopConnectedWork = initConnectedWork(content);
+  stopModelPreview = initMannequinPreviewLazy(content);
+  if (route.kind === 'home') scheduleSlashInset();
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {
@@ -191,12 +357,37 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
     if (Number.isFinite(left)) section.querySelector('.drift-viewport').scrollTo({ left, behavior: 'instant' });
   }
   renderedKind = route.kind;
+  renderedPath = route.canonicalPath;
   scrollToTarget(url, { reset, restoreScroll, smoothAnchor });
   globalNavigation.refresh();
 }
 
+function afterFirstPaint(task) {
+  const schedule = () => {
+    if ('requestIdleCallback' in window) requestIdleCallback(() => task(), { timeout: 500 });
+    else setTimeout(task, 120);
+  };
+  const wait = () => requestAnimationFrame(() => requestAnimationFrame(schedule));
+  if (document.readyState === 'complete') wait();
+  else addEventListener('load', wait, { once: true });
+}
+
 render();
-initEasterEggs(document);
+// The approved moshlab placeholder stays inert even before deferred easter eggs load.
+document.addEventListener('click', event => {
+  if (event.target.closest?.('[data-moshlab-placeholder]')) event.preventDefault();
+});
+// Ink sampling, visitor memory and the remaining easter-egg bindings are not
+// needed for the first frame. Their module and initialization wait for idle,
+// while hero input and the main navigation stay immediately responsive.
+afterFirstPaint(() => {
+  import('./easter-eggs.js').then(({ initEasterEggs }) => {
+    if (!document.documentElement.dataset.h4EasterEggsReady) {
+      document.documentElement.dataset.h4EasterEggsReady = 'true';
+      initEasterEggs(document);
+    }
+  }).catch(() => {});
+});
 if (featureFlags.otherSideEnabled) {
   const corruptionLifecycle = initCorruptionLifecycle();
   // Input handling is needed from startup. Bundle it with the entry stylesheet

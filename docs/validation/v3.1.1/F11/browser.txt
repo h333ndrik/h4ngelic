@@ -1,0 +1,6 @@
+PASS gallery 1440px reduced=false: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.
+PASS gallery 1440px reduced=true: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.
+PASS gallery 390px reduced=false: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.
+PASS gallery 390px reduced=true: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.
+PASS gallery 320px reduced=false: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.
+PASS gallery 320px reduced=true: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.

@@ -1,0 +1,414 @@
+{
+  "checkedAt": "2026-11-02T23:59:08.437Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "observations": [
+        {
+          "text": "01 / creative",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 13.955, 0)",
+            "filter": "none",
+            "width": 1370,
+            "height": 93.31,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 13.955, 0)",
+            "filter": "none",
+            "width": 1370,
+            "height": 93.31,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "text": "02 / ABOUT",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 8.922, 0)",
+            "filter": "none",
+            "width": 1370,
+            "height": 76.97,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 8.922, 0)",
+            "filter": "none",
+            "width": 1370,
+            "height": 76.97,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "text": "03 / CONTACT",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 9.347, 0)",
+            "filter": "none",
+            "width": 1370,
+            "height": 93.31,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 9.347, 0)",
+            "filter": "none",
+            "width": 1370,
+            "height": 93.31,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        }
+      ],
+      "categoryHover": {
+        "before": "matrix(1, 0, 0, 1, 0, 0)",
+        "after": "matrix(1.025, 0, 0, 1.025, 0, 0)"
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "observations": [
+        {
+          "text": "01 / creative",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 1370,
+            "height": 93.31,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 1370,
+            "height": 93.31,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "text": "02 / ABOUT",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 1370,
+            "height": 76.97,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 1370,
+            "height": 76.97,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        },
+        {
+          "text": "03 / CONTACT",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 1370,
+            "height": 93.31,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 1370,
+            "height": 93.31,
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 9 2, auto"
+          }
+        }
+      ],
+      "categoryHover": {
+        "before": "none",
+        "after": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "observations": [
+        {
+          "text": "01 / creative",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 13.817, 0)",
+            "filter": "none",
+            "width": 346,
+            "height": 34.55,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 13.817, 0)",
+            "filter": "none",
+            "width": 346,
+            "height": 34.55,
+            "cursor": "auto"
+          }
+        },
+        {
+          "text": "02 / ABOUT",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 17.55, 0)",
+            "filter": "none",
+            "width": 346,
+            "height": 30.23,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 17.55, 0)",
+            "filter": "none",
+            "width": 346,
+            "height": 30.23,
+            "cursor": "auto"
+          }
+        },
+        {
+          "text": "03 / CONTACT",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 12.384, 0)",
+            "filter": "none",
+            "width": 346,
+            "height": 34.55,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 12.384, 0)",
+            "filter": "none",
+            "width": 346,
+            "height": 34.55,
+            "cursor": "auto"
+          }
+        }
+      ],
+      "categoryHover": {
+        "before": "none",
+        "after": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "observations": [
+        {
+          "text": "01 / creative",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 346,
+            "height": 34.55,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 346,
+            "height": 34.55,
+            "cursor": "auto"
+          }
+        },
+        {
+          "text": "02 / ABOUT",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 346,
+            "height": 30.23,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 346,
+            "height": 30.23,
+            "cursor": "auto"
+          }
+        },
+        {
+          "text": "03 / CONTACT",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 346,
+            "height": 34.55,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 346,
+            "height": 34.55,
+            "cursor": "auto"
+          }
+        }
+      ],
+      "categoryHover": {
+        "before": "none",
+        "after": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "observations": [
+        {
+          "text": "01 / creative",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 11.337, 0)",
+            "filter": "none",
+            "width": 276,
+            "height": 34.55,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 11.337, 0)",
+            "filter": "none",
+            "width": 276,
+            "height": 34.55,
+            "cursor": "auto"
+          }
+        },
+        {
+          "text": "02 / ABOUT",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 14.4, 0)",
+            "filter": "none",
+            "width": 276,
+            "height": 30.23,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 14.4, 0)",
+            "filter": "none",
+            "width": 276,
+            "height": 30.23,
+            "cursor": "auto"
+          }
+        },
+        {
+          "text": "03 / CONTACT",
+          "before": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 10.157, 0)",
+            "filter": "none",
+            "width": 276,
+            "height": 34.55,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "matrix(1, 0, 0, 1, 10.157, 0)",
+            "filter": "none",
+            "width": 276,
+            "height": 34.55,
+            "cursor": "auto"
+          }
+        }
+      ],
+      "categoryHover": {
+        "before": "none",
+        "after": "none"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "observations": [
+        {
+          "text": "01 / creative",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 276,
+            "height": 34.55,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 276,
+            "height": 34.55,
+            "cursor": "auto"
+          }
+        },
+        {
+          "text": "02 / ABOUT",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 276,
+            "height": 30.23,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 276,
+            "height": 30.23,
+            "cursor": "auto"
+          }
+        },
+        {
+          "text": "03 / CONTACT",
+          "before": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 276,
+            "height": 34.55,
+            "cursor": "auto"
+          },
+          "after": {
+            "scale": "1",
+            "transform": "none",
+            "filter": "none",
+            "width": 276,
+            "height": 34.55,
+            "cursor": "auto"
+          }
+        }
+      ],
+      "categoryHover": {
+        "before": "none",
+        "after": "none"
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

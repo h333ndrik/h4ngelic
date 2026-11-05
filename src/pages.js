@@ -6,6 +6,7 @@ import { categoryURL, projectURL, categoryById, groupById, workAnchorURL, contac
 import { renderFooter } from './footer.js';
 import { renderHorizontalDrift } from './horizontal-drift-content.js';
 import { renderFlashMannequin } from './flash-mannequin-content.js';
+import { renderMannequinPreview } from './mannequin-preview-content.js';
 import { renderInquiryForm } from './inquiry-content.js';
 import { orderedArtworks, artworkImages, artworkLabel } from './artwork-content.js';
 
@@ -29,7 +30,7 @@ export function renderHomepageSections(context = '') {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
     <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
     <div class="category-strip" role="navigation" aria-label="Works categories" tabindex="0">
-      ${siteContent.workGroups.map((group) => `<a class="category-link" href="${workAnchorURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`).join('')}
+      ${siteContent.workGroups.map((group) => `<a class="category-link" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`).join('')}
     </div>
   </div></section>
   <section class="content-section about-preview" id="about-preview" tabindex="-1" aria-labelledby="about-preview-title" data-motion="about"><div class="section-pin">
@@ -46,22 +47,24 @@ export function renderHomepageSections(context = '') {
 
 function digitalPreviewOptions(detail = false) {
   return {
-    maximumPreviewWidth: 640,
+    maximumPreviewWidth: 960,
+    // The 60% original-width base is capped by height to reserve a genuinely
+    // larger, viewport-fitting inline view of this portrait.
     sizes: detail
-      ? '(max-width: 600px) calc((100vw - 44px) / 2), (max-width: 1270px) calc((100vw - 70px) / 2), 600px'
-      : '(max-width: 1341px) 41vw, 550px',
+      ? '(max-width: 600px) min(calc((100vw - 44px) * .6), calc((100svh - 152px) * .75 / 1.4)), min(calc((100vw - 70px) * .6), 720px, calc((100svh - 152px) * .75 / 1.4))'
+      : 'min(49.2vw, 660px, calc((100svh - 152px) * .75 / 1.4))',
   };
 }
 
-function imageMarkup(image, { critical = false, href = '', imageIndex = 0, figureId = '', assetOptions = {} } = {}) {
+function imageMarkup(image, { critical = false, href = '', imageIndex = 0, figureId = '', assetOptions = {}, inline = false } = {}) {
   const source = contentURL(image?.src);
   if (!source) return '';
   const asset = getImageAsset(image, assetOptions);
   const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
-  const element = href ? 'a' : 'button';
-  const action = href ? `href="${escape(href)}" data-artwork-link data-artwork-open` : 'type="button" data-artwork-open';
-  return `<figure class="project-image"${figureId ? ` id="${escape(figureId)}" tabindex="-1"` : ''}>
-    <${element} class="artwork-open" ${action} aria-label="open ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
+  const element = href && !inline ? 'a' : 'button';
+  const action = href && !inline ? `href="${escape(href)}" data-artwork-link data-artwork-open` : 'type="button" data-artwork-open';
+  return `<figure class="project-image${inline ? ' inline-artwork-frame digital-inline-frame' : ''}" style="--artwork-ratio:${asset.width} / ${asset.height}"${figureId ? ` id="${escape(figureId)}" tabindex="-1"` : ''}>
+    <${element} class="artwork-open" ${action}${inline ? ' data-inline-expand aria-pressed="false"' : ''} aria-label="${inline ? 'enlarge' : 'open'} ${escape(image.alt || 'artwork image')}" style="--artwork-ratio: ${asset.width} / ${asset.height}">
       <img src="${escape(asset.src || source)}" data-full-src="${escape(asset.fullSrc || source)}" data-artwork-image="${imageIndex}" alt="${escape(image.alt || '')}" loading="${critical ? 'eager' : 'lazy'}"${critical ? ' fetchpriority="high"' : ''} decoding="async" width="${asset.width}" height="${asset.height}"${responsive} />
     </${element}>
     ${image.caption ? `<figcaption>${escape(image.caption)}</figcaption>` : ''}
@@ -73,6 +76,7 @@ export function renderProject(project) {
   const images = artworkImages(project).map((image, index) => imageMarkup(image, {
     href: href ? `${href}${index ? `#image-${index + 1}` : ''}` : '', imageIndex: index,
     assetOptions: project.category === 'digital-artworks' ? digitalPreviewOptions() : {},
+    inline: project.category === 'digital-artworks',
   })).filter(Boolean).join('');
   if (!images) return '';
   const label = categoryById(project.category)?.label || '';
@@ -86,15 +90,20 @@ export function renderProject(project) {
       <p class="project-index">${escape(label)}${project.year ? ` <span aria-hidden="true">/</span> ${escape(project.year)}` : ''}</p>
       ${project.description ? `<p class="project-description">${escape(project.description)}</p>` : ''}
       ${details ? `<dl class="project-details">${details}</dl>` : ''}
-      ${!project.title && projectURL(project) ? `<a class="text-link" href="${projectURL(project)}">view work</a>` : ''}
     </div>
   </article>`;
 }
 
-/** All archives share one document. Category URLs are retained as deep links,
- * never used to unmount the other groups or lose their carousel context. */
+/** /work is the full archive; each real category URL renders only its own
+ * group/leaf through this same renderer and editable content. */
 export function renderWorkPage(category = 'all') {
   const selected = normalizeCategory(category);
+  const selectedGroup = groupById(selected);
+  const selectedCategory = categoryById(selected);
+  const groups = selected === 'all' ? siteContent.workGroups : selectedGroup ? [selectedGroup] : [];
+  const title = selected === 'all' ? siteContent.home.selectedWorkLabel
+    : selectedGroup?.archiveLabel ?? selectedGroup?.label ?? (selectedCategory?.archiveLabel ?? selectedCategory?.label ?? '').toUpperCase();
+  const activeGroup = selectedGroup?.id || siteContent.workGroups.find(group => group.children.includes(selected))?.id;
   const projects = orderedArtworks(artworks.filter(project => project.published !== false && categoryById(project.category)));
   const collection = entry => {
     const items = projects.filter(project => project.category === entry.id);
@@ -104,26 +113,51 @@ export function renderWorkPage(category = 'all') {
   };
   const leaf = (entry, { id = entry.id, nested = true } = {}) => {
     return `<section class="archive-category" id="${escape(id)}" tabindex="-1" aria-labelledby="archive-${escape(entry.id)}-title" data-archive-category="${escape(entry.id)}">
-      <${nested ? 'h3' : 'h2'} class="archive-category-heading" id="archive-${escape(entry.id)}-title"><a href="${workAnchorURL(id)}">${escape(entry.archiveLabel || entry.label)}</a></${nested ? 'h3' : 'h2'}>
+      <${nested ? 'h3' : 'h2'} class="archive-category-heading" id="archive-${escape(entry.id)}-title"${entry.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${categoryURL(entry.id)}">${escape(entry.archiveLabel || entry.label)}</a></${nested ? 'h3' : 'h2'}>
       ${collection(entry)}
     </section>`;
   };
-  const content = siteContent.workGroups.map(group => {
+  const modelSection = `<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3>${renderMannequinPreview()}</section>`;
+  const content = groups.map(group => {
+    if (selectedGroup) {
+      const rubricCategories = group.children.map(id => categoryById(id)).filter(Boolean).map(entry => {
+        const primary = entry.id === group.id;
+        const sectionId = primary ? `finished-${entry.id}` : entry.id;
+        const titleId = primary ? 'work-page-title' : `archive-${entry.id}-title`;
+        const heading = primary ? '' : `<h3 class="archive-category-heading rubric-category-heading" id="${escape(titleId)}" data-motion-static>${escape(entry.archiveLabel || entry.label)}</h3>`;
+        return `<section class="archive-category${primary ? ' rubric-primary' : ''}" id="${escape(sectionId)}" tabindex="-1" aria-labelledby="${escape(titleId)}" data-archive-category="${escape(entry.id)}">
+          ${heading}${collection(entry)}
+        </section>`;
+      }).join('');
+      return `<section class="work-group is-rubric-archive" id="${escape(group.id)}" tabindex="-1" aria-labelledby="work-page-title" data-work-group="${escape(group.id)}">
+        ${rubricCategories}
+        ${group.id === 'tattoos' ? modelSection : ''}
+      </section>`;
+    }
     const directCategory = group.children.length === 1 && group.children[0] === group.id;
     return `<section class="work-group${directCategory ? ' archive-category' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="group-${escape(group.id)}-title" data-work-group="${escape(group.id)}"${directCategory ? ` data-archive-category="${escape(group.id)}"` : ''}>
-      <h2 class="work-group-heading" id="group-${escape(group.id)}-title"><a href="${workAnchorURL(group.id)}">${escape(group.label)}</a></h2>
+      <h2 class="work-group-heading" id="group-${escape(group.id)}-title"${group.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${workAnchorURL(group.id)}">${escape(group.label)}${group.id === 'tattoos' ? ` ${arrow}` : ''}</a></h2>
       ${directCategory ? collection(categoryById(group.id)) : group.children.map(id => leaf(categoryById(id), { id: id === group.id ? 'finished-tattoos' : id })).join('')}
-      ${group.id === 'tattoos' ? '<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading" id="archive-model-title">3d model</h3></section>' : ''}
+      ${group.id === 'tattoos' ? modelSection : ''}
     </section>`;
   }).join('');
-  const legacy = siteContent.categories.filter(entry => entry.legacy && (selected === entry.id || projects.some(project => project.category === entry.id))).map(entry => leaf(entry, { nested: false })).join('');
+  const standalone = selected !== 'all' && !selectedGroup && selectedCategory
+    ? leaf(selectedCategory, { nested: false })
+    : selected === 'all' ? siteContent.categories.filter(entry => entry.legacy
+      && projects.some(project => project.category === entry.id)).map(entry => leaf(entry, { nested: false })).join('') : '';
+  const crossLinks = selectedGroup ? `<nav class="rubric-cross-links" aria-label="Other creative sections">
+      ${siteContent.workGroups.map(group => group.id === selectedGroup.id
+        ? '<span class="rubric-cross-gap" aria-hidden="true"></span>'
+        : `<a href="${categoryURL(group.id)}">${escape(group.archiveLabel ?? group.label)} ${arrow}</a>`).join('')}
+    </nav>` : '';
   return `${header('work')}
-  <div class="page-shell work-page" data-connected-work data-work-context="${escape(selected)}">
-    <h1 class="page-heading">01 / WORKS</h1>
+  <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
+    <h1 class="page-heading${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
     <nav class="work-filters" aria-label="Works sections">
-      ${siteContent.workGroups.map(filter => `<a class="filter-link${selected === filter.id ? ' is-active' : ''}" href="${workAnchorURL(filter.id)}"${selected === filter.id ? ' aria-current="location"' : ''}>${escape(filter.label)}</a>`).join('')}
+      ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
     </nav>
-    <div class="portfolio-archive" aria-label="All artwork">${content}${legacy}</div>
+    <div class="portfolio-archive" aria-label="All artwork">${content}${standalone}</div>
+    ${crossLinks}
   </div>${footer()}`;
 }
 
@@ -138,7 +172,7 @@ export function renderAboutPage() {
   }).filter(Boolean).join('');
   return `${header('about')}
   <div class="page-shell about-page">
-    <h1 class="page-heading">about</h1>
+    <h1 class="page-heading">03/ about</h1>
     <div class="about-layout${portraitURL ? ' has-portrait' : ''}">
       <div class="about-copy">
         <p class="about-intro">${escape(about.intro)}</p>
@@ -175,6 +209,7 @@ export function renderArtworkPage(project) {
         <div class="project-images">${artworkImages(project).map((image, index) => imageMarkup(image, {
           critical: project.category !== 'digital-artworks' && index === 0, imageIndex: index, figureId: `image-${index + 1}`,
           assetOptions: project.category === 'digital-artworks' ? digitalPreviewOptions(true) : {},
+          inline: project.category === 'digital-artworks',
         })).join('')}</div>
         ${renderFlashMannequin(project)}
         <div class="project-meta">

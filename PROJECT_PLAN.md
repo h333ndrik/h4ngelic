@@ -1,54 +1,121 @@
-# V3.1 refinement — active plan
+# V3.1.2 continuation plan
 
-Updated 2026-10-29. The [complete approved brief](docs/V3.1-REFINEMENT.md) is preserved unchanged. The user subsequently instructed: **use all eight photographs instead of five**. This specific asset-count correction governs item 15. Prior verified V3 checkpoints remain in [history](docs/history/v3-checkpoint-2026-10-28/PROJECT_PLAN.md).
+Updated 2026-11-02. `docs/V3.1.2-STATUS.md` is the authoritative reconciliation.
+V8–V14, V16 and V20 are DONE; V21 + V24 are next. Each remaining item gets its own tested commit pushed to
+`origin/v3.1.1-fixes`. V3-V6 and V22 are specification-blocked because neither
+the recovered branch nor the supplied continuation defines them. Preserve the
+eight original JPEGs, the approved MP3, F1-F17 behavior, accessibility and
+reduced-motion fallbacks. No merge or deployment.
 
-V3.1 supersedes the older seven visit phrases, one-shot Contact entrance and private-only SMASH publication decision. Preserve the accepted hero/memory-mosh and reuse existing components. No new dependencies, merge, deployment, main change or `api/inquiry.js` modification.
+# Current review checkpoint — V3.1.1
 
-Status meanings: **DONE** requires current verification; **PARTIAL** means code or verification remains; **TODO** is not started; **BLOCKED** needs missing external input; **REVIEW NEEDED** identifies an actual uncertainty. The detailed test/device ledger is in PROJECT_PROGRESS.md. Source presence and component checks alone do not establish desktop/mobile visual acceptance. All 17 source requirements now have their current checks; production live-route, exact offline HTML and package QA now pass. Artifact/evidence commit `3b424e9` is pushed on the same feature branch, remote HTML bytes are verified, and [PR #20](https://github.com/h333ndrik/h4ngelic/pull/20) is OPEN and ready for review. No approved unblocked implementation remains.
+All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.
 
-| Item | Requirement | Approved end state | Actual state / next verification | Relevant files | Status |
-| --- | --- | --- | --- | --- | --- |
-| 1 | INDEX numbering | Show 00 / through 04 / beside the existing Home, Works, More About, Contact and final-secret destinations; retain normal keyboard and touch navigation. | Numbered INDEX destinations, native menu interaction and route/NAAVI consistency pass four profiles in both realities. Evidence: `docs/validation/v3.1-refinement/navigation.json` (1440/390/320 normal, 320 reduced; both modes). | `index.html`, `global-navigation*`, `naavi-content.js` | DONE |
-| 2 | Unified hover | Reuse the exact frontpage navigation glow, easing and approximately 300ms timing for all interactive targets; keep photo scale within 1.02–1.04 and preserve reduced motion / Other Side variants. | Shared 300ms glow/scale and target coverage pass in all six UI profiles, both realities, including reduced motion and actual photo interactions. No earlier MP3 request is introduced. Evidence: `docs/validation/v3.1-refinement/ui.json` (1440/390/320, normal and reduced; both modes). | `ui-tokens.css`, `uiEffectSettings.js`, `interactions.js/.css`, component styles | DONE |
-| 3 | Cursor | Reduce every custom cursor variant by 5%; NAAVI hover uses the primary h4 form. | All six cursor viewport sizes are reduced by 5%; NAAVI uses the primary h4 hover variant. Four browser profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/navigation.json` (1440/390/320 normal, 320 reduced; both modes). | `public/assets/h4ngelic-cursor*.svg`, `cursor.css` | DONE |
-| 4 | NAAVI details | Invert the separator and digits together only over large white display text; remain normal over form/small UI; align with the footer baseline without overlap or added page height. | Digits and separator share scoped contrast; form/small UI exclusions and footer docking pass. Hidden headings/children/ancestors release contrast immediately without hot geometry reads. Evidence: `docs/validation/v3.1-refinement/navigation.json` (1440/390/320 normal, 320 reduced; both modes). | `global-navigation.js/.css`, `global-navigation-state.js`, footer styles | DONE |
-| 5 | INDEX panel | Use the same lighter anthracite field surface, white border and shared approximately 4px radius; remain readable in both modes with visible focus and no opening layout shift. | Panel/input surface parity, white border, shared radius, focus and viewport bounds pass four profiles in both realities. Evidence: `docs/validation/v3.1-refinement/navigation.json` (1440/390/320 normal, 320 reduced; both modes). | `global-navigation.css`, `ui-tokens.css`, `inquiry.css` | DONE |
-| 6 | Contact entrance | Move Contact title and form together from the right with bounded reversible scroll progress, no rotation/overshoot; reduced motion reveals them immediately. | Contact title and form share one calm bounded right-entry pose with exact reverse scroll and immediate reduced-motion presentation. All six motion profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/motion.json` (1440/390/320, normal and reduced; both modes). | `scroll-choreography*`, `motionSettings.js`, `inquiry-entrance.js` | DONE |
-| 7a | Works parent entrances | Use the calm About entrance family for Tattoos/Jewellery/More, preserving the large numbered heading’s rise. | Works parent headings use bounded simultaneous right-entry without rotation or overshoot; the numbered heading rise remains. All six motion profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/motion.json` (1440/390/320, normal and reduced; both modes). | `scroll-choreography*`, `motionSettings.js` | DONE |
-| 7b | Works filter position | Place Tattoos/Jewellery/More directly right of the floating brand, keeping INDEX clear, original touch targets and no page overflow. | The measured category strip stays beside the floating brand and clear of INDEX, with reachable local scrolling and no page overflow at tested widths. Evidence: `docs/validation/v3.1-refinement/navigation.json` (1440/390/320 normal, 320 reduced; both modes). | `global-navigation*`, `archive-structure.css`, `pages.js` | DONE |
-| 7c | Works subcategory entrances | Subcategory labels use the same calm family and arrive with or immediately after their parent, including reduced motion. | Every archive subcategory shares its parent progress and pose, so labels never arrive later. All six motion profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/motion.json` (1440/390/320, normal and reduced; both modes). | `scroll-choreography*`, `motionSettings.js` | DONE |
-| 7d | SMASH / Instagram parity | Give SMASH the same text, spacing, colour and small arrow as Instagram while retaining its audio toggle behaviour. | SMASH and Instagram now have matching typography, colour and arrows in four footer profiles and both realities. Playback remains separately tracked under item 16. Evidence: `docs/validation/v3.1-refinement/footer.json` (1440/390/320 normal, 320 reduced; both modes). | `footer.js`, `easter-eggs.css`, sound controller | DONE |
-| 8 | Typography scale | Match numbered page headers to Home Works, category links to the hero navigation row, and sub-rubrics to More About; recheck sticky geometry after resizing. | Numbered page, category-link and sub-rubric sizes match shared reference tokens; responsive navigation/sticky geometry checks pass. Evidence: `docs/validation/v3.1-refinement/navigation.json` (1440/390/320 normal, 320 reduced; both modes). | `ui-tokens.css`, `archive-structure.css`, navigation styles | DONE |
-| 9 | Retire kinetic fly-in | Remove viewport-wide stagger/rotation/fly runtime and unused config; apply simultaneous bounded right-entry to Home Works/Contact while keeping compatible module APIs. | The old wide fly/stagger/rotation/echo runtime is retired; calm simultaneous Home Works/Contact motion and exact reversal pass, with stable compatibility exports. All six motion profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/motion.json` (1440/390/320, normal and reduced; both modes). | `motionSettings.js`, `scroll-choreography.js/.css`, motion tests | DONE |
-| 10 | Form field visuals | One lighter field surface, shared radius, labels above fields, subtle stable focus; name placeholder exactly `max musterperson`. | The form has one lighter field surface, exact max musterperson placeholder, labels above fields and stable dimensions on focus. All six UI profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/ui.json` (1440/390/320, normal and reduced; both modes). | `inquiry-content.js`, `inquiry.css`, `ui-tokens.css` | DONE |
-| 11 | Digital artwork size/loading | Halve current display width, constrain previews to matching 320/640 variants, retain lazy loading/dimensions and measure real before/after route bytes. | All six actual production archive/detail comparisons pass: display width halves; image body bytes fall 46.06% at 1440px and 68.32% at 390px, while320px remains 40410B because the baseline already uses the minimum 320w variant. Lazy loading, explicit original dimensions, constrained320/640 candidates and no upscaling remain verified. Evidence: `docs/validation/v3.1-refinement/digital-payload.json` (zero failures; preserved V3 baseline versus source daeaff8 build). Whole Work route totals can rise because eight real photos are now present. | `pages.js`, `image-assets.js`, `archive-structure.css`, Digital asset tests | DONE |
-| 12 | VISIT counter | Replace all seven phrases with `VISIT 0000` formatting; keep local persistence/no route increments; put a hidden hover/focus/tap counter in the right footer cluster without layout shift. | The hidden right-cluster VISIT counter uses matching hint typography, reveals on hover/focus/tap without reflow, preserves its count across route changes and has no phrase stages. Four footer profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/footer.json` (1440/390/320 normal, 320 reduced; both modes). | `footer.js`, `easter-eggs.js/.css`, `easterSettings.js` | DONE |
-| 13 | h4 moshlab link | Place the small arrow link immediately right of branding, using the approved accessible `#` placeholder; real destination remains TODO. | The accessible h4 moshlab arrow placeholder sits beside branding, remains reachable in narrow local scrollports and does not navigate or jump. Four footer profiles pass in both realities; the real URL remains TODO. Evidence: `docs/validation/v3.1-refinement/footer.json` (1440/390/320 normal, 320 reduced; both modes). | `footer.js`, `easter-eggs.js/.css`, interactions | DONE |
-| 14a | Borderless hero controls | Slow/Pause/Sound and connected sound surfaces have no white border/outline; retain subtle accessible keyboard focus and unified hover. | Hero buttons and connected header/popup/range surfaces have no border or outline; genuine keyboard focus retains its underline. All six UI profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/ui.json` (1440/390/320, normal and reduced; both modes). | `style.css`, `sound-controls.css`, interaction styles | DONE |
-| 14b | Hero bottom-bar fade | Fade controls and Work/About/Contact links before the next section fills the viewport; restore on reverse, disable interaction while hidden, no layout shift/pinning break; reduced motion is instant. | Both hero bottom-bar halves fade together, become inert while hidden, restore on reverse and leave document height/pinning unchanged; reduced motion is instant. All six motion profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/motion.json` (1440/390/320, normal and reduced; both modes). | `scroll-choreography.js/.css`, `homepage.css`, `motionSettings.js` | DONE |
-| 15 | Eight original Tattoo photographs | Use all eight JPEGs supplied in the ZIP, unchanged, named tattoo-01.jpg through tattoo-08.jpg; wire them into On Skin with original proportions and verify committed bytes. | All eight originals are committed unchanged in f1841e4 with Git blob SHA-256 values matching the supplied ZIP. The complete four-profile real-photo carousel and retained fixture stress/input suite now pass; all eight photographs are wired with original dimensions and neutral metadata. Evidence: `docs/validation/v3.1-refinement/carousel.json` (1440/390/320 normal, 320 reduced; real photographs in both modes). | `public/images/tattoos/`, `artworks.js`, `horizontal-drift.js`, `docs/assets/tattoo-originals-v31.json`, `CONTENT.md` | DONE |
-| 16 | SMASH soundtrack | Commit the supplied MP3 unchanged; central deferred first-use loading/cache, 1.5–2s fade-in, sound ducking, final five-second tail, approximately one-second manual stop, restore on stop/end and preserve playback through mode changes. | The exact committed approved MP3 passes real playback at 1440/390/320: one deferred fetch/decode, cached restart, 1.8s attack, final 5s tail, approximately 1s manual stop, duck/restore, global mute/volume and route/reality continuity. Full unshortened natural end is observed at 1440px. Evidence: `docs/validation/v3.1-refinement/smash.json`, three passing profiles with empty failures/errors and zero page overflow. | `public/audio/`, `mode-audio.js`, `modeAudioSettings.js`, `sound-controls*`, export/package scripts | DONE |
-| 17 | Shared corner radius | Define one approximately 4px token for named UI surfaces; keep all photos, carousel/Digital images, corruption/organic shapes and page canvas unrounded. | Named UI surfaces use the shared 4px radius; all real photographs, Digital images and page/hero canvases keep square edges. All six UI profiles pass in both realities. Evidence: `docs/validation/v3.1-refinement/ui.json` (1440/390/320, normal and reduced; both modes). | `ui-tokens.css`, form/navigation/controls/viewer/footer styles | DONE |
+# V3.1.1 — active continuation plan
 
-## Responsive implementation decisions
+## Current committed checkpoint — 2026-11-02
 
-A readable single footer row cannot fit all left/right links plus centred NAAVI at 320px using normal text and accessible targets. The approved implementation approach reserves NAAVI’s centre and allows **local horizontal scrolling within the two footer clusters**. It retains reachable keyboard/touch targets, the common baseline and zero whole-page overflow in the four passing footer profiles. Focused links are explicitly exposed inside their own local scrollport; the page and NAAVI do not move. The Works category strip may likewise scroll locally between the brand and INDEX when necessary. Do not hide destinations or shrink text to illegible sizes.
+At resume, `v3.1.1-fixes` was clean at **`7238478`**, five commits ahead of the merged baseline. Verified commits: F1 `f57f759`, F9 `36f574d`, F2 `3d01241`, F3 `7028dbc`, F4 `7238478`. Their evidence is committed under `docs/validation/v3.1.1/`. These fixes are DONE; do not restart their verified work without a relevant new change. The dynamic-count F9 follow-up is complete: unused five-pose helper removed, totals driven by actual projects/slides, Node coverage0/1/3/5/8/9 and all eight paths/alt/srcset verified.
 
-Contact title and form share the same right-entry pose. The numbered Works page heading retains its existing rise. Old sampler export names may remain as thin compatibility adapters; the old wide fly/stagger/rotation implementation and runtime path must be removed.
+F5 is the first unfinished task: implement one measured horizontal gap throughout Works branding → tattoos → jewellery → more. Branding-to-first and category-to-category gaps must match at1440/390/320px, without wrapping or changing the V3.1 baseline. Root owns the active serial navigation browser checks, Node tests and the separate F5 commit. After F5 continue F6,F7,F8,F10,F11,F13,F14,F15,F16, one fix per commit; preserve verified work and do not launch.
 
-## Inputs and remaining dependencies
+Updated 2026-11-02. Active branch **`v3.1.1-fixes`**, based on fetched main **`9123a00b21b9a7d3873fe97ba7c36fb90b74c3e5`**. PR #20 was merged by the user at 2026-10-30T11:41:11Z. This round does not reopen, edit, merge or deploy it. Merged V3.1 source and assets are present; no missing baseline prerequisite has been established.
 
-- Item 15 is no longer blocked by file access: the supplied ZIP contains all eight originals. Eight On Skin entries are wired, all originals are committed and root verified the committed bytes. The four-profile real-photo/input suite now passes, so item 15 is DONE; do not repeat asset recovery or integrity work.
-- The approved MP3 is supplied and public commit/embedding is explicitly authorized. Its exact bytes must remain unchanged; no substitute or remix.
-- The real `h4 moshlab` destination remains TODO. The approved `#` placeholder allows this refinement to proceed.
-- Real mail configuration/delivery and genuine unpublished Loose Thread artwork remain outside the currently available inputs. Do not invent them or stop independent approved work.
+Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest continuation](docs/V3.1.1-CONTINUATION.md). The continuation overrides matching requirements and adds F16. Its prioritized F9 is now verified and committed; **F5 is the first unfinished task**. User clarification independently confirms F5 and F10 below. Previous checkpoints remain unchanged in [V3.1 history](docs/history/v3.1-checkpoint-2026-10-29).
 
-## Verification sequence
+| Fix | Status | Verified state / exact next requirement |
+| --- | --- | --- |
+| F1 | DONE | Borderless INDEX surface/focus retained. Navigation6 + UI6 in333/4 and Node357/357 passed. Commit `f57f759`; evidence `docs/validation/v3.1.1/F1`. |
+| F2 | DONE | VISIT follows moshlab with shared secret reveal; footer browser6 and Node pass. Commit `3d01241`; evidence `docs/validation/v3.1.1/F2`. |
+| F3 | DONE | Top TATTOOS/ON SKIN static from first paint; motion browser6 and Node pass. Commit `7028dbc`; evidence `docs/validation/v3.1.1/F3`. |
+| F4 | DONE | Contact shares About section clock; browser6 and Node363/363 pass. Commit `7238478`;12windows0LongTasks, but RAFp95 up to566.5ms; see measured limitations below. |
+| F5 | DONE | Use one gap throughout the Works floating row; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F5. |
+| F6 | DONE | Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6. |
+| F7 | DONE | TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved. |
+| F8 | DONE | Cover every interactive area with the native h4 cursor; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F8. |
+| F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
+| F10 | DONE | Reuse inline viewing for the resized Digital artwork; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F10. |
+| F11 | DONE | Round photographs with the shared radius token; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F11. |
+| F13 | DONE | Unify route-link and branding hover feedback; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F13. |
+| F14 | BLOCKED | Chromium pixel/navigation6 and Node363 pass; Safari/Firefox/real-mannequin unavailable, legacy corruption recovery test times out. |
+| F15 | DONE | Make4 entry-only and require triple3 for return; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F15. |
+| F16a | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
+| F16b | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
+| F17 | DONE | Restore returning-visitor recognition above the hero; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F17. |
 
-1. Reconcile the existing partial source; finish only missing implementation.
-2. Run affected Node checks and the broad `npm test`, adapting obsolete expectations to the explicit V3.1 contracts rather than weakening real behaviour checks.
-3. Run browser suites **serially** at 1440/390/320px, with reduced motion and both 333/4 modes. Check scoped NAAVI contrast/baseline, shared interactions/radius, motion reversal, real carousel inputs and real soundtrack behaviour.
-4. Measure actual Digital before/after transferred bytes using the preserved production baseline. Check original asset integrity after commit.
-5. Build/export only when browser work is finished; verify production routes, exact offline HTML and matching package bytes. Record actual results before review delivery.
+There is no F12. TODO means not started; PARTIAL means code/verification underway; DONE requires actual current checks. REVIEW NEEDED is intent uncertainty, not a missing V3.1 feature.
 
-The final broad Node suite passes **357/357** after all runtime corrections, with zero failures or skips (`docs/validation/v3.1-refinement/node-tests.txt`, 3416.202864ms). All functional browser suites and all six Digital production comparisons pass. Source commit `daeaff8` is built/exported successfully with 19 routes plus 404, preview mode and zero indexable routes. All 17 source items are DONE; final production live-route and exact offline HTML/package checks now pass; artifact/evidence commit `3b424e9` is pushed and PR #20 is ready for review. The exact new HTML is now verified by both offline suites and the matching package report.
+## Execution order
+
+F5 is the first unfinished task: implement one measured horizontal gap throughout Works branding → tattoos → jewellery → more. Branding-to-first and category-to-category gaps must match at1440/390/320px, without wrapping or changing the V3.1 baseline. Root owns the active serial navigation browser checks, Node tests and the separate F5 commit. After F5 continue F6,F7,F8,F10,F11,F13,F14,F15,F16, one fix per commit; preserve verified work and do not launch.
+
+**One fix = one commit**, with checkpoint updates and real outputs. After each fix run affected existing browser suites **serially before builds**, at1440/390/320 × full/reduced, both333/4 where relevant. No browser parallelism or asset preparation/build while browser checks run. Preserve unaffected assertions; update only superseded contracts. Capture F1/F2/F9/F10/F14 screenshots and measure actual F4/F6/F14 frame/long-task/compositing costs. Report failures with their actual causes/evidence. Do not rerun the historical full100s SMASH observation for an unrelated CSS change.
+
+## V9 carousel configuration contract (F9 baseline retained)
+
+Actual single source: `src/carouselSettings.js`, exported `carouselSettings` with JSDoc per field. Both prerender markup and runtime enhancement consume the same `carouselStyleProperties()` dimensions. Changing these values is sufficient after rebuild; no component edits needed. V9 status: **DONE**; see `docs/validation/v3.1.2/V9/`.
+
+| Field | Actual default | Meaning |
+| --- | --- | --- |
+| `cardWidth` |`300`| Resting card width in px; narrow screens cap it at the available page width. |
+| `cardHeight` |`420`| Maximum resting photograph height; its original ratio is preserved. |
+| `cardViewportInset` |`24`| Resting card clearance from either edge of a narrow viewport, in pixels. |
+| `spacing` |`100`| Horizontal space between adjacent card slots, in pixels. |
+| `inertia` |`0.05`| Fraction of velocity lost per 60Hz frame; larger values stop sooner. |
+| `wheelSensitivity` |`8.0`| Legacy wheel impulse value; vertical wheel capture is off. |
+| `wrap` |`true`| Recycle real cards seamlessly through the ambient loop; no duplicate artwork. |
+| `hoverStraighten` |`true`| Lift the hovered card slightly, retaining the site's own scale/glow. |
+| `neighborDisplacement` |`true`| Move immediate neighbours aside with transforms while a card is hovered. |
+| `scrollCapture` |`'none'`| Legacy horizontal-wheel mode; the shipped value leaves vertical input native. |
+| `autoDrift` |`true`| Enable the approved carousel-only ambient time loop. |
+| `autoScroll` |`0.3`| Rightward drift distance in CSS pixels per 60 Hz frame, about 18px/s. |
+| `hoverPause` |`true`| Pause ambient drift while a fine pointer or keyboard focus is inside the carousel. |
+| `perspectiveZoom` |`45`| Perspective field-of-view value for the CSS depth composition. |
+| `cameraDistance` |`900`| Camera distance in pixels applied as the CSS perspective plane. |
+| `depthScale` |`true`| Enable edge scaling and inward rotation without WebGL. |
+| `edgeRotation` |`12`| Maximum inward card rotation at the viewport edge, in degrees. |
+| `edgeScaleFloor` |`0.92`| Minimum edge-card scale at the viewport boundary. |
+| `pointerLabel` |`false`| Reserved for compatibility: the native h4 cursor is the sole affordance. |
+| `expandWithinLayout` |`true`| Enable the common in-page image expansion; never opens a modal. |
+| `expansionScale` |`1.65`| Largest reserved viewing height relative to the resting card height. |
+| `restingFrameFraction` |`0.7`| Resting photo may occupy at most this fraction of its reserved frame. |
+| `viewportInlineInset` |`12`| Horizontal clearance between an expanded photograph and the viewport. |
+| `viewportBlockInset` |`76`| Top/bottom viewport clearance for floating navigation during expansion. |
+| `hoverLift` |`6`| The hovered card's optional vertical lift, in pixels. |
+| `neighborShift` |`12`| Immediate neighbours' optional horizontal displacement, in pixels. |
+| `dragThreshold` |`8`| Pointer movement required before a click becomes a horizontal drag. |
+| `wheelLinePixels` |`16`| Wheel line delta normalization, in pixels. |
+| `maximumWheelDelta` |`120`| Per-event wheel limit avoids unusually large device impulses. |
+| `maximumVelocity` |`100`| Maximum shared velocity, in pixels per 60Hz frame. |
+| `velocityCutoff` |`0.12`| Stop scheduling animation when velocity falls below this threshold. |
+| `dragClickGuardMs` |`350`| Suppress the synthetic click immediately following a completed drag. |
+| `announcementDelayMs` |`140`| Delay before politely announcing the selected artwork to screen readers. |
+
+`autoDrift` is the only approved time loop and runs only while the carousel is near the viewport. Shared hover scale/glow and neighbour displacement remain active. Works pages still load no Three.js/WebGL. All eight confirmed photographs use existing optimized assets, alt text and lazy loading; original bytes are untouched. Reduced motion is static with instant state changes.
+
+## Preserved scope
+
+Keep working chrome hero/physics, accepted memory-mosh, approved SMASH and1400ms transition. INDEX stays separate from NAAVI; Contact exclusively Home03/CONTACT. Cold Work/About must never download or initialize Three.js. Preserve uncommitted user/agent work and finish existing components.
+
+Preserve all eight original JPEGs `public/images/tattoos/tattoo-01.jpg`…`tattoo-08.jpg` and approved MP3 byte-for-byte. Photo provenance: `docs/assets/tattoo-originals-v31.json`. MP3 SHA-256 `307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b`. The user has now explicitly confirmed all eight photographs remain in the carousel, resolving the continuation text’s old reference to five. No photo-count question remains open.
+
+Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, force-push, merge, close, deploy, launch, connect domains or enable analytics. Deferred WORLD/mannequin/Flowfield and other Easter Eggs stay parked; F17 returning-visitor recognition is now explicitly approved. Real moshlab URL, actual mail configuration/delivery and unpublished Loose Thread artwork are external inputs; do not invent substitutes. Actual Safari is unavailable on Linux; WebKit is not Safari. Record concrete installed-browser capabilities before claiming cross-browser success.
+
+
+## Confirmed continuation answers — 2026-10-31
+
+The user confirmed all **eight** supplied photographs remain in the carousel. Home stays **01 / WORKS, 02 / ABOUT, 03 / CONTACT**. The tattoos / jewellery / more rubric links must open their own real category pages; Contact remains exclusively on Home. F16 intent is resolved; this is TODO, not an unresolved review blocker. F1 was committed as `f57f759`. F9 was subsequently verified and committed as `36f574d`; the current first unfinished task is F5.
+
+## Verified F4 performance limits
+
+Current recorded evidence: `docs/validation/v3.1.1/F4/results.json` has six profiles at 1440/390/320px × full/reduced motion, each in 333/4; zero failures/console errors. All **12 Contact measurement windows recorded 0 LongTasks**. The full-motion 1440px Other Side window nevertheless recorded **RAF p95 566.5ms / max 616.7ms**; its observed entrance script maximum was **6.3ms** (forced style/layout 6.0ms). Full-motion 390px Normal recorded **RAF p95 216.7ms / max 316.6ms**. Entrance attribution was unavailable in 5/12 windows; zero observed attribution in other windows does not mean zero callback cost.
+
+These are headlessChromium/SwiftShader software-renderer measurements, limited by the cloud hardware/rendering environment; they do **not** prove universally smooth motion or identify the entrance as the sole cause of slow frames. F4 verifies native uncancelled input, reversible poses and unchanged document height, not a guaranteed device frame rate. Preserve this measured limitation and continue F5; do not repeat verified F4 solely to obtain prettier numbers. F4 browser suite6/6 passed; recorded Node 363/363 passed (`node.txt`, 3167.274028ms); the shell-level 3.374s includes command overhead.
+
+## F10 viewport decision — confirmed 2026-11-02
+
+The user explicitly approved an additional responsive height cap in short browser windows. Keep the nominal60% original-width base, but reserve a visibly larger full-image view that fits the viewport. Report actual capped dimensions; do not claim a physical660px resting image in an844px-high window.
+
+## F17 approved history finding
+
+`git log -S "you know your way around"` identifies introduction in4feb4bf and removal in daeaff8. The exact sentence was one entry in the old seven-stage visitor-message array, rendered in the footer. V3.1 retired that phrase system when introducing the numeric-only VISIT counter; this removed the sentence. The newly approved placement is above the hero logo, with a fixed single returning-visitor sentence, not revival of the seven-stage system.

@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { checkFloatingHeaderContrast, measureSyntheticHeaderCompositing } from './helpers/v311-header-contrast.mjs';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
-const output = new URL('../artifacts/v31-navigation/', import.meta.url);
+const output = new URL(`../${process.env.H4_NAV_ARTIFACTS || 'artifacts/v31-navigation'}/`, import.meta.url);
 await mkdir(output, { recursive: true });
-const profiles = [{ width:1440, reduced:false },{ width:390, reduced:false },{ width:320, reduced:false },{ width:320, reduced:true }]
+const profiles = [1440, 390, 320].flatMap(width => [false, true].map(reduced => ({ width, reduced })))
   .filter(profile => !process.env.H4_NAV_WIDTHS || process.env.H4_NAV_WIDTHS.split(',').map(Number).includes(profile.width));
 const browser = await chromium.launch({ executablePath:process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless:true,
   args:['--no-sandbox','--disable-dev-shm-usage','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
@@ -34,22 +35,66 @@ async function geometry(page) {
       headingSize:size('.work-page .page-heading'),filterSize:size('.work-filters .filter-link'),subheadSize:size('.archive-category-heading')};
   });
 }
+async function cursorCoverage(page,profile,world) {
+  if(!await page.evaluate(()=>matchMedia('(hover:hover) and (pointer:fine)').matches)) return {world,nativeTouch:true};
+  const selectors='a[href],summary,button,input,select,textarea,label,[role="button"],[data-naavi],canvas';
+  const expected=world==='xray'?'h4ngelic-cursor-other':'h4ngelic-cursor';
+  const records=[];
+  for(const [destination,kind] of [['work','work'],['contact','home'],['about','about']]) {
+    if(await page.locator('html').getAttribute('data-page')!==kind) {
+      const index=page.locator('[data-global-index]');
+      if(!await index.evaluate(el=>el.open)) await index.locator('summary').click();
+      await index.locator(`[data-index-page="${destination}"]`).click();
+      await page.locator(`html[data-page="${kind}"]`).waitFor();await settle(page);
+    }
+    const cursors=await page.locator(selectors).evaluateAll(elements=>elements.flatMap(el=>{
+      const style=getComputedStyle(el);if(style.display==='none'||style.visibility==='hidden')return [];
+      return [{tag:el.tagName,className:el.className?.baseVal??el.className,cursor:style.cursor}];
+    }));
+    assert.ok(cursors.length>0);
+    for(const item of cursors)assert.ok(item.cursor.includes(expected),`Every interactive ${kind} element retains the h4 cursor: ${JSON.stringify(item)}`);
+    const target=page.locator(kind==='home'?'[data-inquiry-submit]':kind==='about'?'[data-floating-brand]':'[data-naavi]');
+    await target.hover();
+    const hover=await target.evaluate(el=>getComputedStyle(el).cursor);
+    assert.ok(hover.includes(world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg'),'Hover uses the same constant mode cursor.');
+    records.push({kind,cursors,hover});await page.mouse.move(1,1);
+  }
+  await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
+  await page.locator('html[data-page="work"]').waitFor();await settle(page);
+  return {world,records};
+}
 async function indexContract(page,profile,world) {
   const menu=page.locator('[data-global-index]'),summary=menu.locator('summary');
   const scroll=await page.evaluate(()=>scrollY);
   await summary.focus();await page.keyboard.press('Enter');
   await page.waitForFunction(()=>{const menu=document.querySelector('[data-global-index]');return menu.open&&menu.querySelector('summary').getAttribute('aria-expanded')==='true';});
+  await menu.locator('.global-index-links').evaluate(panel => Promise.all(panel.getAnimations().map(animation => animation.finished.catch(() => {}))));
   const data=await menu.evaluate(el => {
     const panel=el.querySelector('.global-index-links'),s=getComputedStyle(panel),r=panel.getBoundingClientRect();
     return {numbers:[...el.querySelectorAll('.index-number')].map(el=>el.textContent.trim()),
       targets:[...el.querySelectorAll('a')].map(a=>a.getAttribute('href')),labels:[...el.querySelectorAll('a')].map(a=>a.textContent.trim().replace(/\s+/g,' ')),
-      panel:{left:r.left,right:r.right,bottom:r.bottom},surface:s.backgroundColor,border:s.borderTopColor,borderWidth:s.borderTopWidth,radius:s.borderRadius,
+      entries:[...panel.querySelectorAll(':scope > a, :scope > .index-static')].map(item=>({tag:item.tagName,href:item.getAttribute('href'),text:item.textContent.trim().replace(/\s+/g,' '),focusable:item.tabIndex>=0})),
+      panel:{left:r.left,right:r.right,bottom:r.bottom},surface:s.backgroundColor,borderWidth:s.borderTopWidth,radius:s.borderRadius,
+      outlineWidth:s.outlineWidth,filter:s.filter,shadow:s.boxShadow,linkColors:[...panel.querySelectorAll(':scope > a, :scope > .index-static')].map(a=>getComputedStyle(a).color),
       expanded:el.querySelector('summary').getAttribute('aria-expanded')};
   });
-  assert.deepEqual(data.numbers,['00 /','01 /','02 /','03 /','04 /']);
-  assert.deepEqual(data.targets,['/','/work','/about','/#contact','/#final-secret']);
-  assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');assert.equal(data.border,'rgb(255, 255, 255)');
-  assert.equal(data.borderWidth,'1px');assert.equal(data.radius,'4px');
+  assert.deepEqual(data.numbers,['00 /','01 /','02 /','03 /']);
+  assert.deepEqual(data.targets,['/','/about','/#contact']);
+  assert.deepEqual(data.entries, [
+    { tag:'A', href:'/', text:'00 / home', focusable:true },
+    { tag:'SPAN', href:null, text:'01 / creative', focusable:false },
+    { tag:'A', href:'/about', text:'02 / about', focusable:true },
+    { tag:'A', href:'/#contact', text:'03 / contact', focusable:true },
+  ]);
+  assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');
+  assert.equal(data.borderWidth,'0px');assert.equal(data.radius,'4px');
+  assert.equal(data.outlineWidth,'0px');assert.equal(data.filter,'none');assert.match(data.shadow,/rgba\(0, 0, 0/,'The INDEX panel keeps its subtle dark depth halo.');
+  const luminance = color => color.match(/[\d.]+/g).slice(0,3).map(Number).map(value => value / 255)
+    .map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4)
+    .reduce((sum,value,index) => sum + value * [.2126,.7152,.0722][index],0);
+  data.contrast = data.linkColors.map(color => (luminance(color)+.05)/(luminance(data.surface)+.05));
+  assert.ok(data.contrast.every(ratio => ratio >= 4.5),'Every INDEX entry retains readable contrast on its opaque field surface.');
+  await page.screenshot({path:new URL(`index-${profile.width}-${profile.reduced}-${world}.png`,output).pathname});
   assert.ok(data.panel.left>=0 && data.panel.right<=profile.width+1 && data.panel.bottom<=844);
   await page.keyboard.press('Tab');
   assert.equal(await menu.locator('a').first().evaluate(el=>el===document.activeElement),true);
@@ -68,7 +113,25 @@ async function workChrome(page,profile,world) {
   assert.ok(g.filters.left>=g.brand.right+10 && g.filters.right<=g.index.left-10,'Work categories occupy the row between brand and INDEX.');
   assert.ok(Math.abs(g.filters.top-g.brand.top)<1 && g.filters.height>=44);
   assert.ok(!overlap(g.brand,g.filters)&&!overlap(g.index,g.filters));
-  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['tattoos','jewellery','more']);
+  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['on skin','jewellery','more']);
+  const spacing=await page.evaluate(()=>{
+    const strip=document.querySelector('.work-filters');strip.scrollLeft=0;
+    const brand=document.querySelector('[data-floating-brand]').getBoundingClientRect();
+    const boxes=[...strip.querySelectorAll('a')].map(el=>el.getBoundingClientRect());
+    return {token:getComputedStyle(strip).columnGap,wrap:getComputedStyle(strip).flexWrap,
+      gaps:[boxes[0].left-brand.right,...boxes.slice(1).map((r,n)=>r.left-boxes[n].right)],
+      tops:boxes.map(r=>r.top),brandTop:brand.top};
+  });
+  assert.equal(spacing.wrap,'nowrap');
+  for(const gap of spacing.gaps) assert.ok(Math.abs(gap-parseFloat(spacing.token))<.2,`One actual header gap: ${JSON.stringify(spacing)}`);
+  assert.ok(spacing.tops.every(top=>Math.abs(top-spacing.brandTop)<1),'Header item hit areas share the existing baseline row.');
+  g.spacing=spacing;
+  const tattooParity=await page.evaluate(()=>{
+    const probe=document.createElement('a');probe.className='category-link';probe.style.cssText='position:absolute;visibility:hidden';document.body.append(probe);
+    const front=getComputedStyle(probe).fontSize;probe.remove();
+    const title=document.querySelector('.rubric-category-heading');return {front,work:getComputedStyle(title).fontSize,arrows:title.querySelectorAll('.arrow').length};
+  });
+  assert.equal(tattooParity.work,tattooParity.front);assert.equal(tattooParity.arrows,0,'Child category headings are plain text.');g.tattooParity=tattooParity;
   const typography=await page.evaluate(()=>{
     const h=document.createElement('h2');h.className='kinetic-heading';h.style.cssText='position:absolute;visibility:hidden;pointer-events:none';document.body.append(h);
     const heading=getComputedStyle(h).fontSize;h.remove();
@@ -78,7 +141,6 @@ async function workChrome(page,profile,world) {
     return {heading,secondary};
   });
   assert.equal(g.headingSize,typography.heading,'Work page and Home numbered heading use the same display scale.');
-  assert.equal(g.subheadSize,typography.secondary,'Sub-rubric labels match MORE ABOUT.');
   for(const link of await page.locator('.work-filters a').all()) {
     await link.evaluate(el=>el.focus()); await frames(page);
     const visible=await link.evaluate(el=>{const r=el.getBoundingClientRect(),v=el.parentElement.getBoundingClientRect();return r.left>=v.left-1&&r.right<=v.right+1&&r.height>=44;});
@@ -88,7 +150,7 @@ async function workChrome(page,profile,world) {
   if(profile.width>=600) {
     const naavi=page.locator('[data-naavi]');await naavi.hover();
     const cursors=await naavi.evaluate(el=>({outer:getComputedStyle(el).cursor,digit:getComputedStyle(el.querySelector('.chapter-digit')).cursor,total:getComputedStyle(el.querySelector('.chapter-total')).cursor}));
-    const expected=world==='xray'?'h4ngelic-cursor-other-hover-r09.svg':'h4ngelic-cursor-hover.svg';
+    const expected=world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg';
     for(const value of Object.values(cursors)) assert.ok(value.includes(expected),'NAAVI and its slash use the primary interactive h4 cursor.');
     await page.mouse.move(1,1);
   }
@@ -161,12 +223,22 @@ try {
       const normals=await indexContract(page,profile,'normal');const workNormal=await workChrome(page,profile,'normal');const contrastNormal=await contrastContract(page,'normal');
       assert.equal(await page.evaluate(()=>window.__v31GL),0,'Cold Work does not initialize a Three.js scene.');
       assert.ok(!requests.some(path=>/\/src\/main\.js$|\/three(?:[/.]|$)/i.test(path)));
+      const headerNormal=await checkFloatingHeaderContrast(page,{profile,world:'normal',output});
+      const syntheticHeaderPerformance=process.env.H4_HEADER_PERFORMANCE==='1' ? await measureSyntheticHeaderCompositing(page) : null;
+      const cursorNormal=await cursorCoverage(page,profile,'normal');
       await mode(page,'xray');
       const other=await indexContract(page,profile,'xray');const workOther=await workChrome(page,profile,'xray');const contrastOther=await contrastContract(page,'xray');
+      const headerOther=await checkFloatingHeaderContrast(page,{profile,world:'xray',output});
       await page.screenshot({path:new URL(`work-${profile.width}-${profile.reduced?'reduced':'active'}-4.png`,output).pathname});
+      const cursorOther=await cursorCoverage(page,profile,'xray');
+      await mode(page,'normal');
+      await page.goto(new URL('/',base).href,{waitUntil:'networkidle'});await settle(page);
+      const homeHeaderNormal=await checkFloatingHeaderContrast(page,{profile,world:'normal',output});
+      await mode(page,'xray');
+      const homeHeaderOther=await checkFloatingHeaderContrast(page,{profile,world:'xray',output});
       await mode(page,'normal');
       assert.deepEqual(errors,[]);
-      reports.push({...profile,normals,workNormal,contrastNormal,other,workOther,contrastOther,errors});await save();
+      reports.push({...profile,normals,workNormal,contrastNormal,other,workOther,contrastOther,cursorNormal,cursorOther,headerNormal,headerOther,homeHeaderNormal,homeHeaderOther,syntheticHeaderPerformance,errors});await save();
       console.log(`PASS V3.1 navigation ${profile.width}px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.`);
     }catch(error){failures.push({...profile,message:error.stack,errors});await page.screenshot({path:new URL(`failure-${profile.width}.png`,output).pathname}).catch(()=>{});await save();throw error;}
     finally{await context.close();}

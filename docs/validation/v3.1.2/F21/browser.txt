@@ -1,0 +1,12 @@
+CHECK V7 visitor tiers 1440px reduced=false
+PASS V7 1440px reduced=false: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, hover reveals an absolute portal with no reflow, first visit hidden.
+CHECK V7 visitor tiers 1440px reduced=true
+PASS V7 1440px reduced=true: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, hover reveals an absolute portal with no reflow, first visit hidden.
+CHECK V7 visitor tiers 390px reduced=false
+PASS V7 390px reduced=false: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, tap reveals an absolute portal with no reflow, first visit hidden.
+CHECK V7 visitor tiers 390px reduced=true
+PASS V7 390px reduced=true: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, tap reveals an absolute portal with no reflow, first visit hidden.
+CHECK V7 visitor tiers 320px reduced=false
+PASS V7 320px reduced=false: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, tap reveals an absolute portal with no reflow, first visit hidden.
+CHECK V7 visitor tiers 320px reduced=true
+PASS V7 320px reduced=true: nine count samples map to seven shared phrases, hero/footer match, recognition centered in the fixed branding gap, tap reveals an absolute portal with no reflow, first visit hidden.

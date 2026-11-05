@@ -1,0 +1,12 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 npm run test:cross-links
+PASS V25 1440px reduced=false: two real cross-links, empty current slot, fixed columns/height, keyboard order, no wrap or overflow.
+PASS V25 1440px reduced=true: two real cross-links, empty current slot, fixed columns/height, keyboard order, no wrap or overflow.
+PASS V25 390px reduced=false: two real cross-links, empty current slot, fixed columns/height, keyboard order, no wrap or overflow.
+PASS V25 390px reduced=true: two real cross-links, empty current slot, fixed columns/height, keyboard order, no wrap or overflow.
+PASS V25 320px reduced=false: two real cross-links, empty current slot, fixed columns/height, keyboard order, no wrap or overflow.
+PASS V25 320px reduced=true: two real cross-links, empty current slot, fixed columns/height, keyboard order, no wrap or overflow.
+
+Command: npm test
+tests 371
+pass 371
+fail 0

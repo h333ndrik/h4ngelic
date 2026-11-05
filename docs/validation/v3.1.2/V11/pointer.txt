@@ -1,0 +1,7 @@
+Command: CHROMIUM_PATH=... H4_BASE_URL=http://127.0.0.1:55173 H4_POINTER_ARTIFACTS=artifacts/v312/V11 npm run test:pointer-focus
+PASS pointer focus 1440px reduced=false: no pointer outline/box/underline; keyboard focus retained.
+PASS pointer focus 1440px reduced=true: no pointer outline/box/underline; keyboard focus retained.
+PASS pointer focus 390px reduced=false: no pointer outline/box/underline; keyboard focus retained.
+PASS pointer focus 390px reduced=true: no pointer outline/box/underline; keyboard focus retained.
+PASS pointer focus 320px reduced=false: no pointer outline/box/underline; keyboard focus retained.
+PASS pointer focus 320px reduced=true: no pointer outline/box/underline; keyboard focus retained.
