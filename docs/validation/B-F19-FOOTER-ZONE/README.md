@@ -5,7 +5,8 @@ h4 moshlab, Copyright) erscheint der Systempfeil **und** es entstehen keine
 Farbkleckse; direkt unter dem Band am Seitenende funktionieren die Kleckse.
 
 Arbeitskopie `19a0ea1` + dieser Fix, Build `19a0ea15b37c` (Produktions-Preview,
-`node scripts/serve-preview.mjs`). Produktion `www.h4ngelic.com` wurde
+`node scripts/serve-preview.mjs`); Abschlusslauf auf dem Commit-Stand
+`c3227e9` = Build `c3227e9e315e` (`footer-zone-contract.json`). Produktion `www.h4ngelic.com` wurde
 gegengeprüft: `data-build="fdd42f5e5266"` (HTML-Meta `b5634bc5be40`), also ein
 älterer Stand als dieser Branch.
 
@@ -153,6 +154,25 @@ unberührt, weil der Befund das Footer-Band betrifft.
 - Rot-Probe ohne Fix (guard zurückgerollt, neu gebaut, Port 55234):
   `FAIL … a press on .footer-left paints (0 -> 0)` bei 390 und 320 — der Test
   wäre ohne den Fix rot.
+- Voll-Lauf gegen denselben Build: `cursor-hit-test` 4470/1150/940 je
+  Viewport × beide Motion-Preferences + xray 2221 (0 Fremd-Cursor),
+  `footer-v31-browser` (1440, 390/320 je beide Motion), `row-geometry-contract`
+  (5 Viewports, 5 Reihen), `typography-contract` (3 Viewports + dist-grep),
+  `tokens-audit` (24 Definitionen, 0 Befunde), `hero-boot-browser` (3
+  Viewports), `digital-ink-browser` (6 Profile), Physik-Suite (179,99° →
+  39,60°, Settle 3408 ms), `seo-browser` (23 Routen, Redirects, 404) — alle grün.
+
+### Vor bestehender Rotstand (nicht durch diesen Fix verursacht)
+
+`tests/hero-ink-browser.mjs` und `tests/hero-background-browser.mjs` booten mit
+`reducedMotion: 'reduce'` und warten auf `#stage.is-ready`. Seit dem
+Poster-Vertrag (F20/F29) bleibt der Hero unter reduzierter Bewegung bewusst
+`is-poster-static` ohne WebGL — beide Suiten laufen deshalb in ihren Timeout.
+Belegt als vorbestehend: derselbe Fehler tritt unverändert auf dem
+unangetasteten Haupt-Workspace-Dev-Server (`127.0.0.1:5173`) auf, dessen Stage
+ebenfalls `stage is-poster-static` bleibt. Beide Suiten sind Kandidaten für
+`tests/legacy/` (AGENTS.md, RETIRED SUITES); die aktuelle Ink-Abdeckung liefert
+`tests/digital-ink-browser.mjs` plus die Node-Suiten aus `npm test`.
 
 ## 8. So prüfst du es (2–3 Zeilen)
 
