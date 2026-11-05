@@ -205,6 +205,9 @@ try {
 
     // Auto-Rotation, Drag-Pause, Flick und Rueckkehr.
     const angle = async () => Number(await preview.getAttribute('data-mannequin-angle'));
+    // M4g: Waehrend des Flicks darf keine Scene-Bounds mehr gebaut werden.
+    const boundsBuilds = async () => Number(await preview.getAttribute('data-mannequin-bounds-builds'));
+    const boundsBeforeFlick = await boundsBuilds();
     await page.waitForTimeout(2600);
     const angleAuto = await angle();
     assert.ok(angleAuto > mannequinVariant('C').initialYaw + 0.02, `Auto rotation must run (${angleAuto} rad).`);
@@ -217,14 +220,17 @@ try {
     await page.waitForTimeout(500);
     const angleHeldB = await angle();
     assert.ok(Math.abs(angleHeldB - angleHeldA) < 0.02, `Rotation pauses while dragging (${angleHeldA} -> ${angleHeldB}).`);
+    // Flick = Loslassen waehrend der Bewegung. Seit M4g zaehlt nur das letzte
+    // 70-ms-Fenster; deshalb wird direkt nach der Bewegung losgelassen (vorher
+    // lagen zwei Frames zum Ablesen des Winkels dazwischen).
     await page.mouse.move(centerX + 240, centerY, { steps: 6 });
+    await page.mouse.up();
     // Der Winkel steht erst nach dem naechsten Frame im DOM; im Headless-
-    // Renderer dauert ein Frame gut 200 ms.
+    // Renderer dauert ein Frame gut 70 ms.
     await page.evaluate(() => new Promise((resolve) => {
       requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
     }));
     assert.ok(Math.abs(await angle() - angleHeldB) > 0.1, 'Dragging rotates the model.');
-    await page.mouse.up();
     assert.equal(await preview.getAttribute('data-mannequin-flicks'), '1',
       `A strong flick triggers the documented fallback animation (peak ${await preview.getAttribute('data-mannequin-peak')}).`);
     await page.waitForFunction(
@@ -234,6 +240,8 @@ try {
       () => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinShoot === 'idle',
       null, { timeout: 8000 });
     assert.equal(await preview.getAttribute('data-mannequin-shoot'), 'idle', 'The model returns into the viewport.');
+    assert.equal(await boundsBuilds(), boundsBeforeFlick,
+      `Der Flick baut keine neuen Scene-Bounds (${boundsBeforeFlick} -> ${await boundsBuilds()}).`);
 
     const figureCount = await page.locator('figure.project-image').count();
     assert.ok(figureCount >= mockupCount, `The tattoo mockups stay mounted (${figureCount} >= ${mockupCount}).`);

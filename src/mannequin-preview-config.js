@@ -86,15 +86,15 @@ export const mannequinPreviewConfig = Object.freeze({
     // Uebergang von Auto- (0.18) auf Hover-Drehung (0.55) auf rund 0.34 s,
     // damit die Figur beim Ueberfahren nicht schlagartig losdreht.
     maxAngularAcceleration: 1.1,
-    // Wischgeschwindigkeit pro Zieh-Ereignis (rad/s). Der Boden von 1/240 s
-    // schuetzt nur gegen Division durch 0; er ist bewusst kleiner als ein
-    // 240-Hz-Ereignisintervall, damit die gemessene Geschwindigkeit nicht von
-    // der Eingaberate abhaengt.
-    dragVelocityFloor: 1 / 240,
+    // Die Ziehgeschwindigkeit wird ueber ein Zeitfenster von 70 ms gemessen
+    // (Ringpuffer im Modul), nicht mehr pro Ereignis. Rund vier Frames bei
+    // 60 Hz: lang genug fuer ein ruhiges Signal, kurz genug fuer den Flick.
+    pointerWindowMs: 70,
     dragVelocityLimit: 8,
     // Zerfall des Spitzenwerts (Flick-Schwelle) in 1/s. 3.7125 = -ln(0.94)*60,
     // d. h. bei der Referenzframerate 60 Hz genau der alte Faktor 0.94 pro
-    // Frame — bei 144 Hz zerfaellt der Peak jetzt gleich schnell pro Sekunde.
+    // Frame. Der Zerfall laeuft pro Frame, nicht pro Pointer-Ereignis, damit
+    // eine 1000-Hz-Maus den Peak nicht 16-mal schneller abklingen laesst.
     peakDecayPerSecond: 3.7125,
     // Referenzframerate, auf die die Startwerte abgestimmt sind. Bei 60 Hz
     // bleibt das Verhalten unveraendert; andere Frameraten liefern dieselbe

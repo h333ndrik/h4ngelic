@@ -15,6 +15,10 @@ const easeOutCubic = (value) => 1 - (1 - value) ** 3;
 // laeuft ungekuerzt. Die Bewegung selbst rechnet in Sekunden, damit 30/60/144 Hz
 // dieselbe Drehung pro Sekunde ergeben.
 const MAX_FRAME_DELTA = 1 / 30;
+// Untergrenze fuer eine gemessene Zeitspanne — ausschliesslich Divisionsschutz.
+// Sie liegt unter dem kuerzesten real moeglichen Pointer-Intervall (1000-Hz-Maus
+// liefert alle 1 ms ein Ereignis) und glaettet daher nichts.
+const MIN_POINTER_DELTA = 1 / 2000;
 
 /**
  * Ein Renderer, drei austauschbare Modelle. Rotation, Drag-Traegheit und der
@@ -56,6 +60,17 @@ export function initMannequinPreview(container) {
   let visible = true;
 
   const buffers = new Map();
+  // Ringpuffer der letzten Zeigerpositionen (Zeitstempel + x) fuer die
+  // Geschwindigkeit ueber das Zeitfenster.
+  const pointerSamples = [];
+  let pointerSampleCount = 0;
+  let coalescedSampleCount = 0;
+  // Einmal gemessene Modell-Bounds; applyShoot transformiert nur diese Kopie.
+  const modelBounds = new THREE.Box3();
+  const shootBounds = new THREE.Box3();
+  let boundsBuilds = 0;
+  let shootFrameMs = 0;
+  let shootFrameMsAvg = 0;
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 20);
   const target = new THREE.Vector3(0, 0.85, 0);
@@ -115,12 +130,23 @@ export function initMannequinPreview(container) {
   const ktx2Loader = new KTX2Loader().setTranscoderPath(config.loaders.basis).detectSupport(renderer);
   const loader = new GLTFLoader().setDRACOLoader(dracoLoader).setKTX2Loader(ktx2Loader);
 
+  /**
+   * Scene-weite Bounds werden nur beim Laden und bei Resizes gebraucht. Jeder
+   * Aufruf wird gezaehlt (data-mannequin-bounds-builds), damit ein Rueckfall
+   * auf "Bounds pro Frame" in den Tests auffaellt.
+   */
+  function sceneBounds(object) {
+    boundsBuilds += 1;
+    setData('mannequinBoundsBuilds', boundsBuilds);
+    return new THREE.Box3().setFromObject(object);
+  }
+
   function fitCamera() {
     const width = Math.max(1, container.clientWidth);
     const height = Math.max(1, container.clientHeight);
     camera.aspect = width / height;
     if (modelRoot) {
-      const box = new THREE.Box3().setFromObject(modelRoot);
+      const box = sceneBounds(modelRoot);
       const sphere = box.getBoundingSphere(new THREE.Sphere());
       target.set(sphere.center.x, sphere.center.y, sphere.center.z);
       const verticalFov = THREE.MathUtils.degToRad(camera.fov);
@@ -155,8 +181,11 @@ export function initMannequinPreview(container) {
     const outEnd = shoot.outMs;
     const holdEnd = outEnd + shoot.holdMs;
     const backEnd = holdEnd + shoot.backMs;
-    const box = new THREE.Box3().setFromObject(pivot);
-    const height = Math.max(0.5, box.max.y - box.min.y);
+    // Nur die beim Laden gemessene Box mit der aktuellen Pivot-Matrix
+    // transformieren: kein Scene-Traversal und keine Allokation pro Frame.
+    pivot.updateWorldMatrix(false, false);
+    shootBounds.copy(modelBounds).applyMatrix4(pivot.matrixWorld);
+    const height = Math.max(0.5, shootBounds.max.y - shootBounds.min.y);
     let progress;
     let eased;
     if (elapsed < outEnd) {
@@ -192,7 +221,18 @@ export function initMannequinPreview(container) {
     view.lastTime = time;
     let animating = false;
 
-    if (view.shootStart) animating = applyShoot(time);
+    // Der Flick-Peak zerfaellt pro Frame, nicht pro Pointer-Ereignis: sonst
+    // klaenge er bei einer 1000-Hz-Maus 16-mal schneller ab als bei 60 Hz.
+    if (view.peakVelocity) view.peakVelocity *= Math.exp(-motion.peakDecayPerSecond * delta);
+
+    if (view.shootStart) {
+      const shootStarted = performance.now();
+      animating = applyShoot(time);
+      shootFrameMs = performance.now() - shootStarted;
+      shootFrameMsAvg = shootFrameMsAvg ? shootFrameMsAvg * 0.9 + shootFrameMs * 0.1 : shootFrameMs;
+      setData('mannequinShootMs', shootFrameMs.toFixed(4));
+      setData('mannequinShootAvgMs', shootFrameMsAvg.toFixed(4));
+    }
 
     if (!view.dragging) {
       const idle = time - view.lastInteraction > motion.idleDelay;
@@ -236,6 +276,63 @@ export function initMannequinPreview(container) {
     scheduleFrame();
   }
 
+  /**
+   * Positionen eines pointermove-Ereignisses. Browser buendeln mehrere
+   * Zwischenpositionen: `getCoalescedEvents` ist die einzige Quelle dafuer.
+   * Die API ist nicht ueberall vorhanden (HeadlessChrome 156 kennt sie nicht)
+   * und liefert fuer synthetische Ereignisse eine leere Liste — dann bleibt es
+   * bei der einen Position des Ereignisses (Fallback ohne Feature).
+   */
+  function pointerPoints(event, now) {
+    const coalesced = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : [];
+    if (!coalesced.length) return [{ t: now, x: event.clientX, coalesced: false }];
+    // Nur die Relativabstaende der Browser-Uhr zaehlen; der Anker ist die
+    // Ankunftszeit des Ereignisses (performance.now), damit beide Zeitbasen
+    // nicht vermischt werden.
+    const base = event.timeStamp;
+    const points = coalesced.map((sample) => ({
+      t: now - (base - sample.timeStamp),
+      x: sample.clientX,
+      coalesced: true,
+    }));
+    const last = points[points.length - 1];
+    if (last.x !== event.clientX) points.push({ t: now, x: event.clientX, coalesced: false });
+    return points;
+  }
+
+  function pushPointerPoint(point) {
+    pointerSamples.push(point);
+    const cutoff = point.t - motion.pointerWindowMs;
+    while (pointerSamples.length > 2 && pointerSamples[0].t < cutoff) pointerSamples.shift();
+    pointerSampleCount += 1;
+    setData('mannequinPointerSamples', pointerSampleCount);
+    if (point.coalesced) {
+      coalescedSampleCount += 1;
+      setData('mannequinCoalescedSamples', coalescedSampleCount);
+    }
+  }
+
+  /**
+   * Geschwindigkeit aus dem Zeitfenster statt aus einem einzelnen Ereignis:
+   * (Distanz im Fenster) / (Zeitspanne im Fenster). Damit haengt das Ergebnis
+   * nicht davon ab, wie oft der Zeiger Ereignisse liefert.
+   */
+  function windowVelocity(now) {
+    const cutoff = now - motion.pointerWindowMs;
+    const lastIndex = pointerSamples.length - 1;
+    // Ohne Allokation rueckwaerts bis zum aeltesten Sample im Fenster laufen:
+    // bei 1000 Hz sind das rund 70 Positionen pro Abfrage.
+    let firstIndex = lastIndex;
+    while (firstIndex > 0 && pointerSamples[firstIndex - 1].t >= cutoff) firstIndex -= 1;
+    if (firstIndex === lastIndex) return 0;
+    const first = pointerSamples[firstIndex];
+    const last = pointerSamples[lastIndex];
+    const span = (last.t - first.t) / 1000;
+    const pixelsPerSecond = (last.x - first.x) / Math.max(span, MIN_POINTER_DELTA);
+    return THREE.MathUtils.clamp(pixelsPerSecond * motion.dragSensitivity,
+      -motion.dragVelocityLimit, motion.dragVelocityLimit);
+  }
+
   function handlePointerDown(event) {
     if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
     view.dragging = true;
@@ -244,6 +341,12 @@ export function initMannequinPreview(container) {
     view.velocity = 0;
     view.peakVelocity = 0;
     view.lastInteraction = performance.now();
+    pointerSamples.length = 0;
+    pointerSampleCount = 0;
+    coalescedSampleCount = 0;
+    setData('mannequinPointerSamples', 0);
+    setData('mannequinCoalescedSamples', 0);
+    pushPointerPoint({ t: view.lastInteraction, x: event.clientX, coalesced: false });
     container.setPointerCapture?.(event.pointerId);
     container.dataset.mannequinDragging = 'true';
     wake();
@@ -251,24 +354,16 @@ export function initMannequinPreview(container) {
 
   function handlePointerMove(event) {
     if (!view.dragging || event.pointerId !== view.pointerId) return;
-    const deltaX = event.clientX - view.lastX;
-    view.lastX = event.clientX;
-    view.angle += deltaX * motion.dragSensitivity;
     const now = performance.now();
-    // Ziehgeschwindigkeit ist eine Groesse pro Sekunde: dx / echtes
-    // Ereignisintervall. Frueher stand hier ein Boden von 16 ms, dadurch las
-    // sich ein 144-Hz-Zeiger nur noch mit 60 % der wahren Geschwindigkeit und
-    // der Flick sprang je nach Bildrate unterschiedlich an.
-    const eventDelta = Math.max(motion.dragVelocityFloor, (now - view.lastInteraction) / 1000);
-    view.velocity = THREE.MathUtils.clamp((deltaX * motion.dragSensitivity) / eventDelta,
-      -motion.dragVelocityLimit, motion.dragVelocityLimit);
-    // Spitzenwert statt Momentwert: Browser koaleszieren pointermove-Events, der
-    // letzte Frame vor dem Loslassen hat oft deltaX 0. Der Zerfall laeuft pro
-    // Sekunde (peakDecayPerSecond), nicht pro Ereignis.
-    view.peakVelocity = Math.max(
-      view.peakVelocity * Math.exp(-motion.peakDecayPerSecond * eventDelta),
-      Math.abs(view.velocity),
-    );
+    for (const point of pointerPoints(event, now)) {
+      view.angle += (point.x - view.lastX) * motion.dragSensitivity;
+      view.lastX = point.x;
+      pushPointerPoint(point);
+    }
+    view.velocity = windowVelocity(now);
+    // Spitzenwert statt Momentwert: der letzte Frame vor dem Loslassen hat oft
+    // deltaX 0. Abklingen passiert pro Frame in tick().
+    view.peakVelocity = Math.max(view.peakVelocity, Math.abs(view.velocity));
     view.lastInteraction = now;
     setData('mannequinPeak', view.peakVelocity.toFixed(2));
     setData('mannequinMoves', Number(container.dataset.mannequinMoves || 0) + 1);
@@ -282,6 +377,9 @@ export function initMannequinPreview(container) {
     container.releasePointerCapture?.(event?.pointerId ?? 0);
     container.dataset.mannequinDragging = 'false';
     view.lastInteraction = performance.now();
+    // Auch beim Loslassen gilt nur das letzte Zeitfenster: wer vor dem
+    // Loslassen 70 ms stillgehalten hat, loest keinen Flick aus.
+    view.velocity = windowVelocity(view.lastInteraction);
     if (!reducedMotion.matches && view.peakVelocity > motion.flickVelocity) {
       view.velocity = 0;
       view.shootStart = performance.now();
@@ -403,6 +501,7 @@ export function initMannequinPreview(container) {
     modelRoot = null;
     baseMesh = null;
     activeVariant = null;
+    modelBounds.makeEmpty();
     if (decal) {
       pivot.remove(decal);
       decal.geometry.dispose();
@@ -476,11 +575,14 @@ export function initMannequinPreview(container) {
       });
       if (!baseMesh) throw new Error('The mannequin GLB contains no mesh.');
       // Ursprung mittig unter die Figur legen, damit die Y-Rotation nicht eiert.
-      const box = new THREE.Box3().setFromObject(root);
+      const box = sceneBounds(root);
       const center = box.getCenter(new THREE.Vector3());
       root.position.set(-center.x, -box.min.y, -center.z);
       pivot.add(root);
       modelRoot = root;
+      // Flick-Bounds einmal messen (Pivot-Koordinaten inkl. Ursprungs-Offset);
+      // applyShoot transformiert spaeter nur diese Kopie.
+      modelBounds.copy(box).translate(root.position);
       activeVariant = key;
       // Startblick je Variante (C: +Z-Front), Konstanten in der Config.
       view.angle = profile.initialYaw || 0;

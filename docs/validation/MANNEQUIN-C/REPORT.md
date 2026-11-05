@@ -863,3 +863,133 @@ geliefert und damit keinen Flick ausgeloest — der Test schlaegt dann fehl
 - Der reduced-motion-Pfad rendert weiterhin nur on demand; die neun
   pixelidentischen Frames aus M4e bleiben unveraendert (Suite-Assert).
 
+## M4g — Pointer-Rate & Box3
+
+### 1. Ausgangslage (vor jeder Aenderung)
+
+Stand `d40218d`:
+
+| Stelle | Code |
+| --- | --- |
+| `src/mannequin-preview.js:262` | `const eventDelta = Math.max(motion.dragVelocityFloor, (now - view.lastInteraction) / 1000);` |
+| `...:263` | `view.velocity = clamp((deltaX * 0.0075) / eventDelta, -8, 8)` |
+| `...:269` | `peak = max(peak * Math.exp(-3.7125 * eventDelta), abs(v))` |
+| `src/mannequin-preview-config.js:93` | `dragVelocityFloor: 1 / 240` (= 4,167 ms) |
+
+Fehlerrechnung fuer eine 1000-Hz-Maus (1 ms Ereignisabstand) bei 400 px/s:
+
+| Groesse | Wert |
+| --- | --- |
+| dx pro Ereignis | 400 px/s · 0,001 s = 0,4 px |
+| berechnete Geschwindigkeit | (0,4 · 0,0075) / 0,004167 = **0,72 rad/s** |
+| wahre Geschwindigkeit | 400 · 0,0075 = **3,00 rad/s** |
+| Unterschlagung | Faktor **4,17** |
+| Flick-Schwelle | 2,4 rad/s — wird nicht erreicht, also **kein Flick** |
+
+Der Boden war als Divisionsschutz gedacht, wirkte aber als Glaettung: je hoeher
+die Pollrate, desto kleiner dx und desto staerker die Unterschaetzung.
+
+### 2. Feature-Detection `getCoalescedEvents`
+
+Gemessen in der Testumgebung (HeadlessChrome 156, System-Chrome):
+
+| Pruefung | Ergebnis |
+| --- | --- |
+| `typeof PointerEvent.prototype.getCoalescedEvents` | `undefined` |
+| `typeof event.getCoalescedEvents` (vertrautes Ereignis) | `undefined`, Aufruf wirft `TypeError` |
+| `typeof PointerEvent.prototype.getPredictedEvents` | `function` |
+| eigenes `getCoalescedEvents` am Event-Objekt | zuweisbar (fuer den Testpfad) |
+
+Die API fehlt hier also vollstaendig. Der Code prueft deshalb
+`typeof event.getCoalescedEvents === 'function'` und faellt sonst auf die eine
+Position des Ereignisses zurueck — ohne Fehler, ohne Sonderpfad. Der
+Koaleszenz-Zweig wird separat geprueft: ein synthetisches `pointermove` bekommt
+im Test eine eigene `getCoalescedEvents()` mit drei Zwischenpositionen.
+
+### 3. Fixes
+
+| Vorher | Nachher |
+| --- | --- |
+| Geschwindigkeit pro Ereignis, Boden 4,167 ms | Ringpuffer der letzten Positionen, Geschwindigkeit ueber `pointerWindowMs = 70` |
+| `MIN_POINTER_DELTA` implizit 1/240 | `MIN_POINTER_DELTA = 1/2000` (0,5 ms), nur als Divisionsschutz |
+| Peak-Zerfall pro Ereignis | Peak-Zerfall pro Frame (`e^(-3.7125 · delta)` in `tick`) |
+| nur die Position des Ereignisses | `getCoalescedEvents()` mit relativen Zeitstempeln, sonst Einzelposition |
+| `applyShoot`: `new Box3().setFromObject(pivot)` pro Frame | `shootBounds.copy(modelBounds).applyMatrix4(pivot.matrixWorld)` |
+
+Details:
+
+- **Ringpuffer**: `pointerSamples` haelt Zeitstempel + x; bei jedem Sample werden
+  Positionen ausserhalb des Fensters verworfen (mindestens zwei bleiben stehen).
+  Die Fensterabfrage laeuft rueckwaerts ohne Array-Allokation, weil sie bei
+  1000 Hz rund 70 Positionen pro Ereignis sieht.
+- **Zeitstempel der Koaleszenz**: nur die Relativabstaende der Browser-Uhr werden
+  benutzt (`now - (event.timeStamp - sample.timeStamp)`), damit Ereignis- und
+  Frame-Uhr nicht vermischt werden.
+- **Loslassen**: `handlePointerUp` rechnet die Geschwindigkeit erneut ueber das
+  letzte Fenster. Wer vor dem Loslassen laenger als 70 ms stillhaelt, loest
+  keinen Flick mehr aus (bewusst; der Preview-Test wurde entsprechend auf
+  "loslassen waehrend der Bewegung" umgestellt).
+- **Bounds-Cache**: `modelBounds` wird beim Laden einmal gemessen
+  (`sceneBounds()` zaehlt jede Scene-Messung in `data-mannequin-bounds-builds`),
+  `applyShoot` transformiert nur noch die Kopie. `data-mannequin-shoot-ms` und
+  `data-mannequin-shoot-avg-ms` protokollieren die Dauer des Shoot-Schritts.
+
+### 4. Messreihe Pointer-Raten (`tests/mannequin-pointer-rate-browser.mjs`)
+
+Geste: 400 px/s, 300 ms, Frame-Takt 120 Hz, Uhr ohne Pumpe (Ereignisse in
+1-ms-Schritten, rAF nur an Framegrenzen).
+
+| Ereignisintervall | vorher (`d40218d`) | nachher | Flicks vorher | Flicks nachher |
+| --- | --- | --- | --- | --- |
+| 1 ms (1000 Hz) | **0,72 rad/s** | 3,00 rad/s | **0** | 1 |
+| 4,17 ms (240 Hz) | 3,00 rad/s | 3,00 rad/s | 1 | 1 |
+| 8 ms (125 Hz) | 3,00 rad/s | 3,00 rad/s | 1 | 1 |
+| 16 ms (62,5 Hz) | 3,00 rad/s | 3,00 rad/s | 1 | 1 |
+| Koaleszenz (3 Samples/Ereignis) | nicht geprueft | 3,00 rad/s (111 Samples) | — | 1 |
+
+Spanne nachher: **0,00 %** (alle Raten exakt 3,00 rad/s). Die Testreihe schlaegt
+auf `d40218d` mit `Every pointer rate must report 3.00 rad/s (0.72, 3.00, 3.00, 3.00)`
+fehl — der Nachweis, dass sie den Fehler greift. Rohdaten:
+`m4g-pointer-rate.json`, Repro: `npm run test:mannequin-pointer`.
+
+### 5. Frame-Zeit des Shoot-Schritts vorher/nachher
+
+Messung: ein Flick (echte Maus, 260 px in 8 Schritten), Zeit um `applyShoot`
+pro Frame; "vorher" in einer Wegwerf-Worktree-Kopie von `d40218d` mit denselben
+zwei `performance.now()`-Aufrufen, "nachher" im ausgelieferten Stand.
+
+| | Frames | min | median | max | Mittel |
+| --- | --- | --- | --- | --- | --- |
+| vorher (`Box3.setFromObject`) | 20 | 0,0 ms | 0,1 ms | 0,2 ms | 0,085 ms |
+| nachher (gecachte Box) | 22 | 0,0 ms | 0,1 ms | 0,2 ms | 0,064 ms |
+
+Ehrliches Ergebnis: Der Unterschied liegt in der Aufloesung von
+`performance.now()` (0,1 ms). Die Annahme "Box3 ueber 49.838 Tris pro Frame" war
+zu pessimistisch — three nutzt die bereits berechnete `geometry.boundingBox`,
+der Aufruf kostet also nicht die Vertex-Zahl. Der Fix bleibt trotzdem sinnvoll:
+keine Allokation und kein Traversal pro Frame, plus der Assert
+`data-mannequin-bounds-builds` bleibt waehrend des Flicks konstant (im
+Preview-Test geprueft).
+
+### 6. Tests
+
+| Pruefung | Ergebnis |
+| --- | --- |
+| `npm test` | 396/396 (3 M4f-Waechter erweitert, 1 neuer M4g-Waechter) |
+| `npm run test:mannequin-pointer` | PASS (1/4,17/8/16 ms, Koaleszenz, Spanne 0,00 %) |
+| `npm run test:mannequin-framerate` | PASS (t95 0,04 %, Winkel/s 0,16 %, Hover 0,02–0,03 %, Auto 0,07–0,11 %, Peak 0,00 %) |
+| `npm run test:mannequin-preview` | PASS (3 Viewports, Poster/Canvas, Transparenz, Hover ≤ 1 px, Reduced Motion, A/B 0×, A11y, Bounds-Assert) |
+| `npm run test:mannequin-entrance` | PASS (0 / 30 / 0 / 0) |
+| `npm run test:mannequin-variants-dev` | PASS |
+| `npm run test:seo` | PASS (18 Routen + 404, kalte Routen ohne Three.js) |
+| `npm run build` | 18 Routen + 404 |
+| `npm run verify:assets` | OK (457.000 B, `d76abc16…c06976`) |
+
+### 7. Offene Punkte
+
+- Der Koaleszenz-Pfad ist nur gegen ein synthetisches Ereignis mit
+  nachgebildeter API geprueft; in dieser Chrome-Version existiert die echte API
+  nicht, ein Geraetetest mit echter 1000-Hz-Maus steht aus.
+- Eine Pause > 70 ms vor dem Loslassen gilt nicht mehr als Flick. Falls sich das
+  im Gebrauch als zu streng erweist, ist `pointerWindowMs` die einzige Stellschraube.
+
