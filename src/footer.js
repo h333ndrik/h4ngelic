@@ -13,7 +13,7 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
   // B-F8: the counter is a quiet statement, not a control. It keeps the ghost
   // register of the HOLD-4 hint, stays permanently visible and owns no link,
   // button, hover or reveal behaviour of its own.
-  const counter = easterSettings.visits.showNumber ? `<span class="footer-visit" data-visit-count>
+  const counter = easterSettings.visits.showNumber ? `<span class="footer-visit row-item" data-visit-count>
       <span class="footer-visit-count" data-visit-number id="footer-visit-count">${formatVisitCount(1)}</span>
     </span>` : '';
   return `${home ? `<div class="footer-secret-space end-reveal" id="final-secret" data-footer-secret-space data-end-reveal>
@@ -34,16 +34,16 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
         <image href="/assets/h4-monogram.svg" width="615" height="1006" filter="url(#h4-end-relief)" />
       </svg><span class="end-reveal-material"></span></div>${hint}</div>` : ''}<footer class="page-footer exhibition-footer${home ? ' exhibition-footer-home' : ''}" data-artist-footer>
     <div class="footer-identity" data-footer-row>
-      <span class="footer-left" role="group" aria-label="artist, h4 moshlab and local visit count" tabindex="0">${[
-        `<span class="footer-brand">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>`,
-        `<a class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured">h4 moshlab ${arrow}</a>`,
+      <span class="footer-left" data-row="cluster" data-row-id="footer-left" role="group" aria-label="artist, h4 moshlab and local visit count" tabindex="0">${[
+        `<span class="footer-brand row-item">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>`,
+        `<a class="footer-moshlab row-item" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured">h4 moshlab ${arrow}</a>`,
         counter,
       ].join('')}</span>
-      <span class="footer-details" role="group" aria-label="footer links, scroll horizontally when needed" tabindex="0">${[
+      <span class="footer-details" data-row="cluster" data-row-id="footer-details" role="group" aria-label="footer links, scroll horizontally when needed" tabindex="0">${[
         '<span data-smash-slot></span>',
-        instagram ? `<a class="footer-instagram" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : '',
-        '<a class="footer-impressum" href="/impressum">impressum</a>',
-        `<span class="footer-location">${escape(siteContent.location)}</span>`,
+        instagram ? `<a class="footer-instagram row-item" href="${escape(instagram)}" target="_blank" rel="noopener noreferrer">instagram ${arrow}</a>` : '',
+        '<a class="footer-impressum row-item" href="/impressum">impressum</a>',
+        `<span class="footer-location row-item">${escape(siteContent.location)}</span>`,
         '<span data-other-side-imprint-slot></span>',
       ].join('')}</span>
     </div>
