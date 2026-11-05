@@ -1,4 +1,18 @@
-# V3.2-M3 — Optik: AO in der Albedo — 2026-11-05
+# V3.2-M4i — Finalisierung (merge-bereit) — 2026-11-05
+
+- Einziges ausgeliefertes C-Asset: `public/models/mannequin-c.d76abc164512.glb`,
+  457.000 B, SHA-256 `d76abc1645120eb2…fbd71fb`, 49.838 Tris. `npm run verify:assets`
+  prueft genau diese Werte gegen `docs/validation/MANNEQUIN-C/asset-manifest.json`.
+- Viewer: nur C sichtbar (A/B dev-only), Poster ist ein echtes Renderer-Bild,
+  Rotation 0,18 rad/s, Hover 0,55 rad/s, Flick-Schwelle 2,4 rad/s (Peak ~3,00
+  rad/s bei 1/4,17/8/16 ms Pointer-Intervall), deltaTime-Clamp 1/30.
+- Suiten: `npm test` 396/396, Preview-, Einfahrts-, Framerate-, Pointer- und
+  Dev-Varianten-Suite, SEO 18 Routen + 404, Build 18 Routen + 404.
+- Offen (nur Nutzer): iPad-Roundtrip, Koaleszenz auf echter Hardware,
+  Freigabe fuer `vercel.json`, Merge-Entscheidung. Details:
+  `docs/validation/MANNEQUIN-C/REPORT.md`, Abschnitt M4i.
+
+# V3.2-M3 — Optik: AO in der Albedo — 2026-11-05 (historisch: das 2048er-Asset wurde in M4c/M4e ersetzt)
 
 - Variante C hat die weiche Studioschattierung zurueck: AO (Distanz 0.18
   Szeneneinheiten ≈ 6 cm, Staerke 0.35, 2048) ist in die Albedo gebacken,

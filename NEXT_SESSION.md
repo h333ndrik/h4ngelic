@@ -1,4 +1,28 @@
-# V3.2-M3 checkpoint — Optik (AO in der Albedo)
+# V3.2-M4i checkpoint — merge-bereit
+
+Updated 2026-11-05. Branch `v3.2-mannequin-female`.
+
+## Status
+
+- [x] Einziges ausgeliefertes C-Asset: `public/models/mannequin-c.d76abc164512.glb`
+      (457.000 B, SHA-256 `d76abc1645120eb2…fbd71fb`, 49.838 Tris), `verify:assets` gruen.
+- [x] deltaTime-Audit (M4f) und Pointer-Rate/Box3 (M4g) abgeschlossen; Push und
+      Probe-Merge dokumentiert (M4h).
+- [x] Suiten: `npm test` 396/396, Preview (3 Viewports), Einfahrt, Framerate
+      (30/60/144 Hz), Pointer-Raten, Dev-Varianten, SEO 18 Routen + 404,
+      Build 18 Routen + 404.
+
+## Naechster Schritt
+
+1. Merge-Entscheidung durch den Nutzer (kein Merge in diesem Lauf).
+2. Vor dem Merge: Probe-Merge gegen den dann aktuellen `origin/main` wiederholen
+   (drei bekannte Dokumentkonflikte, siehe REPORT.md §M4h/M4i).
+3. Manuelle Restpunkte: iPad-Roundtrip (Procreate), Koaleszenz-Test auf Hardware
+   mit hoher Polling-Rate, Freigabe fuer `vercel.json`.
+
+---
+
+# V3.2-M3 checkpoint — Optik (AO in der Albedo) — historisch, durch M4c/M4e ersetzt
 
 Updated 2026-11-05. Branch `v3.2-mannequin-female`.
 

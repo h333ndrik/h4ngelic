@@ -1051,7 +1051,7 @@ Konfliktdateien — reine Dokumentation/Konfiguration, kein Quellcode, kein Asse
 | Datei | Hunk | Konfliktmarker | Einschaetzung (nicht aufgeloest) |
 | --- | --- | --- | --- |
 | `.gitignore` | `@@@ -152,8 -152,5 +152,13 @@@` | Zeilen 155/161/164 | Beide Seiten haengen unabhaengige Bloecke an: main `work/` + `masters/` (Audio-Master), wir `__pycache__/`. Beide behalten. |
-| `NEXT_SESSION.md` | `@@@ -1,118 -1,239 +1,185 @@@` | Zeilen 1/3/68 | Beide Seiten stellen einen neuen Checkpoint oben voran. Beide behalten, chronologisch; unser Text nennt noch `mannequin-c.d9edb0e4d7b0.glb` und muss auf `d76abc164512` korrigiert werden. |
+| `NEXT_SESSION.md` | `@@@ -1,118 -1,239 +1,185 @@@` | Zeilen 1/3/68 | Beide Seiten stellen einen neuen Checkpoint oben voran. Beide behalten, chronologisch; unser Text nannte noch das 2048er-Asset und wurde in M4i auf `d76abc164512` korrigiert. |
 | `PROJECT_PROGRESS.md` | `@@@ -1,139 -1,61 +1,200 @@@` | Zeilen 1/138/197 | Gleiches Muster (neuer Abschnitt oben). Beide behalten. |
 
 Gegenprobe ohne Worktree: `git merge-tree --write-tree origin/main v3.2-mannequin-female`
