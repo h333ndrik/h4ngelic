@@ -1,6 +1,6 @@
 # B-F19 — Logo-Cursor an NAAVI, Footer-Cluster und Rubrikleiste
 
-Stand: `v3.1.1-fixes`, Vorher-Build `736e71d`, Nachher-Build `b63896f`. Kein Merge, kein Deploy.
+Stand: `v3.1.1-fixes`, Vorher-Build `736e71d`, Nachher-Build `3809a63`. Kein Merge, kein Deploy.
 Diagnose und Nachmessung in `phase0-before.json` / `phase0-after.json`, Hit-Test in `hit/hit-results.json`.
 
 ## Befund
@@ -62,7 +62,7 @@ Hotspot `8 2`, gleiche Fallback-Kette. Nur die gewinnende Regel und ihr `!import
 | 1 Basis | `html body *` (+ `html:root body *` gegen später eingefügte gleich spezifische Regeln) | 0,0,3 / 0,1,1 | `--h4-cursor` |
 | 2 interaktiv | `html body :is(a[href], a, button, summary, [role='button'], input, select, textarea, label, canvas)` | 0,1,3 | `--h4-cursor-interactive` |
 | 3 pressed | …`:active` | 0,2,3 | `--h4-cursor-pressed` |
-| 4 xray | `html[data-mode='xray'] body *` (+ `:is(…)`-Variante) | 0,1,3 | `--h4-cursor-xray` |
+| 4 xray | `html[data-mode='xray']`, `html[data-mode='xray'] body *` (+ `:is(…)`-Variante) | 0,1,1 / 0,1,3 | `--h4-cursor-xray` |
 | 5 xray pressed | …`:active` | 0,3,3 | `--h4-cursor-xray-pressed` |
 
 `!important` ist im Code kommentiert: bei nativem Cursor gibt es kein JS-Sicherheitsnetz, die Cascade ist die Garantie.
@@ -143,3 +143,15 @@ Das ist hier **nicht** gebaut — Vorschlag, keine Umsetzung.
 2. NAAVI (`04/ 04` inklusive `/`) und die Rubrikleiste (`tattoos · jewellery · tools · more`) abfahren.
 3. Konsole: `getComputedStyle(document.querySelector('.footer-moshlab')).cursor` →
    `url("…/h4ngelic-cursor.svg") 8 2, url("…/h4ngelic-cursor.png") 8 2, pointer`.
+
+## Nachbesserung während der Verifikation
+
+Der erste Durchlauf des gehärteten Hit-Tests fand in Xray einen echten Restfall:
+am Punkt `12,12` ist das oberste Element `<html>` selbst, und die Xray-Ebene
+begann bei `html[data-mode='xray'] body`. Dort gewann die Basis (`html`) mit dem
+normalen Sprite. Fix: `html[data-mode='xray']` steht jetzt mit in Ebene 4
+(`src/cursor.css`). Zweiter Fund: die Gewinner-Probe bewertete eine
+Selector-Liste mit der Spezifität ihres *stärksten* Mitglieds; sie zählt jetzt
+nur die Mitglieder, die das Element wirklich matchen
+(`tests/helpers/cursor-cascade.mjs`). Beides ist im zweiten Hit-Test-Lauf
+(6 Profile, Xray 2221 Punkte) grün.
