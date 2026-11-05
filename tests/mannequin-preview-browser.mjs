@@ -189,6 +189,82 @@ try {
         `Poster and canvas share the ${edge} (${presentation.poster[edge]} vs ${presentation.canvas[edge]}).`);
     }
 
+    // Bedienhinweis und Zeigerform (M4i): einmal sichtbar, absolut positioniert
+    // (kein Layout-Shift), nach der ersten Geste weg.
+    const gesture = await page.evaluate(() => {
+      const frame = document.querySelector('[data-mannequin-preview]');
+      const hint = frame.querySelector('[data-mannequin-gesture]');
+      const figure = frame.closest('.mannequin-preview');
+      const style = getComputedStyle(hint);
+      const before = figure.getBoundingClientRect().height;
+      frame.dataset.mannequinHint = 'off';
+      const withoutHint = figure.getBoundingClientRect().height;
+      frame.dataset.mannequinHint = 'on';
+      const withHint = figure.getBoundingClientRect().height;
+      return {
+        text: hint.textContent.trim(),
+        attribute: frame.dataset.mannequinHint,
+        cursor: getComputedStyle(frame).cursor,
+        position: style.position,
+        pointerEvents: style.pointerEvents,
+        opacity: Number(style.opacity),
+        ariaHidden: hint.getAttribute('aria-hidden'),
+        before, withoutHint, withHint,
+      };
+    });
+    assert.equal(gesture.text, 'drag to turn');
+    assert.equal(gesture.attribute, 'on', 'Der Hinweis ist beim ersten Sichtbarwerden an.');
+    // Zeigerform: auf feinen Zeigern gewinnt der globale h4-Cursor
+    // (src/cursor.css, F18, !important); ohne Hover/feinen Zeiger greift die
+    // lokale Regel und es bleibt bei grab/grabbing. Beides wird geprueft.
+    if (width >= 600) {
+      assert.match(gesture.cursor, /h4ngelic-cursor/, `Der Rahmen behaelt den h4-Cursor (${gesture.cursor}).`);
+    } else {
+      assert.equal(gesture.cursor, 'grab', `Ohne feinen Zeiger zeigt der Rahmen die Greifhand (${gesture.cursor}).`);
+    }
+    assert.equal(gesture.position, 'absolute', 'Der Hinweis liegt ueber dem Rahmen, nicht im Fluss.');
+    assert.equal(gesture.pointerEvents, 'none', 'Der Hinweis blockiert keine Zeigerereignisse.');
+    assert.equal(gesture.opacity, 1);
+    assert.equal(gesture.ariaHidden, 'true', 'Der Hinweis bleibt fuer Screenreader unsichtbar (sr-only Hilfe deckt die Bedienung).');
+    assert.ok(Math.abs(gesture.withHint - gesture.withoutHint) < 0.5 && Math.abs(gesture.before - gesture.withHint) < 0.5,
+      `Der Hinweis verschiebt kein Layout (${gesture.withoutHint} / ${gesture.withHint}).`);
+
+    // Erste Geste: Hinweis weg, Zeiger wird zur Faust, Winkel unveraendert.
+    const afterFirstGesture = await page.evaluate(() => {
+      const frame = document.querySelector('[data-mannequin-preview]');
+      frame.setPointerCapture = () => {};
+      frame.releasePointerCapture = () => {};
+      const angleBefore = Number(frame.dataset.mannequinAngle);
+      const box = frame.getBoundingClientRect();
+      const options = { bubbles: true, pointerId: 31, isPrimary: true, pointerType: 'mouse', button: 0, buttons: 1, clientX: box.left + 20, clientY: box.top + 20 };
+      frame.dispatchEvent(new PointerEvent('pointerdown', options));
+      const cursorWhileDragging = getComputedStyle(frame).cursor;
+      frame.dispatchEvent(new PointerEvent('pointerup', { ...options, buttons: 0 }));
+      // Stub entfernen: die echten Gesten brauchen wieder Pointer-Capture,
+      // sonst landet das Loslassen ausserhalb des Rahmens (schmale Viewports).
+      delete frame.setPointerCapture;
+      delete frame.releasePointerCapture;
+      return {
+        hint: frame.dataset.mannequinHint,
+        opacity: Number(getComputedStyle(frame.querySelector('[data-mannequin-gesture]')).opacity),
+        cursorWhileDragging,
+        cursorAfter: getComputedStyle(frame).cursor,
+        angleBefore,
+        angleAfter: Number(frame.dataset.mannequinAngle),
+      };
+    });
+    assert.equal(afterFirstGesture.hint, 'off', 'Die erste Geste blendet den Hinweis aus.');
+    if (width >= 600) {
+      assert.match(afterFirstGesture.cursorWhileDragging, /h4ngelic-cursor/,
+        'Auch waehrend des Ziehens bleibt der eine h4-Cursor (F18, kein Wechsel).');
+    } else {
+      assert.equal(afterFirstGesture.cursorWhileDragging, 'grabbing',
+        'Waehrend des Ziehens wird aus der Greifhand die Faust.');
+    }
+    assert.equal(afterFirstGesture.cursorAfter, gesture.cursor, 'Nach dem Loslassen gilt wieder die Ausgangsform.');
+    assert.ok(Math.abs(afterFirstGesture.angleAfter - afterFirstGesture.angleBefore) < 0.02,
+      'Ein Klick ohne Bewegung dreht das Modell nicht.');
+
     const designButton = page.locator('[data-mannequin-design-toggle]');
     assert.equal(await designButton.isEnabled(), false, 'C disables the demo design.');
     assert.equal(await designButton.getAttribute('aria-disabled'), 'true');

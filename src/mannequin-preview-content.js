@@ -25,6 +25,10 @@ export function renderMannequinPreview() {
         <source type="image/webp" srcset="/images/mannequin-poster-wide-2e2cce6c.webp" width="2740" height="1442">
         <img src="/images/mannequin-poster-wide-20c3b7b4.png" alt="" width="2740" height="1442" decoding="async">
       </picture>
+      <!-- Dezenter Bedienhinweis beim ersten Sichtbarwerden; absolut
+           positioniert (kein Layout-Shift), nach der ersten Geste weg.
+           aria-hidden: die sr-only Hilfe unten beschreibt dieselbe Bedienung. -->
+      <span class="mannequin-preview-gesture" data-mannequin-gesture aria-hidden="true">drag to turn</span>
     </div>
     <!-- Ausserhalb von role="img": ein Bild-Role macht seine Kinder zu
          presentational, dann waere die Live-Region fuer Screenreader weg. -->

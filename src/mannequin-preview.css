@@ -36,8 +36,35 @@
 .mannequin-preview-frame[data-mannequin-state='disposed'] .mannequin-preview-poster {
   opacity: 0;
 }
+/* Zeigerform: grab/grabbing waeren hier die naheliegende Affordanz, aber die
+   Seite hat EIN natives Cursor-Bild pro Modus (src/cursor.css, F18, mit
+   !important auf html body *). Diese beiden Regeln greifen deshalb nicht und
+   stehen nur als dokumentierte Absicht. Die Affordanz liefert der
+   Bedienhinweis unten; Abweichung in REPORT.md §M4i. */
 .mannequin-preview-frame { touch-action: pan-y; cursor: grab; }
 .mannequin-preview-frame[data-mannequin-dragging='true'] { cursor: grabbing; }
+/* Bedienhinweis: erscheint einmal beim ersten Sichtbarwerden, liegt absolut
+   ueber dem Rahmen (kein Layout-Shift) und verschwindet nach der ersten Geste
+   oder nach fuenf Sekunden. Zeigereignisse gehen durch. */
+.mannequin-preview-gesture {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(10px, 2.2vw, 20px);
+  z-index: 2;
+  transform: translateX(-50%);
+  margin: 0;
+  color: rgba(236, 236, 232, .82);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.mannequin-preview-frame[data-mannequin-hint='on'] .mannequin-preview-gesture { opacity: 1; }
+.mannequin-preview-frame[data-mannequin-state='disposed'] .mannequin-preview-gesture { opacity: 0; }
 .mannequin-preview-canvas {
   position: absolute;
   inset: 0;
@@ -103,4 +130,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .mannequin-preview-poster { transition: none; }
+  /* Hinweis bleibt sichtbar, blendet aber nicht: harter Wechsel. */
+  .mannequin-preview-gesture { transition: none; }
 }

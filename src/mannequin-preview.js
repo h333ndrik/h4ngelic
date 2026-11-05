@@ -41,6 +41,7 @@ export function initMannequinPreview(container) {
   const designButton = figure?.querySelector('[data-mannequin-design-toggle]');
   const captionStatus = figure?.querySelector('.mannequin-preview-status');
   const designHint = figure?.querySelector('[data-mannequin-design-hint]');
+  const gestureHint = figure?.querySelector('[data-mannequin-gesture]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   let disposed = false;
@@ -71,6 +72,7 @@ export function initMannequinPreview(container) {
   });
   let pointerSampleCount = 0;
   let coalescedSampleCount = 0;
+  let hintTimer = 0;
   // Einmal gemessene Modell-Bounds; applyShoot transformiert nur diese Kopie.
   const modelBounds = new THREE.Box3();
   const shootBounds = new THREE.Box3();
@@ -282,6 +284,21 @@ export function initMannequinPreview(container) {
     scheduleFrame();
   }
 
+  /** Bedienhinweis einmal zeigen; danach nie wieder (auch nicht nach Reload). */
+  function showGestureHint() {
+    if (!gestureHint || gestureHint.dataset.shown) return;
+    gestureHint.dataset.shown = 'true';
+    container.dataset.mannequinHint = 'on';
+    hintTimer = window.setTimeout(hideGestureHint, 5000);
+  }
+
+  function hideGestureHint() {
+    if (!gestureHint || container.dataset.mannequinHint === 'off') return;
+    container.dataset.mannequinHint = 'off';
+    if (hintTimer) window.clearTimeout(hintTimer);
+    hintTimer = 0;
+  }
+
   /**
    * Positionen eines pointermove-Ereignisses. Browser buendeln mehrere
    * Zwischenpositionen: `getCoalescedEvents` ist die einzige Quelle dafuer.
@@ -329,6 +346,7 @@ export function initMannequinPreview(container) {
     view.velocity = 0;
     view.peakVelocity = 0;
     view.lastInteraction = performance.now();
+    hideGestureHint();
     pointerSampleCount = 0;
     coalescedSampleCount = 0;
     setData('mannequinPointerSamples', 0);
@@ -404,6 +422,7 @@ export function initMannequinPreview(container) {
     const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
     if (step) {
       event.preventDefault();
+      hideGestureHint();
       view.keyDirection = step;
       // Erster Druck = ein messbarer 15-Grad-Schritt; Wiederholungen nicht
       // noch einmal, sonst rast die Figur bei gehaltener Taste.
@@ -472,7 +491,10 @@ export function initMannequinPreview(container) {
   const visibilityObserver = typeof IntersectionObserver === 'function'
     ? new IntersectionObserver((entries) => {
       visible = entries.some((entry) => entry.isIntersecting);
-      if (visible) wake();
+      if (visible) {
+        showGestureHint();
+        wake();
+      }
     }, { threshold: 0 })
     : null;
   visibilityObserver?.observe(container);
@@ -678,6 +700,8 @@ export function initMannequinPreview(container) {
     disposed = true;
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
+    if (hintTimer) window.clearTimeout(hintTimer);
+    hintTimer = 0;
     resizeObserver.disconnect();
     visibilityObserver?.disconnect();
     reducedMotion.removeEventListener?.('change', onMotionPreference);
