@@ -1,5 +1,5 @@
 {
-  "build": "4b9ce9a3fae4",
+  "build": "57ff1e3c7c45",
   "profiles": [
     {
       "width": 1440,
@@ -13,19 +13,19 @@
           "width": 399.984375
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": 86.4,
           "lineHeight": 93.312,
           "tracking": -3.888,
-          "top": 1690.34375,
-          "width": 526.75
+          "top": 1679.265625,
+          "width": 325.34375
         },
         {
           "text": "03/ contact",
           "fontSize": 86.4,
           "lineHeight": 93.312,
           "tracking": -3.888,
-          "top": 2335.078125,
+          "top": 2324,
           "width": 379.921875
         }
       ]
@@ -42,19 +42,19 @@
           "width": 148.15625
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": 32,
           "lineHeight": 34.56,
           "tracking": -1.44,
-          "top": 1382.546875,
-          "width": 195.09375
+          "top": 1391.546875,
+          "width": 120.5
         },
         {
           "text": "03/ contact",
           "fontSize": 32,
           "lineHeight": 34.56,
           "tracking": -1.44,
-          "top": 1768.59375,
+          "top": 1777.59375,
           "width": 140.71875
         }
       ]
@@ -71,19 +71,19 @@
           "width": 148.15625
         },
         {
-          "text": "02/ more about",
+          "text": "02/ about",
           "fontSize": 32,
           "lineHeight": 34.56,
           "tracking": -1.44,
-          "top": 1364.546875,
-          "width": 195.09375
+          "top": 1373.546875,
+          "width": 120.49999237060547
         },
         {
           "text": "03/ contact",
           "fontSize": 32,
           "lineHeight": 34.56,
           "tracking": -1.44,
-          "top": 1785.09375,
+          "top": 1794.09375,
           "width": 140.71875
         }
       ]

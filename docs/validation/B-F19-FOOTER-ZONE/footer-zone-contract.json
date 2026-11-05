@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-05T20:54:25.903Z",
+  "checkedAt": "2026-11-05T21:18:24.182Z",
   "base": "http://127.0.0.1:55241",
   "build": "57ff1e3c7c45",
   "guard": "a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable=\"true\"],[role=\"button\"],[role=\"link\"],[role=\"checkbox\"],[role=\"switch\"],[role=\"radio\"],[role=\"tab\"],[role=\"menuitem\"],[role=\"combobox\"],[role=\"slider\"],[role=\"spinbutton\"],[contenteditable]:not([contenteditable=\"false\"]),[tabindex]:not([tabindex=\"-1\"]):not([role=\"group\"]),[aria-disabled=\"true\"],.is-unconfigured,[data-no-ink]",
@@ -15,10 +15,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 100.07,
-              "top": 883,
-              "width": 65.87,
-              "height": 65.87,
+              "left": 105.2,
+              "top": 888.13,
+              "width": 55.61,
+              "height": 55.61,
               "opacity": "0.8",
               "visible": true
             }
@@ -32,18 +32,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 97.1,
-              "top": 880.03,
-              "width": 71.81,
-              "height": 71.81,
+              "left": 100.91,
+              "top": 883.85,
+              "width": 64.18,
+              "height": 64.18,
               "opacity": "0.8",
               "visible": true
             },
             {
-              "left": 1280.08,
-              "top": 876.19,
-              "width": 79.5,
-              "height": 79.5,
+              "left": 1283.9,
+              "top": 880.01,
+              "width": 71.85,
+              "height": 71.85,
               "opacity": "0.8",
               "visible": true
             }
@@ -188,10 +188,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 66.77,
-              "top": 770.43,
-              "width": 78.46,
-              "height": 78.46,
+              "left": 72.69,
+              "top": 776.34,
+              "width": 66.63,
+              "height": 66.63,
               "opacity": "0.8",
               "visible": true
             }
@@ -205,18 +205,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 63.21,
-              "top": 766.86,
-              "width": 85.59,
-              "height": 85.59,
+              "left": 69.42,
+              "top": 773.07,
+              "width": 73.17,
+              "height": 73.17,
               "opacity": "0.8",
               "visible": true
             },
             {
-              "left": 271.64,
-              "top": 768.29,
-              "width": 82.73,
-              "height": 82.73,
+              "left": 285.13,
+              "top": 781.79,
+              "width": 55.74,
+              "height": 55.74,
               "opacity": "0.8",
               "visible": true
             }
@@ -361,10 +361,10 @@
           "after": 1,
           "marks": [
             {
-              "left": 63.29,
-              "top": 767.61,
-              "width": 85.43,
-              "height": 85.43,
+              "left": 72.68,
+              "top": 777.01,
+              "width": 66.64,
+              "height": 66.64,
               "opacity": "0.8",
               "visible": true
             }
@@ -378,18 +378,18 @@
           "after": 2,
           "marks": [
             {
-              "left": 59.38,
-              "top": 763.71,
-              "width": 93.24,
-              "height": 93.24,
+              "left": 69.5,
+              "top": 773.83,
+              "width": 73,
+              "height": 73,
               "opacity": "0.8",
               "visible": true
             },
             {
-              "left": 247.9,
-              "top": 780.23,
-              "width": 60.2,
-              "height": 60.2,
+              "left": 232.24,
+              "top": 764.57,
+              "width": 91.52,
+              "height": 91.52,
               "opacity": "0.8",
               "visible": true
             }

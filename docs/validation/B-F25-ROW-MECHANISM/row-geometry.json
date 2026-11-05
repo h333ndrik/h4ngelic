@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-05T20:03:47.529Z",
-  "base": "http://127.0.0.1:55235",
-  "build": "19a0ea15b37c",
+  "checkedAt": "2026-11-05T21:55:53.054Z",
+  "base": "http://127.0.0.1:55241",
+  "build": "57ff1e3c7c45",
   "profiles": [
     {
       "width": 1440,
@@ -34,7 +34,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            28.8,
             28.8
           ],
           "baselineSpread": 0
@@ -65,7 +64,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            28.8,
             28.8
           ],
           "baselineSpread": 0
@@ -96,7 +94,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            28.8,
             28.8
           ],
           "baselineSpread": 0
@@ -138,7 +135,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            28.8,
             28.8
           ],
           "baselineSpread": 0
@@ -175,7 +171,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            12,
             12
           ],
           "baselineSpread": 0
@@ -206,7 +201,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            12,
             12
           ],
           "baselineSpread": 0
@@ -237,7 +231,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            12,
             12
           ],
           "baselineSpread": 0
@@ -278,7 +271,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            12,
             12
           ],
           "baselineSpread": 0
@@ -315,7 +307,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            12,
             12
           ],
           "baselineSpread": 0
@@ -346,7 +337,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            12,
             12
           ],
           "baselineSpread": 0
@@ -377,7 +367,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            12,
             12
           ],
           "baselineSpread": 0
@@ -418,7 +407,6 @@
           "type": "C",
           "lines": 1,
           "gaps": [
-            12,
             12
           ],
           "baselineSpread": 0

@@ -1,0 +1,26 @@
+{
+  "phase": "before6",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-05T21:42:07.120Z",
+  "results": [
+    {
+      "suite": "standalone-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 43534,
+      "passLine": "PASS standalone 320px: one-second native touch entry, ignored reverse 4 and triple-3 return, temporary faint hint, lower hero mute, permanent left-cluster visit, four-entry INDEX, eight real photos, Home Contact, zero HTTP requests/runtime errors.",
+      "failLine": ""
+    },
+    {
+      "suite": "standalone-native-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10482,
+      "passLine": "",
+      "failLine": ""
+    }
+  ]
+}

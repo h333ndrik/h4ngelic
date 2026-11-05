@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-11-04T22:49:13.715Z",
-  "build": "d165b340b00e",
+  "checkedAt": "2026-11-05T21:22:54.112Z",
+  "build": "57ff1e3c7c45",
   "profiles": [
     {
       "width": 1440,
@@ -8,17 +8,17 @@
         {
           "text": "tattoos",
           "cell": {
-            "width": 310,
-            "height": 257
+            "width": 240,
+            "height": 246
           },
           "visual": {
             "left": 123,
-            "right": 399,
-            "height": 84
+            "right": 363,
+            "height": 73
           },
           "arrow": {
-            "left": 345,
-            "right": 399
+            "left": 316,
+            "right": 363
           },
           "textHit": {
             "isSameLink": true,
@@ -69,17 +69,17 @@
         {
           "text": "jewellery",
           "cell": {
-            "width": 310,
-            "height": 257
+            "width": 291,
+            "height": 246
           },
           "visual": {
-            "left": 453,
-            "right": 789,
-            "height": 84
+            "left": 454,
+            "right": 745,
+            "height": 73
           },
           "arrow": {
-            "left": 735,
-            "right": 789
+            "left": 699,
+            "right": 745
           },
           "textHit": {
             "isSameLink": true,
@@ -99,7 +99,7 @@
           "rightBeyond": {
             "isSameLink": false,
             "sameVisual": false,
-            "owner": "tools"
+            "owner": null
           },
           "up20": {
             "isSameLink": true,
@@ -130,17 +130,17 @@
         {
           "text": "tools",
           "cell": {
-            "width": 310,
-            "height": 257
+            "width": 188,
+            "height": 246
           },
           "visual": {
-            "left": 782,
-            "right": 999,
-            "height": 84
+            "left": 837,
+            "right": 1024,
+            "height": 73
           },
           "arrow": {
-            "left": 945,
-            "right": 999
+            "left": 977,
+            "right": 1024
           },
           "textHit": {
             "isSameLink": true,
@@ -180,7 +180,7 @@
           "deadLeft": {
             "isSameLink": false,
             "sameVisual": false,
-            "owner": "jewellery"
+            "owner": null
           },
           "deadTop": {
             "isSameLink": false,
@@ -191,17 +191,17 @@
         {
           "text": "more",
           "cell": {
-            "width": 310,
-            "height": 257
+            "width": 201,
+            "height": 246
           },
           "visual": {
-            "left": 1112,
-            "right": 1344,
-            "height": 84
+            "left": 1115,
+            "right": 1317,
+            "height": 73
           },
           "arrow": {
-            "left": 1290,
-            "right": 1344
+            "left": 1270,
+            "right": 1317
           },
           "textHit": {
             "isSameLink": true,
@@ -263,17 +263,17 @@
         {
           "text": "tattoos",
           "cell": {
-            "width": 154,
+            "width": 65,
             "height": 117
           },
           "visual": {
             "left": 55,
-            "right": 134,
-            "height": 23
+            "right": 120,
+            "height": 18
           },
           "arrow": {
-            "left": 120,
-            "right": 134
+            "left": 109,
+            "right": 120
           },
           "textHit": {
             "isSameLink": true,
@@ -324,17 +324,17 @@
         {
           "text": "jewellery",
           "cell": {
-            "width": 154,
+            "width": 78,
             "height": 117
           },
           "visual": {
-            "left": 219,
-            "right": 315,
-            "height": 23
+            "left": 258,
+            "right": 336,
+            "height": 18
           },
           "arrow": {
-            "left": 300,
-            "right": 315
+            "left": 324,
+            "right": 336
           },
           "textHit": {
             "isSameLink": true,
@@ -385,17 +385,17 @@
         {
           "text": "tools",
           "cell": {
-            "width": 154,
+            "width": 52,
             "height": 117
           },
           "visual": {
             "left": 55,
-            "right": 118,
-            "height": 23
+            "right": 107,
+            "height": 18
           },
           "arrow": {
-            "left": 104,
-            "right": 118
+            "left": 96,
+            "right": 107
           },
           "textHit": {
             "isSameLink": true,
@@ -446,17 +446,17 @@
         {
           "text": "more",
           "cell": {
-            "width": 154,
+            "width": 56,
             "height": 117
           },
           "visual": {
-            "left": 219,
-            "right": 286,
-            "height": 23
+            "left": 280,
+            "right": 336,
+            "height": 18
           },
           "arrow": {
-            "left": 272,
-            "right": 286
+            "left": 324,
+            "right": 336
           },
           "textHit": {
             "isSameLink": true,
@@ -518,17 +518,17 @@
         {
           "text": "tattoos",
           "cell": {
-            "width": 119,
+            "width": 56,
             "height": 108
           },
           "visual": {
             "left": 55,
-            "right": 127,
-            "height": 20
+            "right": 111,
+            "height": 15
           },
           "arrow": {
-            "left": 114,
-            "right": 127
+            "left": 102,
+            "right": 111
           },
           "textHit": {
             "isSameLink": true,
@@ -579,17 +579,17 @@
         {
           "text": "jewellery",
           "cell": {
-            "width": 119,
+            "width": 67,
             "height": 108
           },
           "visual": {
-            "left": 184,
-            "right": 270,
-            "height": 20
+            "left": 199,
+            "right": 266,
+            "height": 15
           },
           "arrow": {
-            "left": 257,
-            "right": 270
+            "left": 256,
+            "right": 266
           },
           "textHit": {
             "isSameLink": true,
@@ -640,17 +640,17 @@
         {
           "text": "tools",
           "cell": {
-            "width": 119,
+            "width": 45,
             "height": 108
           },
           "visual": {
             "left": 55,
-            "right": 112,
-            "height": 20
+            "right": 101,
+            "height": 15
           },
           "arrow": {
-            "left": 99,
-            "right": 112
+            "left": 91,
+            "right": 101
           },
           "textHit": {
             "isSameLink": true,
@@ -701,17 +701,17 @@
         {
           "text": "more",
           "cell": {
-            "width": 119,
+            "width": 48,
             "height": 108
           },
           "visual": {
-            "left": 184,
-            "right": 245,
-            "height": 20
+            "left": 218,
+            "right": 266,
+            "height": 15
           },
           "arrow": {
-            "left": 232,
-            "right": 245
+            "left": 256,
+            "right": 266
           },
           "textHit": {
             "isSameLink": true,

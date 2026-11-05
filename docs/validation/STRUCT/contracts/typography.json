@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-11-05T20:48:39.298Z",
-  "base": "http://127.0.0.1:55240",
-  "build": "29b5a4ee8ca0",
+  "checkedAt": "2026-11-05T21:17:44.591Z",
+  "base": "http://127.0.0.1:55241",
+  "build": "57ff1e3c7c45",
   "profiles": [
     {
       "width": 1440,
       "height": 900,
-      "build": "29b5a4ee8ca0",
+      "build": "57ff1e3c7c45",
       "headings": [
         {
           "id": "selected-work-title",
@@ -190,7 +190,7 @@
     {
       "width": 390,
       "height": 844,
-      "build": "29b5a4ee8ca0",
+      "build": "57ff1e3c7c45",
       "headings": [
         {
           "id": "selected-work-title",
@@ -374,7 +374,7 @@
     {
       "width": 320,
       "height": 844,
-      "build": "29b5a4ee8ca0",
+      "build": "57ff1e3c7c45",
       "headings": [
         {
           "id": "selected-work-title",

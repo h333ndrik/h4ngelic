@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-05T13:59:05.000Z",
-  "base": "http://127.0.0.1:55232",
-  "css": "index-CvSC71IM.css",
+  "checkedAt": "2026-11-05T21:35:16.622Z",
+  "base": "http://127.0.0.1:55241",
+  "css": "index-B98Q3duz.css",
   "declarations": [
     "var(--h4-cursor)",
     "var(--h4-cursor-interactive)",
@@ -10,32 +10,32 @@
     "var(--h4-cursor-xray-pressed)"
   ],
   "literals": [],
-  "build": "736e71d472bc",
+  "build": "57ff1e3c7c45",
   "states": [
     {
       "selector": ".footer-moshlab",
-      "rest": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
-      "active": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+      "rest": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+      "active": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
     },
     {
       "selector": ".footer-instagram",
-      "rest": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
-      "active": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+      "rest": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+      "active": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
     },
     {
       "selector": "[data-naavi]",
-      "rest": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
-      "active": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+      "rest": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+      "active": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
     },
     {
       "selector": ".floating-brand",
-      "rest": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
-      "active": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+      "rest": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
+      "active": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
     }
   ],
   "noScript": {
-    "body": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
-    "link": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "body": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, auto",
+    "link": "url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55241/assets/h4ngelic-cursor.png\") 8 2, pointer",
     "overlay": 0,
     "cursorNone": 0
   },

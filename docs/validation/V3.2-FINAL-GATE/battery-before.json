@@ -1,0 +1,62 @@
+{
+  "phase": "before",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-05T21:19:36.918Z",
+  "results": [
+    {
+      "suite": "tokens-audit",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 41,
+      "passLine": "PASS tokens: 24 definitions, 11 scoped consumers, 0 duplicated literals.",
+      "failLine": ""
+    },
+    {
+      "suite": "typography-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 18273,
+      "passLine": "PASS typography dist-grep: 148 emitted files, no `\\d / \\d` visible counter remains.",
+      "failLine": ""
+    },
+    {
+      "suite": "link-glyph-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 14205,
+      "passLine": "PASS link glyph contract: 68 link hover checks, one .arrow source, no foreign destinations.",
+      "failLine": ""
+    },
+    {
+      "suite": "row-geometry-contract",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 7272,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: footer-details @1440: 3 positions expected, got 2."
+    },
+    {
+      "suite": "footer-zone-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10620,
+      "passLine": "PASS B-F19 footer zone contract — 3/3 viewports, build 57ff1e3c7c45",
+      "failLine": ""
+    },
+    {
+      "suite": "footer-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 62260,
+      "passLine": "PASS V3.1 footer 320px reduced=true",
+      "failLine": ""
+    }
+  ]
+}
