@@ -195,16 +195,24 @@ keine Animation. Ohne JavaScript bleibt die Section sichtbar (CSS-Default 1).
 
 `docs/validation/MANNEQUIN-C/LICENSE-NOTE.md` ist **wortgleich** nach
 `outputs/mannequin-remodeling/LICENSE-NOTE-C.md` verschoben (ausserhalb des
-Repos) und im Repo entfernt. Inhalt: Herkunftskette des Assets (Sketchfab-
-Basismesh), der Redistributions-Befund und die Tooling-Lizenzen (Blender GPL,
+Repos) und im Repo entfernt. Inhalt: Herkunftskette des Assets (FBX-Import des
+Basismeshs `free-female-mannequin-base-mesh`), der damalige Redistributions-
+Befund und die Tooling-Lizenzen (Blender GPL,
 glTF-Transform MIT, KTX-Software Apache-2.0, Draco/Basis Apache-2.0). Nichts
 davon ist verloren: die Apache-2.0-Nachweise der tatsaechlich ausgelieferten
 Decoder stehen unveraendert in `public/draco/README.md` und
 `public/basis/README.md`, die Herkunft liegt in der lokalen Notiz und in der
 Git-Historie.
 
+**Stand 05.11.2026:** Die Lizenz ist geklaert (CC0 1.0, Nutzerbestaetigung),
+oeffentliche Herkunftsangabe in `CREDITS.md`. Die Herkunftskette lautet belegt:
+`female_mannequin.fbx` -> FBX-Import in `mannequin_white.png.blend` -> Voxel-
+Remesh (249.194 Tris) -> Dezimierung (49.838 Tris) -> KTX2/Draco. Die frueher
+hier behauptete "lokale Neuerstellung" war falsch (Audit 05.11.2026).
+
 Bundle-Nachweis: Die Preview-Suite durchsucht `dist/` rekursiv nach
-`LICENSE-NOTE` (0 Treffer) und bestaetigt, dass `docs/` nicht gebundelt wird.
+`LICENSE-NOTE`, `CREDITS` und dem Namen der Bezugsplattform (je 0 Treffer) und
+bestaetigt, dass `docs/` und `CREDITS.md` nicht gebundelt werden.
 
 ### Tests (V3.2-M2)
 
@@ -477,10 +485,16 @@ laeuft daher ueber explizite Attribut- und Verhaltens-Asserts.
 | `npm run test:seo` | 18 Routen + 404, ohne Three.js/Font/Reflexions-Requests |
 | `npm run build` | 18 Routen + 404 |
 
-## V3.2-M3 — Merge-Gate (Ergebnis)
+## V3.2-M3 — Merge-Gate (Stand vor der Lizenzbestaetigung)
 
-**MERGE BLOCKIERT: Sketchfab-Lizenz unbelegt. Benötigt: Lizenztyp (CC0 /
-CC-BY / Editorial) und bei CC-BY eine öffentliche Attribution im Repo.**
+> **Aufgehoben am 05.11.2026.** Der Befund unten beschreibt den Stand, bevor
+> der Nutzer die Lizenz bestaetigt hat. Mit CC0 1.0 (siehe `CREDITS.md`) ist
+> die Bremse geloest; die Merge-Vorbereitung laeuft in M4a. Kein Merge in
+> diesem Lauf.
+
+**Damals: MERGE BLOCKIERT — Lizenz des Basismeshs unbelegt. Benoetigt:
+Lizenztyp (CC0 / CC-BY / Editorial) und bei CC-BY eine oeffentliche Attribution
+im Repo.**
 
 Geprüft am Branch `v3.2-mannequin-female` (Stand `7281381`):
 
@@ -488,17 +502,18 @@ Geprüft am Branch `v3.2-mannequin-female` (Stand `7281381`):
 | --- | --- |
 | `CREDITS.md`, `docs/CREDITS.md`, `LICENSE*` im Wurzelverzeichnis | nicht vorhanden |
 | `docs/validation/MANNEQUIN-C/LICENSE-NOTE.md` | bewusst entfernt, liegt als `outputs/mannequin-remodeling/LICENSE-NOTE-C.md` ausserhalb des Repos |
-| `docs/validation/MANNEQUIN-PROCEDURAL/LICENSE-NOTE.md` | betrifft `public/models/mannequin.glb` (eigenes Lathe-Werk) und haelt ausdruecklich fest, dass das Sketchfab-Basismesh **nicht** verwendet wird |
+| `docs/validation/MANNEQUIN-PROCEDURAL/LICENSE-NOTE.md` | betrifft `public/models/mannequin.glb` (eigenes Lathe-Werk) und haelt ausdruecklich fest, dass das Download-Basismesh **nicht** verwendet wird |
 | `docs/validation/MANNEQUIN-CHROME/LICENSE-NOTE.md` | betrifft die prozeduralen Chrome-Puppen A/B, ebenfalls ohne Fremdanteil |
 | Lizenztyp (CC0 / CC-BY / Editorial) irgendwo im Repo | nicht dokumentiert |
 
-Damit existiert fuer Variante C **keine** oeffentliche Lizenz- oder
-Credits-Angabe, obwohl sie ein erkennbares Derivat des Sketchfab-Basismeshs
-ist. Die existierende Notiz sagt sogar ausdruecklich "NICHT freigegeben zur
-Weiterverbreitung" und nennt die offenen Punkte (kommerzielle Nutzung,
-Redistribution eines bearbeiteten Derivats).
+Damit existierte fuer Variante C **keine** oeffentliche Lizenz- oder
+Credits-Angabe, obwohl sie ein bearbeitetes Derivat des Basismeshs ist. Die
+Notiz stand damals auf "NICHT freigegeben zur Weiterverbreitung" und nannte die
+offenen Punkte (kommerzielle Nutzung, Redistribution eines bearbeiteten
+Derivats).
 
-Kein Merge, kein Deploy. Naechster Schritt liegt beim User: Lizenztyp
-beibringen (CC0 / CC-BY / Editorial); bei CC-BY gehoert zusaetzlich eine
-oeffentliche Attribution ins Repo (z. B. `CREDITS.md` mit Urheber und
-Quell-URL).
+**Aufloesung am 05.11.2026:** Der Nutzer hat die Lizenz als CC0 1.0 bestaetigt
+(Asset-Seite, kein Lizenzartefakt im Download-ZIP). Herkunft und Bearbeitung
+stehen jetzt in `CREDITS.md`; die Notiz ausserhalb des Repos wurde korrigiert
+(FBX-Import statt "lokale Neuerstellung"). Weiterhin gilt: kein Merge und kein
+Deploy in diesem Lauf.

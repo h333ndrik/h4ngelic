@@ -47,9 +47,10 @@ KTX2 + Draco, UVs ueberlappungsfrei).
   3 Viewports × A/B/C, Build 18 Routen + 404.
 
 Offen / Entscheidung des Users:
-1. **Lizenz**: C ist ein Derivat des Sketchfab-Basismeshs; der fruehere Befund
-   (`MANNEQUIN-PROCEDURAL/LICENSE-NOTE.md`) erlaubt keine Redistribution.
-   Branch ist lokal committet, **nicht gepusht**, kein Merge/Deploy.
+1. **Lizenz: geklaert.** C ist ein bearbeitetes Derivat des Basismeshs
+   `free-female-mannequin-base-mesh`; Lizenz CC0 1.0, vom Nutzer am 05.11.2026
+   bestaetigt. Oeffentliche Herkunftsangabe: `CREDITS.md`; Beleg:
+   `outputs/mannequin-remodeling/audit-2026-11-05/`. Kein Merge/Deploy in M4a.
 2. Route: das Repo kennt kein `/creative/*`; die Rubrik heisst `/work/tattoos`.
    Keine Umbenennung vorgenommen.
 3. Hero-"Abschiessen" existiert nicht im Code → Ersatz-Kurve + TODO(V3.2-M1).
