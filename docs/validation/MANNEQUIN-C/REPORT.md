@@ -476,3 +476,29 @@ laeuft daher ueber explizite Attribut- und Verhaltens-Asserts.
 | `npm run test:mannequin-variants-dev` | PASS (A/B weiter nur im Dev) |
 | `npm run test:seo` | 18 Routen + 404, ohne Three.js/Font/Reflexions-Requests |
 | `npm run build` | 18 Routen + 404 |
+
+## V3.2-M3 — Merge-Gate (Ergebnis)
+
+**MERGE BLOCKIERT: Sketchfab-Lizenz unbelegt. Benötigt: Lizenztyp (CC0 /
+CC-BY / Editorial) und bei CC-BY eine öffentliche Attribution im Repo.**
+
+Geprüft am Branch `v3.2-mannequin-female` (Stand `7281381`):
+
+| Ort | Befund |
+| --- | --- |
+| `CREDITS.md`, `docs/CREDITS.md`, `LICENSE*` im Wurzelverzeichnis | nicht vorhanden |
+| `docs/validation/MANNEQUIN-C/LICENSE-NOTE.md` | bewusst entfernt, liegt als `outputs/mannequin-remodeling/LICENSE-NOTE-C.md` ausserhalb des Repos |
+| `docs/validation/MANNEQUIN-PROCEDURAL/LICENSE-NOTE.md` | betrifft `public/models/mannequin.glb` (eigenes Lathe-Werk) und haelt ausdruecklich fest, dass das Sketchfab-Basismesh **nicht** verwendet wird |
+| `docs/validation/MANNEQUIN-CHROME/LICENSE-NOTE.md` | betrifft die prozeduralen Chrome-Puppen A/B, ebenfalls ohne Fremdanteil |
+| Lizenztyp (CC0 / CC-BY / Editorial) irgendwo im Repo | nicht dokumentiert |
+
+Damit existiert fuer Variante C **keine** oeffentliche Lizenz- oder
+Credits-Angabe, obwohl sie ein erkennbares Derivat des Sketchfab-Basismeshs
+ist. Die existierende Notiz sagt sogar ausdruecklich "NICHT freigegeben zur
+Weiterverbreitung" und nennt die offenen Punkte (kommerzielle Nutzung,
+Redistribution eines bearbeiteten Derivats).
+
+Kein Merge, kein Deploy. Naechster Schritt liegt beim User: Lizenztyp
+beibringen (CC0 / CC-BY / Editorial); bei CC-BY gehoert zusaetzlich eine
+oeffentliche Attribution ins Repo (z. B. `CREDITS.md` mit Urheber und
+Quell-URL).
