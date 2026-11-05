@@ -1,0 +1,6 @@
+START actual SMASH 1440px
+PASS actual SMASH 1440px: exactfile, deferredfetch/cache, nativeattack/tail/stop, globalstate, routes and both realities
+START actual SMASH 390px
+PASS actual SMASH 390px: exactfile, deferredfetch/cache, nativeattack/tail/stop, globalstate, routes and both realities
+START actual SMASH 320px
+PASS actual SMASH 320px: exactfile, deferredfetch/cache, nativeattack/tail/stop, globalstate, routes and both realities

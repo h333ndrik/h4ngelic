@@ -102,6 +102,10 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   let latestStop = 0;
   let unlocked = false;
   let needsResume = false;
+  let analyser = null;
+  let analyserConnected = false;
+  const perf = Array.isArray(view.__H4_AUDIO_PERF__) ? view.__H4_AUDIO_PERF__ : null;
+  const measure = (name, started) => { if (perf) perf.push({ name, ms: performance.now() - started, at: performance.now() }); };
 
   function notify() { for (const listener of subscribers) listener(); }
   function save() {
@@ -135,9 +139,13 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     try { Promise.resolve(context.suspend()).catch(() => {}); } catch { /* An unavailable suspend must not mute the UI. */ }
   }
   /** Resume without the mute gate: unlocking is allowed while sound is off. */
-  function resumeNow() {
+  function resumeNow(force = false) {
     if (!context || context.state === 'closed' || pageHidden) return Promise.resolve(false);
-    if (context.state === 'running') return Promise.resolve(true);
+    if (context.state === 'running' && !force) return Promise.resolve(true);
+    if (context.state === 'running') {
+      try { void context.resume(); } catch { /* already running */ }
+      return Promise.resolve(true);
+    }
     if (!resume) resume = Promise.resolve(context.resume()).then(() => context.state === 'running', () => false)
       .finally(() => { resume = null; });
     return resume;
@@ -165,6 +173,11 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
       compressor.release.value = .1;
       master.connect(compressor);
       compressor.connect(context.destination);
+      analyser = context.createAnalyser();
+      analyser.fftSize = 32;
+      analyser.smoothingTimeConstant = .55;
+      analyser.minDecibels = -90;
+      analyser.maxDecibels = -10;
       return context;
     } catch { failed = true; return null; }
   }
@@ -184,21 +197,40 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   }
   /** State-only unlock: no fetch, no decode. Safe while muted. */
   function unlock(event) {
+    const started = perf ? performance.now() : 0;
     if (disposed || failed || !AudioContext || event?.isTrusted !== true) return false;
+    const created = !context;
     if (!ensureContext()) return false;
+    if (created) measure('contextCreate', started);
+    const incremental = perf ? performance.now() : 0;
     if (unlocked) {
       if (context.state !== 'running') void resumeNow();
+      measure('unlock', incremental);
       return true;
     }
     unlocked = true;
-    const resumed = resumeNow();
+    const resumed = resumeNow(true);
     primeSilentBuffer();
     void resumed.then((running) => {
       needsResume = !running;
       notify();
       return running;
     });
+    measure('unlock', incremental);
     return true;
+  }
+  function attachAnalyser() {
+    if (!analyser || analyserConnected || !master) return false;
+    try { master.connect(analyser); analyserConnected = true; return true; } catch { return false; }
+  }
+  function detachAnalyser() {
+    if (!analyser || !analyserConnected || !master) return false;
+    try { master.disconnect(analyser); } catch { /* already disconnected */ }
+    analyserConnected = false;
+    return true;
+  }
+  function worldAudible() {
+    return Boolean(world?.isAudible?.());
   }
   function releasePriority() {
     smashActive = false;
@@ -266,22 +298,26 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   /** Guided-listening entry: unlock, then fade the active loop in. Never
    * activates a muted session; the SOUND switch remains the hard control. */
   function startListening(event, { fadeSeconds = 1.8, worldId = null } = {}) {
+    const started = perf ? performance.now() : 0;
     unlock(event);
-    if (disposed || muted || pageHidden || failed || !context) return Promise.resolve(false);
+    if (disposed || muted || pageHidden || failed || !context) { measure('startListening', started); return Promise.resolve(false); }
     const target = worldId || worldForMode(currentMode());
     const engine = ensureWorld();
-    if (!engine) return Promise.resolve(false);
-    return Promise.resolve(engine.activate(target, { fadeIn: true, fadeSeconds })).then((ready) => {
+    if (!engine) { measure('startListening', started); return Promise.resolve(false); }
+    const activation = Promise.resolve(engine.activate(target, { fadeIn: true, fadeSeconds })).then((ready) => {
       if (ready) needsResume = false;
       notify();
       return ready;
     }).catch(() => false);
+    measure('startListening', started);
+    return activation;
   }
 
   /** Explicit resume from the SOUND affordance after a failed visibility resume. */
   function resumeAudio(event) {
+    const started = perf ? performance.now() : 0;
     unlock(event);
-    if (disposed || muted || pageHidden || !context) return Promise.resolve(false);
+    if (disposed || muted || pageHidden || !context) { measure('resume', started); return Promise.resolve(false); }
     return resumeContext().then((running) => {
       needsResume = !running;
       if (running) {
@@ -289,6 +325,7 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
         void ensureWorld()?.activate(target, { fadeIn: true, fadeSeconds: 1.8 });
       }
       notify();
+      measure('resume', started);
       return running;
     });
   }
@@ -441,6 +478,14 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     get volume() { return volume; },
     get unlocked() { return unlocked; },
     get needsResume() { return needsResume; },
+    get audible() {
+      return Boolean(context && context.state === 'running' && !muted && !pageHidden
+        && (Boolean(active) || smashActive || worldAudible()));
+    },
+    get analyser() { return analyser; },
+    get analyserConnected() { return analyserConnected; },
+    attachAnalyser,
+    detachAnalyser,
     get smashAvailable() { return Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed; },
     get smashPlaying() { return smashActive; },
     setMuted(value) {
@@ -464,14 +509,16 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     setPageHidden(hidden) {
       pageHidden = Boolean(hidden);
       if (pageHidden) { world?.release(); suspendContext(); }
-      else if (!muted) {
+      else if (!muted && !needsResume) {
         void resumeContext().then((running) => { needsResume = unlocked && !running; notify(); return running; });
       }
       notify();
     },
     subscribe(listener) { subscribers.add(listener); return () => subscribers.delete(listener); },
     snapshot: () => ({ initialized: Boolean(context), modeSoundsEnabled, state: context?.state || 'uninitialized', muted, volume, pageHidden,
-      unlocked, needsResume,
+      unlocked, needsResume, audible: Boolean(context && context.state === 'running' && !muted && !pageHidden
+        && (Boolean(active) || smashActive || worldAudible())),
+      analyserConnected,
       world: world?.snapshot() || null,
       active: Boolean(active), allocatedVoices: voices.size, smashAvailable: Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed,
       smashPlaying: smashActive, smashPhase, smashCached: Boolean(smashBuffer), smashFetches,

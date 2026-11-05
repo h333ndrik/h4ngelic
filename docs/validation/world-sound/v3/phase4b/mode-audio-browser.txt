@@ -1,0 +1,2 @@
+PASS mode audio: gesture-only world startup, no legacy cue, file transitions, one shared context, route/mute persistence and both directions.
+PASS unavailable audio: visually reliable transitions and a disabled sound control.

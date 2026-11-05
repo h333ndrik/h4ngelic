@@ -237,13 +237,16 @@ export function createWorldSound({
     if (disposed || !worlds.has(worldId)) return false;
     intendedWorld = worldId;
     const record = worlds.get(worldId);
+    // The fade intent is recorded before the first await. The ramp itself is
+    // scheduled on resolve so a decoding buffer never causes an audible gap.
+    const fadeWindow = Math.max(settings.minimumCrossfadeSeconds, Number(fadeSeconds) || 0);
     // Guided listening can call activate after SOUND ON or after the loop is
     // already running; never restart an existing transport or double-start it.
     if (record?.voice && !record.voice.ended) {
       if (fadeIn) {
         const at = now();
         hold(record.voice.fade.gain, at);
-        record.voice.fade.gain.linearRampToValueAtTime(1, at + Math.max(settings.minimumCrossfadeSeconds, Number(fadeSeconds) || 0));
+        record.voice.fade.gain.linearRampToValueAtTime(1, at + Math.max(settings.minimumCrossfadeSeconds, fadeWindow));
       }
       currentWorld = worldId;
       lastRequestedWorld = worldId;
@@ -262,7 +265,7 @@ export function createWorldSound({
     if (fadeIn) {
       const at = now();
       hold(voice.fade.gain, at);
-      voice.fade.gain.linearRampToValueAtTime(1, at + Math.max(settings.minimumCrossfadeSeconds, Number(fadeSeconds) || 0));
+      voice.fade.gain.linearRampToValueAtTime(1, at + Math.max(settings.minimumCrossfadeSeconds, fadeWindow));
     }
     currentWorld = worldId;
     lastRequestedWorld = worldId;
@@ -396,6 +399,11 @@ export function createWorldSound({
     sfxDuck.gain.linearRampToValueAtTime(duckLevel, at + .02);
   }
 
+  function isAudible() {
+    for (const record of worlds.values()) if (record.voice && !record.voice.ended) return true;
+    return transitionVoices.size > 0;
+  }
+
   function snapshot() {
     const loopStatus = Object.fromEntries([...worlds.entries()].map(([id, record]) => [id, {
       status: record.status, active: Boolean(record.voice && !record.voice.ended), bufferDuration: record.buffer?.duration || 0,
@@ -425,6 +433,7 @@ export function createWorldSound({
     preload,
     setDuck,
     release,
+    isAudible,
     snapshot,
     dispose() {
       if (disposed) return;

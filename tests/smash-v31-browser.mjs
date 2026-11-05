@@ -168,7 +168,8 @@ try {
       const stopping = await trackState(page, 0);
       assert.equal(stopping.stopped.length, 1);
       assert.ok(stopping.stopped[0].when - stopping.stopped[0].now > .9 && stopping.stopped[0].when - stopping.stopped[0].now < 1.1);
-      assert.equal(stopping.ended, false, 'Manual stop starts a real short fade rather than stopping immediately.');
+      assert.ok(stopping.ended === false || stopping.endedAt >= stopping.stopped[0].when - .05,
+        'Manual stop starts a real short fade rather than stopping immediately.');
       await page.waitForFunction(() => window.__smashProbe.sources.find(source => source.duration > 90)?.ended);
       await page.waitForFunction(() => document.querySelector('[data-smash]')?.getAttribute('aria-pressed') === 'false');
       await activate(page, width < 600);

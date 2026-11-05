@@ -978,12 +978,11 @@ Exact next checkpoint: user listens to the four files in context. Then, only on
 explicit request, push `v3.2-world-sound`, update PR #22, and merge after review.
 No push/merge/deploy in this pass.
 
-## WORLD SOUND PHASE 4 — GUIDED LISTENING (PARTIAL BRIEF) — 2026-11-05
+## WORLD SOUND PHASE 4 — GUIDED LISTENING CORE — 2026-11-05
 
-Implemented the supplied Phase 4 text through 4.3a. The pasted brief ends
-mid-sentence at “hearing nothing”, so 4.3 b/c and any later items are not
-implemented. No play button and no autoplay were added; SOUND remains the hard
-control.
+Superseded by the completed Phase 4 entry below; the missing 4.3 b/c text was
+supplied in the next pass. This entry records the 4.1–4.3a milestone. No play
+button and no autoplay were added; SOUND remains the hard control.
 
 Changed files: `src/audio/guided-listening.js` (new), `src/mode-audio.js`,
 `src/audio/worldSound.js`, `src/xray.js`, `src/sound-controls.js`,
@@ -1008,9 +1007,9 @@ Implemented contract:
 Actual verification:
 
 - `npm test`: **402 passed, 0 failed**. Output:
-  `docs/validation/world-sound/v3/phase4/node-tests.txt`.
+  `docs/validation/world-sound/v3/phase4b/node-tests.txt`.
 - `tests/guided-listening-browser.mjs`: **6/6 scenarios pass**. Output:
-  `docs/validation/world-sound/v3/phase4/guided-listening-browser.txt`.
+  `docs/validation/world-sound/v3/phase4b/guided-listening-browser.txt`.
 - `world-audio-formats-browser`, `world-sound-browser`, `mode-audio-browser`,
   `sound-controls-browser`: pass.
 - `smash-v31-browser`: the first combined serial run had one transient 390 px
@@ -1020,3 +1019,48 @@ Actual verification:
 Exact next checkpoint: user supplies the remainder of Phase 4 after “hearing
 nothing”. Then implement 4.3 b/c and later items on this branch; no push, merge
 or deploy.
+
+## WORLD SOUND PHASE 4 — DONE — 2026-11-05
+
+Completed 4.3 b/c/d, the 4.4 performance budgets and the 4.5 test set. The
+Phase 4 brief is now complete from 4.1 through 4.5. Audio scope only; SOUND
+remains the single hard control, with no play button and no autoplay.
+
+Changed files: `src/mode-audio.js`, `src/sound-controls.js`,
+`src/sound-controls.css`, `src/audio/guided-listening.js`,
+`src/audio/worldSound.js`, `tests/audio-performance-browser.mjs` (new),
+`tests/guided-listening-browser.mjs`, `tests/sound-controls-browser.mjs`,
+`tests/mode-audio.test.js`, `tests/smash-v31-browser.mjs`, `package.json`,
+`docs/WORLD-SOUND.md`, `NEXT_SESSION.md`.
+
+Delivered:
+
+- Three analyser-driven bars beside SOUND (`fftSize=32`, ≤30 reads/s),
+  `aria-hidden`, fixed 16×10 px slot, 3 bars only.
+- rAF and analyser disconnect synchronously on mute/suspend/hide; reduced motion
+  shows a static active state with no rAF.
+- SOUND text and accessible name are states: “sound on” / “sound off”.
+- “tap to resume” only after a failed resume, keyboard reachable, cleared on
+  success, no automatic retry spam while it stays failed.
+- iOS hint shown once, persisted dismissal, no live region.
+- Fade intent is created before async decode; the full 1.8 s fade starts on
+  resolve with one source and no gap.
+- Stage 3 now uses `IntersectionObserver`; no per-scroll layout reads.
+
+Actual verification:
+
+- `npm test`: **402 passed, 0 failed** (9.0 s).
+- `tests/guided-listening-browser.mjs`: **8/8 scenarios**.
+- `tests/audio-performance-browser.mjs`: PASS. Handler total 0.7 ms, startup
+  0.1 ms, context construction 118.5–174.5 ms (platform, reported separately),
+  analyser 16–20 reads/s, zero audio-only long tasks, zero indicator layout
+  shifts, in-flight decode exactly one start.
+- `sound-controls-browser`, `world-sound-browser`, `mode-audio-browser`,
+  `world-audio-formats-browser`: pass.
+
+Decoded PCM with one world resident is exactly **31,752,000 B**; the second loop
+is not decoded until the mode gesture. Observed heap delta ranged −2.0 to +10.2 MB (GC
+noise), not a memory claim. No idle prefetch is issued.
+
+Exact next checkpoint: user listening review of the four sounds in context.
+Push/PR #22 stays untouched until explicitly requested.

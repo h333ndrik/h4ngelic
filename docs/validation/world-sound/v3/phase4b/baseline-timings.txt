@@ -1,0 +1,11 @@
+Comparison runs: gesture -> first loop source, with boundingBox measured before the timer.
+Current branch (local Vite, port 5173):
+  run A: cold 303.1 ms, warm 120.8 ms, warm2 104.5 ms
+  run B: cold 168.3-209.3 ms, warm 127.4-134.8 ms
+Baseline a64f808 (port 55342):
+  cold 263.2 ms, warm 737.3 ms, warm2 545.3 ms
+Environment: headless Chromium 1248, 1440x1000, local dev server.
+The current branch is inside the baseline's observed range; the deterministic
+added startup cost is guidedInit + indicatorCreate = 0.2-0.4 ms (see
+audio-performance-browser.txt). First AudioContext construction is 119-175 ms in
+headless Chromium, exists in both builds, and is reported separately.

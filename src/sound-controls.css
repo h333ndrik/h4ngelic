@@ -12,3 +12,12 @@ html[data-mode='xray'] .sound-volume-popup { background: var(--surface-input); }
 @media (prefers-reduced-motion: reduce) { .sound-volume-popup, .sound-volume-toggle span { transition: none; } }
 .sound-ios-hint { position: absolute; left: 0; bottom: calc(100% + 8px); z-index: 5; white-space: nowrap; font-size: 10px; line-height: 1.2; letter-spacing: .02em; opacity: .72; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .sound-ios-hint { transition: none; } }
+.sound-activity { display: inline-flex; align-items: flex-end; justify-content: center; gap: 2px; width: 16px; height: 10px; margin-inline-start: 5px; pointer-events: none; opacity: 0; transition: opacity 180ms ease; }
+.sound-activity[data-active='true'] { opacity: .72; }
+.sound-activity i { display: block; width: 2px; height: 10px; background: currentColor; transform: scaleY(.18); transform-origin: bottom; }
+@media (prefers-reduced-motion: reduce) {
+  .sound-activity { transition: none; }
+  .sound-activity[data-active='true'] i:nth-child(1) { transform: scaleY(.55); }
+  .sound-activity[data-active='true'] i:nth-child(2) { transform: scaleY(.9); }
+  .sound-activity[data-active='true'] i:nth-child(3) { transform: scaleY(.65); }
+}

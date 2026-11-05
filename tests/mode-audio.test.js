@@ -56,6 +56,8 @@ function audioFixture({ rejectResume = false, throwConstruction = false, storage
     createGain() { const node = Object.assign(new Node(), { gain: new Param() }); this.gains.push(node); return node; }
     createDynamicsCompressor() { return Object.assign(new Node(), Object.fromEntries(['threshold', 'knee', 'ratio', 'attack', 'release'].map(name => [name, new Param()]))); }
     createBiquadFilter() { return Object.assign(new Node(), { type: 'lowpass', frequency: new Param(), Q: new Param() }); }
+    createAnalyser() { return Object.assign(new Node(), { fftSize: 0, smoothingTimeConstant: 0, minDecibels: 0, maxDecibels: 0, frequencyBinCount: 16,
+      getByteFrequencyData(array) { array.fill(0); } }); }
     createBuffer(channels, length) { return { silent: length === 1, channels: Array.from({ length: channels }, () => new Float32Array(length)), copyToChannel(data, index) { this.channels[index].set(data); } }; }
     createBufferSource() { const source = new Source(); this.sources.push(source); return source; }
     createMediaElementSource(element) { const node = new Node(); node.media = element; return node; }

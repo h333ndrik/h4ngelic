@@ -7,6 +7,7 @@ const WORDMARK_SELECTOR = '#stage, #logo-canvas, [data-hero-poster]';
 const MOVE_THRESHOLD_PX = 200;
 const MOVE_THROTTLE_MS = 100;
 const SCROLL_THROTTLE_MS = 120;
+const HINT_KEY = 'h4ngelic.sound.ios-hint.v1';
 
 function isIOS(view) {
   const navigator = view?.navigator;
@@ -21,6 +22,8 @@ function isIOS(view) {
 export function initGuidedListening({ doc = document, audio, fadeSeconds = 1.8, hintMs = 6000 } = {}) {
   if (!audio) throw new TypeError('Guided listening needs the central audio controller.');
   const view = doc.defaultView;
+  const perf = Array.isArray(view.__H4_AUDIO_PERF__) ? view.__H4_AUDIO_PERF__ : null;
+  const initStarted = perf ? performance.now() : 0;
   const coarse = view.matchMedia?.('(pointer: coarse)');
   const removers = [];
   const unlockRemovers = [];
@@ -32,6 +35,8 @@ export function initGuidedListening({ doc = document, audio, fadeSeconds = 1.8, 
   let lastScrollCheck = 0;
   let hintShown = false;
   let hintTimer = 0;
+  let heroObserver = null;
+  let fallbackScroll = false;
 
   const listen = (target, name, callback, options, registry = removers) => {
     target.addEventListener(name, callback, options);
@@ -49,19 +54,21 @@ export function initGuidedListening({ doc = document, audio, fadeSeconds = 1.8, 
       anchor = { x: event.clientX, y: event.clientY };
     }
     detachUnlock();
+    ensureHeroObserver();
     return true;
   }
 
   function showIOSHint() {
     if (hintShown || !isIOS(view)) return;
+    try { if (view.localStorage?.getItem(HINT_KEY) === 'shown') return; } catch { /* storage denial */ }
     const button = doc.querySelector('[data-mode-mute]');
     const wrapper = button?.closest?.('.sound-control') || button?.parentElement;
     if (!wrapper) return;
     hintShown = true;
+    try { view.localStorage?.setItem(HINT_KEY, 'shown'); } catch { /* storage denial */ }
     const hint = doc.createElement('span');
     hint.className = 'sound-ios-hint';
     hint.dataset.soundIosHint = '';
-    hint.setAttribute('role', 'status');
     hint.textContent = 'hearing nothing? check the silent switch.';
     wrapper.append(hint);
     hintTimer = view.setTimeout(() => {
@@ -102,22 +109,48 @@ export function initGuidedListening({ doc = document, audio, fadeSeconds = 1.8, 
   }, { passive: true });
 
   // Stage 3: the first scroll that takes the hero out of view (touch + desktop).
-  listen(view, 'scroll', (event) => {
-    if (!unlocked || played) return;
-    const now = view.performance?.now?.() ?? Date.now();
-    if (now - lastScrollCheck < SCROLL_THROTTLE_MS) return;
-    lastScrollCheck = now;
+  // IntersectionObserver observes visibility only; no per-scroll layout reads.
+  function ensureHeroObserver() {
+    if (heroObserver || fallbackScroll) return;
     const hero = doc.getElementById('home-hero') || doc.querySelector('.hero');
-    if (!hero || !hero.isConnected) return;
-    const rect = hero.getBoundingClientRect();
-    if (rect.height <= 0 || rect.bottom > 0) return;
-    trigger(event);
-  }, { passive: true });
+    if (!hero) return;
+    if (typeof view.IntersectionObserver === 'function') {
+      heroObserver = new view.IntersectionObserver((entries) => {
+        if (!unlocked || played) return;
+        for (const entry of entries) {
+          if (entry.isIntersecting) continue;
+          if (entry.boundingClientRect?.bottom > 0) continue;
+          if (entry.boundingClientRect?.height <= 0) continue;
+          trigger({ isTrusted: true });
+          return;
+        }
+      }, { threshold: 0 });
+      heroObserver.observe(hero);
+      return;
+    }
+    fallbackScroll = true;
+    listen(view, 'scroll', (event) => {
+      if (!unlocked || played) return;
+      const now = view.performance?.now?.() ?? Date.now();
+      if (now - lastScrollCheck < SCROLL_THROTTLE_MS) return;
+      lastScrollCheck = now;
+      const node = doc.getElementById('home-hero') || doc.querySelector('.hero');
+      if (!node || !node.isConnected) return;
+      const rect = node.getBoundingClientRect();
+      if (rect.height <= 0 || rect.bottom > 0) return;
+      trigger(event);
+    }, { passive: true });
+  }
+
+  ensureHeroObserver();
+  if (perf) perf.push({ name: 'guidedInit', ms: performance.now() - initStarted, at: performance.now() });
 
   return () => {
     disposed = true;
     if (hintTimer) view.clearTimeout(hintTimer);
     hintTimer = 0;
+    heroObserver?.disconnect();
+    heroObserver = null;
     detachUnlock();
     doc.querySelector('[data-sound-ios-hint]')?.remove();
   };

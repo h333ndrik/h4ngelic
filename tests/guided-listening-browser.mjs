@@ -62,8 +62,9 @@ const probe = page => page.evaluate(() => ({
 }));
 const activeLoop = page => page.waitForFunction(() => window.__H4_AUDIO__?.snapshot().world?.loops['333'].active, null, { timeout: 30000 });
 
-async function scenario(name, { width = 1440, reduced = false, setup, run } = {}) {
-  const context = await browser.newContext({ viewport: { width, height: 1000 }, reducedMotion: reduced ? 'reduce' : 'no-preference' });
+async function scenario(name, { width = 1440, reduced = false, mobile = false, setup, run } = {}) {
+  const context = await browser.newContext({ viewport: { width, height: 1000 }, reducedMotion: reduced ? 'reduce' : 'no-preference',
+    isMobile: mobile, hasTouch: mobile });
   await instrument(context);
   if (setup) await setup(context);
   const page = await context.newPage();
@@ -100,6 +101,9 @@ try {
       assert.equal(state.contexts, 1, 'Exactly one AudioContext.');
       assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a'], 'Only the active loop is fetched, once.');
       assert.equal(state.sources.filter(source => source.loop).length, 1, 'One loop voice.');
+      assert.equal((await page.locator('[data-mode-mute]').textContent()).trim(), 'sound on');
+      assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-label'), 'sound on', 'The accessible name is the state.');
+      assert.equal(await page.locator('[data-sound-activity]').getAttribute('aria-hidden'), 'true');
       assert.ok(state.ramps.some(ramp => ramp.value === 1 && ramp.at - ramp.now >= 1.5 && ramp.at - ramp.now <= 2.0),
         'The loop fades in over 1.5–2 s.');
       await page.mouse.move(720, 400);
@@ -162,6 +166,7 @@ try {
       assert.equal(state.snapshot.world, null, 'Muted triggers never activate a world.');
       await page.locator('[data-mode-mute]').click();
       await activeLoop(page);
+      assert.equal((await page.locator('[data-mode-mute]').textContent()).trim(), 'sound on');
       state = await probe(page);
       assert.equal(state.snapshot.muted, false);
       assert.deepEqual(state.fetches, ['/assets/audio/loop-333.m4a'], 'SOUND ON is the hard control that starts audio.');
@@ -182,12 +187,17 @@ try {
       let state = await probe(page);
       assert.equal(state.snapshot.needsResume, true);
       assert.equal((await page.locator('[data-mode-mute]').textContent()).trim(), 'tap to resume');
+      assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-label'), 'tap to resume sound');
       await page.evaluate(() => { window.__guided.context.resume = window.__guided.originalResume; });
-      await page.locator('[data-mode-mute]').click();
+      const button = page.locator('[data-mode-mute]');
+      await button.focus();
+      assert.equal(await button.evaluate(node => node === document.activeElement), true, 'The affordance is keyboard reachable.');
+      await page.keyboard.press('Enter');
       await page.waitForTimeout(300);
       state = await probe(page);
       assert.equal(state.snapshot.needsResume, false, 'The SOUND affordance clears the resume state.');
       assert.equal((await page.locator('[data-mode-mute]').textContent()).trim(), 'sound on');
+      assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-label'), 'sound on');
     },
   });
 
@@ -206,8 +216,53 @@ try {
       const hint = page.locator('[data-sound-ios-hint]');
       await hint.waitFor({ state: 'visible', timeout: 5000 });
       assert.match(await hint.textContent(), /hearing nothing\? check the silent switch\./);
+      assert.equal(await hint.getAttribute('role'), null, 'The hint is not a live region.');
+      assert.equal(await page.evaluate(() => localStorage.getItem('h4ngelic.sound.ios-hint.v1')), 'shown');
       await page.waitForTimeout(6500);
       assert.equal(await hint.count(), 0, 'The hint removes itself after about six seconds.');
+      await page.reload({ waitUntil: 'networkidle' });
+      await page.waitForFunction(() => Boolean(window.__H4_AUDIO__));
+      const box2 = await page.locator('#stage').boundingBox();
+      await page.mouse.click(box2.x + box2.width / 2, box2.y + Math.min(box2.height / 2, 400));
+      await activeLoop(page);
+      await page.waitForTimeout(400);
+      assert.equal(await page.locator('[data-sound-ios-hint]').count(), 0, 'Dismissal persists across reloads.');
+    },
+  });
+
+  await scenario('stage 2 is inert on touch; stage 1 still works', {
+    width: 390, mobile: true,
+    async run(page) {
+      const button = await page.locator('#pause-control').boundingBox();
+      await page.touchscreen.tap(button.x + button.width / 2, button.y + button.height / 2);
+      await page.waitForTimeout(250);
+      assert.deepEqual((await probe(page)).fetches, [], 'Touch unlock stays silent.');
+      await page.evaluate(() => window.dispatchEvent(new PointerEvent('pointermove', { clientX: 380, clientY: 600, pointerType: 'touch', bubbles: true })));
+      await page.waitForTimeout(300);
+      assert.deepEqual((await probe(page)).fetches, [], 'A touch pointermove never starts stage 2.');
+      const box = await page.locator('#stage').boundingBox();
+      await page.touchscreen.tap(box.x + box.width / 2, box.y + Math.min(box.height / 2, 400));
+      await activeLoop(page);
+      assert.deepEqual((await probe(page)).fetches, ['/assets/audio/loop-333.m4a']);
+    },
+  });
+
+  await scenario('stored mute suppresses stage 2 and stage 3 too', {
+    async setup(context) {
+      await context.addInitScript(() => {
+        try { localStorage.setItem('h4ngelic.audio.v1', JSON.stringify({ muted: true, volume: .6 })); } catch { /* ignore */ }
+      });
+    },
+    async run(page) {
+      await page.mouse.move(100, 200);
+      await page.mouse.move(100, 500);
+      await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }));
+      await page.waitForTimeout(700);
+      const state = await probe(page);
+      assert.equal(state.snapshot.muted, true);
+      assert.equal(state.contexts, 0, 'Muted stages do not even need an AudioContext.');
+      assert.deepEqual(state.fetches, [], 'No stage may fetch while muted.');
+      assert.equal(state.snapshot.world, null);
     },
   });
 

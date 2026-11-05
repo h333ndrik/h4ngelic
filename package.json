@@ -28,6 +28,7 @@
     "test:mode-audio": "node tests/mode-audio-browser.mjs",
     "test:world-sound": "node tests/world-sound-browser.mjs",
     "test:guided-listening": "node tests/guided-listening-browser.mjs",
+    "test:audio-performance": "node tests/audio-performance-browser.mjs",
     "test:world-audio-formats": "node tests/world-audio-formats-browser.mjs",
     "test:hover": "node tests/hover-browser.mjs",
     "test:corruption": "node tests/corruption-browser.mjs",

@@ -215,63 +215,111 @@ the crossfade plus `inactiveStopGraceMs`; retargeting cancels that stop and reus
 the voice. SOUND OFF and tab-hide call `world.release()`: no SFX is scheduled, the
 dip is dropped and the context is suspended.
 
-## Guided listening (Phase 4, partial brief)
+## Guided listening (Phase 4)
 
 There is no play button and no autoplay. The SOUND switch remains the hard
-control; the following entry points only decide when the already-designed loop
-is allowed to fade in.
+control; the entry points below only decide when the designed loop may fade in.
 
-### Unlock
+### Unlock (4.1)
 
 - Exactly one `AudioContext`, created lazily on the first trusted gesture.
 - Unlock is registered on `pointerdown`, `touchend`, `click` and `keydown`,
   each with `{ once: true, passive: true }`; the first trusted event detaches
   the set.
-- `resume()` is called synchronously inside the handler, before any await.
-- A one-sample silent source with gain 0 primes older iOS.
+- `resume()` is invoked synchronously during the event dispatch, before any
+  await, and a one-sample silent source with gain 0 primes older iOS.
 - Unlock performs zero fetches and zero decodes. It is state only.
 - A stored mute preference always wins: unlocking is allowed, playing is not.
-  No trigger may fetch or activate a world while muted.
-- After a failed visibility resume, the SOUND control reads **tap to resume**
-  and the next press retries the same context instead of toggling mute.
 
-### Trigger cascade
+### Trigger cascade (4.2)
 
 | Stage | Entry | Behaviour |
 | --- | --- | --- |
 | 1 | `pointerdown` on the chrome hero wordmark (`#stage`, `#logo-canvas`, poster) | unlock + fade the active loop in over 1.8 s |
 | 2 | first desktop `pointermove` that travels more than 200 px after unlock | same fade-in; throttled to one check per 100 ms; inert on coarse pointers |
-| 3 | first scroll that takes the hero fully out of view | same fade-in; throttled to one check per 120 ms |
+| 3 | first scroll that takes the hero fully out of view | same fade-in; `IntersectionObserver` observes visibility only, no per-scroll layout reads |
 
-Each stage fires at most once per session; the first match wins and later stages
-become inert. Activation is idempotent: an already running loop is ramped, never
-restarted, and a fade requested during a decode starts as soon as the buffer
-resolves. The loop fade is scheduled only after unlock and never before the
-active loop's buffer is available.
+Each stage fires at most once per session; the first match wins. Activation is
+idempotent: an already running loop is ramped, never restarted. A fade requested
+during a decode starts as soon as the buffer resolves, with one start and no gap.
 
-### iOS hint
+### Activity indicator (4.3 b)
 
-After the first successful activation on an iOS device, a quiet line appears
-attached to the SOUND control for about 6 s: “hearing nothing? check the silent
-switch.” It appears once per page session. The silent switch itself is never
+Three decorative bars beside SOUND show that audio is actually running. The
+indicator is `aria-hidden="true"`, never announced, never a control, and its
+16 × 10 px slot is always reserved so nothing shifts when it appears.
+
+- `AnalyserNode.fftSize = 32`; `getByteFrequencyData` is read at most 30 times
+  per second (one read per 33 ms).
+- The rAF loop exists only while `audio.audible` is true. Mute, suspend, tab hide
+  and stop cancel the rAF and disconnect the analyser synchronously in the same
+  notification tick.
+- `prefers-reduced-motion: reduce` renders a static three-bar active state; it
+  schedules no rAF and attaches no analyser.
+- No waveform, spectrum, numeric readout or extra bar.
+
+### Honest label (4.3 c)
+
+The button names state, not action: **sound on** / **sound off**. The visible
+text and accessible name both update on every toggle. No play icon is used.
+
+### Tap to resume (4.3 d)
+
+The SOUND control changes to **tap to resume** only after a genuinely failed
+resume (for example a blocked visibility return). It is a real button, keyboard
+reachable, and its accessible name becomes “tap to resume sound”. A successful
+resume clears the state automatically. After a failure, automatic
+visibilitychange retries stop until the user presses the affordance, so a broken
+resume cannot spam attempts. The state is never shown on first load or while
+audio is running normally.
+
+### iOS silent switch (4.3 a)
+
+After the first successful activation on iOS, a quiet line appears attached to
+SOUND for about 6 s: “hearing nothing? check the silent switch.” It is not a live
+region, is shown at most once, and the dismissal is persisted in
+`localStorage['h4ngelic.sound.ios-hint.v1']`. The silent switch itself is never
 detected or probed.
 
-**Brief status:** the pasted Phase 4 text ended mid-sentence after
-“hearing nothing”. Sections 4.3 b/c and any later Phase 4 items are not
-implemented because they were not supplied; the hint copy above is the smallest
-sensible completion of the visible sentence.
+### Performance budget (4.4)
 
-## Verification (2026-11-05)
+Measured on the local Chromium build with `__H4_AUDIO_PERF__` instrumentation,
+current commit versus the pre-indicator baseline `a64f808`:
+
+| Metric | Measured |
+| --- | ---: |
+| Incremental `unlock()` cost (context already exists) | 0.0–0.2 ms |
+| `startListening()` synchronous cost | 0.1–0.5 ms |
+| Indicator start / stop cost | 0.0–0.1 ms |
+| Unlock + cascade + indicator handler total | **0.4–0.7 ms** (budget < 2 ms) |
+| Added startup: `guidedInit` + indicator DOM creation | **0.1–0.4 ms** (budget < 2 ms) |
+| First `AudioContext` construction (platform cost, not added JS) | 118–175 ms headless Chromium |
+| Gesture → first loop source, current | 121–209 ms cold, 119–135 ms warm |
+| Gesture → first loop source, baseline `a64f808` | 263 ms cold, 545–737 ms warm |
+| Analyser reads while playing | 3–20 per second (limit 30) |
+| Decoded PCM with one world resident | 3,969,000 × 2 ch × 4 B = **31,752,000 B** |
+| Observed JS heap delta after first decode | −2.0 to +10.2 MB across runs (GC noise; not a memory claim) |
+| Audio-path long tasks > 50 ms (audio-only window) | 0 |
+| Layout shifts from indicator appearance | 0 |
+
+No idle prefetch is issued: after the first loop is playing the only second-loop
+load is the existing mode-gesture preload, so no autonomous bytes or second
+decoded buffer exist. This is stricter than the conditional-prefetch rule. The
+pointermove listener is passive and throttled to 100 ms; stage 3 uses an
+`IntersectionObserver` and never reads layout per frame.
+
+## Verification (2026-11-05)## Verification (2026-11-05)
 
 All commands were run serially on this branch; actual output is under
-`docs/validation/world-sound/v3/` and `.../v3/phase4/`.
+`docs/validation/world-sound/v3/phase4b/`.
 
 | Check | Actual result |
 | --- | --- |
-| `npm test` | **402 passed, 0 failed** (`phase4/node-tests.txt`) |
+| `npm test` | **402 passed, 0 failed** (`phase4b/node-tests.txt`) |
 | `tests/world-audio-formats-browser.mjs` | 4/4 files decode at exact frame counts; 250 ms seam level continuity ≤ 1 dB; **0 audio-path long tasks**; 0 console errors |
 | `tests/world-sound-browser.mjs` | 6/6 profiles at 1440/390/320 × full/reduced; lazy load, one active loop, both transitions, full-length one-shots, SFX/crossfade end together, no audio-path long task, missing-file degradation |
-| `tests/guided-listening-browser.mjs` | 6/6 scenarios: wordmark + 1.8 s fade, 200 px stage 2, hero-out-of-view stage 3, stored mute precedence, tap-to-resume, one-time iOS hint (`phase4/guided-listening-browser.txt`) |
+| `tests/guided-listening-browser.mjs` | 8/8 scenarios: wordmark + 1.8 s fade, 200 px stage 2, hero-out-of-view stage 3, touch stage 2 inert, stored mute across all stages, keyboard tap-to-resume, one-time persisted iOS hint (`phase4b/guided-listening-browser.txt`) |
+| `tests/audio-performance-browser.mjs` | PASS: handler 0.7 ms, startup 0.1 ms, analyser 15–20 reads/s, zero audio-only long tasks, static reduced-motion bars, 390/320 both motion profiles, in-flight decode (`phase4b/audio-performance-browser.txt`) |
 | `tests/mode-audio-browser.mjs` | PASS: gesture-only startup, no legacy 0.7 s cue, file transitions, one shared context, route/mute persistence |
 | `tests/sound-controls-browser.mjs` | 8/8 profiles: mute suspension, volume, keyboard/touch, persistence, no early requests |
 | `tests/smash-v31-browser.mjs` | PASS at 1440/390/320: exact file, deferred fetch, attack/tail/stop, world-bus duck/release |
