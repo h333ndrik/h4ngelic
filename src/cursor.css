@@ -59,6 +59,7 @@
   }
 
   /* Ebene 4 — Other Side. Ohne sie kippt der Xray-Modus auf den normalen Cursor. */
+  html[data-mode='xray'],
   html[data-mode='xray'] body,
   html[data-mode='xray'] body *,
   html[data-mode='xray'] body *::before,
