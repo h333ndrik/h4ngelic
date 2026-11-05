@@ -23,7 +23,8 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { worldTransitionDurationSeconds } from '../src/audio/worldSoundSettings.js';
+import { worldTransitionDurationSeconds, worldSoundSettings } from '../src/audio/worldSoundSettings.js';
+import { hashedAudioName, hashWorldAudio } from './hash-world-audio.mjs';
 
 /** Transition length is read from the visual config, never hardcoded here. */
 export const transitionSeconds = () => worldTransitionDurationSeconds();
@@ -531,7 +532,7 @@ export async function build({ out = join(ROOT, 'work/world-sound-v3'), mastersDi
       wrap: { wrapSeconds: WRAP_SECONDS, fadeDb: loop.fadeDb, introLevelDb: loop.introLevel, tailLevelDb: loop.tailLevel, handoffFrames: loop.handoffFrames, leadInFrames: loop.leadInFrames },
       shortTermProfile: profile,
     });
-    if (publish) await writeFile(join(ROOT, 'public/assets/audio', `${id}.m4a`), m4aBytes);
+    if (publish) await writeFile(join(ROOT, 'public/assets/audio', hashedAudioName(id, 'm4a', m4aBytes)), m4aBytes);
   }
 
   // 1.7: takes differ?
@@ -594,12 +595,18 @@ export async function build({ out = join(ROOT, 'work/world-sound-v3'), mastersDi
   // falling/impulsive -> 4>333. Files keep the runtime names.
   const routing = { 'sfx-a': 'x-333-4', 'sfx-b': 'x-4-333' };
   for (const transition of report.transitions) {
-    if (publish) await writeFile(join(ROOT, 'public/assets/audio', `${routing[transition.id]}.m4a`), await readFile(transition.m4a.path));
-    transition.runtimeFile = `public/assets/audio/${routing[transition.id]}.m4a`;
+    const runtimeId = routing[transition.id];
+    const transitionBytes = await readFile(transition.m4a.path);
+    const runtimeName = hashedAudioName(runtimeId, 'm4a', transitionBytes);
+    if (publish) await writeFile(join(ROOT, 'public/assets/audio', runtimeName), transitionBytes);
+    transition.runtimeFile = `public/assets/audio/${runtimeName}`;
     transition.direction = transition.id === 'sfx-a' ? '333>4' : '4>333';
   }
   report.routing = routing;
   if (publish) {
+    // Publish again refreshes the content-hashed names and the manifest the
+    // runtime imports, and removes any stale hash of the previous audio.
+    await hashWorldAudio({ root: ROOT, log: message => console.log(message) });
     await writeFile(join(ROOT, 'docs/validation/world-sound/v3-build.json'), JSON.stringify(report, null, 2));
   }
   return report;
@@ -638,11 +645,12 @@ function encodePcm24(left, right, frames) {
 /* --------------------------------------------------------------- validate */
 
 export async function validate() {
+  const runtimePath = url => join(ROOT, 'public', url.replace(/^\//, ''));
   const files = [
-    { path: join(ROOT, 'public/assets/audio/loop-333.m4a'), frames: LOOP_FRAMES, loop: true },
-    { path: join(ROOT, 'public/assets/audio/loop-4.m4a'), frames: LOOP_FRAMES, loop: true },
-    { path: join(ROOT, 'public/assets/audio/x-333-4.m4a'), frames: transitionFrames(), loop: false },
-    { path: join(ROOT, 'public/assets/audio/x-4-333.m4a'), frames: transitionFrames(), loop: false },
+    { path: runtimePath(worldSoundSettings.paths.loops['333'][0]), frames: LOOP_FRAMES, loop: true },
+    { path: runtimePath(worldSoundSettings.paths.loops['4'][0]), frames: LOOP_FRAMES, loop: true },
+    { path: runtimePath(worldSoundSettings.paths.transitions['x-333-4'][0]), frames: transitionFrames(), loop: false },
+    { path: runtimePath(worldSoundSettings.paths.transitions['x-4-333'][0]), frames: transitionFrames(), loop: false },
   ];
   const results = [];
   for (const file of files) {

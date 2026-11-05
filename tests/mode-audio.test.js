@@ -272,7 +272,7 @@ test('guided unlock is state-only, works while muted and never fetches before a 
   audio.setMuted(false);
   assert.equal(await audio.prime({ isTrusted: true }), true);
   await new Promise(resolve => setTimeout(resolve, 0));
-  assert.equal(fetches.some(item => item.url.includes('/assets/audio/loop-333.m4a')), true, 'The SOUND switch starts the loop after unmuting.');
+  assert.equal(fetches.some(item => /\/assets\/audio\/loop-333\.[0-9a-f]+\.m4a$/.test(item.url)), true, 'The SOUND switch starts the loop after unmuting.');
   assert.equal(audio.snapshot().world.loops['333'].active, true);
   audio.dispose();
 });

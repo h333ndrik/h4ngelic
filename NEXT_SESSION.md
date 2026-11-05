@@ -37,6 +37,7 @@ build marker `b5634bc5be40`. Vercel deployed it automatically.
 | iPhone device test | OPEN — user | see next checkpoint below |
 | Key is F minor as briefed | NOT MET — measured A minor / F major | documented; no guessed pitch shift |
 | Push / merge for `v3.2-mannequin-female` | OUT OF SCOPE | must be rebased onto the new `main` before its next push |
+| Content-hashed audio URLs | DONE, UNMERGED | `<name>.<sha256:12>.m4a` + generated `src/audio/worldSoundManifest.js`; `vercel.json` immutable rule for `/assets/audio/(.*)` — header only visible after the next deploy |
 
 ## Merge record
 

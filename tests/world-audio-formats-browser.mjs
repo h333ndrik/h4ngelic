@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { worldSoundSettings } from '../src/audio/worldSoundSettings.js';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const output = new URL('../artifacts/world-audio-formats/', import.meta.url);
@@ -11,7 +12,10 @@ const masters = [
   { name: 'x-333-4', frames: 39690, loop: false },
   { name: 'x-4-333', frames: 39690, loop: false },
 ];
-const expected = masters.map(asset => ({ ...asset, format: 'm4a', path: `/assets/audio/${asset.name}.m4a` }));
+const runtimePath = name => name.startsWith('loop-')
+  ? worldSoundSettings.paths.loops[name === 'loop-333' ? '333' : '4'][0]
+  : worldSoundSettings.paths.transitions[name][0];
+const expected = masters.map(asset => ({ ...asset, format: 'm4a', path: runtimePath(asset.name) }));
 const extraDirectory = process.env.H4_WORLD_AUDIO_EXTRA_DIR;
 if (extraDirectory) {
   for (const asset of masters) {

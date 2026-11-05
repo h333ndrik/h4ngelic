@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { worldSoundSettings } from '../src/audio/worldSoundSettings.js';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const output = new URL('../artifacts/world-sound/', import.meta.url);
@@ -11,7 +12,7 @@ const browser = await chromium.launch({
 });
 const reports = [], failures = [];
 const save = () => writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), reports, failures }, null, 2));
-const isAudio = url => /\/assets\/audio\/(?:loop-(?:333|4)|x-(?:333-4|4-333))\.m4a(?:$|[?#])/.test(url);
+const isAudio = url => /\/assets\/audio\/(?:loop-(?:333|4)|x-(?:333-4|4-333))(?:\.[0-9a-f]{8,64})?\.m4a(?:$|[?#])/.test(url);
 
 async function installProbe(context) {
   await context.addInitScript(() => {
@@ -24,7 +25,7 @@ async function installProbe(context) {
     const nativeFetch = window.fetch.bind(window);
     window.fetch = function (url, ...args) {
       const value = String(url?.url || url);
-      if (/\/assets\/audio\/(?:loop-(?:333|4)|x-(?:333-4|4-333))\.m4a(?:$|[?#])/.test(value)) window.__worldProbe.fetches.push(value);
+      if (/\/assets\/audio\/(?:loop-(?:333|4)|x-(?:333-4|4-333))(?:\.[0-9a-f]{8,64})?\.m4a(?:$|[?#])/.test(value)) window.__worldProbe.fetches.push(value);
       return nativeFetch(url, ...args);
     };
     const Native = window.AudioContext || window.webkitAudioContext;
@@ -102,13 +103,13 @@ try {
       assert.equal(state.state, 'running');
       assert.equal(state.world.currentWorld, '333');
       probe = await page.evaluate(() => window.__worldProbe);
-      assert.ok(probe.fetches.some(url => url.endsWith('loop-333.m4a')), 'The first gesture fetches the active world loop.');
+      assert.ok(probe.fetches.some(url => url.endsWith(worldSoundSettings.paths.loops['333'][0])), 'The first gesture fetches the active world loop.');
       const initialTransport = state.world.transportStart;
       const firstLoop = probe.sources.find(source => source.loop);
       assert.ok(firstLoop && firstLoop.duration > 89.9 && firstLoop.duration < 90.1, 'The real 90 s M4A is decoded into the loop source.');
       assert.equal(firstLoop.offset, 0);
-      assert.equal(state.world.assets['loops:333'].path, '/assets/audio/loop-333.m4a');
-      assert.equal(probe.fetches.filter(url => url.endsWith('loop-333.m4a')).length, 1, 'The active loop is fetched once.');
+      assert.equal(state.world.assets['loops:333'].path, worldSoundSettings.paths.loops['333'][0]);
+      assert.equal(probe.fetches.filter(url => url.endsWith(worldSoundSettings.paths.loops['333'][0])).length, 1, 'The active loop is fetched once.');
 
       await enterMode(page);
       await page.waitForFunction(() => window.__H4_AUDIO__.snapshot().world?.currentWorld === '4');
@@ -125,9 +126,9 @@ try {
         'The crossfade and the transition one-shot end at the same instant.');
       await page.waitForFunction(() => window.__H4_AUDIO__.snapshot().world?.loops['333'].active === false, null, { timeout: 6000 });
       probe = await page.evaluate(() => window.__worldProbe);
-      assert.ok(probe.fetches.some(url => url.endsWith('loop-4.m4a')));
-      assert.ok(probe.fetches.some(url => url.endsWith('x-333-4.m4a')));
-      assert.equal(probe.fetches.filter(url => url.endsWith('loop-4.m4a')).length, 1, 'The incoming loop is fetched once.');
+      assert.ok(probe.fetches.some(url => url.endsWith(worldSoundSettings.paths.loops['4'][0])));
+      assert.ok(probe.fetches.some(url => url.endsWith(worldSoundSettings.paths.transitions['x-333-4'][0])));
+      assert.equal(probe.fetches.filter(url => url.endsWith(worldSoundSettings.paths.loops['4'][0])).length, 1, 'The incoming loop is fetched once.');
       const outgoingLoop = probe.sources.find(source => source.loop && source.offset === 0);
       assert.ok(outgoingLoop?.stops.length > 0, 'The inactive loop source is explicitly stopped after the fade.');
       assert.equal(Object.values((await audioSnapshot(page)).world.loops).filter(loop => loop.active).length, 1,
@@ -140,7 +141,7 @@ try {
       state = await audioSnapshot(page);
       assert.equal(state.world.transportStart, initialTransport);
       probe = await page.evaluate(() => window.__worldProbe);
-      assert.ok(probe.fetches.some(url => url.endsWith('x-4-333.m4a')));
+      assert.ok(probe.fetches.some(url => url.endsWith(worldSoundSettings.paths.transitions['x-4-333'][0])));
       const transitions = probe.sources.filter(source => !source.loop && Math.abs(source.duration - .9) < .02);
       assert.ok(transitions.length >= 2, 'Both direction-specific transition one-shots have been played.');
       assert.ok(transitions.every(source => source.stops.length === 0), 'Normal direction changes never truncate or early-fade the full one-shots.');
@@ -219,8 +220,8 @@ try {
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
     await installProbe(context);
-    await context.route('**/assets/audio/loop-4.m4a', route => route.fulfill({ status: 200, contentType: 'audio/mp4', body: 'not an m4a' }));
-    await context.route('**/assets/audio/x-333-4.m4a', route => route.fulfill({ status: 200, contentType: 'audio/mp4', body: 'not an m4a' }));
+    await context.route('**/assets/audio/loop-4.*.m4a', route => route.fulfill({ status: 200, contentType: 'audio/mp4', body: 'not an m4a' }));
+    await context.route('**/assets/audio/x-333-4.*.m4a', route => route.fulfill({ status: 200, contentType: 'audio/mp4', body: 'not an m4a' }));
     const page = await context.newPage(), pageErrors = [];
     page.on('pageerror', error => pageErrors.push(error.message));
     await page.goto(new URL('/work/tattoos?test=1', base).href, { waitUntil: 'networkidle' });

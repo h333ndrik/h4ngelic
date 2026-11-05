@@ -5,6 +5,24 @@ import { readdir, readFile } from 'node:fs/promises';
 import { createWorldSound } from '../src/audio/worldSound.js';
 import { worldSoundSettings, worldForMode, worldTransitionDurationSeconds } from '../src/audio/worldSoundSettings.js';
 
+const URL_333 = worldSoundSettings.paths.loops['333'][0];
+const URL_4 = worldSoundSettings.paths.loops['4'][0];
+const URL_X34 = worldSoundSettings.paths.transitions['x-333-4'][0];
+const URL_X43 = worldSoundSettings.paths.transitions['x-4-333'][0];
+const servedName = url => url.split('/').pop();
+/** Content-hashed URLs are normalised back to their stable label so fixtures
+ * and assertions stay readable; the fetched URL itself is never rewritten. */
+const stableLabel = url => url.replace(/\.[0-9a-f]{8,64}\./, '.');
+
+/** The shipped manifest lists only the formats that exist. The engine's
+ * M4A -> FLAC -> WAV chain is exercised with this synthetic expansion. */
+const withFallbackChain = settings => {
+  const expand = paths => Object.freeze(['m4a', 'flac', 'wav'].map(ext => paths[0].replace(/\.m4a$/, `.${ext}`)));
+  const loops = Object.freeze(Object.fromEntries(Object.entries(settings.paths.loops).map(([id, paths]) => [id, expand(paths)])));
+  const transitions = Object.freeze(Object.fromEntries(Object.entries(settings.paths.transitions).map(([id, paths]) => [id, expand(paths)])));
+  return Object.freeze({ ...settings, paths: Object.freeze({ loops, transitions }) });
+};
+
 function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSettings, contextRate = worldSoundSettings.sampleRate } = {}) {
   const fetches = [], sources = [], gains = [], filters = [], compressors = [], timers = [], decodes = [];
   class Param {
@@ -34,7 +52,7 @@ function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSett
     createDynamicsCompressor() { const node = Object.assign(new Node(), Object.fromEntries(['threshold', 'knee', 'ratio', 'attack', 'release'].map(name => [name, new Param()]))); compressors.push(node); return node; }
     createBufferSource() { const source = new Source(); sources.push(source); return source; }
     decodeAudioData(bytes) {
-      const label = new TextDecoder().decode(new Uint8Array(bytes));
+      const label = stableLabel(new TextDecoder().decode(new Uint8Array(bytes)));
       decodes.push(label);
       const name = ['loop-333', 'loop-4', 'x-333-4', 'x-4-333'].find(value => label.includes(value));
       const masterFrames = lengthOverrides[label.split('/').at(-1)] ?? lengthOverrides[name] ?? (name?.startsWith('x-') ? 39690 : 3969000);
@@ -46,7 +64,7 @@ function fixture({ missing = [], lengthOverrides = {}, settings = worldSoundSett
   const context = new Context();
   const fetch = async (url, options) => {
     fetches.push({ url, options });
-    if (missing.some(value => url.includes(value))) return { ok: false, status: 404 };
+    if (missing.some(value => stableLabel(url).includes(value))) return { ok: false, status: 404 };
     return { ok: true, status: 200, arrayBuffer: async () => new TextEncoder().encode(url).buffer };
   };
   const schedule = (fn, ms) => { const timer = { fn, ms, cancelled: false }; timers.push(timer); return timer; };
@@ -64,13 +82,15 @@ const delivered = meta => ({ hash: meta.sha256, bytes: meta.bytes });
 
 test('the manifest contains exactly four verified M4A loops/transitions with ordered fallbacks', async () => {
   const expected = {
-    'loop-333.m4a': delivered(loopById['loop-333'].m4a),
-    'loop-4.m4a': delivered(loopById['loop-4'].m4a),
-    'x-333-4.m4a': delivered(transitionById['sfx-a'].m4a),
-    'x-4-333.m4a': delivered(transitionById['sfx-b'].m4a),
+    [servedName(URL_333)]: delivered(loopById['loop-333'].m4a),
+    [servedName(URL_4)]: delivered(loopById['loop-4'].m4a),
+    [servedName(URL_X34)]: delivered(transitionById['sfx-a'].m4a),
+    [servedName(URL_X43)]: delivered(transitionById['sfx-b'].m4a),
   };
   const directory = new URL('../public/assets/audio/', import.meta.url);
+  assert.equal(Object.keys(expected).length, 4, 'Exactly two loops and two transitions are in the manifest.');
   assert.deepEqual((await readdir(directory)).sort(), Object.keys(expected).sort(), 'Only two loops and two transitions are committed.');
+  for (const name of Object.keys(expected)) assert.match(name, /^[a-z0-9-]+\.[0-9a-f]{12}\.m4a$/, 'Served names carry a content hash.');
   for (const [name, metadata] of Object.entries(expected)) {
     const bytes = await readFile(new URL(name, directory));
     assert.equal(bytes.toString('ascii', 4, 8), 'ftyp');
@@ -80,12 +100,12 @@ test('the manifest contains exactly four verified M4A loops/transitions with ord
 
   const loops = Object.values(worldSoundSettings.paths.loops);
   const transitions = Object.values(worldSoundSettings.paths.transitions);
-  assert.deepEqual(loops.map(paths => paths[0]).sort(),
-    ['/assets/audio/loop-333.m4a', '/assets/audio/loop-4.m4a']);
-  assert.deepEqual(transitions.map(paths => paths[0]).sort(),
-    ['/assets/audio/x-333-4.m4a', '/assets/audio/x-4-333.m4a']);
+  assert.deepEqual(loops.map(paths => paths[0]).sort(), [URL_333, URL_4].sort());
+  assert.deepEqual(transitions.map(paths => paths[0]).sort(), [URL_X34, URL_X43].sort());
+  const rank = ext => ['m4a', 'flac', 'wav'].indexOf(ext);
   for (const paths of [...loops, ...transitions]) {
-    assert.deepEqual(paths.map(path => path.split('.').at(-1)), ['m4a', 'flac', 'wav'], 'Fallback order is M4A → FLAC → WAV.');
+    const extensions = paths.map(path => path.split('.').at(-1));
+    assert.deepEqual(extensions, [...extensions].sort((a, b) => rank(a) - rank(b)), 'Fallback order is M4A → FLAC → WAV.');
   }
 });
 
@@ -122,7 +142,7 @@ test('world sound is lazy, loop-aligned, and crossfades over the live mode-trans
   assert.equal(f.compressors[0].threshold.value, worldSoundSettings.limiter.threshold);
   assert.equal(await f.world.activate('333'), true);
   assert.equal(f.fetches.length, 1);
-  assert.equal(f.fetches[0].url, '/assets/audio/loop-333.m4a');
+  assert.equal(f.fetches[0].url, URL_333);
   assert.equal(f.sources[0].loop, true);
   assert.equal(f.sources[0].offset, 0);
   assert.equal(f.world.snapshot().loops['333'].status, 'ready');
@@ -145,9 +165,9 @@ test('world sound is lazy, loop-aligned, and crossfades over the live mode-trans
   assert.equal(snapshot.crossfade.startedAt, 11.5);
   assert.equal(snapshot.crossfade.endsAt, 12.4);
   assert.equal(snapshot.transitionVoices, 1);
-  assert.equal(f.fetches.map(item => item.url).includes('/assets/audio/x-333-4.m4a'), true);
-  assert.equal(snapshot.assets['loops:4'].path, '/assets/audio/loop-4.m4a');
-  assert.equal(snapshot.assets['transitions:333>4'].path, '/assets/audio/x-333-4.m4a');
+  assert.equal(f.fetches.map(item => item.url).includes(URL_X34), true);
+  assert.equal(snapshot.assets['loops:4'].path, URL_4);
+  assert.equal(snapshot.assets['transitions:333>4'].path, URL_X34);
   f.context.currentTime = 12.4;
   f.flush();
   assert.ok(loopSources[0].stops.length >= 1, 'The inactive loop source is stopped after its crossfade completes.');
@@ -185,7 +205,7 @@ test('a mid-crossfade reversal retargets both gains and starts the opposite one-
   assert.equal(f.sources.filter(source => source.loop).length, 2, 'The reversal reuses the still-running outgoing source.');
   assert.equal(f.sources.filter(source => !source.loop).length, 2, 'The opposite transition is added under the same in-process controller.');
   assert.equal(loop333.offset, 0);
-  assert.ok(f.fetches.some(item => item.url === '/assets/audio/x-4-333.m4a'));
+  assert.ok(f.fetches.some(item => item.url === URL_X43));
 });
 
 test('mode transitions enter from arbitrary loop phases while one-shots start at their shared anchor', async () => {
@@ -203,16 +223,17 @@ test('mode transitions enter from arbitrary loop phases while one-shots start at
 });
 
 test('format fallback decodes the next candidate when M4A is unavailable or has encoder padding', async () => {
-  const unavailable = fixture({ missing: ['loop-333.m4a'] });
+  const fallback = withFallbackChain(worldSoundSettings);
+  const [m4a, flac] = fallback.paths.loops['333'];
+  const unavailable = fixture({ settings: fallback, missing: ['loop-333.m4a'] });
   assert.equal(await unavailable.world.activate('333'), true);
-  assert.deepEqual(unavailable.fetches.map(item => item.url),
-    ['/assets/audio/loop-333.m4a', '/assets/audio/loop-333.flac']);
-  assert.equal(unavailable.world.snapshot().assets['loops:333'].path, '/assets/audio/loop-333.flac');
+  assert.deepEqual(unavailable.fetches.map(item => item.url), [m4a, flac]);
+  assert.equal(unavailable.world.snapshot().assets['loops:333'].path, flac);
 
-  const padded = fixture({ lengthOverrides: { 'loop-333.m4a': 3968999 } });
+  const padded = fixture({ settings: fallback, lengthOverrides: { 'loop-333.m4a': 3968999 } });
   assert.equal(await padded.world.activate('333'), true);
   const asset = padded.world.snapshot().assets['loops:333'];
-  assert.equal(asset.path, '/assets/audio/loop-333.flac');
+  assert.equal(asset.path, flac);
   assert.match(asset.attempts[0].error, /Unexpected decoded length/);
   assert.equal(asset.attempts[0].status, 'failed');
   assert.equal(asset.attempts[1].status, 'ready');
@@ -223,19 +244,20 @@ test('a 48 kHz device context keeps the same master duration and still rejects e
   assert.equal(await native.world.activate('333'), true);
   const asset = native.world.snapshot().assets['loops:333'];
   assert.equal(asset.status, 'ready');
-  assert.equal(asset.path, '/assets/audio/loop-333.m4a');
+  assert.equal(asset.path, URL_333);
   assert.equal(native.world.snapshot().loops['333'].bufferDuration, 90, '90 s at 48 kHz keeps the exact master duration.');
 
-  const padded = fixture({ contextRate: 48000, lengthOverrides: { 'loop-333.m4a': 3969001 } });
+  const fallback = withFallbackChain(worldSoundSettings);
+  const padded = fixture({ settings: fallback, contextRate: 48000, lengthOverrides: { 'loop-333.m4a': 3969001 } });
   assert.equal(await padded.world.activate('333'), true);
-  assert.equal(padded.world.snapshot().assets['loops:333'].path, '/assets/audio/loop-333.flac');
+  assert.equal(padded.world.snapshot().assets['loops:333'].path, fallback.paths.loops['333'][1]);
 });
 
 test('concurrent preload and activation share one lazy fetch and one decode path', async () => {
   const f = fixture();
   const [activated] = await Promise.all([f.world.activate('333'), f.world.preload('333', null)]);
   assert.equal(activated, true);
-  assert.equal(f.fetches.filter(item => item.url === '/assets/audio/loop-333.m4a').length, 1);
+  assert.equal(f.fetches.filter(item => item.url === URL_333).length, 1);
   assert.equal(f.sources.filter(source => source.loop).length, 1);
   assert.equal(f.world.snapshot().loops['333'].active, true);
 });
@@ -286,7 +308,7 @@ test('transition one-shot concurrency is capped and only paths from settings are
     assert.ok([...Object.values(settings.paths.loops), ...Object.values(settings.paths.transitions)].flat().includes(url), `Unexpected fetched URL ${url}`);
   }
   assert.deepEqual(f.fetches.filter(item => item.url.includes('x-')).map(item => item.url).sort(),
-    ['/assets/audio/x-333-4.m4a', '/assets/audio/x-4-333.m4a']);
+    [URL_X34, URL_X43].sort());
   assert.equal(worldForMode('normal'), '333');
   assert.equal(worldForMode('xray'), '4');
   assert.equal(worldTransitionDurationSeconds(), .9, 'The crossfade follows the actual current visual transition config.');
@@ -353,10 +375,10 @@ test('five mode switches keep one context and release the outgoing loop buffer',
     f.flush();
   }
   const count = url => f.fetches.filter(item => item.url === url).length;
-  assert.equal(count('/assets/audio/loop-333.m4a'), 3, 'The incoming loop is reloaded only after its buffer was released.');
-  assert.equal(count('/assets/audio/loop-4.m4a'), 3);
-  assert.equal(count('/assets/audio/x-333-4.m4a'), 1, 'Tiny transition buffers stay cached.');
-  assert.equal(count('/assets/audio/x-4-333.m4a'), 1);
+  assert.equal(count(URL_333), 3, 'The incoming loop is reloaded only after its buffer was released.');
+  assert.equal(count(URL_4), 3);
+  assert.equal(count(URL_X34), 1, 'Tiny transition buffers stay cached.');
+  assert.equal(count(URL_X43), 1);
   const decoded = label => f.decodes.filter(value => value.includes(label)).length;
   assert.equal(decoded('loop-333'), 3);
   assert.equal(decoded('loop-4'), 3);
@@ -374,7 +396,7 @@ test('the transition direction mapping is reversible from settings alone', async
   await f.world.activate('333');
   await f.world.switchTo('4', { durationMs: 900 });
   await new Promise(resolve => setTimeout(resolve, 0));
-  assert.ok(f.fetches.some(item => item.url === '/assets/audio/x-4-333.m4a'), 'Flipped routing plays the other file.');
-  assert.ok(!f.fetches.some(item => item.url === '/assets/audio/x-333-4.m4a'));
-  assert.equal(f.world.snapshot().assets['transitions:333>4'].path, '/assets/audio/x-4-333.m4a');
+  assert.ok(f.fetches.some(item => item.url === URL_X43), 'Flipped routing plays the other file.');
+  assert.ok(!f.fetches.some(item => item.url === URL_X34));
+  assert.equal(f.world.snapshot().assets['transitions:333>4'].path, URL_X43);
 });
