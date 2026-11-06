@@ -100,14 +100,14 @@ for (const width of [1440, 390, 320]) {
       const style = getComputedStyle(element), box = element.getBoundingClientRect();
       return { text: element.textContent.trim(), opacity: Number(style.opacity), color: style.color,
         tracking: style.letterSpacing, visibility: style.visibility, width: box.width, height: box.height,
-        followsMoshlab: Boolean(document.querySelector('.footer-moshlab').compareDocumentPosition(element.closest('[data-visit-count]')) & Node.DOCUMENT_POSITION_FOLLOWING) };
+        followsBrand: Boolean(document.querySelector('.footer-brand').compareDocumentPosition(element.closest('[data-visit-count]')) & Node.DOCUMENT_POSITION_FOLLOWING) };
     });
     assert.match(visit.text, /^visit \d{4,}$/);
     assert.equal(visit.opacity, .35);
     assert.equal(visit.visibility, 'visible');
     assert.ok(visit.width > 0 && visit.height > 0);
     assert.equal(parseFloat(visit.tracking), .84);
-    assert.equal(visit.followsMoshlab, true);
+    assert.equal(visit.followsBrand, true, 'B-F29: the counter directly follows the branding.');
 
     await page.screenshot({ path: new URL(`../docs/validation/R5-VISIT/visit-${width}.png`, import.meta.url).pathname });
     report.profiles.push({ width, headings, arrow, bar, barScrolled, caret: { caretOpen, opened, closed }, visit });

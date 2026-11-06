@@ -403,9 +403,7 @@ function afterFirstPaint(task) {
 }
 
 render();
-// The approved moshlab placeholder stays inert even before deferred easter eggs load.
 document.addEventListener('click', event => {
-  if (event.target.closest?.('[data-moshlab-placeholder]')) event.preventDefault();
 });
 // Ink sampling, visitor memory and the remaining easter-egg bindings are not
 // needed for the first frame. Their module and initialization wait for idle,

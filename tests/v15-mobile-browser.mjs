@@ -64,7 +64,7 @@ try {
       const footer = await page.evaluate(() => {
         const box = selector => { const element = document.querySelector(selector); if (!element) return null;
           const r = element.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; };
-        return { moshlab: box('.footer-moshlab'), counter: box('[data-visit-count]'), smash: box('.footer-smash'),
+        return { brand: box('.footer-brand'), counter: box('[data-visit-count]'), smash: box('.footer-smash'),
           instagram: box('.footer-instagram'),
           location: box('.footer-location'), naavi: box('[data-naavi]'), pageWidth: document.documentElement.scrollWidth,
           count: document.querySelector('[data-visit-number]').textContent.trim(),
@@ -74,7 +74,7 @@ try {
       assert.match(footer.count, /^visit \d{4,}$/, 'The ghost counter is permanently readable on touch.');
       assert.equal(footer.opacity, .35, 'B-F8: the counter keeps the HOLD-4 ghost opacity.');
       assert.equal(footer.message, 0, 'B-F8: the counter owns no hidden phrase.');
-      assert.equal(overlap(footer.moshlab, footer.counter), false, 'visit and moshlab stay separate.');
+      assert.equal(overlap(footer.brand, footer.counter), false, 'visit keeps its own space next to the branding.');
       assert.equal(footer.smash, null, 'Normal mode keeps SMASH out of the DOM.');
       assert.equal(overlap(footer.instagram, footer.location), false);
       assert.equal(overlap(footer.instagram, footer.location), false);

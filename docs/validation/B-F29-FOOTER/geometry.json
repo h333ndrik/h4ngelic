@@ -1,0 +1,396 @@
+{
+  "after": [
+    {
+      "width": 1440,
+      "build": "229b279eb454",
+      "cluster": [
+        {
+          "tag": "SPAN",
+          "className": "footer-brand row-item",
+          "height": 44,
+          "width": 97.72
+        },
+        {
+          "tag": "SPAN",
+          "className": "footer-visit row-item",
+          "height": 44,
+          "width": 59.11
+        }
+      ],
+      "brand": {
+        "left": 35,
+        "right": 132.72,
+        "top": 843.95,
+        "bottom": 887.95,
+        "width": 97.72,
+        "height": 44
+      },
+      "visit": {
+        "left": 161.52,
+        "right": 220.63,
+        "top": 843.95,
+        "bottom": 887.95,
+        "width": 59.11,
+        "height": 44
+      },
+      "details": {
+        "left": 1241.83,
+        "right": 1405,
+        "top": 843.95,
+        "bottom": 887.95,
+        "width": 163.17,
+        "height": 44
+      },
+      "naavi": {
+        "left": 676,
+        "right": 764,
+        "top": 843.95,
+        "height": 44
+      },
+      "leftOverflow": {
+        "scrollWidth": 624,
+        "clientWidth": 624
+      },
+      "detailsOverflow": {
+        "scrollWidth": 163,
+        "clientWidth": 163
+      },
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "gapBrandVisit": 28.8,
+      "rowHeight": 44,
+      "detailsLeft": 1241.83,
+      "leftRight": 658.73
+    },
+    {
+      "width": 390,
+      "build": "229b279eb454",
+      "cluster": [
+        {
+          "tag": "SPAN",
+          "className": "footer-brand row-item",
+          "height": 44,
+          "width": 83.23
+        },
+        {
+          "tag": "SPAN",
+          "className": "footer-visit row-item",
+          "height": 44,
+          "width": 50.66
+        }
+      ],
+      "brand": {
+        "left": 22,
+        "right": 105.23,
+        "top": 843.58,
+        "bottom": 887.58,
+        "width": 83.23,
+        "height": 44
+      },
+      "visit": {
+        "left": 117.23,
+        "right": 167.89,
+        "top": 843.58,
+        "bottom": 887.58,
+        "width": 50.66,
+        "height": 44
+      },
+      "details": {
+        "left": 245,
+        "right": 368,
+        "top": 843.58,
+        "bottom": 887.58,
+        "width": 123,
+        "height": 44
+      },
+      "naavi": {
+        "left": 153,
+        "right": 237,
+        "top": 843.58,
+        "height": 44
+      },
+      "leftOverflow": {
+        "scrollWidth": 146,
+        "clientWidth": 123
+      },
+      "detailsOverflow": {
+        "scrollWidth": 128,
+        "clientWidth": 123
+      },
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "gapBrandVisit": 12,
+      "rowHeight": 44,
+      "detailsLeft": 245,
+      "leftRight": 145
+    },
+    {
+      "width": 320,
+      "build": "229b279eb454",
+      "cluster": [
+        {
+          "tag": "SPAN",
+          "className": "footer-brand row-item",
+          "height": 44,
+          "width": 83.23
+        },
+        {
+          "tag": "SPAN",
+          "className": "footer-visit row-item",
+          "height": 44,
+          "width": 50.66
+        }
+      ],
+      "brand": {
+        "left": 22,
+        "right": 105.23,
+        "top": 844.27,
+        "bottom": 888.27,
+        "width": 83.23,
+        "height": 44
+      },
+      "visit": {
+        "left": 117.23,
+        "right": 167.89,
+        "top": 844.27,
+        "bottom": 888.27,
+        "width": 50.66,
+        "height": 44
+      },
+      "details": {
+        "left": 210,
+        "right": 298,
+        "top": 844.27,
+        "bottom": 888.27,
+        "width": 88,
+        "height": 44
+      },
+      "naavi": {
+        "left": 118,
+        "right": 202,
+        "top": 844,
+        "height": 44
+      },
+      "leftOverflow": {
+        "scrollWidth": 146,
+        "clientWidth": 88
+      },
+      "detailsOverflow": {
+        "scrollWidth": 128,
+        "clientWidth": 88
+      },
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "gapBrandVisit": 12,
+      "rowHeight": 44,
+      "detailsLeft": 210,
+      "leftRight": 110
+    }
+  ],
+  "before": [
+    {
+      "width": 1440,
+      "build": "229b279eb454",
+      "cluster": [
+        {
+          "tag": "SPAN",
+          "className": "footer-brand row-item",
+          "height": 44,
+          "width": 97.72
+        },
+        {
+          "tag": "A",
+          "className": "footer-moshlab row-item",
+          "height": 44,
+          "width": 87.88
+        },
+        {
+          "tag": "SPAN",
+          "className": "footer-visit row-item",
+          "height": 44,
+          "width": 59.11
+        }
+      ],
+      "brand": {
+        "left": 35,
+        "right": 132.72,
+        "top": 843.95,
+        "bottom": 887.95,
+        "width": 97.72,
+        "height": 44
+      },
+      "visit": {
+        "left": 278.19,
+        "right": 337.3,
+        "top": 843.95,
+        "bottom": 887.95,
+        "width": 59.11,
+        "height": 44
+      },
+      "details": {
+        "left": 1241.83,
+        "right": 1405,
+        "top": 843.95,
+        "bottom": 887.95,
+        "width": 163.17,
+        "height": 44
+      },
+      "naavi": {
+        "left": 676,
+        "right": 764,
+        "top": 843.95,
+        "height": 44
+      },
+      "leftOverflow": {
+        "scrollWidth": 624,
+        "clientWidth": 624
+      },
+      "detailsOverflow": {
+        "scrollWidth": 163,
+        "clientWidth": 163
+      },
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "gapBrandVisit": 145.47,
+      "rowHeight": 44,
+      "detailsLeft": 1241.83,
+      "leftRight": 658.73
+    },
+    {
+      "width": 390,
+      "build": "229b279eb454",
+      "cluster": [
+        {
+          "tag": "SPAN",
+          "className": "footer-brand row-item",
+          "height": 44,
+          "width": 83.23
+        },
+        {
+          "tag": "A",
+          "className": "footer-moshlab row-item",
+          "height": 44,
+          "width": 76.09
+        },
+        {
+          "tag": "SPAN",
+          "className": "footer-visit row-item",
+          "height": 44,
+          "width": 50.66
+        }
+      ],
+      "brand": {
+        "left": 22,
+        "right": 105.23,
+        "top": 843.58,
+        "bottom": 887.58,
+        "width": 83.23,
+        "height": 44
+      },
+      "visit": {
+        "left": 205.33,
+        "right": 255.98,
+        "top": 843.58,
+        "bottom": 887.58,
+        "width": 50.66,
+        "height": 44
+      },
+      "details": {
+        "left": 245,
+        "right": 368,
+        "top": 843.58,
+        "bottom": 887.58,
+        "width": 123,
+        "height": 44
+      },
+      "naavi": {
+        "left": 153,
+        "right": 237,
+        "top": 843.58,
+        "height": 44
+      },
+      "leftOverflow": {
+        "scrollWidth": 234,
+        "clientWidth": 123
+      },
+      "detailsOverflow": {
+        "scrollWidth": 128,
+        "clientWidth": 123
+      },
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "gapBrandVisit": 100.09,
+      "rowHeight": 44,
+      "detailsLeft": 245,
+      "leftRight": 145
+    },
+    {
+      "width": 320,
+      "build": "229b279eb454",
+      "cluster": [
+        {
+          "tag": "SPAN",
+          "className": "footer-brand row-item",
+          "height": 44,
+          "width": 83.23
+        },
+        {
+          "tag": "A",
+          "className": "footer-moshlab row-item",
+          "height": 44,
+          "width": 76.09
+        },
+        {
+          "tag": "SPAN",
+          "className": "footer-visit row-item",
+          "height": 44,
+          "width": 50.66
+        }
+      ],
+      "brand": {
+        "left": 22,
+        "right": 105.23,
+        "top": 844.27,
+        "bottom": 888.27,
+        "width": 83.23,
+        "height": 44
+      },
+      "visit": {
+        "left": 205.33,
+        "right": 255.98,
+        "top": 844.27,
+        "bottom": 888.27,
+        "width": 50.66,
+        "height": 44
+      },
+      "details": {
+        "left": 210,
+        "right": 298,
+        "top": 844.27,
+        "bottom": 888.27,
+        "width": 88,
+        "height": 44
+      },
+      "naavi": {
+        "left": 118,
+        "right": 202,
+        "top": 844,
+        "height": 44
+      },
+      "leftOverflow": {
+        "scrollWidth": 234,
+        "clientWidth": 88
+      },
+      "detailsOverflow": {
+        "scrollWidth": 128,
+        "clientWidth": 88
+      },
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "gapBrandVisit": 100.09,
+      "rowHeight": 44,
+      "detailsLeft": 210,
+      "leftRight": 110
+    }
+  ]
+}

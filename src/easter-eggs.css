@@ -37,7 +37,7 @@
 .footer-details { grid-column: 3; justify-self: end; width: max-content; }
 .footer-left > *, .footer-details > * { flex: 0 0 auto; }
 .footer-brand, .footer-location { display: inline-flex; align-items: center; min-height: 44px; }
-.footer-moshlab, .footer-instagram, .footer-impressum, .footer-smash {
+.footer-instagram, .footer-impressum, .footer-smash {
   display: inline-flex;
   align-items: center;
   justify-content: center;

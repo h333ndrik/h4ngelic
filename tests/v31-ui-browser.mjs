@@ -146,7 +146,7 @@ async function formContract(page, profile) {
   const menuHover = await hovered(page, '[data-global-index] [data-index-page="home"]', profile);
   await page.keyboard.press('Escape');
   const targets = await coverage(page, ['[data-global-index] summary', '[data-global-index] a', '[data-naavi]',
-    '.about-preview .text-link', '.footer-moshlab',
+    '.about-preview .text-link', '.footer-brand',
     '.footer-instagram', '.footer-location',
     '[data-inquiry-submit]', '[data-controls] button']);
   const smash = await page.locator('.footer-smash').count();

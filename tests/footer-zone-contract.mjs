@@ -181,20 +181,22 @@ try {
       }
 
       const beforeLink = await page.evaluate(() => document.querySelectorAll('.ink-mark').length);
-      const moshlab = page.locator('.footer-moshlab');
-      await moshlab.scrollIntoViewIfNeeded();
+      const footerLink = page.locator('.footer-instagram');
+      await footerLink.scrollIntoViewIfNeeded();
 
-      // B-016 removed the impressum link, so link reachability is proven on the
-      // anchors that remain: a real press reaches the link element itself and
-      // paints nothing, and the external anchor keeps href/target/rel.
+      // B-016 removed the impressum link and B-F29 removed the placeholder, so
+      // link reachability is proven on the anchor that remains: a real press
+      // reaches the link element itself and paints nothing. The press is
+      // cancelled after the probe so the external target never opens here.
       await page.evaluate(() => {
         window.__h4LinkHit = null;
-        document.querySelector('.footer-moshlab').addEventListener('click', event => {
+        document.querySelector('.footer-instagram').addEventListener('click', event => {
           window.__h4LinkHit = { trusted: event.isTrusted, tag: event.target.tagName,
-            onLink: Boolean(event.target.closest('.footer-moshlab')) };
+            onLink: Boolean(event.target.closest('.footer-instagram')) };
+          event.preventDefault();
         }, { once: true });
       });
-      await moshlab.click();
+      await footerLink.click();
       await page.waitForTimeout(120);
       const reached = await page.evaluate(() => window.__h4LinkHit);
       assert.equal(reached?.trusted, true, `[${width}] a real press still reaches the footer link`);

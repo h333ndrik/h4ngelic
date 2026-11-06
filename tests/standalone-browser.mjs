@@ -181,12 +181,11 @@ try {
       assert.match(await page.locator('[data-visit-number]').textContent(), /^visit \d{4,}$/);
       await footerAtRest(page);
       const identity = await identityGeometry(page);
-      assert.equal(identity.counterInLeftCluster, true, 'The local count follows moshlab in the left footer cluster.');
+      assert.equal(identity.counterInLeftCluster, true, 'The local count sits in the left footer cluster.');
       assert.ok(Math.abs(identity.row.centerY - identity.naavi.centerY) < 2, 'Footer and NAAVI share one baseline.');
       assert.ok(identity.left.right <= identity.naavi.left + 1 && identity.naavi.right <= identity.right.left + 1,
         'The middle reservation keeps the shared NAAVI clear of both footer clusters.');
-      assert.equal(await page.locator('.footer-moshlab').getAttribute('href'), '#');
-      assert.equal(await page.locator('.footer-moshlab .arrow').count(), 1);
+      assert.equal(await page.locator('.footer-left a').count(), 0, 'B-F29: the exported left cluster owns no link.');
       assert.equal(await page.locator('.footer-smash .arrow').count(), 0, 'SMASH is mode-only and carries no arrow in the normal footer.');
       assert.equal(await page.locator('.footer-instagram .arrow').count(), 1);
       assert.equal(await page.locator('[data-visit-number]').evaluate(element => Number(getComputedStyle(element).opacity)), 0.35,

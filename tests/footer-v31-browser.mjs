@@ -109,9 +109,7 @@ try {
       assert.equal(await visit.getAttribute('aria-describedby'), null);
       assert.equal(await visit.evaluate(element => getComputedStyle(element).pointerEvents), 'none', 'B-F8: no pointer target.');
       assert.equal(await count.evaluate(el=>el.closest('.footer-left')!==null),true,'The counter belongs to the left cluster.');
-      assert.equal(await visit.evaluate(el=>el.previousElementSibling?.matches('.footer-moshlab')),true,'visit follows moshlab directly.');
-      assert.equal(await page.locator('.footer-moshlab').getAttribute('href'),'#');
-      assert.equal(await page.locator('.footer-moshlab .arrow').count(),1);
+      assert.equal(await visit.evaluate(el=>el.previousElementSibling?.matches('.footer-brand')),true,'B-F29: visit follows the branding directly.');
       assert.equal(await page.locator('.footer-smash').count(),0,'Normal mode keeps SMASH out of the DOM.');
       // B-016: Impressum-Link bewusst entfernt bis Nutzdaten vorliegen (05.11.).
       assert.equal(await page.locator('.footer-impressum').count(),0,'B-016: no impressum link until real data exists.');
@@ -132,7 +130,7 @@ try {
       await counterVisible(page,true);
       const beforeReveal = await geometry(page);
       // Native focus must reveal and horizontally expose each interactive item.
-      for (const selector of ['.footer-moshlab','.footer-instagram']) {
+      for (const selector of ['.footer-left','.footer-instagram']) {
         const target=page.locator(selector);
         if(await target.isDisabled())continue;
         await target.focus();
@@ -160,10 +158,6 @@ try {
       await page.mouse.move(width/2,100);
       await counterVisible(page,true);
       await counterVisible(page,true);
-      const beforePlaceholder={url:page.url(),y:await page.evaluate(()=>scrollY)};
-      await page.locator('.footer-moshlab').click();
-      assert.equal(page.url(),beforePlaceholder.url,'The explicit placeholder invents no destination.');
-      assert.ok(Math.abs(await page.evaluate(()=>scrollY)-beforePlaceholder.y)<2,'Placeholder activation does not jump to page top.');
       await page.screenshot({path:new URL(`normal-${width}-${reduced}.png`,out).pathname});
       await mode(page,'xray');
       await page.evaluate(() => scrollTo({ top:document.documentElement.scrollHeight, behavior:'instant' }));

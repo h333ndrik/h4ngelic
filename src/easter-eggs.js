@@ -336,7 +336,6 @@ export function initEasterEggs(root = document, { settings = easterSettings, has
   listen(root, 'click', (event) => {
     // This explicitly configured placeholder must not navigate to page top or
     // pretend that H4 MOSH LAB already has a known destination.
-    if (event.target.closest?.('[data-moshlab-placeholder]')) event.preventDefault();
     const hotspot = secretTarget(event);
     if (hotspot) revealSecret(hotspot);
   });

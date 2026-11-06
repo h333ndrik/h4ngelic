@@ -99,9 +99,9 @@ test('only Home exposes the accessible inquiry form; interior Contact links targ
     assert.match(markup, /data-inquiry-status role="status" aria-live="polite"/);
     assert.match(markup, /href="mailto:h4ngelic@gmail\.com"/);
     assert.match(markup, /href="https:\/\/www\.instagram\.com\/h4ngelic\/" target="_blank" rel="noopener noreferrer"/);
-    const withoutApprovedPlaceholder = markup.replace(/<a\b[^>]*data-moshlab-placeholder[^>]*>[\s\S]*?<\/a>/g, '');
-    assert.match(markup, /class="footer-moshlab row-item" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
-    assert.doesNotMatch(withoutApprovedPlaceholder, /class="contact-links"|link coming soon|href="(?:#|mailto:|https?:\/\/|)"/);
+    // B-F29: with the placeholder removed the footer owns no bare # destination.
+    assert.doesNotMatch(markup, /href="#"/, 'no placeholder link in the rendered footer');
+    assert.doesNotMatch(markup, /class="contact-links"|link coming soon|href="(?:#|mailto:|https?:\/\/|)"/);
   }
 });
 

@@ -123,7 +123,7 @@ async function targetContracts(page, { mode, offenders, counts }) {
   const regions = [];
   await regionSweep(page, { regions, mode, offenders, counts, list: [
     ['footer-copyright', '.footer-left .footer-brand'],
-    ['footer-moshlab', '.footer-moshlab'],
+    ['footer-brand', '.footer-brand'],
     ['footer-visit', '[data-visit-count]'],
     ['footer-instagram', '.footer-instagram'],
     ['footer-location', '.footer-location'],
