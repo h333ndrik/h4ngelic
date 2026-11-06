@@ -13,7 +13,10 @@ import { siteContent } from '../src/data/siteContent.js';
  * historical `finished-<rubric>` id, everything else uses its own id. */
 const expectedIds = group => group.children
   .filter(id => id !== 'tools')
-  .map(id => id === group.id ? `finished-${id}` : id);
+  .map(id => {
+    const entry = siteContent.categories.find(category => category.id === id);
+    return entry?.anchor || (id === group.id ? `finished-${id}` : id);
+  });
 
 const renderedSections = html => [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"[^>]*\bdata-archive-category="([^"]+)"/g)]
   .map(match => match[1]);

@@ -166,7 +166,7 @@ export function renderWorkPage(category = 'all') {
     return entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>';
   };
   // B-F31: section ids come from the one shared rule in section-id.js.
-  const domIdFor = (entry, { rubricPrimary = false } = {}) => sectionDomId(entry.id, rubricPrimary ? entry.id : '');
+  const domIdFor = (entry, { rubricPrimary = false } = {}) => sectionDomId(entry.id, rubricPrimary ? entry.id : '', entry.anchor || '');
   const sectionClasses = (entry, rubricPrimary) => `archive-category${rubricPrimary ? ' rubric-primary' : ''}${entry.presentation === 'model' ? ' archive-model' : ''}`;
   const sectionAttributes = entry => entry.presentation === 'model' ? ' data-deferred-model data-section-entrance' : '';
   const leaf = (entry, { id = sectionDomId(entry), nested = true } = {}) => {

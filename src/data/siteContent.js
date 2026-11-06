@@ -13,7 +13,8 @@ export const siteContent = {
   location: 'berlin, de',
 
   categories: [
-    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', group: 'tattoos', presentation: 'drift' },
+    // B-F31: the first tattoo section carries the anchor #onskin.
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', group: 'tattoos', presentation: 'drift', anchor: 'onskin' },
     { id: 'flashes', label: 'flashes', group: 'tattoos', presentation: 'drift' },
     { id: 'jewellery', label: 'jewellery', presentation: 'drift' },
     { id: 'analog-photography', label: 'analog photography', group: 'more', presentation: 'drift' },

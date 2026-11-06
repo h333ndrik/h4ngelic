@@ -13,5 +13,5 @@ export function rubricSections(context) {
   return group.children
     .map(id => siteContent.categories.find(category => category.id === id))
     .filter(Boolean)
-    .map(entry => ({ id: entry.id, domId: sectionDomId(entry.id, group.id), label: entry.archiveLabel || entry.label }));
+    .map(entry => ({ id: entry.id, domId: sectionDomId(entry.id, group.id, entry.anchor || ''), label: entry.archiveLabel || entry.label }));
 }

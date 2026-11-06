@@ -5,4 +5,6 @@
  * doubles as its anchor. Renderer and NAAVI both call this function, so the
  * id is built in exactly one place.
  */
-export const sectionDomId = (id, rubricId = '') => rubricId && id === rubricId ? `finished-${id}` : id;
+/** An explicit `anchor` on the section entry wins; otherwise the rubric's own
+ * section keeps `finished-<rubric>` and everything else uses its own id. */
+export const sectionDomId = (id, rubricId = '', anchor = '') => anchor || (rubricId && id === rubricId ? `finished-${id}` : id);
