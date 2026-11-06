@@ -79,10 +79,12 @@ async function indexContract(page,profile,world) {
       expanded:el.querySelector('summary').getAttribute('aria-expanded')};
   });
   assert.deepEqual(data.numbers,['00/','01/','02/','03/']);
-  assert.deepEqual(data.targets,['/','/about','/#contact']);
+  assert.deepEqual(data.targets,['/','/creative/tattoos','/about','/#contact']);
+  // B-F28: "01/ creative" is an anchor like its neighbours, aimed at the
+  // shared creative landing constant instead of a dead span.
   assert.deepEqual(data.entries, [
     { tag:'A', href:'/', text:'00/ home', focusable:true },
-    { tag:'SPAN', href:null, text:'01/ creative', focusable:false },
+    { tag:'A', href:'/creative/tattoos', text:'01/ creative', focusable:true },
     { tag:'A', href:'/about', text:'02/ about', focusable:true },
     { tag:'A', href:'/#contact', text:'03/ contact', focusable:true },
   ]);

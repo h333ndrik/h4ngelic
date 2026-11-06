@@ -1,0 +1,26 @@
+{
+  "phase": "b-f19-f31-retry",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55173",
+  "finishedAt": "2026-11-06T18:16:42.795Z",
+  "results": [
+    {
+      "suite": "v31-navigation-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 128037,
+      "passLine": "PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.",
+      "failLine": ""
+    },
+    {
+      "suite": "row-geometry-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 60691,
+      "passLine": "PASS row typology: 5 viewports, 5 registered rows, 229b279eb454.",
+      "failLine": ""
+    }
+  ]
+}

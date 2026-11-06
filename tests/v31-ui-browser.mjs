@@ -28,7 +28,7 @@ async function indexRoute(page, destination) {
   if (destination === 'work') {
     await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
     await page.locator('html[data-page="work"]').waitFor();
-    await page.waitForFunction(() => location.pathname === '/creative');
+    await page.waitForFunction(() => location.pathname === '/creative/tattoos');
     await settled(page);
     return;
   }
@@ -145,8 +145,10 @@ async function formContract(page, profile) {
   assert.equal(panel.outline,'0px');assert.match(panel.shadow,/rgba\(0, 0, 0/,'The INDEX panel keeps its subtle dark depth halo.');assert.equal(panel.filter,'none');
   const menuHover = await hovered(page, '[data-global-index] [data-index-page="home"]', profile);
   await page.keyboard.press('Escape');
+  // B-F29 removed the footer placeholder link, so the interactive footer
+  // surface here is Instagram only; the brand is plain text.
   const targets = await coverage(page, ['[data-global-index] summary', '[data-global-index] a', '[data-naavi]',
-    '.about-preview .text-link', '.footer-brand',
+    '.about-preview .text-link',
     '.footer-instagram', '.footer-location',
     '[data-inquiry-submit]', '[data-controls] button']);
   const smash = await page.locator('.footer-smash').count();

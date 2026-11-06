@@ -49,7 +49,8 @@ try {
       const index = page.locator('[data-global-index]');
       await index.locator('summary').click();
       assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(nodes => nodes.map(node => node.dataset.indexPage)), ['home', 'creative', 'about', 'contact']);
-      assert.equal(await index.locator('[data-index-page="creative"]').evaluate(element => element.tagName), 'SPAN');
+      // B-F28: the creative entry is a real anchor on touch too.
+      assert.equal(await index.locator('[data-index-page="creative"]').evaluate(element => element.tagName), 'A');
       await page.keyboard.press('Escape');
       const cursor = await page.evaluate(() => ({ body: getComputedStyle(document.body).cursor, link: getComputedStyle(document.querySelector('.hero-nav a')).cursor }));
       assert.equal(cursor.body, 'auto'); assert.doesNotMatch(cursor.link, /h4ngelic/); assert.ok(['auto', 'pointer'].includes(cursor.link));
