@@ -177,14 +177,14 @@ Only one undeployed release train may be active at a time. Never stack a second
 train or advertise a merge order after starting a merge. The current queue is
 listed here so the next run does not infer it from branch names:
 
-1. **PR #22 — V3.2 world sound.** User-provided state at the 2026-11-04
-   checkpoint: open, mergeable, clean, 385/385. Reconfirm this state immediately
-   before the merge gate.
-2. **`v3.1.1-fixes`.** Rebase after PR #22. This train includes the V3.2 release
-   fixes plus the STRUCT registry, DoD, contract sweeps and gallery convention;
-   STRUCT has no separate release train.
-3. **`mail-01-diagnostics`.** Rebase only after both preceding trains. The final
-   gate includes the production inquiry/mail smoke.
+Landed on `main` (2026-11-06): PR #22 V3.2 world sound; `v3.1.1-fixes`
+(merge `d550824`); `mail-02-reply-to` (merge `7f733f0`: Reply-To for bare
+addresses and the `Name <address>` autofill form).
+
+1. **`mail-01-diagnostics` — open, next.** Sync only via `git merge origin/main`
+   (never rebase), suites green, then the merge gate. The final gate includes the
+   production inquiry/mail smoke: at most 3 real sends; on 502 evaluate
+   `resend_rejected` / `resend_unreachable`.
 
 The merge-gate statement must show the queue order, the exact commits entering
 the train, test totals and the rollback path. Post-merge smoke: verify the core

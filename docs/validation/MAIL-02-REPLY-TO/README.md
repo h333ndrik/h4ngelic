@@ -251,3 +251,25 @@ Beleg für noch gegen MAIL-02. Offen für einen späteren Lauf (hier bewusst nic
 behoben, weil außerhalb des MAIL-02-Scopes): der Mute-Zustand sollte auch dann
 aktualisiert werden, wenn Audio nicht startet — dann wäre die Suite
 umgebungsunabhängig.
+
+### 7.2 Merge
+
+Merge-Commit auf `main`: `7f733f0` (Eltern: `494ee49` = bisheriges `main` mit dem
+Mannequin-Merge, `6905b79` = `mail-02-reply-to`). Kein Squash, kein Rebase, kein
+Force-Push. Baum des Merge-Commits enthält den kompletten Branch-Stand; der
+Server-Code ist unverändert gegenüber der getesteten Fassung.
+
+Nach dem Merge auf dem kombinierten Baum geprüft:
+
+- `npm test`: **441 Tests / 440 pass / 1 skipped / 0 fail** (die zusätzlichen 27
+  Fälle kommen aus dem Mannequin-Merge, der vorher auf `main` lag).
+- `node tests/inquiry-http.mjs`: grün, `replyToExact: true`,
+  `replyToDisplayNameForm: "max@example.com"`.
+- `npm run build`: 23 Routen + 404, keine Fehler.
+
+Die Browser-Battery (Abschnitt 7) lief auf dem Branch-Baum vor dem Merge. Der
+Mannequin-Zweig hatte seine eigene Gate-Dokumentation (`b9ab902`); die
+Dateimengen überschneiden sich nicht (Mail-Pfad: `server/inquiry.mjs`).
+
+Rollback: `git revert -m 1 7f733f0` auf `main`, dann das letzte READY-Deployment
+in Vercel erneut promoten.
