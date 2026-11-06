@@ -91,7 +91,9 @@ try {
       assert.equal(await chapter.isVisible(), false, 'Interiors must not show an inaccurate homepage chapter count.');
       await index.locator('summary').click();
       assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(entries => entries.map(entry => entry.dataset.indexPage)), ['home', 'creative', 'about', 'contact']);
-      assert.equal(await index.locator('.index-static[data-index-page="creative"]').count(), 1);
+      // B-F28: the creative entry is an anchor like the others.
+      assert.equal(await index.locator('.index-static[data-index-page="creative"]').count(), 0);
+      assert.equal(await index.locator('a[data-index-page="creative"]').getAttribute('href'), '/creative/tattoos');
       await index.locator('[data-index-page="about"]').click();
       await page.locator('html[data-page="about"]').waitFor();
       await page.waitForFunction(() => !document.querySelector('[data-global-index]').open);

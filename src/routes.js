@@ -17,6 +17,13 @@ const categoryFromSlug = (slug) => siteContent.categories.find((category) => cat
   || siteContent.workGroups.find((group) => group.id === slug);
 export const categoryURL = (category) => category === 'all' ? '/creative' : `/creative/${encodeURIComponent(categorySlug(category))}`;
 export const toolURL = (id) => `${categoryURL('tools')}/${encodeURIComponent(id)}`;
+/** B-F28/B-F30: the creative landing target is the first section of the first
+ * rubric, derived from the data list instead of a second hard-coded string.
+ * INDEX and the hero bar both render this one constant. */
+export const creativeLandingURL = (() => {
+  const rubric = siteContent.workGroups[0];
+  return categoryURL(rubric.children[0] ?? rubric.id);
+})();
 /** Compatibility export: rubric destinations are real routes, never hash tabs. */
 export const workAnchorURL = (category) => categoryURL(category === 'all' ? 'tattoos' : category);
 export const categoryById = (id) => siteContent.categories.find((category) => category.id === id);

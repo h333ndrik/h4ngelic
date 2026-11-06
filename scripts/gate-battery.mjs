@@ -21,7 +21,7 @@ const suites = (process.env.H4_GATE_SUITES || '').split(',').filter(Boolean);
 const all = [
   'tokens-audit', 'typography-contract', 'link-glyph-contract', 'row-geometry-contract',
   'footer-zone-contract', 'footer-v31-browser', 'v32-structure-browser', 'v32-micro-browser',
-  'label-format-browser', 'naavi-format-browser', 'tools-rubric-browser', 'rubric-gap-browser',
+  'label-format-browser', 'naavi-format-browser', 'tools-rubric-browser', 'creative-landing-browser', 'rubric-gap-browser',
   'rubric-hit-area-browser', 'greeting-browser', 'lowercase-sweep', 'v25-cross-links-browser',
   'v23-static-titles-browser', 'v7-visitor-tiers-browser', 'v31-navigation-browser', 'v31-ui-browser',
   'portfolio-browser', 'about-browser', 'hero-poster-browser', 'hero-boot-browser',
