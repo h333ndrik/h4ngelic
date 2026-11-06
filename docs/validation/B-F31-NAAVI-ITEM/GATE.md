@@ -107,3 +107,40 @@ Nicht betroffen und deshalb umgesetzt: B-F28, B-F30, B-F29, B-F19-Messung.
 | B-F31 Itemmodus + Anker | **gestoppt** (§7, K1–K3) | Entscheidung des Users nötig |
 | Gate-Test „DOM-IDs == Datenliste" | **nicht gebaut** — setzt die entschiedene Sektionsliste voraus | hängt an §7 |
 | Mannequin-Bedingung auf `3d-model` | **nicht gebaut** — hängt an K2 | — |
+
+## 9. Nachtrag 06.11. — F2 aufgelöst, Label-Entscheidung, Stand B-F31
+
+**Entscheidung 1 (Label):** `tests/retired-slug-browser.mjs:60` prüft den
+**sichtbaren Text** — `work.childHeadings.every(text => text !== 'on skin')`.
+Damit bleibt das Label `tattoos`; keine Umbenennung, wie vorgegeben.
+
+**F2 aufgelöst (Commit `4bb62fa` + `6cbe954`):**
+- „3d model" ist jetzt ein Sektionseintrag in `src/data/siteContent.js`
+  (`presentation: 'model'`, `route: false`) und drittes Kind der Rubrik
+  `tattoos`. `src/pages.js` rendert es aus der Liste; `src/routes.js`
+  schließt `route:false` von der Slug-Auflösung und von `routeDefinitions`
+  aus, `/creative/model-3d` bleibt `not-found`.
+- Die Sektions-ID entsteht nur noch in `src/section-id.js`
+  (`sectionDomId`), von Renderer und (kommend) NAAVI gemeinsam genutzt.
+- Gate-Test `tests/section-source.test.js` (5 Fälle): Rubrik-DOM-IDs ==
+  Datenliste in Menge und Reihenfolge, keine Sektions-ID als DOM-ID außerhalb
+  der Datenliste, `model-3d` existiert genau einmal im Quellbaum, `finished-`
+  wird an genau einer Stelle gebaut. **Auf `5fd0ea3` rot (3 von 5), jetzt grün.**
+
+**NAAVI-Itemmodus — gebaut, verifiziert, aber NICHT committet:**
+In einem Zwischenstand nachgewiesen (Preview, 1440 px):
+`/creative/tattoos` → `01/ 03` … `03/ 03` mit `href="#flashes"`,
+`aria-current="true"`, Hash folgt der aktiven Sektion (`#model-3d`);
+`/creative/more` → `01/ 02` (digital artworks) … `02/ 02`;
+`/creative/jewellery` → `01/ 01` ohne `href`; Home bleibt `00/ 04`;
+Deep-Link `#flashes` landet bei flashes (`02/ 03`).
+**Blocker:** `tests/v31-navigation-browser.mjs` wird damit rot —
+„Fully faded display text and its faded ancestors must immediately release
+difference blending" (`contrastContract`, Zeile 203). Auf `5fd0ea3` und auf
+`6cbe954` ist dieselbe Suite grün. Die Änderung wurde deshalb zurückgenommen;
+der Branch bleibt grün. Ursache ist ungeklärt (Verdacht: `paint()` läuft im
+Itemmodus mit anderen Indizes in `paintIndex`/`paintChrome`), Fix im nächsten
+Lauf.
+
+**Offen aus diesem Auftrag:** NAAVI-Itemmodus (siehe oben), Mobile-Parität
+B-F32–B-F37 und B-F39, Footer-Reihenlayout (B-F36) inklusive B-F19-Fix.
