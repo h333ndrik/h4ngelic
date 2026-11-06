@@ -176,7 +176,10 @@ body { position: relative; }
   .page-footer.exhibition-footer { --footer-naavi-reservation: 84px; }
   .footer-left, .footer-details { --cluster-gap: 12px; }
   .secret-hotspot { font-size: 12px; }
-  .footer-secret.secret-hotspot { font-size: 15px; }
+  /* B-F32: the HOLD-4 hint needs a keyboard, which a touch device does not
+     have. Its message is permanently invisible there, so it would only be an
+     invisible focus target — it leaves the layout instead. */
+  .footer-secret { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .secret-message { transition: none; }
