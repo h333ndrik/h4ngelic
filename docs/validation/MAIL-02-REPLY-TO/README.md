@@ -205,3 +205,49 @@ liegt jetzt in einem eigenen Test mit positiver Assertion.
 `node tests/inquiry-http.mjs`: grün, `replyToExact: true`,
 `replyToDisplayNameForm: "max@example.com"`, `replyToInjection` weiterhin
 „rejected with 400 before the provider call".
+
+## 7. Merge-Gate-Battery (mail-02-go)
+
+Vollständige serielle Battery vor dem Merge auf `main`:
+
+```bash
+npx vite --host 127.0.0.1 --port 5183 --strictPort
+npm run build && node scripts/serve-preview.mjs --host 127.0.0.1 --port 55242
+H4_GATE_DEV=http://127.0.0.1:5183 H4_GATE_PREVIEW=http://127.0.0.1:55242 \
+  node scripts/gate-battery.mjs mail-02-go
+```
+
+Ergebnis: **35 von 38 Suiten PASS, 1 MISSING (pensioniert), 2 FAIL** —
+`docs/validation/V3.2-FINAL-GATE/battery-mail-02-go.json`.
+
+| Suite | Status | Einordnung |
+| --- | --- | --- |
+| `artwork-transitions-browser` | MISSING | erwartet: B-F27 pensioniert (`tests/legacy/`), vom Battery-Runner als „not present" geführt |
+| `standalone-browser` | FAIL | **umgebungsbedingt, nicht durch MAIL-02** — siehe 7.1 |
+| `standalone-native-browser` | FAIL im Battery-Lauf | Ursache war das fehlende Artefakt `artifacts/h4ngelic-preview.html` (gitignored); nach `npm run preview:export` grün, Exit 0 |
+
+Die Vertrags-Suiten `tokens-audit`, `typography-contract`,
+`link-glyph-contract`, `row-geometry-contract` und `footer-zone-contract` liefen
+in derselben Battery und sind PASS.
+
+### 7.1 `standalone-browser` — NICHT PRÜFBAR in dieser Umgebung
+
+Befund: `tests/standalone-browser.mjs:305` erwartet nach dem Mute-Klick
+`aria-pressed="true"`, gemessen wird `"false"`. Zwei unabhängige Belege, dass das
+nicht aus MAIL-02 stammt:
+
+1. **Reproduktion auf `origin/main` (`d550824`)** in einem separaten, unberührten
+   Worktree: nach `npm run preview:export` scheitert dieselbe Zeile mit demselben
+   Wert. Der Branch `mail-02-reply-to` ändert ausschließlich `server/inquiry.mjs`,
+   Tests und Dokumentation — keinen Client-Code.
+2. **Ursache in der Umgebung:** `system_profiler SPAudioDataType` listet **kein
+   Audio-Ausgabegerät**. `src/sound-controls.js` schreibt `aria-pressed` nur in
+   `refresh()`; nach dem Klick läuft `refresh` ausschließlich über
+   `audio.prime(event).then(refresh)`. Ohne Ausgabegerät löst dieses Promise nie
+   auf, `aria-pressed` bleibt auf dem alten Wert.
+
+Folge: Diese eine Assertion ist auf diesem Rechner **NICHT PRÜFBAR** und weder
+Beleg für noch gegen MAIL-02. Offen für einen späteren Lauf (hier bewusst nicht
+behoben, weil außerhalb des MAIL-02-Scopes): der Mute-Zustand sollte auch dann
+aktualisiert werden, wenn Audio nicht startet — dann wäre die Suite
+umgebungsunabhängig.
