@@ -120,7 +120,7 @@ try {
       };
     });
     try {
-      await page.goto(new URL('/work/flashes', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/flashes', base).href, { waitUntil: 'networkidle' });
       assert.equal((await stats(page)).length, 0);
       assert.ok(!requests.some(url => /\/three(?:\.js|[/?])|GLTFLoader|wordmark\.typeface/.test(url)), 'A cold Flash route does not load Three or the hero.');
       const markup = renderFlashMannequin({ category: 'flashes', mannequin: {

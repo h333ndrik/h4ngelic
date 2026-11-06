@@ -1,0 +1,116 @@
+{
+  "phase": "final1",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T22:57:29.854Z",
+  "results": [
+    {
+      "suite": "tokens-audit",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 44,
+      "passLine": "PASS tokens: 24 definitions, 11 scoped consumers, 0 duplicated literals.",
+      "failLine": ""
+    },
+    {
+      "suite": "typography-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 20394,
+      "passLine": "PASS typography dist-grep: 155 emitted files, no `\\d / \\d` visible counter remains.",
+      "failLine": ""
+    },
+    {
+      "suite": "link-glyph-contract",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 22484,
+      "passLine": "PASS link glyph contract: 68 link hover checks, one .arrow source, no foreign destinations.",
+      "failLine": ""
+    },
+    {
+      "suite": "row-geometry-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 57235,
+      "passLine": "PASS row typology: 5 viewports, 5 registered rows, a2540558e5a3.",
+      "failLine": ""
+    },
+    {
+      "suite": "footer-zone-contract",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 12679,
+      "passLine": "PASS B-F19 footer zone contract — 3/3 viewports, build a2540558e5a3",
+      "failLine": ""
+    },
+    {
+      "suite": "footer-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 62514,
+      "passLine": "PASS V3.1 footer 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "v32-structure-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 33304,
+      "passLine": "PASS V3.2 structure a2540558e5a3: INDEX 00–03, 8+8 placeholders, mode-only SMASH, no imprint link, 12×301, 23 routes, /creative tool pages, gaps and NN/ NN viewer.",
+      "failLine": ""
+    },
+    {
+      "suite": "v32-micro-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10139,
+      "passLine": "PASS V3.2 micro a2540558e5a3: equal headings, shared arrow, clickable hero-flow bar, 300ms caret and permanent visit ghost at 1440/390/320.",
+      "failLine": ""
+    },
+    {
+      "suite": "label-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 18725,
+      "passLine": "PASS label format: NN/ labels, 00–04 INDEX, dynamic NAAVI counters and F28 alignment.",
+      "failLine": ""
+    },
+    {
+      "suite": "naavi-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 1546,
+      "passLine": "PASS NAAVI a2540558e5a3: shell, four Home chapters and 04/ 04 at the other side render NN/ NN.",
+      "failLine": ""
+    },
+    {
+      "suite": "tools-rubric-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 11123,
+      "passLine": "PASS tools rubric: redirect, internal detail cards with external CTAs, four filters, 4px cards and desktop/mobile slash-aligned row.",
+      "failLine": ""
+    },
+    {
+      "suite": "rubric-gap-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 27017,
+      "passLine": "PASS rubric rhythm 320px: 13.49px, gaps [[88.6],[118.1]], inset 32.7px.",
+      "failLine": ""
+    }
+  ]
+}

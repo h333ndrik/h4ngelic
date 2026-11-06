@@ -10,6 +10,188 @@ specification blocker, not guessed scope. Do not merge or deploy.
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.
 
+# WORKFLOW-KONVENTIONEN (V3.1.2-RELEASE-ZYKLUS)
+
+These conventions apply to every future fix, feature and review. They supplement
+the existing rules above and below; they do not remove the serial browser
+requirement, the no-merge-without-explicit-approval rule, cold-route rules or any
+other safety constraint. If a rule appears to conflict, the stricter rule wins
+until the user resolves it explicitly.
+
+### 1. TEST-BUDGETS / SCHNELLMODUS
+
+Mini-fixes use **Fast Mode**: run the complete `npm test` plus only the directly
+affected browser suites and any new or changed test file. Each Fast Mode commit
+and report must say:
+
+```text
+TESTMODE: fast — full battery pending at merge gate
+```
+
+Fast Mode never replaces the merge gate. If scope is uncertain, use Full Mode.
+
+### 2. MERGE-GATE
+
+Before every merge to `main`, run the complete serial browser battery at 1440,
+390 and 320 px in both full and reduced motion, plus the build and the SEO,
+route and performance guards. The battery runs serially, not in parallel. A
+merge still requires the user's explicit `merge` or `go`; without it, the
+standing no-merge rule remains in force.
+
+The merge battery also runs `tests/typography-contract.mjs`,
+`tests/link-glyph-contract.mjs` and `tests/tokens-audit.mjs` against the
+production preview. Each has a 60-second runtime budget and a token-audit finding
+blocks the gate until it is fixed or explicitly accepted by the user.
+
+### 3. KLASSIFIZIERUNG
+
+- **FAST:** CSS, copy, a single component, or test-only adjustments.
+- **VOLL:** interaction, physics, Three.js, build-pipeline, router or mode logic.
+- **Uncertain:** classify as VOLL.
+
+The classification belongs in the commit or report together with the test mode.
+
+### 4. PHASE 0 — REPRODUKTION VOR FIXING
+
+Reproduce every bug before changing code. Use a scenario matrix covering
+network-throttled, normal, blocked-asset and empty-cache conditions on both the
+dev server and the production build. Capture screenshots or a trace that shows
+the failing state. No fix without a documented reproduction; if a condition
+cannot be exercised, mark it **NICHT PRÜFBAR** and explain why.
+
+### 5. HIT-TEST STATT SELECTOR-AUDIT
+
+Cursor and pointer bugs are verified with `tests/cursor-hit-test.mjs`: a 24 px
+raster over the viewport, `elementsFromPoint` at each sample, and the assertion
+that the topmost element whose `pointer-events` is not `none` always has the
+logo cursor. Run it against the production build, not only dev. Selector-list
+audits are supporting evidence, never the acceptance proof.
+
+### 6. BLANKET-REGELN STATT EINZELFÄLLE
+
+Kill failure classes structurally instead of patching examples. A blanket rule
+must be emitted late enough to win, and every allowlist must be explicit and
+documented. The cursor contract is the reference: the final
+`html.h4-custom-cursor * { cursor: none !important; }` covers the class, while
+`[data-cursor="xray"]` is the only named exception. **Fix the class, not the
+case.**
+
+### 7. BUILD-MARKER
+
+Begin every verification by confirming `document.documentElement.dataset.build`
+or `<meta name="h4-build">`. Vercel previews are SSO-blocked, so production
+verification uses a locally served production preview plus `dist` inspection and
+`grep`. Record the exact SHA; do not describe a different build as verified.
+
+### 8. PRÄVENTIONSTEST PRO FIX
+
+Every fixed bug receives a suite or assertion that proves exactly that failure
+class. Reuse the established guards where they fit, such as
+`tests/cursor-hit-test.mjs`, `tests/hero-boot-browser.mjs`, the greeting contract
+and the hero-entrance contract. A screenshot alone is not a prevention test.
+
+### 9. FAIL-SAFE-NACHWEIS
+
+Demonstrate the fallback, not only the happy path: no JavaScript keeps system
+cursors, navigation and error paths survive hero boot failure, and reduced motion
+uses the instant or static endpoint. Record the observed fallback state with the
+same build marker as the main verification.
+
+### 10. COMMIT-TRENNUNG
+
+Keep implementation commits separate from test-only reconciliations. Isolate test
+drift against a clean HEAD, state which commits are tests only, and document any
+contract adjustment. Do not hide a behavior change inside a mass test edit.
+
+### 11. ROLLBACK-PFAD
+
+Before every merge, document rollback: `git revert -m 1 <merge-sha>` on `main`
+and promotion of the previous READY Vercel deployment. The merge-gate chat must
+contain the judgment, the commits that will land, and this rollback plan. Merging
+is allowed only after the user replies explicitly `merge` or `go`; never
+force-push.
+
+### 12. EVIDENZ-KONVENTION
+
+Store evidence per fix under `docs/validation/<SCOPE>/`: screenshots at 1440, 390
+and 320 px, relevant grep or `dist` output, and measurement JSON. Add a three-line
+addendum to `docs/validation/v3.1.2/F-STACK-VERIFICATION.md` in the form
+**Befund → Fix → Beweis**. Never invent measurements; mark anything not actually
+exercised as **NICHT PRÜFBAR**.
+
+### 13. BEFUND-FORMAT FÜR USER-MELDUNGEN
+
+When a user reports a problem, first establish and repeat back: (a) the
+`data-build` SHA, (b) the page and element, and (c) expected versus observed
+behavior with a screenshot. If any of these is missing, request it before
+claiming a fix or verification.
+
+# RETIRED SUITES
+
+A suite whose contract was deliberately removed never stays red in the gate.
+Two exits only:
+
+1. **Retired** — move it to `tests/legacy/`, remove its npm script, and add a row
+   to `tests/legacy/README.md` naming the removed contract and the commit that
+   removed it, plus the suites that cover the live behaviour today.
+2. **Updated** — lift it to the current contract; it must then be green.
+
+Currently retired (GATEPREP-2, Batch 3): `scroll-browser`, `easter-browser`,
+`smart-v3-browser`, `ref09-layout-browser`. Also retired (V3.2 final gate,
+05.11.): `hero-ink-browser`, `hero-background-browser` — both waited for
+`#stage.is-ready` under reduced motion, a state the poster contract removed —
+and `artwork-transitions-browser` — it drives `<a data-artwork-link>` tiles that
+no route renders since B-013/B-014.
+Reasons and live coverage: `tests/legacy/README.md` (plus one README per
+suite), table in `docs/validation/GATEPREP-2/GATE-REPORT.md`.
+
+# DEFINITION OF DONE (PER FIX)
+
+A fix is not complete because the happy path looks right. Every fix must satisfy
+all five checks below. The Fast Mode and merge-gate rules remain unchanged; this
+checklist adds evidence requirements, not a shortcut.
+
+- [ ] **Phase 0 evidence:** the finding was reproduced with a trace or screenshot,
+  or a regression test was shown red before implementation.
+- [ ] **Central source:** the implementation changes the token, template,
+  formatter or shared component that owns the behavior, not one visible instance.
+- [ ] **Prevention proof:** a named suite or assertion covers the failure class and
+  would fail without this fix.
+- [ ] **Registry updated:** the matching row in `docs/validation/BEFUNDE.md`
+  records status, fix commit and evidence path.
+- [ ] **User check:** the evidence README contains two or three concrete
+  “so prüfst du es” steps using the visible page or browser console.
+- [ ] **Geometry is measured:** every claim about “flush”, “equal spacing” or
+  “same height” needs baseline and gap measurements in the evidence folder.
+  Screenshots without numbers do not count. Layout relationships (alignment,
+  spacing, row rhythm) are proven with `tests/row-geometry-contract.mjs` and a
+  row entry in `tests/rows.manifest.json`, not with a single changed number.
+
+Evidence follows [GALLERY-CONVENTION.md](docs/validation/GALLERY-CONVENTION.md)
+for new fixes. A fix cannot be marked `verified-by-user` until the user explicitly
+confirms it.
+
+# MERGE-QUEUE / RELEASE TRAIN
+
+Only one undeployed release train may be active at a time. Never stack a second
+train or advertise a merge order after starting a merge. The current queue is
+listed here so the next run does not infer it from branch names:
+
+1. **PR #22 — V3.2 world sound.** User-provided state at the 2026-11-04
+   checkpoint: open, mergeable, clean, 385/385. Reconfirm this state immediately
+   before the merge gate.
+2. **`v3.1.1-fixes`.** Rebase after PR #22. This train includes the V3.2 release
+   fixes plus the STRUCT registry, DoD, contract sweeps and gallery convention;
+   STRUCT has no separate release train.
+3. **`mail-01-diagnostics`.** Rebase only after both preceding trains. The final
+   gate includes the production inquiry/mail smoke.
+
+The merge-gate statement must show the queue order, the exact commits entering
+the train, test totals and the rollback path. Post-merge smoke: verify the core
+routes and the injected `data-build`; the final train additionally verifies the
+mail path. Merging and deployment still require the user's explicit `merge` or
+`go`, and force-push is never allowed.
+
 # h4ngelic continuation
 
 ## Current committed checkpoint — 2026-11-02

@@ -83,7 +83,7 @@ try {
     page.on('request', request => { if (isAudio(request.url())) requests.push(request.url()); });
     page.on('response', response => { if (isAudio(response.url())) responses.push({ url: response.url(), status: response.status() }); });
     try {
-      await page.goto(new URL('/work/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => Boolean(window.__H4_AUDIO__));
       await page.waitForTimeout(250);
       let probe = await page.evaluate(() => window.__worldProbe);
@@ -188,6 +188,9 @@ try {
         });
         await page.waitForFunction(() => window.__H4_AUDIO__.snapshot().state === 'running');
 
+        // B-015: SMASH exists only in the Other Side, so the duck check enters
+        // the mode first instead of expecting the control in the normal footer.
+        await enterMode(page);
         const smash = page.locator('[data-smash]');
         await smash.scrollIntoViewIfNeeded();
         await smash.click();
@@ -198,6 +201,7 @@ try {
         await page.waitForFunction(() => !window.__H4_AUDIO__.snapshot().smashPlaying, null, { timeout: 6000 });
         await page.waitForFunction(() => window.__H4_AUDIO__.snapshot().world.duck > .95);
         assert.equal((await page.evaluate(() => window.__worldProbe.contexts)), 1, 'Mute, visibility and SMASH never duplicate the controller.');
+        await returnMode(page);
       }
 
       const overflow = await page.evaluate(() => Math.max(0, document.documentElement.scrollWidth - innerWidth));
@@ -224,7 +228,7 @@ try {
     await context.route('**/assets/audio/x-333-4.*.m4a', route => route.fulfill({ status: 200, contentType: 'audio/mp4', body: 'not an m4a' }));
     const page = await context.newPage(), pageErrors = [];
     page.on('pageerror', error => pageErrors.push(error.message));
-    await page.goto(new URL('/work/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
+    await page.goto(new URL('/creative/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
     await page.evaluate(() => window.__H4_AUDIO__.startListening({ isTrusted: true }));
     await page.waitForFunction(() => window.__H4_AUDIO__?.snapshot().world?.loops['333'].active);
     await enterMode(page);

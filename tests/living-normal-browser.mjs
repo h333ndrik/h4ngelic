@@ -126,7 +126,7 @@ try {
 
       await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
       await frames(page);
-      await navigate(page, '.hero-nav a[href="/work"]', '/work/tattoos', 'work');
+      await navigate(page, '.hero-nav a[href="/creative"]', '/creative/tattoos', 'work');
       captures.push(await captureNormal(page, 'work', name, baseline));
       await page.keyboard.down('4');
       try { await mode(page, 'xray'); } finally { await page.keyboard.up('4'); }
@@ -140,7 +140,7 @@ try {
       captures.push(await captureNormal(page, 'about-restored-333', name, baseline));
       await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
       captures.push(await captureNormal(page, 'about-footer', name, baseline));
-      await navigate(page, '.brand-link', '/', 'home');
+      await navigate(page, '[data-floating-brand]', '/', 'home');
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       captures.push(await captureNormal(page, 'home-restored-333', name, baseline));
       assert.deepEqual(errors, [], `${name}: no browser runtime errors.`);

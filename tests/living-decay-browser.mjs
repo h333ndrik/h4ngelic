@@ -123,7 +123,7 @@ try {
       const errors = []; const requests = [];
       page.on('pageerror', error => errors.push(error.message));
       page.on('request', request => requests.push(new URL(request.url()).pathname));
-      await page.goto(new URL('/work?test=1', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative?test=1', base).href, { waitUntil: 'networkidle' });
       await page.locator('html[data-xray-ready]').waitFor();
       assert.equal(await page.locator('[data-corruption-ambient]').count(), 0);
       assert.ok(!requests.some(path => /living-decay-material|\/src\/ambient-film\.js|\/src\/corruption\.js/.test(path)), 'Normal Work loads no effect material or renderer.');
@@ -167,8 +167,8 @@ try {
       assert.ok(afterNavigation.ambient.advectedBlocks >= beforeNavigation.ambient.advectedBlocks);
       assert.ok((afterNavigation.ambient.memory.byKind.navigation || 0) > (beforeNavigation.ambient.memory.byKind.navigation || 0),
         'Native route capture also drives the existing shared image field.');
-      await page.locator('.page-nav a[href="/work"]').click();
-      await page.waitForURL(url => url.pathname === '/work/tattoos');
+      await page.locator('.page-nav a[href="/creative"]').click();
+      await page.waitForURL(url => url.pathname === '/creative/tattoos');
       await settled(page, 'xray');
       assert.equal((await state(page)).ambient.seed, first.ambient.seed);
 
@@ -300,7 +300,7 @@ try {
       const errors = []; const requests = [];
       page.on('pageerror', error => errors.push(error.message));
       page.on('request', request => requests.push(new URL(request.url()).pathname));
-      await page.goto(new URL('/work?test=1&fx=1', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative?test=1&fx=1', base).href, { waitUntil: 'networkidle' });
       const panel = page.locator('.living-decay-panel');
       await panel.waitFor();
       const sliderCount = Object.keys(livingDecaySchema).filter(key => key !== 'seed').length;

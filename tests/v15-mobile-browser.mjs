@@ -59,30 +59,30 @@ try {
       await page.screenshot({ path: new URL(`home-${profile.width}-${profile.reduced}.png`, output).pathname });
 
       await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' })); await frames(page);
-      const counter = page.locator('[data-visit-counter-hotspot]');
       await page.locator('.footer-left').evaluate(element => { element.scrollLeft = element.scrollWidth; });
       await frames(page);
-      const counterBox = await counter.boundingBox();
-      await page.touchscreen.tap(counterBox.x + counterBox.width / 2, counterBox.y + counterBox.height / 2);
-      await page.waitForFunction(() => document.querySelector('[data-visit-message]')?.classList.contains('is-discovered'));
-      await page.waitForTimeout(800);
       const footer = await page.evaluate(() => {
-        const box = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; };
-        return { moshlab: box('.footer-moshlab'), counter: box('[data-visit-counter-hotspot]'), smash: box('.footer-smash'),
-          instagram: box('.footer-instagram'), location: box('.footer-location'), naavi: box('[data-naavi]'),
-          phrase: document.querySelector('[data-visit-message]').textContent, pageWidth: document.documentElement.scrollWidth,
-          messageOpacity: Number(getComputedStyle(document.querySelector('[data-visit-message]')).opacity) };
+        const box = selector => { const element = document.querySelector(selector); if (!element) return null;
+          const r = element.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; };
+        return { moshlab: box('.footer-moshlab'), counter: box('[data-visit-count]'), smash: box('.footer-smash'),
+          instagram: box('.footer-instagram'),
+          location: box('.footer-location'), naavi: box('[data-naavi]'), pageWidth: document.documentElement.scrollWidth,
+          count: document.querySelector('[data-visit-number]').textContent.trim(),
+          opacity: Number(getComputedStyle(document.querySelector('[data-visit-number]')).opacity),
+          message: document.querySelectorAll('[data-visit-message]').length };
       });
-      assert.equal(footer.phrase, visitorMessage(5));
-      assert.ok(footer.messageOpacity > .3, `The discovered footer message is visibly painted; opacity=${footer.messageOpacity}.`);
-      assert.equal(overlap(footer.moshlab, footer.counter), false, 'VISIT and moshlab stay separate.');
-      assert.equal(overlap(footer.smash, footer.instagram), false);
+      assert.match(footer.count, /^visit \d{4,}$/, 'The ghost counter is permanently readable on touch.');
+      assert.equal(footer.opacity, .35, 'B-F8: the counter keeps the HOLD-4 ghost opacity.');
+      assert.equal(footer.message, 0, 'B-F8: the counter owns no hidden phrase.');
+      assert.equal(overlap(footer.moshlab, footer.counter), false, 'visit and moshlab stay separate.');
+      assert.equal(footer.smash, null, 'Normal mode keeps SMASH out of the DOM.');
+      assert.equal(overlap(footer.instagram, footer.location), false);
       assert.equal(overlap(footer.instagram, footer.location), false);
       assert.equal(overlap(footer.counter, footer.naavi), false);
       assert.ok(footer.pageWidth <= profile.width + 1);
       await page.screenshot({ path: new URL(`footer-${profile.width}-${profile.reduced}.png`, output).pathname });
 
-      await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"]')?.dataset.carouselPreload === 'idle');
       const carousel = page.locator('[data-horizontal-drift="tattoos"]');
       if (profile.reduced) assert.equal(await carousel.getAttribute('data-carousel-phase'), 'idle');
@@ -91,7 +91,7 @@ try {
         heading: document.querySelector('.work-page .page-heading').textContent,
         categorySize: getComputedStyle(document.querySelector('.rubric-category-heading')).fontSize,
         frontSize: (() => { const probe = document.createElement('a'); probe.className = 'category-link'; probe.style.cssText = 'position:absolute;visibility:hidden'; document.body.append(probe); const size = getComputedStyle(probe).fontSize; probe.remove(); return size; })() }));
-      assert.equal(style.heading, 'on skin');
+      assert.equal(style.heading, 'tattoos');
       assert.equal(style.categorySize, style.frontSize);
       const positionBefore = Number(await carousel.getAttribute('data-drift-position'));
       let positionAfter = positionBefore;
@@ -117,7 +117,7 @@ try {
       assert.equal(await first.getAttribute('aria-pressed'), 'true');
       assert.ok(expanded.width / Math.min(widthBefore, 300) > 1.04 && expanded.x >= -.1 && expanded.x + expanded.width <= profile.width + .1, `Touch expansion grows beyond the exact 300px resting card while fitting the phone viewport: ${JSON.stringify({widthBefore,expanded})}`);
 
-      await page.goto(new URL('/work/more', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/more', base).href, { waitUntil: 'networkidle' });
       await page.locator('#digital-artworks').waitFor();
       const digital = page.locator('#digital-artworks .artwork-open').first();
       await digital.scrollIntoViewIfNeeded(); await frames(page);
@@ -127,15 +127,15 @@ try {
       await page.screenshot({ path: new URL(`more-${profile.width}-${profile.reduced}.png`, output).pathname });
 
       await page.goto(new URL('/about', base).href, { waitUntil: 'networkidle' });
-      assert.equal(await page.locator('.about-page .page-heading').textContent(), '03/ about');
+      assert.equal(await page.locator('.about-page .page-heading').textContent(), '02/ about');
       await page.screenshot({ path: new URL(`about-${profile.width}-${profile.reduced}.png`, output).pathname });
 
-      await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
       const cross = page.locator('.rubric-cross-links');
       await cross.scrollIntoViewIfNeeded(); await frames(page);
       const crossBox = await cross.evaluate(nav => { const r = nav.getBoundingClientRect(); return { width: r.width, height: r.height, scrollWidth: nav.scrollWidth, labels: [...nav.querySelectorAll('a')].map(a => a.textContent.replace(/\s+/g, ' ').trim()) }; });
       assert.ok(crossBox.scrollWidth <= crossBox.width + 1);
-      assert.deepEqual(crossBox.labels, ['jewellery', 'more']);
+      assert.deepEqual(crossBox.labels, ['jewellery', 'tools', 'more']);
       await page.screenshot({ path: new URL(`rubrik-${profile.width}-${profile.reduced}.png`, output).pathname });
       assert.deepEqual(errors, []);
       reports.push({ ...profile, recognition, cursor, header, footer, style, positionBefore, positionAfter, widthBefore, expanded, digitalBox, crossBox, errors }); await save();

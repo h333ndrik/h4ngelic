@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-11-03T17:02:31.520Z",
+  "base": "http://127.0.0.1:55188",
+  "css": "index-pyomgUfj.css",
+  "declarations": [
+    "cursor:var(--h4-native-cursor)",
+    "cursor:var(--h4-native-cursor)!important",
+    "cursor:none!important"
+  ],
+  "inlineCursor": true,
+  "marker": {
+    "html": "65b0e9303b4a",
+    "meta": "65b0e9303b4a",
+    "cursorClass": true
+  },
+  "withClass": {
+    "mode": "blanket",
+    "total": 136,
+    "offenders": []
+  },
+  "withoutClass": {
+    "mode": "system",
+    "total": 136,
+    "offenders": []
+  },
+  "states": [
+    {
+      "selector": ".footer-moshlab",
+      "rest": "none",
+      "hover": "none",
+      "focus": "none",
+      "active": "none"
+    },
+    {
+      "selector": ".footer-instagram",
+      "rest": "none",
+      "hover": "none",
+      "focus": "none",
+      "active": "none"
+    },
+    {
+      "selector": "[data-naavi]",
+      "rest": "none",
+      "hover": "none",
+      "focus": "none",
+      "active": "none"
+    }
+  ],
+  "noScript": {
+    "cursorClass": false,
+    "dataCursor": "",
+    "body": "auto",
+    "link": "pointer",
+    "naavi": "pointer",
+    "footer": "pointer"
+  },
+  "passed": true
+}

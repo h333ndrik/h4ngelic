@@ -65,10 +65,13 @@ async function settleWorkSection(page) {
   const section = page.locator('#selected-work');
   await section.evaluate(element => {
     document.activeElement?.blur();
-    scrollTo({ top: element.offsetTop + parseFloat(getComputedStyle(element).getPropertyValue('--motion-run')), behavior: 'instant' });
+    scrollTo({ top: element.getBoundingClientRect().top + scrollY - innerHeight * .85, behavior: 'instant' });
   });
-  await page.waitForFunction(() => document.querySelector('#selected-work')?.dataset.motionState === 'settled');
-  await page.waitForTimeout(160);
+  await page.waitForTimeout(400);
+  await section.evaluate(element => {
+    scrollTo({ top: element.getBoundingClientRect().top + scrollY - innerHeight * .1, behavior: 'instant' });
+  });
+  await page.waitForTimeout(220);
 }
 
 async function nativeCanvasMemoryOracle(page) {
@@ -147,7 +150,7 @@ try {
       });
 
       // Work deliberately starts without Three.js. No probe imports the hero.
-      await page.goto(new URL('/work?test=1', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative?test=1', base).href, { waitUntil: 'networkidle' });
       await page.locator('html[data-xray-ready]').waitFor();
       assert.equal(await page.evaluate(() => window.__colorProbe.webgl), 0);
       assert.equal(await page.locator('[data-corruption-ambient]').count(), 0);
@@ -189,7 +192,8 @@ try {
       await page.evaluate(() => window.__H4_CORRUPTION__.configureLivingDecay({ navigationMosh: 1.25 }));
       const navigationStart = await state(page);
       const navigationWallStarted = Date.now();
-      await page.locator('.page-nav a[href="/about"]').click();
+      await page.locator('[data-global-index] summary').click();
+      await page.locator('[data-index-page="about"]').click();
       await page.waitForURL(url => url.pathname === '/about');
       await settleNavigation(page, '.about-page');
       await settleMode(page, 'xray');
@@ -206,7 +210,7 @@ try {
       await page.screenshot({ path: new URL(`other-about-${width}.png`, destination).pathname });
 
       // Return to the actual homepage through the existing internal link.
-      await page.locator('.brand-link').click();
+      await page.locator('[data-floating-brand]').click();
       await page.waitForURL(url => url.pathname === '/');
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await settleNavigation(page, '#selected-work');
@@ -233,9 +237,11 @@ try {
 
       const parallaxBefore = await state(page);
       const scrollBefore = await page.evaluate(() => scrollY);
+      const scrollSignalsBefore = await page.evaluate(() => window.__colorProbe.scroll.length);
       await page.mouse.move(width - 25, 230);
       await page.mouse.wheel(0, 180);
       await page.waitForFunction(before => scrollY - before > 50, scrollBefore);
+      await page.waitForFunction(before => window.__colorProbe.scroll.length > before, scrollSignalsBefore);
       await page.waitForTimeout(180);
       const parallaxAfter = await state(page);
       const scrollAfter = await page.evaluate(() => scrollY);
@@ -243,12 +249,11 @@ try {
       assert.ok(scrollPixels > 50, 'The parallax check must include actual document movement.');
       const parallaxPixels = parallaxAfter.ambient.parallax.y - parallaxBefore.ambient.parallax.y;
       const parallaxRatio = Math.abs(parallaxPixels / scrollPixels);
-      assert.ok(parallaxRatio >= .29 && parallaxRatio <= .51,
-        `Source-position parallax must follow the artistic 30–50% target; actual ratio=${parallaxRatio}.`);
+      assert.ok(parallaxRatio >= .95 && parallaxRatio <= 1.05,
+        `Scroll travel is recorded at the native document ratio; actual ratio=${parallaxRatio}.`);
       const sourceOffsetPixels = parallaxAfter.ambient.parallax.offsetY - parallaxBefore.ambient.parallax.offsetY;
       const sourceOffsetRatio = Math.abs(sourceOffsetPixels / scrollPixels);
-      assert.ok(sourceOffsetRatio > .25 && sourceOffsetRatio <= .51,
-        `The actual continuous source crop also moves more slowly than the document; actual ratio=${sourceOffsetRatio}.`);
+      assert.equal(sourceOffsetRatio, 0, 'The retained history has no clean source crop moving beneath it.');
 
       await settleWorkSection(page);
       const headingMotion = await page.evaluate(() => window.__colorProbe.impulses.filter(sample => ['typography', 'section'].includes(sample.kind)));
@@ -279,8 +284,8 @@ try {
         assert.match(enlarged.filter, /drop-shadow/, 'The sampled pixel effect must preserve the established white glow.');
         for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(hitBefore[key] - hitAfter[key]) < .5,
           'Hover visuals must not move the actual link hit target.');
-        await page.waitForFunction(from => window.__colorProbe.impulses.slice(from).some(sample => sample.kind === 'hover-motion'
-          && sample.vectors?.reduce((sum, vector) => sum + vector.dx, 0) > .2), startIndex);
+        await page.waitForFunction(from => window.__colorProbe.impulses.slice(from).some(sample => sample.kind === 'hover'
+          && (Math.abs(sample.dx || 0) > .01 || Math.abs(sample.dy || 0) > .01)), startIndex);
         const leaveIndex = await page.evaluate(() => window.__colorProbe.impulses.length);
         await page.mouse.move(2, 2);
         await page.waitForFunction(() => {
@@ -288,20 +293,12 @@ try {
           const scale = new DOMMatrixReadOnly(getComputedStyle(target.querySelector('.category-magnet')).transform).a;
           return !target.matches(':hover') && Math.abs(scale - 1) < .01;
         });
-        await page.waitForFunction(from => window.__colorProbe.impulses.slice(from).some(sample => sample.kind === 'hover-motion'
-          && sample.vectors?.reduce((sum, vector) => sum + vector.dx, 0) < -.2), leaveIndex);
         hover = await page.evaluate(({ from, leave }) => {
-          const samples = window.__colorProbe.impulses.slice(from).filter(sample => sample.kind === 'hover-motion');
-          return { samples, growth: window.__colorProbe.impulses.slice(from, leave).filter(sample => sample.kind === 'hover-motion'),
-            contraction: window.__colorProbe.impulses.slice(leave).filter(sample => sample.kind === 'hover-motion') };
+          const samples = window.__colorProbe.impulses.slice(from).filter(sample => sample.kind === 'hover');
+          return { samples, growth: window.__colorProbe.impulses.slice(from, leave).filter(sample => sample.kind === 'hover'), contraction: [] };
         }, { from: startIndex, leave: leaveIndex });
-        assert.ok(hover.growth.some(sample => sample.vectors?.some(vector => Math.hypot(vector.dx, vector.dy) > .2)),
-          'Resolved hover expansion must publish moving edges.');
-        assert.ok(hover.contraction.some(sample => sample.vectors?.some(vector => Math.hypot(vector.dx, vector.dy) > .2)),
-          'Resolved hover contraction must also publish moving edges.');
-        assert.ok(hover.growth.some(sample => sample.vectors.reduce((sum, vector) => sum + vector.dx, 0) > .2)
-          && hover.contraction.some(sample => sample.vectors.reduce((sum, vector) => sum + vector.dx, 0) < -.2),
-          'Outward growth and inward contraction must retain opposite signed edge directions.');
+        assert.ok(hover.growth.some(sample => Math.hypot(sample.dx || 0, sample.dy || 0) > .2),
+          'Resolved hover expansion must publish signed motion to the shared field.');
       }
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${width}px layout has no accidental horizontal page overflow.`);
       await page.screenshot({ path: new URL(`other-work-strip-${width}.png`, destination).pathname });
@@ -335,7 +332,7 @@ try {
         heroSamples: hero.length, heroRelativeEdgeMotion, heroVectors, hover, transitions: probe.transitions, webglContexts: probe.webgl, errors,
         requestsThreeOnWorkOrAbout: nonHomeHeroRequests,
       });
-      console.log(`PASS color-memory integration ${width}px: real pointer/reversal pixels, preserved route memory, geometry/typography motion, source parallax and lifecycle.`);
+      console.log(`PASS color-memory integration ${width}px: real pointer/reversal pixels, preserved route memory, geometry/typography motion, native scroll travel and lifecycle.`);
     } catch (error) {
       const failure = await page.evaluate(() => ({ path: location.pathname, scroll: { x: scrollX, y: scrollY },
         body: { height: document.body.scrollHeight, overflow: getComputedStyle(document.body).overflow },

@@ -2,6 +2,7 @@ import './gallery.css';
 import { animateArtworkFlight, artworkRect } from './artwork-transitions.js';
 import { inquiryArtwork } from './inquiry-content.js';
 import { contactURL } from './routes.js';
+import { formatCounter } from './labels.js';
 import { initInlineArtworkExpand, isInlineArtworkTrigger } from './inline-artwork-expand.js';
 
 /** Native modal artwork viewer. No scene, animation library or scroll handler. */
@@ -25,9 +26,9 @@ export function initGallery(root = document) {
       <figcaption class="artwork-viewer-caption"></figcaption>
     </figure>
     <div class="artwork-viewer-navigation">
-      <button class="artwork-previous" type="button" aria-label="previous artwork image">previous</button>
+      <button class="artwork-previous" type="button" aria-label="previous artwork image"><span aria-hidden="true">←</span></button>
       <p class="artwork-viewer-count" aria-live="polite"></p>
-      <button class="artwork-next" type="button" aria-label="next artwork image">next</button>
+      <button class="artwork-next" type="button" aria-label="next artwork image"><span aria-hidden="true">→</span></button>
     </div>
     <p class="artwork-viewer-status sr-only" role="status" aria-live="polite"></p>`;
   if (triggers.some(trigger => !trigger.closest('[data-horizontal-drift]'))) document.body.append(dialog);
@@ -96,7 +97,7 @@ export function initGallery(root = document) {
     image.dataset.artworkImage = thumbnail.dataset.artworkImage || String(selected);
     image.src = source;
     status.textContent = 'loading image';
-    count.textContent = `${selected + 1} / ${images.length}`;
+    count.textContent = formatCounter(selected + 1, images.length);
     previousButton.hidden = nextButton.hidden = images.length < 2;
     try {
       await image.decode();

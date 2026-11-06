@@ -1,0 +1,772 @@
+{
+  "checkedAt": "2026-11-05T22:57:43.261Z",
+  "build": "a2540558e5a3",
+  "profiles": [
+    {
+      "width": 1440,
+      "rows": [
+        {
+          "text": "tattoos",
+          "cell": {
+            "width": 240,
+            "height": 246
+          },
+          "visual": {
+            "left": 123,
+            "right": 363,
+            "height": 73
+          },
+          "arrow": {
+            "left": 316,
+            "right": 363
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "up26": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "jewellery",
+          "cell": {
+            "width": 291,
+            "height": 246
+          },
+          "visual": {
+            "left": 454,
+            "right": 745,
+            "height": 73
+          },
+          "arrow": {
+            "left": 699,
+            "right": 745
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "up26": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "tools",
+          "cell": {
+            "width": 188,
+            "height": 246
+          },
+          "visual": {
+            "left": 837,
+            "right": 1024,
+            "height": 73
+          },
+          "arrow": {
+            "left": 977,
+            "right": 1024
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "up26": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "more",
+          "cell": {
+            "width": 201,
+            "height": 246
+          },
+          "visual": {
+            "left": 1115,
+            "right": 1317,
+            "height": 73
+          },
+          "arrow": {
+            "left": 1270,
+            "right": 1317
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "up26": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        }
+      ],
+      "click": {
+        "beyond": "no navigation",
+        "label": "/creative/more"
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "rows": [
+        {
+          "text": "tattoos",
+          "cell": {
+            "width": 65,
+            "height": 117
+          },
+          "visual": {
+            "left": 55,
+            "right": 120,
+            "height": 18
+          },
+          "arrow": {
+            "left": 109,
+            "right": 120
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "up26": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "jewellery",
+          "cell": {
+            "width": 78,
+            "height": 117
+          },
+          "visual": {
+            "left": 258,
+            "right": 336,
+            "height": 18
+          },
+          "arrow": {
+            "left": 324,
+            "right": 336
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "up26": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "tools",
+          "cell": {
+            "width": 52,
+            "height": 117
+          },
+          "visual": {
+            "left": 55,
+            "right": 107,
+            "height": 18
+          },
+          "arrow": {
+            "left": 96,
+            "right": 107
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "up26": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "more",
+          "cell": {
+            "width": 56,
+            "height": 117
+          },
+          "visual": {
+            "left": 280,
+            "right": 336,
+            "height": 18
+          },
+          "arrow": {
+            "left": 324,
+            "right": 336
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "up26": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        }
+      ],
+      "click": {
+        "beyond": "no navigation",
+        "label": "/creative/more"
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "rows": [
+        {
+          "text": "tattoos",
+          "cell": {
+            "width": 56,
+            "height": 108
+          },
+          "visual": {
+            "left": 55,
+            "right": 111,
+            "height": 15
+          },
+          "arrow": {
+            "left": 102,
+            "right": 111
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tattoos"
+          },
+          "up26": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "jewellery",
+          "cell": {
+            "width": 67,
+            "height": 108
+          },
+          "visual": {
+            "left": 199,
+            "right": 266,
+            "height": 15
+          },
+          "arrow": {
+            "left": 256,
+            "right": 266
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "jewellery"
+          },
+          "up26": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "tools",
+          "cell": {
+            "width": 45,
+            "height": 108
+          },
+          "visual": {
+            "left": 55,
+            "right": 101,
+            "height": 15
+          },
+          "arrow": {
+            "left": 91,
+            "right": 101
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "tools"
+          },
+          "up26": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        },
+        {
+          "text": "more",
+          "cell": {
+            "width": 48,
+            "height": 108
+          },
+          "visual": {
+            "left": 218,
+            "right": 266,
+            "height": 15
+          },
+          "arrow": {
+            "left": 256,
+            "right": 266
+          },
+          "textHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "arrowHit": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "leftPad": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "rightBeyond": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "up20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "down20": {
+            "isSameLink": true,
+            "sameVisual": true,
+            "owner": "more"
+          },
+          "up26": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadLeft": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          },
+          "deadTop": {
+            "isSameLink": false,
+            "sameVisual": false,
+            "owner": null
+          }
+        }
+      ],
+      "click": {
+        "beyond": "no navigation",
+        "label": "/creative/more"
+      },
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failures": []
+}

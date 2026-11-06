@@ -27,6 +27,10 @@ export const seoContent = {
       title: 'work — h4ngelic',
       description: 'Explore tattoos, jewellery, photography and digital artwork by Hendrik, the independent Berlin artist behind h4ngelic.',
     },
+    impressum: {
+      title: 'impressum — h4ngelic',
+      description: 'Legal disclosure for h4ngelic. Address, contact and VAT placeholders must be completed before launch.',
+    },
     about: {
       title: 'about Hendrik / h4ngelic — independent artist in berlin',
       description: 'Meet Hendrik, the Berlin-based artist behind h4ngelic, working with ink, metal, painting and mixed media.',
@@ -40,6 +44,10 @@ export const seoContent = {
       description: 'This page could not be found. Explore work by h4ngelic or return to the homepage.',
     },
   },
+  tools: {
+    m4shlab: { title: 'm4shlab — real h.264 bitstream moshing — h4ngelic', description: 'm4shlab: real h.264 bitstream moshing in the browser. up to 12 clips, five boundary methods, local processing.' },
+    thr4ce: { title: 'thr4ce — image & stencil editor — h4ngelic', description: 'thr4ce: image and stencil editor with a deterministic morphology brush, presets and print-exact 203 dpi export.' },
+  },
   categories: {
     tattoos: {
       title: 'tattoos — h4ngelic, berlin',
@@ -48,6 +56,10 @@ export const seoContent = {
     jewellery: {
       title: 'jewellery — h4ngelic, berlin',
       description: 'Jewellery by h4ngelic, the creative identity of independent Berlin artist Hendrik.',
+    },
+    tools: {
+      title: 'tools — m4shlab & thr4ce — h4ngelic',
+      description: 'Browser tools by h333ndrik: m4shlab for real-time H.264 bitstream moshing and thr4ce for deterministic image and stencil editing.',
     },
     flashes: {
       title: 'tattoo flashes — h4ngelic, berlin',

@@ -128,7 +128,7 @@ try {
       assert.equal(other.mask, final.mask, 'The same exact silhouette survives the mode switch.');
       assert.ok(other.hintOpacity >= .34 && other.hintOpacity <= .36,
         'V6 preserves the faint foreground hint rather than a permanent Other Side label.');
-      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 times 3 to reverse');
+      assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'press 3 three times to reverse.');
       assert.equal(other.hintColor, 'rgb(255, 255, 255)');
       assert.equal(other.animation, profile.reducedMotion === 'reduce' ? 'none' : 'h4-end-material');
       await page.screenshot({ path: new URL(`${name}-other.png`, output).pathname });
@@ -155,7 +155,7 @@ try {
       assert.ok(restored.opacity >= .99);
       await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
       await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('.end-reveal-mark')).opacity) === 0);
-      await page.goto(url('/work'), { waitUntil: 'networkidle' });
+      await page.goto(url('/creative'), { waitUntil: 'networkidle' });
       assert.equal(await page.locator('[data-end-reveal]').count(), 0);
       await page.goto(url('/about'), { waitUntil: 'networkidle' });
       assert.equal(await page.locator('[data-end-reveal]').count(), 0);

@@ -29,7 +29,7 @@ async function normalPresentation(page) {
   await assertNormalTheme(page);
   const media = await page.locator('#logo-canvas,.project-image img,.about-portrait img').evaluateAll((items) => items.map((item) => getComputedStyle(item).filter));
   assert.ok(media.every((filter) => filter === 'none'), 'Normal Mode restores clean media without negative-image filters.');
-  if (await page.locator('[data-xray-hint-text]').count()) assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.');
+  if (await page.locator('[data-xray-hint-text]').count()) assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'hold 4 to see the other side.');
 }
 
 async function reverseKeys(page, key = '3') {
@@ -51,7 +51,7 @@ try {
     try {
       page.on('pageerror', (error) => errors.push(error.message));
       page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-      await page.goto(route('/work'), { waitUntil: 'networkidle' });
+      await page.goto(route('/creative'), { waitUntil: 'networkidle' });
       await normalPresentation(page);
       await page.keyboard.press('4');
       await page.keyboard.press('Numpad4');
@@ -122,7 +122,7 @@ try {
       }
       const hint = page.locator('[data-other-side-hint][data-mode-hold]');
       const text = page.locator('[data-xray-hint-text]');
-      assert.equal(await text.textContent(), 'press 3 times 3 to reverse');
+      assert.equal(await text.textContent(), 'press 3 three times to reverse.');
       await hint.scrollIntoViewIfNeeded();
       await page.mouse.move(1, 1);
       await hint.evaluate(element => element.blur());

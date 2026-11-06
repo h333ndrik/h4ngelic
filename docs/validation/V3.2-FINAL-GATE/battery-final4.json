@@ -1,0 +1,80 @@
+{
+  "phase": "final4",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T23:17:30.518Z",
+  "results": [
+    {
+      "suite": "gallery-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 18030,
+      "passLine": "PASS gallery 320px reduced=true: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.",
+      "failLine": ""
+    },
+    {
+      "suite": "hover-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 6663,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: A roomy category uses the restrained 2.5% feedback (got 1.02391)."
+    },
+    {
+      "suite": "microinteractions-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9784,
+      "passLine": "PASS microinteractions mobile: 390/320px 2x2 rubric rows, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.",
+      "failLine": ""
+    },
+    {
+      "suite": "mobile-interactions-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 5849,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: Incomplete taps may unlock the world loop but must never play a transition one-shot."
+    },
+    {
+      "suite": "master-accessibility-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 7101,
+      "passLine": "PASS dynamic accessibility: reduced-motion cancels an active NAAVI animation; the genuine expanded artwork stays inside the blanket cursor contract.",
+      "failLine": ""
+    },
+    {
+      "suite": "seo-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 29164,
+      "passLine": "PASS SEO live interiors and Home Contact: direct/refresh routes work without Three.js scene, font or reflection requests.",
+      "failLine": ""
+    },
+    {
+      "suite": "world-sound-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 45360,
+      "passLine": "PASS world sound missing-file degradation: no substitute audio, visual mode remains usable.",
+      "failLine": ""
+    },
+    {
+      "suite": "world-audio-formats-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 3340,
+      "passLine": "PASS world audio formats: 4 files decode at exact master frame counts with continuous non-zero loop boundaries and no audio-path long tasks.",
+      "failLine": ""
+    }
+  ]
+}

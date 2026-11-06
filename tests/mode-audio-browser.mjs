@@ -55,7 +55,7 @@ try {
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('request', request => { if (/\/assets\/audio\/.*\.m4a(?:$|[?#])/.test(request.url())) requests.push(request.url()); });
-  await page.goto(route('/work/tattoos'), { waitUntil: 'networkidle' });
+  await page.goto(route('/creative'), { waitUntil: 'networkidle' });
   await mode(page, 'normal');
   assert.equal(await page.evaluate(() => window.__audioProbe.contexts.length), 0, 'Browsing without a gesture allocates no audio context.');
   assert.deepEqual(requests, [], 'World files are not requested on page load.');
@@ -106,7 +106,7 @@ try {
   const fallback = await unsupported.newPage();
   const fallbackErrors = [];
   fallback.on('pageerror', (error) => fallbackErrors.push(error.message));
-  await fallback.goto(route('/work/tattoos'), { waitUntil: 'networkidle' });
+  await fallback.goto(route('/creative'), { waitUntil: 'networkidle' });
   await mode(fallback, 'normal');
   assert.equal(await fallback.locator('[data-mode-mute]:visible').count(), 0);
   await changeMode(fallback, 'xray');

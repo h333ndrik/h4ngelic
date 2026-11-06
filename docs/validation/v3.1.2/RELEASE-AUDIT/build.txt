@@ -1,0 +1,14 @@
+build marker: 65b0e9303b4a
+HEAD at build: 65b0e9303b4a35d0dceed7b8f2fcd1b474d73281
+main chunks: 1 (main-2Y96DEsf.js)
+hero modulepreload: /assets/main-2Y96DEsf.js
+modulepreload matches main chunk: True
+manifest routes: 18; all 200: True
+404 document: True
+
+entry CSS: index-pyomgUfj.css
+cursor declarations:
+- cursor:var(--h4-native-cursor)
+- cursor:var(--h4-native-cursor)!important
+- cursor:none!important
+canonical blanket is final: True

@@ -1,0 +1,340 @@
+{
+  "checkedAt": "2026-11-03T19:24:12.626Z",
+  "base": "http://127.0.0.1:55200",
+  "profiles": [
+    {
+      "width": 1440,
+      "home": {
+        "labels": [
+          "tattoos",
+          "jewellery",
+          "tools",
+          "more"
+        ],
+        "sizes": [
+          "74.88px",
+          "74.88px",
+          "74.88px",
+          "74.88px"
+        ],
+        "boxes": [
+          {
+            "left": 106.015625,
+            "top": 1123.703125,
+            "right": 430.75,
+            "width": 324.734375,
+            "textLeft": 151.28125
+          },
+          {
+            "left": 430.75,
+            "top": 1123.703125,
+            "right": 755.5,
+            "width": 324.75,
+            "textLeft": 476.015625
+          },
+          {
+            "left": 755.5,
+            "top": 1123.703125,
+            "right": 1080.25,
+            "width": 324.75,
+            "textLeft": 800.765625
+          },
+          {
+            "left": 1080.25,
+            "top": 1123.703125,
+            "right": 1405,
+            "width": 324.75,
+            "textLeft": 1125.515625
+          }
+        ],
+        "slash": 151.3125,
+        "pageWidth": 1440,
+        "innerWidth": 1440,
+        "columns": "324.734px 324.75px 324.75px 324.75px",
+        "slashInset": "88.31px"
+      },
+      "tools": {
+        "heading": "tools",
+        "filters": [
+          {
+            "text": "on skin",
+            "href": "/work/tattoos",
+            "current": null
+          },
+          {
+            "text": "jewellery",
+            "href": "/work/jewellery",
+            "current": null
+          },
+          {
+            "text": "tools",
+            "href": "/work/tools",
+            "current": "page"
+          },
+          {
+            "text": "more",
+            "href": "/work/more",
+            "current": null
+          }
+        ],
+        "cards": [
+          {
+            "id": "m4shlab",
+            "title": "m4shlab",
+            "href": "https://github.com/h333ndrik/m4shlab",
+            "target": "_blank",
+            "rel": "noopener noreferrer",
+            "teaser": "real h.264 bitstream moshing in the browser. up to 12 clips, five boundary methods, your footage never leaves the device.",
+            "arrows": 1,
+            "radius": "4px",
+            "left": 35,
+            "right": 714,
+            "width": 679,
+            "height": 370
+          },
+          {
+            "id": "thr4ce",
+            "title": "thr4ce",
+            "href": "https://h333ndrik.github.io/thr4ce",
+            "target": "_blank",
+            "rel": "noopener noreferrer",
+            "teaser": "image & stencil editor. black ink or no ink — deterministic morphology brush, print-exact export.",
+            "arrows": 1,
+            "radius": "4px",
+            "left": 726,
+            "right": 1405,
+            "width": 679,
+            "height": 370
+          }
+        ],
+        "pageWidth": 1440,
+        "innerWidth": 1440,
+        "build": "8351205c4d79"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "home": {
+        "labels": [
+          "tattoos",
+          "jewellery",
+          "tools",
+          "more"
+        ],
+        "sizes": [
+          "20.28px",
+          "20.28px",
+          "20.28px",
+          "20.28px"
+        ],
+        "boxes": [
+          {
+            "left": 50.015625,
+            "top": 988.546875,
+            "right": 209,
+            "width": 158.984375,
+            "textLeft": 72.23750305175781
+          },
+          {
+            "left": 209,
+            "top": 988.546875,
+            "right": 368,
+            "width": 159,
+            "textLeft": 231.2218780517578
+          },
+          {
+            "left": 50.015625,
+            "top": 1105.546875,
+            "right": 209,
+            "width": 158.984375,
+            "textLeft": 72.23750305175781
+          },
+          {
+            "left": 209,
+            "top": 1105.546875,
+            "right": 368,
+            "width": 159,
+            "textLeft": 231.2218780517578
+          }
+        ],
+        "slash": 72.25312805175781,
+        "pageWidth": 390,
+        "innerWidth": 390,
+        "columns": "158.984px 159px",
+        "slashInset": "32.7px"
+      },
+      "tools": {
+        "heading": "tools",
+        "filters": [
+          {
+            "text": "on skin",
+            "href": "/work/tattoos",
+            "current": null
+          },
+          {
+            "text": "jewellery",
+            "href": "/work/jewellery",
+            "current": null
+          },
+          {
+            "text": "tools",
+            "href": "/work/tools",
+            "current": "page"
+          },
+          {
+            "text": "more",
+            "href": "/work/more",
+            "current": null
+          }
+        ],
+        "cards": [
+          {
+            "id": "m4shlab",
+            "title": "m4shlab",
+            "href": "https://github.com/h333ndrik/m4shlab",
+            "target": "_blank",
+            "rel": "noopener noreferrer",
+            "teaser": "real h.264 bitstream moshing in the browser. up to 12 clips, five boundary methods, your footage never leaves the device.",
+            "arrows": 1,
+            "radius": "4px",
+            "left": 22,
+            "right": 368,
+            "width": 346,
+            "height": 210
+          },
+          {
+            "id": "thr4ce",
+            "title": "thr4ce",
+            "href": "https://h333ndrik.github.io/thr4ce",
+            "target": "_blank",
+            "rel": "noopener noreferrer",
+            "teaser": "image & stencil editor. black ink or no ink — deterministic morphology brush, print-exact export.",
+            "arrows": 1,
+            "radius": "4px",
+            "left": 22,
+            "right": 368,
+            "width": 346,
+            "height": 210
+          }
+        ],
+        "pageWidth": 390,
+        "innerWidth": 390,
+        "build": "8351205c4d79"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "home": {
+        "labels": [
+          "tattoos",
+          "jewellery",
+          "tools",
+          "more"
+        ],
+        "sizes": [
+          "18px",
+          "18px",
+          "18px",
+          "18px"
+        ],
+        "boxes": [
+          {
+            "left": 50.6875,
+            "top": 988.546875,
+            "right": 174.34375,
+            "width": 123.65625,
+            "textLeft": 69.0875015258789
+          },
+          {
+            "left": 174.34375,
+            "top": 988.546875,
+            "right": 298,
+            "width": 123.65625,
+            "textLeft": 192.74374389648438
+          },
+          {
+            "left": 50.6875,
+            "top": 1096.546875,
+            "right": 174.34375,
+            "width": 123.65625,
+            "textLeft": 69.0875015258789
+          },
+          {
+            "left": 174.34375,
+            "top": 1096.546875,
+            "right": 298,
+            "width": 123.65625,
+            "textLeft": 192.74374389648438
+          }
+        ],
+        "slash": 69.1031265258789,
+        "pageWidth": 320,
+        "innerWidth": 320,
+        "columns": "123.656px 123.656px",
+        "slashInset": "32.7px"
+      },
+      "tools": {
+        "heading": "tools",
+        "filters": [
+          {
+            "text": "on skin",
+            "href": "/work/tattoos",
+            "current": null
+          },
+          {
+            "text": "jewellery",
+            "href": "/work/jewellery",
+            "current": null
+          },
+          {
+            "text": "tools",
+            "href": "/work/tools",
+            "current": "page"
+          },
+          {
+            "text": "more",
+            "href": "/work/more",
+            "current": null
+          }
+        ],
+        "cards": [
+          {
+            "id": "m4shlab",
+            "title": "m4shlab",
+            "href": "https://github.com/h333ndrik/m4shlab",
+            "target": "_blank",
+            "rel": "noopener noreferrer",
+            "teaser": "real h.264 bitstream moshing in the browser. up to 12 clips, five boundary methods, your footage never leaves the device.",
+            "arrows": 1,
+            "radius": "4px",
+            "left": 22,
+            "right": 298,
+            "width": 276,
+            "height": 210
+          },
+          {
+            "id": "thr4ce",
+            "title": "thr4ce",
+            "href": "https://h333ndrik.github.io/thr4ce",
+            "target": "_blank",
+            "rel": "noopener noreferrer",
+            "teaser": "image & stencil editor. black ink or no ink — deterministic morphology brush, print-exact export.",
+            "arrows": 1,
+            "radius": "4px",
+            "left": 22,
+            "right": 298,
+            "width": 276,
+            "height": 210
+          }
+        ],
+        "pageWidth": 320,
+        "innerWidth": 320,
+        "build": "8351205c4d79"
+      },
+      "errors": []
+    }
+  ],
+  "passed": true
+}

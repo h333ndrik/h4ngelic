@@ -12,7 +12,9 @@ const capture = page => page.evaluate(() => {
   const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
   const poster = document.querySelector('[data-hero-poster]');
   const style = getComputedStyle(canvas), posterStyle = getComputedStyle(poster);
+  const matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
   return { entering: stage.classList.contains('is-entering'), opacity: Number(style.opacity), transform: style.transform,
+    translateY: matrix.m42, height: canvas.getBoundingClientRect().height,
     filter: style.filter, transitionProperty: style.transitionProperty, transitionDuration: style.transitionDuration,
     posterOpacity: Number(posterStyle.opacity), posterTransitionProperty: posterStyle.transitionProperty,
     posterTransitionDuration: posterStyle.transitionDuration,
@@ -61,32 +63,35 @@ try {
   const build = await page.evaluate(() => document.documentElement.dataset.build || '');
   await page.screenshot({ path: new URL('entrance-end-1440.png', output).pathname });
   assert.equal(start.entering, true);
-  assert.equal(start.opacity, 0);
-  assert.match(start.transform, /matrix\(0\.96, 0, 0, 0\.96, 0, 14\)/);
-  assert.match(start.transitionProperty, /opacity.*transform/);
-  assert.match(start.transitionDuration, /0\.45s.*1\.1s/);
+  assert.equal(start.opacity, 1, 'The logo arrives at constant opacity.');
+  assert.ok(start.translateY < -start.height * .5, `The logo starts above the hero: ${JSON.stringify(start)}`);
+  assert.equal(start.transitionProperty, 'transform');
+  assert.equal(start.transitionDuration, '1.1s');
   assert.equal(start.filter, 'none', 'The entrance never adds a blur filter.');
   assert.equal(start.posterTransitionProperty, 'opacity');
   assert.equal(start.posterTransitionDuration, '0.9s');
-  const transformDuration = Number(start.transitionDuration.split(',')[1].trim().replace('s', '')) * 1000;
+  const transformDuration = Number(start.transitionDuration.replace('s', '')) * 1000;
   assert.ok(Math.abs(transformDuration - 1100) <= 110, `Transform duration stays within 10% of 1100ms: ${transformDuration}`);
-  assert.ok(mid.opacity > 0 && mid.opacity < 1, `Mid-entrance opacity is visibly between endpoints: ${mid.opacity}`);
-  assert.notEqual(mid.transform, 'matrix(1, 0, 0, 1, 0, 0)');
-  const opacityDone = timeline.find(sample => sample.opacity >= .99)?.at;
+  assert.equal(mid.opacity, 1, 'Opacity is constant throughout the entrance.');
+  assert.ok(mid.translateY > start.translateY && mid.translateY < 0, `Mid-entrance is visibly between endpoints: ${JSON.stringify({ start: start.translateY, mid: mid.translateY })}`);
   const transformDone = timeline.find(sample => Math.abs(sample.scale - 1) < 1e-4
     && Math.abs(sample.translateY) < 1e-3)?.at;
-  assert.ok(Number.isFinite(opacityDone) && Number.isFinite(transformDone));
-  assert.ok(opacityDone < transformDone - 100,
-    `Opacity finishes before the transform: opacity ${opacityDone.toFixed(1)}ms, transform ${transformDone.toFixed(1)}ms`);
+  assert.ok(Number.isFinite(transformDone));
+  const fullyOpaque = timeline.find(sample => sample.opacity >= .99)?.at;
+  assert.ok(Number.isFinite(fullyOpaque) && fullyOpaque < 80, 'The canvas is opaque from its first entrance frame.');
   assert.equal(end.entering, false);
   assert.equal(end.opacity, 1);
-  assert.equal(end.transform, 'matrix(1, 0, 0, 1, 0, 0)');
+  const endMatrix = end.transform.match(/matrix\(([^)]+)\)/)?.[1].split(',').map(Number) || [];
+  assert.equal(endMatrix.length, 6, `The entrance ends with a readable matrix: ${end.transform}`);
+  assert.ok(Math.abs(endMatrix[0] - 1) < 1e-6 && Math.abs(endMatrix[1]) < 1e-6 && Math.abs(endMatrix[2]) < 1e-6
+    && Math.abs(endMatrix[3] - 1) < 1e-6 && Math.abs(endMatrix[4]) < 1e-6 && Math.abs(endMatrix[5]) < 1e-6,
+  `The entrance reaches identity within compositor float tolerance: ${end.transform}`);
   assert.equal(end.posterOpacity, 0);
   const elapsed = end.at - start.at;
-  assert.ok(elapsed >= 990 && elapsed <= 1210, `The entrance marker lasts 1100ms ±10%: ${elapsed.toFixed(1)}ms`);
+  assert.ok(transformDone >= 990 && transformDone <= 1210, `The sampled transform completes in 1100ms ±10%: ${transformDone.toFixed(1)}ms`);
   assert.ok(shifts < .01, `Entrance is layout-shift-free: ${shifts}`);
   results.build = build;
-  results.normal = { start, mid, end, elapsed, shifts, opacityDone, transformDone, timeline };
+  results.normal = { start, mid, end, elapsed, shifts, transformDone, timeline };
   await context.close();
 
   const reducedContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1,
@@ -147,7 +152,7 @@ try {
   await heldRoute.abort('failed');
   await breathingContext.close();
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, results, passed: true }, null, 2) + '\n');
-  console.log(`PASS entrance: ${start.opacity} -> ${mid.opacity.toFixed(3)} -> ${end.opacity}; opacity done ${opacityDone.toFixed(0)}ms, transform done ${transformDone.toFixed(0)}ms; transform ${transformDuration}ms/${elapsed.toFixed(0)}ms; breathing ${results.breathing.minOpacity.toFixed(3)}–${results.breathing.maxOpacity.toFixed(3)}; CLS ${shifts}.`);
+  console.log(`PASS entrance: opacity ${start.opacity} constant; Y ${start.translateY.toFixed(0)} -> ${mid.translateY.toFixed(0)} -> ${end.translateY.toFixed(0)}; transform ${transformDuration}ms/${elapsed.toFixed(0)}ms; breathing ${results.breathing.minOpacity.toFixed(3)}–${results.breathing.maxOpacity.toFixed(3)}; CLS ${shifts}.`);
 } catch (error) {
   await writeFile(new URL('results.json', output), JSON.stringify({ checkedAt: new Date().toISOString(), base, results, error: error.stack }, null, 2) + '\n');
   throw error;

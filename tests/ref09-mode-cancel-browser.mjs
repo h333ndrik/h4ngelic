@@ -12,7 +12,7 @@ try {
     Object.defineProperty(navigator, 'deviceMemory', { get: () => 8 });
     Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => 8 });
   });
-  await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative', base).href, { waitUntil: 'networkidle' });
   assert.equal(await page.locator('html').getAttribute('data-xray-quality'), 'full');
   await page.evaluate(() => {
     window.__cancelProbe = { amounts: [], calls: 0 };

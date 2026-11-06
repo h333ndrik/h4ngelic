@@ -1,0 +1,212 @@
+{
+  "build": "d3494732b3a9",
+  "cursorInitial": {
+    "transform": "matrix(1, 0, 0, 1, -100, -100)",
+    "transition": "all",
+    "opacity": "1",
+    "visibility": "visible",
+    "width": 23.25,
+    "height": 34.875,
+    "origin": "9px 2px",
+    "ready": "true"
+  },
+  "cursorAligned": {
+    "left": 191,
+    "top": 198,
+    "dx": 0,
+    "dy": 0,
+    "transform": "matrix(1, 0, 0, 1, 191, 198)"
+  },
+  "pressed": {
+    "scale": "none",
+    "transform": "matrix(1, 0, 0, 1, 191, 198)",
+    "pressed": true
+  },
+  "hiddenOnBlur": {
+    "opacity": "1",
+    "visibility": "visible",
+    "pressed": false
+  },
+  "headings": [
+    {
+      "text": "01/ creative",
+      "font": "86.4px",
+      "line": "93.312px",
+      "tracking": "-3.888px",
+      "textFont": "86.4px",
+      "textLine": "93.312px",
+      "textTracking": "-3.888px",
+      "width": 1370
+    },
+    {
+      "text": "02/ more about",
+      "font": "71.28px",
+      "line": "76.9824px",
+      "tracking": "-3.2076px",
+      "textFont": "71.28px",
+      "textLine": "76.9824px",
+      "textTracking": "-3.2076px",
+      "width": 1370
+    },
+    {
+      "text": "03/ contact",
+      "font": "86.4px",
+      "line": "93.312px",
+      "tracking": "-3.888px",
+      "textFont": "86.4px",
+      "textLine": "93.312px",
+      "textTracking": "-3.888px",
+      "width": 1370
+    }
+  ],
+  "header": [
+    {
+      "fraction": 0,
+      "scrollY": 0,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": 854,
+          "top": "SPAN.interaction-visual category-magnet",
+          "hit": true
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": 854,
+          "top": "SPAN.interaction-visual category-magnet",
+          "hit": true
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": 854,
+          "top": "SPAN.interaction-visual category-magnet",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "fraction": 0.25,
+      "scrollY": 824,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": -14,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": -14,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": -14,
+          "top": "undefined.",
+          "hit": false
+        }
+      ]
+    },
+    {
+      "fraction": 0.5,
+      "scrollY": 1649,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": -839,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": -839,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": -839,
+          "top": "undefined.",
+          "hit": false
+        }
+      ]
+    },
+    {
+      "fraction": 0.75,
+      "scrollY": 2473,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": -1663,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": -1663,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": -1663,
+          "top": "undefined.",
+          "hit": false
+        }
+      ]
+    },
+    {
+      "fraction": 1,
+      "scrollY": 3297,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": -2487,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": -2487,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": -2487,
+          "top": "undefined.",
+          "hit": false
+        }
+      ]
+    }
+  ],
+  "visit": {
+    "text": "VISIT 0001",
+    "opacity": "0",
+    "color": "rgb(179, 179, 175)",
+    "letterSpacing": "0.72px",
+    "textTransform": "none",
+    "left": 275.1875,
+    "top": 4153.6875,
+    "width": 67.03125,
+    "parentOpacity": "1",
+    "visible": true
+  },
+  "errors": []
+}

@@ -51,7 +51,7 @@ try {
       const page = await context.newPage();
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
-      await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative', base).href, { waitUntil: 'networkidle' });
       await waitMode(page, 'normal');
       await page.evaluate(() => {
         window.__inkChildEnds = 0;

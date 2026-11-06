@@ -94,7 +94,7 @@ function structuredData(route, metadata, config) {
   };
   const graph = [person, website, page];
   const crumbs = [{ name: 'h4ngelic', path: '/' }];
-  if (route.kind === 'work' || route.kind === 'artwork') {
+  if (route.kind === 'work' || route.kind === 'artwork' || route.kind === 'tool') {
     crumbs.push({ name: 'creative', path: categoryURL(route.category === 'all' ? 'tattoos' : route.category) });
   }
   if (route.kind === 'about') crumbs.push({ name: 'about', path: '/about' });
@@ -135,13 +135,15 @@ export function getPageMetadata(route, options = {}) {
   const projects = options.projects ?? publishedProjects();
   let copy = seoContent.pages[route.kind] || seoContent.pages['not-found'];
   if (route.kind === 'work' && route.category !== 'all') copy = seoContent.categories[route.category] || copy;
+  if (route.kind === 'tool') copy = seoContent.tools[route.tool.id] || copy;
   if (route.kind === 'artwork') {
     copy = {
       title: cleanText(route.project.seo?.title) || `${artworkLabel(route.project) || route.category} — h4ngelic`,
       description: cleanText(route.project.seo?.description) || cleanText(route.project.description) || seoContent.categories[route.category]?.description,
     };
   }
-  const contentReady = route.kind === 'home' || route.kind === 'about'
+  const externalRubric = (route.kind === 'work' && route.category === 'tools' && (siteContent.tools || []).length > 0) || route.kind === 'tool';
+  const contentReady = route.kind === 'home' || route.kind === 'about' || externalRubric
     || (route.kind === 'artwork' && isIndexableProject(route.project))
     || (route.kind === 'work' && projects.some((project) => isIndexableProject(project) && matchesArchive(project, route.category)));
   // Category pages now contain distinct real collections. Keep each canonical

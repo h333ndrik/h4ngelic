@@ -1,0 +1,11 @@
+command: rg -n style\.cursor|\.style\[['"]cursor|setProperty\(['"]cursor src
+exit: 1
+(no matches)
+
+command: rg -n cursor\s*: src --glob *.css
+exit: 0
+src/cursor.css:5:    --h4-native-cursor: url('/assets/h4ngelic-cursor.svg') 9 2, auto;
+src/cursor.css:8:    --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto;
+src/cursor.css:10:  html.h4-custom-cursor { cursor: var(--h4-native-cursor); }
+src/cursor.css:16:    cursor: var(--h4-native-cursor) !important;
+src/cursor.css:19:  html.h4-custom-cursor * { cursor: none !important; }

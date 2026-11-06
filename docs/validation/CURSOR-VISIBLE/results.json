@@ -1,0 +1,4530 @@
+{
+  "checkedAt": "2026-11-03T19:19:03.556Z",
+  "base": "http://127.0.0.1:55200",
+  "build": "8351205c4d79",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 900,
+      "points": 4460,
+      "cursors": {
+        "none": 4460
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-moshlab",
+            "sample": {
+              "x": 203.953125,
+              "y": 865.6875,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-moshlab",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 194.953125,
+                "top": 863.6875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "visit",
+            "sample": {
+              "x": 308.703125,
+              "y": 865.6875,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "footer-visit-hotspot secret-hotspot",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 299.703125,
+                "top": 863.6875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "smash",
+            "sample": {
+              "x": 1188.7421875,
+              "y": 865.6875,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "footer-smash",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 1179.7421875,
+                "top": 863.6875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "instagram",
+            "sample": {
+              "x": 1282.2265625,
+              "y": 865.6875,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-instagram",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 1273.2265625,
+                "top": 863.6875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "naavi-footer",
+            "sample": {
+              "x": 720,
+              "y": 865.6875,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 711,
+                "top": 863.6875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "naavi-slash",
+            "sample": {
+              "x": 721.46875,
+              "y": 865.6875,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 712.46875,
+                "top": 863.6875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-home",
+            "sample": {
+              "x": 1326,
+              "y": 109,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 1317,
+                "top": 107,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-about",
+            "sample": {
+              "x": 1326,
+              "y": 201,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 1317,
+                "top": 199,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-contact",
+            "sample": {
+              "x": 1326,
+              "y": 247,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 1317,
+                "top": 245,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-other-side",
+            "sample": {
+              "x": 1326,
+              "y": 293,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 1317,
+                "top": 291,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          }
+        ],
+        "drag": [
+          {
+            "x": 720,
+            "y": 450,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 711,
+              "top": 448,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 744,
+            "y": 442,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 735,
+              "top": 440,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 768,
+            "y": 434,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 759,
+              "top": 432,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 792,
+            "y": 426,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 783,
+              "top": 424,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 816,
+            "y": 418,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 807,
+              "top": 416,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "none"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "sample": {
+              "x": 389.296875,
+              "y": 524.421875,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-name",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-name",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 380.296875,
+                "top": 522.421875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "sample": {
+              "x": 957.296875,
+              "y": 524.421875,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-email",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-email",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 948.296875,
+                "top": 522.421875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "sample": {
+              "x": 673.296875,
+              "y": 707.609375,
+              "cursor": "none",
+              "tag": "TEXTAREA",
+              "id": "home-inquiry-message",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "TEXTAREA",
+                  "id": "home-inquiry-message",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field inquiry-field-message",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 664.296875,
+                "top": 705.609375,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "sample": {
+              "x": 283.296875,
+              "y": 788,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-files",
+              "className": "inquiry-file-input",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-files",
+                  "className": "inquiry-file-input",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-file-label",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-attachments",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 274.296875,
+                "top": 786,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "sample": {
+              "x": 377.1484375,
+              "y": 756.1875,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "inquiry-submit",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 368.1484375,
+                "top": 754.1875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "points": 1140,
+      "cursors": {
+        "none": 1140
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-moshlab",
+            "sample": {
+              "x": 105.78125,
+              "y": 810.34375,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-moshlab",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 96.78125,
+                "top": 808.34375,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "visit",
+            "sample": {
+              "x": 116.859375,
+              "y": 810.34375,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "footer-visit-hotspot secret-hotspot",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 107.859375,
+                "top": 808.34375,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "smash",
+            "sample": {
+              "x": 268.625,
+              "y": 810.34375,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "footer-smash",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 259.625,
+                "top": 808.34375,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "instagram",
+            "sample": {
+              "x": 332.5390625,
+              "y": 810.34375,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-instagram",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 323.5390625,
+                "top": 808.34375,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "naavi-footer",
+            "sample": {
+              "x": 195,
+              "y": 810,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 186,
+                "top": 808,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "naavi-slash",
+            "sample": {
+              "x": 196.46875,
+              "y": 810,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 187.46875,
+                "top": 808,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-home",
+            "sample": {
+              "x": 288,
+              "y": 104,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 279,
+                "top": 102,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-about",
+            "sample": {
+              "x": 288,
+              "y": 196,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 279,
+                "top": 194,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-contact",
+            "sample": {
+              "x": 288,
+              "y": 242,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 279,
+                "top": 240,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-other-side",
+            "sample": {
+              "x": 288,
+              "y": 288,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 279,
+                "top": 286,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          }
+        ],
+        "drag": [
+          {
+            "x": 195,
+            "y": 422,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 186,
+              "top": 420,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 219,
+            "y": 414,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 210,
+              "top": 412,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 243,
+            "y": 406,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 234,
+              "top": 404,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 267,
+            "y": 398,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 258,
+              "top": 396,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 291,
+            "y": 390,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 282,
+              "top": 388,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "none"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "sample": {
+              "x": 211.3359375,
+              "y": 297.546875,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-name",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-name",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 202.3359375,
+                "top": 295.546875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "sample": {
+              "x": 211.3359375,
+              "y": 416.234375,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-email",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-email",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 202.3359375,
+                "top": 414.234375,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "sample": {
+              "x": 211.3359375,
+              "y": 570.578125,
+              "cursor": "none",
+              "tag": "TEXTAREA",
+              "id": "home-inquiry-message",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "TEXTAREA",
+                  "id": "home-inquiry-message",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field inquiry-field-message",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 202.3359375,
+                "top": 568.578125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "sample": {
+              "x": 211.3359375,
+              "y": 695.578125,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-files",
+              "className": "inquiry-file-input",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-files",
+                  "className": "inquiry-file-input",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-file-label",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-attachments",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 202.3359375,
+                "top": 693.578125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "sample": {
+              "x": 161.21875,
+              "y": 720.765625,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "inquiry-submit",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 152.21875,
+                "top": 718.765625,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "points": 930,
+      "cursors": {
+        "none": 930
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-moshlab",
+            "sample": {
+              "x": 65.78125,
+              "y": 810.03125,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-moshlab",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 56.78125,
+                "top": 808.03125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "visit",
+            "sample": {
+              "x": 81.859375,
+              "y": 810.03125,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "footer-visit-hotspot secret-hotspot",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-left",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 72.859375,
+                "top": 808.03125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "smash",
+            "sample": {
+              "x": 233.625,
+              "y": 810.03125,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "footer-smash",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 224.625,
+                "top": 808.03125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "instagram",
+            "sample": {
+              "x": 262.5390625,
+              "y": 810.03125,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "footer-instagram",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "footer-details",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 253.5390625,
+                "top": 808.03125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "naavi-footer",
+            "sample": {
+              "x": 160,
+              "y": 810,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 151,
+                "top": 808,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "naavi-slash",
+            "sample": {
+              "x": 161.46875,
+              "y": 810,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "chapter-counter naavi",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "chapter-counter naavi",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "footer-identity",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FOOTER",
+                  "id": "",
+                  "className": "page-footer exhibition-footer exhibition-footer-home",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "page-content",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "page-composition",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 152.46875,
+                "top": 808,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-home",
+            "sample": {
+              "x": 218,
+              "y": 104,
+              "cursor": "none",
+              "tag": "A",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "MAIN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 209,
+                "top": 102,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-about",
+            "sample": {
+              "x": 218,
+              "y": 196,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 209,
+                "top": 194,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-contact",
+            "sample": {
+              "x": 218,
+              "y": 242,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 209,
+                "top": 240,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "index-other-side",
+            "sample": {
+              "x": 218,
+              "y": 288,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "interaction-visual",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "A",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "NAV",
+                  "id": "global-index-links",
+                  "className": "global-index-links",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "CANVAS",
+                  "id": "logo-canvas",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "stage",
+                  "className": "stage is-ready",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SECTION",
+                  "id": "home-hero",
+                  "className": "hero",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 209,
+                "top": 286,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          }
+        ],
+        "drag": [
+          {
+            "x": 160,
+            "y": 422,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 151,
+              "top": 420,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 184,
+            "y": 414,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 175,
+              "top": 412,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 208,
+            "y": 406,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-hovering is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-hovering is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 199,
+              "top": 404,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 232,
+            "y": 398,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 223,
+              "top": 396,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          },
+          {
+            "x": 256,
+            "y": 390,
+            "cursor": "none",
+            "tag": "CANVAS",
+            "id": "logo-canvas",
+            "className": "is-dragging",
+            "stack": [
+              {
+                "tag": "CANVAS",
+                "id": "logo-canvas",
+                "className": "is-dragging",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "stage",
+                "className": "stage is-ready",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "SECTION",
+                "id": "home-hero",
+                "className": "hero",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "MAIN",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "DIV",
+                "id": "",
+                "className": "page-composition",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              },
+              {
+                "tag": "BODY",
+                "id": "",
+                "className": "",
+                "pointerEvents": "auto",
+                "cursor": "none"
+              }
+            ],
+            "overlay": {
+              "exists": true,
+              "opacity": 1,
+              "visibility": "visible",
+              "display": "block",
+              "pointerEvents": "none",
+              "left": 247,
+              "top": 388,
+              "width": 23.25,
+              "height": 34.875,
+              "xError": 0,
+              "yError": 0,
+              "containsPointer": true,
+              "imageLoaded": true,
+              "naturalWidth": 23,
+              "naturalHeight": 35
+            }
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "none"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "none"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "sample": {
+              "x": 176.3359375,
+              "y": 297.046875,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-name",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-name",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 167.3359375,
+                "top": 295.046875,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "sample": {
+              "x": 176.3359375,
+              "y": 415.734375,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-email",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-email",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 167.3359375,
+                "top": 413.734375,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "sample": {
+              "x": 176.3359375,
+              "y": 570.078125,
+              "cursor": "none",
+              "tag": "TEXTAREA",
+              "id": "home-inquiry-message",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "TEXTAREA",
+                  "id": "home-inquiry-message",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-field inquiry-field-message",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-fields",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 167.3359375,
+                "top": 568.078125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "sample": {
+              "x": 176.3359375,
+              "y": 695.078125,
+              "cursor": "none",
+              "tag": "INPUT",
+              "id": "home-inquiry-files",
+              "className": "inquiry-file-input",
+              "stack": [
+                {
+                  "tag": "INPUT",
+                  "id": "home-inquiry-files",
+                  "className": "inquiry-file-input",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "LABEL",
+                  "id": "",
+                  "className": "inquiry-file-label",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-attachments",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 167.3359375,
+                "top": 693.078125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "sample": {
+              "x": 161.21875,
+              "y": 721.453125,
+              "cursor": "none",
+              "tag": "SPAN",
+              "id": "",
+              "className": "",
+              "stack": [
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "SPAN",
+                  "id": "",
+                  "className": "interaction-visual",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "BUTTON",
+                  "id": "",
+                  "className": "inquiry-submit",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "FORM",
+                  "id": "",
+                  "className": "inquiry-form",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                },
+                {
+                  "tag": "DIV",
+                  "id": "",
+                  "className": "inquiry-enter",
+                  "pointerEvents": "auto",
+                  "cursor": "none"
+                }
+              ],
+              "overlay": {
+                "exists": true,
+                "opacity": 1,
+                "visibility": "visible",
+                "display": "block",
+                "pointerEvents": "none",
+                "left": 152.21875,
+                "top": 719.453125,
+                "width": 23.25,
+                "height": 34.875,
+                "xError": 0,
+                "yError": 0,
+                "containsPointer": true,
+                "imageLoaded": true,
+                "naturalWidth": 23,
+                "naturalHeight": 35
+              }
+            }
+          }
+        ]
+      },
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "xray": {
+    "mode": "xray",
+    "cursor": "xray",
+    "points": 2221,
+    "cursors": {
+      "url(\"http://127.0.0.1:55200/assets/h4ngelic-cursor-other-r09.svg\") 9 2, auto": 2221
+    },
+    "naavi": {
+      "x": 720,
+      "y": 866,
+      "cursor": "url(\"http://127.0.0.1:55200/assets/h4ngelic-cursor-other-r09.svg\") 9 2, auto",
+      "tag": "A",
+      "id": "",
+      "className": "chapter-counter naavi",
+      "stack": [
+        {
+          "tag": "A",
+          "id": "",
+          "className": "chapter-counter naavi",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55200/assets/h4ngelic-cursor-other-r09.svg\") 9 2, auto"
+        },
+        {
+          "tag": "CANVAS",
+          "id": "logo-canvas",
+          "className": "",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55200/assets/h4ngelic-cursor-other-r09.svg\") 9 2, auto"
+        },
+        {
+          "tag": "DIV",
+          "id": "stage",
+          "className": "stage is-ready",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55200/assets/h4ngelic-cursor-other-r09.svg\") 9 2, auto"
+        },
+        {
+          "tag": "SECTION",
+          "id": "home-hero",
+          "className": "hero",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55200/assets/h4ngelic-cursor-other-r09.svg\") 9 2, auto"
+        },
+        {
+          "tag": "MAIN",
+          "id": "",
+          "className": "",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55200/assets/h4ngelic-cursor-other-r09.svg\") 9 2, auto"
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "className": "page-composition",
+          "pointerEvents": "auto",
+          "cursor": "url(\"http://127.0.0.1:55200/assets/h4ngelic-cursor-other-r09.svg\") 9 2, auto"
+        }
+      ],
+      "overlay": {
+        "exists": true,
+        "opacity": 0,
+        "visibility": "hidden",
+        "display": "block",
+        "pointerEvents": "none",
+        "left": 711,
+        "top": 864,
+        "width": 23.25,
+        "height": 34.875,
+        "xError": 0,
+        "yError": 0,
+        "containsPointer": true,
+        "imageLoaded": true,
+        "naturalWidth": 23,
+        "naturalHeight": 35
+      }
+    },
+    "offenders": [],
+    "passed": true
+  },
+  "failures": []
+}

@@ -19,7 +19,7 @@ try {
     const errors = [], requests = [];
     page.on('pageerror', error => errors.push(error.message));
     page.on('request', request => requests.push(request.url()));
-    await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+    await page.goto(new URL('/creative', base).href, { waitUntil: 'networkidle' });
     const groups = page.locator('.work-group');
     assert.equal(await groups.count(), 3);
     const observations = [];

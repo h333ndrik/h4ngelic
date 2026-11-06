@@ -31,8 +31,8 @@ async function mode(page, next) {
 }
 async function indexRoute(page, name) {
   if (name === 'work') {
-    await page.locator('.hero-nav a[href="/work"]').click();
-    await page.waitForFunction(() => document.documentElement.dataset.page === 'work' && location.pathname === '/work/tattoos');
+    await page.locator('.hero-nav a[href="/creative"]').click();
+    await page.waitForFunction(() => document.documentElement.dataset.page === 'work' && location.pathname === '/creative');
     return;
   }
   const menu = page.locator('[data-global-index]');
@@ -105,18 +105,27 @@ try {
       };
     });
     try {
-      await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+      assert.equal(await page.locator('[data-smash]').count(), 0, 'Normal mode must not render SMASH at all.');
+      // V3.2 world sound: rendering the page allocates no context; the first
+      // trusted gesture (entering the Other Side) unlocks the one shared one.
+      assert.equal(await page.evaluate(() => window.__smashProbe.contexts.length), 0,
+        'No AudioContext is allocated just for rendering the page.');
+      await mode(page, 'xray');
       await page.locator('[data-smash]').waitFor();
+      assert.equal(await page.locator('[data-smash]').count(), 1, 'SMASH appears only on The Other Side.');
       assert.equal(await page.locator('[data-smash]').isDisabled(), false);
       assert.deepEqual(requests, [], 'The approved MP3 must not preload during page load.');
-      assert.equal(await page.evaluate(() => window.__smashProbe.contexts.length), 0, 'No AudioContext is allocated just for rendering the footer.');
+      assert.equal(await page.evaluate(() => window.__smashProbe.contexts.length), 1, 'Entering the Other Side is the first gesture and unlocks exactly one shared context.');
       await activate(page, width < 600);
       await page.waitForFunction(() => window.__smashProbe.sources.some(source => source.duration > 90));
       const initial = await trackState(page);
       assert.ok(initial.duration > 99 && initial.duration < 102, 'The actual supplied100-second V11 must be decoded without a shortened fixture.');
       assert.equal(initial.offset, 0);
       assert.equal(initial.contexts, 1);
-      assert.equal(initial.fetched, 1); assert.ok(initial.decoded >= 2, 'The SMASH track and the active world loop both decode once in the shared controller.');
+      // Measured on the merged build in all three viewports: the shared controller
+      // decodes the smash track, the world bed and both transition one-shots.
+      assert.equal(initial.fetched, 1); assert.equal(initial.decoded, 4, 'The shared controller decodes smash + world bed + two transitions, exactly four buffers.');
       const envelope = initial.gainEvents;
       const attack = envelope.find(event => event[0] === 'linearRampToValueAtTime' && event[1] === 1);
       const tailStart = envelope.find(event => event[0] === 'setValueAtTime' && event[1] === 1);
@@ -164,18 +173,19 @@ try {
       await page.waitForFunction(() => Math.abs(window.__smashProbe.contexts[0].__gains[0].gain.value - .025) < .002);
       assert.equal((await trackState(page)).ended, false, 'Global mute and volume changes do not restart or stop track time.');
       await indexRoute(page, 'work');
+      await mode(page, 'xray');
       await activate(page, width < 600);
       const stopping = await trackState(page, 0);
       assert.equal(stopping.stopped.length, 1);
       assert.ok(stopping.stopped[0].when - stopping.stopped[0].now > .9 && stopping.stopped[0].when - stopping.stopped[0].now < 1.1);
-      assert.ok(stopping.ended === false || stopping.endedAt >= stopping.stopped[0].when - .05,
-        'Manual stop starts a real short fade rather than stopping immediately.');
+      assert.equal(stopping.ended, false, 'Manual stop starts a real short fade rather than stopping immediately.');
       await page.waitForFunction(() => window.__smashProbe.sources.find(source => source.duration > 90)?.ended);
       await page.waitForFunction(() => document.querySelector('[data-smash]')?.getAttribute('aria-pressed') === 'false');
       await activate(page, width < 600);
       await page.waitForFunction(() => window.__smashProbe.sources.filter(source => source.duration > 90).length === 2);
       const restarted = await trackState(page);
-      assert.equal(restarted.offset, 0); assert.equal(restarted.fetched, 1); assert.ok(restarted.decoded >= 2, 'Restarting SMASH reuses both cached audio buffers.');
+      assert.equal(restarted.offset, 0); assert.equal(restarted.fetched, 1);
+      assert.ok(restarted.decoded >= initial.decoded, 'Restarting SMASH re-decodes from the cache, never from the network.');
       assert.equal(requests.length, 1, 'A second activation uses the cached approved track without another HTTP request.');
       let natural = null;
       if (completeNaturalEnd && width === widths[0]) {

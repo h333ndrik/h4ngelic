@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { formatCounter } from '../src/labels.js';
 
 const baseURL = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const artifacts = new URL('../artifacts/', import.meta.url);
@@ -36,15 +37,18 @@ async function fixture(page) {
   });
 }
 
+// R2 label contract: the viewer counter reads "01/ 02", from the same source
+// as NAAVI and the footer, so the expectation is not duplicated here.
 async function displayed(page, number) {
-  await page.waitForFunction((index) => {
+  const counter = formatCounter(number, 2);
+  await page.waitForFunction(({ index, expected }) => {
     const dialog = document.querySelector('.artwork-dialog');
     const image = dialog?.querySelector('.artwork-viewer-image');
     return dialog?.open && image?.complete && image.naturalWidth > 0
-      && dialog.querySelector('.artwork-viewer-count').textContent === `${index} / 2`
+      && dialog.querySelector('.artwork-viewer-count').textContent === expected
       && dialog.querySelector('.artwork-viewer-status').textContent === `image ${index} of 2`
       && !dialog.querySelector('.artwork-viewer-stage').classList.contains('is-switching');
-  }, number);
+  }, { index: number, expected: counter });
 }
 
 try {

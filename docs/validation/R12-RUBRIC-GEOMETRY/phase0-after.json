@@ -1,0 +1,1036 @@
+{
+  "checkedAt": "2026-11-05T13:28:39.542Z",
+  "base": "http://127.0.0.1:55232",
+  "build": "1ce412336877",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 900,
+      "rows": [
+        {
+          "id": "home-strip",
+          "page": "/",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "19.44px",
+          "flexChildren": 2,
+          "whitespaceNodes": 2,
+          "fontSize": "16px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "tattoos",
+              "baseline": 1329.09375,
+              "elementLeft": 123.296875,
+              "elementRight": 380.609375,
+              "labelLeft": 151.296875,
+              "labelRight": 408.609375,
+              "arrowLeft": 358.359375,
+              "arrowRight": 408.609375,
+              "arrowTop": 1280.046875,
+              "arrowBottom": 1330.296875,
+              "fontSize": "69.798px",
+              "lineHeight": "78.1738px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "jewellery",
+              "baseline": 1329.09375,
+              "elementLeft": 400.046875,
+              "elementRight": 713.0625,
+              "labelLeft": 428.046875,
+              "labelRight": 741.0625,
+              "arrowLeft": 690.8125,
+              "arrowRight": 741.0625,
+              "arrowTop": 1280.046875,
+              "arrowBottom": 1330.296875,
+              "fontSize": "69.798px",
+              "lineHeight": "78.1738px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 1329.09375,
+              "elementLeft": 732.5,
+              "elementRight": 934,
+              "labelLeft": 760.5,
+              "labelRight": 962,
+              "arrowLeft": 911.75,
+              "arrowRight": 962,
+              "arrowTop": 1280.046875,
+              "arrowBottom": 1330.296875,
+              "fontSize": "69.798px",
+              "lineHeight": "78.1738px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 1329.09375,
+              "elementLeft": 953.4375,
+              "elementRight": 1169.671875,
+              "labelLeft": 981.4375,
+              "labelRight": 1197.671875,
+              "arrowLeft": 1147.421875,
+              "arrowRight": 1197.671875,
+              "arrowTop": 1280.046875,
+              "arrowBottom": 1330.296875,
+              "fontSize": "69.798px",
+              "lineHeight": "78.1738px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "tattoos",
+              "to": "jewellery",
+              "wordToArrow": -50.25,
+              "arrowToNext": 19.44,
+              "itemLeftToLeft": 276.75
+            },
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": -50.25,
+              "arrowToNext": 19.44,
+              "itemLeftToLeft": 332.45
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": -50.25,
+              "arrowToNext": 19.44,
+              "itemLeftToLeft": 220.94
+            }
+          ],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": [
+            -49.05,
+            -49.05,
+            -49.05,
+            -49.05
+          ]
+        },
+        {
+          "id": "filters",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "19.44px",
+          "flexChildren": 4,
+          "whitespaceNodes": 2,
+          "fontSize": "16px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "tattoos",
+              "baseline": 37,
+              "elementLeft": 134.34375,
+              "elementRight": 191.390625,
+              "labelLeft": 134.34375,
+              "labelRight": 191.390625,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "19.008px",
+              "lineHeight": "19.008px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "jewellery",
+              "baseline": 37,
+              "elementLeft": 210.828125,
+              "elementRight": 284.75,
+              "labelLeft": 210.828125,
+              "labelRight": 284.75,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "19.008px",
+              "lineHeight": "19.008px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 37,
+              "elementLeft": 304.1875,
+              "elementRight": 344.328125,
+              "labelLeft": 304.1875,
+              "labelRight": 344.328125,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "19.008px",
+              "lineHeight": "19.008px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 37,
+              "elementLeft": 363.765625,
+              "elementRight": 407.0625,
+              "labelLeft": 363.765625,
+              "labelRight": 407.0625,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "19.008px",
+              "lineHeight": "19.008px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "tattoos",
+              "to": "jewellery",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 76.48
+            },
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 93.36
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 59.58
+            }
+          ],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        },
+        {
+          "id": "cross-links",
+          "page": "/creative/tattoos",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "19.44px",
+          "flexChildren": 3,
+          "whitespaceNodes": 2,
+          "fontSize": "51.651px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "jewellery",
+              "baseline": 2377.84375,
+              "elementLeft": 35,
+              "elementRight": 252.1875,
+              "labelLeft": 35,
+              "labelRight": 252.1875,
+              "arrowLeft": 225.421875,
+              "arrowRight": 252.1875,
+              "arrowTop": 2347.28125,
+              "arrowBottom": 2374.046875,
+              "fontSize": "51.651px",
+              "lineHeight": "51.651px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 2377.84375,
+              "elementLeft": 271.625,
+              "elementRight": 406.28125,
+              "labelLeft": 271.625,
+              "labelRight": 406.28125,
+              "arrowLeft": 379.515625,
+              "arrowRight": 406.28125,
+              "arrowTop": 2347.28125,
+              "arrowBottom": 2374.046875,
+              "fontSize": "51.651px",
+              "lineHeight": "51.651px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 2377.84375,
+              "elementLeft": 425.71875,
+              "elementRight": 571.28125,
+              "labelLeft": 425.71875,
+              "labelRight": 571.28125,
+              "arrowLeft": 544.515625,
+              "arrowRight": 571.28125,
+              "arrowTop": 2347.28125,
+              "arrowBottom": 2374.046875,
+              "fontSize": "51.651px",
+              "lineHeight": "51.651px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": -26.77,
+              "arrowToNext": 19.44,
+              "itemLeftToLeft": 236.63
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": -26.77,
+              "arrowToNext": 19.44,
+              "itemLeftToLeft": 154.09
+            }
+          ],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": [
+            -30.56,
+            -30.56,
+            -30.56
+          ]
+        },
+        {
+          "id": "footer-left",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "28.8px",
+          "flexChildren": 3,
+          "whitespaceNodes": 0,
+          "fontSize": "12px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "visit 0001",
+              "baseline": 6311.40625,
+              "elementLeft": 278.1875,
+              "elementRight": 337.296875,
+              "labelLeft": 278.1875,
+              "labelRight": 337.296875,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "12px",
+              "lineHeight": "18px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        },
+        {
+          "id": "footer-details",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "28.8px",
+          "flexChildren": 5,
+          "whitespaceNodes": 0,
+          "fontSize": "12px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [],
+          "gaps": [],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "rows": [
+        {
+          "id": "home-strip",
+          "page": "/",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "flexChildren": 2,
+          "whitespaceNodes": 2,
+          "fontSize": "16px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "tattoos",
+              "baseline": 1036.546875,
+              "elementLeft": 54.6875,
+              "elementRight": 126.359375,
+              "labelLeft": 72.23750305175781,
+              "labelRight": 143.9093780517578,
+              "arrowLeft": 130.8781280517578,
+              "arrowRight": 143.9093780517578,
+              "arrowTop": 1024.15625,
+              "arrowBottom": 1037.1875,
+              "fontSize": "18.101px",
+              "lineHeight": "20.2731px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "jewellery",
+              "baseline": 1036.546875,
+              "elementLeft": 136.359375,
+              "elementRight": 222.484375,
+              "labelLeft": 153.9093780517578,
+              "labelRight": 240.0343780517578,
+              "arrowLeft": 227.0031280517578,
+              "arrowRight": 240.0343780517578,
+              "arrowTop": 1024.15625,
+              "arrowBottom": 1037.1875,
+              "fontSize": "18.101px",
+              "lineHeight": "20.2731px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 1163.546875,
+              "elementLeft": 54.6875,
+              "elementRight": 111.890625,
+              "labelLeft": 72.23750305175781,
+              "labelRight": 129.4406280517578,
+              "arrowLeft": 116.40937805175781,
+              "arrowRight": 129.4406280517578,
+              "arrowTop": 1151.15625,
+              "arrowBottom": 1164.1875,
+              "fontSize": "18.101px",
+              "lineHeight": "20.2731px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 1163.546875,
+              "elementLeft": 121.890625,
+              "elementRight": 182.90625,
+              "labelLeft": 139.4406280517578,
+              "labelRight": 200.4562530517578,
+              "arrowLeft": 187.4250030517578,
+              "arrowRight": 200.4562530517578,
+              "arrowTop": 1151.15625,
+              "arrowBottom": 1164.1875,
+              "fontSize": "18.101px",
+              "lineHeight": "20.2731px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "tattoos",
+              "to": "jewellery",
+              "wordToArrow": -13.03,
+              "arrowToNext": 10,
+              "itemLeftToLeft": 81.67
+            },
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": -13.03,
+              "arrowToNext": -167.8,
+              "itemLeftToLeft": -81.67
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": -13.03,
+              "arrowToNext": 10,
+              "itemLeftToLeft": 67.2
+            }
+          ],
+          "baselineSpread": 127,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": [
+            -12.39,
+            -12.39,
+            -12.39,
+            -12.39
+          ]
+        },
+        {
+          "id": "filters",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "flexChildren": 4,
+          "whitespaceNodes": 2,
+          "fontSize": "16px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "tattoos",
+              "baseline": 27,
+              "elementLeft": 94.328125,
+              "elementRight": 133.359375,
+              "labelLeft": 94.328125,
+              "labelRight": 133.359375,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "13px",
+              "lineHeight": "13px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "jewellery",
+              "baseline": 27,
+              "elementLeft": 143.359375,
+              "elementRight": 193.9375,
+              "labelLeft": 143.359375,
+              "labelRight": 193.9375,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "13px",
+              "lineHeight": "13px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 27,
+              "elementLeft": 203.9375,
+              "elementRight": 231.40625,
+              "labelLeft": 203.9375,
+              "labelRight": 231.40625,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "13px",
+              "lineHeight": "13px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 27,
+              "elementLeft": 241.40625,
+              "elementRight": 271.03125,
+              "labelLeft": 241.40625,
+              "labelRight": 271.03125,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "13px",
+              "lineHeight": "13px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "tattoos",
+              "to": "jewellery",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 49.03
+            },
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 60.58
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 37.47
+            }
+          ],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        },
+        {
+          "id": "cross-links",
+          "page": "/creative/tattoos",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "flexChildren": 3,
+          "whitespaceNodes": 2,
+          "fontSize": "15.772px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "jewellery",
+              "baseline": 1716.703125,
+              "elementLeft": 22,
+              "elementRight": 95.140625,
+              "labelLeft": 22,
+              "labelRight": 95.140625,
+              "arrowLeft": 86.96875,
+              "arrowRight": 95.140625,
+              "arrowTop": 1707.5,
+              "arrowBottom": 1715.671875,
+              "fontSize": "15.772px",
+              "lineHeight": "15.772px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 1716.703125,
+              "elementLeft": 105.140625,
+              "elementRight": 153.078125,
+              "labelLeft": 105.140625,
+              "labelRight": 153.078125,
+              "arrowLeft": 144.90625,
+              "arrowRight": 153.078125,
+              "arrowTop": 1707.5,
+              "arrowBottom": 1715.671875,
+              "fontSize": "15.772px",
+              "lineHeight": "15.772px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 1716.703125,
+              "elementLeft": 163.078125,
+              "elementRight": 214.34375,
+              "labelLeft": 163.078125,
+              "labelRight": 214.34375,
+              "arrowLeft": 206.171875,
+              "arrowRight": 214.34375,
+              "arrowTop": 1707.5,
+              "arrowBottom": 1715.671875,
+              "fontSize": "15.772px",
+              "lineHeight": "15.772px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": -8.17,
+              "arrowToNext": 10,
+              "itemLeftToLeft": 83.14
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": -8.17,
+              "arrowToNext": 10,
+              "itemLeftToLeft": 57.94
+            }
+          ],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": [
+            -9.2,
+            -9.2,
+            -9.2
+          ]
+        },
+        {
+          "id": "footer-left",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12px",
+          "flexChildren": 3,
+          "whitespaceNodes": 0,
+          "fontSize": "10px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "visit 0001",
+              "baseline": 5201,
+              "elementLeft": 205.328125,
+              "elementRight": 255.984375,
+              "labelLeft": 205.328125,
+              "labelRight": 255.984375,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "10px",
+              "lineHeight": "15px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        },
+        {
+          "id": "footer-details",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12px",
+          "flexChildren": 5,
+          "whitespaceNodes": 0,
+          "fontSize": "10px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [],
+          "gaps": [],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "rows": [
+        {
+          "id": "home-strip",
+          "page": "/",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "flexChildren": 2,
+          "whitespaceNodes": 2,
+          "fontSize": "16px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "tattoos",
+              "baseline": 1034.546875,
+              "elementLeft": 54.6875,
+              "elementRight": 117.78125,
+              "labelLeft": 69.0875015258789,
+              "labelRight": 132.18124389648438,
+              "arrowLeft": 120.9625015258789,
+              "arrowRight": 132.18124389648438,
+              "arrowTop": 1023.65625,
+              "arrowBottom": 1034.875,
+              "fontSize": "15.585px",
+              "lineHeight": "17.4552px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "jewellery",
+              "baseline": 1034.546875,
+              "elementLeft": 127.78125,
+              "elementRight": 203.296875,
+              "labelLeft": 142.18124389648438,
+              "labelRight": 217.69686889648438,
+              "arrowLeft": 206.47811889648438,
+              "arrowRight": 217.69686889648438,
+              "arrowTop": 1023.65625,
+              "arrowBottom": 1034.875,
+              "fontSize": "15.585px",
+              "lineHeight": "17.4552px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 1152.546875,
+              "elementLeft": 54.6875,
+              "elementRight": 105.3125,
+              "labelLeft": 69.0875015258789,
+              "labelRight": 119.7125015258789,
+              "arrowLeft": 108.4937515258789,
+              "arrowRight": 119.7125015258789,
+              "arrowTop": 1141.65625,
+              "arrowBottom": 1152.875,
+              "fontSize": "15.585px",
+              "lineHeight": "17.4552px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 1152.546875,
+              "elementLeft": 115.3125,
+              "elementRight": 169.234375,
+              "labelLeft": 129.71249389648438,
+              "labelRight": 183.63436889648438,
+              "arrowLeft": 172.41561889648438,
+              "arrowRight": 183.63436889648438,
+              "arrowTop": 1141.65625,
+              "arrowBottom": 1152.875,
+              "fontSize": "15.585px",
+              "lineHeight": "17.4552px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "tattoos",
+              "to": "jewellery",
+              "wordToArrow": -11.22,
+              "arrowToNext": 10,
+              "itemLeftToLeft": 73.09
+            },
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": -11.22,
+              "arrowToNext": -148.61,
+              "itemLeftToLeft": -73.09
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": -11.22,
+              "arrowToNext": 10,
+              "itemLeftToLeft": 60.63
+            }
+          ],
+          "baselineSpread": 118,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": [
+            -10.89,
+            -10.89,
+            -10.89,
+            -10.89
+          ]
+        },
+        {
+          "id": "filters",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "flexChildren": 4,
+          "whitespaceNodes": 2,
+          "fontSize": "16px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "tattoos",
+              "baseline": 27,
+              "elementLeft": 90.875,
+              "elementRight": 129.90625,
+              "labelLeft": 90.875,
+              "labelRight": 129.90625,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "13px",
+              "lineHeight": "13px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "jewellery",
+              "baseline": 27,
+              "elementLeft": 139.90625,
+              "elementRight": 190.484375,
+              "labelLeft": 139.90625,
+              "labelRight": 190.484375,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "13px",
+              "lineHeight": "13px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 27,
+              "elementLeft": 200.484375,
+              "elementRight": 227.953125,
+              "labelLeft": 200.484375,
+              "labelRight": 227.953125,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "13px",
+              "lineHeight": "13px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 27,
+              "elementLeft": 237.953125,
+              "elementRight": 267.578125,
+              "labelLeft": 237.953125,
+              "labelRight": 267.578125,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "13px",
+              "lineHeight": "13px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "tattoos",
+              "to": "jewellery",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 49.03
+            },
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 60.58
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": null,
+              "arrowToNext": null,
+              "itemLeftToLeft": 37.47
+            }
+          ],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        },
+        {
+          "id": "cross-links",
+          "page": "/creative/tattoos",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "flexChildren": 3,
+          "whitespaceNodes": 2,
+          "fontSize": "15.715px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "jewellery",
+              "baseline": 1714.15625,
+              "elementLeft": 22,
+              "elementRight": 94.890625,
+              "labelLeft": 22,
+              "labelRight": 94.890625,
+              "arrowLeft": 86.75,
+              "arrowRight": 94.890625,
+              "arrowTop": 1704.9375,
+              "arrowBottom": 1713.078125,
+              "fontSize": "15.715px",
+              "lineHeight": "15.715px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "tools",
+              "baseline": 1714.15625,
+              "elementLeft": 104.890625,
+              "elementRight": 152.6875,
+              "labelLeft": 104.890625,
+              "labelRight": 152.6875,
+              "arrowLeft": 144.546875,
+              "arrowRight": 152.6875,
+              "arrowTop": 1704.9375,
+              "arrowBottom": 1713.078125,
+              "fontSize": "15.715px",
+              "lineHeight": "15.715px",
+              "verticalAlign": "baseline"
+            },
+            {
+              "text": "more",
+              "baseline": 1714.15625,
+              "elementLeft": 162.6875,
+              "elementRight": 213.796875,
+              "labelLeft": 162.6875,
+              "labelRight": 213.796875,
+              "arrowLeft": 205.65625,
+              "arrowRight": 213.796875,
+              "arrowTop": 1704.9375,
+              "arrowBottom": 1713.078125,
+              "fontSize": "15.715px",
+              "lineHeight": "15.715px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [
+            {
+              "from": "jewellery",
+              "to": "tools",
+              "wordToArrow": -8.14,
+              "arrowToNext": 10,
+              "itemLeftToLeft": 82.89
+            },
+            {
+              "from": "tools",
+              "to": "more",
+              "wordToArrow": -8.14,
+              "arrowToNext": 10,
+              "itemLeftToLeft": 57.8
+            }
+          ],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": [
+            -9.22,
+            -9.22,
+            -9.22
+          ]
+        },
+        {
+          "id": "footer-left",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12px",
+          "flexChildren": 3,
+          "whitespaceNodes": 0,
+          "fontSize": "10px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [
+            {
+              "text": "visit 0001",
+              "baseline": 5215.046875,
+              "elementLeft": 205.328125,
+              "elementRight": 255.984375,
+              "labelLeft": 205.328125,
+              "labelRight": 255.984375,
+              "arrowLeft": null,
+              "arrowRight": null,
+              "arrowTop": null,
+              "arrowBottom": null,
+              "fontSize": "10px",
+              "lineHeight": "15px",
+              "verticalAlign": "baseline"
+            }
+          ],
+          "gaps": [],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        },
+        {
+          "id": "footer-details",
+          "page": "/creative",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12px",
+          "flexChildren": 5,
+          "whitespaceNodes": 0,
+          "fontSize": "10px",
+          "fontFamily": "Arial, Helvetica, sans-serif",
+          "items": [],
+          "gaps": [],
+          "baselineSpread": 0,
+          "arrowOffsetSpread": 0,
+          "arrowOffsets": []
+        }
+      ]
+    }
+  ]
+}

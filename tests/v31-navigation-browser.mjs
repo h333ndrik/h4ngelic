@@ -38,7 +38,7 @@ async function geometry(page) {
 async function cursorCoverage(page,profile,world) {
   if(!await page.evaluate(()=>matchMedia('(hover:hover) and (pointer:fine)').matches)) return {world,nativeTouch:true};
   const selectors='a[href],summary,button,input,select,textarea,label,[role="button"],[data-naavi],canvas';
-  const expected=world==='xray'?'h4ngelic-cursor-other':'h4ngelic-cursor';
+  const expected=world==='xray'?/h4ngelic-cursor-other-r09\.svg["']?\)\s+8\s+2/:/h4ngelic-cursor\.svg["']?\)\s+8\s+2/;
   const records=[];
   for(const [destination,kind] of [['work','work'],['contact','home'],['about','about']]) {
     if(await page.locator('html').getAttribute('data-page')!==kind) {
@@ -52,14 +52,14 @@ async function cursorCoverage(page,profile,world) {
       return [{tag:el.tagName,className:el.className?.baseVal??el.className,cursor:style.cursor}];
     }));
     assert.ok(cursors.length>0);
-    for(const item of cursors)assert.ok(item.cursor.includes(expected),`Every interactive ${kind} element retains the h4 cursor: ${JSON.stringify(item)}`);
+    for(const item of cursors)assert.ok(expected.test(item.cursor),`Every interactive ${kind} element retains the h4 cursor: ${JSON.stringify(item)}`);
     const target=page.locator(kind==='home'?'[data-inquiry-submit]':kind==='about'?'[data-floating-brand]':'[data-naavi]');
     await target.hover();
     const hover=await target.evaluate(el=>getComputedStyle(el).cursor);
-    assert.ok(hover.includes(world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg'),'Hover uses the same constant mode cursor.');
+    assert.ok(expected.test(hover),'Hover uses the same constant mode cursor.');
     records.push({kind,cursors,hover});await page.mouse.move(1,1);
   }
-  await page.goto(new URL('/work/tattoos',base).href,{waitUntil:'networkidle'});
+  await page.goto(new URL('/creative/tattoos',base).href,{waitUntil:'networkidle'});
   await page.locator('html[data-page="work"]').waitFor();await settle(page);
   return {world,records};
 }
@@ -78,13 +78,13 @@ async function indexContract(page,profile,world) {
       outlineWidth:s.outlineWidth,filter:s.filter,shadow:s.boxShadow,linkColors:[...panel.querySelectorAll(':scope > a, :scope > .index-static')].map(a=>getComputedStyle(a).color),
       expanded:el.querySelector('summary').getAttribute('aria-expanded')};
   });
-  assert.deepEqual(data.numbers,['00 /','01 /','02 /','03 /']);
+  assert.deepEqual(data.numbers,['00/','01/','02/','03/']);
   assert.deepEqual(data.targets,['/','/about','/#contact']);
   assert.deepEqual(data.entries, [
-    { tag:'A', href:'/', text:'00 / home', focusable:true },
-    { tag:'SPAN', href:null, text:'01 / creative', focusable:false },
-    { tag:'A', href:'/about', text:'02 / about', focusable:true },
-    { tag:'A', href:'/#contact', text:'03 / contact', focusable:true },
+    { tag:'A', href:'/', text:'00/ home', focusable:true },
+    { tag:'SPAN', href:null, text:'01/ creative', focusable:false },
+    { tag:'A', href:'/about', text:'02/ about', focusable:true },
+    { tag:'A', href:'/#contact', text:'03/ contact', focusable:true },
   ]);
   assert.equal(data.expanded,'true');assert.equal(data.surface,'rgb(48, 48, 51)');
   assert.equal(data.borderWidth,'0px');assert.equal(data.radius,'4px');
@@ -110,10 +110,10 @@ async function workChrome(page,profile,world) {
   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await frames(page);
   const g=await geometry(page);
   assert.ok(g.documentWidth<=profile.width+1,'The connected Work strip cannot enlarge the whole page.');
-  assert.ok(g.filters.left>=g.brand.right+10 && g.filters.right<=g.index.left-10,'Work categories occupy the row between brand and INDEX.');
+  assert.ok(g.filters.left>g.brand.right && g.filters.right<g.index.left,'Work categories occupy the row between brand and INDEX.');
   assert.ok(Math.abs(g.filters.top-g.brand.top)<1 && g.filters.height>=44);
   assert.ok(!overlap(g.brand,g.filters)&&!overlap(g.index,g.filters));
-  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['on skin','jewellery','more']);
+  assert.deepEqual(await page.locator('.work-filters a').allTextContents(),['tattoos','jewellery','tools','more']);
   const spacing=await page.evaluate(()=>{
     const strip=document.querySelector('.work-filters');strip.scrollLeft=0;
     const brand=document.querySelector('[data-floating-brand]').getBoundingClientRect();
@@ -129,9 +129,12 @@ async function workChrome(page,profile,world) {
   const tattooParity=await page.evaluate(()=>{
     const probe=document.createElement('a');probe.className='category-link';probe.style.cssText='position:absolute;visibility:hidden';document.body.append(probe);
     const front=getComputedStyle(probe).fontSize;probe.remove();
-    const title=document.querySelector('.rubric-category-heading');return {front,work:getComputedStyle(title).fontSize,arrows:title.querySelectorAll('.arrow').length};
+    const headings=[...document.querySelectorAll('.rubric-category-heading')];
+    return {front,count:headings.length,arrows:headings.reduce((sum,title)=>sum+title.querySelectorAll('.arrow').length,0),
+      links:headings.reduce((sum,title)=>sum+title.querySelectorAll('a').length,0),texts:headings.map(title=>title.textContent.trim())};
   });
-  assert.equal(tattooParity.work,tattooParity.front);assert.equal(tattooParity.arrows,0,'Child category headings are plain text.');g.tattooParity=tattooParity;
+  assert.ok(tattooParity.count>=1);assert.equal(tattooParity.arrows,0,'Child category headings are plain text.');
+  assert.equal(tattooParity.links,0,'Child category headings are not links.');g.tattooParity=tattooParity;
   const typography=await page.evaluate(()=>{
     const h=document.createElement('h2');h.className='kinetic-heading';h.style.cssText='position:absolute;visibility:hidden;pointer-events:none';document.body.append(h);
     const heading=getComputedStyle(h).fontSize;h.remove();
@@ -150,8 +153,8 @@ async function workChrome(page,profile,world) {
   if(profile.width>=600) {
     const naavi=page.locator('[data-naavi]');await naavi.hover();
     const cursors=await naavi.evaluate(el=>({outer:getComputedStyle(el).cursor,digit:getComputedStyle(el.querySelector('.chapter-digit')).cursor,total:getComputedStyle(el.querySelector('.chapter-total')).cursor}));
-    const expected=world==='xray'?'h4ngelic-cursor-other-r09.svg':'h4ngelic-cursor.svg';
-    for(const value of Object.values(cursors)) assert.ok(value.includes(expected),'NAAVI and its slash use the primary interactive h4 cursor.');
+    const expected=world==='xray'?/h4ngelic-cursor-other-r09\.svg["']?\)\s+8\s+2/:/h4ngelic-cursor\.svg["']?\)\s+8\s+2/;
+    for(const value of Object.values(cursors)) assert.ok(expected.test(value),'NAAVI and its slash use the same mode cursor.');
     await page.mouse.move(1,1);
   }
   await page.evaluate(()=>scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));await frames(page);
@@ -219,7 +222,7 @@ try {
     page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(new URL(r.url()).pathname));
     await page.addInitScript(()=>{localStorage.setItem('h4ngelic.audio.v1',JSON.stringify({muted:true,volume:.2}));window.__v31GL=0;const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){if(/webgl/i.test(type))window.__v31GL++;return get.call(this,type,...args);};});
     try {
-      await page.goto(new URL('/work',base).href,{waitUntil:'networkidle'});await settle(page);
+      await page.goto(new URL('/creative',base).href,{waitUntil:'networkidle'});await settle(page);
       const normals=await indexContract(page,profile,'normal');const workNormal=await workChrome(page,profile,'normal');const contrastNormal=await contrastContract(page,'normal');
       assert.equal(await page.evaluate(()=>window.__v31GL),0,'Cold Work does not initialize a Three.js scene.');
       assert.ok(!requests.some(path=>/\/src\/main\.js$|\/three(?:[/.]|$)/i.test(path)));

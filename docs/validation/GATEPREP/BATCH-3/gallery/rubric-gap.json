@@ -1,0 +1,242 @@
+{
+  "checkedAt": "2026-11-04T23:45:23.710Z",
+  "build": "b3cc401bcf72",
+  "profiles": [
+    {
+      "width": 1440,
+      "home": {
+        "token": 19.44,
+        "tracks": [
+          310.156,
+          310.172,
+          310.172,
+          310.172
+        ],
+        "fonts": [
+          "62.373px",
+          "62.373px",
+          "62.373px",
+          "62.373px"
+        ],
+        "fit": "62.373px",
+        "rowReports": [
+          {
+            "columns": 4,
+            "columnGaps": [
+              19.44,
+              19.44,
+              19.44
+            ],
+            "labelGaps": [
+              99.64,
+              49.88,
+              149.53
+            ],
+            "overflow": [
+              -62.78,
+              -13.01,
+              -112.67,
+              -99.51
+            ]
+          }
+        ]
+      },
+      "cross": {
+        "contentLeft": 35,
+        "tracks": [
+          327.922,
+          327.922,
+          327.922,
+          327.922
+        ],
+        "gap": 19.44,
+        "items": [
+          {
+            "left": 382,
+            "right": 604,
+            "top": 2335
+          },
+          {
+            "left": 730,
+            "right": 869,
+            "top": 2335
+          },
+          {
+            "left": 1077,
+            "right": 1227,
+            "top": 2335
+          }
+        ],
+        "firstCell": 35,
+        "first": 382,
+        "gapPlaceholderHidden": false,
+        "columns": 4
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "home": {
+        "token": 10,
+        "tracks": [
+          153.984,
+          154
+        ],
+        "fonts": [
+          "20.28px",
+          "20.28px",
+          "20.28px",
+          "20.28px"
+        ],
+        "fit": "",
+        "rowReports": [
+          {
+            "columns": 2,
+            "columnGaps": [
+              10
+            ],
+            "labelGaps": [
+              84.89
+            ],
+            "overflow": [
+              -67.25,
+              -51.08
+            ]
+          },
+          {
+            "columns": 2,
+            "columnGaps": [
+              10
+            ],
+            "labelGaps": [
+              101.11
+            ],
+            "overflow": [
+              -83.47,
+              -79.21
+            ]
+          }
+        ]
+      },
+      "cross": {
+        "contentLeft": 22,
+        "tracks": [
+          168,
+          168
+        ],
+        "gap": 10,
+        "items": [
+          {
+            "left": 200,
+            "right": 368,
+            "top": 1706
+          },
+          {
+            "left": 22,
+            "right": 190,
+            "top": 1760
+          },
+          {
+            "left": 200,
+            "right": 368,
+            "top": 1760
+          }
+        ],
+        "firstCell": 22,
+        "first": 200,
+        "gapPlaceholderHidden": false,
+        "columns": 2
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "home": {
+        "token": 10,
+        "tracks": [
+          118.656,
+          118.656
+        ],
+        "fonts": [
+          "18px",
+          "18px",
+          "18px",
+          "18px"
+        ],
+        "fit": "",
+        "rowReports": [
+          {
+            "columns": 2,
+            "columnGaps": [
+              10
+            ],
+            "labelGaps": [
+              57.33
+            ],
+            "overflow": [
+              -40.43,
+              -26.07
+            ]
+          },
+          {
+            "columns": 2,
+            "columnGaps": [
+              10
+            ],
+            "labelGaps": [
+              71.72
+            ],
+            "overflow": [
+              -54.82,
+              -51.02
+            ]
+          }
+        ]
+      },
+      "cross": {
+        "contentLeft": 22,
+        "tracks": [
+          133,
+          133
+        ],
+        "gap": 10,
+        "items": [
+          {
+            "left": 165,
+            "right": 298,
+            "top": 1703
+          },
+          {
+            "left": 22,
+            "right": 155,
+            "top": 1757
+          },
+          {
+            "left": 165,
+            "right": 298,
+            "top": 1757
+          }
+        ],
+        "firstCell": 22,
+        "first": 165,
+        "gapPlaceholderHidden": false,
+        "columns": 2
+      },
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "before": {
+    "width": 1440,
+    "labelGaps": [
+      53.6,
+      -6.2,
+      113.4
+    ],
+    "overlap": true
+  },
+  "passed": true
+}

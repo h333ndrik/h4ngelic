@@ -29,7 +29,7 @@ try {
    }, { passive: true });
    try { new PerformanceObserver(list => { for (const item of list.getEntries()) window.__p0Perf.tasks.push({ at: item.startTime, duration: item.duration }); }).observe({ type: 'longtask', buffered: true }); } catch {}
   });
-  const start = Date.now(); await page.goto(`${base}/work?test=1`, { waitUntil: 'networkidle' });
+  const start = Date.now(); await page.goto(`${base}/creative?test=1`, { waitUntil: 'networkidle' });
   const normalLoadMs = Date.now() - start;
   for (const delta of [180, 180, -180, -180]) { await page.mouse.wheel(0, delta); await page.waitForTimeout(90); }
   const entryStart = Date.now(); await page.keyboard.down('4');

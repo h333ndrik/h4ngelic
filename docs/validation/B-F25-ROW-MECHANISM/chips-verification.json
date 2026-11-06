@@ -1,0 +1,2539 @@
+{
+  "checkedAt": "2026-11-05T17:18:11.480Z",
+  "base": "http://127.0.0.1:55232",
+  "build": "c4710034ec5d",
+  "widths": [
+    {
+      "width": 1440,
+      "activeCurrent": {
+        "row": {
+          "left": 134.34375,
+          "right": 407.0625,
+          "width": 272.71875,
+          "height": 44,
+          "maxWidth": 1220.21,
+          "columnGap": 19.44,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 273,
+          "clientWidth": 273
+        },
+        "tokens": {
+          "chipsGap": 19.4375,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 79.90625,
+            "height": 44,
+            "top": 21,
+            "right": 114.90625,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 1374
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 57.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": "page",
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 73.921875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 40.140625,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 43.296875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "withoutCurrent": {
+        "row": {
+          "left": 134.34375,
+          "right": 407.0625,
+          "width": 272.71875,
+          "height": 44,
+          "maxWidth": 1220.21,
+          "columnGap": 19.44,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 273,
+          "clientWidth": 273
+        },
+        "tokens": {
+          "chipsGap": 19.4375,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 79.90625,
+            "height": 44,
+            "top": 21,
+            "right": 114.90625,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 1374
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 57.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 73.921875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 40.140625,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 43.296875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "pressed": {
+        "row": {
+          "left": 134.34375,
+          "right": 407.0625,
+          "width": 272.71875,
+          "height": 44,
+          "maxWidth": 1220.21,
+          "columnGap": 19.44,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 273,
+          "clientWidth": 273
+        },
+        "tokens": {
+          "chipsGap": 19.4375,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 79.90625,
+            "height": 44,
+            "top": 21,
+            "right": 114.90625,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 1374
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 57.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 73.921875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 40.140625,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 43.296875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "coupling": {
+        "before": {
+          ".rubric-cross-links": [
+            [
+              419,
+              54,
+              291.4
+            ],
+            [
+              801.6,
+              54,
+              187.6
+            ],
+            [
+              1080.3,
+              54,
+              201.3
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              126.5,
+              0,
+              87.9
+            ],
+            [
+              243.2,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              106.6,
+              0,
+              66.3
+            ],
+            [
+              201.6,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              57
+            ],
+            [
+              76.5,
+              0,
+              73.9
+            ],
+            [
+              169.8,
+              0,
+              40.1
+            ],
+            [
+              229.4,
+              0,
+              43.3
+            ]
+          ]
+        },
+        "afterChips": {
+          ".rubric-cross-links": [
+            [
+              419,
+              54,
+              291.4
+            ],
+            [
+              801.6,
+              54,
+              187.6
+            ],
+            [
+              1080.3,
+              54,
+              201.3
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              126.5,
+              0,
+              87.9
+            ],
+            [
+              243.2,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              106.6,
+              0,
+              66.3
+            ],
+            [
+              201.6,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              57
+            ],
+            [
+              137,
+              0,
+              73.9
+            ],
+            [
+              291,
+              0,
+              40.1
+            ],
+            [
+              411.1,
+              0,
+              43.3
+            ]
+          ]
+        },
+        "afterRow": {
+          ".rubric-cross-links": [
+            [
+              88.3,
+              119,
+              291.4
+            ],
+            [
+              88.3,
+              184,
+              187.6
+            ],
+            [
+              88.3,
+              249,
+              201.3
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              126.5,
+              0,
+              87.9
+            ],
+            [
+              243.2,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              106.6,
+              0,
+              66.3
+            ],
+            [
+              201.6,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              57
+            ],
+            [
+              76.5,
+              0,
+              73.9
+            ],
+            [
+              169.8,
+              0,
+              40.1
+            ],
+            [
+              229.4,
+              0,
+              43.3
+            ]
+          ]
+        },
+        "chipsGapMovesOnlyChips": {
+          "crossLinks": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "chipsMoved": true
+        },
+        "rowGapMovesOnlyDistributed": {
+          "chips": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "crossLinksMoved": true
+        },
+        "selectors": [
+          ".rubric-cross-links",
+          ".footer-left",
+          ".footer-details",
+          ".work-filters"
+        ]
+      }
+    },
+    {
+      "width": 1920,
+      "activeCurrent": {
+        "row": {
+          "left": 141.109375,
+          "right": 432.796875,
+          "width": 291.6875,
+          "height": 44,
+          "maxWidth": 1690.89,
+          "columnGap": 22,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 292,
+          "clientWidth": 292
+        },
+        "tokens": {
+          "chipsGap": 22,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53.5,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 84.109375,
+            "height": 44,
+            "top": 21,
+            "right": 119.109375,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 1854
+        },
+        "naavi": {
+          "left": 916,
+          "right": 1004
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 60.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": "page",
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 77.8125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 42.25,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 45.578125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "withoutCurrent": {
+        "row": {
+          "left": 141.109375,
+          "right": 432.796875,
+          "width": 291.6875,
+          "height": 44,
+          "maxWidth": 1690.89,
+          "columnGap": 22,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 292,
+          "clientWidth": 292
+        },
+        "tokens": {
+          "chipsGap": 22,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53.5,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 84.109375,
+            "height": 44,
+            "top": 21,
+            "right": 119.109375,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 1854
+        },
+        "naavi": {
+          "left": 916,
+          "right": 1004
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 60.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 77.8125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 42.25,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 45.578125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "pressed": {
+        "row": {
+          "left": 141.109375,
+          "right": 432.796875,
+          "width": 291.6875,
+          "height": 44,
+          "maxWidth": 1690.89,
+          "columnGap": 22,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 292,
+          "clientWidth": 292
+        },
+        "tokens": {
+          "chipsGap": 22,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53.5,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 84.109375,
+            "height": 44,
+            "top": 21,
+            "right": 119.109375,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 1854
+        },
+        "naavi": {
+          "left": 916,
+          "right": 1004
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 60.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.70497512817383,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 77.8125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 42.25,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 45.578125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "coupling": {
+        "before": {
+          ".rubric-cross-links": [
+            [
+              568.6,
+              54,
+              339.2
+            ],
+            [
+              1107.6,
+              54,
+              218.3
+            ],
+            [
+              1525.7,
+              54,
+              234.3
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              127.7,
+              0,
+              87.9
+            ],
+            [
+              245.6,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              107.8,
+              0,
+              66.3
+            ],
+            [
+              204,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              60
+            ],
+            [
+              82,
+              0,
+              77.8
+            ],
+            [
+              181.9,
+              0,
+              42.3
+            ],
+            [
+              246.1,
+              0,
+              45.6
+            ]
+          ]
+        },
+        "afterChips": {
+          ".rubric-cross-links": [
+            [
+              568.6,
+              54,
+              339.2
+            ],
+            [
+              1107.6,
+              54,
+              218.3
+            ],
+            [
+              1525.7,
+              54,
+              234.3
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              127.7,
+              0,
+              87.9
+            ],
+            [
+              245.6,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              107.8,
+              0,
+              66.3
+            ],
+            [
+              204,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              60
+            ],
+            [
+              140,
+              0,
+              77.8
+            ],
+            [
+              297.9,
+              0,
+              42.3
+            ],
+            [
+              420.1,
+              0,
+              45.6
+            ]
+          ]
+        },
+        "afterRow": {
+          ".rubric-cross-links": [
+            [
+              1420.9,
+              54,
+              339.2
+            ],
+            [
+              90,
+              129.6,
+              218.3
+            ],
+            [
+              1525.7,
+              129.6,
+              234.3
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              127.7,
+              0,
+              87.9
+            ],
+            [
+              245.6,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              107.8,
+              0,
+              66.3
+            ],
+            [
+              204,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              60
+            ],
+            [
+              82,
+              0,
+              77.8
+            ],
+            [
+              181.9,
+              0,
+              42.3
+            ],
+            [
+              246.1,
+              0,
+              45.6
+            ]
+          ]
+        },
+        "chipsGapMovesOnlyChips": {
+          "crossLinks": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "chipsMoved": true
+        },
+        "rowGapMovesOnlyDistributed": {
+          "chips": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "crossLinksMoved": true
+        },
+        "selectors": [
+          ".rubric-cross-links",
+          ".footer-left",
+          ".footer-details",
+          ".work-filters"
+        ]
+      }
+    },
+    {
+      "width": 2560,
+      "activeCurrent": {
+        "row": {
+          "left": 141.109375,
+          "right": 432.796875,
+          "width": 291.6875,
+          "height": 44,
+          "maxWidth": 2330.89,
+          "columnGap": 22,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 292,
+          "clientWidth": 292
+        },
+        "tokens": {
+          "chipsGap": 22,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53.5,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 84.109375,
+            "height": 44,
+            "top": 21,
+            "right": 119.109375,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 2494
+        },
+        "naavi": {
+          "left": 1236,
+          "right": 1324
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 60.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": "page",
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 77.8125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 42.25,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 45.578125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "withoutCurrent": {
+        "row": {
+          "left": 141.109375,
+          "right": 432.796875,
+          "width": 291.6875,
+          "height": 44,
+          "maxWidth": 2330.89,
+          "columnGap": 22,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 292,
+          "clientWidth": 292
+        },
+        "tokens": {
+          "chipsGap": 22,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53.5,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 84.109375,
+            "height": 44,
+            "top": 21,
+            "right": 119.109375,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 2494
+        },
+        "naavi": {
+          "left": 1236,
+          "right": 1324
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 60.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 77.8125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 42.25,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 45.578125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "pressed": {
+        "row": {
+          "left": 141.109375,
+          "right": 432.796875,
+          "width": 291.6875,
+          "height": 44,
+          "maxWidth": 2330.89,
+          "columnGap": 22,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 292,
+          "clientWidth": 292
+        },
+        "tokens": {
+          "chipsGap": 22,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 53.5,
+          "box": {
+            "x": 35,
+            "y": 21,
+            "width": 84.109375,
+            "height": 44,
+            "top": 21,
+            "right": 119.109375,
+            "bottom": 65,
+            "left": 35
+          }
+        },
+        "index": {
+          "left": 2494
+        },
+        "naavi": {
+          "left": 1236,
+          "right": 1324
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 60.046875,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.683006286621094,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 77.8125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 42.25,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 45.578125,
+            "top": 21,
+            "bottom": 65,
+            "baseline": 53.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "coupling": {
+        "before": {
+          ".rubric-cross-links": [
+            [
+              779.7,
+              54,
+              348.8
+            ],
+            [
+              1531.5,
+              54,
+              224.5
+            ],
+            [
+              2159.1,
+              54,
+              240.9
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              127.7,
+              0,
+              87.9
+            ],
+            [
+              245.6,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              107.8,
+              0,
+              66.3
+            ],
+            [
+              204,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              60
+            ],
+            [
+              82,
+              0,
+              77.8
+            ],
+            [
+              181.9,
+              0,
+              42.3
+            ],
+            [
+              246.1,
+              0,
+              45.6
+            ]
+          ]
+        },
+        "afterChips": {
+          ".rubric-cross-links": [
+            [
+              779.7,
+              54,
+              348.8
+            ],
+            [
+              1531.5,
+              54,
+              224.5
+            ],
+            [
+              2159.1,
+              54,
+              240.9
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              127.7,
+              0,
+              87.9
+            ],
+            [
+              245.6,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              107.8,
+              0,
+              66.3
+            ],
+            [
+              204,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              60
+            ],
+            [
+              140,
+              0,
+              77.8
+            ],
+            [
+              297.9,
+              0,
+              42.3
+            ],
+            [
+              420.1,
+              0,
+              45.6
+            ]
+          ]
+        },
+        "afterRow": {
+          ".rubric-cross-links": [
+            [
+              2051.2,
+              54,
+              348.8
+            ],
+            [
+              90,
+              131.8,
+              224.5
+            ],
+            [
+              2159.1,
+              131.8,
+              240.9
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              97.7
+            ],
+            [
+              127.7,
+              0,
+              87.9
+            ],
+            [
+              245.6,
+              0,
+              59.1
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              77.8
+            ],
+            [
+              107.8,
+              0,
+              66.3
+            ],
+            [
+              204,
+              0,
+              56.6
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              60
+            ],
+            [
+              82,
+              0,
+              77.8
+            ],
+            [
+              181.9,
+              0,
+              42.3
+            ],
+            [
+              246.1,
+              0,
+              45.6
+            ]
+          ]
+        },
+        "chipsGapMovesOnlyChips": {
+          "crossLinks": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "chipsMoved": true
+        },
+        "rowGapMovesOnlyDistributed": {
+          "chips": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "crossLinksMoved": true
+        },
+        "selectors": [
+          ".rubric-cross-links",
+          ".footer-left",
+          ".footer-details",
+          ".work-filters"
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "activeCurrent": {
+        "row": {
+          "left": 94.328125,
+          "right": 271.03125,
+          "width": 176.703125,
+          "height": 44,
+          "maxWidth": 231.672,
+          "columnGap": 10,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 177,
+          "clientWidth": 177
+        },
+        "tokens": {
+          "chipsGap": 10,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 46,
+          "box": {
+            "x": 22,
+            "y": 16,
+            "width": 62.328125,
+            "height": 44,
+            "top": 16,
+            "right": 84.328125,
+            "bottom": 60,
+            "left": 22
+          }
+        },
+        "index": {
+          "left": 336
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 39.03125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": "page",
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 50.578125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 27.46875,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 29.625,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "withoutCurrent": {
+        "row": {
+          "left": 94.328125,
+          "right": 271.03125,
+          "width": 176.703125,
+          "height": 44,
+          "maxWidth": 231.672,
+          "columnGap": 10,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 177,
+          "clientWidth": 177
+        },
+        "tokens": {
+          "chipsGap": 10,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 46,
+          "box": {
+            "x": 22,
+            "y": 16,
+            "width": 62.328125,
+            "height": 44,
+            "top": 16,
+            "right": 84.328125,
+            "bottom": 60,
+            "left": 22
+          }
+        },
+        "index": {
+          "left": 336
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 39.03125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 50.578125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 27.46875,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 29.625,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "pressed": {
+        "row": {
+          "left": 94.328125,
+          "right": 271.03125,
+          "width": 176.703125,
+          "height": 44,
+          "maxWidth": 231.672,
+          "columnGap": 10,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 177,
+          "clientWidth": 177
+        },
+        "tokens": {
+          "chipsGap": 10,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 46,
+          "box": {
+            "x": 22,
+            "y": 16,
+            "width": 62.328125,
+            "height": 44,
+            "top": 16,
+            "right": 84.328125,
+            "bottom": 60,
+            "left": 22
+          }
+        },
+        "index": {
+          "left": 336
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 39.03125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.67156982421875,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 50.578125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 27.46875,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 29.625,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "coupling": {
+        "before": {
+          ".rubric-cross-links": [
+            [
+              235.2,
+              24,
+              78.1
+            ],
+            [
+              32.7,
+              87,
+              52.2
+            ],
+            [
+              257.6,
+              87,
+              55.7
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              83.2
+            ],
+            [
+              95.2,
+              0,
+              76.1
+            ],
+            [
+              183.3,
+              0,
+              50.7
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              67.6
+            ],
+            [
+              79.6,
+              0,
+              56.5
+            ],
+            [
+              148,
+              0,
+              48.3
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              39
+            ],
+            [
+              49,
+              0,
+              50.6
+            ],
+            [
+              109.6,
+              0,
+              27.5
+            ],
+            [
+              147.1,
+              0,
+              29.6
+            ]
+          ]
+        },
+        "afterChips": {
+          ".rubric-cross-links": [
+            [
+              235.2,
+              24,
+              78.1
+            ],
+            [
+              32.7,
+              87,
+              52.2
+            ],
+            [
+              257.6,
+              87,
+              55.7
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              83.2
+            ],
+            [
+              95.2,
+              0,
+              76.1
+            ],
+            [
+              183.3,
+              0,
+              50.7
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              67.6
+            ],
+            [
+              79.6,
+              0,
+              56.5
+            ],
+            [
+              148,
+              0,
+              48.3
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              39
+            ],
+            [
+              119,
+              0,
+              50.6
+            ],
+            [
+              249.6,
+              0,
+              27.5
+            ],
+            [
+              357.1,
+              0,
+              29.6
+            ]
+          ]
+        },
+        "afterRow": {
+          ".rubric-cross-links": [
+            [
+              997.9,
+              24,
+              78.1
+            ],
+            [
+              32.7,
+              968,
+              52.2
+            ],
+            [
+              985,
+              968,
+              55.7
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              83.2
+            ],
+            [
+              95.2,
+              0,
+              76.1
+            ],
+            [
+              183.3,
+              0,
+              50.7
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              67.6
+            ],
+            [
+              79.6,
+              0,
+              56.5
+            ],
+            [
+              148,
+              0,
+              48.3
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              39
+            ],
+            [
+              49,
+              0,
+              50.6
+            ],
+            [
+              109.6,
+              0,
+              27.5
+            ],
+            [
+              147.1,
+              0,
+              29.6
+            ]
+          ]
+        },
+        "chipsGapMovesOnlyChips": {
+          "crossLinks": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "chipsMoved": true
+        },
+        "rowGapMovesOnlyDistributed": {
+          "chips": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "crossLinksMoved": true
+        },
+        "selectors": [
+          ".rubric-cross-links",
+          ".footer-left",
+          ".footer-details",
+          ".work-filters"
+        ]
+      }
+    },
+    {
+      "width": 320,
+      "activeCurrent": {
+        "row": {
+          "left": 90.875,
+          "right": 256,
+          "width": 165.125,
+          "height": 44,
+          "maxWidth": 165.125,
+          "columnGap": 10,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 177,
+          "clientWidth": 165
+        },
+        "tokens": {
+          "chipsGap": 10,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 46,
+          "box": {
+            "x": 22,
+            "y": 16,
+            "width": 58.875,
+            "height": 44,
+            "top": 16,
+            "right": 80.875,
+            "bottom": 60,
+            "left": 22
+          }
+        },
+        "index": {
+          "left": 266
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 39.03125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": "page",
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 50.578125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 27.46875,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 29.625,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "withoutCurrent": {
+        "row": {
+          "left": 90.875,
+          "right": 256,
+          "width": 165.125,
+          "height": 44,
+          "maxWidth": 165.125,
+          "columnGap": 10,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 177,
+          "clientWidth": 165
+        },
+        "tokens": {
+          "chipsGap": 10,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 46,
+          "box": {
+            "x": 22,
+            "y": 16,
+            "width": 58.875,
+            "height": 44,
+            "top": 16,
+            "right": 80.875,
+            "bottom": 60,
+            "left": 22
+          }
+        },
+        "index": {
+          "left": 266
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 39.03125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 50.578125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 27.46875,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 29.625,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "pressed": {
+        "row": {
+          "left": 90.875,
+          "right": 256,
+          "width": 165.125,
+          "height": 44,
+          "maxWidth": 165.125,
+          "columnGap": 10,
+          "alignItems": "baseline",
+          "overflowX": "auto",
+          "scrollWidth": 177,
+          "clientWidth": 165
+        },
+        "tokens": {
+          "chipsGap": 10,
+          "chipsTargetMin": 44,
+          "rowGapMin": 19
+        },
+        "brand": {
+          "baseline": 46,
+          "box": {
+            "x": 22,
+            "y": 16,
+            "width": 58.875,
+            "height": 44,
+            "top": 16,
+            "right": 80.875,
+            "bottom": 60,
+            "left": 22
+          }
+        },
+        "index": {
+          "left": 266
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202
+        },
+        "items": [
+          {
+            "label": "tattoos",
+            "height": 44,
+            "width": 39.03125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.671546936035156,
+            "current": null,
+            "decoration": "underline",
+            "underlineOffset": "6px"
+          },
+          {
+            "label": "jewellery",
+            "height": 44,
+            "width": 50.578125,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "tools",
+            "height": 44,
+            "width": 27.46875,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          },
+          {
+            "label": "more",
+            "height": 44,
+            "width": 29.625,
+            "top": 16,
+            "bottom": 60,
+            "baseline": 45.5,
+            "current": null,
+            "decoration": "none",
+            "underlineOffset": "auto"
+          }
+        ],
+        "pageOverflow": 0
+      },
+      "coupling": {
+        "before": {
+          ".rubric-cross-links": [
+            [
+              176.6,
+              24,
+              66.7
+            ],
+            [
+              32.7,
+              87,
+              45.2
+            ],
+            [
+              195.3,
+              87,
+              48
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              83.2
+            ],
+            [
+              95.2,
+              0,
+              76.1
+            ],
+            [
+              183.3,
+              0,
+              50.7
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              67.6
+            ],
+            [
+              79.6,
+              0,
+              56.5
+            ],
+            [
+              148,
+              0,
+              48.3
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              39
+            ],
+            [
+              49,
+              0,
+              50.6
+            ],
+            [
+              109.6,
+              0,
+              27.5
+            ],
+            [
+              147.1,
+              0,
+              29.6
+            ]
+          ]
+        },
+        "afterChips": {
+          ".rubric-cross-links": [
+            [
+              176.6,
+              24,
+              66.7
+            ],
+            [
+              32.7,
+              87,
+              45.2
+            ],
+            [
+              195.3,
+              87,
+              48
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              83.2
+            ],
+            [
+              95.2,
+              0,
+              76.1
+            ],
+            [
+              183.3,
+              0,
+              50.7
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              67.6
+            ],
+            [
+              79.6,
+              0,
+              56.5
+            ],
+            [
+              148,
+              0,
+              48.3
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              39
+            ],
+            [
+              119,
+              0,
+              50.6
+            ],
+            [
+              249.6,
+              0,
+              27.5
+            ],
+            [
+              357.1,
+              0,
+              29.6
+            ]
+          ]
+        },
+        "afterRow": {
+          ".rubric-cross-links": [
+            [
+              988.6,
+              24,
+              66.7
+            ],
+            [
+              32.7,
+              968,
+              45.2
+            ],
+            [
+              977.9,
+              968,
+              48
+            ]
+          ],
+          ".footer-left": [
+            [
+              0,
+              0,
+              83.2
+            ],
+            [
+              95.2,
+              0,
+              76.1
+            ],
+            [
+              183.3,
+              0,
+              50.7
+            ]
+          ],
+          ".footer-details": [
+            [
+              0,
+              0,
+              67.6
+            ],
+            [
+              79.6,
+              0,
+              56.5
+            ],
+            [
+              148,
+              0,
+              48.3
+            ]
+          ],
+          ".work-filters": [
+            [
+              0,
+              0,
+              39
+            ],
+            [
+              49,
+              0,
+              50.6
+            ],
+            [
+              109.6,
+              0,
+              27.5
+            ],
+            [
+              147.1,
+              0,
+              29.6
+            ]
+          ]
+        },
+        "chipsGapMovesOnlyChips": {
+          "crossLinks": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "chipsMoved": true
+        },
+        "rowGapMovesOnlyDistributed": {
+          "chips": true,
+          "footerLeft": true,
+          "footerDetails": true,
+          "crossLinksMoved": true
+        },
+        "selectors": [
+          ".rubric-cross-links",
+          ".footer-left",
+          ".footer-details",
+          ".work-filters"
+        ]
+      }
+    }
+  ],
+  "coupling": [],
+  "failures": []
+}

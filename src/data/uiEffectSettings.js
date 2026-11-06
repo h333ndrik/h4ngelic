@@ -11,7 +11,7 @@ export const uiEffectSettings = Object.freeze({
     otherSideGlowStrength: 1.15,
   }),
   magnetDistance: 2,
-  arrow: Object.freeze({ sizeEm: .72, gapEm: .22, minimumGapPx: 7, maximumGapPx: 18, strokePx: 1.25, movementPx: 2 }),
+  arrow: Object.freeze({ sizeEm: .72, gapEm: .28, minimumGapPx: 10, maximumGapPx: 22, strokePx: 1.25, movementPx: 2 }),
 });
 
 /** Magnify a large label only into unused space in its own stationary column. */

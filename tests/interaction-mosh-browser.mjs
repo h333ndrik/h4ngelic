@@ -116,7 +116,7 @@ async function createPage(options = {}) {
   const requests = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => requests.push(new URL(request.url()).pathname));
-  await page.goto(new URL('/work?test=1', baseURL).href, { waitUntil: 'networkidle', timeout: 15000 });
+  await page.goto(new URL('/creative?test=1', baseURL).href, { waitUntil: 'networkidle', timeout: 15000 });
   await page.waitForFunction(() => window.__H4_INTERACTION_MOSH__ && document.documentElement.dataset.mode === 'normal');
   await page.evaluate(() => document.fonts.ready);
   return { page, context, errors, requests };

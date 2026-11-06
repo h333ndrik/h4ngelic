@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#242424" />
-    <script>document.documentElement.classList.add('h4-custom-cursor');</script>
     <style data-hero-poster-critical>
       html, body { margin: 0; background: #242424; color: #f0efeb; font-family: Arial, Helvetica, sans-serif; }
       .skip-link, .floating-brand, .global-index { position: fixed; z-index: 10; }
@@ -12,12 +11,13 @@
       .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
       .hero { position: relative; min-height: 540px; height: 100svh; overflow: hidden; }
       .hero > .stage { position: absolute; inset: 0; }
-      .hero .fallback { position: absolute; inset: 0; background: var(--hero-poster-image) center / 67% auto no-repeat; opacity: 1; pointer-events: none; transition: opacity var(--hero-poster-fade) ease; }
-      .hero #logo-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; transform: translate3d(0, 14px, 0) scale(.96); transition: opacity 450ms ease, transform 1100ms cubic-bezier(.16, 1, .3, 1); }
-      .hero .stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-      .hero .stage.is-entering #logo-canvas { will-change: transform, opacity; }
+      .hero .fallback { position: absolute; inset: 0; background: #242424; opacity: 1; pointer-events: none; transition: opacity var(--hero-poster-fade) ease; }
+      .hero .stage.is-poster-static .fallback, .hero .stage.is-boot-failed .fallback { background: var(--hero-poster-image) center / 67% auto no-repeat #242424; }
+      .hero #logo-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 1; transform: translate3d(0, calc(-100% - 32px), 0); transition: transform 1100ms cubic-bezier(.16, 1, .3, 1); }
+      .hero .stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0); }
+      .hero .stage.is-entering #logo-canvas { will-change: transform; }
       .hero .stage.is-ready .fallback { opacity: 0; }
-      .hero .stage.is-boot-failed #logo-canvas, .hero .stage.is-fallback #logo-canvas { display: none; }
+      .hero .stage.is-boot-failed #logo-canvas, .hero .stage.is-fallback #logo-canvas, .hero .stage.is-poster-static #logo-canvas { display: none; }
       .hero .stage.is-boot-failed .fallback, .hero .stage.is-boot-slow .fallback { opacity: 1; }
       html[data-hero-loading='true'] .hero .stage:not(.is-ready):not(.is-poster-static):not(.is-boot-failed) .fallback {
         animation: hero-poster-breathe 2.8s ease-in-out infinite;
@@ -53,7 +53,7 @@
     <script type="speculationrules">
       {"prefetch":[
         {"source":"document","where":{"href_matches":"/about"},"eagerness":"moderate"},
-        {"source":"document","where":{"href_matches":"/work/*"},"eagerness":"moderate"}
+        {"source":"document","where":{"href_matches":"/creative/*"},"eagerness":"moderate"}
       ]}
     </script>
   </head>
@@ -64,10 +64,10 @@
     <details class="global-index" data-global-index data-no-ink data-corruption-protected>
       <summary aria-label="open index" aria-controls="global-index-links"><span class="index-sign" aria-hidden="true">+</span></summary>
       <nav class="global-index-links" id="global-index-links" aria-label="Index">
-        <a href="/" data-index-page="home"><span class="index-number" aria-hidden="true">00 /</span> home</a>
-        <span class="index-static" data-index-page="creative"><span class="index-number" aria-hidden="true">01 /</span> creative</span>
-        <a href="/about" data-index-page="about"><span class="index-number" aria-hidden="true">02 /</span> about</a>
-        <a href="/#contact" data-index-page="contact"><span class="index-number" aria-hidden="true">03 /</span> contact</a>
+        <a href="/" data-index-page="home"><span class="index-number" aria-hidden="true">00/</span> __H4_SECTION_HOME__</a>
+        <span class="index-static" data-index-page="creative"><span class="index-number" aria-hidden="true">01/</span> __H4_SECTION_CREATIVE__</span>
+        <a href="/about" data-index-page="about"><span class="index-number" aria-hidden="true">02/</span> __H4_SECTION_ABOUT__</a>
+        <a href="/#contact" data-index-page="contact"><span class="index-number" aria-hidden="true">03/</span> __H4_SECTION_CONTACT__</a>
       </nav>
     </details></header><!--floating:end-->
     <main>
@@ -77,7 +77,7 @@
           <h1 id="page-title" class="sr-only">h4ngelic</h1>
 
         </header>
-        <p class="returning-visitor-line" data-returning-visitor hidden>you know your way around here.</p>
+        <p class="returning-visitor-line" data-returning-visitor>nice to meet you.</p>
         <div class="stage" id="stage">
           <div id="fallback" class="fallback" data-hero-poster role="img" aria-label="h4ngelic wordmark"></div>
           <canvas id="logo-canvas" aria-label="Interactive chrome h4ngelic wordmark. Drag to move and spin it. Scroll normally to move the page."></canvas>
@@ -85,22 +85,22 @@
         <div class="hero-bottom">
           <p id="interaction-hint" class="sr-only">Move to push. Grab to spin.</p>
         </div>
+        <nav class="hero-nav" aria-label="Portfolio">
+          <a href="/creative">creative <i class="arrow" aria-hidden="true"></i></a>
+          <a href="/about">about <i class="arrow" aria-hidden="true"></i></a>
+          <a href="/#contact">contact <i class="arrow" aria-hidden="true"></i></a>
+        </nav>
         <div class="controls" data-controls role="group" aria-label="Wordmark animation and sound">
           <button id="speed-control" type="button" aria-pressed="false">Slow</button>
           <button id="pause-control" type="button" aria-pressed="false">Pause</button>
           <button class="mode-mute" type="button" data-mode-mute aria-label="sound" aria-pressed="true">sound on</button>
         </div>
-        <nav class="hero-nav" aria-label="Portfolio">
-          <a href="/work">work <i class="arrow" aria-hidden="true"></i></a>
-          <a href="/about">about <i class="arrow" aria-hidden="true"></i></a>
-          <a href="/#contact">contact <i class="arrow" aria-hidden="true"></i></a>
-        </nav>
         <p id="scene-status" class="sr-only" role="status" aria-live="polite">Loading the 3D wordmark.</p>
       </section>
       <!--hero:end-->
       <!--content:start--><div id="page-content" tabindex="-1"></div><!--content:end-->
     </main>
-    <!--naavi:start--><a class="chapter-counter naavi" data-naavi data-chapter-counter data-no-ink data-corruption-protected href="/#selected-work" aria-label="NAAVI: 00 / 04, home. go to works" data-chapter="0" data-chapter-total="4"><span class="chapter-digit-window" aria-hidden="true"><span class="chapter-digit">00</span></span><span class="chapter-total" aria-hidden="true"> / 04</span></a><!--naavi:end-->
+    <!--naavi:start--><a class="chapter-counter naavi" data-naavi data-chapter-counter data-no-ink data-corruption-protected href="/#selected-work" aria-label="NAAVI: 00/ 03, home. go to creative" data-chapter="0" data-chapter-total="3"><span class="chapter-digit-window" aria-hidden="true"><span class="chapter-digit">00</span></span><span class="chapter-total" aria-hidden="true">/ 03</span></a><!--naavi:end-->
     </div>
     <script type="module" src="/src/app.js"></script>
   </body>

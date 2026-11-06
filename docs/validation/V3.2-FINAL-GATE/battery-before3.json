@@ -1,0 +1,89 @@
+{
+  "phase": "before3",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-05T21:32:44.413Z",
+  "results": [
+    {
+      "suite": "v25-cross-links-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 45172,
+      "passLine": "PASS V25 320px reduced=true: four positions, three links, word-width slot, frontpage x positions, keyboard order.",
+      "failLine": ""
+    },
+    {
+      "suite": "v23-static-titles-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 23922,
+      "passLine": "PASS V23 320px reduced=true: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.",
+      "failLine": ""
+    },
+    {
+      "suite": "v7-visitor-tiers-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 66154,
+      "passLine": "PASS V7 320px reduced=true: nine count samples map to seven hero phrases plus the matching static counter, recognition centered in the fixed branding gap, no counter hover or reflow, first visit greets as a ghost.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-navigation-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 114183,
+      "passLine": "PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-ui-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 79469,
+      "passLine": "PASS V3.1 UI 320px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.",
+      "failLine": ""
+    },
+    {
+      "suite": "portfolio-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 127126,
+      "passLine": "PASS F16 320px reduced=true: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.",
+      "failLine": ""
+    },
+    {
+      "suite": "about-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 2698,
+      "passLine": "",
+      "failLine": "locator.evaluate: TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:55241/src/data/motionSettings.js"
+    },
+    {
+      "suite": "hero-poster-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 11932,
+      "passLine": "PASS hero poster 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "hero-boot-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 74154,
+      "passLine": "PASS 320px: build marker, entrance, cursor, greeting, slash 32.70px, wheel contract.",
+      "failLine": ""
+    }
+  ]
+}

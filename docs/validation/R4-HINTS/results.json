@@ -1,0 +1,60 @@
+{
+  "build": "a2540558e5a3",
+  "profiles": [
+    {
+      "width": 1440,
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [],
+        "hint": "press 3 three times to reverse."
+      }
+    },
+    {
+      "width": 390,
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [],
+        "hint": "press 3 three times to reverse."
+      }
+    },
+    {
+      "width": 320,
+      "normalFooter": {
+        "smash": 0,
+        "imprint": [],
+        "hint": "hold 4 to see the other side."
+      },
+      "otherFooter": {
+        "smash": [
+          {
+            "text": "smash",
+            "arrows": 0
+          }
+        ],
+        "imprint": [],
+        "hint": "press 3 three times to reverse."
+      }
+    }
+  ],
+  "passed": true
+}

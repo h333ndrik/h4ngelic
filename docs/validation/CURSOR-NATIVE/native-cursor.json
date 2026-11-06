@@ -1,0 +1,105 @@
+{
+  "checkedAt": "2026-11-05T13:58:59.924Z",
+  "base": "http://127.0.0.1:55232",
+  "css": "index-CvSC71IM.css",
+  "declarations": [
+    "var(--h4-cursor)",
+    "var(--h4-cursor-interactive)",
+    "var(--h4-cursor-pressed)",
+    "var(--h4-cursor-xray)",
+    "var(--h4-cursor-xray-pressed)"
+  ],
+  "literals": [],
+  "build": "736e71d472bc",
+  "overlay": {
+    "nodes": 0,
+    "classGate": false,
+    "inlineScript": false
+  },
+  "pressed": {
+    "rest": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "pressed": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor-pressed.png\") 8 2, auto",
+    "scale": 1.0802,
+    "hotspot": "8 2",
+    "pressedSize": "21.28x31.97"
+  },
+  "assets": [
+    {
+      "url": "/assets/h4ngelic-cursor.svg",
+      "ok": true,
+      "width": 20,
+      "height": 30
+    },
+    {
+      "url": "/assets/h4ngelic-cursor.png",
+      "ok": true,
+      "status": 200,
+      "width": 20,
+      "height": 30
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-pressed.svg",
+      "ok": true,
+      "width": 21,
+      "height": 32
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-pressed.png",
+      "ok": true,
+      "status": 200,
+      "width": 21,
+      "height": 32
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-r09.svg",
+      "ok": true,
+      "width": 20,
+      "height": 30
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other.png",
+      "ok": true,
+      "status": 200,
+      "width": 20,
+      "height": 30
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-pressed-r09.svg",
+      "ok": true,
+      "width": 21,
+      "height": 32
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-pressed.png",
+      "ok": true,
+      "status": 200,
+      "width": 21,
+      "height": 32
+    }
+  ],
+  "fade": {
+    "transition": "all",
+    "before": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer"
+  },
+  "noScript": {
+    "body": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto",
+    "link": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "overlay": 0
+  },
+  "touch": {
+    "fine": false,
+    "body": "auto"
+  },
+  "failures": [],
+  "escalation": {
+    "legacy": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "hostile": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "hostileBody": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+  },
+  "pseudo": [
+    {
+      "selector": ".arrow",
+      "cursor": "url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55232/assets/h4ngelic-cursor.png\") 8 2, auto"
+    }
+  ]
+}

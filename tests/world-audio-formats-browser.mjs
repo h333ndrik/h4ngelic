@@ -42,7 +42,7 @@ try {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-  await page.goto(new URL('/work/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
   await page.waitForTimeout(250);
   const longTaskStart = await page.evaluate(() => window.__formatProbe.longTasks.length);
   const reports = await page.evaluate(async (assets) => {

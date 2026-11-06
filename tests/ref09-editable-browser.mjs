@@ -8,7 +8,7 @@ try {
   const page = await browser.newPage({ viewport: { width: 1200, height: 900 }, reducedMotion: 'reduce' });
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative', base).href, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal');
   await page.evaluate(() => {
     window.__editableKeys = [];

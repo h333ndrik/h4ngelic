@@ -61,7 +61,7 @@ export function visitorMessage(count) {
 /** Local personal count, with four digits as a minimum rather than a public total. */
 export function formatVisitCount(count) {
   const visit = Number.isSafeInteger(count) && count >= 0 ? count : 1;
-  return `VISIT ${String(visit).padStart(4, '0')}`;
+  return `visit ${String(visit).padStart(4, '0')}`;
 }
 
 /** A visit is separated by inactivity, never by a page view or immediate reload. */

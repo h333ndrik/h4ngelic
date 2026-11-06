@@ -7,6 +7,7 @@ import './mannequin-preview.css';
 import './inquiry.css';
 import './v6-polish.css';
 import './easter-eggs.css';
+import './rubric-row.css';
 import './cursor.css';
 import { siteContent } from './data/siteContent.js';
 import { renderRoutePage } from './pages.js';
@@ -29,11 +30,11 @@ import { initGlobalNavigation } from './global-navigation.js';
 import { initInquiry } from './inquiry.js';
 import { initConnectedWork } from './connected-work.js';
 import { heroPosterSettings } from './data/heroPosterSettings.js';
+import { fitRubricRows } from './rubric-fit.js';
 import { initMannequinPreviewLazy } from './mannequin-preview-loader.js';
 
 if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
 document.documentElement.dataset.h4StylesReady = 'true';
-document.documentElement.classList.add('h4-custom-cursor');
 
 let hero = document.querySelector('.hero');
 const content = document.getElementById('page-content');
@@ -61,15 +62,37 @@ let renderedPath = '';
 let stopInquiry = () => {};
 let stopConnectedWork = () => {};
 let slashInsetFrame = 0;
+let otherSideController = null;
 // One scroll offset for each real carousel; route changes reuse these small
 // records rather than retaining detached gallery nodes or image resources.
 const carouselPositions = new Map();
 const globalNavigation = initGlobalNavigation(document);
 
+function setSlashInset(inset) {
+  if (Number.isFinite(inset) && inset > 0) {
+    document.documentElement.style.setProperty('--slash-inset', `${Math.round(inset * 100) / 100}px`);
+  }
+}
+
+/** Interior pages carry no numbered heading, so the measured slash column of
+ *  the homepage is unavailable there. The same two index digits at the same
+ *  display type give the identical advance, keeping the Type A row inset the
+ *  same on both sides of the navigation. */
+function measureSlashInsetFromType() {
+  const probe = document.createElement('span');
+  probe.setAttribute('aria-hidden', 'true');
+  probe.textContent = '01';
+  probe.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;white-space:pre;line-height:1;font-weight:400;font-size:var(--type-display);letter-spacing:var(--type-display-tracking)';
+  document.body.append(probe);
+  const width = probe.getBoundingClientRect().width;
+  probe.remove();
+  setSlashInset(width);
+}
+
 function measureSlashInset() {
   const heading = document.querySelector('#selected-work-title .kinetic-heading-text');
   const section = heading?.closest('.content-section');
-  if (!heading || !section) return;
+  if (!heading || !section) { measureSlashInsetFromType(); return; }
   const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
   let node, slashOffset = -1;
   while ((node = walker.nextNode())) {
@@ -84,10 +107,7 @@ function measureSlashInset() {
   const translation = transform === 'none' ? 0 : new DOMMatrixReadOnly(transform).m41;
   const sectionBox = section.getBoundingClientRect();
   const contentLeft = sectionBox.left + parseFloat(getComputedStyle(section).paddingLeft || '0');
-  const inset = range.getBoundingClientRect().left - translation - contentLeft;
-  if (Number.isFinite(inset) && inset > 0) {
-    document.documentElement.style.setProperty('--slash-inset', `${Math.round(inset * 100) / 100}px`);
-  }
+  setSlashInset(range.getBoundingClientRect().left - translation - contentLeft);
 }
 
 function scheduleSlashInset() {
@@ -95,11 +115,15 @@ function scheduleSlashInset() {
   slashInsetFrame = requestAnimationFrame(() => {
     slashInsetFrame = 0;
     measureSlashInset();
+    fitRubricRows();
   });
 }
 
 addEventListener('resize', scheduleSlashInset, { passive: true });
+addEventListener('load', scheduleSlashInset, { passive: true });
+// Rubric fitting reads real glyph widths: every late webfont must re-run it.
 document.fonts?.ready.then(scheduleSlashInset);
+document.fonts?.addEventListener?.('loadingdone', scheduleSlashInset);
 
 function clearHeroBootTimer() {
   if (!heroBootTimer) return;
@@ -248,7 +272,7 @@ document.addEventListener('h4:herofailed', event => showHeroFailure(event.detail
 
 function currentURL() {
   // The downloadable preview uses hash routes so its pages work without a server.
-  // The real website always uses ordinary /work, /about and /#contact anchors.
+  // The real website always uses ordinary /creative, /about and /#contact anchors.
   return standalone
     ? new URL(location.hash.slice(1).startsWith('/') ? location.hash.slice(1) : '/', 'https://preview.invalid')
     : new URL(location.href);
@@ -279,6 +303,7 @@ function scrollToTarget(url, { reset = false, restoreScroll, smoothAnchor = fals
 async function render({ reset = false, restoreScroll, smoothAnchor = false } = {}) {
   let url = currentURL();
   const route = resolveRoute(url);
+  if (route.kind === 'impressum' && document.documentElement.dataset.mode === 'xray') otherSideController?.setMode('normal');
   if (route.redirectPath) {
     if (standalone) history.replaceState(history.state, '', `#${route.redirectPath}`);
     else history.replaceState(history.state, '', route.redirectPath);
@@ -330,7 +355,8 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopInquiry.refreshContext?.(url);
   stopConnectedWork = initConnectedWork(content);
   stopModelPreview = initMannequinPreviewLazy(content);
-  if (route.kind === 'home') scheduleSlashInset();
+  scheduleSlashInset();
+  document.fonts?.ready.then(scheduleSlashInset);
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {
@@ -393,7 +419,7 @@ if (featureFlags.otherSideEnabled) {
   // Input handling is needed from startup. Bundle it with the entry stylesheet
   // instead of delaying first paint with an immediately requested CSS chunk.
   // Film, pixel rendering, damaged material and Web Audio stay gesture-driven.
-  initXRay({ memory: corruptionLifecycle });
+  otherSideController = initXRay({ memory: corruptionLifecycle });
   initModeIcons();
   const motionMosh = initMotionMosh({ doc: document });
   if (import.meta.env.DEV && new URLSearchParams(location.search).get('fx') === '1') {

@@ -38,32 +38,51 @@ try {
   const link = page.locator('#selected-work .category-link').first();
   await page.mouse.move(1, 1);
   const before = await sample(link);
-  await link.hover();
+  await link.locator('.interaction-visual').hover();
+  // Wait for the transition to settle instead of a fixed 300 ms: the ramp is
+  // ~400 ms and a fixed sleep sampled it mid-flight after the merge.
   await page.waitForFunction((element) => {
-    const matrix = new DOMMatrixReadOnly(getComputedStyle(element.querySelector('.interaction-visual')).transform);
-    return matrix.m11 >= 1.019;
-  }, await link.elementHandle());
-  await page.waitForTimeout(300);
+    const read = () => new DOMMatrixReadOnly(getComputedStyle(element.querySelector('.interaction-visual')).transform).m11;
+    if (!window.__hoverRamp) window.__hoverRamp = { last: read(), stable: 0 };
+    const value = read();
+    window.__hoverRamp.stable = Math.abs(value - window.__hoverRamp.last) < 1e-5 ? window.__hoverRamp.stable + 1 : 0;
+    window.__hoverRamp.last = value;
+    return value >= 1.019 && window.__hoverRamp.stable >= 3;
+  }, await link.elementHandle(), { polling: 'raf', timeout: 5000 });
   const hovered = await sample(link);
-  assert.ok(hovered.scale >= 1.019 && hovered.scale <= 1.021, 'A roomy category uses the restrained 2% feedback.');
+  assert.ok(hovered.scale >= 1.024 && hovered.scale <= 1.026, `A roomy category uses the restrained 2.5% feedback (got ${hovered.scale}).`);
   assert.notEqual(hovered.glow, 'none', 'Normal hover retains a restrained localized glow.');
   const ordinary = await link.locator('.interaction-visual').evaluate(element => ({ duration: getComputedStyle(element).transitionDuration, filter: getComputedStyle(element).filter }));
   assert.ok(ordinary.duration.split(',').every(value => Math.abs(parseFloat(value) - .3) < .001), 'Hover and release share 300ms timing.');
   const alphas = [...ordinary.filter.matchAll(/rgba\([^)]*,\s*([\d.]+)\)/g)].map(match => Number(match[1]));
   assert.ok(alphas.length >= 3 && alphas.every(alpha => alpha <= .2), 'White hover layers retain at most 20% opacity.');
-  assert.match(await link.evaluate(element => getComputedStyle(element).cursor), /h4ngelic-cursor\.svg/, 'Navigation keeps the standard h4 cursor while hovered.');
+  assert.match(await link.evaluate(element => getComputedStyle(element).cursor), /h4ngelic-cursor\.svg["']?\)\s+8\s+2/, 'Navigation keeps the native h4 cursor while hovered.');
   for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[key] - hovered[key]) < .25, 'Magnification must not move or resize the real link target.');
   await page.mouse.move(1, 1);
   await page.waitForTimeout(380);
+  await page.waitForFunction((element) => {
+    const icon = element.querySelector('.interaction-visual .arrow');
+    const transform = getComputedStyle(icon).transform;
+    if (transform === 'none') return true;
+    const matrix = new DOMMatrixReadOnly(transform);
+    return Math.hypot(matrix.m41, matrix.m42) < .05;
+  }, await link.elementHandle());
   const arrow = await link.evaluate((element) => {
     const visual = element.querySelector('.interaction-visual');
     const label = visual.querySelector('.category-magnet > span') || visual.querySelector('span');
     const icon = visual.querySelector('.arrow');
     const text = label.getBoundingClientRect();
     const image = icon.getBoundingClientRect();
-    return { gap: image.left - text.right, ratio: image.width / parseFloat(getComputedStyle(icon).fontSize), stroke: parseFloat(getComputedStyle(icon, '::before').height) };
+    const style = getComputedStyle(icon);
+    // Rubric rows space the arrow with a margin token instead of a flex gap.
+    const token = parseFloat(style.marginInlineStart) || parseFloat(getComputedStyle(visual).columnGap);
+    return { gap: image.left - text.right, tokenGap: token, wordWidth: text.width,
+      ratio: image.width / parseFloat(style.fontSize), stroke: parseFloat(getComputedStyle(icon, '::before').height) };
   });
-  assert.ok(arrow.gap >= 7 && arrow.gap <= 18.1, 'The arrow must sit close to its own word rather than at the column edge.');
+  // The shared arrow token owns this spacing (clamp(10px, .28em, 22px)); the
+  // arrow must follow its word, never drift out to the column edge.
+  assert.ok(Math.abs(arrow.gap - arrow.tokenGap) < .5, `The arrow gap comes from --rubric-arrow-gap (got ${arrow.gap}, token ${arrow.tokenGap}).`);
+  assert.ok(arrow.gap <= 22.5 && arrow.gap < arrow.wordWidth * .2, `The arrow must sit close to its own word rather than at the column edge (got ${arrow.gap}).`);
   assert.ok(Math.abs(arrow.ratio - .72) < .01);
   assert.ok(Math.abs(arrow.stroke - 1.25) < .1);
   assert.ok(Number(await page.locator('.about-preview .text-link').evaluate((element) => parseFloat(getComputedStyle(element).fontSize))) >= 18, 'The smaller More About link remains readable.');
@@ -84,7 +103,7 @@ try {
   assert.equal(await speed.locator('.interaction-visual .interaction-visual').count(), 0, 'Text updates must not nest enhancement wrappers.');
   const speedAfter = await speed.boundingBox();
   assert.ok(Math.abs(speedBefore.height - speedAfter.height) < .25, 'Control label updates must retain the control height.');
-  const secret = page.locator('[data-visitor-hotspot]');
+  const secret = page.locator('[data-other-side-hint]');
   await secret.hover();
   assert.equal(await secret.getAttribute('data-ui-interactive'), null, 'Secret discovery must not gain a conventional glow or magnification.');
 

@@ -1,0 +1,181 @@
+{
+  "checkedAt": "2026-11-03T19:24:16.102Z",
+  "base": "http://127.0.0.1:55200",
+  "profiles": [
+    {
+      "width": 1440,
+      "home": {
+        "headings": [
+          "01/ creative",
+          "02/ more about",
+          "03/ contact"
+        ],
+        "index": [
+          "00/ home",
+          "01/ creative",
+          "02/ more about",
+          "03/ contact",
+          "04/ the other side"
+        ],
+        "naavi": "00/ 04",
+        "naaviLabel": "NAAVI: 00/ 04, home. go to creative",
+        "slashInset": 88.31,
+        "categoryLefts": [
+          151.28125,
+          476.015625,
+          800.765625,
+          1125.515625
+        ],
+        "slash": 151.3125
+      },
+      "work": {
+        "/work/tattoos": {
+          "counter": "01/ 04",
+          "heading": "on skin",
+          "filter": "on skin",
+          "build": "8351205c4d79"
+        },
+        "/work/jewellery": {
+          "counter": "02/ 04",
+          "heading": "jewellery",
+          "filter": "jewellery",
+          "build": "8351205c4d79"
+        },
+        "/work/tools": {
+          "counter": "03/ 04",
+          "heading": "tools",
+          "filter": "tools",
+          "build": "8351205c4d79"
+        },
+        "/work/more": {
+          "counter": "04/ 04",
+          "heading": "more",
+          "filter": "more",
+          "build": "8351205c4d79"
+        }
+      },
+      "about": {
+        "heading": "02/ more about",
+        "counter": "01/ 01"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "home": {
+        "headings": [
+          "01/ creative",
+          "02/ more about",
+          "03/ contact"
+        ],
+        "index": [
+          "00/ home",
+          "01/ creative",
+          "02/ more about",
+          "03/ contact",
+          "04/ the other side"
+        ],
+        "naavi": "00/ 04",
+        "naaviLabel": "NAAVI: 00/ 04, home. go to creative",
+        "slashInset": 32.7,
+        "categoryLefts": [
+          72.23750305175781,
+          231.2218780517578,
+          72.23750305175781,
+          231.2218780517578
+        ],
+        "slash": 72.25312805175781
+      },
+      "work": {
+        "/work/tattoos": {
+          "counter": "01/ 04",
+          "heading": "on skin",
+          "filter": "on skin",
+          "build": "8351205c4d79"
+        },
+        "/work/jewellery": {
+          "counter": "02/ 04",
+          "heading": "jewellery",
+          "filter": "jewellery",
+          "build": "8351205c4d79"
+        },
+        "/work/tools": {
+          "counter": "03/ 04",
+          "heading": "tools",
+          "filter": "tools",
+          "build": "8351205c4d79"
+        },
+        "/work/more": {
+          "counter": "04/ 04",
+          "heading": "more",
+          "filter": "more",
+          "build": "8351205c4d79"
+        }
+      },
+      "about": {
+        "heading": "02/ more about",
+        "counter": "01/ 01"
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "home": {
+        "headings": [
+          "01/ creative",
+          "02/ more about",
+          "03/ contact"
+        ],
+        "index": [
+          "00/ home",
+          "01/ creative",
+          "02/ more about",
+          "03/ contact",
+          "04/ the other side"
+        ],
+        "naavi": "00/ 04",
+        "naaviLabel": "NAAVI: 00/ 04, home. go to creative",
+        "slashInset": 32.7,
+        "categoryLefts": [
+          69.0875015258789,
+          192.74374389648438,
+          69.0875015258789,
+          192.74374389648438
+        ],
+        "slash": 69.1031265258789
+      },
+      "work": {
+        "/work/tattoos": {
+          "counter": "01/ 04",
+          "heading": "on skin",
+          "filter": "on skin",
+          "build": "8351205c4d79"
+        },
+        "/work/jewellery": {
+          "counter": "02/ 04",
+          "heading": "jewellery",
+          "filter": "jewellery",
+          "build": "8351205c4d79"
+        },
+        "/work/tools": {
+          "counter": "03/ 04",
+          "heading": "tools",
+          "filter": "tools",
+          "build": "8351205c4d79"
+        },
+        "/work/more": {
+          "counter": "04/ 04",
+          "heading": "more",
+          "filter": "more",
+          "build": "8351205c4d79"
+        }
+      },
+      "about": {
+        "heading": "02/ more about",
+        "counter": "01/ 01"
+      },
+      "errors": []
+    }
+  ],
+  "passed": true
+}

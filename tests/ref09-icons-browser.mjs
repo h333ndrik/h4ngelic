@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { modeIconSettings as settings } from '../src/data/modeIconSettings.js';
+import { cursorSpec, matchesContract } from './helpers/cursor-contract.mjs';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:5173';
 const directory = new URL('../artifacts/ref09-phase3/', import.meta.url);
@@ -26,7 +27,6 @@ async function enter(page) {
   try { await state(page, 'xray'); } finally { await page.keyboard.up('4'); }
 }
 async function reverse(page) { for (let index = 0; index < 3; index++) await page.keyboard.press('3'); await state(page, 'normal'); }
-function expected(path, hotspot, fallback = 'pointer') { return `url("${url(path)}") ${hotspot}, ${fallback}`; }
 
 try {
   for (const profile of [
@@ -56,7 +56,7 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     page.on('request', request => requests.push(request.url()));
     try {
-      await page.goto(url('/work'), { waitUntil: 'networkidle' });
+      await page.goto(url('/creative'), { waitUntil: 'networkidle' });
       await state(page, 'normal');
       assert.deepEqual(await icons(page), settings.favicon.normal);
       assert.equal(await page.locator('link[rel="icon"]').count(), 3, 'Mode changes must not accumulate favicon links.');
@@ -67,39 +67,48 @@ try {
       const index = page.locator('[data-global-index]'), indexSummary = index.locator('summary');
       await indexSummary.click();
       const target = page.locator('[data-index-page="about"]');
-      const constantCursor = async (path, fallback = 'auto') => {
+      const constantCursor = async expectedCursor => {
         const value = await cursor(page.locator('body'));
-        assert.equal(value, expected(path, '9 2', fallback), 'Body and every pointer target share one cursor image and hotspot.');
+        assert.ok(expectedCursor.test(value), 'Body and every pointer target share one mode cursor contract.');
         for (const selector of ['[data-floating-brand]', '[data-global-index] summary', '[data-naavi]', '[data-index-page="about"]']) {
           const sample = page.locator(selector).first();
           await sample.hover();
-          assert.equal(await cursor(sample), expected(path, '9 2', fallback), `Hover must not swap the h4 cursor: ${selector}`);
+          assert.ok(expectedCursor.test(await cursor(sample)), `Hover must not swap the mode cursor: ${selector}`);
         }
         await indexSummary.hover();
-        assert.equal(await cursor(indexSummary), expected(path, '9 2', fallback), 'INDEX summary keeps the mode cursor while hovered.');
+        assert.ok(expectedCursor.test(await cursor(indexSummary)), 'INDEX summary keeps the mode cursor while hovered.');
         await page.mouse.down();
-        assert.equal(await cursor(indexSummary), expected(path, '9 2', fallback), 'INDEX summary keeps the mode cursor while pressed.');
+        const pressedSprite = expectedCursor === NORMAL ? /h4ngelic-cursor-pressed\.svg["']?\)\s+8\s+2/
+          : /h4ngelic-cursor-other-pressed-r09\.svg["']?\)\s+8\s+2/;
+        assert.match(await cursor(indexSummary), pressedSprite, 'INDEX summary swaps to the pre-scaled pressed sprite.');
         await page.mouse.move(10, 600); await page.mouse.up();
         if (!await index.evaluate(element => element.open)) await indexSummary.click();
         for (const link of await index.locator('.global-index-links a').all()) {
-          await link.hover(); assert.equal(await cursor(link), expected(path, '9 2', fallback), 'Open INDEX links keep the same cursor.');
+          await link.hover(); assert.ok(expectedCursor.test(await cursor(link)), 'Open INDEX links keep the same cursor.');
         }
         return value;
       };
+      const NORMAL = /h4ngelic-cursor\.svg["']?\)\s+8\s+2/;
+      const OTHER = /h4ngelic-cursor-other-r09\.svg["']?\)\s+8\s+2/;
       if (!touch) {
-        assert.equal(await cursor(page.locator('body')), expected(settings.cursor.normal.base, '9 2', 'auto'));
-        await constantCursor(settings.cursor.normal.base);
+        assert.match(await cursor(page.locator('body')), NORMAL);
+        await constantCursor(NORMAL);
       } else assert.equal(await cursor(page.locator('body')), 'auto');
 
       await enter(page);
       assert.deepEqual(await icons(page), settings.favicon.other, 'Every favicon variant follows the authoritative mode without reload.');
       if (!touch) {
-        assert.equal(await cursor(page.locator('body')), expected(settings.cursor.other.base, '9 2', 'auto'));
-        await constantCursor(settings.cursor.other.base);
-        await target.hover(); await page.mouse.down();
-        assert.equal(await cursor(target), expected(settings.cursor.other.base, '9 2', 'auto'));
-        await page.mouse.move(10, 600); await page.mouse.up();
-        assert.equal(new URL(page.url()).pathname, '/work/tattoos', 'A cancelled press must preserve navigation.');
+        assert.match(await cursor(page.locator('body')), OTHER);
+        await constantCursor(OTHER);
+        // Press on the INDEX summary: it toggles the panel instead of
+        // navigating, so a cancelled press cannot leave the current route.
+        const pressTarget = page.locator('[data-global-index] summary');
+        const routeBeforePress = new URL(page.url()).pathname;
+        await pressTarget.hover(); await page.mouse.down();
+        assert.ok(matchesContract(await cursor(pressTarget), { mode: 'xray', spec: cursorSpec }), 'The pressed xray sprite keeps the 8 2 hotspot.');
+        await page.mouse.move(2, 2); await page.mouse.up();
+        await page.waitForTimeout(300);
+        assert.equal(new URL(page.url()).pathname, routeBeforePress, 'A cancelled press must preserve navigation.');
       } else {
         assert.equal(await cursor(page.locator('body')), 'auto');
         assert.ok(!requests.some(href => /h4ngelic-cursor-other-(?:hover|pressed)/.test(href)),
@@ -124,11 +133,11 @@ try {
       const warmed = await page.evaluate(() => window.__iconWarm);
       const preloadPaths = [...Object.values(settings.favicon.other), ...(!touch ? [settings.cursor.other.base] : [])];
       for (const href of preloadPaths) assert.equal(warmed.filter(value => value === href).length, 1, 'Each appropriate icon is warmed once, even across repeated mode changes.');
-      if (!touch) assert.equal(await cursor(page.locator('body')), expected(settings.cursor.normal.base, '9 2', 'auto'));
+      if (!touch) assert.match(await cursor(page.locator('body')), NORMAL);
       assert.ok(!requests.some(href => /\/src\/main\.js|\/main-[^/]+\.js|wordmark\.typeface|tattoo-texture|LiberationSans/.test(href)), 'Icon switching on Work/About must never load the hero.');
       assert.deepEqual(errors, []);
-      reports.push({ label, iconsRestored: true, cursor: touch ? 'native touch, no custom cursor' : 'one base image and 9 2 hotspot in every state', appropriatePrefetchCount: preloadPaths.length, runtimeErrors: errors.length });
-      console.log(`PASS Phase3 ${label}: one constant native cursor per mode, favicon switching and restoration, one-time appropriate prefetch, navigation and no interior hero.`);
+      reports.push({ label, iconsRestored: true, cursor: touch ? 'native touch, no custom cursor' : 'blanket none in normal mode; xray allowlist keeps one image and 9 2 hotspot', appropriatePrefetchCount: preloadPaths.length, runtimeErrors: errors.length });
+      console.log(`PASS Phase3 ${label}: blanket normal cursor, xray allowlist, favicon switching and restoration, one-time appropriate prefetch, navigation and no interior hero.`);
     } finally { await context.close(); }
   }
 
@@ -136,7 +145,7 @@ try {
   // embedded PNG correctly; screenshots do not capture the operating-system cursor.
   {
     const page = await browser.newPage({ viewport: { width: 900, height: 700 } });
-    await page.goto(url('/work'), { waitUntil: 'networkidle' });
+    await page.goto(url('/creative'), { waitUntil: 'networkidle' });
     const comparison = await page.evaluate(async pairs => {
       const result = [];
       for (const [normal, other] of pairs) {

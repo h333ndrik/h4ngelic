@@ -1,0 +1,547 @@
+{
+  "checkedAt": "2026-11-05T21:14:19.133Z",
+  "base": "http://127.0.0.1:55241",
+  "build": "57ff1e3c7c45",
+  "profiles": [
+    {
+      "width": 1440,
+      "normal": {
+        "build": "57ff1e3c7c45",
+        "zone": {
+          "top": 893.95,
+          "bottom": 937.95,
+          "height": 44
+        },
+        "naaviCentred": 0,
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "left": 35,
+            "right": 658.73,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "columnGap": "28.8px",
+            "tokenGap": "clamp(12px, 2vw, 30px)",
+            "items": [
+              {
+                "element": "span.footer-brand.row-item",
+                "left": 35,
+                "right": 132.72,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              },
+              {
+                "element": "a.footer-moshlab.row-item",
+                "left": 161.52,
+                "right": 249.39,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              },
+              {
+                "element": "span.footer-visit.row-item",
+                "left": 278.19,
+                "right": 337.3,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              28.8,
+              28.8
+            ]
+          },
+          {
+            "element": "span.footer-details",
+            "left": 1241.83,
+            "right": 1405,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "columnGap": "28.8px",
+            "tokenGap": "clamp(12px, 2vw, 30px)",
+            "items": [
+              {
+                "element": "a.footer-instagram.row-item",
+                "left": 1241.83,
+                "right": 1319.63,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              },
+              {
+                "element": "span.footer-location.row-item",
+                "left": 1348.42,
+                "right": 1405,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              28.79
+            ]
+          }
+        ],
+        "legalLinks": 0,
+        "pageWidth": 1440
+      },
+      "other": {
+        "build": "57ff1e3c7c45",
+        "zone": {
+          "top": 893.95,
+          "bottom": 937.95,
+          "height": 44
+        },
+        "naaviCentred": 0,
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "left": 35,
+            "right": 658.73,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "columnGap": "28.8px",
+            "tokenGap": "clamp(12px, 2vw, 30px)",
+            "items": [
+              {
+                "element": "span.footer-brand.row-item",
+                "left": 35,
+                "right": 132.72,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              },
+              {
+                "element": "a.footer-moshlab.row-item",
+                "left": 161.52,
+                "right": 249.39,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              },
+              {
+                "element": "span.footer-visit.row-item",
+                "left": 278.19,
+                "right": 337.3,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              28.8,
+              28.8
+            ]
+          },
+          {
+            "element": "span.footer-details",
+            "left": 1173.48,
+            "right": 1405,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "columnGap": "28.8px",
+            "tokenGap": "clamp(12px, 2vw, 30px)",
+            "items": [
+              {
+                "element": "span",
+                "left": 1173.48,
+                "right": 1213.03,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              },
+              {
+                "element": "a.footer-instagram.row-item",
+                "left": 1241.83,
+                "right": 1319.63,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              },
+              {
+                "element": "span.footer-location.row-item",
+                "left": 1348.42,
+                "right": 1405,
+                "top": 893.95,
+                "bottom": 937.95,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              28.8,
+              28.79
+            ]
+          }
+        ],
+        "legalLinks": 0,
+        "pageWidth": 1440
+      }
+    },
+    {
+      "width": 390,
+      "normal": {
+        "build": "57ff1e3c7c45",
+        "zone": {
+          "top": 787.66,
+          "bottom": 831.66,
+          "height": 44
+        },
+        "naaviCentred": 0,
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "left": 22,
+            "right": 145,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "columnGap": "12px",
+            "tokenGap": "12px",
+            "items": [
+              {
+                "element": "span.footer-brand.row-item",
+                "left": 22,
+                "right": 105.23,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              },
+              {
+                "element": "a.footer-moshlab.row-item",
+                "left": 117.23,
+                "right": 193.33,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              },
+              {
+                "element": "span.footer-visit.row-item",
+                "left": 205.33,
+                "right": 255.98,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              12,
+              12
+            ]
+          },
+          {
+            "element": "span.footer-details",
+            "left": 245,
+            "right": 368,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "columnGap": "12px",
+            "tokenGap": "12px",
+            "items": [
+              {
+                "element": "a.footer-instagram.row-item",
+                "left": 245,
+                "right": 312.58,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              },
+              {
+                "element": "span.footer-location.row-item",
+                "left": 324.58,
+                "right": 372.92,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              12
+            ]
+          }
+        ],
+        "legalLinks": 0,
+        "pageWidth": 390
+      },
+      "other": {
+        "build": "57ff1e3c7c45",
+        "zone": {
+          "top": 787.66,
+          "bottom": 831.66,
+          "height": 44
+        },
+        "naaviCentred": 0,
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "left": 22,
+            "right": 145,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "columnGap": "12px",
+            "tokenGap": "12px",
+            "items": [
+              {
+                "element": "span.footer-brand.row-item",
+                "left": 22,
+                "right": 105.23,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              },
+              {
+                "element": "a.footer-moshlab.row-item",
+                "left": 117.23,
+                "right": 193.33,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              },
+              {
+                "element": "span.footer-visit.row-item",
+                "left": 205.33,
+                "right": 255.98,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              12,
+              12
+            ]
+          },
+          {
+            "element": "span.footer-details",
+            "left": 245,
+            "right": 368,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "columnGap": "12px",
+            "tokenGap": "12px",
+            "items": [
+              {
+                "element": "span",
+                "left": 245,
+                "right": 278.66,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              },
+              {
+                "element": "a.footer-instagram.row-item",
+                "left": 290.66,
+                "right": 358.23,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              },
+              {
+                "element": "span.footer-location.row-item",
+                "left": 370.23,
+                "right": 418.58,
+                "top": 787.66,
+                "bottom": 831.66,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              12,
+              12
+            ]
+          }
+        ],
+        "legalLinks": 0,
+        "pageWidth": 390
+      }
+    },
+    {
+      "width": 320,
+      "normal": {
+        "build": "57ff1e3c7c45",
+        "zone": {
+          "top": 788.34,
+          "bottom": 832.34,
+          "height": 44
+        },
+        "naaviCentred": -0.34,
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "left": 22,
+            "right": 110,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "columnGap": "12px",
+            "tokenGap": "12px",
+            "items": [
+              {
+                "element": "span.footer-brand.row-item",
+                "left": 22,
+                "right": 105.23,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              },
+              {
+                "element": "a.footer-moshlab.row-item",
+                "left": 117.23,
+                "right": 193.33,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              },
+              {
+                "element": "span.footer-visit.row-item",
+                "left": 205.33,
+                "right": 255.98,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              12,
+              12
+            ]
+          },
+          {
+            "element": "span.footer-details",
+            "left": 210,
+            "right": 298,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "columnGap": "12px",
+            "tokenGap": "12px",
+            "items": [
+              {
+                "element": "a.footer-instagram.row-item",
+                "left": 210,
+                "right": 277.58,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              },
+              {
+                "element": "span.footer-location.row-item",
+                "left": 289.58,
+                "right": 337.92,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              12
+            ]
+          }
+        ],
+        "legalLinks": 0,
+        "pageWidth": 320
+      },
+      "other": {
+        "build": "57ff1e3c7c45",
+        "zone": {
+          "top": 788.34,
+          "bottom": 832.34,
+          "height": 44
+        },
+        "naaviCentred": -0.34,
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "left": 22,
+            "right": 110,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "columnGap": "12px",
+            "tokenGap": "12px",
+            "items": [
+              {
+                "element": "span.footer-brand.row-item",
+                "left": 22,
+                "right": 105.23,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              },
+              {
+                "element": "a.footer-moshlab.row-item",
+                "left": 117.23,
+                "right": 193.33,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              },
+              {
+                "element": "span.footer-visit.row-item",
+                "left": 205.33,
+                "right": 255.98,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              12,
+              12
+            ]
+          },
+          {
+            "element": "span.footer-details",
+            "left": 210,
+            "right": 298,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "columnGap": "12px",
+            "tokenGap": "12px",
+            "items": [
+              {
+                "element": "span",
+                "left": 210,
+                "right": 243.66,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              },
+              {
+                "element": "a.footer-instagram.row-item",
+                "left": 255.66,
+                "right": 323.23,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              },
+              {
+                "element": "span.footer-location.row-item",
+                "left": 335.23,
+                "right": 383.58,
+                "top": 788.34,
+                "bottom": 832.34,
+                "height": 44
+              }
+            ],
+            "gaps": [
+              12,
+              12
+            ]
+          }
+        ],
+        "legalLinks": 0,
+        "pageWidth": 320
+      }
+    }
+  ]
+}
