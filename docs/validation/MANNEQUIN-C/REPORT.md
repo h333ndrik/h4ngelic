@@ -1322,3 +1322,81 @@ angelegt** (Freigabe offen).
 6. `pointerStopMs = 150` ist die Abnahmegrenze; ein 100-ms-Halt fliegt noch. Falls
    sich das im Gebrauch falsch anfuehlt, ist es die einzige Stellschraube.
 
+## M5 — Merge-Gate: ABBRUCH (kein Merge, kein Deploy)
+
+### Ausgangsstand
+
+| | Wert |
+| --- | --- |
+| Branch-HEAD | `6bf5618` (= `origin/v3.2-mannequin-female`) |
+| `MAIN_SHA` (fest, `origin/main`) | **`d5508242`** — `Merge v3.1.1-fixes into main: V3.1.2 fix stack, B-F19 ink guard, B-F26 labels, B-016 unlink, world-sound sync` |
+| Commits auf main seit `fdd42f5` | **103** |
+| Merge-Base | `11e78a1` (V3.2-M0c) |
+| Branch seit Merge-Base | 35 Commits |
+| main seit Merge-Base | 115 Commits |
+| Baseline vor dem Gate | `npm test` 402/402, `verify:assets` OK |
+
+### Gate-Ergebnis: nicht bestanden
+
+| Kriterium | Soll | Ist | Ergebnis |
+| --- | --- | --- | --- |
+| G1 Konflikte | ≤ 3, nur `UU` | **7**, alle `UU` | FAIL |
+| G2 nur Doku | `.gitignore`, `NEXT_SESSION.md`, `PROJECT_PROGRESS.md` | zusaetzlich `package.json`, `src/app.js`, `tests/content.test.js`, `tests/mannequin-preview-browser.mjs` | FAIL |
+| G3 Quellcode-Konflikte | 0 | **3** (`src/app.js`, `tests/content.test.js`, `tests/mannequin-preview-browser.mjs`) + `package.json` | FAIL |
+| G4 Asset-Konflikte | 0 | 0 (`public/models/` unberuehrt) | PASS |
+| G5 Probe-Exit | 0 oder 1 mit genau 3 Konflikten | 1 mit 7 Konflikten | FAIL |
+| G6 Worktree-Reste | keine | keine (`git worktree list` ohne `/tmp/merge-m5`) | PASS |
+
+Probe: `git worktree add /tmp/merge-m5 d5508242` →
+`git merge --no-commit --no-ff v3.2-mannequin-female` → **Exit 1**, 149 Dateien
+(+12.037/−166), danach `git merge --abort` (Exit 0), Worktree entfernt, `prune`.
+
+### Konfliktliste
+
+| Datei | Art | Hunks | Inhalt |
+| --- | --- | --- | --- |
+| `.gitignore` | UU | 1 | main: `work/`, `masters/` (Audio-Master) — unsere Seite: `__pycache__/` |
+| `NEXT_SESSION.md` | UU | 1 | beide Seiten stellen einen Checkpoint voran |
+| `PROJECT_PROGRESS.md` | UU | 1 | gleiches Muster |
+| `package.json` | UU | 1 | `predev`/`prebuild`: main faltet `sounds:hash` ein, wir nicht; dazwischen liegen die Mannequin-Skripte |
+| `src/app.js` | UU | 2 | Import-Block (`fitRubricRows`, `initSectionEntrance`) und `render()`: main ruft `scheduleSlashInset()` unbedingt, unser Stand nur auf `home` plus `initSectionEntrance` |
+| `tests/content.test.js` | UU | 2 | main erwartet `/creative/...`-Links, wir `/work/...`; dazu der Mannequin-Poster-Ausschluss im Bildzaehler |
+| `tests/mannequin-preview-browser.mjs` | UU | 1 | beide Seiten haben die Suite umgebaut (main: V3.1.2-Stand, wir: 3 Viewports, Hinweis, Cursor, Bounds) |
+
+### Ursache
+
+main hat mit `d550824` den kompletten **V3.1.2-Fixstack** aufgenommen
+(`v3.1.1-fixes`, u. a. `c7fca56` nativer Cursor, `43ead07` Rubrik-Zeilen,
+`51437eb` **canonical `/creative/tattoos`**). Unser Branch stammt weiterhin
+von `11e78a1` ab und rendert `/work/<kategorie>`; seine Tests behaupten das
+ebenfalls. Damit kollidieren nicht nur Textstellen, sondern zwei
+Routing-Staende:
+
+| | main (`d550824`) | Branch (`6bf5618`) |
+| --- | --- | --- |
+| Kanonische Rubrik-URL | `/creative/<kategorie>` | `/work/<kategorie>` |
+| `/work/*` | 301 auf `/creative/*` (`src/routes.js`, `vercel.json`) | aktiv gerendert |
+| `vercel.json` | vorhanden (Audio-Immutable-Regel) | fehlt (M4i-Vorschlag) |
+
+### Konsequenz
+
+Der Merge wurde **nicht** ausgefuehrt: kein Merge-Commit, `main` bleibt
+`d5508242`, kein Push auf `main`, **kein Deployment** ausgeloest. Der Branch
+`v3.2-mannequin-female` bleibt unveraendert und ist weiterhin gruen
+(402/402 vor dem Gate).
+
+### Naechster Schritt (Entscheidung durch den Nutzer)
+
+1. **Variante A (empfohlen): Branch auf `/creative` umstellen.** M4b
+   (Rubrik-Route) wird vorgezogen: `src/routes.js`, `mannequin-preview-*`,
+   Tests und `section-entrance` auf `/creative/<kategorie>` ziehen, danach
+   erneut gaten. Das loest drei der vier Quellcode-Konflikte sachlich statt
+   textuell.
+2. **Variante B: manuell aufloesen.** 7 Konflikte von Hand, inklusive
+   `src/app.js` (Slash-Inset vs. Section-Einfahrt) und `package.json`
+   (`predev`/`prebuild`), danach volle Suite. Der Gate-Vertrag deckt das
+   ausdruecklich **nicht** ab — nur mit expliziter Freigabe.
+3. **Variante C: warten**, bis main ruhig steht; der Fixstack ist seit
+   `fdd42f5` um 103 Commits gewachsen, der Merge-Base muss ohnehin neu geprueft
+   werden.
+
