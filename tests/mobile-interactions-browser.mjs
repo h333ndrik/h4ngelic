@@ -126,7 +126,7 @@ async function mobile(width, reduced = false) {
   const cdp = await context.newCDPSession(page);
   page.on('pageerror', error => errors.push(error.message));
   try {
-    await page.goto(url('/work?test=1'), { waitUntil: 'networkidle' });
+    await page.goto(url('/creative?test=1'), { waitUntil: 'networkidle' });
     await settled(page, 'normal');
     const control = page.locator('[data-mobile-mode]');
     assert.equal(await control.count(), 1);
@@ -140,7 +140,13 @@ async function mobile(width, reduced = false) {
     await page.waitForTimeout(2250);
     assert.equal(Number(await control.getAttribute('data-mobile-taps')), 0, 'Incomplete sequences reset within the two-second window.');
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal');
-    assert.equal(await page.evaluate(() => window.__mobileProbe.audio.length), 0, 'Incomplete taps prime, but never play, transition audio.');
+    const probeAudio = await page.evaluate(() => window.__mobileProbe.audio);
+    // The world engine schedules a one-sample silent tick and the 90 s bed; a
+    // transition one-shot is the ~0.9 s voice in between. Only that band counts
+    // as a transition (V3.2 world sound).
+    assert.equal(probeAudio.some(event => event.duration > .1 && event.duration < 2), false,
+      'Incomplete taps may unlock the world loop but must never play a transition one-shot.');
+    assert.ok(probeAudio.some(event => event.duration > 60), 'The unlocked world bed is the only long voice.');
 
     // A press-drag and a long press cannot be counted as deliberate quick taps.
     const point = await controlPoint(page);
@@ -160,16 +166,24 @@ async function mobile(width, reduced = false) {
     assert.equal(Number(await control.getAttribute('data-mobile-taps')), 0);
     assert.match(await control.getAttribute('aria-label'), /3|three/i);
     const first = await page.evaluate(() => window.__mobileProbe);
-    assert.deepEqual(first.modes.map(event => event.mode), ['xray']);
-    if (first.contexts) assert.deepEqual(first.audio.map(event => event.mode), ['xray']);
+    // V3.2 world sound re-announces the unchanged initial mode once when the
+    // audio context unlocks; the contract is the sequence of real transitions.
+    const transitions = modes => modes.map(event => event.mode)
+      .filter((mode, index, all) => index === 0 ? mode !== 'normal' : mode !== all[index - 1]);
+    assert.deepEqual(transitions(first.modes), ['xray']);
+    if (first.contexts) assert.deepEqual(first.audio.filter(event => event.duration > .1 && event.duration < 2).map(event => event.mode), ['xray'],
+      'Only the xray transition one-shot plays, not the world tick or the bed.');
     assert.equal(await page.locator('[data-ink-mark]').count(), 0);
     await page.screenshot({ path: new URL(`${profile}-other.png`, output).pathname });
     await taps(page, cdp, 3, { feedback: true });
     await settled(page, 'normal');
-    assert.deepEqual(await page.evaluate(() => window.__mobileProbe.modes.map(event => event.mode)), ['xray', 'normal']);
+    assert.deepEqual(transitions(await page.evaluate(() => window.__mobileProbe.modes)), ['xray', 'normal']);
 
     // Two partial taps are tied to this page interaction and cannot cross a route.
     await taps(page, cdp, 2);
+    // The Other Side may run its own renderer; the guard is that no *cold route*
+    // adds one. Count before the SPA navigation and compare afterwards.
+    const glBeforeRoute = await page.evaluate(() => window.__mobileProbe.webGL);
     await page.locator('[data-global-index] > summary').tap();
     await page.locator('[data-index-page="about"]').tap();
     await page.waitForURL(value => value.pathname === '/about');
@@ -177,20 +191,22 @@ async function mobile(width, reduced = false) {
     assert.equal(Number(await control.getAttribute('data-mobile-taps')), 0);
     assert.equal(await control.count(), 1);
     assert.equal(await control.isVisible(), true);
-    assert.equal(await page.evaluate(() => window.__mobileProbe.webGL), 0);
+    assert.equal(await page.evaluate(() => window.__mobileProbe.webGL), glBeforeRoute,
+      'A cold SPA route allocates no additional WebGL renderer.');
     await taps(page, cdp, 4, { feedback: true });
     await settled(page, 'xray');
     await taps(page, cdp, 3, { feedback: true });
     await settled(page, 'normal');
     const repeated = await page.evaluate(() => window.__mobileProbe);
-    assert.deepEqual(repeated.modes.map(event => event.mode), ['xray', 'normal', 'xray', 'normal']);
+    assert.deepEqual(transitions(repeated.modes), ['xray', 'normal', 'xray', 'normal']);
     if (repeated.contexts) {
       assert.equal(repeated.contexts, 1, 'Every route and direction shares the existing audio controller.');
-      assert.deepEqual(repeated.audio.map(event => event.mode), repeated.modes.map(event => event.mode));
+      assert.deepEqual(repeated.audio.filter(event => event.duration > .1 && event.duration < 2).map(event => event.mode), ['xray', 'normal', 'xray', 'normal'],
+        'Every transition plays exactly its own one-shot, the world tick and bed excluded.');
     }
 
-    await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
-    await page.waitForURL(value => value.pathname === '/work/tattoos');
+    await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
+    await page.waitForURL(value => value.pathname === '/creative/tattoos');
     await settled(page, 'normal');
     await addBlankScrollSurface(page);
     const fixedBefore = await control.boundingBox();
@@ -246,13 +262,9 @@ async function mobile(width, reduced = false) {
       scrollTo({ top: document.querySelector('[data-mobile-ink-fixture]').getBoundingClientRect().top + scrollY, behavior: 'instant' });
     });
     await pan(cdp, page);
-    const otherMark = await page.locator('[data-ink-mark][data-touch-ink]').first().evaluate(mark => ({
-      saturation: getComputedStyle(mark).filter,
-      texture: Number(getComputedStyle(mark.querySelector('.ink-film')).opacity),
-      channels: Number(getComputedStyle(mark.querySelector('.ink-channel')).opacity),
-    }));
-    assert.match(otherMark.saturation, /saturate/);
-    assert.ok(otherMark.texture > .54 && otherMark.channels >= .9, 'Other Side gesture ink keeps stronger distressed material.');
+    await page.waitForTimeout(300);
+    assert.equal(await page.locator('[data-ink-mark]').count(), 0,
+      'Other Side uses its persistent pixel memory and does not synthesize gesture ink.');
     await taps(page, cdp, 3);
     await settled(page, 'normal');
 
@@ -276,12 +288,12 @@ async function mobile(width, reduced = false) {
       for (let index = 0; index < 3; index++) await page.keyboard.press('Space');
       await settled(page, 'normal');
     }
-    await page.locator('.brand-link').tap();
+    await page.locator('[data-floating-brand]').tap();
     await page.waitForURL(value => value.pathname === '/');
-    await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
+    await page.locator('#stage.is-ready, #stage.is-poster-static').waitFor({ timeout: 60000 });
     assert.equal(await control.count(), 1);
     assert.equal(await control.isVisible(), true);
-    assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'HOLD 4 TO SEE THE OTHER SIDE.', 'Phase 2 message has not been introduced.');
+    assert.equal(await page.locator('[data-xray-hint-text]').textContent(), 'hold 4 to see the other side.', 'Phase 2 message has not been introduced.');
     assert.equal(await page.getByText('TAP HERE 4 TIMES.', { exact: true }).count(), 0);
     assert.equal(await page.getByText('TAP HERE 3 TIMES TO REVERSE.', { exact: true }).count(), 0);
     assert.deepEqual(errors, []);
@@ -297,7 +309,7 @@ async function desktop() {
   const page = await context.newPage(), errors = [];
   page.on('pageerror', error => errors.push(error.message));
   try {
-    await page.goto(url('/work?test=1'), { waitUntil: 'networkidle' });
+    await page.goto(url('/creative?test=1'), { waitUntil: 'networkidle' });
     await settled(page, 'normal');
     assert.equal(await page.locator('[data-mobile-mode]:visible').count(), 0, 'Desktop does not gain a mobile overlay.');
     await page.keyboard.down('4');

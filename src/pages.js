@@ -2,15 +2,25 @@ import { siteContent } from './data/siteContent.js';
 import { artworks } from './data/artworks.js';
 import { contentURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
-import { categoryURL, projectURL, categoryById, groupById, workAnchorURL, contactURL } from './routes.js';
+import { categoryURL, projectURL, categoryById, groupById, workAnchorURL, contactURL, toolURL } from './routes.js';
 import { renderFooter } from './footer.js';
 import { renderHorizontalDrift } from './horizontal-drift-content.js';
 import { renderFlashMannequin } from './flash-mannequin-content.js';
 import { renderMannequinPreview } from './mannequin-preview-content.js';
 import { renderInquiryForm } from './inquiry-content.js';
 import { orderedArtworks, artworkImages, artworkLabel } from './artwork-content.js';
+import { formatIndexedLabel } from './labels.js';
+import { placeholderProjects } from './data/placeholderProjects.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
+/** One component for every rubric row: a pair per mobile line, one flex row on
+ *  wider screens. Each line stays a real flex line so both rows keep the same
+ *  gap and the same slash column instead of inheriting equal-width cells. */
+function rubricLines(items, perLine = 2) {
+  const lines = [];
+  for (let index = 0; index < items.length; index += perLine) lines.push(items.slice(index, index + perLine));
+  return lines.map(line => `<span class="rubric-line">${line.join('')}</span>`).join('');
+}
 
 export function normalizeCategory(category) {
   return categoryById(category) || groupById(category) ? category : 'all';
@@ -26,11 +36,26 @@ function footer() {
   return renderFooter();
 }
 
+function renderToolCards() {
+  const cards = (siteContent.tools || []).map(tool => {
+    const href = contentURL(tool.url);
+    if (!href) return '';
+    return `<article class="tool-card" data-tool-entry="${escape(tool.id)}">
+      <a class="tool-card-link" href="${toolURL(tool.id)}">
+        <h3>${escape(tool.title)} ${arrow}</h3>
+        <p>${escape(tool.teaser)}</p>
+      </a>
+      <a class="tool-card-external text-link" href="${escape(href)}" target="_blank" rel="noopener noreferrer">open project ${arrow}</a>
+    </article>`;
+  }).filter(Boolean).join('');
+  return `<div class="tool-grid" data-tool-rubric>${cards || '<p class="archive-empty">archive in progress.</p>'}</div>`;
+}
+
 export function renderHomepageSections(context = '') {
   return `<section class="content-section selected-work" id="selected-work" aria-labelledby="selected-work-title" data-motion="work"><div class="section-pin">
     <h2 class="kinetic-heading" id="selected-work-title"><span class="kinetic-heading-text">${escape(siteContent.home.selectedWorkLabel)}</span></h2>
-    <div class="category-strip" role="navigation" aria-label="Works categories" tabindex="0">
-      ${siteContent.workGroups.map((group) => `<a class="category-link" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`).join('')}
+    <div class="category-strip" data-row="distributed" data-row-id="home-strip" role="navigation" aria-label="Works categories" tabindex="0">
+      ${rubricLines(siteContent.workGroups.map((group) => `<a class="category-link row-item" href="${categoryURL(group.id)}"><span class="kinetic-item"><span class="category-magnet"><span>${escape(group.label)}</span>${arrow}</span></span></a>`))}
     </div>
   </div></section>
   <section class="content-section about-preview" id="about-preview" tabindex="-1" aria-labelledby="about-preview-title" data-motion="about"><div class="section-pin">
@@ -94,7 +119,31 @@ export function renderProject(project) {
   </article>`;
 }
 
-/** /work is the full archive; each real category URL renders only its own
+/** The one sub-rubric row: same four destinations on every creative surface. */
+function renderWorkFilters(activeGroup) {
+  return `<nav class="work-filters" data-row="chips" data-row-id="archive-filters" aria-label="Works sections">
+      ${siteContent.workGroups.map(filter => `<a class="filter-link row-item${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
+    </nav>`;
+}
+
+/** Type A cross-links: four fixed positions in rubric order. The current
+ * rubric is an invisible replica of its own label, arrow spacing included, so
+ * the visible words keep the frontpage x positions and nothing jumps between
+ * pages. The replica carries no href, no focus and no pointer target. */
+const rowSlotMode = 'width';
+function renderCrossLinks(selectedGroup) {
+  const positions = siteContent.workGroups.map(group => {
+    const content = `<span class="category-magnet"><span>${escape(group.archiveLabel ?? group.label)}</span>${arrow}</span>`;
+    return group.id === selectedGroup.id
+      ? `<span class="row-slot" aria-hidden="true">${content}</span>`
+      : `<a class="row-item" href="${categoryURL(group.id)}">${content}</a>`;
+  });
+  return `<nav class="rubric-cross-links" data-row="distributed" data-row-id="rubric-cross-links" data-slot-mode="${rowSlotMode}" aria-label="Other creative sections">
+      ${rubricLines(positions)}<span class="sr-only">current: ${escape(selectedGroup.label)}</span>
+    </nav>`;
+}
+
+/** /creative is the full archive; each real category URL renders only its own
  * group/leaf through this same renderer and editable content. */
 export function renderWorkPage(category = 'all') {
   const selected = normalizeCategory(category);
@@ -107,7 +156,8 @@ export function renderWorkPage(category = 'all') {
   const projects = orderedArtworks(artworks.filter(project => project.published !== false && categoryById(project.category)));
   const collection = entry => {
     const items = projects.filter(project => project.category === entry.id);
-    const contents = entry.presentation === 'drift' ? renderHorizontalDrift(items, { category: entry.id, label: entry.label })
+    const placeholders = placeholderProjects.filter(project => project.category === entry.id);
+    const contents = entry.presentation === 'drift' ? renderHorizontalDrift([...items, ...placeholders], { category: entry.id, label: entry.label })
       : items.map(renderProject).filter(Boolean).join('');
     return entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>';
   };
@@ -119,6 +169,12 @@ export function renderWorkPage(category = 'all') {
   };
   const modelSection = `<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model data-section-entrance><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3>${renderMannequinPreview()}</section>`;
   const content = groups.map(group => {
+    if (group.id === 'tools') {
+      return `<section class="work-group${selectedGroup ? ' is-rubric-archive tool-rubric' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="${selectedGroup ? 'work-page-title' : `group-${escape(group.id)}-title`}" data-work-group="${escape(group.id)}">
+        ${selectedGroup ? '' : `<h2 class="work-group-heading" id="group-${escape(group.id)}-title" data-motion-static><span class="archive-scroll-label">${escape(group.label)}</span></h2>`}
+        ${renderToolCards()}
+      </section>`;
+    }
     if (selectedGroup) {
       const rubricCategories = group.children.map(id => categoryById(id)).filter(Boolean).map(entry => {
         const primary = entry.id === group.id;
@@ -145,19 +201,42 @@ export function renderWorkPage(category = 'all') {
     ? leaf(selectedCategory, { nested: false })
     : selected === 'all' ? siteContent.categories.filter(entry => entry.legacy
       && projects.some(project => project.category === entry.id)).map(entry => leaf(entry, { nested: false })).join('') : '';
-  const crossLinks = selectedGroup ? `<nav class="rubric-cross-links" aria-label="Other creative sections">
-      ${siteContent.workGroups.map(group => group.id === selectedGroup.id
-        ? '<span class="rubric-cross-gap" aria-hidden="true"></span>'
-        : `<a href="${categoryURL(group.id)}">${escape(group.archiveLabel ?? group.label)} ${arrow}</a>`).join('')}
-    </nav>` : '';
+  const crossLinks = selectedGroup ? renderCrossLinks(selectedGroup) : '';
   return `${header('work')}
   <div class="page-shell work-page${selectedGroup ? ' is-rubric-page' : ''}" data-connected-work data-work-context="${escape(selected)}">
-    <h1 class="page-heading${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
-    <nav class="work-filters" aria-label="Works sections">
-      ${siteContent.workGroups.map(filter => `<a class="filter-link${activeGroup === filter.id ? ' is-active' : ''}" href="${categoryURL(filter.id)}"${activeGroup === filter.id ? ' aria-current="page"' : ''}>${escape(filter.archiveLabel ?? filter.label)}</a>`).join('')}
-    </nav>
+    <h1 class="page-heading${selected === 'all' ? ' numbered-heading' : ''}${selectedGroup?.id === 'more' ? ' sr-only' : ''}" id="work-page-title">${escape(title)}</h1>
+    ${renderWorkFilters(activeGroup)}
     <div class="portfolio-archive" aria-label="All artwork">${content}${standalone}</div>
     ${crossLinks}
+  </div>${footer()}`;
+}
+
+export function renderToolPage(tool) {
+  if (!tool) return renderNotFoundPage();
+  const external = contentURL(tool.url);
+  const screenshot = screen => {
+    const asset = getImageAsset(screen, { sizes: '(max-width: 600px) calc(100vw - 44px), 33vw' });
+    const responsive = asset.srcset ? ` srcset="${escape(asset.srcset)}" sizes="${escape(asset.sizes)}"` : '';
+    return `<figure class="tool-shot"><img src="${escape(asset.src)}" alt="${escape(screen.alt)}" loading="lazy" decoding="async" width="${asset.width}" height="${asset.height}"${responsive} /></figure>`;
+  };
+  return `${header('tools')}
+  <div class="page-shell tool-detail-page" data-tool-detail="${escape(tool.id)}">
+    ${renderWorkFilters('tools')}
+    <article>
+      <h1 class="page-heading tool-headline">${escape(tool.oneLiner)}</h1>
+      <p class="tool-lede">${escape(tool.teaser)}</p>
+      ${external ? `<a class="tool-external-cta" href="${escape(external)}" target="_blank" rel="noopener noreferrer">open ${escape(tool.title)} ${arrow}</a>` : ''}
+      <section class="tool-section" aria-labelledby="tool-what-${escape(tool.id)}"><h2 id="tool-what-${escape(tool.id)}">what it does</h2><p>${escape(tool.teaser)}</p></section>
+      <section class="tool-section" aria-labelledby="tool-how-${escape(tool.id)}"><h2 id="tool-how-${escape(tool.id)}">how it works</h2>
+        <ol class="tool-steps">${tool.works.map(step => `<li>${escape(step)}</li>`).join('')}</ol>
+      </section>
+      <section class="tool-gallery" aria-label="${escape(tool.title)} screens">${tool.screens.map(screenshot).join('')}
+        <p class="tool-video-slot">video slot reserved. no video has been supplied.</p>
+      </section>
+      <section class="tool-mobile" aria-labelledby="tool-mobile-${escape(tool.id)}"><h2 id="tool-mobile-${escape(tool.id)}">install on mobile</h2>
+        <p><strong>ios</strong> share → add to home screen</p><p><strong>android</strong> ⋮ → install</p>
+      </section>
+    </article>
   </div>${footer()}`;
 }
 
@@ -172,17 +251,36 @@ export function renderAboutPage() {
   }).filter(Boolean).join('');
   return `${header('about')}
   <div class="page-shell about-page">
-    <h1 class="page-heading">03/ about</h1>
+    <h1 class="page-heading numbered-heading">${formatIndexedLabel(2, siteContent.about.label)}</h1>
     <div class="about-layout${portraitURL ? ' has-portrait' : ''}">
       <div class="about-copy">
         <p class="about-intro">${escape(about.intro)}</p>
         <p class="about-location">${escape(about.location)}</p>
         ${(about.paragraphs || []).map((paragraph) => `<p class="about-paragraph">${escape(paragraph)}</p>`).join('')}
-        <a class="text-link" href="${contactURL()}">get in touch</a>
+        <a class="text-link" href="${contactURL()}">get in touch ${arrow}</a>
       </div>
       ${portrait ? `<figure class="about-portrait" style="--artwork-ratio: ${portrait.width} / ${portrait.height}"><img src="${escape(portrait.src || portraitURL)}" alt="${escape(about.portrait.alt || '')}" loading="lazy" decoding="async" width="${portrait.width}" height="${portrait.height}"${portraitResponsive} /></figure>` : ''}
     </div>
     ${references ? `<section class="about-references" aria-labelledby="references-title"><h2 class="section-label" id="references-title">references</h2><ul>${references}</ul></section>` : ''}
+  </div>
+  ${footer()}`;
+}
+
+export function renderImpressumPage() {
+  return `${header('impressum')}
+  <div class="page-shell impressum-page">
+    <h1 class="page-heading">impressum</h1>
+    <div class="legal-copy">
+      <p class="section-label">ddg disclosure — placeholders must be replaced before launch</p>
+      <dl>
+        <div><dt>name</dt><dd>[VOLLNAME]</dd></div>
+        <div><dt>address</dt><dd>[STRASSE+HAUSNUMMER], [PLZ+ORT]</dd></div>
+        <div><dt>contact</dt><dd>[E-MAIL]</dd></div>
+        <div><dt>vat</dt><dd>[UST-IDNR. ODER §19-HINWEIS]</dd></div>
+      </dl>
+      <p>this route is mode-neutral. entering it ends the other side.</p>
+      <a class="text-link" href="/">back home ${arrow}</a>
+    </div>
   </div>
   ${footer()}`;
 }
@@ -226,7 +324,9 @@ export function renderArtworkPage(project) {
 export function renderRoutePage(route, { context = '' } = {}) {
   if (route.kind === 'home') return renderHomepageSections(context);
   if (route.kind === 'work') return renderWorkPage(route.category);
+  if (route.kind === 'tool') return renderToolPage(route.tool);
   if (route.kind === 'about') return renderAboutPage();
+  if (route.kind === 'impressum') return renderImpressumPage();
   if (route.kind === 'artwork') return renderArtworkPage(route.project);
   return renderNotFoundPage();
 }

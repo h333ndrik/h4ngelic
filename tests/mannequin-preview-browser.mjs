@@ -96,7 +96,7 @@ try {
       viewport: { width, height }, deviceScaleFactor: 1, isMobile: width < 600, hasTouch: width < 600,
     });
     const { page, errors, requests } = await trackPage(context);
-    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
 
     const preview = page.locator('[data-mannequin-preview]');
     assert.equal(await preview.getAttribute('data-mannequin-state'), 'deferred');
@@ -337,7 +337,7 @@ try {
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page, errors } = await trackPage(context);
-    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
     await scrollSectionTo(page, '#model-3d', 120);
     await waitReady(page);
     await page.waitForTimeout(250);
@@ -527,7 +527,7 @@ try {
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page, errors } = await trackPage(context);
-    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
     await page.evaluate(() => {
       window.__presentation = [];
       const tick = () => {
@@ -592,7 +592,7 @@ try {
     const home = [];
     for (const target of targets) home.push(await sampleAt('/', '#selected-work', homepagePose, target));
     const model = [];
-    for (const target of targets) model.push(await sampleAt('/work/tattoos', '#model-3d', sectionPose, target, { waitForModel: true }));
+    for (const target of targets) model.push(await sampleAt('/creative/tattoos', '#model-3d', sectionPose, target, { waitForModel: true }));
     let compared = 0;
     for (let index = 0; index < targets.length; index += 1) {
       const expected = home[index];
@@ -622,7 +622,7 @@ try {
         return getContext.call(this, type, ...args);
       };
     });
-    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
     await scrollSectionTo(page, '#model-3d', 120);
     await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'failed', null, { timeout: 30000 });
     const fallback = await page.locator('[data-mannequin-preview]').evaluate((node) => ({
@@ -642,13 +642,13 @@ try {
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page, errors } = await trackPage(context);
-    await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
     await scrollSectionTo(page, '#model-3d', 120);
     await waitReady(page);
     for (let cycle = 0; cycle < 5; cycle += 1) {
       await page.evaluate(() => { history.pushState({}, '', '/about'); dispatchEvent(new PopStateEvent('popstate')); });
       await page.waitForFunction(() => !document.querySelector('[data-mannequin-preview]'), null, { timeout: 30000 });
-      await page.evaluate(() => { history.pushState({}, '', '/work/tattoos'); dispatchEvent(new PopStateEvent('popstate')); });
+      await page.evaluate(() => { history.pushState({}, '', '/creative/tattoos'); dispatchEvent(new PopStateEvent('popstate')); });
       await page.waitForFunction(() => document.querySelector('[data-mannequin-preview]')?.dataset.mannequinState === 'deferred', null, { timeout: 30000 });
       await scrollSectionTo(page, '#model-3d', 120);
       await waitReady(page);
@@ -669,12 +669,12 @@ try {
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page } = await trackPage(context);
-    for (const route of ['/work/jewellery', '/work/digital-artworks', '/tools/m4shlab']) {
+    for (const route of ['/creative/jewellery', '/creative/digital-artworks', '/creative/tools/m4shlab']) {
       const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle' });
       assert.ok(response.status() === 200 || response.status() === 404);
       assert.equal(await page.locator('[data-mannequin-preview]').count(), 0, `${route} must not mount the mannequin viewer.`);
     }
-    results.push({ isolation: ['/work/jewellery', '/work/digital-artworks', '/tools/m4shlab'] });
+    results.push({ isolation: ['/creative/jewellery', '/creative/digital-artworks', '/creative/tools/m4shlab'] });
     await context.close();
   }
 
@@ -682,7 +682,7 @@ try {
   {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const { page, requests } = await trackPage(context);
-    await page.goto(`${base}/work/tattoos?variant=b`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/tattoos?variant=b`, { waitUntil: 'networkidle' });
     await scrollSectionTo(page, '#model-3d', 120);
     await waitReady(page);
     assert.equal(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-variant'), 'C');
@@ -736,7 +736,7 @@ try {
 
 await writeFile(new URL('requests.json', evidence), JSON.stringify({
   checkedAt: new Date().toISOString(),
-  route: '/work/tattoos',
+  route: '/creative/tattoos',
   source: 'production preview build',
   profiles,
   visibleVariant: mannequinVariant('C').model,

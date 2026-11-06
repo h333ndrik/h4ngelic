@@ -1,0 +1,406 @@
+{
+  "checkedAt": "2026-11-04T15:16:42.261Z",
+  "base": "http://127.0.0.1:55341",
+  "expected": [
+    {
+      "name": "loop-333",
+      "frames": 1365677,
+      "loop": true,
+      "format": "m4a",
+      "path": "/assets/audio/loop-333.m4a"
+    },
+    {
+      "name": "loop-4",
+      "frames": 1365677,
+      "loop": true,
+      "format": "m4a",
+      "path": "/assets/audio/loop-4.m4a"
+    },
+    {
+      "name": "x-333-4",
+      "frames": 61740,
+      "loop": false,
+      "format": "m4a",
+      "path": "/assets/audio/x-333-4.m4a"
+    },
+    {
+      "name": "x-4-333",
+      "frames": 61740,
+      "loop": false,
+      "format": "m4a",
+      "path": "/assets/audio/x-4-333.m4a"
+    },
+    {
+      "name": "loop-333",
+      "frames": 1365677,
+      "loop": true,
+      "format": "flac",
+      "path": "/work/derivatives/loop-333.flac"
+    },
+    {
+      "name": "loop-333",
+      "frames": 1365677,
+      "loop": true,
+      "format": "wav",
+      "path": "/work/derivatives/loop-333.wav"
+    },
+    {
+      "name": "loop-4",
+      "frames": 1365677,
+      "loop": true,
+      "format": "flac",
+      "path": "/work/derivatives/loop-4.flac"
+    },
+    {
+      "name": "loop-4",
+      "frames": 1365677,
+      "loop": true,
+      "format": "wav",
+      "path": "/work/derivatives/loop-4.wav"
+    },
+    {
+      "name": "x-333-4",
+      "frames": 61740,
+      "loop": false,
+      "format": "flac",
+      "path": "/work/derivatives/x-333-4.flac"
+    },
+    {
+      "name": "x-333-4",
+      "frames": 61740,
+      "loop": false,
+      "format": "wav",
+      "path": "/work/derivatives/x-333-4.wav"
+    },
+    {
+      "name": "x-4-333",
+      "frames": 61740,
+      "loop": false,
+      "format": "flac",
+      "path": "/work/derivatives/x-4-333.flac"
+    },
+    {
+      "name": "x-4-333",
+      "frames": 61740,
+      "loop": false,
+      "format": "wav",
+      "path": "/work/derivatives/x-4-333.wav"
+    }
+  ],
+  "reports": [
+    {
+      "path": "/assets/audio/loop-333.m4a",
+      "format": "m4a",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 1365677,
+      "duration": 30.967732426303854,
+      "boundaries": [
+        {
+          "first": 0.014044469222426414,
+          "last": 0.03578619658946991,
+          "seam": 0.021741727367043495,
+          "meanStep": 0.014467088772328883,
+          "head20msRms": 0.10482320521526942,
+          "tail20msRms": 0.03350829091490817
+        },
+        {
+          "first": -0.008704355917870998,
+          "last": -0.08508287370204926,
+          "seam": 0.07637851778417826,
+          "meanStep": 0.014076975542597746,
+          "head20msRms": 0.11496853134435052,
+          "tail20msRms": 0.05947799047787361
+        }
+      ]
+    },
+    {
+      "path": "/assets/audio/loop-4.m4a",
+      "format": "m4a",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 1365677,
+      "duration": 30.967732426303854,
+      "boundaries": [
+        {
+          "first": -0.014491898939013481,
+          "last": -0.029006686061620712,
+          "seam": 0.014514787122607231,
+          "meanStep": 0.016777678754019757,
+          "head20msRms": 0.12626519222282478,
+          "tail20msRms": 0.03987600716636727
+        },
+        {
+          "first": -0.04093105345964432,
+          "last": -0.03486430644989014,
+          "seam": 0.006066747009754181,
+          "meanStep": 0.015798593843214966,
+          "head20msRms": 0.12032568199461759,
+          "tail20msRms": 0.03853297195165886
+        }
+      ]
+    },
+    {
+      "path": "/assets/audio/x-333-4.m4a",
+      "format": "m4a",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 61740,
+      "duration": 1.4,
+      "boundaries": [
+        {
+          "first": -0.0026538297533988953,
+          "last": 7.874507446103962e-8,
+          "seam": 0.0026539084984733563,
+          "meanStep": 0.017821468297650255,
+          "head20msRms": 0.09167160473953388,
+          "tail20msRms": 0.0014222571617159032
+        },
+        {
+          "first": -0.008385831490159035,
+          "last": 0.0000027370977022656007,
+          "seam": 0.0083885685878613,
+          "meanStep": 0.01780340854539301,
+          "head20msRms": 0.09238471026750888,
+          "tail20msRms": 0.0014221445264260791
+        }
+      ]
+    },
+    {
+      "path": "/assets/audio/x-4-333.m4a",
+      "format": "m4a",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 61740,
+      "duration": 1.4,
+      "boundaries": [
+        {
+          "first": -0.003013992216438055,
+          "last": -0.00000720261232345365,
+          "seam": 0.0030067896041146014,
+          "meanStep": 0.016423794786559625,
+          "head20msRms": 0.07252337820928303,
+          "tail20msRms": 0.0020821474828452446
+        },
+        {
+          "first": -0.008632877841591835,
+          "last": -8.272789955299231e-7,
+          "seam": 0.008632050562596305,
+          "meanStep": 0.01789079519222076,
+          "head20msRms": 0.07222661158799937,
+          "tail20msRms": 0.002038137667370172
+        }
+      ]
+    },
+    {
+      "path": "/work/derivatives/loop-333.flac",
+      "format": "flac",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 1365677,
+      "duration": 30.967732426303854,
+      "boundaries": [
+        {
+          "first": 0.019788503646850586,
+          "last": 0.03839397430419922,
+          "seam": 0.018605470657348633,
+          "meanStep": 0.014637369332143107,
+          "head20msRms": 0.10854443649515123,
+          "tail20msRms": 0.033732291647474634
+        },
+        {
+          "first": -0.011369943618774414,
+          "last": -0.08676719665527344,
+          "seam": 0.07539725303649902,
+          "meanStep": 0.014246061931052895,
+          "head20msRms": 0.1185230025806602,
+          "tail20msRms": 0.059749324968495825
+        }
+      ]
+    },
+    {
+      "path": "/work/derivatives/loop-333.wav",
+      "format": "wav",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 1365677,
+      "duration": 30.967732426303854,
+      "boundaries": [
+        {
+          "first": 0.019788503646850586,
+          "last": 0.03839397430419922,
+          "seam": 0.018605470657348633,
+          "meanStep": 0.014637369332143107,
+          "head20msRms": 0.10854443649515123,
+          "tail20msRms": 0.033732291647474634
+        },
+        {
+          "first": -0.011369943618774414,
+          "last": -0.08676719665527344,
+          "seam": 0.07539725303649902,
+          "meanStep": 0.014246061931052895,
+          "head20msRms": 0.1185230025806602,
+          "tail20msRms": 0.059749324968495825
+        }
+      ]
+    },
+    {
+      "path": "/work/derivatives/loop-4.flac",
+      "format": "flac",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 1365677,
+      "duration": 30.967732426303854,
+      "boundaries": [
+        {
+          "first": 0.004047989845275879,
+          "last": -0.029804110527038574,
+          "seam": 0.03385210037231445,
+          "meanStep": 0.016989165543794114,
+          "head20msRms": 0.1273168268375399,
+          "tail20msRms": 0.04021854917161688
+        },
+        {
+          "first": -0.004032492637634277,
+          "last": -0.034960269927978516,
+          "seam": 0.03092777729034424,
+          "meanStep": 0.01600212859969644,
+          "head20msRms": 0.12350943396814307,
+          "tail20msRms": 0.0386624598317751
+        }
+      ]
+    },
+    {
+      "path": "/work/derivatives/loop-4.wav",
+      "format": "wav",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 1365677,
+      "duration": 30.967732426303854,
+      "boundaries": [
+        {
+          "first": 0.004047989845275879,
+          "last": -0.029804110527038574,
+          "seam": 0.03385210037231445,
+          "meanStep": 0.016989165543794114,
+          "head20msRms": 0.1273168268375399,
+          "tail20msRms": 0.04021854917161688
+        },
+        {
+          "first": -0.004032492637634277,
+          "last": -0.034960269927978516,
+          "seam": 0.03092777729034424,
+          "meanStep": 0.01600212859969644,
+          "head20msRms": 0.12350943396814307,
+          "tail20msRms": 0.0386624598317751
+        }
+      ]
+    },
+    {
+      "path": "/work/derivatives/x-333-4.flac",
+      "format": "flac",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 61740,
+      "duration": 1.4,
+      "boundaries": [
+        {
+          "first": 0.002328157424926758,
+          "last": 0,
+          "seam": 0.002328157424926758,
+          "meanStep": 0.017803832755132597,
+          "head20msRms": 0.08974856895779999,
+          "tail20msRms": 0.001420784824841854
+        },
+        {
+          "first": 0.0023107528686523438,
+          "last": 0,
+          "seam": 0.0023107528686523438,
+          "meanStep": 0.017786836529147258,
+          "head20msRms": 0.09072220670396448,
+          "tail20msRms": 0.0014215076071097115
+        }
+      ]
+    },
+    {
+      "path": "/work/derivatives/x-333-4.wav",
+      "format": "wav",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 61740,
+      "duration": 1.4,
+      "boundaries": [
+        {
+          "first": 0.002328157424926758,
+          "last": 0,
+          "seam": 0.002328157424926758,
+          "meanStep": 0.017803832755132597,
+          "head20msRms": 0.08974856895779999,
+          "tail20msRms": 0.001420784824841854
+        },
+        {
+          "first": 0.0023107528686523438,
+          "last": 0,
+          "seam": 0.0023107528686523438,
+          "meanStep": 0.017786836529147258,
+          "head20msRms": 0.09072220670396448,
+          "tail20msRms": 0.0014215076071097115
+        }
+      ]
+    },
+    {
+      "path": "/work/derivatives/x-4-333.flac",
+      "format": "flac",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 61740,
+      "duration": 1.4,
+      "boundaries": [
+        {
+          "first": -0.0005604028701782227,
+          "last": 0,
+          "seam": 0.0005604028701782227,
+          "meanStep": 0.01644252677876639,
+          "head20msRms": 0.07206310169832157,
+          "tail20msRms": 0.0020822567781245975
+        },
+        {
+          "first": -0.00041031837463378906,
+          "last": 0,
+          "seam": 0.00041031837463378906,
+          "meanStep": 0.017788953596074426,
+          "head20msRms": 0.07154904123636074,
+          "tail20msRms": 0.002041610706318177
+        }
+      ]
+    },
+    {
+      "path": "/work/derivatives/x-4-333.wav",
+      "format": "wav",
+      "sampleRate": 44100,
+      "channels": 2,
+      "frames": 61740,
+      "duration": 1.4,
+      "boundaries": [
+        {
+          "first": -0.0005604028701782227,
+          "last": 0,
+          "seam": 0.0005604028701782227,
+          "meanStep": 0.01644252677876639,
+          "head20msRms": 0.07206310169832157,
+          "tail20msRms": 0.0020822567781245975
+        },
+        {
+          "first": -0.00041031837463378906,
+          "last": 0,
+          "seam": 0.00041031837463378906,
+          "meanStep": 0.017788953596074426,
+          "head20msRms": 0.07154904123636074,
+          "tail20msRms": 0.002041610706318177
+        }
+      ]
+    }
+  ],
+  "longTasksDuringDecode": [],
+  "errors": []
+}

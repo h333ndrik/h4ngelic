@@ -59,7 +59,7 @@ async function setup(options = {}) {
   const requests = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => requests.push(request.url()));
-  await page.goto(route('/work?test=1'), { waitUntil: 'networkidle' });
+  await page.goto(route('/creative?test=1'), { waitUntil: 'networkidle' });
   await page.locator('html[data-xray-ready][data-mode="normal"]').waitFor();
   return { context, page, errors, requests };
 }

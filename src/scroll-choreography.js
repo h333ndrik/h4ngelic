@@ -1,5 +1,5 @@
 import './scroll-choreography.css';
-import { motionSettings, progressBetween, sampleHero, sampleHeroBar, sampleAboutItem, aboutSectionProgress, sampleArchiveHeading } from './data/motionSettings.js';
+import { motionSettings, progressBetween, sampleHero, sampleAboutItem, aboutSectionProgress, sampleArchiveHeading } from './data/motionSettings.js';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
@@ -51,8 +51,6 @@ export function initScrollChoreography(root = document) {
   let disposed = false;
   let enabled = false;
   let animated = !reduced.matches;
-  const heroBars = hero ? [...hero.querySelectorAll('.controls, .hero-nav')].map(element => ({ element, inert: element.inert })) : [];
-  let barHidden = null;
   let dirty = true;
   let width = 0;
   let height = 0;
@@ -85,17 +83,6 @@ export function initScrollChoreography(root = document) {
     setValue(element, '--kinetic-x', `${sample.x.toFixed(3)}px`);
     setValue(element, '--kinetic-rotate', '0deg');
     setValue(element, '--kinetic-opacity', sample.opacity.toFixed(4));
-  }
-
-  function updateHeroBar(position) {
-    if (!hero) return;
-    const sample = sampleHeroBar((position - heroTop) / heroHeight, { reduced: !animated });
-    setValue(hero, '--hero-bar-shift', `${sample.shift.toFixed(4)}%`);
-    if (sample.hidden !== barHidden) {
-      barHidden = sample.hidden;
-      hero.dataset.heroBarState = sample.hidden ? 'hidden' : 'visible';
-      for (const bar of heroBars) bar.element.inert = sample.hidden || bar.inert;
-    }
   }
 
   function measure() {
@@ -153,7 +140,6 @@ export function initScrollChoreography(root = document) {
     if (disposed || !enabled || owner.hidden) return;
     if (dirty) measure();
     const position = scrollY;
-    updateHeroBar(position);
     if (!animated) return;
     const motionSamples = owner.documentElement.dataset.mode === 'xray' ? [] : null;
     if (stage) {
@@ -257,11 +243,7 @@ export function initScrollChoreography(root = document) {
       values.delete(stage);
     }
     if (hero) {
-      hero.style.removeProperty('--hero-bar-shift');
-      hero.removeAttribute('data-hero-bar-state');
       values.delete(hero);
-      barHidden = null;
-      for (const bar of heroBars) bar.element.inert = bar.inert;
     }
     for (const heading of archiveHeadings) {
       heading.element.removeAttribute('data-scroll-heading');

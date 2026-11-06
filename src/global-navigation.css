@@ -101,9 +101,13 @@
   letter-spacing: .06em;
   text-decoration: none;
   touch-action: manipulation;
+  pointer-events: auto;
 }
 .chapter-counter[data-naavi-display-contrast] { mix-blend-mode: difference; text-shadow: none; }
 .chapter-counter .interaction-visual { justify-content: center; }
+/* The decorative glyphs and generated wrapper defer hit-testing to the anchor,
+   so the visible digit, slash and total cannot expose a separate cursor owner. */
+.chapter-counter :is(.interaction-visual, [aria-hidden='true']) { pointer-events: none; }
 .chapter-counter :is(.chapter-digit-window, .chapter-digit, .chapter-total) { color: inherit; mix-blend-mode: normal; }
 .chapter-digit-window { display: block; overflow: clip; line-height: 1.4; }
 .chapter-digit { display: block; }

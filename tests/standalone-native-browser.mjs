@@ -18,7 +18,7 @@ try {
   const html = await readFile(new URL('../artifacts/h4ngelic-preview.html', import.meta.url), 'utf8');
   await page.route(/^https?:/, route => route.abort());
   await page.evaluate(() => {
-    location.hash = '/work';
+    location.hash = '/creative';
     window.__offlineWebGL = 0;
     const getContext = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function(type, ...args) {

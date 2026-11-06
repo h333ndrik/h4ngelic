@@ -1,0 +1,13 @@
+CHECK world sound 1440px reduced=false
+PASS world sound 1440px reduced=false: lazy load, locked transport, 900ms crossfade, both transitions, mono controller.
+CHECK world sound 1440px reduced=true
+PASS world sound 1440px reduced=true: lazy load, locked transport, 900ms crossfade, both transitions, mono controller.
+CHECK world sound 390px reduced=false
+PASS world sound 390px reduced=false: lazy load, locked transport, 900ms crossfade, both transitions, mono controller.
+CHECK world sound 390px reduced=true
+PASS world sound 390px reduced=true: lazy load, locked transport, 900ms crossfade, both transitions, mono controller.
+CHECK world sound 320px reduced=false
+PASS world sound 320px reduced=false: lazy load, locked transport, 900ms crossfade, both transitions, mono controller.
+CHECK world sound 320px reduced=true
+PASS world sound 320px reduced=true: lazy load, locked transport, 900ms crossfade, both transitions, mono controller.
+PASS world sound missing-file degradation: no substitute audio, visual mode remains usable.

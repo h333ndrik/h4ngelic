@@ -1,8 +1,8 @@
 import { Quaternion, Vector3 } from 'three';
+import { heroPhysicsSettings } from './data/heroPhysicsSettings.js';
 
 const IDENTITY = new Quaternion();
 const ZERO = new Vector3();
-const RETURN_DELAY = 4;
 
 /**
  * A world-space interaction layer, independent of the logo's animated transform.
@@ -11,7 +11,8 @@ const RETURN_DELAY = 4;
  * All points, velocities and hit lever arms are in world coordinates.
  */
 export class LogoPhysics {
-  constructor({ random = Math.random, substepRate = 120 } = {}) {
+  constructor({ random = Math.random, substepRate = 120, settings = heroPhysicsSettings } = {}) {
+    this.settings = settings;
     this.substepRate = substepRate;
     this.offset = new Vector3();
     this.orientation = new Quaternion();
@@ -30,6 +31,7 @@ export class LogoPhysics {
     this._torque = new Vector3();
     this._axis = new Vector3();
     this._delta = new Quaternion();
+    this._clampedOrientation = new Quaternion();
   }
 
   /** Reduce integration cadence only while a mode transition owns the frame. */
@@ -40,12 +42,12 @@ export class LogoPhysics {
   /** Cursor velocity in world units/second; impact is relative to logo center. */
   hit(pointerVelocity, impactPoint, now) {
     if (this.dragging || !Number.isFinite(now)) return;
-    const speed = Math.min(pointerVelocity.length(), 30);
+    const speed = Math.min(pointerVelocity.length(), this.settings.maximumPointerSpeed);
     if (speed < 0.008) return;
-    this._impulse.copy(pointerVelocity).clampLength(0, 30)
+    this._impulse.copy(pointerVelocity).clampLength(0, this.settings.maximumPointerSpeed)
       .multiplyScalar(0.11 + Math.min(Math.sqrt(speed) * 0.035, 0.18));
-    this._impulse.clampLength(0, 4);
-    this.velocity.add(this._impulse).clampLength(0, 7);
+    this._impulse.clampLength(0, this.settings.maximumLinearVelocity);
+    this.velocity.add(this._impulse).clampLength(0, this.settings.maximumLinearVelocity);
 
     // The lever arm determines the spin: opposite edges turn opposite ways.
     // A slight virtual depth gives even a frontal hit a natural X/Y rotation.
@@ -56,7 +58,7 @@ export class LogoPhysics {
     this._torque.x += (this.random() - 0.5) * variation;
     this._torque.y += (this.random() - 0.5) * variation;
     this._torque.z += (this.random() - 0.5) * variation;
-    this.angularVelocity.add(this._torque).clampLength(0, 5);
+    this.angularVelocity.add(this._torque).clampLength(0, this.settings.maximumAngularVelocity);
     this.lastInteraction = now;
   }
 
@@ -77,12 +79,12 @@ export class LogoPhysics {
     const safeDt = Math.max(1e-5, dt);
     this._impulse.copy(worldPoint).sub(this._dragPoint);
     this._dragVelocity.lerp(this._target.copy(this._impulse)
-      .divideScalar(safeDt).clampLength(0, 18), 1 - Math.exp(-36 * safeDt));
+      .divideScalar(safeDt).clampLength(0, this.settings.maximumDragVelocity), 1 - Math.exp(-36 * safeDt));
     this._torque.crossVectors(this._grabLever, this._impulse).multiplyScalar(0.8);
     // Turning also works when the logo is grabbed near its center.
     this._torque.x -= this._impulse.y * 0.12;
     this._torque.y += this._impulse.x * 0.12;
-    this.angularVelocity.add(this._torque).clampLength(0, 4);
+    this.angularVelocity.add(this._torque).clampLength(0, this.settings.maximumAngularVelocity);
     this._dragPoint.copy(worldPoint);
     this._lastDragSample = now;
     this.lastInteraction = now;
@@ -95,7 +97,8 @@ export class LogoPhysics {
     // A release after holding still must not revive the previous pointer speed.
     const idleTime = Math.max(0, now - this._lastDragSample);
     this._dragVelocity.multiplyScalar(Math.exp(-14 * idleTime));
-    this.velocity.lerp(this._dragVelocity, 0.35).clampLength(0, 7);
+    this.velocity.lerp(this._dragVelocity, 0.35).clampLength(0, this.settings.maximumLinearVelocity);
+    this.angularVelocity.clampLength(0, this.settings.maximumAngularVelocity);
   }
 
   /**
@@ -110,7 +113,7 @@ export class LogoPhysics {
     const step = elapsed / steps;
     for (let i = 0; i < steps; i += 1) {
       const time = now - elapsed + (i + 1) * step;
-      const returning = !this.dragging && time - this.lastInteraction >= RETURN_DELAY;
+      const returning = !this.dragging && time - this.lastInteraction >= this.settings.returnDelaySeconds;
 
       if (this.dragging) {
         // Integrate the pointer's path over the frame instead of treating its
@@ -122,9 +125,9 @@ export class LogoPhysics {
       } else if (returning) {
         this._springPosition(ZERO, 5.5, step);
       } else {
-        const damping = Math.exp(-0.65 * step);
+        const damping = Math.exp(-this.settings.damping.linear * step);
         // Exact integral of exponential velocity decay.
-        this.offset.addScaledVector(this.velocity, (1 - damping) / 0.65);
+        this.offset.addScaledVector(this.velocity, (1 - damping) / this.settings.damping.linear);
         this.velocity.multiplyScalar(damping);
       }
 
@@ -136,11 +139,14 @@ export class LogoPhysics {
         const sine = this._axis.length();
         const angle = 2 * Math.atan2(sine, this.orientation.w * sign);
         if (sine > 1e-8) this._axis.multiplyScalar(angle / sine);
-        this.angularVelocity.addScaledVector(this._axis, -30.25 * step);
-        this.angularVelocity.multiplyScalar(Math.exp(-11 * step));
+        this.angularVelocity.addScaledVector(this._axis, -this.settings.damping.returnAngularSpring * step);
+        this.angularVelocity.multiplyScalar(Math.exp(-this.settings.damping.returnAngular * step));
       } else {
-        this.angularVelocity.multiplyScalar(Math.exp(-(this.dragging ? 1.5 : 0.55) * step));
+        this.angularVelocity.multiplyScalar(Math.exp(-(this.dragging
+          ? this.settings.damping.draggingAngular : this.settings.damping.angular) * step));
       }
+
+      this.angularVelocity.clampLength(0, this.settings.maximumAngularVelocity);
 
       const angleStep = this.angularVelocity.length() * step;
       if (angleStep > 1e-10) {
@@ -148,9 +154,11 @@ export class LogoPhysics {
         this._delta.setFromAxisAngle(this._axis, angleStep);
         this.orientation.premultiply(this._delta).normalize();
       }
+      this._clampOrientation();
 
       this._constrain('x', bounds.x, basePosition.x, step);
       this._constrain('y', bounds.y, basePosition.y, step);
+      this.velocity.clampLength(0, this.settings.maximumLinearVelocity);
     }
     if (this.dragging) this._previousDragPoint.copy(this._dragPoint);
   }
@@ -164,6 +172,14 @@ export class LogoPhysics {
       this.offset[axis] = target[axis] + (error + transient * dt) * decay;
       this.velocity[axis] = (this.velocity[axis] - frequency * transient * dt) * decay;
     }
+  }
+
+  _clampOrientation() {
+    const angle = this.orientation.angleTo(IDENTITY);
+    if (angle <= this.settings.maximumRotationAngle) return;
+    const amount = this.settings.maximumRotationAngle / angle;
+    this._clampedOrientation.slerpQuaternions(IDENTITY, this.orientation, amount);
+    this.orientation.copy(this._clampedOrientation);
   }
 
   _constrain(axis, limit, base, dt) {

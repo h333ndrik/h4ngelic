@@ -1,0 +1,89 @@
+{
+  "phase": "before2",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-05T21:23:30.526Z",
+  "results": [
+    {
+      "suite": "v32-structure-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 31731,
+      "passLine": "PASS V3.2 structure 57ff1e3c7c45: INDEX 00–03, 8+8 placeholders, mode-only SMASH, no imprint link, 12×301, 23 routes, /creative tool pages, gaps and NN/ NN viewer.",
+      "failLine": ""
+    },
+    {
+      "suite": "v32-micro-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9951,
+      "passLine": "PASS V3.2 micro 57ff1e3c7c45: equal headings, shared arrow, clickable hero-flow bar, 300ms caret and permanent visit ghost at 1440/390/320.",
+      "failLine": ""
+    },
+    {
+      "suite": "label-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 17699,
+      "passLine": "PASS label format: NN/ labels, 00–04 INDEX, dynamic NAAVI counters and F28 alignment.",
+      "failLine": ""
+    },
+    {
+      "suite": "naavi-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 1446,
+      "passLine": "PASS NAAVI 57ff1e3c7c45: shell, four Home chapters and 04/ 04 at the other side render NN/ NN.",
+      "failLine": ""
+    },
+    {
+      "suite": "tools-rubric-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10671,
+      "passLine": "PASS tools rubric: redirect, internal detail cards with external CTAs, four filters, 4px cards and desktop/mobile slash-aligned row.",
+      "failLine": ""
+    },
+    {
+      "suite": "rubric-gap-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 21985,
+      "passLine": "PASS rubric rhythm 320px: 13.49px, gaps [[88.6],[118.1]], inset 32.7px.",
+      "failLine": ""
+    },
+    {
+      "suite": "rubric-hit-area-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 17051,
+      "passLine": "PASS rubric hit area 320px: 4 labels text+arrow clickable, +20px outside inert, 40px+ tall, cell 56px vs label.",
+      "failLine": ""
+    },
+    {
+      "suite": "greeting-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10007,
+      "passLine": "PASS greeting 320px touch: nice to meet you. visible at 35%.",
+      "failLine": ""
+    },
+    {
+      "suite": "lowercase-sweep",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9722,
+      "passLine": "PASS lowercase sweep 320px: your name / how to reach you / what's on your mind?, “send message”, “more about”.",
+      "failLine": ""
+    }
+  ]
+}

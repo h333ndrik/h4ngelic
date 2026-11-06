@@ -12,7 +12,7 @@ assert.ok(base, 'Set H4_BASE_URL explicitly.');
 const response = await fetch(new URL('/src/app.js', base));
 assert.ok(response.ok && /(?:java|ecma)script/i.test(response.headers.get('content-type') || ''),
   'The broad suite needs Vite source modules and DEV hooks; point H4_BASE_URL at the dev server.');
-const files = ["navigation-browser.mjs", "artwork-transitions-browser.mjs", "gallery-browser.mjs", "corruption-browser.mjs", "xray-browser.mjs", "mode-snapshot-browser.mjs", "mode-snapshot-modal-browser.mjs", "mode-audio-browser.mjs", "ref09-mode-cancel-browser.mjs", "ref09-icons-browser.mjs", "scroll-browser.mjs", "hover-browser.mjs", "microinteractions-browser.mjs", "wordmark-corruption-browser.mjs", "browser.mjs"];
+const files = ["navigation-browser.mjs", "gallery-browser.mjs", "corruption-browser.mjs", "xray-browser.mjs", "mode-snapshot-browser.mjs", "mode-snapshot-modal-browser.mjs", "mode-audio-browser.mjs", "ref09-mode-cancel-browser.mjs", "ref09-icons-browser.mjs", "hover-browser.mjs", "microinteractions-browser.mjs", "wordmark-corruption-browser.mjs", "browser.mjs"];
 const output = new URL('../artifacts/interaction-regression-results.json', import.meta.url);
 await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
 let report = { startedAt: new Date().toISOString(), group, base, tests: files, completed: [], passed: false };

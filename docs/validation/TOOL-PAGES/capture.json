@@ -1,0 +1,52 @@
+[
+  {
+    "tool": "m4shlab",
+    "width": 1440,
+    "start": "captured",
+    "editor": {
+      "clips": 2,
+      "label": "2 clips · 0 cut · 1 mosh"
+    },
+    "export": {
+      "filename": "m4shlab-merge.mp4"
+    },
+    "errors": []
+  },
+  {
+    "tool": "thr4ce",
+    "width": 1440,
+    "start": "captured",
+    "editor": {
+      "method": "floyd-steinberg"
+    },
+    "export": {
+      "dpi": "prints at 10.0 × 7.5 cm @ 203 dpi"
+    },
+    "errors": []
+  },
+  {
+    "tool": "m4shlab",
+    "width": 390,
+    "start": "captured",
+    "editor": {
+      "clips": 2,
+      "label": "2 clips · 0 cut · 1 mosh"
+    },
+    "export": {
+      "filename": "m4shlab-merge.mp4"
+    },
+    "errors": []
+  },
+  {
+    "tool": "thr4ce",
+    "width": 390,
+    "start": "captured",
+    "editor": {
+      "method": "floyd-steinberg"
+    },
+    "export": {
+      "dpi": "prints at 10.0 × 7.5 cm @ 203 dpi"
+    },
+    "errors": []
+  }
+]

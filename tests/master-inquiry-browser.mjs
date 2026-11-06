@@ -57,9 +57,9 @@ try {
     assert.equal(await contact.getAttribute('required'), '');
     assert.equal(await contact.getAttribute('placeholder'), 'email, instagram, phone number...');
     assert.equal(await form.locator('[name=name]').getAttribute('placeholder'), 'max musterperson');
-    assert.equal(await form.locator('label[for$="-email"] > span').innerText(), 'HOW TO REACH YOU');
+    assert.equal(await form.locator('label[for$="-email"] > span').innerText(), 'how to reach you');
     assert.equal(await form.locator('[name=message]').getAttribute('placeholder'), 'could be an inquiry, a question or just a thought.\nfeel free to write anything.');
-    assert.equal(await form.locator('[data-inquiry-submit] > span').innerText(), 'SEND MESSAGE');
+    assert.equal(await form.locator('[data-inquiry-submit] > span').innerText(), 'send message');
     assert.equal(await form.locator('.inquiry-privacy').count(), 0);
     const geometry = await form.locator('.inquiry-field').evaluateAll(labels => labels.map(label => {
       const field = label.querySelector('input,textarea');

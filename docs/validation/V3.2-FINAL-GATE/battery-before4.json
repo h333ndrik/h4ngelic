@@ -1,0 +1,62 @@
+{
+  "phase": "before4",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-05T21:35:31.758Z",
+  "results": [
+    {
+      "suite": "digital-ink-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 71815,
+      "passLine": "PASS Digital inline 320 reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "smash-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 47688,
+      "passLine": "PASS actual SMASH 320px: exactfile, deferredfetch/cache, nativeattack/tail/stop, globalstate, routes and both realities",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r3-production-cursor",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 1746,
+      "passLine": "PASS production cursor 57ff1e3c7c45: 5 token declarations, 4 targets, PNG fallbacks 200, no overlay, no-JS native cursor.",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r3-entrance-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 11579,
+      "passLine": "PASS entrance: opacity 1 constant; Y -795 -> -31 -> 0; transform 1100ms/849ms; breathing 0.550–1.000; CLS 0.",
+      "failLine": ""
+    },
+    {
+      "suite": "gallery-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 1092,
+      "passLine": "",
+      "failLine": "page.evaluate: TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:55241/src/pages.js"
+    },
+    {
+      "suite": "artwork-transitions-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 1176,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: The temporary module fixture must reach the real archive renderer."
+    }
+  ]
+}

@@ -48,7 +48,7 @@ html:root body .work-filters .filter-link:is(.is-active, [aria-current]) { text-
 [data-outline-active] { text-decoration: underline; text-decoration-color: #202020; text-decoration-thickness: 3px; text-underline-offset: 5px; }
 [data-outline-index-sign] { display: inline-block; transition: transform 250ms cubic-bezier(.2,.8,.25,1); }
 [data-outline-index-open] { transform: rotate(45deg); }
-[data-hero-outline] { opacity: 1; transform: translate3d(0, var(--hero-bar-shift, 0%), 0); }
+[data-hero-outline] { opacity: 1; }
 [data-outline-arrow] { transition: transform 300ms cubic-bezier(.2,.8,.25,1); position: relative; display: inline-block; width: var(--ui-arrow-size, .72em); height: var(--ui-arrow-size, .72em); flex: 0 0 var(--ui-arrow-size, .72em); }
 [data-outline-arrow]::before { content: ''; position: absolute; width: 116%; height: var(--ui-arrow-stroke, 1.25px); top: 90%; left: 7%; background: #202020; transform: rotate(-45deg); transform-origin: 0 50%; }
 [data-outline-arrow]::after { content: ''; position: absolute; width: 64%; height: 64%; top: 7%; right: 10%; border-top: var(--ui-arrow-stroke, 1.25px) solid #202020; border-right: var(--ui-arrow-stroke, 1.25px) solid #202020; }

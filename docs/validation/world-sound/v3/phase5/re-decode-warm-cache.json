@@ -1,0 +1,206 @@
+{
+  "results": [
+    {
+      "label": "out-1",
+      "world": "4",
+      "toAudibleMs": 112.3,
+      "decodeMs": [
+        1.3,
+        91.1
+      ],
+      "fetchMs": [
+        2.9,
+        12.8
+      ],
+      "starts": [
+        {
+          "duration": 0.9,
+          "at": 6.6
+        },
+        {
+          "duration": 90,
+          "at": 107.1
+        }
+      ],
+      "loopStates": {
+        "4": {
+          "status": "ready",
+          "active": true,
+          "duration": 90
+        },
+        "333": {
+          "status": "idle",
+          "active": false,
+          "duration": 0
+        }
+      }
+    },
+    {
+      "label": "return-1",
+      "world": "333",
+      "toAudibleMs": 126.6,
+      "decodeMs": [
+        1.4,
+        102.7
+      ],
+      "fetchMs": [
+        4.6,
+        6.9
+      ],
+      "starts": [
+        {
+          "duration": 0.9,
+          "at": 10.9
+        },
+        {
+          "duration": 90,
+          "at": 110.8
+        }
+      ],
+      "loopStates": {
+        "4": {
+          "status": "idle",
+          "active": false,
+          "duration": 0
+        },
+        "333": {
+          "status": "ready",
+          "active": true,
+          "duration": 90
+        }
+      }
+    },
+    {
+      "label": "out-2",
+      "world": "4",
+      "toAudibleMs": 96.2,
+      "decodeMs": [
+        86.3
+      ],
+      "fetchMs": [
+        3.7
+      ],
+      "starts": [
+        {
+          "duration": 0.9,
+          "at": 1
+        },
+        {
+          "duration": 90,
+          "at": 91.3
+        }
+      ],
+      "loopStates": {
+        "4": {
+          "status": "ready",
+          "active": true,
+          "duration": 90
+        },
+        "333": {
+          "status": "idle",
+          "active": false,
+          "duration": 0
+        }
+      }
+    },
+    {
+      "label": "return-2",
+      "world": "333",
+      "toAudibleMs": 142.2,
+      "decodeMs": [
+        94.2
+      ],
+      "fetchMs": [
+        3.4
+      ],
+      "starts": [
+        {
+          "duration": 0.9,
+          "at": 0.5
+        },
+        {
+          "duration": 90,
+          "at": 98.5
+        }
+      ],
+      "loopStates": {
+        "4": {
+          "status": "idle",
+          "active": false,
+          "duration": 0
+        },
+        "333": {
+          "status": "ready",
+          "active": true,
+          "duration": 90
+        }
+      }
+    },
+    {
+      "label": "out-3",
+      "world": "4",
+      "toAudibleMs": 103.1,
+      "decodeMs": [
+        93.8
+      ],
+      "fetchMs": [
+        3.2
+      ],
+      "starts": [
+        {
+          "duration": 0.9,
+          "at": 1
+        },
+        {
+          "duration": 90,
+          "at": 98.4
+        }
+      ],
+      "loopStates": {
+        "4": {
+          "status": "ready",
+          "active": true,
+          "duration": 90
+        },
+        "333": {
+          "status": "idle",
+          "active": false,
+          "duration": 0
+        }
+      }
+    },
+    {
+      "label": "return-3",
+      "world": "333",
+      "toAudibleMs": 168.4,
+      "decodeMs": [
+        119.4
+      ],
+      "fetchMs": [
+        5.7
+      ],
+      "starts": [
+        {
+          "duration": 0.9,
+          "at": 1.9
+        },
+        {
+          "duration": 90,
+          "at": 127.5
+        }
+      ],
+      "loopStates": {
+        "4": {
+          "status": "idle",
+          "active": false,
+          "duration": 0
+        },
+        "333": {
+          "status": "ready",
+          "active": true,
+          "duration": 90
+        }
+      }
+    }
+  ]
+}

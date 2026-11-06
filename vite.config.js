@@ -7,6 +7,7 @@ import { flashMannequinConfig } from './src/flash-mannequin-content.js';
 import { createInquiryHandler } from './server/inquiry.mjs';
 import { heroPosterSettings } from './src/data/heroPosterSettings.js';
 import { applyBuildMarker, buildSha, shouldLogBuild } from './scripts/build-marker.mjs';
+import { sectionLabels } from './src/labels.js';
 
 const config = seoEnvironment(process.env);
 
@@ -24,6 +25,18 @@ export default defineConfig({
     enforce: 'pre',
     transformIndexHtml(html) {
       return applyBuildMarker(html, buildSha);
+    },
+  }, {
+    // B-F26: the INDEX panel is authored in index.html, the chapter names live
+    // in src/labels.js. One token per name keeps the prerendered shell and the
+    // rendered headings on the same source instead of three literals.
+    name: 'h4ngelic-section-labels',
+    transformIndexHtml(html) {
+      return html
+        .replaceAll('__H4_SECTION_HOME__', sectionLabels.home)
+        .replaceAll('__H4_SECTION_CREATIVE__', sectionLabels.creative)
+        .replaceAll('__H4_SECTION_ABOUT__', sectionLabels.about)
+        .replaceAll('__H4_SECTION_CONTACT__', sectionLabels.contact);
     },
   }, {
     name: 'h4ngelic-hero-poster',
@@ -62,21 +75,6 @@ export default defineConfig({
       if (!rawFileName) return;
       for (const [key, item] of Object.entries(bundle)) {
         if (item.type === 'asset' && item.fileName === rawFileName) delete bundle[key];
-      }
-    },
-  }, {
-    // Component styles are imported from many modules. Append the cursor
-    // contract to the emitted stylesheet so no later source rule can win.
-    name: 'h4ngelic-cursor-last',
-    apply: 'build',
-    enforce: 'post',
-    generateBundle(_, bundle) {
-      const defense = '@media (hover:hover) and (pointer:fine){html,html body,html body *,html body :is(a,button,summary,label,input,textarea,select,canvas,[role="button"],[data-cursor],[data-cursor-target]){cursor:var(--h4-native-cursor)!important}}';
-      for (const item of Object.values(bundle)) {
-        if (item.type !== 'asset' || !item.fileName.endsWith('.css')) continue;
-        const source = String(item.source);
-        if (!source.includes('--h4-native-cursor')) continue;
-        if (!source.endsWith(defense)) item.source = `${source}${defense}`;
       }
     },
   }, {

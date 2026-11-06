@@ -72,17 +72,17 @@ try {
     await page.unroute('**/api/inquiry');
 
     // Start a genuinely cold Work route: form route already verified above.
-    await page.goto(`${base}/work`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative`, { waitUntil: 'networkidle' });
     await page.locator('[data-connected-work]').waitFor();
     assert.equal(await page.locator('[data-archive-category]').count(), 5);
     assert.equal(await page.locator('.archive-empty').count(), 4);
     await page.evaluate(() => { window.__v6WorkNode = document.querySelector('[data-connected-work]'); });
-    await page.locator('.work-filters a[href="/work#more"]').click();
-    await page.waitForURL('**/work#more');
+    await page.locator('.work-filters a[href="/creative#more"]').click();
+    await page.waitForURL('**/creative#more');
     await page.waitForFunction(() => Math.abs(document.getElementById('more').getBoundingClientRect().top - 90) < 4);
     assert.equal(await page.evaluate(() => window.__v6WorkNode === document.querySelector('[data-connected-work]')), true);
-    await page.locator('.archive-category-heading a[href="/work#digital-artworks"]').click();
-    await page.waitForURL('**/work#digital-artworks');
+    await page.locator('.archive-category-heading a[href="/creative#digital-artworks"]').click();
+    await page.waitForURL('**/creative#digital-artworks');
     const image = page.locator('[data-archive-category="digital-artworks"] .project-image img');
     await image.evaluate(node => node.decode());
     await image.click();
@@ -93,16 +93,16 @@ try {
     await dialog.waitFor({ state: 'hidden' });
     assert.equal(await page.evaluate(() => scrollY), scroll);
     await page.goBack();
-    await page.waitForURL('**/work#more');
+    await page.waitForURL('**/creative#more');
     assert.equal(await page.evaluate(() => window.__v6WorkNode === document.querySelector('[data-connected-work]')), true);
-    await page.goto(`${base}/work/digital-artworks/green-black-original`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/green-black-original`, { waitUntil: 'networkidle' });
     await page.locator('a[href="/contact?artwork=green-black-original"]').click();
     await page.locator('html[data-page="contact"]').waitFor();
     assert.equal(await page.locator('[data-inquiry-artwork]').inputValue(), 'green-black-original');
     assert.equal(await page.locator('[data-inquiry-context]').isVisible(), true);
     assert.equal(await page.evaluate(() => window.__v6WebGL), 0);
     assert.ok(!scripts.some(url => /\/main\.js|three|GLTFLoader/.test(url)), 'Cold interior navigation never loads the hero or mannequin.');
-    await page.locator('.brand-link').focus();
+    await page.locator('[data-floating-brand]').focus();
     await page.keyboard.down('4');
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'xray');
     await page.keyboard.up('4');
@@ -120,7 +120,7 @@ try {
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray', 'Two presses cannot reverse.');
     await page.keyboard.press('3');
     await page.waitForFunction(() => document.documentElement.dataset.mode === 'normal');
-    await page.locator('.brand-link').click();
+    await page.locator('[data-floating-brand]').click();
     await page.locator('html[data-page="home"]').waitFor();
     await page.locator('#stage.is-ready, #stage.is-fallback').waitFor({ timeout: 60000 });
     await page.locator('[data-chapter-counter]:not([hidden])').waitFor();

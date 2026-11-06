@@ -1,0 +1,126 @@
+{
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 320,
+      "height": 844
+    }
+  ],
+  "wideViewports": [
+    {
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "width": 2560,
+      "height": 1440
+    }
+  ],
+  "fontFallbackViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "rowTypes": {
+    "A": "distributed — stretches between two insets, optional word-width slot",
+    "B": "chips — scrolling filter row, fixed height, wordmark baseline anchor",
+    "C": "cluster — footer link group with its own spacing"
+  },
+  "rows": [
+    {
+      "id": "home-strip",
+      "container": ".category-strip",
+      "page": "/",
+      "pages": [
+        "/"
+      ],
+      "type": "A",
+      "positions": 4,
+      "links": 4,
+      "slotMode": "none",
+      "marking": "none",
+      "expectLines": {
+        "320": 2,
+        "390": 2,
+        "1440": 1,
+        "1920": 1,
+        "2560": 1
+      }
+    },
+    {
+      "id": "archive-filters",
+      "container": ".work-filters",
+      "page": "/creative",
+      "pages": [
+        "/creative",
+        "/creative/tattoos",
+        "/creative/jewellery",
+        "/creative/tools",
+        "/creative/more",
+        "/creative/tools/m4shlab",
+        "/creative/tools/thr4ce"
+      ],
+      "type": "B",
+      "positions": 4,
+      "links": 4,
+      "slotMode": "none",
+      "marking": "aria-current=page + text-decoration underline"
+    },
+    {
+      "id": "rubric-cross-links",
+      "container": ".rubric-cross-links",
+      "page": "/creative/tattoos",
+      "pages": [
+        "/creative/tattoos",
+        "/creative/jewellery",
+        "/creative/tools",
+        "/creative/more"
+      ],
+      "type": "A",
+      "positions": 4,
+      "links": 3,
+      "slotMode": "width",
+      "slots": 1,
+      "marking": "none — current rubric is an invisible replica (sr-only text)",
+      "expectLines": {
+        "320": 2,
+        "390": 2,
+        "1440": 1,
+        "1920": 1,
+        "2560": 1
+      }
+    },
+    {
+      "id": "footer-left",
+      "container": ".footer-left",
+      "pages": "all",
+      "type": "C",
+      "positions": 3,
+      "links": 1,
+      "slotMode": "none",
+      "marking": "none"
+    },
+    {
+      "id": "footer-details",
+      "container": ".footer-details",
+      "pages": "all",
+      "type": "C",
+      "positions": 2,
+      "links": 1,
+      "slotMode": "none",
+      "marking": "none",
+      "note": "B-016: impressum link removed; instagram is the only link, location is text."
+    }
+  ],
+  "typeNames": {
+    "A": "distributed",
+    "B": "chips",
+    "C": "cluster"
+  }
+}

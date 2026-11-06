@@ -1,0 +1,130 @@
+{
+  "checkedAt": "2026-11-05T22:58:08.479Z",
+  "build": "a2540558e5a3",
+  "profiles": [
+    {
+      "width": 1440,
+      "copy": {
+        "moreAbout": "more about",
+        "moreAboutStyle": {
+          "transform": "none",
+          "size": "25.92px"
+        },
+        "labels": [
+          "your name",
+          "how to reach you",
+          "what's on your mind?"
+        ],
+        "labelStyles": [
+          {
+            "transform": "none",
+            "size": "12px"
+          },
+          {
+            "transform": "none",
+            "size": "12px"
+          },
+          {
+            "transform": "none",
+            "size": "12px"
+          }
+        ],
+        "submit": "send message",
+        "submitStyle": {
+          "transform": "none",
+          "size": "60px"
+        },
+        "attach": "attach references / images",
+        "attachStyle": {
+          "transform": "none",
+          "size": "12px"
+        }
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "copy": {
+        "moreAbout": "more about",
+        "moreAboutStyle": {
+          "transform": "none",
+          "size": "18px"
+        },
+        "labels": [
+          "your name",
+          "how to reach you",
+          "what's on your mind?"
+        ],
+        "labelStyles": [
+          {
+            "transform": "none",
+            "size": "12px"
+          },
+          {
+            "transform": "none",
+            "size": "12px"
+          },
+          {
+            "transform": "none",
+            "size": "12px"
+          }
+        ],
+        "submit": "send message",
+        "submitStyle": {
+          "transform": "none",
+          "size": "25px"
+        },
+        "attach": "attach references / images",
+        "attachStyle": {
+          "transform": "none",
+          "size": "11px"
+        }
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "copy": {
+        "moreAbout": "more about",
+        "moreAboutStyle": {
+          "transform": "none",
+          "size": "18px"
+        },
+        "labels": [
+          "your name",
+          "how to reach you",
+          "what's on your mind?"
+        ],
+        "labelStyles": [
+          {
+            "transform": "none",
+            "size": "12px"
+          },
+          {
+            "transform": "none",
+            "size": "12px"
+          },
+          {
+            "transform": "none",
+            "size": "12px"
+          }
+        ],
+        "submit": "send message",
+        "submitStyle": {
+          "transform": "none",
+          "size": "25px"
+        },
+        "attach": "attach references / images",
+        "attachStyle": {
+          "transform": "none",
+          "size": "11px"
+        }
+      },
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failures": []
+}

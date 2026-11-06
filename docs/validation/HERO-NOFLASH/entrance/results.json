@@ -1,0 +1,585 @@
+{
+  "checkedAt": "2026-11-03T19:28:31.471Z",
+  "base": "http://127.0.0.1:55200",
+  "results": {
+    "build": "8351205c4d79",
+    "normal": {
+      "start": {
+        "entering": true,
+        "opacity": 1,
+        "transform": "matrix(1, 0, 0, 1, 0, -876)",
+        "translateY": -876,
+        "height": 844,
+        "filter": "none",
+        "transitionProperty": "transform",
+        "transitionDuration": "1.1s",
+        "posterOpacity": 0,
+        "posterTransitionProperty": "opacity",
+        "posterTransitionDuration": "0.9s",
+        "at": 4275.699999988079,
+        "stage": "stage is-ready is-entering"
+      },
+      "mid": {
+        "entering": true,
+        "opacity": 1,
+        "transform": "matrix(1, 0, 0, 1, 0, -795.196)",
+        "translateY": -795.196,
+        "height": 844,
+        "filter": "none",
+        "transitionProperty": "transform",
+        "transitionDuration": "1.1s",
+        "posterOpacity": 0,
+        "posterTransitionProperty": "opacity",
+        "posterTransitionDuration": "0.9s",
+        "at": 4580.699999988079,
+        "stage": "stage is-ready is-entering"
+      },
+      "end": {
+        "entering": false,
+        "opacity": 1,
+        "transform": "matrix(1, 0, 0, 1, 0, 0)",
+        "translateY": 0,
+        "height": 844,
+        "filter": "none",
+        "transitionProperty": "transform",
+        "transitionDuration": "1.1s",
+        "posterOpacity": 0,
+        "posterTransitionProperty": "opacity",
+        "posterTransitionDuration": "0.9s",
+        "at": 5388.300000011921,
+        "stage": "stage is-ready"
+      },
+      "elapsed": 1112.6000000238419,
+      "shifts": 0,
+      "transformDone": 1100.0999999642372,
+      "timeline": [
+        {
+          "at": 0.09999996423721313,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -876)",
+          "scale": 1,
+          "translateY": -876
+        },
+        {
+          "at": 313.69999998807907,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -130.254)",
+          "scale": 1,
+          "translateY": -130.254
+        },
+        {
+          "at": 339.5,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -105.343)",
+          "scale": 1,
+          "translateY": -105.343
+        },
+        {
+          "at": 365.5999999642372,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -105.343)",
+          "scale": 1,
+          "translateY": -105.343
+        },
+        {
+          "at": 391.5999999642372,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -105.343)",
+          "scale": 1,
+          "translateY": -105.343
+        },
+        {
+          "at": 417.0999999642372,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -105.343)",
+          "scale": 1,
+          "translateY": -105.343
+        },
+        {
+          "at": 443.19999998807907,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -105.343)",
+          "scale": 1,
+          "translateY": -105.343
+        },
+        {
+          "at": 469.19999998807907,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -105.343)",
+          "scale": 1,
+          "translateY": -105.343
+        },
+        {
+          "at": 495.30000001192093,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -105.343)",
+          "scale": 1,
+          "translateY": -105.343
+        },
+        {
+          "at": 521.3000000119209,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -35.2097)",
+          "scale": 1,
+          "translateY": -35.2097
+        },
+        {
+          "at": 548.3999999761581,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -35.2097)",
+          "scale": 1,
+          "translateY": -35.2097
+        },
+        {
+          "at": 574.5,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -27.8644)",
+          "scale": 1,
+          "translateY": -27.8644
+        },
+        {
+          "at": 601.5,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -19.3405)",
+          "scale": 1,
+          "translateY": -19.3405
+        },
+        {
+          "at": 627.8999999761581,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -19.3405)",
+          "scale": 1,
+          "translateY": -19.3405
+        },
+        {
+          "at": 654,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -19.3405)",
+          "scale": 1,
+          "translateY": -19.3405
+        },
+        {
+          "at": 680.0999999642372,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -19.3405)",
+          "scale": 1,
+          "translateY": -19.3405
+        },
+        {
+          "at": 706.6999999880791,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -8.63942)",
+          "scale": 1,
+          "translateY": -8.63942
+        },
+        {
+          "at": 732.8000000119209,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -8.63942)",
+          "scale": 1,
+          "translateY": -8.63942
+        },
+        {
+          "at": 758.8000000119209,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -5.46947)",
+          "scale": 1,
+          "translateY": -5.46947
+        },
+        {
+          "at": 785,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -3.92209)",
+          "scale": 1,
+          "translateY": -3.92209
+        },
+        {
+          "at": 811.5999999642372,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -2.7334)",
+          "scale": 1,
+          "translateY": -2.7334
+        },
+        {
+          "at": 837.8000000119209,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -2.7334)",
+          "scale": 1,
+          "translateY": -2.7334
+        },
+        {
+          "at": 864.8000000119209,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -1.83813)",
+          "scale": 1,
+          "translateY": -1.83813
+        },
+        {
+          "at": 891.3000000119209,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -1.17916)",
+          "scale": 1,
+          "translateY": -1.17916
+        },
+        {
+          "at": 917.0999999642372,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -0.712965)",
+          "scale": 1,
+          "translateY": -0.712965
+        },
+        {
+          "at": 943.6999999880791,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -0.712965)",
+          "scale": 1,
+          "translateY": -0.712965
+        },
+        {
+          "at": 969.8000000119209,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -0.395963)",
+          "scale": 1,
+          "translateY": -0.395963
+        },
+        {
+          "at": 995.8999999761581,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -0.19515)",
+          "scale": 1,
+          "translateY": -0.19515
+        },
+        {
+          "at": 1021.8000000119209,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -0.0450578)",
+          "scale": 1,
+          "translateY": -0.0450578
+        },
+        {
+          "at": 1047.8999999761581,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -0.0450578)",
+          "scale": 1,
+          "translateY": -0.0450578
+        },
+        {
+          "at": 1073.8999999761581,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -0.009415)",
+          "scale": 1,
+          "translateY": -0.009415
+        },
+        {
+          "at": 1100.0999999642372,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -0.000335909)",
+          "scale": 1,
+          "translateY": -0.000335909
+        },
+        {
+          "at": 1126.5,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+          "scale": 1,
+          "translateY": 0
+        },
+        {
+          "at": 1152.699999988079,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+          "scale": 1,
+          "translateY": 0
+        },
+        {
+          "at": 1179.199999988079,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+          "scale": 1,
+          "translateY": 0
+        },
+        {
+          "at": 1205.3999999761581,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+          "scale": 1,
+          "translateY": 0
+        },
+        {
+          "at": 1231.699999988079,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+          "scale": 1,
+          "translateY": 0
+        },
+        {
+          "at": 1257.3999999761581,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+          "scale": 1,
+          "translateY": 0
+        }
+      ]
+    },
+    "reduced": {
+      "poster": 1,
+      "animation": "none",
+      "canvas": "none",
+      "entering": false
+    },
+    "failed": {
+      "poster": 1,
+      "entering": false,
+      "canvas": "none"
+    },
+    "breathing": {
+      "minOpacity": 0.55,
+      "maxOpacity": 0.999879,
+      "minScale": 0.988,
+      "maxScale": 1.01199,
+      "samples": [
+        {
+          "opacity": 0.554474,
+          "scale": 0.988239
+        },
+        {
+          "opacity": 0.560218,
+          "scale": 0.988545
+        },
+        {
+          "opacity": 0.568415,
+          "scale": 0.988982
+        },
+        {
+          "opacity": 0.579093,
+          "scale": 0.989552
+        },
+        {
+          "opacity": 0.592361,
+          "scale": 0.990259
+        },
+        {
+          "opacity": 0.608137,
+          "scale": 0.991101
+        },
+        {
+          "opacity": 0.626343,
+          "scale": 0.992072
+        },
+        {
+          "opacity": 0.646968,
+          "scale": 0.993172
+        },
+        {
+          "opacity": 0.669644,
+          "scale": 0.994381
+        },
+        {
+          "opacity": 0.694213,
+          "scale": 0.995691
+        },
+        {
+          "opacity": 0.720263,
+          "scale": 0.997081
+        },
+        {
+          "opacity": 0.747349,
+          "scale": 0.998525
+        },
+        {
+          "opacity": 0.775023,
+          "scale": 1
+        },
+        {
+          "opacity": 0.802588,
+          "scale": 1.00147
+        },
+        {
+          "opacity": 0.83855,
+          "scale": 1.00339
+        },
+        {
+          "opacity": 0.86412,
+          "scale": 1.00475
+        },
+        {
+          "opacity": 0.888113,
+          "scale": 1.00603
+        },
+        {
+          "opacity": 0.910108,
+          "scale": 1.00721
+        },
+        {
+          "opacity": 0.929974,
+          "scale": 1.00827
+        },
+        {
+          "opacity": 0.947406,
+          "scale": 1.00919
+        },
+        {
+          "opacity": 0.962341,
+          "scale": 1.00999
+        },
+        {
+          "opacity": 0.974736,
+          "scale": 1.01065
+        },
+        {
+          "opacity": 0.984578,
+          "scale": 1.01118
+        },
+        {
+          "opacity": 0.991962,
+          "scale": 1.01157
+        },
+        {
+          "opacity": 0.996898,
+          "scale": 1.01183
+        },
+        {
+          "opacity": 0.999512,
+          "scale": 1.01197
+        },
+        {
+          "opacity": 0.999879,
+          "scale": 1.01199
+        },
+        {
+          "opacity": 0.996909,
+          "scale": 1.01184
+        },
+        {
+          "opacity": 0.991968,
+          "scale": 1.01157
+        },
+        {
+          "opacity": 0.984598,
+          "scale": 1.01118
+        },
+        {
+          "opacity": 0.974761,
+          "scale": 1.01065
+        },
+        {
+          "opacity": 0.962373,
+          "scale": 1.00999
+        },
+        {
+          "opacity": 0.947411,
+          "scale": 1.0092
+        },
+        {
+          "opacity": 0.930017,
+          "scale": 1.00827
+        },
+        {
+          "opacity": 0.910199,
+          "scale": 1.00721
+        },
+        {
+          "opacity": 0.888166,
+          "scale": 1.00604
+        },
+        {
+          "opacity": 0.864178,
+          "scale": 1.00476
+        },
+        {
+          "opacity": 0.838576,
+          "scale": 1.00339
+        },
+        {
+          "opacity": 0.811728,
+          "scale": 1.00196
+        },
+        {
+          "opacity": 0.784284,
+          "scale": 1.0005
+        },
+        {
+          "opacity": 0.756604,
+          "scale": 0.999019
+        },
+        {
+          "opacity": 0.720343,
+          "scale": 0.997085
+        },
+        {
+          "opacity": 0.694272,
+          "scale": 0.995695
+        },
+        {
+          "opacity": 0.669699,
+          "scale": 0.994384
+        },
+        {
+          "opacity": 0.646975,
+          "scale": 0.993172
+        },
+        {
+          "opacity": 0.626388,
+          "scale": 0.992074
+        },
+        {
+          "opacity": 0.608143,
+          "scale": 0.991101
+        },
+        {
+          "opacity": 0.592366,
+          "scale": 0.99026
+        },
+        {
+          "opacity": 0.579121,
+          "scale": 0.989553
+        },
+        {
+          "opacity": 0.568437,
+          "scale": 0.988983
+        },
+        {
+          "opacity": 0.560225,
+          "scale": 0.988545
+        },
+        {
+          "opacity": 0.55449,
+          "scale": 0.988239
+        },
+        {
+          "opacity": 0.551105,
+          "scale": 0.988059
+        },
+        {
+          "opacity": 0.55,
+          "scale": 0.988
+        },
+        {
+          "opacity": 0.551095,
+          "scale": 0.988058
+        },
+        {
+          "opacity": 0.556105,
+          "scale": 0.988326
+        },
+        {
+          "opacity": 0.562652,
+          "scale": 0.988675
+        },
+        {
+          "opacity": 0.571687,
+          "scale": 0.989157
+        },
+        {
+          "opacity": 0.583206,
+          "scale": 0.989771
+        },
+        {
+          "opacity": 0.597289,
+          "scale": 0.990522
+        }
+      ]
+    }
+  },
+  "passed": true
+}

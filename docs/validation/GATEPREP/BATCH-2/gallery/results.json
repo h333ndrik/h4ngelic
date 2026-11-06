@@ -1,0 +1,188 @@
+{
+  "checkedAt": "2026-11-04T21:43:12.459Z",
+  "base": "http://127.0.0.1:55232",
+  "build": "b11e4c3f383a",
+  "profiles": [
+    {
+      "width": 1440,
+      "headings": [
+        {
+          "path": "/",
+          "text": "01/ creative",
+          "fontSize": "86.4px",
+          "lineHeight": "93.312px",
+          "letterSpacing": "-3.888px",
+          "slashRel": 88.31
+        },
+        {
+          "path": "/about",
+          "text": "02/ more about",
+          "fontSize": "86.4px",
+          "lineHeight": "93.312px",
+          "letterSpacing": "-3.888px",
+          "slashRel": 88.31
+        },
+        {
+          "path": "/creative",
+          "text": "01/ creative",
+          "fontSize": "86.4px",
+          "lineHeight": "93.312px",
+          "letterSpacing": "-3.888px",
+          "slashRel": 88.31
+        }
+      ],
+      "viewer": {
+        "count": "01/ 01",
+        "boxes": [
+          {
+            "text": "←",
+            "x": 640,
+            "right": 684,
+            "y": 816,
+            "width": 44
+          },
+          {
+            "text": "01/ 01",
+            "x": 703,
+            "right": 737,
+            "y": 829,
+            "width": 33
+          },
+          {
+            "text": "→",
+            "x": 756,
+            "right": 800,
+            "y": 816,
+            "width": 44
+          }
+        ],
+        "gap": "19.44px",
+        "scrim": "linear-gradient(rgba(21, 21, 23, 0) 0%, rgb(21, 21, 23) 42%, rgb(21, 21, 23) 100%)",
+        "navZ": 1
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "headings": [
+        {
+          "path": "/",
+          "text": "01/ creative",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "slashRel": 32.7
+        },
+        {
+          "path": "/about",
+          "text": "02/ more about",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "slashRel": 32.7
+        },
+        {
+          "path": "/creative",
+          "text": "01/ creative",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "slashRel": 32.7
+        }
+      ],
+      "viewer": {
+        "count": "01/ 01",
+        "boxes": [
+          {
+            "text": "←",
+            "x": 124,
+            "right": 168,
+            "y": 778,
+            "width": 44
+          },
+          {
+            "text": "01/ 01",
+            "x": 178,
+            "right": 212,
+            "y": 791,
+            "width": 33
+          },
+          {
+            "text": "→",
+            "x": 222,
+            "right": 266,
+            "y": 778,
+            "width": 44
+          }
+        ],
+        "gap": "10px",
+        "scrim": "linear-gradient(rgba(21, 21, 23, 0) 0%, rgb(21, 21, 23) 42%, rgb(21, 21, 23) 100%)",
+        "navZ": 1
+      },
+      "errors": [],
+      "passed": true
+    },
+    {
+      "width": 320,
+      "headings": [
+        {
+          "path": "/",
+          "text": "01/ creative",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "slashRel": 32.7
+        },
+        {
+          "path": "/about",
+          "text": "02/ more about",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "slashRel": 32.7
+        },
+        {
+          "path": "/creative",
+          "text": "01/ creative",
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "letterSpacing": "-1.44px",
+          "slashRel": 32.7
+        }
+      ],
+      "viewer": {
+        "count": "01/ 01",
+        "boxes": [
+          {
+            "text": "←",
+            "x": 89,
+            "right": 133,
+            "y": 778,
+            "width": 44
+          },
+          {
+            "text": "01/ 01",
+            "x": 143,
+            "right": 177,
+            "y": 791,
+            "width": 33
+          },
+          {
+            "text": "→",
+            "x": 187,
+            "right": 231,
+            "y": 778,
+            "width": 44
+          }
+        ],
+        "gap": "10px",
+        "scrim": "linear-gradient(rgba(21, 21, 23, 0) 0%, rgb(21, 21, 23) 42%, rgb(21, 21, 23) 100%)",
+        "navZ": 1
+      },
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failures": []
+}

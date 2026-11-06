@@ -1,0 +1,10 @@
+# Production audio manifest — 2026-11-04
+
+Build: PASS, 18 routes + 404 prerendered.
+Committed origin/main: 9123a00b21b9a7d3873fe97ba7c36fb90b74c3e5
+Sound branch before this verification: 1f87e08
+
+0cba7010005c069979d4df486527d14e208143f169a9501efadc449e42b11c11  dist/assets/audio/loop-333.m4a
+4805f249bdb6a15c555d32250df8001c8e549319672da0791eb4904bd3322b3c  dist/assets/audio/loop-4.m4a
+2b06d9881275a5ce8c32bbe82f84db3d955fcdba906ae02b696d173968dfb103  dist/assets/audio/x-333-4.m4a
+53c2a3e54daf76a5a30f0ab7df2fb93b7f031422f28953c372925b78f06e027d  dist/assets/audio/x-4-333.m4a

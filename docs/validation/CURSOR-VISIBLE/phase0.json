@@ -1,0 +1,46 @@
+{
+  "build": "d4d65d17da58",
+  "htmlClass": "h4-custom-cursor",
+  "top": {
+    "tag": "IMG",
+    "id": "",
+    "className": "",
+    "cursor": "none",
+    "pointerEvents": "auto"
+  },
+  "candidateCount": 0,
+  "candidates": [],
+  "fixedCursorImages": [
+    {
+      "src": "http://127.0.0.1:55192/assets/h4ngelic-cursor.svg",
+      "complete": true,
+      "naturalWidth": 23
+    }
+  ],
+  "cursorRequests": [
+    {
+      "phase": "request",
+      "url": "http://127.0.0.1:55192/assets/h4ngelic-cursor.svg",
+      "at": 1793729412483
+    },
+    {
+      "phase": "response",
+      "url": "http://127.0.0.1:55192/assets/h4ngelic-cursor.svg",
+      "status": 200,
+      "at": 1793729412483
+    },
+    {
+      "phase": "request",
+      "url": "http://127.0.0.1:55192/assets/h4ngelic-cursor.svg",
+      "at": 1793729412498
+    },
+    {
+      "phase": "response",
+      "url": "http://127.0.0.1:55192/assets/h4ngelic-cursor.svg",
+      "status": 200,
+      "at": 1793729412498
+    }
+  ],
+  "errors": [],
+  "screenshot": "docs/validation/CURSOR-VISIBLE/phase0-cursor-lost-1440.png"
+}

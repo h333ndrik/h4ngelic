@@ -28,8 +28,10 @@ async function seedPage(context) {
       window.__h4HeroReady = true;
       const stage = document.querySelector('#stage'), canvas = document.querySelector('#logo-canvas');
       const style = canvas ? getComputedStyle(canvas) : null;
+      const matrix = style ? new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform) : null;
       window.__h4Entrance = { entering: Boolean(stage?.classList.contains('is-entering')),
-        opacity: Number(style?.opacity || 0), transform: style?.transform || 'none',
+        opacity: Number(style?.opacity || 0), transform: style?.transform || 'none', translateY: matrix?.m42 ?? 0,
+        height: canvas?.getBoundingClientRect().height || 0,
         transitionProperty: style?.transitionProperty || 'none', transitionDuration: style?.transitionDuration || '0s',
         at: performance.now() };
     });
@@ -47,10 +49,12 @@ async function bootState(page) {
       build: document.documentElement.dataset.build || '', metaBuild: document.querySelector('meta[name="h4-build"]')?.content || '',
       status: document.querySelector('#scene-status')?.textContent || '',
       posterOpacity: Number(style?.opacity || 0), posterDisplay: style?.display || 'none',
-      animation: style?.animationName || 'none', canvasDisplay: canvasStyle?.display || 'none',
+      posterBackground: style?.backgroundImage || 'none', animation: style?.animationName || 'none', canvasDisplay: canvasStyle?.display || 'none',
       canvasOpacity: Number(canvasStyle?.opacity || 0), canvasAnimation: canvasStyle?.animationName || 'none',
-      entering: Boolean(stage?.classList.contains('is-entering')), cursorClass: document.documentElement.classList.contains('h4-custom-cursor'),
-      inlineCursorScript: [...document.head.querySelectorAll('script')].some(script => script.textContent.includes("classList.add('h4-custom-cursor')")),
+      entering: Boolean(stage?.classList.contains('is-entering')),
+      cursorClass: document.documentElement.classList.contains('h4-custom-cursor'),
+      overlayNodes: document.querySelectorAll('[data-h4-cursor]').length,
+      bodyCursor: getComputedStyle(document.body).cursor,
       entrance: window.__h4Entrance || null, heroReady: Boolean(window.__h4HeroReady), scrollY };
   });
 }
@@ -104,7 +108,7 @@ async function slashReport(page, width) {
 }
 
 async function wheelContract(page, width) {
-  await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"]')?.classList.contains('is-drift-enhanced'));
   const carousel = page.locator('[data-horizontal-drift="tattoos"]');
   await carousel.scrollIntoViewIfNeeded(); await frames(page);
@@ -140,6 +144,12 @@ async function cursorStates(page, selectors) {
     await target.scrollIntoViewIfNeeded(); await frames(page);
     const rest = await cursorOf(target);
     assert.equal(rest.ok, true, `${selector} keeps the cursor image and hotspot at rest: ${rest.cursor}`);
+    // B-F8 made the visit line a decorative ghost: it carries the cursor but
+    // accepts no pointer interaction, so hover/focus/active do not apply.
+    if (await target.evaluate(element => getComputedStyle(element).pointerEvents) === 'none') {
+      states.push({ selector, rest: rest.cursor, hover: null, focus: null, active: null, note: 'decorative ghost' });
+      continue;
+    }
     await target.hover();
     const hover = await cursorOf(target);
     assert.equal(hover.ok, true, `${selector} keeps the cursor image and hotspot on hover: ${hover.cursor}`);
@@ -160,7 +170,7 @@ async function cursorStates(page, selectors) {
 }
 
 async function footerCursorStates(page) {
-  return cursorStates(page, ['.floating-brand', '.footer-moshlab', '[data-visit-counter-hotspot]',
+  return cursorStates(page, ['.floating-brand', '.footer-moshlab', '[data-visit-count]',
     '.footer-smash', '.footer-instagram', '[data-naavi]']);
 }
 
@@ -190,12 +200,15 @@ try {
       const booting = await bootState(page);
       assert.match(booting.build, /^[a-f0-9]{7,40}$/i, 'Every document carries a non-empty build SHA.');
       assert.equal(booting.build, booting.metaBuild, 'html[data-build] and the h4-build meta agree.');
-      assert.equal(booting.cursorClass, true);
-      assert.equal(booting.inlineCursorScript, true, 'The cursor class is set by inline head JavaScript.');
+      assert.equal(booting.cursorClass, false, 'The native cursor needs no runtime class.');
+      assert.equal(booting.overlayNodes, 0, 'The native cursor needs no overlay node.');
+      assert.match(booting.bodyCursor, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/,
+        'The cursor is already effective before the hero module loads.');
       assert.equal(booting.loading, 'true');
       assert.doesNotMatch(booting.stage, /is-ready/);
       assert.ok(booting.posterDisplay !== 'none' && booting.posterOpacity >= .54, `The poster is immediately visible: ${JSON.stringify(booting)}`);
       assert.equal(booting.animation, 'hero-poster-breathe');
+      assert.equal(booting.posterBackground, 'none', 'The boot surface contains no 2D wordmark artwork.');
       await page.screenshot({ path: new URL(`booting-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
       await page.waitForFunction(() => !document.querySelector('#stage').classList.contains('is-entering'), null, { timeout: 3000 });
@@ -207,10 +220,10 @@ try {
       assert.equal(ready.canvasOpacity, 1);
       assert.equal(ready.entering, false, 'The entrance class clears after its 1100 ms block.');
       assert.equal(ready.entrance?.entering, true, 'The ready event starts the entrance class timeline.');
-      assert.equal(ready.entrance?.opacity, 0);
-      assert.match(ready.entrance?.transform || '', /matrix\(0\.96, 0, 0, 0\.96, 0, 14\)/);
-      assert.match(ready.entrance?.transitionProperty || '', /opacity.*transform/);
-      assert.match(ready.entrance?.transitionDuration || '', /0\.45s.*1\.1s/);
+      assert.equal(ready.entrance?.opacity, 1, 'The logo arrives at constant opacity.');
+      assert.ok(ready.entrance?.translateY < -ready.entrance?.height * .5, `The logo starts above the hero: ${JSON.stringify(ready.entrance)}`);
+      assert.equal(ready.entrance?.transitionProperty, 'transform');
+      assert.equal(ready.entrance?.transitionDuration, '1.1s');
       assert.ok(messages.some(text => text === `[h4ngelic] build ${booting.build}`), 'The dev/preview build marker is logged once.');
       assert.deepEqual(errors, [], `Normal boot emits no page errors at ${width}px.`);
       await page.screenshot({ path: new URL(`ready-${width}.png`, output).pathname });
@@ -224,7 +237,8 @@ try {
       const slowState = await bootState(slow);
       assert.match(slowState.stage, /is-boot-slow/);
       assert.match(slowState.status, /taking longer than usual/);
-      assert.ok(slowState.posterOpacity >= .54 && slowState.canvasDisplay !== 'none', 'The slow state keeps the permanent poster visible.');
+      assert.ok(slowState.posterOpacity >= .54 && slowState.canvasDisplay !== 'none', 'The slow state keeps the atmospheric surface visible.');
+      assert.equal(slowState.posterBackground, 'none', 'Slow loading never reveals the 2D wordmark.');
       await slow.screenshot({ path: new URL(`slow-${width}.png`, output).pathname, timeout: 10000, animations: 'disabled' }).catch(() => {});
       assert.ok(heldRoute, 'The slow fixture held the real hero module request.');
       await heldRoute.abort('failed');
@@ -234,6 +248,7 @@ try {
       assert.equal(slowFailed.loading, 'false');
       assert.equal(slowFailed.canvasDisplay, 'none');
       assert.equal(slowFailed.posterOpacity, 1);
+      assert.match(slowFailed.posterBackground, /wordmark-fallback\.svg/);
       await slow.close();
 
       const failed = await context.newPage(); failed.setDefaultTimeout(30000);
@@ -243,6 +258,7 @@ try {
       await failed.waitForTimeout(750);
       const failedState = await bootState(failed);
       assert.equal(failedState.posterOpacity, 1);
+      assert.match(failedState.posterBackground, /wordmark-fallback\.svg/, 'The failure path keeps the static text poster.');
       assert.equal(failedState.canvasDisplay, 'none');
       assert.equal(failedState.entering, false, 'Failure skips the entrance animation.');
       assert.equal(failedState.entrance, null);
@@ -290,10 +306,9 @@ try {
       const indexCursors = await indexCursorStates(page);
       const auditedWork = await findCursorOffenders(page);
       assert.deepEqual(auditedWork.offenders, [], `The whole Work page keeps one cursor at ${width}px.`);
-      await page.evaluate(() => document.documentElement.classList.remove('h4-custom-cursor'));
-      const noClass = await findCursorOffenders(page);
-      assert.deepEqual(noClass.offenders, [], 'The CSS defense also works before the cursor class exists.');
-      await page.evaluate(() => document.documentElement.classList.add('h4-custom-cursor'));
+      assert.equal(await page.locator('[data-h4-cursor]').count(), 0, 'The native strategy mounts no overlay element.');
+      assert.equal(await page.evaluate(() => document.documentElement.classList.contains('h4-custom-cursor')), false,
+        'The retired runtime class must not come back.');
       const auditedContact = await cursorAudit(page, '/contact', width);
       const formCursors = await cursorStates(page, ['.inquiry-field input[name="name"]',
         '.inquiry-field input[name="email"]', '.inquiry-field textarea[name="message"]',
@@ -327,7 +342,7 @@ try {
 
       reports.push({ width, booting, ready, slow: slowState, slowFailed, failed: failedState,
         greeting: { rest: lineRest, hover: lineHover, focus: lineFocus, touch: touchLine }, slash, wheel,
-        reduced: reducedState, cursor: { home: auditedHome, work: auditedWork, noClass, contact: auditedContact,
+        reduced: reducedState, cursor: { home: auditedHome, work: auditedWork, contact: auditedContact,
           footerStates: footerCursors, indexStates: indexCursors, formStates: formCursors }, messages, errors });
       console.log(`PASS ${width}px: build marker, entrance, cursor, greeting, slash ${slash.canonical.token.toFixed(2)}px, wheel contract.`);
     } catch (error) {

@@ -8,7 +8,7 @@ import { createServer } from 'vite';
 /**
  * Stop-Assert fuer den frame-getriebenen Einfahrts-Loop (src/section-entrance.js).
  *
- * Auf /work/tattoos ist ein globaler rAF-Zaehler nicht zurechenbar: dort haelt
+ * Auf /creative/tattoos ist ein globaler rAF-Zaehler nicht zurechenbar: dort haelt
  * V3.1 `horizontal-drift` einen eigenen Frame-Loop. Dieser Test laedt deshalb
  * eine isolierte Harness-Seite, die ausschliesslich das Einfahrts-Modul
  * importiert. Jeder gezaehlte rAF-Call stammt damit nachweislich aus dem

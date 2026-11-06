@@ -319,7 +319,7 @@ try {
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     page.on('request', request => requests.push(request.url()));
     try {
-      await page.goto(new URL('/work/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos?test=1', base).href, { waitUntil: 'networkidle' });
       assert.ok(!requests.some(url => /\/src\/main\.js|(?:\/|_)three(?:[._/]|$)|wordmark\.typeface|tattoo-texture|LiberationSans-Bold/i.test(url)), 'Cold Works downloads no Three.js or hero assets.');
       assert.ok(!requests.some(url => /\.mp3(?:$|[?#])/.test(url)), 'Photograph browsing never fetches SMASH.');
       const config = await page.evaluate(async () => (await import('/src/carouselSettings.js')).carouselSettings);

@@ -1,0 +1,124 @@
+{
+  "checkedAt": "2026-11-03T19:34:46.643Z",
+  "base": "http://127.0.0.1:55200",
+  "reports": [
+    {
+      "width": 1440,
+      "route": "/work/tattoos",
+      "samples": [
+        112,
+        184,
+        116,
+        104,
+        104
+      ],
+      "median": 112,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "route": "/contact",
+      "samples": [
+        76,
+        112,
+        112,
+        112,
+        72
+      ],
+      "median": 112,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "route": "/work/tattoos",
+      "samples": [
+        44,
+        48,
+        84,
+        48,
+        72
+      ],
+      "median": 48,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "route": "/contact",
+      "samples": [
+        48,
+        96,
+        48,
+        84,
+        96
+      ],
+      "median": 84,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "route": "/work/tattoos",
+      "samples": [
+        60,
+        76,
+        80,
+        72,
+        52
+      ],
+      "median": 72,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "route": "/contact",
+      "samples": [
+        52,
+        36,
+        92,
+        88,
+        92
+      ],
+      "median": 88,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    }
+  ],
+  "entrance": {
+    "start": {
+      "entering": true,
+      "transitionProperty": "transform",
+      "transitionDuration": "1.1s",
+      "opacity": 1,
+      "transform": "matrix(1, 0, 0, 1, 0, -876)",
+      "translateY": -876,
+      "height": 844
+    },
+    "end": {
+      "entering": false,
+      "opacity": 1,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "posterOpacity": 0,
+      "fcp": 120,
+      "lcp": 140,
+      "cls": 0,
+      "build": "8351205c4d79"
+    }
+  },
+  "distBytes": 31507728,
+  "modulepreload": "/assets/main-o5-DSDWJ.js",
+  "mainChunks": [
+    "main-o5-DSDWJ.js"
+  ],
+  "routes": 19,
+  "failures": []
+}

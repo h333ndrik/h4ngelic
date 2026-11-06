@@ -1,0 +1,1480 @@
+{
+  "checkedAt": "2026-11-04T15:08:16.745Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "requests": [
+        "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+        "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-4-333.m4a"
+      ],
+      "responses": [
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-4-333.m4a",
+          "status": 200
+        }
+      ],
+      "fetches": [
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/x-333-4.m4a",
+        "/assets/audio/x-4-333.m4a"
+      ],
+      "sources": [
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 0.3831292517006803,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 5016.300000011921
+            }
+          ],
+          "startedAt": 1455.199999988079
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.006984126984127,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4076.300000011921
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 3.006984126984127,
+          "offset": 2.6238548752834467,
+          "stops": [
+            {
+              "when": 0,
+              "at": 8784
+            }
+          ],
+          "startedAt": 4076.399999976158
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 6.774421768707483,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 7842.199999988079
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 6.774421768707483,
+          "offset": 6.391292517006803,
+          "stops": [],
+          "startedAt": 7842.300000011921
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 8.870022675736962,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 9939.699999988079
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 8.870022675736962,
+          "offset": 8.486893424036282,
+          "stops": [
+            {
+              "when": 0,
+              "at": 13630.099999964237
+            }
+          ],
+          "startedAt": 9939.699999988079
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 9.032562358276644,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 10104.099999964237
+        }
+      ],
+      "final": {
+        "initialized": true,
+        "modeSoundsEnabled": false,
+        "state": "running",
+        "muted": false,
+        "volume": 0.6,
+        "pageHidden": false,
+        "world": {
+          "currentWorld": "333",
+          "intendedWorld": "333",
+          "transportStart": 0.3831292517006803,
+          "transportPhase": 14.918820861678004,
+          "crossfade": null,
+          "loops": {
+            "4": {
+              "status": "ready",
+              "active": false,
+              "bufferDuration": 30.967732426303854
+            },
+            "333": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            }
+          },
+          "assets": {
+            "loops:333": {
+              "status": "ready",
+              "path": "/assets/audio/loop-333.m4a",
+              "paths": [
+                "/assets/audio/loop-333.m4a",
+                "/assets/audio/loop-333.flac",
+                "/assets/audio/loop-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "loops:4": {
+              "status": "ready",
+              "path": "/assets/audio/loop-4.m4a",
+              "paths": [
+                "/assets/audio/loop-4.m4a",
+                "/assets/audio/loop-4.flac",
+                "/assets/audio/loop-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:333>4": {
+              "status": "ready",
+              "path": "/assets/audio/x-333-4.m4a",
+              "paths": [
+                "/assets/audio/x-333-4.m4a",
+                "/assets/audio/x-333-4.flac",
+                "/assets/audio/x-333-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-333-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:4>333": {
+              "status": "ready",
+              "path": "/assets/audio/x-4-333.m4a",
+              "paths": [
+                "/assets/audio/x-4-333.m4a",
+                "/assets/audio/x-4-333.flac",
+                "/assets/audio/x-4-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-4-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            }
+          },
+          "blockedAssets": [],
+          "transitionVoices": 0,
+          "transitionVoiceLimit": 2,
+          "duck": 1,
+          "busGain": 1.9500000476837158
+        },
+        "active": false,
+        "allocatedVoices": 0,
+        "smashAvailable": true,
+        "smashPlaying": false,
+        "smashPhase": "idle",
+        "smashCached": true,
+        "smashFetches": 1,
+        "smash": null
+      },
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "requests": [
+        "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+        "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-4-333.m4a"
+      ],
+      "responses": [
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-4-333.m4a",
+          "status": 200
+        }
+      ],
+      "fetches": [
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/x-333-4.m4a",
+        "/assets/audio/x-4-333.m4a"
+      ],
+      "sources": [
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 0.046439909297052155,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 3036.899999976158
+            }
+          ],
+          "startedAt": 983.8000000119209
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 1.1609977324263039,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 2095.100000023842
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 1.1609977324263039,
+          "offset": 1.1145578231292517,
+          "stops": [
+            {
+              "when": 0,
+              "at": 4037.5
+            }
+          ],
+          "startedAt": 2095.100000023842
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 2.159455782312925,
+          "offset": 2.113015873015873,
+          "stops": [],
+          "startedAt": 3097
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 2.17687074829932,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 4275
+            }
+          ],
+          "startedAt": 3110.699999988079
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.111473922902494,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4047.100000023842
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 3.111473922902494,
+          "offset": 3.065034013605442,
+          "stops": [],
+          "startedAt": 4047.199999988079
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.274013605442177,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4210.800000011921
+        }
+      ],
+      "final": {
+        "initialized": true,
+        "modeSoundsEnabled": false,
+        "state": "running",
+        "muted": false,
+        "volume": 0.6,
+        "pageHidden": false,
+        "world": {
+          "currentWorld": "333",
+          "intendedWorld": "333",
+          "transportStart": 0.046439909297052155,
+          "transportPhase": 3.3494784580498864,
+          "crossfade": {
+            "from": "4",
+            "to": "333",
+            "startedAt": 3.274013605442177,
+            "endsAt": 4.174013605442177,
+            "durationSeconds": 0.9,
+            "active": true,
+            "generation": 4,
+            "remaining": 0.7780952380952382
+          },
+          "loops": {
+            "4": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            },
+            "333": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            }
+          },
+          "assets": {
+            "loops:333": {
+              "status": "ready",
+              "path": "/assets/audio/loop-333.m4a",
+              "paths": [
+                "/assets/audio/loop-333.m4a",
+                "/assets/audio/loop-333.flac",
+                "/assets/audio/loop-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "loops:4": {
+              "status": "ready",
+              "path": "/assets/audio/loop-4.m4a",
+              "paths": [
+                "/assets/audio/loop-4.m4a",
+                "/assets/audio/loop-4.flac",
+                "/assets/audio/loop-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:333>4": {
+              "status": "ready",
+              "path": "/assets/audio/x-333-4.m4a",
+              "paths": [
+                "/assets/audio/x-333-4.m4a",
+                "/assets/audio/x-333-4.flac",
+                "/assets/audio/x-333-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-333-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:4>333": {
+              "status": "ready",
+              "path": "/assets/audio/x-4-333.m4a",
+              "paths": [
+                "/assets/audio/x-4-333.m4a",
+                "/assets/audio/x-4-333.flac",
+                "/assets/audio/x-4-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-4-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            }
+          },
+          "blockedAssets": [],
+          "transitionVoices": 2,
+          "transitionVoiceLimit": 2,
+          "duck": 1,
+          "busGain": 1.9500000476837158
+        },
+        "active": false,
+        "allocatedVoices": 0,
+        "smashAvailable": true,
+        "smashPlaying": false,
+        "smashPhase": "idle",
+        "smashCached": false,
+        "smashFetches": 0,
+        "smash": null
+      },
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "requests": [
+        "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+        "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-4-333.m4a"
+      ],
+      "responses": [
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-4-333.m4a",
+          "status": 200
+        }
+      ],
+      "fetches": [
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/x-333-4.m4a",
+        "/assets/audio/x-4-333.m4a"
+      ],
+      "sources": [
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 0.07546485260770976,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 3119.699999988079
+            }
+          ],
+          "startedAt": 1000.8999999761581
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 1.253877551020408,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 2178.800000011921
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 1.253877551020408,
+          "offset": 1.1784126984126984,
+          "stops": [
+            {
+              "when": 0,
+              "at": 4327
+            }
+          ],
+          "startedAt": 2178.800000011921
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 2.461315192743764,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 3385.899999976158
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 2.461315192743764,
+          "offset": 2.385850340136054,
+          "stops": [],
+          "startedAt": 3385.899999976158
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.610702947845805,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4540.199999988079
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 3.610702947845805,
+          "offset": 3.535238095238095,
+          "stops": [],
+          "startedAt": 4540.300000011921
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.7732426303854876,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4702.800000011921
+        }
+      ],
+      "final": {
+        "initialized": true,
+        "modeSoundsEnabled": false,
+        "state": "running",
+        "muted": false,
+        "volume": 0.6,
+        "pageHidden": false,
+        "world": {
+          "currentWorld": "333",
+          "intendedWorld": "333",
+          "transportStart": 0.07546485260770976,
+          "transportPhase": 3.7558276643990927,
+          "crossfade": {
+            "from": "4",
+            "to": "333",
+            "startedAt": 3.7732426303854876,
+            "endsAt": 4.673242630385488,
+            "durationSeconds": 0.9,
+            "active": true,
+            "generation": 4,
+            "remaining": 0.8419501133786853
+          },
+          "loops": {
+            "4": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            },
+            "333": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            }
+          },
+          "assets": {
+            "loops:333": {
+              "status": "ready",
+              "path": "/assets/audio/loop-333.m4a",
+              "paths": [
+                "/assets/audio/loop-333.m4a",
+                "/assets/audio/loop-333.flac",
+                "/assets/audio/loop-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "loops:4": {
+              "status": "ready",
+              "path": "/assets/audio/loop-4.m4a",
+              "paths": [
+                "/assets/audio/loop-4.m4a",
+                "/assets/audio/loop-4.flac",
+                "/assets/audio/loop-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:333>4": {
+              "status": "ready",
+              "path": "/assets/audio/x-333-4.m4a",
+              "paths": [
+                "/assets/audio/x-333-4.m4a",
+                "/assets/audio/x-333-4.flac",
+                "/assets/audio/x-333-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-333-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:4>333": {
+              "status": "ready",
+              "path": "/assets/audio/x-4-333.m4a",
+              "paths": [
+                "/assets/audio/x-4-333.m4a",
+                "/assets/audio/x-4-333.flac",
+                "/assets/audio/x-4-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-4-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            }
+          },
+          "blockedAssets": [],
+          "transitionVoices": 2,
+          "transitionVoiceLimit": 2,
+          "duck": 1,
+          "busGain": 1.9500000476837158
+        },
+        "active": false,
+        "allocatedVoices": 0,
+        "smashAvailable": true,
+        "smashPlaying": false,
+        "smashPhase": "idle",
+        "smashCached": false,
+        "smashFetches": 0,
+        "smash": null
+      },
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "requests": [
+        "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+        "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-4-333.m4a"
+      ],
+      "responses": [
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-4-333.m4a",
+          "status": 200
+        }
+      ],
+      "fetches": [
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/x-333-4.m4a",
+        "/assets/audio/x-4-333.m4a"
+      ],
+      "sources": [
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 0.07546485260770976,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 2995.7000000476837
+            }
+          ],
+          "startedAt": 986.2000000476837
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 1.1435827664399092,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 2055.5
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 1.1435827664399092,
+          "offset": 1.0681179138321995,
+          "stops": [
+            {
+              "when": 0,
+              "at": 3971.100000023842
+            }
+          ],
+          "startedAt": 2055.7000000476837
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 2.1188208616780044,
+          "offset": 2.0433560090702945,
+          "stops": [],
+          "startedAt": 3031.100000023842
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 2.1304308390022677,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 3041.800000011921
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.0708390022675736,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 3983
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 3.0708390022675736,
+          "offset": 2.9953741496598636,
+          "stops": [],
+          "startedAt": 3983
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.2333786848072563,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4144.300000011921
+        }
+      ],
+      "final": {
+        "initialized": true,
+        "modeSoundsEnabled": false,
+        "state": "running",
+        "muted": false,
+        "volume": 0.6,
+        "pageHidden": false,
+        "world": {
+          "currentWorld": "333",
+          "intendedWorld": "333",
+          "transportStart": 0.07546485260770976,
+          "transportPhase": 3.198548752834467,
+          "crossfade": {
+            "from": "4",
+            "to": "333",
+            "startedAt": 3.2333786848072563,
+            "endsAt": 4.133378684807257,
+            "durationSeconds": 0.9,
+            "active": true,
+            "generation": 4,
+            "remaining": 0.8593650793650798
+          },
+          "loops": {
+            "4": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            },
+            "333": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            }
+          },
+          "assets": {
+            "loops:333": {
+              "status": "ready",
+              "path": "/assets/audio/loop-333.m4a",
+              "paths": [
+                "/assets/audio/loop-333.m4a",
+                "/assets/audio/loop-333.flac",
+                "/assets/audio/loop-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "loops:4": {
+              "status": "ready",
+              "path": "/assets/audio/loop-4.m4a",
+              "paths": [
+                "/assets/audio/loop-4.m4a",
+                "/assets/audio/loop-4.flac",
+                "/assets/audio/loop-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:333>4": {
+              "status": "ready",
+              "path": "/assets/audio/x-333-4.m4a",
+              "paths": [
+                "/assets/audio/x-333-4.m4a",
+                "/assets/audio/x-333-4.flac",
+                "/assets/audio/x-333-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-333-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:4>333": {
+              "status": "ready",
+              "path": "/assets/audio/x-4-333.m4a",
+              "paths": [
+                "/assets/audio/x-4-333.m4a",
+                "/assets/audio/x-4-333.flac",
+                "/assets/audio/x-4-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-4-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            }
+          },
+          "blockedAssets": [],
+          "transitionVoices": 2,
+          "transitionVoiceLimit": 2,
+          "duck": 1,
+          "busGain": 1.9500000476837158
+        },
+        "active": false,
+        "allocatedVoices": 0,
+        "smashAvailable": true,
+        "smashPlaying": false,
+        "smashPhase": "idle",
+        "smashCached": false,
+        "smashFetches": 0,
+        "smash": null
+      },
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "requests": [
+        "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+        "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-4-333.m4a"
+      ],
+      "responses": [
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-4-333.m4a",
+          "status": 200
+        }
+      ],
+      "fetches": [
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/x-333-4.m4a",
+        "/assets/audio/x-4-333.m4a"
+      ],
+      "sources": [
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 0.06385487528344672,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 2970.599999964237
+            }
+          ],
+          "startedAt": 962
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 1.1319727891156464,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 2030.199999988079
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 1.1319727891156464,
+          "offset": 1.0681179138321997,
+          "stops": [
+            {
+              "when": 0,
+              "at": 4123.599999964237
+            }
+          ],
+          "startedAt": 2030.2999999523163
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 2.2871655328798184,
+          "offset": 2.2233106575963717,
+          "stops": [],
+          "startedAt": 3183.599999964237
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 2.29297052154195,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 4549.599999964237
+            }
+          ],
+          "startedAt": 3187.199999988079
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.4249433106575964,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4321.599999964237
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 3.4249433106575964,
+          "offset": 3.3610884353741497,
+          "stops": [],
+          "startedAt": 4321.599999964237
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.5874829931972787,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4484.799999952316
+        }
+      ],
+      "final": {
+        "initialized": true,
+        "modeSoundsEnabled": false,
+        "state": "running",
+        "muted": false,
+        "volume": 0.6,
+        "pageHidden": false,
+        "world": {
+          "currentWorld": "333",
+          "intendedWorld": "333",
+          "transportStart": 0.06385487528344672,
+          "transportPhase": 3.6048979591836736,
+          "crossfade": {
+            "from": "4",
+            "to": "333",
+            "startedAt": 3.5874829931972787,
+            "endsAt": 4.487482993197279,
+            "durationSeconds": 0.9,
+            "active": true,
+            "generation": 4,
+            "remaining": 0.8187301587301588
+          },
+          "loops": {
+            "4": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            },
+            "333": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            }
+          },
+          "assets": {
+            "loops:333": {
+              "status": "ready",
+              "path": "/assets/audio/loop-333.m4a",
+              "paths": [
+                "/assets/audio/loop-333.m4a",
+                "/assets/audio/loop-333.flac",
+                "/assets/audio/loop-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "loops:4": {
+              "status": "ready",
+              "path": "/assets/audio/loop-4.m4a",
+              "paths": [
+                "/assets/audio/loop-4.m4a",
+                "/assets/audio/loop-4.flac",
+                "/assets/audio/loop-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:333>4": {
+              "status": "ready",
+              "path": "/assets/audio/x-333-4.m4a",
+              "paths": [
+                "/assets/audio/x-333-4.m4a",
+                "/assets/audio/x-333-4.flac",
+                "/assets/audio/x-333-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-333-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:4>333": {
+              "status": "ready",
+              "path": "/assets/audio/x-4-333.m4a",
+              "paths": [
+                "/assets/audio/x-4-333.m4a",
+                "/assets/audio/x-4-333.flac",
+                "/assets/audio/x-4-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-4-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            }
+          },
+          "blockedAssets": [],
+          "transitionVoices": 2,
+          "transitionVoiceLimit": 2,
+          "duck": 1,
+          "busGain": 1.9500000476837158
+        },
+        "active": false,
+        "allocatedVoices": 0,
+        "smashAvailable": true,
+        "smashPlaying": false,
+        "smashPhase": "idle",
+        "smashCached": false,
+        "smashFetches": 0,
+        "smash": null
+      },
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "requests": [
+        "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+        "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+        "http://127.0.0.1:55341/assets/audio/x-4-333.m4a"
+      ],
+      "responses": [
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-333.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/loop-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-333-4.m4a",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:55341/assets/audio/x-4-333.m4a",
+          "status": 200
+        }
+      ],
+      "fetches": [
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/x-333-4.m4a",
+        "/assets/audio/x-4-333.m4a"
+      ],
+      "sources": [
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 0.06965986394557823,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 3005.899999976158
+            }
+          ],
+          "startedAt": 989.8000000119209
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 1.1435827664399092,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 2065.100000023842
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 1.1435827664399092,
+          "offset": 1.0739229024943309,
+          "stops": [
+            {
+              "when": 0,
+              "at": 3979.5
+            }
+          ],
+          "startedAt": 2065.100000023842
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 2.1188208616780044,
+          "offset": 2.049160997732426,
+          "stops": [],
+          "startedAt": 3039.100000023842
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 2.1304308390022677,
+          "offset": 0,
+          "stops": [
+            {
+              "when": 0,
+              "at": 4220.5
+            }
+          ],
+          "startedAt": 3047.800000011921
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.0708390022675736,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 3991.600000023842
+        },
+        {
+          "loop": true,
+          "duration": 30.967732426303854,
+          "when": 3.0708390022675736,
+          "offset": 3.0011791383219952,
+          "stops": [],
+          "startedAt": 3991.699999988079
+        },
+        {
+          "loop": false,
+          "duration": 1.4,
+          "when": 3.2333786848072563,
+          "offset": 0,
+          "stops": [],
+          "startedAt": 4154.600000023842
+        }
+      ],
+      "final": {
+        "initialized": true,
+        "modeSoundsEnabled": false,
+        "state": "running",
+        "muted": false,
+        "volume": 0.6,
+        "pageHidden": false,
+        "world": {
+          "currentWorld": "333",
+          "intendedWorld": "333",
+          "transportStart": 0.06965986394557823,
+          "transportPhase": 3.2391836734693875,
+          "crossfade": {
+            "from": "4",
+            "to": "333",
+            "startedAt": 3.2333786848072563,
+            "endsAt": 4.133378684807257,
+            "durationSeconds": 0.9,
+            "active": true,
+            "generation": 4,
+            "remaining": 0.8245351473922908
+          },
+          "loops": {
+            "4": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            },
+            "333": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            }
+          },
+          "assets": {
+            "loops:333": {
+              "status": "ready",
+              "path": "/assets/audio/loop-333.m4a",
+              "paths": [
+                "/assets/audio/loop-333.m4a",
+                "/assets/audio/loop-333.flac",
+                "/assets/audio/loop-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "loops:4": {
+              "status": "ready",
+              "path": "/assets/audio/loop-4.m4a",
+              "paths": [
+                "/assets/audio/loop-4.m4a",
+                "/assets/audio/loop-4.flac",
+                "/assets/audio/loop-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:333>4": {
+              "status": "ready",
+              "path": "/assets/audio/x-333-4.m4a",
+              "paths": [
+                "/assets/audio/x-333-4.m4a",
+                "/assets/audio/x-333-4.flac",
+                "/assets/audio/x-333-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-333-4.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "transitions:4>333": {
+              "status": "ready",
+              "path": "/assets/audio/x-4-333.m4a",
+              "paths": [
+                "/assets/audio/x-4-333.m4a",
+                "/assets/audio/x-4-333.flac",
+                "/assets/audio/x-4-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-4-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            }
+          },
+          "blockedAssets": [],
+          "transitionVoices": 2,
+          "transitionVoiceLimit": 2,
+          "duck": 1,
+          "busGain": 1.9500000476837158
+        },
+        "active": false,
+        "allocatedVoices": 0,
+        "smashAvailable": true,
+        "smashPlaying": false,
+        "smashPhase": "idle",
+        "smashCached": false,
+        "smashFetches": 0,
+        "smash": null
+      },
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "degraded": true,
+      "final": {
+        "initialized": true,
+        "modeSoundsEnabled": false,
+        "state": "running",
+        "muted": false,
+        "volume": 0.6,
+        "pageHidden": false,
+        "world": {
+          "currentWorld": "4",
+          "intendedWorld": "4",
+          "transportStart": 0.08707482993197278,
+          "transportPhase": 1.0971428571428572,
+          "crossfade": {
+            "from": "333",
+            "to": "4",
+            "startedAt": 1.1784126984126984,
+            "endsAt": 2.0784126984126985,
+            "durationSeconds": 0.9,
+            "active": false,
+            "generation": 1,
+            "remaining": 0.8941950113378685
+          },
+          "loops": {
+            "4": {
+              "status": "missing",
+              "active": false,
+              "bufferDuration": 0
+            },
+            "333": {
+              "status": "ready",
+              "active": true,
+              "bufferDuration": 30.967732426303854
+            }
+          },
+          "assets": {
+            "loops:333": {
+              "status": "ready",
+              "path": "/assets/audio/loop-333.m4a",
+              "paths": [
+                "/assets/audio/loop-333.m4a",
+                "/assets/audio/loop-333.flac",
+                "/assets/audio/loop-333.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-333.m4a",
+                  "status": "ready"
+                }
+              ]
+            },
+            "loops:4": {
+              "status": "missing",
+              "path": "",
+              "paths": [
+                "/assets/audio/loop-4.m4a",
+                "/assets/audio/loop-4.flac",
+                "/assets/audio/loop-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/loop-4.m4a",
+                  "status": "failed",
+                  "error": "Unable to decode audio data"
+                },
+                {
+                  "path": "/assets/audio/loop-4.flac",
+                  "status": "failed",
+                  "error": "Unable to decode audio data"
+                },
+                {
+                  "path": "/assets/audio/loop-4.wav",
+                  "status": "failed",
+                  "error": "Unable to decode audio data"
+                }
+              ]
+            },
+            "transitions:333>4": {
+              "status": "missing",
+              "path": "",
+              "paths": [
+                "/assets/audio/x-333-4.m4a",
+                "/assets/audio/x-333-4.flac",
+                "/assets/audio/x-333-4.wav"
+              ],
+              "attempts": [
+                {
+                  "path": "/assets/audio/x-333-4.m4a",
+                  "status": "failed",
+                  "error": "Unable to decode audio data"
+                },
+                {
+                  "path": "/assets/audio/x-333-4.flac",
+                  "status": "failed",
+                  "error": "Unable to decode audio data"
+                },
+                {
+                  "path": "/assets/audio/x-333-4.wav",
+                  "status": "failed",
+                  "error": "Unable to decode audio data"
+                }
+              ]
+            }
+          },
+          "blockedAssets": [
+            "loops:4",
+            "transitions:333>4"
+          ],
+          "transitionVoices": 0,
+          "transitionVoiceLimit": 2,
+          "duck": 1,
+          "busGain": 1.9500000476837158
+        },
+        "active": false,
+        "allocatedVoices": 0,
+        "smashAvailable": true,
+        "smashPlaying": false,
+        "smashPhase": "idle",
+        "smashCached": false,
+        "smashFetches": 0,
+        "smash": null
+      },
+      "pageErrors": []
+    }
+  ],
+  "failures": []
+}

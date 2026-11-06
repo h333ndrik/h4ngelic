@@ -41,7 +41,7 @@ const open = async (path) => {
 const results = [];
 try {
   for (const [query, key] of [['?variant=a', 'A'], ['?variant=b', 'B']]) {
-    const { context, page, errors, requests } = await open(`/work/tattoos${query}`);
+    const { context, page, errors, requests } = await open(`/creative/tattoos${query}`);
     const preview = page.locator('[data-mannequin-preview]');
     assert.equal(await preview.getAttribute('data-mannequin-variant'), key, `?variant=${key.toLowerCase()} loads ${key}.`);
     const glbs = requests.filter((url) => /\/models\/mannequin-[a-z0-9.-]+\.glb$/.test(url));
@@ -63,7 +63,7 @@ try {
   }
 
   // Ohne Parameter bleibt C die einzige Variante.
-  const { context, page } = await open('/work/tattoos');
+  const { context, page } = await open('/creative/tattoos');
   assert.equal(await page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-variant'), 'C');
   results.push({ query: '(none)', variant: 'C' });
   await context.close();

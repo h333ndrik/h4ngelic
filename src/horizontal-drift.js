@@ -1,6 +1,7 @@
 import './horizontal-drift.css';
 import { createVisualMotionPublisher } from './motion-mosh.js';
 import { carouselSettings as settings, carouselStyleProperties } from './carouselSettings.js';
+import { formatCounter } from './labels.js';
 
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 const modulo = (value, length) => ((value % length) + length) % length;
@@ -131,7 +132,7 @@ export function initHorizontalDrift(root = document) {
     state.section.dataset.carouselHoverPaused = String(settings.hoverPause && (state.pointerInside || state.keyboardPaused));
     state.section.dataset.carouselPointerInside = String(state.pointerInside);
     state.section.dataset.carouselKeyboardPaused = String(state.keyboardPaused);
-    if (state.counter) state.counter.textContent = `${index < 0 ? 0 : index + 1} / ${state.items.length}`;
+    if (state.counter) state.counter.textContent = formatCounter(index < 0 ? 0 : index + 1, state.items.length);
     if (state.previous) state.previous.disabled = !state.items.length || !state.wrap && state.position <= .5;
     if (state.next) state.next.disabled = !state.items.length || !state.wrap && state.position >= state.travel - .5;
   }
@@ -318,6 +319,22 @@ export function initHorizontalDrift(root = document) {
       listen(item, 'pointerleave', () => { state.hover = -1; schedule(); });
     });
     listen(state.section, 'inline-artwork:change', () => { stop(state); schedule(); });
+    listen(state.viewport, 'click', event => {
+      const trigger = event.target.closest?.('[data-placeholder-expand]');
+      if (!trigger) return;
+      event.preventDefault();
+      const item = trigger.closest('[data-drift-item]');
+      const expanded = !item.classList.contains('is-placeholder-expanded');
+      for (const other of state.items) {
+        other.classList.remove('is-placeholder-expanded');
+        other.querySelector('[data-placeholder-expand]')?.setAttribute('aria-pressed', 'false');
+      }
+      item.classList.toggle('is-placeholder-expanded', expanded);
+      trigger.setAttribute('aria-pressed', String(expanded));
+      state.section.toggleAttribute('data-placeholder-expanded', expanded);
+      state.section.toggleAttribute('data-drift-paused', expanded);
+      schedule();
+    });
     listen(state.viewport, 'dragstart', event => event.preventDefault());
   }
   listen(view, 'scroll', () => { if (states.some(state => state.near)) schedule(); }, { passive: true });

@@ -109,7 +109,7 @@ for (const rate of RATES) {
   page.on('pageerror', (error) => errors.push(`${rate} Hz: ${error.message}`));
   page.on('console', (message) => { if (message.type() === 'error') errors.push(`${rate} Hz: ${message.text()}`); });
   await page.addInitScript(installClock, rate);
-  await page.goto(`${base}/work/tattoos`, { waitUntil: 'networkidle' });
+  await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
   await page.evaluate(() => {
     const element = document.querySelector('#model-3d');
     scrollTo({ top: Math.max(0, element.getBoundingClientRect().top + scrollY - 120), behavior: 'instant' });

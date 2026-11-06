@@ -57,7 +57,7 @@ try {
       });
       const page = await context.newPage(); const errors = []; const requests = [];
       page.on('pageerror', error => errors.push(error.message)); page.on('request', request => requests.push(request.url()));
-      await page.goto(new URL('/work?test=1', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative?test=1', base).href, { waitUntil: 'networkidle' });
       await page.locator('html[data-xray-ready]').waitFor();
       assert.equal(await page.locator('[data-corruption-ambient]').count(), 0);
       await change(page, 'xray');

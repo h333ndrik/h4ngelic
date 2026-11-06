@@ -79,7 +79,7 @@ try {
         assert.equal(await page.locator('#stage.is-poster-static').count(), 1, 'Reduced motion keeps the static poster without WebGL.');
         assert.equal(await page.locator('#logo-canvas').isVisible(), false);
       }
-      await page.goto(new URL('/work/tattoos', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => document.querySelector('[data-horizontal-drift="tattoos"]')?.dataset.carouselPreload === 'idle', null, { timeout: 5000 });
       const carousel = await page.locator('[data-horizontal-drift="tattoos"]').evaluate(section => ({ preload: section.dataset.carouselPreload, images: section.querySelectorAll('.drift-track img').length,
         contentVisibility: getComputedStyle(section.closest('.archive-category')).contentVisibility }));

@@ -239,6 +239,12 @@ report. No merge or deployment was performed.
 - **Fix:** Ready adds a 760 ms `is-entering` window with a 700 ms transform/opacity entrance (`opacity 0→1`, `y 8→0`, `scale .985→1`); breathing is now `.55↔1` and `scale .988↔1.012`; reduced motion and failure stay instant/static.
 - **Proof:** Production starts at opacity 0/scale `.985`/y 8px, reaches opacity 1 and `matrix(1,0,0,1,0,0)` with a partially visible mid-frame and CLS 0; breathing sampled `.550–1.000` and `.988–1.012`. FCP medians remained 44–108 ms under the 200 ms guard. Evidence: `F29-b/` and `PERF/`.
 
+## 11. V3.1.2-r4 addendum — blanket cursor
+
+- **Reproduction:** NAAVI/footer still exposed a native pointer because selector-list audits missed the element actually under the pointer, including generated wrappers and cursor writes in component code; production build `4a05f1a60f2a` was required for proof.
+- **Fix:** The final emitted CSS now applies `html.h4-custom-cursor * { cursor:none!important }`, with xray as the sole allowlisted mode cursor; NAAVI decoration defers to its anchor, and no `style.cursor` writes remain in `src/`.
+- **Proof:** The production 24 px hit map passed 4,459/1,139/929 normal points at 1440/390/320 and 2,221 xray points with zero foreign cursors, including NAAVI slash, footer, VISIT, open INDEX, five form controls and canvas drag; no-JS keeps system cursors and the emitted CSS has exactly the root fallback, xray allowlist and blanket declaration. Evidence: `F18-r4/`.
+
 ### Verification totals
 
 - Node: **374/374 PASS**, 0 fail, 0 skipped.
@@ -300,3 +306,63 @@ across hidden, hover and focus states and the reveal recorded CLS 0. Evidence:
 - Node: **374/374 PASS**, 0 fail, 0 skipped.
 - Production greeting and entrance contracts: PASS.
 - F20 six-profile suite: **6/6**; footer **6/6**; visitor tiers **6/6**; mobile **4/4**; hero boot **3/3**; performance route-width pairs **6/6**.
+
+## 13. Release-fixes addendum — visible pointer, no hero flash, tools/creative, NN/ labels
+
+Verified product build: `data-build="8351205c4d79"` (`R2: label format NN/ x incl. naavi`). The following test-only reconciliation is `c5a938f`; it does not change the emitted application.
+
+### Cursor-visible
+
+- **Befund:** On baseline build `d4d65d17da58`, `html.h4-custom-cursor` and blanket `cursor:none` were active and the SVG returned HTTP 200, but no cursor overlay existed in the DOM. The result was a lost pointer rather than a visible h4 logo.
+- **Fix:** The production shell now contains a fixed `[data-h4-cursor]` image with a `2147483647` layer, pointer-events none and transform-only `9 2` hotspot tracking. Cursor CSS and a synchronous image preload are present before application hydration; xray retains its single native material cursor, while no-JS keeps ordinary system cursors.
+- **Beweis:** The 24 px production hit map passed 4,460 / 1,140 / 930 blanket points at 1440/390/320 and 2,221 xray points with zero foreign cursors. Every blanket point also had opacity 1, non-zero image dimensions, a loaded SVG and hotspot coordinates within 0.25 px of the pointer. Evidence: `CURSOR-VISIBLE/` including `phase0.json` and `results.json`.
+
+### Hero-noflash
+
+- **Befund:** With an empty cache and throttled/held hero module, the loading poster painted `wordmark-fallback.svg` at opacity `.756`, so the 2D lettering appeared before WebGL.
+- **Fix:** The boot surface is now dark atmosphere only. The canvas keeps opacity 1 and travels from `translateY(-100% - 32px)` to identity over 1100 ms expo-out, with no scale or blur. Reduced motion and WebGL failure retain the static text poster; no-JS does too.
+- **Beweis:** Loading/slow states computed `background-image: none`; the entrance measured Y `-876 → -795 → 0`, duration `1113 ms`, opacity constantly 1 and CLS 0. Failure screenshots retain the text poster. F20 FCP medians stayed 32–64 ms. Evidence: `HERO-NOFLASH/`.
+
+### R1-tools-creative
+
+- **Befund:** The archive exposed only tattoos, jewellery and more; `/work/tools` did not exist and the main `/work` identity still said Works.
+- **Fix:** `tools` sits between jewellery and more, the archive heading is `01/ creative`, and prerendered `/work/tools` contains the two supplied external cards. The legacy query redirects to `/work/tools`; filters, cross-links, NAAVI and Home all include tools.
+- **Beweis:** Production build has 19 routes plus 404. Both cards expose the exact supplied URLs/copy, `target=_blank`, `noopener noreferrer`, ↗ and 4px radius. The Home row is four equal labels on desktop and a slash-aligned 2×2 grid at 390/320 with no overflow. Evidence: `TOOLS-RUBRIC/`.
+
+### R2-labels
+
+- **Befund:** Visible numbered labels used spaced slashes (`01 / creative`, `04 / 04`) across independent templates.
+- **Fix:** One `formatIndexedLabel` / `formatCounter` source now emits `NN/ label` and `NN/ MM`; Home, About, INDEX, work headings and dynamically painted NAAVI consume it.
+- **Beweis:** INDEX reads `00/ home … 04/ the other side`; NAAVI measured `00/ 04`, then `01/ 04`, `02/ 04`, `03/ 04`, `04/ 04` on the four work rubrics and `01/ 01` on About. F28 alignment remained within 2 px at 1440/390/320. Evidence: `LABEL-FORMAT/`.
+
+### Verification totals
+
+- Node: **374/374 PASS**, 0 fail, 0 skipped.
+- Production cursor hit map: **3/3** normal viewports + xray PASS; production cursor/no-JS contract PASS.
+- Hero: boot **3/3**, entrance PASS, poster **6/6**, F20 **6/6**, performance **6/6** route-width pairs plus entrance/CLS, FCP 48–112 ms and LCP under 200 ms.
+- Navigation **6/6**, footer **6/6**, mobile **4/4**, portfolio **6/6**, SEO **19/19** routes PASS, tools **3/3**, labels **3/3**.
+
+## 14. V3.2 addendum — production bundle 4b9ce9a3fae4
+
+- **Befund:** The pre-V3.2 shell still exposed five INDEX entries, `/work` URLs and hover-revealed VISIT; several legacy suites also assumed pinning and modal carousels.
+- **Fix:** `/creative` is the canonical archive with 12 legacy 301s, INDEX is `00–03`, NAAVI is dynamically `NN/ 03` or `NN/ 04`, tools has a static F26 heading and detail pages, VISIT is a permanent ghost, and SMASH is Other-Side-only. Tests were reconciled to the approved in-place carousel and calm unpinned motion contracts.
+- **Beweis:** Build `4b9ce9a3fae4`: Node **374/374**, V3.2 structure PASS, micro PASS, cursor hit **4,458/1,138/928 + 2,221 xray**, performance FCP **52–132ms**, SEO 23 routes PASS, standalone 3/3 plus native. Full report: `docs/validation/V3.2/F-STACK-VERIFICATION.md`.
+
+## 15. B-F25 addendum — row typology A/B/C (build c4710034ec5d)
+
+- **Befund:** Frontpage strip, rubric cross-links and filter chips shared one
+  `--rubric-gap` token and one `.rubric-row` selector; four repair rounds moved
+  all three rows at once, the frontpage ended 207px early and the chips sat
+  12px above the `h4ngelic` baseline. Proof: `docs/validation/B-F25-ROW-MECHANISM/inventory-before.json`.
+- **Fix:** one type per row — A distributed (`space-between` between the
+  measured insets, optional word-width slot), B chips (own gap, wordmark
+  baseline, underline without height), C cluster (footer, own gap). The old
+  token is gone without an alias; `--viewer-nav-gap` and `--tool-gallery-gap`
+  keep the two non-row consumers at their old values.
+- **Beweis:** build `c4710034ec5d` — frontpage gaps 19.44 → 91.15px with the
+  left edge unchanged at 88.31px; cross-link words on the frontpage x positions
+  (±0.04px) with an inert slot; chips baseline delta 0.00px at 1440; footer gaps
+  unchanged at 28.8/30/12px. `tests/row-geometry-contract.mjs` 5 viewports × 5
+  rows plus coupling negatives, `tests/v25-cross-links-browser.mjs` 6/6,
+  `tests/rubric-gap-browser.mjs` 3/3, `tests/tokens-audit.mjs` 0 findings,
+  `npm test` 376/376. Full report: `docs/validation/B-F25-ROW-MECHANISM/README.md`.

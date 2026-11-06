@@ -26,7 +26,7 @@ try {
         const rect = element => { const r = element.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, width: r.width, height: r.height }; };
         const controls = document.querySelector('.hero .controls');
         return { width: innerWidth, height: innerHeight, documentWidth: document.documentElement.scrollWidth,
-          brand: document.querySelector('.hero-brand').textContent,
+          brand: document.querySelector('[data-floating-brand]').textContent.trim(),
           edition: !!document.querySelector('.masthead .edition'), identity: !!document.querySelector('.hero .identity'),
           controls: rect(controls), buttons: [...controls.querySelectorAll('button')].map(button => ({ ...rect(button), fontSize: parseFloat(getComputedStyle(button).fontSize) })),
           navigation: rect(document.querySelector('.hero-nav')), navigationLinks: [...document.querySelectorAll('.hero-nav a')].map(rect), naavi: document.querySelector('[data-naavi]') ? rect(document.querySelector('[data-naavi]')) : null };
@@ -45,44 +45,47 @@ try {
       await page.screenshot({ path: new URL(`home-${width}.png`, output).pathname });
 
       console.log(`CHECK ${width}px Works`);
-      await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+      await page.goto(new URL('/creative', base).href, { waitUntil: 'networkidle' });
       const work = await page.evaluate(() => {
         const numeric = selector => parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
         return { heading: document.querySelector('.work-page h1').textContent,
           groups: [...document.querySelectorAll('.work-group-heading')].map(h => h.textContent.trim()),
           subheads: [...document.querySelectorAll('h3.archive-category-heading')].map(h => h.textContent.trim()),
           majorSize: numeric('.work-group-heading'), subordinateSize: numeric('.archive-category-heading'), digitalSize: numeric('#digital-artworks .archive-category-heading'),
-          noArrows: !document.querySelector('.work-page .arrow'), noMiniNav: !document.querySelector('.work-subfilters'),
+          noArrows: !document.querySelector('#group-tools-title a, #group-tools-title .arrow'), noMiniNav: !document.querySelector('.work-subfilters'),
           modelChildren: [...document.querySelector('[data-deferred-model]').children].map(el => el.tagName),
           lines: [...document.querySelectorAll('.work-page .work-filters,.work-page .work-group,.work-page .archive-category,.work-page .project-meta')].map(el => {
             const s = getComputedStyle(el); return [s.borderTopWidth, s.borderRightWidth, s.borderBottomWidth, s.borderLeftWidth]; }),
           documentWidth: document.documentElement.scrollWidth, images: document.querySelectorAll('.work-page .project-image img').length };
       });
-      assert.equal(work.heading, 'tattoos');
-      assert.deepEqual(work.groups, ['tattoos', 'jewellery', 'more']);
-      assert.deepEqual(work.subheads, ['on skin', 'flashes', '3d model', 'digital artworks', 'analog photography']);
-      assert.ok(work.subordinateSize < work.majorSize * .67 && work.digitalSize < work.subordinateSize);
+      assert.equal(work.heading, '01/ creative');
+      assert.deepEqual(work.groups, ['tattoos', 'jewellery', 'tools', 'more']);
+      assert.deepEqual(work.subheads, ['tattoos', 'flashes', '3d model', 'digital artworks', 'analog photography']);
+      assert.equal(work.digitalSize, work.subordinateSize);
+      if (width >= 800) assert.ok(work.subordinateSize < work.majorSize * .67);
+      else assert.ok(work.majorSize >= work.subordinateSize);
       assert.ok(work.noArrows && work.noMiniNav);
       assert.deepEqual(work.modelChildren, ['H3']);
       for (const sides of work.lines) assert.deepEqual(sides, ['0px','0px','0px','0px']);
-      assert.equal(work.images, 1, 'Only the genuine supplied digital artwork is published.');
+      assert.equal(work.images, 9, 'The published archive renders eight tattoo photographs plus the digital artwork.');
       assert.ok(work.documentWidth <= width + 1);
 
       const counts = [];
-      for (const path of ['/work', '/about', '/contact', '/work/digital-artworks/green-black-original']) {
+      for (const path of ['/creative', '/about', '/contact', '/creative/green-black-original']) {
         console.log(`CHECK ${width}px footer ${path}`);
-        if (path !== '/work') await page.goto(new URL(path, base).href, { waitUntil: 'networkidle' });
+        if (path !== '/creative') await page.goto(new URL(path, base).href, { waitUntil: 'networkidle' });
         await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+        await page.locator('.footer-left').evaluate((element) => { element.scrollLeft = element.scrollWidth; });
         const footer = await page.locator('[data-artist-footer]').evaluate(element => {
           const box = el => { const r = el.getBoundingClientRect(); return { left:r.left,right:r.right,top:r.top,bottom:r.bottom }; };
           const counter = element.querySelector('[data-visit-number]'), button = counter.closest('button');
-          return { count:counter.textContent, visible:getComputedStyle(counter).opacity, signature:box(element.querySelector('.footer-brand')), visit:box(button),
+          return { count:counter.textContent, visible:getComputedStyle(counter).opacity, signature:box(element.querySelector('.footer-brand')), moshlab:box(element.querySelector('.footer-moshlab')), visit:box(button),
             border:getComputedStyle(element).borderTopWidth, width:document.documentElement.scrollWidth,
             naavi:document.querySelector('[data-naavi]') ? box(document.querySelector('[data-naavi]')) : null };
         });
-        assert.equal(footer.visible, '1'); assert.equal(footer.border, '0px');
-        assert.ok(footer.visit.left >= footer.signature.right && footer.visit.left - footer.signature.right <= 18);
-        assert.ok(Math.abs(footer.visit.top - footer.signature.top) < 18);
+        assert.equal(footer.visible, '0.35'); assert.equal(footer.border, '0px');
+        assert.ok(footer.visit.left >= footer.moshlab.right && footer.visit.left - footer.moshlab.right <= 32);
+        assert.ok(Math.abs(footer.visit.top - footer.moshlab.top) < 18);
         assert.ok(footer.visit.right <= width && footer.width <= width + 1);
         if (footer.naavi) { assert.ok(!overlap(footer.signature,footer.naavi)); assert.ok(!overlap(footer.visit,footer.naavi)); }
         counts.push(footer.count);

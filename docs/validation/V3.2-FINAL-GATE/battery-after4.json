@@ -1,0 +1,35 @@
+{
+  "phase": "after4",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T22:14:31.636Z",
+  "results": [
+    {
+      "suite": "footer-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 60204,
+      "passLine": "PASS V3.1 footer 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "v32-structure-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 32131,
+      "passLine": "PASS V3.2 structure c4d6b292c255: INDEX 00–03, 8+8 placeholders, mode-only SMASH, no imprint link, 12×301, 23 routes, /creative tool pages, gaps and NN/ NN viewer.",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r2-performance-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 22294,
+      "passLine": "PASS performance: /creative/tattoos@1440 60.00ms, /contact@1440 64.00ms, /creative/tattoos@390 48.00ms, /contact@390 56.00ms, /creative/tattoos@320 52.00ms, /contact@320 52.00ms; preload /assets/main-BS4qCOTc.js; 1 main chunk; routes 23.",
+      "failLine": ""
+    }
+  ]
+}

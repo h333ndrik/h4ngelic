@@ -1,0 +1,80 @@
+{
+  "phase": "final2",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T23:04:18.440Z",
+  "results": [
+    {
+      "suite": "rubric-hit-area-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 15383,
+      "passLine": "PASS rubric hit area 320px: 4 labels text+arrow clickable, +20px outside inert, 40px+ tall, cell 56px vs label.",
+      "failLine": ""
+    },
+    {
+      "suite": "greeting-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9840,
+      "passLine": "PASS greeting 320px touch: nice to meet you. visible at 35%.",
+      "failLine": ""
+    },
+    {
+      "suite": "lowercase-sweep",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10072,
+      "passLine": "PASS lowercase sweep 320px: your name / how to reach you / what's on your mind?, “send message”, “more about”.",
+      "failLine": ""
+    },
+    {
+      "suite": "v25-cross-links-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 52942,
+      "passLine": "PASS V25 320px reduced=true: four positions, three links, word-width slot, frontpage x positions, keyboard order.",
+      "failLine": ""
+    },
+    {
+      "suite": "v23-static-titles-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 24921,
+      "passLine": "PASS V23 320px reduced=true: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.",
+      "failLine": ""
+    },
+    {
+      "suite": "v7-visitor-tiers-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 75123,
+      "passLine": "PASS V7 320px reduced=true: nine count samples map to seven hero phrases plus the matching static counter, recognition centered in the fixed branding gap, no counter hover or reflow, first visit greets as a ghost.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-navigation-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 122435,
+      "passLine": "PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-ui-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 84775,
+      "passLine": "PASS V3.1 UI 320px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.",
+      "failLine": ""
+    }
+  ]
+}

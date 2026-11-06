@@ -23,7 +23,7 @@ try{
   const errors=[],requests=[];page.on('pageerror',error=>errors.push(error.message));page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});page.on('request',request=>requests.push(new URL(request.url()).pathname));
   try{
    const worlds=[];
-   for(const [route,selector,kind] of [['/work/digital-artworks','#digital-artworks','archive'],['/work/digital-artworks/green-black-original','.artwork-detail','detail']]){
+   for(const [route,selector,kind] of [['/creative/digital-artworks','#digital-artworks','archive'],['/creative/green-black-original','.artwork-detail','detail']]){
     const routeRequestStart=requests.length;
     await page.goto(`${base}${route}?test=1`,{waitUntil:'networkidle'});
     const trigger=page.locator(`${selector} [data-inline-expand]`).first();

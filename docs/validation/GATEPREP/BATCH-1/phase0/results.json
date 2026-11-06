@@ -1,0 +1,75 @@
+{
+  "checkedAt": "2026-11-04T17:57:06.158Z",
+  "build": "831737ce85e6",
+  "profiles": [
+    {
+      "width": 1440,
+      "touch": false,
+      "cursor": {
+        "before": "true",
+        "after": "true"
+      },
+      "bar": {
+        "position": "fixed",
+        "insideHero": false,
+        "navTop": 832,
+        "heroTop": 0,
+        "heroHeight": 900,
+        "documentHeight": 4213,
+        "scrolled": {
+          "scrollY": 405,
+          "navTop": 832,
+          "heroTop": -405,
+          "documentHeight": 4213
+        }
+      },
+      "flingCaptured": true
+    },
+    {
+      "width": 390,
+      "touch": true,
+      "cursor": {
+        "before": "true",
+        "after": "true"
+      },
+      "bar": {
+        "position": "fixed",
+        "insideHero": false,
+        "navTop": 736,
+        "heroTop": 0,
+        "heroHeight": 844,
+        "documentHeight": 3401,
+        "scrolled": {
+          "scrollY": 380,
+          "navTop": 736,
+          "heroTop": -380,
+          "documentHeight": 3401
+        }
+      },
+      "flingCaptured": true
+    },
+    {
+      "width": 320,
+      "touch": true,
+      "cursor": {
+        "before": "true",
+        "after": "true"
+      },
+      "bar": {
+        "position": "fixed",
+        "insideHero": false,
+        "navTop": 736,
+        "heroTop": 0,
+        "heroHeight": 844,
+        "documentHeight": 3436,
+        "scrolled": {
+          "scrollY": 380,
+          "navTop": 736,
+          "heroTop": -380,
+          "documentHeight": 3436
+        }
+      },
+      "flingCaptured": true
+    }
+  ]
+}

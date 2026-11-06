@@ -1,0 +1,17 @@
+{
+  "phase": "after5",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T22:28:19.439Z",
+  "results": [
+    {
+      "suite": "cursor-hit-test",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 819366,
+      "passLine": "PASS native cursor hit map: 1440 4469, 390 1149, 320 939, 1440r 4469, 390r 1149, 320r 939; xray 2221; zero foreign cursors, keyword-only values rejected.",
+      "failLine": ""
+    }
+  ]
+}

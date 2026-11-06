@@ -1,4 +1,6 @@
 import { modeAudioSettings } from './data/modeAudioSettings.js';
+import { createWorldSound } from './audio/worldSound.js';
+import { worldSoundSettings, worldForMode, worldTransitionDurationSeconds } from './audio/worldSoundSettings.js';
 
 /** Inharmonic damped resonances, a short strike and two quiet early reflections.
  * Pure PCM generation also makes the actual browser sound exportable for review.
@@ -61,7 +63,8 @@ export function synthesizeModeSound(mode, { sampleRate = 48000, settings = modeA
  * trusted SMASH activation, then reused by this same route-persistent controller.
  * Independent cue/track buses let mute and volume act on the complete sound mix.
  */
-export function createModeAudio({ view = window, settings = modeAudioSettings, smashURL = settings.smashURL || '', privateURL } = {}) {
+export function createModeAudio({ view = window, settings = modeAudioSettings, smashURL = settings.smashURL || '', privateURL,
+  worldSettings = worldSoundSettings } = {}) {
   // Keep the old explicit override usable by existing integrations, without
   // exposing its former private-only URL in normal application configuration.
   const trackURL = privateURL === undefined ? smashURL : privateURL;
@@ -75,6 +78,8 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   let cueBus = null;
   let smashBus = null;
   let compressor = null;
+  let world = null;
+  let pageHidden = false;
   let active = null;
   let muted = !settings.enabled;
   const maximumVolume = Math.max(.01, Math.min(.5, settings.maximumVolume || .5));
@@ -95,6 +100,12 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
   let failed = false;
   let resume = null;
   let latestStop = 0;
+  let unlocked = false;
+  let needsResume = false;
+  let analyser = null;
+  let analyserConnected = false;
+  const perf = Array.isArray(view.__H4_AUDIO_PERF__) ? view.__H4_AUDIO_PERF__ : null;
+  const measure = (name, started) => { if (perf) perf.push({ name, ms: performance.now() - started, at: performance.now() }); };
 
   function notify() { for (const listener of subscribers) listener(); }
   function save() {
@@ -114,10 +125,118 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     param.linearRampToValueAtTime(value, now + seconds);
   }
   function updateMaster() { ramp(master?.gain, muted ? 0 : volume * maximumVolume); }
+  function currentMode() { return view.document?.documentElement?.dataset.mode || 'normal'; }
+  function ensureWorld() {
+    if (world || !context || worldSettings.enabled === false) return world;
+    try {
+      world = createWorldSound({ context, destination: master, settings: worldSettings,
+        fetch: (...args) => view.fetch(...args) });
+    } catch { world = null; }
+    return world;
+  }
+  function suspendContext() {
+    if (!context || context.state !== 'running') return;
+    try { Promise.resolve(context.suspend()).catch(() => {}); } catch { /* An unavailable suspend must not mute the UI. */ }
+  }
+  /** Resume without the mute gate: unlocking is allowed while sound is off. */
+  function resumeNow(force = false) {
+    if (!context || context.state === 'closed' || pageHidden) return Promise.resolve(false);
+    if (context.state === 'running' && !force) return Promise.resolve(true);
+    if (context.state === 'running') {
+      try { void context.resume(); } catch { /* already running */ }
+      return Promise.resolve(true);
+    }
+    if (!resume) resume = Promise.resolve(context.resume()).then(() => context.state === 'running', () => false)
+      .finally(() => { resume = null; });
+    return resume;
+  }
+  function resumeContext() {
+    if (muted) return Promise.resolve(false);
+    return resumeNow();
+  }
+  function ensureContext() {
+    if (context || disposed || failed || !AudioContext) return context;
+    try {
+      context = new AudioContext({ latencyHint: 'interactive' });
+      master = context.createGain();
+      master.gain.value = muted ? 0 : volume * maximumVolume;
+      cueBus = context.createGain();
+      cueBus.connect(master);
+      smashBus = context.createGain();
+      smashBus.gain.value = .85;
+      smashBus.connect(master);
+      compressor = context.createDynamicsCompressor();
+      compressor.threshold.value = -16;
+      compressor.knee.value = 10;
+      compressor.ratio.value = 5;
+      compressor.attack.value = .002;
+      compressor.release.value = .1;
+      master.connect(compressor);
+      compressor.connect(context.destination);
+      analyser = context.createAnalyser();
+      analyser.fftSize = 32;
+      analyser.smoothingTimeConstant = .55;
+      analyser.minDecibels = -90;
+      analyser.maxDecibels = -10;
+      return context;
+    } catch { failed = true; return null; }
+  }
+  /** One-sample silent source for older iOS; it must follow resume() in the
+   * same trusted handler, before any await. */
+  function primeSilentBuffer() {
+    if (!context || context.state === 'closed') return;
+    try {
+      const source = context.createBufferSource();
+      const gain = context.createGain();
+      gain.gain.value = 0;
+      source.buffer = context.createBuffer(1, 1, context.sampleRate);
+      source.connect(gain);
+      gain.connect(context.destination);
+      source.start(0);
+    } catch { /* The silent prime is a compatibility nudge, never a failure. */ }
+  }
+  /** State-only unlock: no fetch, no decode. Safe while muted. */
+  function unlock(event) {
+    const started = perf ? performance.now() : 0;
+    if (disposed || failed || !AudioContext || event?.isTrusted !== true) return false;
+    const created = !context;
+    if (!ensureContext()) return false;
+    if (created) measure('contextCreate', started);
+    const incremental = perf ? performance.now() : 0;
+    if (unlocked) {
+      if (context.state !== 'running') void resumeNow();
+      measure('unlock', incremental);
+      return true;
+    }
+    unlocked = true;
+    const resumed = resumeNow(true);
+    primeSilentBuffer();
+    void resumed.then((running) => {
+      needsResume = !running;
+      notify();
+      return running;
+    });
+    measure('unlock', incremental);
+    return true;
+  }
+  function attachAnalyser() {
+    if (!analyser || analyserConnected || !master) return false;
+    try { master.connect(analyser); analyserConnected = true; return true; } catch { return false; }
+  }
+  function detachAnalyser() {
+    if (!analyser || !analyserConnected || !master) return false;
+    try { master.disconnect(analyser); } catch { /* already disconnected */ }
+    analyserConnected = false;
+    return true;
+  }
+  function worldAudible() {
+    return Boolean(world?.isAudible?.());
+  }
   function releasePriority() {
     smashActive = false;
     smashPhase = 'idle';
     ramp(cueBus?.gain, 1, settings.priorityFadeSeconds || .08);
+    world?.setDuck(1, settings.priorityFadeSeconds || .08);
     notify();
   }
 
@@ -152,36 +271,66 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     return buffer;
   }
 
-  function prime(event, { allowMuted = false } = {}) {
-    if (!modeSoundsEnabled && !allowMuted) return Promise.resolve(false);
+  function prime(event, { allowMuted = false, worldId = null } = {}) {
+    const wantsWorld = worldSettings.enabled !== false && Boolean(worldId || worldForMode(currentMode()));
+    if (!modeSoundsEnabled && !wantsWorld && !allowMuted) return Promise.resolve(false);
     if (disposed || (muted && !allowMuted) || failed || !AudioContext || event?.isTrusted !== true) return Promise.resolve(false);
     try {
-      if (!context) {
-        context = new AudioContext({ latencyHint: 'interactive' });
-        master = context.createGain();
-        master.gain.value = muted ? 0 : volume * maximumVolume;
-        cueBus = context.createGain();
-        cueBus.connect(master);
-        smashBus = context.createGain();
-        smashBus.gain.value = .85;
-        smashBus.connect(master);
-        compressor = context.createDynamicsCompressor();
-        compressor.threshold.value = -16;
-        compressor.knee.value = 10;
-        compressor.ratio.value = 5;
-        compressor.attack.value = .002;
-        compressor.release.value = .1;
-        master.connect(compressor);
-        compressor.connect(context.destination);
-      }
+      if (!ensureContext()) return Promise.resolve(false);
+      const firstUnlock = !unlocked;
+      unlocked = true;
       // Resume synchronously inside the original trusted gesture. Fetching the
       // track later never requires a second autoplay-sensitive media element.
-      if (context.state !== 'running' && context.state !== 'closed' && !resume) {
-        resume = Promise.resolve(context.resume()).then(() => context.state === 'running', () => false).finally(() => { resume = null; });
-      }
+      const resumed = resumeContext();
+      if (firstUnlock) primeSilentBuffer();
       if (modeSoundsEnabled) { bufferFor('xray'); bufferFor('normal'); }
-      return resume || Promise.resolve(context.state === 'running');
+      return resumed.then((running) => {
+        if (!running || muted || disposed) return running;
+        if (wantsWorld) {
+          const requested = worldId || worldForMode(currentMode());
+          void ensureWorld()?.activate(requested);
+        }
+        return true;
+      });
     } catch { failed = true; return Promise.resolve(false); }
+  }
+
+  /** Guided-listening entry: unlock, then fade the active loop in. Never
+   * activates a muted session; the SOUND switch remains the hard control. */
+  function startListening(event, { fadeSeconds = 1.8, worldId = null } = {}) {
+    const started = perf ? performance.now() : 0;
+    unlock(event);
+    if (disposed || muted || pageHidden || failed || !context) { measure('startListening', started); return Promise.resolve(false); }
+    const target = worldId || worldForMode(currentMode());
+    // Keep the handler under the 1 ms budget: the engine graph, fetch and
+    // decode are scheduled as a microtask after unlock, never synchronously.
+    const activation = Promise.resolve().then(() => {
+      const engine = ensureWorld();
+      return engine ? engine.activate(target, { fadeIn: true, fadeSeconds }) : false;
+    }).then((ready) => {
+      if (ready) needsResume = false;
+      notify();
+      return ready;
+    }).catch(() => false);
+    measure('startListening', started);
+    return activation;
+  }
+
+  /** Explicit resume from the SOUND affordance after a failed visibility resume. */
+  function resumeAudio(event) {
+    const started = perf ? performance.now() : 0;
+    unlock(event);
+    if (disposed || muted || pageHidden || !context) { measure('resume', started); return Promise.resolve(false); }
+    return resumeContext().then((running) => {
+      needsResume = !running;
+      if (running) {
+        const target = worldForMode(currentMode());
+        void ensureWorld()?.activate(target, { fadeIn: true, fadeSeconds: 1.8 });
+      }
+      notify();
+      measure('resume', started);
+      return running;
+    });
   }
 
   function play(mode) {
@@ -260,6 +409,11 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     smashActive = true;
     smashPhase = 'loading';
     ramp(cueBus.gain, 0, settings.priorityFadeSeconds || .08);
+    if (context.state === 'running' && !muted) {
+      const requested = worldForMode(currentMode());
+      void ensureWorld()?.activate(requested);
+      world?.setDuck(worldSettings.smashDuckGain, settings.priorityFadeSeconds || .08);
+    }
     notify();
     let loading;
     try { loading = trackBuffer(); }
@@ -298,21 +452,77 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
     });
   }
 
+  function prepareWorld(worldId) {
+    if (disposed || muted || pageHidden || !context || context.state !== 'running') return Promise.resolve(false);
+    const target = worldId || worldForMode(currentMode());
+    return ensureWorld()?.preload(target) || Promise.resolve(false);
+  }
+  function switchMode(mode, durationMs) {
+    if (disposed || muted || pageHidden || !context || context.state !== 'running') return Promise.resolve(false);
+    const target = worldForMode(mode);
+    if (!target) return Promise.resolve(false);
+    const seconds = Number.isFinite(durationMs) && durationMs >= 0 ? durationMs : worldTransitionDurationSeconds() * 1000;
+    return ensureWorld()?.switchTo(target, { durationMs: seconds }) || Promise.resolve(false);
+  }
+
   return {
     prime,
+    unlock,
+    startListening,
+    resume: resumeAudio,
     play,
     stop,
+    prepareWorld,
+    switchMode,
     toggleSmash,
     stopSmash,
     get supported() { return Boolean(AudioContext) && !failed; },
     get muted() { return muted; },
     get volume() { return volume; },
+    get unlocked() { return unlocked; },
+    get needsResume() { return needsResume; },
+    get audible() {
+      return Boolean(context && context.state === 'running' && !muted && !pageHidden
+        && (Boolean(active) || smashActive || worldAudible()));
+    },
+    get analyser() { return analyser; },
+    get analyserConnected() { return analyserConnected; },
+    attachAnalyser,
+    detachAnalyser,
     get smashAvailable() { return Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed; },
     get smashPlaying() { return smashActive; },
-    setMuted(value) { muted = Boolean(value); if (muted) stop(); updateMaster(); save(); },
+    setMuted(value) {
+      muted = Boolean(value);
+      if (muted) {
+        stop();
+        world?.release();
+        if (context && master) {
+          const at = context.currentTime;
+          master.gain.cancelScheduledValues(at);
+          master.gain.setValueAtTime(0, at);
+        }
+        suspendContext();
+      } else {
+        updateMaster();
+        void resumeContext();
+      }
+      save();
+    },
     setVolume(value) { if (!Number.isFinite(value)) return; volume = Math.max(0, Math.min(1, value)); updateMaster(); save(); },
+    setPageHidden(hidden) {
+      pageHidden = Boolean(hidden);
+      if (pageHidden) { world?.release(); suspendContext(); }
+      else if (!muted && !needsResume) {
+        void resumeContext().then((running) => { needsResume = unlocked && !running; notify(); return running; });
+      }
+      notify();
+    },
     subscribe(listener) { subscribers.add(listener); return () => subscribers.delete(listener); },
-    snapshot: () => ({ initialized: Boolean(context), modeSoundsEnabled, state: context?.state || 'uninitialized', muted, volume,
+    snapshot: () => ({ initialized: Boolean(context), modeSoundsEnabled, state: context?.state || 'uninitialized', muted, volume, pageHidden,
+      unlocked, needsResume, audible: Boolean(context && context.state === 'running' && !muted && !pageHidden
+        && (Boolean(active) || smashActive || worldAudible())),
+      analyserConnected,
+      world: world?.snapshot() || null,
       active: Boolean(active), allocatedVoices: voices.size, smashAvailable: Boolean(trackURL && typeof view.fetch === 'function' && AudioContext) && !failed,
       smashPlaying: smashActive, smashPhase, smashCached: Boolean(smashBuffer), smashFetches,
       smash: smashVoice ? { started: smashVoice.started, tailStarts: smashVoice.tailStarts, ends: smashVoice.ends,
@@ -322,6 +532,8 @@ export function createModeAudio({ view = window, settings = modeAudioSettings, s
       disposed = true;
       stopSmash({ immediate: true });
       stop();
+      world?.dispose();
+      world = null;
       for (const voice of voices) {
         try { voice.source.stop(); } catch { /* An already-ended source is harmless. */ }
         cleanVoice(voice);

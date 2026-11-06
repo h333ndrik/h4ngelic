@@ -9,7 +9,7 @@ const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PAT
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 await mkdir(new URL('../artifacts/', import.meta.url), { recursive: true });
 try {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
   const errors = [];
   const requests = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -18,6 +18,7 @@ try {
   await page.goto(new URL('/?test=1', baseURL).href, { waitUntil: 'networkidle' });
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
   await page.waitForFunction(() => window.__H4_TEST__?.snapshot().frameCount > 2);
+  if (await page.locator('#pause-control').getAttribute('aria-pressed') === 'false') await page.locator('#pause-control').click();
   assert.ok(!requests.some(url => /\/wordmark-xray(?:\.|-)/.test(url)), 'Normal startup must not load the optional damaged material.');
   const snapshot = () => page.evaluate(() => window.__H4_TEST__.snapshot());
   const before = await snapshot();

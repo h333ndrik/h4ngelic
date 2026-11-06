@@ -4,6 +4,7 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { LogoPhysics } from './physics.js';
+import { heroPhysicsProfiles, heroPhysicsProfileFor } from './data/heroPhysicsSettings.js';
 import { sampleBase } from './motion.js';
 import { bindControls } from './controls.js';
 import { attachArtwork, revealWeight } from './reveal.js';
@@ -21,7 +22,9 @@ const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
 const status = document.getElementById('scene-status');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const physics = new LogoPhysics();
+// Capability, not viewport width: a hybrid laptop keeps the lively profile.
+const physicsProfileName = heroPhysicsProfileFor();
+const physics = new LogoPhysics({ settings: heroPhysicsProfiles[physicsProfileName] });
 const basePosition = new THREE.Vector3();
 const baseQuaternion = new THREE.Quaternion();
 let paused = reducedMotion.matches;
@@ -272,13 +275,21 @@ async function initialize() {
       height: Math.max(1, (maximumY - minimumY) * height / 2), opacity: pose.opacity, angularVelocity, points }], timestamp);
   }
 
+  let lastPick = null;
   function locate(event) {
     heroDepth.update(scrollY, reducedMotion.matches);
     const rect = canvas.getBoundingClientRect();
     pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
     raycaster.setFromCamera(pointer, camera);
     raycaster.ray.intersectPlane(plane, planePoint);
-    return rememberHeroInkHit(event, raycaster.intersectObject(wordmark, false)[0]);
+    const hit = rememberHeroInkHit(event, raycaster.intersectObject(wordmark, false)[0]);
+    if (hit) {
+      const projected = hit.point.clone().project(camera);
+      lastPick = { pointerX: event.clientX, pointerY: event.clientY,
+        hitX: rect.left + (projected.x + 1) * rect.width / 2,
+        hitY: rect.top + (1 - projected.y) * rect.height / 2 };
+    }
+    return hit;
   }
 
   const stopBackgroundHitTest = registerHeroInkHitTest(canvas,
@@ -456,7 +467,8 @@ async function initialize() {
 
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, substeps: physics.substepRate, modeTransitioning, xrayPrepared: Boolean(wordmarkXRay), position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, artworkReady: Boolean(artwork), artworkRequested, firstFrameHadArtwork, firstFrameAt, artworkRequestedAt, artworkReadyAt, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
+      pick: () => lastPick && { ...lastPick, delta: Math.hypot(lastPick.hitX - lastPick.pointerX, lastPick.hitY - lastPick.pointerY) },
+      snapshot: () => ({ physicsProfile: physicsProfileName, baseTime: animationTime, substeps: physics.substepRate, modeTransitioning, xrayPrepared: Boolean(wordmarkXRay), position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, artworkReady: Boolean(artwork), artworkRequested, firstFrameHadArtwork, firstFrameAt, artworkRequestedAt, artworkReadyAt, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
         heroInk: { ...heroInk.snapshot(), gpu: { ...renderer.info.memory } } }),
       hitPoint: ({ minFacing = 0, maxFacing = 1, minAbsNormalZ = 0, maxAbsNormalZ = 1 } = {}) => {
         // Search real geometry instead of guessing a point inside a glyph hole.

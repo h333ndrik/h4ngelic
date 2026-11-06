@@ -1,0 +1,80 @@
+{
+  "checkedAt": "2026-11-03T19:20:31.225Z",
+  "base": "http://127.0.0.1:55200",
+  "css": "index-CREK9BFZ.css",
+  "declarations": [
+    "cursor:var(--h4-native-cursor)",
+    "cursor:var(--h4-native-cursor)!important",
+    "cursor:none!important"
+  ],
+  "inlineCursor": true,
+  "marker": {
+    "html": "8351205c4d79",
+    "meta": "8351205c4d79",
+    "cursorClass": true
+  },
+  "overlay": {
+    "exists": true,
+    "opacity": 1,
+    "visibility": "visible",
+    "display": "block",
+    "pointerEvents": "none",
+    "box": {
+      "x": 231,
+      "y": 178,
+      "width": 23.25,
+      "height": 34.875,
+      "top": 178,
+      "right": 254.25,
+      "bottom": 212.875,
+      "left": 231
+    },
+    "xError": 0,
+    "yError": 0,
+    "imageLoaded": true
+  },
+  "withClass": {
+    "mode": "blanket",
+    "total": 143,
+    "offenders": []
+  },
+  "withoutClass": {
+    "mode": "system",
+    "total": 143,
+    "offenders": []
+  },
+  "states": [
+    {
+      "selector": ".footer-moshlab",
+      "rest": "none",
+      "hover": "none",
+      "focus": "none",
+      "active": "none"
+    },
+    {
+      "selector": ".footer-instagram",
+      "rest": "none",
+      "hover": "none",
+      "focus": "none",
+      "active": "none"
+    },
+    {
+      "selector": "[data-naavi]",
+      "rest": "none",
+      "hover": "none",
+      "focus": "none",
+      "active": "none"
+    }
+  ],
+  "noScript": {
+    "cursorClass": false,
+    "dataCursor": "",
+    "body": "auto",
+    "link": "pointer",
+    "naavi": "pointer",
+    "footer": "pointer",
+    "overlayOpacity": 0,
+    "overlayVisibility": "hidden"
+  },
+  "passed": true
+}
