@@ -28,12 +28,12 @@ try {
       });
       assert.equal(coarse, true, `[${width}] the emulated device reports a coarse pointer`);
       assert.equal(state.cursor, 'auto', `[${width}] a coarse pointer keeps the system cursor (${state.cursor})`);
-      assert.equal(state.secretDisplay, 'none', `[${width}] the HOLD-4 hint leaves the layout`);
+      assert.notEqual(state.secretDisplay, 'none', `[${width}] the HOLD-4 hint stays on touch (B-F32 revert)`);
       assert.equal(state.space, true, `[${width}] the end-reveal space stays reachable`);
       assert.deepEqual(errors, []);
       reports.push({ width, coarse, ...state, errors });
       await page.screenshot({ path: new URL(`footer-${width}.png`, output).pathname, fullPage: false });
-      console.log(`PASS mobile parity ${width}px: coarse pointer, system cursor, hold-4 hint not rendered.`);
+      console.log(`PASS mobile parity ${width}px: coarse pointer, system cursor, hold-4 hint present.`);
     } finally {
       await context.close();
     }
