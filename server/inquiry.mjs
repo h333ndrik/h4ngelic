@@ -17,15 +17,26 @@ class InquiryError extends Error {
   constructor(status, message) { super(message); this.status = status; }
 }
 
-function address(value) {
-  if (typeof value !== 'string' || value.length > 254) return false;
+/** Reply-To is set only for a bare, syntactically plausible address.
+ *
+ * The contact field is free text ("email, instagram, phone number..."), so the
+ * notification must never depend on it being an address: anything else — a
+ * handle, a phone number, a display-name form with spaces, a value carrying
+ * CR/LF or control characters — simply ships without Reply-To, exactly as
+ * before. Conservative on purpose: a wrong Reply-To misroutes a reply, a
+ * missing one only leaves the notification as it was. */
+export function isReplyAddress(value) {
+  if (typeof value !== 'string' || value !== value.trim() || value.length > 254) return false;
+  if (/[\x00-\x1f\x7f]/.test(value)) return false;
   const parts = value.split('@');
   if (parts.length !== 2) return false;
   const [local, domain] = parts;
   if (!local || local.length > 64 || local.startsWith('.') || local.endsWith('.') || local.includes('..')
     || !/^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+$/i.test(local)) return false;
   const labels = domain.split('.');
-  return labels.length >= 2 && labels.every(label => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(label));
+  if (labels.length < 2 || !labels.every(label => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(label))) return false;
+  // A real top-level label is at least two characters (or a punycode IDN).
+  return /^(?:[a-z]{2,}|xn--[a-z0-9-]{2,})$/i.test(labels.at(-1));
 }
 
 /** Never trust the browser's MIME claim or filename extension alone. */
@@ -159,7 +170,7 @@ function respond(res, status, body, extra = {}) {
 export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl = fetch, now = Date.now } = {}) {
   const rates = new Map();
   let inFlight = 0;
-  const configured = Boolean(config.apiKey && address(config.from) && config.allowedOrigins.length);
+  const configured = Boolean(config.apiKey && isReplyAddress(config.from) && config.allowedOrigins.length);
   return async function inquiryHandler(req, res) {
     let path;
     try { path = new URL(req.url, 'http://inquiry.invalid').pathname; }
@@ -198,7 +209,7 @@ export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl =
       const text = [`name: ${fields.name}`, `how to reach you: ${fields.email}`, ...(fields.artwork ? [`artwork: ${fields.artworkTitle}`, `https://h4ngelic.com/work/${inquiryArtwork(fields.artwork).category}/${fields.artwork}`] : []), '', fields.message || '(no message supplied)'].join('\n');
       let response;
       try {
-        response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], ...(address(fields.email) ? { reply_to: fields.email } : {}), subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
+        response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], ...(isReplyAddress(fields.email) ? { reply_to: fields.email } : {}), subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
       } catch { throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.'); }
       const result = await response.json().catch(() => null);
       if (!response.ok || typeof result?.id !== 'string' || !result.id) throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.');
