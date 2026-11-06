@@ -1,0 +1,33 @@
+{
+  "question": "Reicht 1024 fuer die gebackene Albedo?",
+  "rule": "GLB >= 30 % kleiner UND SSIM der 3/4-Renderings >= 0.98 -> 1024 behalten, sonst 2048",
+  "settings": "identisch bis auf die Texturaufloesung (AO_DISTANCE 0.18, AO_STRENGTH 0.35, AO_SAMPLES 64, Blur 2, Gradient 0.04)",
+  "variants": {
+    "1024": {
+      "glb": "mannequin-c.d76abc164512.glb",
+      "bytes": 457000,
+      "textureBytes": 333524,
+      "png": "1024x1024",
+      "render": "resolution-1024-3q.png",
+      "renderSha256": "431062c3e41a10ef7215c69da1434376f32303955227da1c61aa1c2613531cac"
+    },
+    "2048": {
+      "glb": "mannequin-c.d9edb0e4d7b0.glb",
+      "bytes": 653640,
+      "textureBytes": 955528,
+      "png": "2048x2048",
+      "render": "resolution-2048-3q.png",
+      "renderSha256": "596273bada87cdbacb397b06f8c2c2bfaccc9b9c42dff1e7510b913327235025"
+    }
+  },
+  "measurement": {
+    "glbReductionPercent": 30.084,
+    "ssim": 1,
+    "psnrDb": 92.902,
+    "maxAbsDiff": 1,
+    "renderer": "scripts/render-mannequin-evidence.py (Cycles 64 Samples, 900x1200, 3/4)",
+    "ssimTool": "scripts/compare-render-ssim.mjs"
+  },
+  "decision": "1024 behalten (beide Bedingungen erfuellt)",
+  "caveat": "Die Procreate-Paintflaeche halbiert sich mit der Textur. Falls feinere Pinselarbeit gebraucht wird: node scripts/retexture-mannequin-c.mjs --resolution 2048"
+}

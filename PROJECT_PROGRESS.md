@@ -1,3 +1,101 @@
+# V3.2-M5 — Mannequin-C auf `main` gemergt — 2026-11-06
+
+Branch `v3.2-mannequin-female`. Merge-Commit: siehe `git log -1 --merges main`.
+Deploy: Vercel baut aus `main` automatisch; Rollback nur auf Zuruf
+(`git revert -m 1 <merge-sha>`).
+
+## Status
+
+- [x] URL-Schema von main uebernommen: kanonisch `/creative/<rubrik>`,
+      `all` → `/creative`; der Abschnitt "3d model" bleibt Anker `#model-3d`
+      innerhalb der Rubrik — keine eigene Route, kein Sitemap-Eintrag.
+- [x] Viewer im Abschnitt "3d model": nur C sichtbar, A/B dev-only.
+- [x] Asset unveraendert: `public/models/mannequin-c.d76abc164512.glb`
+      (457.000 B, SHA-256 `d76abc1645120eb2…fbd71fb`, 49.838 Tris).
+- [x] Merge-Gate: keine Quellcode- und keine Asset-Konflikte.
+
+## Naechster Schritt
+
+1. M1: gemeinsamer Three.js-Chunk fuer Hero und Mannequin.
+2. Manuelle Restpunkte: iPad-Roundtrip (Procreate), Koaleszenz auf Hardware
+   mit hoher Polling-Rate.
+
+---
+
+# V3.2-M4i — Finalisierung (merge-bereit) — 2026-11-05
+
+- Einziges ausgeliefertes C-Asset: `public/models/mannequin-c.d76abc164512.glb`,
+  457.000 B, SHA-256 `d76abc1645120eb2…fbd71fb`, 49.838 Tris. `npm run verify:assets`
+  prueft genau diese Werte gegen `docs/validation/MANNEQUIN-C/asset-manifest.json`.
+- Viewer: nur C sichtbar (A/B dev-only), Poster ist ein echtes Renderer-Bild,
+  Rotation 0,18 rad/s, Hover 0,55 rad/s, Flick-Schwelle 2,4 rad/s (Peak ~3,00
+  rad/s bei 1/4,17/8/16 ms Pointer-Intervall), deltaTime-Clamp 1/30.
+- Suiten: `npm test` 396/396, Preview-, Einfahrts-, Framerate-, Pointer- und
+  Dev-Varianten-Suite, SEO 18 Routen + 404, Build 18 Routen + 404.
+- Offen (nur Nutzer): iPad-Roundtrip, Koaleszenz auf echter Hardware,
+  Freigabe fuer `vercel.json`, Merge-Entscheidung. Details:
+  `docs/validation/MANNEQUIN-C/REPORT.md`, Abschnitt M4i.
+
+# V3.2-M3 — Optik: AO in der Albedo — 2026-11-05 (historisch: das 2048er-Asset wurde in M4c/M4e ersetzt)
+
+- Variante C hat die weiche Studioschattierung zurueck: AO (Distanz 0.18
+  Szeneneinheiten ≈ 6 cm, Staerke 0.35, 2048) ist in die Albedo gebacken,
+  Basis bleibt #f0efeb, Roughness 0.62, kein specular-/Metallic-Anteil.
+- Geometrie und UVs unangetastet: 49.838 Tris, UV-Fuellgrad 0.372054,
+  0 Ueberlappungen, Bounding-Box-Drift 0.000000.
+- Neues Asset `public/models/mannequin-c.d76abc164512.glb` (457.000 B,
+  SHA-256 `d76abc164512…fbd71fb`); altes Asset entfernt, Manifest/Config angepasst.
+- Procreate-Paket: nur `skincolor.png` ersetzt (gebackene Textur), OBJ/MTL
+  unveraendert, weil UVs identisch sind.
+- Pipelines: `scripts/bake-mannequin-ao.py`, `scripts/retexture-mannequin-c.mjs`,
+  `scripts/render-mannequin-evidence.py` (`npm run`-frei, per node/Blender).
+- Tests: `npm test` 387/387 (neu: Textur-Varianz, Bake-Parameter, fester SHA),
+  Preview-Suite, SEO, Build 18 Routen + 404.
+
+# V3.2-M2 — "3d model" finalisiert — 2026-11-04
+
+- Nur C ist sichtbar; A/B bleiben in der Registry (verborgen, Dev-only via
+  `?variant=a|b`).
+- Section-Einfahrt teilt die Sampler des Frontpage-Elements "01 / creative"
+  (`src/section-entrance.js`), Reduced Motion springt sofort.
+- `LICENSE-NOTE.md` liegt jetzt ausserhalb des Repos
+  (`outputs/mannequin-remodeling/LICENSE-NOTE-C.md`); Build-Assert auf den
+  String ist Teil der Preview-Suite.
+- Tests: `npm test` 386/386, Preview-Suite (nur C, Einfahrt, Reduced Motion,
+  No-WebGL, Bundle), Dev-Varianten-Suite, SEO 18 Routen + 404, statische Titel
+  6/6, Build 18 Routen + 404.
+- Derivat unveraendert: 49.838 Tris, 316.604 Bytes, SHA-256 `d8306c2b…68ccb`.
+
+# V3.2 — Mannequin-Integration A/B/C — 2026-11-04
+
+Branch `v3.2-mannequin-female`. Die 3D-Model-Subsection (`#model-3d`,
+`/work/tattoos`) hat jetzt drei Varianten: A smooth, B faceted, C sculpted
+(Default). C ist das aus dem lokalen Sculpt abgeleitete Web-Asset
+`public/models/mannequin-c.d8306c2b1b08.glb` (49.838 Tris, 316.604 Bytes,
+KTX2 + Draco, UVs ueberlappungsfrei).
+
+- Pipeline committet: `scripts/build-mannequin-c.mjs`,
+  `scripts/build-mannequin-web-asset.py`, `scripts/check-mannequin-uv-overlap.py`,
+  `scripts/verify-mannequin-assets.mjs` (`npm run assets:mannequin-c`,
+  `npm run verify:assets`). Zwei Laeufe erzeugen byte-identische Derivate.
+- Procreate-Paket mit relativer MTL, UV-Check 0 Ueberlappungen.
+- Verhalten: Auto-Rotation, Hover-Beschleunigung, Drag-Traegheit, Touch-Swipe,
+  Flick mit dokumentierter Ersatzanimation, Reduced-Motion, No-WebGL-Poster.
+- Tests: `npm test` 385/385, SEO 18 Routen + 404, Preview-Suite
+  3 Viewports × A/B/C, Build 18 Routen + 404.
+
+Offen / Entscheidung des Users:
+1. **Lizenz: geklaert.** C ist ein bearbeitetes Derivat des Basismeshs
+   `free-female-mannequin-base-mesh`; Lizenz CC0 1.0, vom Nutzer am 05.11.2026
+   bestaetigt. Oeffentliche Herkunftsangabe: `CREDITS.md`; Beleg:
+   `outputs/mannequin-remodeling/audit-2026-11-05/`. Kein Merge/Deploy in M4a.
+2. Route: mit M5 erledigt — kanonisch ist `/creative/<rubrik>`, die Rubrik
+   heisst `/creative/tattoos`; alte `/work/*`-Pfade laufen ueber die 301-Matrix.
+3. Hero-"Abschiessen" existiert nicht im Code → Ersatz-Kurve + TODO(V3.2-M1).
+
+Evidence: `docs/validation/MANNEQUIN-C/`.
+---
+
 # Current checkpoint — WORLD SOUND v2 (90 s loops) — 2026-11-04
 
 Status: **IMPLEMENTED / CHROMIUM VERIFIED / NOT PUSHED**. One new commit on top
@@ -134,7 +232,6 @@ TODO. Do not implement them in this pass.
 Exact next checkpoint: user review and merge of PR #22. After explicit merge
 authorization, Vercel deploys `main` automatically; the automation must not merge
 it independently.
-
 # Current review checkpoint — V3.1.1
 
 All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.

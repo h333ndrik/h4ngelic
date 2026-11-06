@@ -1,5 +1,118 @@
-# Next checkpoint — WORLD SOUND v3 merged, live on production
+# V3.2-M5 — Mannequin-C auf `main` gemergt — 2026-11-06
 
+Branch `v3.2-mannequin-female`. Merge-Commit: siehe `git log -1 --merges main`.
+Deploy: Vercel baut aus `main` automatisch; Rollback nur auf Zuruf
+(`git revert -m 1 <merge-sha>`).
+
+## Status
+
+- [x] URL-Schema von main uebernommen: kanonisch `/creative/<rubrik>`,
+      `all` → `/creative`; der Abschnitt "3d model" bleibt Anker `#model-3d`
+      innerhalb der Rubrik — keine eigene Route, kein Sitemap-Eintrag.
+- [x] Viewer im Abschnitt "3d model": nur C sichtbar, A/B dev-only.
+- [x] Asset unveraendert: `public/models/mannequin-c.d76abc164512.glb`
+      (457.000 B, SHA-256 `d76abc1645120eb2…fbd71fb`, 49.838 Tris).
+- [x] Merge-Gate: keine Quellcode- und keine Asset-Konflikte.
+
+## Naechster Schritt
+
+1. M1: gemeinsamer Three.js-Chunk fuer Hero und Mannequin.
+2. Manuelle Restpunkte: iPad-Roundtrip (Procreate), Koaleszenz auf Hardware
+   mit hoher Polling-Rate.
+
+---
+
+# V3.2-M4i checkpoint — merge-bereit
+
+Updated 2026-11-05. Branch `v3.2-mannequin-female`.
+
+## Status
+
+- [x] Einziges ausgeliefertes C-Asset: `public/models/mannequin-c.d76abc164512.glb`
+      (457.000 B, SHA-256 `d76abc1645120eb2…fbd71fb`, 49.838 Tris), `verify:assets` gruen.
+- [x] deltaTime-Audit (M4f) und Pointer-Rate/Box3 (M4g) abgeschlossen; Push und
+      Probe-Merge dokumentiert (M4h).
+- [x] Suiten: `npm test` 396/396, Preview (3 Viewports), Einfahrt, Framerate
+      (30/60/144 Hz), Pointer-Raten, Dev-Varianten, SEO 18 Routen + 404,
+      Build 18 Routen + 404.
+
+## Naechster Schritt
+
+1. Merge-Entscheidung durch den Nutzer (kein Merge in diesem Lauf).
+2. Vor dem Merge: Probe-Merge gegen den dann aktuellen `origin/main` wiederholen
+   (drei bekannte Dokumentkonflikte, siehe REPORT.md §M4h/M4i).
+3. Manuelle Restpunkte: iPad-Roundtrip (Procreate), Koaleszenz-Test auf Hardware
+   mit hoher Polling-Rate, Freigabe fuer `vercel.json`.
+
+---
+
+# V3.2-M3 checkpoint — Optik (AO in der Albedo) — historisch, durch M4c/M4e ersetzt
+
+Updated 2026-11-05. Branch `v3.2-mannequin-female`.
+
+## Status
+
+- [x] AO-Bake (2048, Distanz 0.18, Staerke 0.35, Verlauf 4 %) in der Albedo,
+      Basis #f0efeb, Roughness 0.62, keine separate occlusionTexture.
+- [x] Geometrie/UVs unveraendert (Tris, Fuellgrad, Bounding-Box geprueft),
+      Procreate-OBJ bleibt, nur die Textur wurde ersetzt.
+- [x] Neues GLB `mannequin-c.d76abc164512.glb` (457.000 B), Manifest und
+      Config aktualisiert, `verify:assets` gruen.
+- [x] Vorher/Nachher-Render + Textur in `docs/validation/MANNEQUIN-C/`.
+- [x] `npm test` 387/387, Preview-Suite, SEO, Build 18 Routen + 404.
+
+## Naechster Schritt
+
+1. Optional: AO-Staerke/Distanz nach Geschmack justieren
+   (`AO_STRENGTH`, `AO_DISTANCE` in `scripts/bake-mannequin-ao.py`), danach
+   `node scripts/retexture-mannequin-c.mjs` erneut laufen lassen.
+2. Lizenzfrage zu C bleibt offen (`outputs/mannequin-remodeling/LICENSE-NOTE-C.md`).
+
+---
+
+# V3.2-M2 checkpoint — "3d model" finalisiert
+
+Updated 2026-11-04. Branch `v3.2-mannequin-female`, Basis `9dd66ce`.
+Committet, **nicht gepusht**, kein Merge, kein Deploy.
+
+## Status
+
+- [x] Nur C ist sichtbar; der Varianten-Umschalter ist aus der UI entfernt.
+- [x] A/B: verborgen, NICHT geloescht — Registry bleibt, erreichbar nur im
+      Dev-Server ueber `?variant=a|b` (kein Link, keine Navigation).
+- [x] `initialYaw` pro Variante als Konstante (C = 0 rad, C ist +Z-vorn).
+- [x] Demo-Design fuer C deaktiviert (`aria-disabled` + sichtbarer Hinweis).
+- [x] Section-Einfahrt ueber `src/section-entrance.js`: dieselben Sampler wie
+      "01 / creative" (Schwellen .68/.10, Easing `smoothProgress`, Distanz
+      min(28px, 4.5vw)); Reduced Motion instant.
+- [x] `LICENSE-NOTE.md` wortgleich nach
+      `outputs/mannequin-remodeling/LICENSE-NOTE-C.md` verschoben; Build
+      enthaelt den String nicht mehr (Test).
+- [x] Rotation/Hover/Drag/Swipe/Flick, Lazy-Load, dispose und No-WebGL-Poster
+      unveraendert.
+- [x] `npm test` 386/386, `test:mannequin-preview`, `test:mannequin-variants-dev`,
+      SEO 18 Routen + 404, statische Titel 6/6, Build 18 Routen + 404.
+
+## Naechster Schritt (bewusst nicht ausgefuehrt)
+
+1. **Lizenz klaeren**: `outputs/mannequin-remodeling/LICENSE-NOTE-C.md`
+   (ausserhalb des Repos). Erst nach Freigabe pushen/mergen.
+2. V3.2-M1: geteilter Renderer-Chunk mit dem Hero, gemeinsame
+   Rotationskonstanten, Decal-Placement fuer C.
+3. Hero-"Abschiessen" als echtes Modul, sobald die Animation existiert
+   (`TODO(V3.2-M1)` in `src/mannequin-preview-config.js`).
+
+## Beobachtungen (vorbestehend, nicht angefasst)
+
+- `npm run test:mobile` scheitert an `tests/mobile-interactions-browser.mjs:193`
+  auch auf `9dd66ce` (eigener Worktree geprueft).
+- `.chapter-counter` ueberlagert je nach Scrollposition den unteren Frame-Rand.
+- A/B sind `-Z`-vorn, C ist `+Z`-vorn; ohne sichtbare A/B folgenlos.
+
+# V3.1.2 final review state
+---
+
+# Next checkpoint — WORLD SOUND v3 merged, live on production
 Updated 2026-11-05 after the cache-hashing release. **PR #22 and PR #23 are
 merged into `main`.** `main` = `bae1b3f13b5befa49be3be3685a6cef92a799efd`
 (merge commit of PR #23), production build marker `bae1b3f13b5b`. Vercel

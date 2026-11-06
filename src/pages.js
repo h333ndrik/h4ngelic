@@ -167,7 +167,7 @@ export function renderWorkPage(category = 'all') {
       ${collection(entry)}
     </section>`;
   };
-  const modelSection = `<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3>${renderMannequinPreview()}</section>`;
+  const modelSection = `<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model data-section-entrance><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3>${renderMannequinPreview()}</section>`;
   const content = groups.map(group => {
     if (group.id === 'tools') {
       return `<section class="work-group${selectedGroup ? ' is-rubric-archive tool-rubric' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="${selectedGroup ? 'work-page-title' : `group-${escape(group.id)}-title`}" data-work-group="${escape(group.id)}">

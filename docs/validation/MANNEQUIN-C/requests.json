@@ -1,0 +1,145 @@
+{
+  "checkedAt": "2026-11-06T14:51:01.380Z",
+  "route": "/creative/tattoos",
+  "source": "production preview build",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 900
+    },
+    {
+      "width": 320,
+      "height": 900
+    }
+  ],
+  "visibleVariant": "/models/mannequin-c.d76abc164512.glb",
+  "hiddenVariants": [
+    "A",
+    "B"
+  ],
+  "results": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "variant": "C",
+      "glbRequests": 1,
+      "switcherButtons": 0,
+      "screenshot": "variant-c-1440.png",
+      "autoAngle": 0.1492,
+      "mockups": 8,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 900,
+      "variant": "C",
+      "glbRequests": 1,
+      "switcherButtons": 0,
+      "screenshot": "variant-c-390.png",
+      "autoAngle": 0.2558,
+      "mockups": 8,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "height": 900,
+      "variant": "C",
+      "glbRequests": 1,
+      "switcherButtons": 0,
+      "screenshot": "variant-c-320.png",
+      "autoAngle": 0.3575,
+      "mockups": 8,
+      "errors": []
+    },
+    {
+      "accessibility": {
+        "role": "img",
+        "tabIndex": 0,
+        "stepRadians": 0.262,
+        "prevented": {
+          "focused": true,
+          "unfocused": false
+        }
+      }
+    },
+    {
+      "transition": {
+        "samples": 13,
+        "fading": 3
+      }
+    },
+    {
+      "entrance": {
+        "compared": 5,
+        "model": [
+          {
+            "top": 240,
+            "x": 4.52,
+            "opacity": 0.839
+          },
+          {
+            "top": 340,
+            "x": 15.67,
+            "opacity": 0.441
+          },
+          {
+            "top": 460,
+            "x": 26.61,
+            "opacity": 0.05
+          },
+          {
+            "top": 580,
+            "x": 28,
+            "opacity": 0
+          },
+          {
+            "top": 660,
+            "x": 28,
+            "opacity": 0
+          }
+        ]
+      }
+    },
+    {
+      "noWebgl": {
+        "webgl": "unavailable",
+        "poster": "1",
+        "canvases": 0
+      }
+    },
+    {
+      "leak": {
+        "mounts": 5,
+        "canvases": 1,
+        "contexts": 6
+      }
+    },
+    {
+      "isolation": [
+        "/creative/jewellery",
+        "/creative/digital-artworks",
+        "/creative/tools/m4shlab"
+      ]
+    },
+    {
+      "variantQueryInProduction": "ignored"
+    },
+    {
+      "bundle": {
+        "forbidden": [
+          "LICENSE-NOTE",
+          "sketchfab",
+          "CREDITS"
+        ],
+        "hits": 0,
+        "docsBundled": false,
+        "creditsBundled": false
+      }
+    }
+  ],
+  "passed": true
+}

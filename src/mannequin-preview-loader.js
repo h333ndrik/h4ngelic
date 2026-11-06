@@ -1,7 +1,8 @@
 /**
  * Side-effect-free lazy loader. It observes markup from the prerendered route
  * and imports the Three.js preview module only when the section approaches the
- * viewport. Cold Work pages therefore make no WebGL or GLB request.
+ * viewport. Cold Work pages therefore make no WebGL or GLB request, and only
+ * the active variant is fetched at first visibility.
  */
 export function initMannequinPreviewLazy(root) {
   const targets = [...root.querySelectorAll('[data-mannequin-preview]')];
@@ -14,8 +15,10 @@ export function initMannequinPreviewLazy(root) {
       const target = entry.target;
       observer.unobserve(target);
       target.dataset.mannequinState = 'loading';
-      const status = target.querySelector('[data-mannequin-status]');
-      if (status) status.textContent = 'Loading static mannequin preview.';
+      // Die Live-Region liegt ausserhalb des Frames (role="img" macht Kinder
+      // presentational), deshalb ueber die Figure suchen.
+      const status = target.closest('.mannequin-preview')?.querySelector('[data-mannequin-status]');
+      if (status) status.textContent = 'Loading mannequin preview.';
       import('./mannequin-preview.js').then(({ initMannequinPreview }) => {
         if (cancelled || !target.isConnected) return;
         const preview = initMannequinPreview(target);
@@ -23,8 +26,8 @@ export function initMannequinPreviewLazy(root) {
       }).catch((error) => {
         if (cancelled || !target.isConnected) return;
         target.dataset.mannequinState = 'failed';
-        if (status) status.textContent = 'The static mannequin preview is unavailable.';
-        console.error('Unable to load the static mannequin preview.', error);
+        if (status) status.textContent = 'The mannequin preview is unavailable.';
+        console.error('Unable to load the mannequin preview.', error);
       });
     }
   }, { rootMargin: '240px 0px', threshold: 0.01 });

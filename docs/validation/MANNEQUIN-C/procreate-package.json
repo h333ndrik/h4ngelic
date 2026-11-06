@@ -1,0 +1,29 @@
+{
+  "directory": "procreate",
+  "files": [
+    {
+      "name": "README_PROCREATE.md",
+      "bytes": 1728,
+      "sha256": "99508f00a6777ae7a8bc9258e5769ea0dff768c8b659ebe205dfd43da94e4ae7"
+    },
+    {
+      "name": "mannequin_paint.mtl",
+      "bytes": 325,
+      "sha256": "13ce0c1bbafef1ae8c89987a1de7d57c4f5f0c5d5769103e3f68d895f5e19149"
+    },
+    {
+      "name": "mannequin_paint.obj",
+      "bytes": 5918099,
+      "sha256": "8b7ee09f0c81408cb30ca270a7ff53fc251ef58e677d153b59496fc2dff5a3bb"
+    },
+    {
+      "name": "skincolor.png",
+      "bytes": 955528,
+      "sha256": "cb9095e33740af1edb55eefa821250f9490853eaf90b3b18500d866df844ce77",
+      "width": 2048,
+      "height": 2048
+    }
+  ],
+  "violations": [],
+  "passed": true
+}

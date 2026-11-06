@@ -1,0 +1,275 @@
+{
+  "generator": "scripts/mannequin-female-build.py",
+  "blenderVersion": "4.5.0 Alpha",
+  "variants": {
+    "A": {
+      "triangles": 5808,
+      "vertices": 2932,
+      "bytes": 132688,
+      "sha256": "25c84e1558087e8a2e1954ce341680a8e9f63c305ae1b024ce7118c8bc138346",
+      "beforeJoin": [
+        {
+          "name": "Torso",
+          "vertices": 626,
+          "triangles": 1248,
+          "has_uv": true
+        },
+        {
+          "name": "Neck",
+          "vertices": 98,
+          "triangles": 192,
+          "has_uv": true
+        },
+        {
+          "name": "Head",
+          "vertices": 338,
+          "triangles": 672,
+          "has_uv": true
+        },
+        {
+          "name": "LeftThigh",
+          "vertices": 242,
+          "triangles": 480,
+          "has_uv": true
+        },
+        {
+          "name": "LeftCalf",
+          "vertices": 242,
+          "triangles": 480,
+          "has_uv": true
+        },
+        {
+          "name": "LeftFoot",
+          "vertices": 56,
+          "triangles": 108,
+          "has_uv": true
+        },
+        {
+          "name": "LeftUpperArm",
+          "vertices": 194,
+          "triangles": 384,
+          "has_uv": true
+        },
+        {
+          "name": "LeftForearm",
+          "vertices": 146,
+          "triangles": 288,
+          "has_uv": true
+        },
+        {
+          "name": "LeftHand",
+          "vertices": 56,
+          "triangles": 108,
+          "has_uv": true
+        },
+        {
+          "name": "RightThigh",
+          "vertices": 242,
+          "triangles": 480,
+          "has_uv": true
+        },
+        {
+          "name": "RightCalf",
+          "vertices": 242,
+          "triangles": 480,
+          "has_uv": true
+        },
+        {
+          "name": "RightFoot",
+          "vertices": 56,
+          "triangles": 108,
+          "has_uv": true
+        },
+        {
+          "name": "RightUpperArm",
+          "vertices": 194,
+          "triangles": 384,
+          "has_uv": true
+        },
+        {
+          "name": "RightForearm",
+          "vertices": 146,
+          "triangles": 288,
+          "has_uv": true
+        },
+        {
+          "name": "RightHand",
+          "vertices": 56,
+          "triangles": 108,
+          "has_uv": true
+        }
+      ],
+      "cleanup": {
+        "duplicate_merge_distance": 0.000001,
+        "index_order": "deterministic lexicographic triangle order; winding preserved"
+      },
+      "material": {
+        "extensions": {
+          "KHR_materials_clearcoat": {
+            "clearcoatFactor": 0.15000000596046448,
+            "clearcoatRoughnessFactor": 0.11999999731779099
+          }
+        },
+        "name": "mannequin_chrome",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.7758222222328186,
+            0.7758222222328186,
+            0.7758222222328186,
+            1
+          ],
+          "roughnessFactor": 0.18000000715255737
+        }
+      },
+      "bounds": {
+        "min": [
+          -0.3629702627658844,
+          0,
+          -0.17000000178813934
+        ],
+        "max": [
+          0.3629702031612396,
+          1.7000000476837158,
+          0.17000000178813934
+        ]
+      }
+    },
+    "B": {
+      "triangles": 2416,
+      "vertices": 1236,
+      "bytes": 172752,
+      "sha256": "51e6d99a3ca50d3a42406aa4030f967c9962d8c3760443b1c5f0d412dd07591e",
+      "beforeJoin": [
+        {
+          "name": "Torso",
+          "vertices": 262,
+          "triangles": 520,
+          "has_uv": true
+        },
+        {
+          "name": "Neck",
+          "vertices": 42,
+          "triangles": 80,
+          "has_uv": true
+        },
+        {
+          "name": "Head",
+          "vertices": 142,
+          "triangles": 280,
+          "has_uv": true
+        },
+        {
+          "name": "LeftThigh",
+          "vertices": 102,
+          "triangles": 200,
+          "has_uv": true
+        },
+        {
+          "name": "LeftCalf",
+          "vertices": 102,
+          "triangles": 200,
+          "has_uv": true
+        },
+        {
+          "name": "LeftFoot",
+          "vertices": 24,
+          "triangles": 44,
+          "has_uv": true
+        },
+        {
+          "name": "LeftUpperArm",
+          "vertices": 82,
+          "triangles": 160,
+          "has_uv": true
+        },
+        {
+          "name": "LeftForearm",
+          "vertices": 62,
+          "triangles": 120,
+          "has_uv": true
+        },
+        {
+          "name": "LeftHand",
+          "vertices": 24,
+          "triangles": 44,
+          "has_uv": true
+        },
+        {
+          "name": "RightThigh",
+          "vertices": 102,
+          "triangles": 200,
+          "has_uv": true
+        },
+        {
+          "name": "RightCalf",
+          "vertices": 102,
+          "triangles": 200,
+          "has_uv": true
+        },
+        {
+          "name": "RightFoot",
+          "vertices": 24,
+          "triangles": 44,
+          "has_uv": true
+        },
+        {
+          "name": "RightUpperArm",
+          "vertices": 82,
+          "triangles": 160,
+          "has_uv": true
+        },
+        {
+          "name": "RightForearm",
+          "vertices": 62,
+          "triangles": 120,
+          "has_uv": true
+        },
+        {
+          "name": "RightHand",
+          "vertices": 24,
+          "triangles": 44,
+          "has_uv": true
+        }
+      ],
+      "cleanup": {
+        "duplicate_merge_distance": 0.000001,
+        "index_order": "deterministic lexicographic triangle order; winding preserved"
+      },
+      "material": {
+        "extensions": {
+          "KHR_materials_clearcoat": {
+            "clearcoatFactor": 0.15000000596046448,
+            "clearcoatRoughnessFactor": 0.11999999731779099
+          }
+        },
+        "name": "mannequin_chrome",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.7758222222328186,
+            0.7758222222328186,
+            0.7758222222328186,
+            1
+          ],
+          "roughnessFactor": 0.30000001192092896
+        }
+      },
+      "bounds": {
+        "min": [
+          -0.3609899580478668,
+          0,
+          -0.17000000178813934
+        ],
+        "max": [
+          0.3609899580478668,
+          1.7000000476837158,
+          0.17000000178813934
+        ]
+      }
+    }
+  },
+  "budget": {
+    "maxTriangles": 6000,
+    "maxBytes": 262144,
+    "passed": true
+  }
+}

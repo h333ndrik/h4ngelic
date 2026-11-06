@@ -35,7 +35,9 @@ test('real category pages select their own content while /creative retains the c
     assert.ok(markup.includes(`data-work-context="${context}"`));
     assert.deepEqual([...markup.matchAll(/data-archive-category="([^"]+)"/g)].map(match => match[1]), categories);
     assert.deepEqual([...markup.matchAll(/data-work-group="([^"]+)"/g)].map(match => match[1]), groups);
-    assert.equal((markup.match(/<img /g) || []).length, imageCount, 'Only real supplied images from the selected route render.');
+    // Das Mannequin-Poster ist ein Viewer-Artefakt, kein Projektbild.
+    assert.equal((markup.match(/<img (?![^>]*mannequin-poster)/g) || []).length, imageCount,
+      'Only real supplied images from the selected route render.');
     const headingClass = context === 'more' ? 'page-heading sr-only' : context === 'all' ? 'page-heading numbered-heading' : 'page-heading';
     assert.ok(markup.includes(`<h1 class="${headingClass}" id="work-page-title">${heading}</h1>`));
     for (const href of ['/creative/tattoos', '/creative/jewellery', '/creative/tools', '/creative/more']) assert.ok(markup.includes(`href="${href}"`));
@@ -289,12 +291,15 @@ test('Works has four unnumbered major rubrics, subordinate archive labels and an
   assert.equal((numberedAndCategoryHeadings.match(/class="arrow"/g) || []).length, 3,
     'The TATTOOS rubric keeps its arrow and the two external tool CTAs keep the shared directional arrow.');
   assert.match(markup, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow" aria-hidden="true"><\/i><\/a><\/h2>/);
-  const model = markup.match(/<section[^>]+data-deferred-model>([\s\S]*?)<\/section>/)?.[1];
+  const model = markup.match(/<section[^>]+data-deferred-model[^>]*>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(model);
   assert.match(model, /^<h3[^>]+>3d model<\/h3>/);
-  assert.match(model, /data-mannequin-preview data-mannequin-src="\/models\/mannequin\.glb" data-mannequin-state="deferred"/);
-  assert.match(model, /role="img" aria-label="White faceted dress form on a three-foot stand"/);
-  assert.doesNotMatch(model, /<canvas|<img|data-flash-mannequin|three\.js|GLTFLoader/);
+  assert.match(model, /data-mannequin-preview data-mannequin-variant="C" data-mannequin-src="\/models\/mannequin-c\.[a-f0-9]+\.glb" data-mannequin-design-src="\/textures\/designs\/demo-mark\.png" data-mannequin-state="deferred"/);
+  assert.match(model, /role="img" tabindex="0" aria-label="3D model: female mannequin\. Use the left and right arrow keys to turn it\."/);
+  assert.doesNotMatch(model, /<canvas|data-flash-mannequin|three\.js|GLTFLoader/);
+  // Genau ein Bild: das transparente Poster-Render, sonst nichts.
+  assert.equal((model.match(/<img /g) || []).length, 1, 'The viewer ships exactly one poster image.');
+  assert.match(model, /<picture class="mannequin-preview-poster"/);
 });
 
 test('homepage About copy remains one flowing paragraph and every relevant route exposes the same visit indicator', () => {
