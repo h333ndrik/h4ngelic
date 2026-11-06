@@ -46,3 +46,35 @@ nichts.
 Hinweis: `tests/sound-controls-browser.mjs` bricht in dieser Umgebung bei
 `[data-smash]` ab (Timeout) — unabhängig von dieser Änderung, die nur einen
 Keydown-Zweig ergänzt und kein DOM anfasst.
+
+## B-F36 (Teil 1) — Footer ohne Scroll-Container
+
+`@media (max-width: 600px)`: `.footer-left` und `.footer-details` sind keine
+Scroll-Container mehr (`overflow: visible`, `flex-wrap: wrap`, `white-space:
+normal`, `scrollbar-width: auto`). Der Inhalt bricht um, statt zu scrollen.
+
+| Viewport | `.footer-left` sw/cw | `.footer-details` sw/cw | Höhe | Seite/Viewport | Brand/Visit/NAAVI |
+| --- | --- | --- | --- | --- | --- |
+| 320 | 88 / 88 | 88 / 88 | 90 px | 320 / 320 | 44 / 44 / 44 px |
+| 390 | 123 / 123 | 123 / 123 | 90 px | 390 / 390 | 44 / 44 / 44 px |
+| 1440 | 624 / 624 | 163 / 163 | 44 px (nowrap, unverändert) | 1440 / 1440 | 44 / 44 / 44 px |
+
+Damit ist die H1-Quelle aus B-F19 **strukturell weg**: es gibt bei 320/390
+keinen Container mehr, der scrollen könnte, also auch keinen Gutter —
+unabhängig davon, ob H1 je bewiesen wird. Vorher: `146 / 88` bzw. `128 / 88`.
+Kein horizontaler Seitenoverflow, alle Targets 44 px, Desktop unverändert.
+
+**Noch offen an B-F36:** die sichtbare Rangfolge in drei Zeilen
+(creative/about/contact → slow/pause/sound → 00/04). Sie betrifft `.hero-nav`
+und `.controls`, die im Hero positioniert sind, nicht den Footer-Container —
+das ist ein sichtbarer Umbau, der eine Vergleichsansicht braucht. Nicht in
+diesem Lauf gebaut.
+
+## B-F19 — Nachtrag
+
+Die Ursache-Hypothese H1 (Gutter) ist mit B-F36 Teil 1 gegenstandslos
+geworden: die Cluster scrollen nicht mehr, es gibt keinen Rand, auf dem ein
+Systempfeil liegen könnte. Die offenen Fragen an den User (macOS-Scrollbalken
+„Immer"/„Automatisch", Pfeil nur auf dem Randstreifen oder über der Zeile,
+auch bei 1440) bleiben für die Begründung dokumentiert, blockieren den Fix
+aber nicht mehr.
