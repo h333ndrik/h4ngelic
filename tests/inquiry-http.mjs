@@ -86,6 +86,14 @@ try {
   assert.equal(received.at(-1).to[0], 'h4ngelic@gmail.com');
   assert.equal(received.at(-1).from, config.from);
   assert.equal(received.length, beforeInjection + 1);
+  // MAIL-02b: the autofill form "Name <address>" unwraps to the bare address
+  // before the same strict check decides; delivery fields stay untouched.
+  const autofill = await send(form(original, 'Max Mustermann <max@example.com>'));
+  assert.equal(autofill.status, 202); await autofill.json();
+  assert.equal(received.at(-1).reply_to, 'max@example.com');
+  assert.equal(received.at(-1).to[0], 'h4ngelic@gmail.com');
+  assert.equal(received.at(-1).from, config.from);
+  assert.equal(received.length, beforeInjection + 2);
 
   const report = {
     checkedAt: new Date().toISOString(),
@@ -95,6 +103,7 @@ try {
     replyTo: received[0].reply_to,
     replyToInjection: 'rejected with 400 before the provider call',
     replyToExact: true,
+    replyToDisplayNameForm: received.at(-1).reply_to,
     freeTextContactChannelsAccepted: ['@loopback-visitor', '+49 170 1234567'],
     nonEmailReplyToOmitted: true,
     unicodeFilename: received[0].attachments[0].filename,

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isReplyAddress } from '../server/inquiry.mjs';
+import { extractReplyAddress, isReplyAddress } from '../server/inquiry.mjs';
 
 // MAIL-02: the contact field is free text ("email, instagram, phone number…").
 // Only a bare address may become Reply-To; everything else must simply produce
@@ -36,5 +36,39 @@ test('malformed local and domain parts are rejected', () => {
   for (const value of ['.visitor@example.com', 'visitor.@example.com', 'visi..tor@example.com',
     'visitor@-example.com', 'visitor@example-.com', 'visitor@example..com', 'visitor@example.c', 'visitor@@example.com']) {
     assert.equal(isReplyAddress(value), false, value);
+  }
+});
+
+// MAIL-02b: browsers autofill the contact field as "Name <address>". The
+// brackets are unwrapped first, then isReplyAddress() decides — the strict
+// function is unchanged and remains the only source of truth.
+test('a display-name form yields the address inside the brackets', () => {
+  const cases = [
+    ['Max Mustermann <max@example.com>', 'max@example.com'],
+    ['Max <max@example.com>', 'max@example.com'],
+    ['  Max  <  max@example.com  >  ', 'max@example.com'],
+    ['<max@example.com>', 'max@example.com'],
+    ['max@example.com', 'max@example.com'],
+  ];
+  for (const [value, expected] of cases) assert.equal(extractReplyAddress(value), expected, JSON.stringify(value));
+});
+
+test('incomplete, doubled, ambiguous or non-address bracket forms yield nothing', () => {
+  for (const value of ['Max <max@example.com', 'Max max@example.com>', 'Max <a@b.de> <c@d.de>', 'Max <@h4ndrik>',
+    'Max <a@b.de> trailing', 'max@example.com <other@example.com>', 'Max <max@example.c>', 'Max <>', '<>']) {
+    assert.equal(extractReplyAddress(value), '', JSON.stringify(value));
+  }
+});
+
+test('extraction never launders a header injection into a reply target', () => {
+  for (const value of ['Max <a@b.de>\r\nBcc: x@y.z', 'Max <a@b.de>\nBcc: x@y.z', 'Max <a@b.de>\x00', 'Max <a@b.de>\x7f']) {
+    assert.equal(extractReplyAddress(value), '', JSON.stringify(value));
+    assert.equal(isReplyAddress(value), false, JSON.stringify(value));
+  }
+});
+
+test('free-text contacts still produce no reply target and never an error', () => {
+  for (const value of ['@h4ndrik', '+49 176 1234', '', 'instagram: h4ngelic']) {
+    assert.equal(extractReplyAddress(value), '', JSON.stringify(value));
   }
 });

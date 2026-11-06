@@ -39,6 +39,30 @@ export function isReplyAddress(value) {
   return /^(?:[a-z]{2,}|xn--[a-z0-9-]{2,})$/i.test(labels.at(-1));
 }
 
+/** Pull the address out of the "Name <address>" form the contact field receives
+ * when the browser autofills it or a visitor pastes a mail header line.
+ *
+ * Extraction only: the result still has to pass isReplyAddress(), which stays
+ * the single source of truth. Deliberately narrow — exactly one bracket pair,
+ * non-empty content, nothing but whitespace after the closing bracket, and no
+ * address-looking display name (that case is ambiguous, and a wrong reply
+ * target is worse than none). Control characters are rejected before anything
+ * is read, so "Max <a@b.de>\r\nBcc: x@y.z" can never be reduced to a header
+ * value. Returns '' whenever anything is off. */
+export function extractReplyAddress(value) {
+  if (typeof value !== 'string' || /[\x00-\x1f\x7f]/.test(value)) return '';
+  const trimmed = value.trim();
+  const open = trimmed.indexOf('<');
+  const close = trimmed.indexOf('>');
+  if (open === -1 && close === -1) return isReplyAddress(trimmed) ? trimmed : '';
+  if (open === -1 || close === -1 || close < open) return '';
+  if (trimmed.includes('<', open + 1) || trimmed.includes('>', close + 1) || trimmed.slice(close + 1).trim()) return '';
+  const named = trimmed.slice(0, open);
+  if (named.includes('@')) return '';
+  const address = trimmed.slice(open + 1, close).trim();
+  return address && isReplyAddress(address) ? address : '';
+}
+
 /** Never trust the browser's MIME claim or filename extension alone. */
 export function detectAttachmentType(bytes) {
   if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return 'image/jpeg';
@@ -206,10 +230,11 @@ export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl =
       const parsed = parseInquiryMultipart(Buffer.concat(chunks, bytes), req.headers['content-type']);
       const fields = validateInquiryFields(parsed.fields, now());
       const requestId = randomUUID();
+      const replyTo = extractReplyAddress(fields.email);
       const text = [`name: ${fields.name}`, `how to reach you: ${fields.email}`, ...(fields.artwork ? [`artwork: ${fields.artworkTitle}`, `https://h4ngelic.com/work/${inquiryArtwork(fields.artwork).category}/${fields.artwork}`] : []), '', fields.message || '(no message supplied)'].join('\n');
       let response;
       try {
-        response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], ...(isReplyAddress(fields.email) ? { reply_to: fields.email } : {}), subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
+        response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], ...(replyTo ? { reply_to: replyTo } : {}), subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
       } catch { throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.'); }
       const result = await response.json().catch(() => null);
       if (!response.ok || typeof result?.id !== 'string' || !result.id) throw new InquiryError(502, 'your inquiry could not be sent. please try again or email instead.');

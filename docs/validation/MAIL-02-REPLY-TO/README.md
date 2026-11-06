@@ -1,7 +1,8 @@
 # MAIL-02 — Reply-To nur für eine echte Adresse
 
 Branch `mail-02-reply-to`, Basis `d550824` (= `origin/main` nach dem
-V3.2-/V3.1.2-Merge). Kein Merge, kein Deploy in diesem Lauf.
+V3.2-/V3.1.2-Merge); Nachtrag MAIL-02b in Abschnitt 6. Kein Merge, kein
+Deploy in diesem Lauf.
 
 ## 1. Befund (Teil 0)
 
@@ -49,7 +50,9 @@ Lokaler Lauf des echten Handlers mit gemocktem Provider (kein echter Versand):
 Der Mechanismus funktioniert also; die Benachrichtigung hatte in der Praxis
 vermutlich einen Wert, der keine reine Adresse war — am häufigsten die
 Anzeigenamen-Form `Max <max@example.com>` (Autofill) oder ein Handle/Telefon.
-Genau diese Fälle bleiben bewusst ohne Reply-To.
+Stand MAIL-02 (`b27ac4a`) blieben diese Fälle ohne Reply-To; die
+Anzeigenamen-Form ist mit MAIL-02b (Abschnitt 6) abgedeckt, Handle und Telefon
+bleiben es.
 
 ## 2. Die Prüfung
 
@@ -124,7 +127,81 @@ Konstante) würde den Empfänger ohne Code-Deploy wechselbar machen — eine Zei
 Argument: Postfachwechsel oder Weiterleitung sind Betriebs-, keine
 Code-Entscheidungen. Entscheidung liegt beim User; hier kein Code.
 
-Zweite, kleinere Beobachtung für einen späteren Lauf: die Anzeigenamen-Form
-`Max <max@example.com>` bleibt ohne Reply-To (Spec: keine Leerzeichen). Wenn das
-in echten Anfragen häufig vorkommt, wäre ein gezieltes Auslesen der
-`<…>`-Form der nächste Schritt — dann aber mit eigener Prüfung und eigenem Test.
+Die Anzeigenamen-Form ist inzwischen umgesetzt — siehe Abschnitt 6 (MAIL-02b).
+
+## 6. Nachtrag MAIL-02b — Anzeigenamen-Form `Name <adresse>`
+
+### 6.1 Befund vorher (gemessen an `isReplyAddress`, Commit `b27ac4a`)
+
+Das Feld „how to reach you" ist Freitext; Browser-Autofill und kopierte
+Mail-Headerzeilen liefern dort `Name <adresse>`. Diese Form fiel durch die
+Prüfung, `reply_to` wurde weggelassen — der Fix griff dann nicht.
+
+| Eingabe | `isReplyAddress` vorher | `isReplyAddress` nachher |
+| --- | --- | --- |
+| `max@example.com` | true | true (unverändert) |
+| `Max Mustermann <max@example.com>` | **false** | false |
+| `Max <max@example.com>` | **false** | false |
+| `<max@example.com>` | **false** | false |
+| `  Max  <  max@example.com  >  ` | **false** | false |
+| `Max <max@example.com` | false | false |
+| `Max <a@b.de> <c@d.de>` | false | false |
+| `Max <@h4ndrik>` | false | false |
+| `Max <a@b.de>\r\nBcc: x@y.z` | false | false |
+| `@h4ndrik`, `+49 176 1234`, `""` | false | false |
+
+`isReplyAddress` ist **unverändert** — die strenge Prüfung bleibt die einzige
+Wahrheit. Neu ist ein Vor-Schritt.
+
+### 6.2 Fix: `extractReplyAddress` als Vor-Schritt
+
+`server/inquiry.mjs` → `export function extractReplyAddress(value)`:
+
+1. `typeof value !== 'string'` oder **Steuerzeichen `[\x00-\x1f\x7f]`** →
+   `''`. Diese Prüfung steht **vor** jeder Klammerauswertung, Injection wird
+   also nicht „durch Extraktion" entschärft.
+2. Kein `<` und kein `>` → Wert wird 1:1 an `isReplyAddress` gegeben.
+   Genau eines von beiden fehlt oder `>` steht vor `<` → `''`.
+3. Genau ein Paar: ein zweites `<` hinter dem ersten oder ein zweites `>` hinter
+   dem schließenden, oder Resttext nach `>` → `''`.
+4. Inhalt der Klammern wird getrimmt (Leerraum um die Adresse ist erlaubt),
+   leer → `''`. Ein Anzeigename, der selbst ein `@` enthält, gilt als
+   mehrdeutig → `''` (lieber kein Reply-To als das falsche).
+5. Ergebnis muss `isReplyAddress` bestehen; dann wird genau dieser String
+   verwendet. Kein zweiter Adress-Parser, keine zweite Regel.
+
+Der Handler berechnet den Wert einmal (`const replyTo = extractReplyAddress(fields.email)`)
+und setzt `...(replyTo ? { reply_to: replyTo } : {})`. `from`, `to`,
+`subject`, Text, Anhänge, 502-Text und das PII-freie Verhalten sind unverändert;
+ein fehlender Reply-To macht die Anfrage nie kaputt.
+
+### 6.3 Verhalten nachher (gemockter Provider, kein echter Versand)
+
+| Eingabe | Status | `reply_to` |
+| --- | --- | --- |
+| `Max Mustermann <max@example.com>` | 202 | `max@example.com` |
+| `Max <max@example.com>` | 202 | `max@example.com` |
+| `  Max  <  max@example.com  >  ` | 202 | `max@example.com` |
+| `<max@example.com>` | 202 | `max@example.com` |
+| `max@example.com` | 202 | `max@example.com` (unverändert) |
+| `Max <max@example.com` | 202 | **fehlt** |
+| `Max <a@b.de> <c@d.de>` | 202 | **fehlt** |
+| `Max <@h4ndrik>` | 202 | **fehlt** |
+| `max@example.com <other@example.com>` | 202 | **fehlt** (mehrdeutig) |
+| `Max <a@b.de>\r\nBcc: x@y.z` | **400** | — (vor dem Provider-Aufruf) |
+| `@h4ndrik`, `+49 176 1234`, `""` | 202 | **fehlt** (unverändert) |
+
+### 6.4 Tests
+
+`tests/inquiry-reply-to.test.js`: 4 weitere Blöcke (Extraktion, unvollständige/
+doppelte/mehrdeutige Formen, Injection, Freitext) — 9 Tests, alle grün.
+`tests/inquiry-http.mjs`: Autofill-Form → 202 mit `reply_to` exakt
+`max@example.com`, `to`/`from` unverändert; Report-Feld
+`replyToDisplayNameForm`. `tests/inquiry.test.js`: der alte Fall
+`name <visitor@example.com>` (bisher „kein Reply-To") ist der neue Vertrag und
+liegt jetzt in einem eigenen Test mit positiver Assertion.
+
+`npm test`: **414 Tests / 413 pass / 1 skipped / 0 fail**
+`node tests/inquiry-http.mjs`: grün, `replyToExact: true`,
+`replyToDisplayNameForm: "max@example.com"`, `replyToInjection` weiterhin
+„rejected with 400 before the provider call".
