@@ -31,7 +31,7 @@ async function mode(page, next) {
 }
 async function indexRoute(page, name) {
   if (name === 'work') {
-    await page.locator('.hero-nav a[href="/creative"]').click();
+    await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
     await page.waitForFunction(() => document.documentElement.dataset.page === 'work' && location.pathname === '/creative');
     return;
   }

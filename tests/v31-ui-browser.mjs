@@ -26,7 +26,7 @@ async function settled(page) {
 
 async function indexRoute(page, destination) {
   if (destination === 'work') {
-    await page.locator('.hero-nav a[href="/creative"]').click();
+    await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
     await page.locator('html[data-page="work"]').waitFor();
     await page.waitForFunction(() => location.pathname === '/creative');
     await settled(page);
