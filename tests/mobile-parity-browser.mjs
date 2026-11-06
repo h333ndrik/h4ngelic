@@ -38,6 +38,34 @@ try {
       await context.close();
     }
   }
+  // B-F36: below 600px the bottom bar reads top to bottom as nav, controls,
+  // counter, with no overlap and no scroll container in the footer clusters.
+  for (const width of [320, 390]) {
+    const context = await browser.newContext({ viewport: { width, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(400);
+    const rows = await page.evaluate(() => {
+      const box = selector => { const element = document.querySelector(selector); const rect = element.getBoundingClientRect();
+        return { top: Math.round(rect.top), bottom: Math.round(rect.bottom), left: Math.round(rect.left), right: Math.round(rect.right), height: Math.round(rect.height) }; };
+      const nav = box('.hero-nav'), controls = box('.controls'), naavi = box('[data-naavi]');
+      const left = document.querySelector('.footer-left'), details = document.querySelector('.footer-details');
+      const overlap = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+      return { nav, controls, naavi, controlsOpacity: Number(getComputedStyle(document.querySelector('.controls')).opacity),
+        order: nav.bottom <= controls.top && controls.bottom <= naavi.top,
+        overlaps: overlap(nav, controls) || overlap(controls, naavi) || overlap(nav, naavi),
+        clusters: [{ sw: left.scrollWidth, cw: left.clientWidth }, { sw: details.scrollWidth, cw: details.clientWidth }],
+        pageWidth: document.documentElement.scrollWidth, viewport: innerWidth };
+    });
+    assert.equal(rows.order, true, `[${width}] nav, controls and counter stack top to bottom`);
+    assert.equal(rows.overlaps, false, `[${width}] no row overlaps another`);
+    assert.ok(rows.controlsOpacity < 1, `[${width}] the controls read as the secondary row`);
+    assert.equal(rows.nav.height >= 44 && rows.controls.height >= 44 && rows.naavi.height >= 44, true, `[${width}] 44px targets`);
+    for (const cluster of rows.clusters) assert.equal(cluster.sw, cluster.cw, `[${width}] no footer scroll container`);
+    assert.ok(rows.pageWidth <= rows.viewport + 1, `[${width}] no horizontal page overflow`);
+    await context.close();
+    console.log(`PASS mobile rows ${width}px: nav -> controls -> counter, no overlap, no footer scroll container.`);
+  }
   // B-F37: the "m" shortcut toggles the same state as the button, and stays
   // silent while typing or with a modifier held.
   {

@@ -78,3 +78,20 @@ Systempfeil liegen könnte. Die offenen Fragen an den User (macOS-Scrollbalken
 „Immer"/„Automatisch", Pfeil nur auf dem Randstreifen oder über der Zeile,
 auch bei 1440) bleiben für die Begründung dokumentiert, blockieren den Fix
 aber nicht mehr.
+
+## B-F36 (Teil 2) — drei Zeilen in Leserichtung
+
+Auf ≤600 px stehen die drei Gruppen jetzt von oben nach unten und jeweils von
+links nach rechts: **creative / about / contact** (primär, volle Breite),
+**slow / pause / sound on** (sekundär, `opacity: .72`), **00/ 04** (der fixierte
+NAAVI, zentriert).
+
+| Viewport | Nav | Controls | NAAVI | Überlappung | Seitenbreite |
+| --- | --- | --- | --- | --- | --- |
+| 320 | 688–732 | 744–788 | 788–832 | keine | 320 = 320 |
+| 390 | 688–732 | 744–788 | 788–832 | keine | 390 = 390 |
+| 1440 | 776–820 (rechts) | 776–820 (links) | 788–832 | keine | 1440 = 1440 (unverändert) |
+
+Alle drei Zeilen halten 44 px Höhe. Die alte Controls-Position (oben rechts,
+`top: 72px`) ist damit weg — sie war die Ursache für „slow/pause/sound gedrängt
+über den Links".

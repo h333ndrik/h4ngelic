@@ -140,9 +140,19 @@ html:not([data-page='home']) .hero-nav { display: none; }
 @media (max-width: 600px) {
   .masthead { inset: 23px 22px auto; }
   .hero-bottom { inset: auto 22px 28px; }
-  .controls { top: 72px; right: 22px; gap: 7px; max-width: calc(100% - 44px); }
+  /* B-F36: three rows in reading order — nav, controls, counter. Nav sits on
+     top of the stack, the controls below it (secondary, dimmed), the fixed
+     NAAVI keeps its centred bottom slot as the third row. Nothing overlaps and
+     no row needs a scroll container. */
+  .controls {
+    top: auto; left: 22px; right: 22px; bottom: calc(env(safe-area-inset-bottom) + 56px);
+    gap: 7px; max-width: none; justify-content: flex-start; opacity: .72;
+  }
   .controls button { padding: 10px clamp(9px, 2.5vw, 14px); min-height: 44px; }
-  .hero-nav { right: 22px; bottom: max(64px, calc(env(safe-area-inset-bottom) + 56px)); gap: 12px; font-size: 14px; }
+  .hero-nav {
+    left: 22px; right: 22px; bottom: calc(env(safe-area-inset-bottom) + 112px);
+    gap: 12px; font-size: 14px; justify-content: flex-start; flex-wrap: wrap;
+  }
   .content-section { padding: 65px 22px; }
   .selected-work { padding-top: 55px; padding-bottom: 70px; }
   .section-label { margin-bottom: 28px; }
