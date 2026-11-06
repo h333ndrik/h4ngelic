@@ -89,7 +89,7 @@ test('the rubric-primary id is built in exactly one place', async () => {
     const count = (text.match(/finished-\$\{/g) || []).length;
     if (count) builders.push({ file: file.pathname.split('/src/')[1], count });
   }
-  assert.deepEqual(builders, [{ file: 'pages.js', count: 1 }], 'one builder, no literal duplicate');
+  assert.deepEqual(builders, [{ file: 'section-id.js', count: 1 }], 'one builder, no literal duplicate');
   const pages = await readFile(new URL('../src/pages.js', import.meta.url), 'utf8');
   assert.equal((pages.match(/finished-tattoos/g) || []).length, 0, 'no hard-coded primary id left in pages.js');
 });

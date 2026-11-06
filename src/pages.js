@@ -1,4 +1,5 @@
 import { siteContent } from './data/siteContent.js';
+import { sectionDomId } from './section-id.js';
 import { artworks } from './data/artworks.js';
 import { contentURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
@@ -164,10 +165,8 @@ export function renderWorkPage(category = 'all') {
       : items.map(renderProject).filter(Boolean).join('');
     return entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>';
   };
-  /** B-F31: the only place that turns a section entry into its DOM id/anchor.
-   * The rubric's own section keeps the historical `finished-<rubric>` id; every
-   * other section uses its own id, which doubles as its anchor. */
-  const sectionDomId = (entry, { rubricPrimary = false } = {}) => rubricPrimary ? `finished-${entry.id}` : entry.id;
+  // B-F31: section ids come from the one shared rule in section-id.js.
+  const domIdFor = (entry, { rubricPrimary = false } = {}) => sectionDomId(entry.id, rubricPrimary ? entry.id : '');
   const sectionClasses = (entry, rubricPrimary) => `archive-category${rubricPrimary ? ' rubric-primary' : ''}${entry.presentation === 'model' ? ' archive-model' : ''}`;
   const sectionAttributes = entry => entry.presentation === 'model' ? ' data-deferred-model data-section-entrance' : '';
   const leaf = (entry, { id = sectionDomId(entry), nested = true } = {}) => {
@@ -176,7 +175,7 @@ export function renderWorkPage(category = 'all') {
     // B-F31: a section without a route (the 3d model) never renders a link.
     const heading = entry.route === false ? label : `<a href="${categoryURL(entry.id)}">${label}</a>`;
     return `<section class="${sectionClasses(entry, false)}" id="${escape(id)}" tabindex="-1" aria-labelledby="archive-${escape(entry.id)}-title" data-archive-category="${escape(entry.id)}"${sectionAttributes(entry)}>
-      <${tag} class="archive-category-heading" id="archive-${escape(entry.id)}-title"${entry.id === 'tattoos' ? ' data-motion-static' : ''}>${heading}</${tag}>
+      <${tag} class="archive-category-heading${entry.presentation === 'model' ? ' rubric-category-heading' : ''}" id="archive-${escape(entry.id)}-title"${entry.id === 'tattoos' ? ' data-motion-static' : ''}>${heading}</${tag}>
       ${collection(entry)}
     </section>`;
   };
@@ -192,7 +191,7 @@ export function renderWorkPage(category = 'all') {
         const primary = entry.id === group.id;
         const titleId = primary ? 'work-page-title' : `archive-${escape(entry.id)}-title`;
         const heading = primary ? '' : `<h3 class="archive-category-heading rubric-category-heading" id="${escape(titleId)}" data-motion-static>${escape(entry.archiveLabel || entry.label)}</h3>`;
-        return `<section class="${sectionClasses(entry, primary)}" id="${escape(sectionDomId(entry, { rubricPrimary: primary }))}" tabindex="-1" aria-labelledby="${escape(titleId)}" data-archive-category="${escape(entry.id)}"${sectionAttributes(entry)}>
+        return `<section class="${sectionClasses(entry, primary)}" id="${escape(domIdFor(entry, { rubricPrimary: primary }))}" tabindex="-1" aria-labelledby="${escape(titleId)}" data-archive-category="${escape(entry.id)}"${sectionAttributes(entry)}>
           ${heading}${collection(entry)}
         </section>`;
       }).join('');
@@ -203,7 +202,7 @@ export function renderWorkPage(category = 'all') {
     const directCategory = group.children.length === 1 && group.children[0] === group.id;
     return `<section class="work-group${directCategory ? ' archive-category' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="group-${escape(group.id)}-title" data-work-group="${escape(group.id)}"${directCategory ? ` data-archive-category="${escape(group.id)}"` : ''}>
       <h2 class="work-group-heading" id="group-${escape(group.id)}-title"${group.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${workAnchorURL(group.id)}">${escape(group.label)}${group.id === 'tattoos' ? ` ${arrow}` : ''}</a></h2>
-      ${directCategory ? collection(categoryById(group.id)) : group.children.map(id => leaf(categoryById(id), { id: sectionDomId(categoryById(id), { rubricPrimary: id === group.id }) })).join('')}
+      ${directCategory ? collection(categoryById(group.id)) : group.children.map(id => leaf(categoryById(id), { id: domIdFor(categoryById(id), { rubricPrimary: id === group.id }) })).join('')}
     </section>`;
   }).join('');
   const standalone = selected !== 'all' && !selectedGroup && selectedCategory
