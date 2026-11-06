@@ -38,6 +38,39 @@ try {
       await context.close();
     }
   }
+  // B-F37: the "m" shortcut toggles the same state as the button, and stays
+  // silent while typing or with a modifier held.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+    const button = page.locator('[data-mode-mute]').first();
+    await button.waitFor();
+    const label = async () => ({ pressed: await button.getAttribute('aria-pressed'), text: (await button.textContent()).trim() });
+    const before = await label();
+    await page.keyboard.press('m');
+    await page.waitForFunction(previous => document.querySelector('[data-mode-mute]')?.getAttribute('aria-pressed') !== previous,
+      before.pressed, { timeout: 5000 });
+    const afterKey = await label();
+    assert.notEqual(afterKey.pressed, before.pressed, 'm toggles the mute state');
+    assert.equal(afterKey.text, afterKey.pressed === 'true' ? 'sound on' : 'sound off', 'label follows the state');
+    await page.keyboard.press('m');
+    await page.waitForFunction(previous => document.querySelector('[data-mode-mute]')?.getAttribute('aria-pressed') === previous,
+      before.pressed, { timeout: 5000 });
+    assert.deepEqual(await label(), before, 'a second m returns to the start');
+    const field = page.locator('[data-inquiry-form] input[name="name"]').first();
+    await field.scrollIntoViewIfNeeded();
+    await field.click();
+    await page.keyboard.type('mmmail');
+    await page.waitForTimeout(200);
+    assert.equal(await field.inputValue(), 'mmmail', 'typing m stays in the field');
+    assert.deepEqual(await label(), before, 'typing never mutes the page');
+    await page.keyboard.press('Meta+m');
+    await page.waitForTimeout(200);
+    assert.deepEqual(await label(), before, 'a modifier keeps m for the browser');
+    await context.close();
+    console.log('PASS mute shortcut 1440px: m toggles, fields and modifiers are guarded.');
+  }
   const desktop = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await desktop.newPage();
   await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });

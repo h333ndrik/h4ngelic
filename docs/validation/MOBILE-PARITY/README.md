@@ -25,3 +25,24 @@ NAAVI weiterhin dorthin springen kann.
 Test: `tests/mobile-parity-browser.mjs` (`npm run test:mobile-parity`), in der
 Gate-Battery registriert. Läufe: 390/320/1440 grün; `v15-mobile-browser` und
 `greeting-browser` (390/320) unverändert grün.
+
+## B-F37 — Mute-Taste „m"
+
+Ein Dokument-Keydown im bestehenden Sound-Controller (`src/sound-controls.js`)
+schaltet denselben Zustand wie der Button: `audio.setMuted(!audio.muted)`,
+Label und `aria-pressed` folgen über das vorhandene `refresh()`.
+
+Guard: `input`, `textarea`, `select`, `contenteditable` und jede Modifier-Taste
+(`meta`/`ctrl`/`alt`) brechen vorher ab — ohne `preventDefault`. Groß- und
+Kleinschreibung ist egal. Auf reinen Touch-Geräten gibt es kein
+Tastatur-Äquivalent; dort bleibt der Button der einzige Weg (in der Tabelle
+so geführt).
+
+Nachweis (`tests/mobile-parity-browser.mjs`, 1440 px): `m` kippt den Zustand,
+zweites `m` stellt ihn wieder her, Label folgt (`sound on` / `sound off`),
+„mmmail" im Namensfeld bleibt Text und schaltet nichts, `Meta+m` schaltet
+nichts.
+
+Hinweis: `tests/sound-controls-browser.mjs` bricht in dieser Umgebung bei
+`[data-smash]` ab (Timeout) — unabhängig von dieser Änderung, die nur einen
+Keydown-Zweig ergänzt und kein DOM anfasst.

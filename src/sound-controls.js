@@ -162,8 +162,19 @@ export function initSoundControls({ doc = document, audio } = {}) {
     if (event.target.matches?.('[data-sound-volume]')) audio.setVolume(Number(event.target.value) / 100);
   }
   function outside(event) { if (open && !open.wrapper.contains(event.target)) close(); }
+  const typing = target => Boolean(target) && (target.isContentEditable === true
+    || /^(input|textarea|select)$/i.test(target.tagName || ''));
   function keydown(event) {
-    if (event.key === 'Escape' && open) { event.preventDefault(); close({ restoreFocus: true }); }
+    if (event.key === 'Escape' && open) { event.preventDefault(); close({ restoreFocus: true }); return; }
+    // B-F37: "m" toggles the same mute the button toggles. Never while typing
+    // (so "mmmail" stays a message), never with a modifier, and never with a
+    // preventDefault inside a field.
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (event.key.toLowerCase() !== 'm') return;
+    if (typing(event.target)) return;
+    event.preventDefault();
+    audio.setMuted(!audio.muted);
+    if (!audio.muted) void audio.prime(event).then(refresh);
   }
   function focusout(event) {
     if (open && !open.wrapper.contains(event.relatedTarget)) close();
