@@ -13,7 +13,10 @@ const retiredCategoryPath = (segments) => {
   const replacement = retiredCategorySlugs[segments[0]];
   return replacement ? [replacement, ...segments.slice(1)] : null;
 };
-const categoryFromSlug = (slug) => siteContent.categories.find((category) => categorySlug(category.id) === slug)
+/** B-F31: a section can live in the list without owning a route (`route: false`),
+ * e.g. the 3d model section, which is rendered inside its rubric. */
+const routableCategory = category => category.id !== 'all' && category.route !== false;
+const categoryFromSlug = (slug) => siteContent.categories.find((category) => routableCategory(category) && categorySlug(category.id) === slug)
   || siteContent.workGroups.find((group) => group.id === slug);
 export const categoryURL = (category) => category === 'all' ? '/creative' : `/creative/${encodeURIComponent(categorySlug(category))}`;
 export const toolURL = (id) => `${categoryURL('tools')}/${encodeURIComponent(id)}`;
@@ -140,7 +143,7 @@ export function resolveRoute(input) {
 /** Only genuine, published routes produce prerendered documents. */
 export function routeDefinitions() {
   const collectionPaths = new Set([
-    ...siteContent.categories.map(({ id }) => categoryURL(id)),
+    ...siteContent.categories.filter(routableCategory).map(({ id }) => categoryURL(id)),
     ...siteContent.workGroups.map(({ id }) => categoryURL(id)),
     ...siteContent.tools.map(({ id }) => toolURL(id)),
     '/about', '/impressum',
