@@ -1,0 +1,251 @@
+{
+  "measuredAt": "2026-11-06T17:49:56.159Z",
+  "base": "http://127.0.0.1:4401",
+  "results": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "reduced": false,
+      "touch": false,
+      "blockWebGL": false,
+      "coldCanvas": 0,
+      "state": "ready",
+      "canvas": 1,
+      "posterOpacity": 1,
+      "posterPE": "none",
+      "canvasPE": "auto",
+      "canvasSize": [
+        1370,
+        720
+      ],
+      "angle": 0,
+      "motion": "idle",
+      "assets": [
+        {
+          "url": "/models/mannequin-c.d76abc164512.glb",
+          "status": 200,
+          "ct": "model/gltf-binary",
+          "len": 457000
+        },
+        {
+          "url": "/draco/draco_wasm_wrapper.js",
+          "status": 200,
+          "ct": "text/javascript; charset=utf-8",
+          "len": 11748
+        },
+        {
+          "url": "/draco/draco_decoder.wasm",
+          "status": 200,
+          "ct": "application/octet-stream",
+          "len": 192420
+        },
+        {
+          "url": "/basis/basis_transcoder.js",
+          "status": 200,
+          "ct": "text/javascript; charset=utf-8",
+          "len": 15169
+        },
+        {
+          "url": "/basis/basis_transcoder.wasm",
+          "status": 200,
+          "ct": "application/octet-stream",
+          "len": 527333
+        }
+      ],
+      "errors": [],
+      "autoDelta": 0,
+      "hoverDelta": 0.1962,
+      "dragDelta": 1.1691
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "reduced": true,
+      "touch": false,
+      "blockWebGL": false,
+      "coldCanvas": 0,
+      "state": "ready",
+      "canvas": 1,
+      "posterOpacity": 0,
+      "posterPE": "none",
+      "canvasPE": "auto",
+      "canvasSize": [
+        1370,
+        720
+      ],
+      "angle": 0,
+      "motion": "reduced",
+      "assets": [
+        {
+          "url": "/models/mannequin-c.d76abc164512.glb",
+          "status": 200,
+          "ct": "model/gltf-binary",
+          "len": 457000
+        },
+        {
+          "url": "/draco/draco_wasm_wrapper.js",
+          "status": 200,
+          "ct": "text/javascript; charset=utf-8",
+          "len": 11748
+        },
+        {
+          "url": "/draco/draco_decoder.wasm",
+          "status": 200,
+          "ct": "application/octet-stream",
+          "len": 192420
+        },
+        {
+          "url": "/basis/basis_transcoder.js",
+          "status": 200,
+          "ct": "text/javascript; charset=utf-8",
+          "len": 15169
+        },
+        {
+          "url": "/basis/basis_transcoder.wasm",
+          "status": 200,
+          "ct": "application/octet-stream",
+          "len": 527333
+        }
+      ],
+      "errors": [],
+      "autoDelta": 0,
+      "hoverDelta": 0,
+      "dragDelta": 1.1919
+    },
+    {
+      "width": 390,
+      "height": 900,
+      "reduced": false,
+      "touch": true,
+      "blockWebGL": false,
+      "coldCanvas": 0,
+      "state": "ready",
+      "canvas": 1,
+      "posterOpacity": 0,
+      "posterPE": "none",
+      "canvasPE": "auto",
+      "canvasSize": [
+        346,
+        452
+      ],
+      "angle": 0,
+      "motion": "idle",
+      "assets": [
+        {
+          "url": "/models/mannequin-c.d76abc164512.glb",
+          "status": 200,
+          "ct": "model/gltf-binary",
+          "len": 457000
+        },
+        {
+          "url": "/draco/draco_wasm_wrapper.js",
+          "status": 200,
+          "ct": "text/javascript; charset=utf-8",
+          "len": 11748
+        },
+        {
+          "url": "/draco/draco_decoder.wasm",
+          "status": 200,
+          "ct": "application/octet-stream",
+          "len": 192420
+        },
+        {
+          "url": "/basis/basis_transcoder.js",
+          "status": 200,
+          "ct": "text/javascript; charset=utf-8",
+          "len": 15169
+        },
+        {
+          "url": "/basis/basis_transcoder.wasm",
+          "status": 200,
+          "ct": "application/octet-stream",
+          "len": 527333
+        }
+      ],
+      "errors": [],
+      "autoDelta": 0.0574,
+      "hoverDelta": 0.4432,
+      "dragDelta": 1.0624
+    },
+    {
+      "width": 390,
+      "height": 900,
+      "reduced": true,
+      "touch": true,
+      "blockWebGL": false,
+      "coldCanvas": 0,
+      "state": "ready",
+      "canvas": 1,
+      "posterOpacity": 0,
+      "posterPE": "none",
+      "canvasPE": "auto",
+      "canvasSize": [
+        346,
+        452
+      ],
+      "angle": 0,
+      "motion": "reduced",
+      "assets": [
+        {
+          "url": "/models/mannequin-c.d76abc164512.glb",
+          "status": 200,
+          "ct": "model/gltf-binary",
+          "len": 457000
+        },
+        {
+          "url": "/draco/draco_wasm_wrapper.js",
+          "status": 200,
+          "ct": "text/javascript; charset=utf-8",
+          "len": 11748
+        },
+        {
+          "url": "/draco/draco_decoder.wasm",
+          "status": 200,
+          "ct": "application/octet-stream",
+          "len": 192420
+        },
+        {
+          "url": "/basis/basis_transcoder.js",
+          "status": 200,
+          "ct": "text/javascript; charset=utf-8",
+          "len": 15169
+        },
+        {
+          "url": "/basis/basis_transcoder.wasm",
+          "status": 200,
+          "ct": "application/octet-stream",
+          "len": 527333
+        }
+      ],
+      "errors": [],
+      "autoDelta": 0,
+      "hoverDelta": 0,
+      "dragDelta": 1.6013
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "reduced": false,
+      "touch": false,
+      "blockWebGL": true,
+      "coldCanvas": 0,
+      "state": "failed",
+      "canvas": 0,
+      "posterOpacity": 1,
+      "posterPE": "none",
+      "canvasPE": null,
+      "canvasSize": null,
+      "angle": 0,
+      "assets": [],
+      "errors": [
+        "[error] THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+        "[warning] WebGL unavailable for the mannequin preview. Error: THREE.WebGLRenderer: Error creating WebGL context.\n    at new od (http://127.0.0.1:4401/assets/three.module-CX-qiaFf.js:4220:24396)\n    at Jn (http://127.0.0.1:4401/assets/mannequin-preview-B_ZM8tTr.js:4:11995)\n    at http://127.0.0.1:4401/assets/index-1Nif-zCT.js:302:22035"
+      ]
+    },
+    {
+      "case": "hoverAtMount",
+      "pointerRestingSinceBeforeMount": true,
+      "deltaRad": 0.253
+    }
+  ]
+}

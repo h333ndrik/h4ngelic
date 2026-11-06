@@ -690,6 +690,35 @@ try {
     results.push({ variantQueryInProduction: 'ignored' });
     await context.close();
   }
+
+  // M6: Steht der Zeiger schon ueber der Figur, wenn der Viewer mountet, muss
+  // die Hover-Drehung sofort laufen. Scrollen allein loest kein pointerenter
+  // aus — vor dem Fix startete die Drehung erst nach der naechsten
+  // Zeigerbewegung, die Figur wirkte unter dem Cursor tot.
+  {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const { page } = await trackPage(context);
+    await page.goto(`${base}/creative/tattoos`, { waitUntil: 'networkidle' });
+    const geometry = await page.evaluate(() => {
+      const rect = document.querySelector('[data-mannequin-preview]').getBoundingClientRect();
+      return { top: rect.top + scrollY, height: rect.height };
+    });
+    const point = { x: 720, y: 500 };
+    // Zeiger VOR dem Scrollen abstellen: danach kommt kein pointerenter mehr.
+    await page.mouse.move(point.x, point.y);
+    await page.evaluate((y) => scrollTo(0, y), geometry.top + geometry.height / 2 - point.y);
+    await waitReady(page);
+    assert.equal(await page.evaluate(() => document.querySelector('[data-mannequin-preview]').matches(':hover')), true,
+      'The regression needs the pointer resting over the frame.');
+    const angle = () => page.locator('[data-mannequin-preview]').getAttribute('data-mannequin-angle').then(Number);
+    const before = await angle();
+    // Innerhalb der Idle-Zeit (2000 ms) kann nur Hover die Figur drehen.
+    await page.waitForTimeout(1200);
+    const moved = (await angle()) - before;
+    assert.ok(moved > 0.05, `Hover must turn the model at mount (moved ${moved.toFixed(4)} rad).`);
+    results.push({ hoverAtMountRad: Number(moved.toFixed(4)) });
+    await context.close();
+  }
 } finally {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));

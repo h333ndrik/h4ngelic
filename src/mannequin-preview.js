@@ -487,6 +487,11 @@ export function initMannequinPreview(container) {
   container.addEventListener('pointercancel', onPointerUp);
   container.addEventListener('pointerenter', onPointerEnter);
   container.addEventListener('pointerleave', onPointerLeave);
+  // Steht der Zeiger schon ueber der Figur, wenn die Listener haengen, ist das
+  // pointerenter laengst vorbei (Scrollen allein loest keines aus). Ohne diese
+  // Initialisierung bliebe die Hover-Drehung bis zur naechsten Zeigerbewegung
+  // aus, obwohl die Figur sichtbar unter dem Cursor steht.
+  view.hover = container.matches(':hover');
 
   const visibilityObserver = typeof IntersectionObserver === 'function'
     ? new IntersectionObserver((entries) => {

@@ -1475,3 +1475,137 @@ kein weiterer Commit auf `main`.
 3. **Routenzahl 23 statt 18** — main ist seit `11e78a1` auf 23 praerenderte
    Dokumente gewachsen (Tools, Artwork-Detailseiten, Impressum). Der Branch
    erbt sie; es ist kein Zuwachs aus der Mannequin-Arbeit.
+
+## M6 — Diagnose: Canvas / IntersectionObserver / GLB / Draco+KTX2
+
+### Kurzfassung
+
+Das gemeldete Symptom („Modell sichtbar, aber keine Reaktion auf Hover/Drag")
+ist im Messaufbau **nicht** reproduzierbar: In jeder untersuchten Umgebung
+mountet genau ein Canvas, das GLB und beide Decoder kommen mit 200 an, und
+Drag dreht die Figur. **Ein** belegter Defekt existiert im Hover-Pfad und ist
+hier behoben — er erklaert die Hover-Haelfte der Meldung, nicht die Drag-Haelfte.
+
+Basis: `origin/main` **`1608499`** statt des im Auftrag genannten `494ee49`,
+weil main zwischen Auftrag und Lauf um den MAIL-02-Stack vorgerueckt ist.
+`git diff --name-only 494ee49 origin/main -- src/ public/models/` ist leer —
+der Viewer-Code ist zwischen beiden Staenden identisch.
+
+### Klassifikation
+
+Im Auftragsschema liegt **Fall C** vor (Canvas = 1, Poster weg, aber erwartete
+Reaktion bleibt aus) — allerdings nur scheinbar: die gemessene Reaktion ist da.
+Zusaetzlich tritt **Fall A** in genau einer Umgebung auf, die laut Auftrag
+korrekt ist (kein WebGL → Poster-Fallback).
+
+| Fall | Bedingung | Ergebnis |
+| --- | --- | --- |
+| A | Canvas = 0 | nur ohne WebGL-Kontext: `state=failed`, Poster bleibt, Live-Region meldet es |
+| B | Poster liegt darueber | **nicht** beobachtet: Poster `pointer-events: none`, Canvas `z-index: 1` |
+| C | Canvas = 1, Poster weg | **beobachtet, aber funktionsfaehig**: Drag dreht, Hover dreht |
+
+### Messmatrix
+
+`docs/validation/MANNEQUIN-C/m6/diagnosis.json`, Chromium 1440×1000 / 390×900,
+lokal gegen den gebauten Stand:
+
+| Umgebung | cold Canvas | state | Canvas | Poster opacity / pointer-events | Auto Δ | Hover Δ | Drag Δ |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1440, reduced=no | 0 | ready | 1 (1370×720) | 1 → 0 / none | 0,000 | **0,196** | **1,169** |
+| 1440, reduced=yes | 0 | ready | 1 (1370×720) | 0 / none | 0,000 | 0,000 | **1,192** |
+| 390, reduced=no, touch | 0 | ready | 1 (346×452) | 0 / none | 0,057 | **0,443** | **1,062** |
+| 390, reduced=yes, touch | 0 | ready | 1 (346×452) | 0 / none | 0,000 | 0,000 | **1,601** |
+| 1440, WebGL abgeschaltet | 0 | failed | 0 | 1 / none | — | — | — |
+
+`elementFromPoint` in der Canvas-Mitte liefert `CANVAS.mannequin-preview-canvas`,
+die Kette darueber ist `DIV.mannequin-preview-frame` → `FIGURE` → `SECTION`.
+Kein Overlay liegt ueber dem Canvas; `src/cursor.css` setzt nur CSS-`cursor`,
+es gibt kein DOM-Cursor-Element.
+
+Echter Touch (CDP `Input.dispatchTouchEvent`, nicht `page.mouse`):
+`pointerdown → touchstart → 10× pointermove → pointerup → touchend`, **kein
+`pointercancel`**, Seite scrollt nicht, Winkel +1,0979 rad. `touch-action: pan-y`
+greift also wie beabsichtigt.
+
+### Netzwerk / Decoder
+
+| Request | Status | Content-Type | Bytes |
+| --- | --- | --- | --- |
+| `/models/mannequin-c.d76abc164512.glb` | 200 | `model/gltf-binary` | 457.000 |
+| `/draco/draco_wasm_wrapper.js` | 200 | `text/javascript` | 11.748 |
+| `/draco/draco_decoder.wasm` | 200 | `application/octet-stream` | 192.420 |
+| `/basis/basis_transcoder.js` | 200 | `text/javascript` | 15.169 |
+| `/basis/basis_transcoder.wasm` | 200 | `application/octet-stream` | 527.333 |
+
+Produktion (`https://www.h4ngelic.com`) identisch, dort liefern die beiden
+`.wasm` sogar `application/wasm`. Kalter Aufruf: 0 Canvas, 0 GLB. Nach dem
+Scrollen: genau **1** GLB-Request. Console im Normalfall: keine Errors, nur
+die SwiftShader-`ReadPixels`-Warnungen der Software-Rendering-Umgebung.
+
+### Der eine belegte Defekt — Hover war beim Mount nicht aktiv
+
+Scrollen loest **kein** `pointerenter` aus. Stand der Zeiger schon ueber der
+Figur, als der Viewer (nach dem asynchronen Laden) seine Listener registrierte,
+war das `pointerenter` laengst vorbei — `view.hover` blieb `false`, bis der
+Nutzer den Zeiger bewegte. In dieser Zeit steht die Figur still (Auto-Rotation
+setzt erst nach `idleDelay` = 2000 ms ein).
+
+Nachweis vor dem Fix (`:hover` = true, Pointer ruht):
+
+```
+:hover beim Mount = true; Winkel-Delta ueber 1,2 s ohne Zeigerbewegung = 0.0000 rad
+```
+
+Fix in `src/mannequin-preview.js`, direkt nach der Listener-Registrierung:
+
+```js
+view.hover = container.matches(':hover');
+```
+
+Nach dem Fix, gleiche Messung:
+
+```
+:hover beim Mount = true; Winkel-Delta ueber 1,2 s ohne Zeigerbewegung = 0.2041 rad
+```
+
+### Als „by design" bestaetigt (nicht gefixt)
+
+- **Kein WebGL** → `state=failed`, Canvas 0, Poster bleibt, Live-Region
+  „This browser cannot render 3D; the poster stays as the fallback."
+  (`m6/fallback-no-webgl-1440.png`).
+- **`prefers-reduced-motion: reduce`** → Auto-Rotation und Hover aus, Drag
+  bleibt aktiv. Genau dieses Muster erzeugt „Figur steht still"; es ist die
+  wahrscheinlichste Erklaerung, wenn die Meldung auf einem Geraet mit
+  „Bewegung reduzieren" entstand.
+- **Demo-Design** → Button `aria-disabled="true"`, `disabled`, sichtbarer
+  Hinweis „no decals on the sculpted uv layout". Keine Kleckse fuer C.
+
+### Was nicht die Ursache ist
+
+IntersectionObserver (`rootMargin: 240px 0px`, `threshold: 0.01` im Loader;
+`threshold: 0` fuer die Sichtbarkeit im Viewer) feuert korrekt, der GLB-Decode
+laeuft durch (Draco + KTX2), die 301-/Routing-Schicht ist unbeteiligt, und der
+Render-Loop laeuft nach dem ersten Frame weiter (`data-mannequin-renders`
+steigt). Ein Fehler nach dem ersten Frame ist in der Console nicht vorhanden.
+
+### Regressionstest
+
+Neuer Block in `tests/mannequin-preview-browser.mjs`: Zeiger vor dem Scrollen
+abstellen, auf `ready` warten, `:hover` pruefen und die Winkelanderung ueber
+1,2 s messen (innerhalb `idleDelay`, damit nur Hover drehen kann). Schwelle
+`> 0.05 rad`. Der Block schlaegt ohne den Fix fehl (0,0000 rad) und laeuft mit
+ihm gruen (0,253 rad im Suite-Lauf).
+
+### Suiten nach dem Fix
+
+| Suite | Ergebnis |
+| --- | --- |
+| `test:mannequin-preview` | PASS (inkl. neuem M6-Block) |
+| `test:mannequin-entrance` | PASS |
+| `test:mannequin-framerate` | PASS, Spanne < 5 % |
+| `test:mannequin-pointer` | PASS, Spanne 0,00 % |
+| `npm test` | **441/441** |
+| `verify:assets` | OK (457.000 B, `d76abc164512…`) |
+
+Asset, Procreate-Paket, Routing und `vercel.json` sind unberuehrt.
+
