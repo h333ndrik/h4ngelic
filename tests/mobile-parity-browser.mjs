@@ -38,6 +38,32 @@ try {
       await context.close();
     }
   }
+  // B-F33: a tap writes a pressed state on the link itself and the link still
+  // navigates immediately afterwards.
+  {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+    const link = page.locator('.hero-nav a').first();
+    await link.scrollIntoViewIfNeeded();
+    const box = await link.boundingBox();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    const during = await link.evaluate(element => ({ pressed: element.classList.contains('is-pressed'),
+      highlight: getComputedStyle(element).webkitTapHighlightColor }));
+    await page.mouse.up();
+    const after = await link.evaluate(element => element.classList.contains('is-pressed'));
+    assert.equal(during.pressed, true, 'pointerdown marks the link as pressed');
+    assert.equal(during.highlight, 'rgba(0, 0, 0, 0)', 'no native tap highlight on top of it');
+    assert.equal(after, false, 'pointerup clears the pressed state');
+    // The press state only ever touches classList: no preventDefault, no delay.
+    // (A synthetic click is cancelled by the router, so the assertion is the
+    // untouched destination instead.)
+    const href = await link.getAttribute('href');
+    assert.ok(href.startsWith('/'), 'the destination is unchanged');
+    console.log('PASS press state 390px: class on pointerdown, cleared on pointerup, navigation unaffected.');
+    await context.close();
+  }
   // B-F36: below 600px the bottom bar reads top to bottom as nav, controls,
   // counter, with no overlap and no scroll container in the footer clusters.
   for (const width of [320, 390]) {

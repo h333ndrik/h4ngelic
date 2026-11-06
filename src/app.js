@@ -33,6 +33,7 @@ import { heroPosterSettings } from './data/heroPosterSettings.js';
 import { fitRubricRows } from './rubric-fit.js';
 import { initMannequinPreviewLazy } from './mannequin-preview-loader.js';
 import { initSectionEntrance } from './section-entrance.js';
+import { initPressState } from './press-state.js';
 
 if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
 document.documentElement.dataset.h4StylesReady = 'true';
@@ -359,6 +360,7 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopConnectedWork = initConnectedWork(content);
   stopModelPreview = initMannequinPreviewLazy(content);
   stopSectionEntrance = initSectionEntrance(content);
+  initPressState(document);
   scheduleSlashInset();
   document.fonts?.ready.then(scheduleSlashInset);
 

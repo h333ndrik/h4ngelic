@@ -95,3 +95,17 @@ NAAVI, zentriert).
 Alle drei Zeilen halten 44 px Höhe. Die alte Controls-Position (oben rechts,
 `top: 72px`) ist damit weg — sie war die Ursache für „slow/pause/sound gedrängt
 über den Links".
+
+## B-F33 — Press statt Hover auf Touch
+
+`src/press-state.js` schreibt `.is-pressed` auf den Link selbst
+(`pointerdown`), räumt es bei `pointerup`/`pointercancel`/`pointerleave` wieder
+ab. Kein `preventDefault`, keine Verzögerung — der Handler fasst nur
+`classList` an. `src/style.css` setzt `-webkit-tap-highlight-color:
+transparent` für genau diese Links, damit nicht zwei „gedrückt"-Optiken
+übereinanderliegen, und gibt `.is-pressed` eine eigene, kurze Optik
+(`opacity .72`, `translateY(1px)`, keine Transition).
+
+Nachweis (390 px, `tests/mobile-parity-browser.mjs`): Klasse ist während des
+`pointerdown` gesetzt, nach `pointerup` wieder weg, Tap-Highlight ist
+`rgba(0, 0, 0, 0)`, Ziel-Href unverändert.

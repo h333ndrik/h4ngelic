@@ -186,3 +186,14 @@ html:not([data-page='home']) .hero-nav { display: none; }
   content-visibility: auto;
   contain-intrinsic-size: auto 720px;
 }
+
+/* B-F33: touch gets the pressed phase instead of a hover that never ends.
+   The tap highlight is disabled so only one "pressed" look can appear. */
+:is(.hero-nav a, .page-nav a, .category-link, .filter-link, .rubric-cross-links a, .text-link, .footer-instagram) {
+  -webkit-tap-highlight-color: transparent;
+}
+:is(.hero-nav a, .page-nav a, .category-link, .filter-link, .rubric-cross-links a, .text-link, .footer-instagram).is-pressed {
+  opacity: .72;
+  transform: translateY(1px);
+  transition: none;
+}
