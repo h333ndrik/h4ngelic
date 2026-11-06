@@ -1454,14 +1454,38 @@ Ein erster Lauf gegen den **praerenderten Preview-Server** schlug fehl
 Test ist auf den Vite-Dev-Server (`:5173`) ausgelegt. Gegen `npx vite` laeuft er
 gruen. Keine Regression, kein vorbestehender Fehlschlag in diesem Lauf.
 
+### Phase 6/8 — Merge, Push, Auslieferung
+
+| | Wert |
+| --- | --- |
+| Merge-Commit auf `main` | **`494ee492a6b329577e7e140425b944198cff0ddc`** (`--no-ff`, 0 Konflikte) |
+| `main` vorher | `d5508243027dc454772d124327617ff1eef55a88` |
+| Push `main` | `d550824..494ee49` (Fast-Forward, ohne Force) |
+| Push Branch | `802c4a5..b9ab902` (`v3.2-mannequin-female`) |
+| Tests auf gemergtem `main` | `npm test` **431/431**, `verify:assets` OK, Build **23 Routen + 404**, SEO PASS |
+
+**Auslieferung (lokaler Preview-Server auf dem gemergten Build):**
+
+| Pruefung | Ist |
+| --- | --- |
+| `Content-Type` der GLB | `model/gltf-binary` |
+| `Content-Length` / Bytes | 457.000 / 457.000 |
+| SHA-256 der ausgelieferten Datei | `d76abc1645120eb217d0de062887ed029f40d963994f18d8024d64e93fbd71fb` |
+| `<figure class="mannequin-preview">` auf `/creative/tattoos` | 1 |
+| `<canvas>` in der Figur | 0 |
+| Poster-`<img>` | 1 |
+| `data-mannequin-variant` | `C` |
+| GLB im kalten HTML (`modulepreload`/`link`) | keins |
+
 ### Deploy & Rollback
 
 Der Merge nach `main` loest das Production-Deployment aus (Vercel baut aus
 `main`). Kein eigenes `vercel.json` angelegt; main bringt seins mit.
 
-Rollback (nur auf Zuruf): `git revert -m 1 <merge-sha>` — entfernt den
-Merge und stellt den Stand von `d5508243` wieder her. Voraussetzung: danach
-kein weiterer Commit auf `main`.
+Rollback (nur auf Zuruf): `git revert -m 1 494ee492a6b329577e7e140425b944198cff0ddc`
+— entfernt den Merge und stellt den Stand von `d5508243` wieder her.
+Voraussetzung: danach kein weiterer Commit auf `main`. `main` steht nach
+diesem Lauf genau auf dem Merge-Commit, die Bedingung ist also erfuellt.
 
 ### Abweichungen vom Auftragstext (bewusst, begruendet)
 

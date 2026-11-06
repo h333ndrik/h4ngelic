@@ -1,8 +1,9 @@
 # V3.2-M5 — Mannequin-C auf `main` gemergt — 2026-11-06
 
-Branch `v3.2-mannequin-female`. Merge-Commit: siehe `git log -1 --merges main`.
-Deploy: Vercel baut aus `main` automatisch; Rollback nur auf Zuruf
-(`git revert -m 1 <merge-sha>`).
+Branch `v3.2-mannequin-female`. Merge-Commit auf `main`:
+`494ee492a6b329577e7e140425b944198cff0ddc` (`--no-ff`, 0 Konflikte),
+Push `d550824..494ee49`. Deploy: Vercel baut aus `main` automatisch; Rollback
+nur auf Zuruf: `git revert -m 1 494ee492a6b329577e7e140425b944198cff0ddc`.
 
 ## Status
 
