@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-11-05T20:28:33.404Z",
+  "measuredAt": "2026-11-06T14:45:19.001Z",
   "referenceFrameRate": 60,
   "dragSpeedPxPerSecond": 400,
   "note": "Pro Framerate eine eigene Seite mit festem virtuellem rAF-Takt; Ereignisse am Frameanfang.",
@@ -31,10 +31,10 @@
     {
       "rate": 30,
       "hover": {
-        "t95": 977.0114942528922,
-        "speed": 0.5379999999999904,
-        "angleAtOneSecond": 0.3661999999999905,
-        "frames": 42
+        "t95": 977.0114942528656,
+        "speed": 0.539333333333338,
+        "angleAtOneSecond": 0.3662000000000048,
+        "frames": 43
       },
       "drag": {
         "peak": 3,
@@ -50,9 +50,9 @@
     {
       "rate": 60,
       "hover": {
-        "t95": 976.6666666666646,
+        "t95": 976.666666666685,
         "speed": 0.5379999999999904,
-        "angleAtOneSecond": 0.3666000000000012,
+        "angleAtOneSecond": 0.36659999999999043,
         "frames": 84
       },
       "drag": {
@@ -81,16 +81,16 @@
         "angle": 0.7500000000000001
       },
       "auto": {
-        "speed": 0.17953333333333638,
+        "speed": 0.17986666666666967,
         "frames": 289
       }
     }
   ],
   "spread": {
-    "hoverTimePercent": 0.03530019328157983,
-    "hoverSpeedPercent": 0.02478110028411015,
-    "hoverAnglePercent": 0.16369588941899435,
-    "autoSpeedPercent": 0.25964391691028593,
+    "hoverTimePercent": 0.03530019327676097,
+    "hoverSpeedPercent": 0.24760647078508904,
+    "hoverAnglePercent": 0.16369588941508642,
+    "autoSpeedPercent": 0.18534536018203748,
     "flickPeakPercent": 0
   }
 }

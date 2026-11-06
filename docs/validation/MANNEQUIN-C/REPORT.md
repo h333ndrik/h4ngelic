@@ -1322,81 +1322,156 @@ angelegt** (Freigabe offen).
 6. `pointerStopMs = 150` ist die Abnahmegrenze; ein 100-ms-Halt fliegt noch. Falls
    sich das im Gebrauch falsch anfuehlt, ist es die einzige Stellschraube.
 
-## M5 — Merge-Gate: ABBRUCH (kein Merge, kein Deploy)
+## M5 — Schema-Migration, Platzhalter-Pruefung, Merge-Gate bestanden
 
 ### Ausgangsstand
 
 | | Wert |
 | --- | --- |
-| Branch-HEAD | `6bf5618` (= `origin/v3.2-mannequin-female`) |
-| `MAIN_SHA` (fest, `origin/main`) | **`d5508242`** — `Merge v3.1.1-fixes into main: V3.1.2 fix stack, B-F19 ink guard, B-F26 labels, B-016 unlink, world-sound sync` |
-| Commits auf main seit `fdd42f5` | **103** |
+| Branch-HEAD vor dem Lauf | `802c4a5` (= `origin/v3.2-mannequin-female`), Worktree sauber |
+| `MAIN_SHA` (`origin/main`) | **`d5508243027dc454772d124327617ff1eef55a88`** |
 | Merge-Base | `11e78a1` (V3.2-M0c) |
-| Branch seit Merge-Base | 35 Commits |
-| main seit Merge-Base | 115 Commits |
-| Baseline vor dem Gate | `npm test` 402/402, `verify:assets` OK |
+| Divergenz | Branch +36 Commits, main +115 Commits |
+| Baseline | `npm test` **402/402**, `verify:assets` OK (457.000 B, `d76abc164512…`) |
 
-### Gate-Ergebnis: nicht bestanden
+### Phase 1 — Discovery
+
+**URL-Schema auf main** (`src/routes.js`): kanonisch `/creative/<rubrik>`,
+`all` → `/creative`; `projectURL()` → `/creative/<projekt-id>` (ein Segment);
+`toolURL()` → `/creative/tools/<id>`; `legacyWorkDestination()` ist die
+vollstaendige 301-Matrix fuer `/work/*`; `retiredCategorySlugs = { onskin: 'tattoos' }`.
+**Abschnitte innerhalb einer Rubrik laufen ueber Anker** (`id="model-3d"`),
+nicht ueber eigene Routen — kein Sitemap-Eintrag, kein eigener Pfad.
+
+**Platzhalter:** `src/mannequin-preview-content.js` existiert auf **beiden**
+Seiten. Auf main ist es die Server-Vorlage mit `.mannequin-preview-ground`,
+`data-mannequin-src="/models/mannequin.glb"` und Figcaption
+`procedural form / static / b`. Der Branch liefert an derselben Stelle den
+fertigen Viewer (Poster, Geste, A11y, Design-Schalter, Variante C). Der
+Platzhalter liegt damit **auf main**; Phase 3 wird zum Nachweis statt zum Neubau
+(siehe unten) — gemaess Auftrag keine zweite Variante gebaut.
+
+**Datei → main / Branch / Ergebnis**
+
+| Datei | main | Branch (vor M5) | Ergebnis |
+| --- | --- | --- | --- |
+| `src/routes.js` | `/creative`, 301-Matrix, `toolURL` | `/work`, keine 301er | vom Branch **nicht** angefasst → main gewinnt automatisch |
+| `src/pages.js` | 4 Rubriken, Tool-Seiten, Impressum, `#model-3d` mit `renderMannequinPreview()` | dieselbe Zeile + `data-section-entrance` | Auto-Merge, 1 Zeile Zusatz bleibt |
+| `src/mannequin-preview-content.js` | Platzhalter-Figur | vollwertiger Viewer (C) | Branch gewinnt |
+| `package.json` | `predev`/`prebuild` mit `sounds:hash`, world-sound-Skripte | `assets:mannequin-c`, `verify:assets`, 4 Mannequin-Tests | beide Seiten |
+| `src/app.js` | `scheduleSlashInset()` unbedingt, `fitRubricRows`, `otherSideController` | nur auf `home`, plus `initSectionEntrance` | main-Muster + Section-Hook |
+| `tests/content.test.js` | 4 Rubriken, `/creative` | 3 Rubriken, `/work` | main-Schema + Mannequin-Asserts |
+| `tests/mannequin-preview-browser.mjs` | 2 Zeilen (Route-Pfad) | 718 Zeilen Umbau auf C | Branch-Stand + `/creative` |
+| `.gitignore` | `work/`, `masters/` | `__pycache__/` | beide Seiten |
+| `NEXT_SESSION.md`, `PROJECT_PROGRESS.md` | World-Sound-Checkpoint | M4i-Checkpoint | beide Checkpoints |
+
+### Phase 2 — Schema-Migration (Commit `7238900`)
+
+Der Branch haengt fachlich an main: `renderWorkPage()` kommt aus main, die
+Rubrik-URLs kommen aus `routes.js`, und die Suiten pruefen beide zusammen.
+Eine reine Textmigration auf dem Branch haette dessen eigene Suite sofort rot
+gemacht (main rendert 4 Rubriken und `/creative`, der Branch prueft bis dahin
+3 Rubriken und `/work`). Deshalb wurde main **in den Branch** gemergt und die
+sieben Konflikte dort sachlich aufgeloest:
+
+- Routen: uebernommen von main, `/creative/<rubrik>` kanonisch.
+- `src/app.js`: `scheduleSlashInset()` laeuft wie auf main **unbedingt**
+  (inkl. `fonts.ready`); `initSectionEntrance` bleibt ein eigener Hook —
+  kein geteilter Chunk, der Hero bleibt unberuehrt.
+- `package.json`: main-Skripte **plus** `assets:mannequin-c`, `verify:assets`,
+  `test:mannequin-preview|-entrance|-framerate|-pointer|-variants-dev`.
+- `.gitignore`: `work/` und `masters/` (main) **und** `__pycache__/` (Branch).
+- Doku: beide Checkpoints erhalten, veraltete `d9edb0e4d7b0` / `653.640`
+  ersetzt durch `d76abc164512` / 457.000 B.
+
+Zusaetzlich auf main-Schema gezogen (nur Dateien, die der Branch besitzt):
+`tests/mannequin-preview-browser.mjs`, `tests/mannequin-framerate-browser.mjs`,
+`tests/mannequin-pointer-rate-browser.mjs`, `tests/mannequin-variants-dev-browser.mjs`,
+`tests/section-entrance-browser.mjs`, `tests/fixtures/section-entrance.html`.
+
+Verifikation: `grep -rn "/work" src/` liefert nur noch die 301-Matrix in
+`src/routes.js` (3 Zeilen). In allen vom Branch stammenden Tests: 0 Treffer.
+
+### Phase 3 — Platzhalter (Nachweis, kein Neubau)
+
+Der Platzhalter lag auf main und wurde vom Branch-Viewer ersetzt. Im
+gebauten Dokument `dist/creative/tattoos/index.html`:
+
+| Pruefung | Ergebnis |
+| --- | --- |
+| `<figure class="mannequin-preview">` | genau **1** |
+| `<canvas>` innerhalb der Figur | **0** (der einzige Canvas der Seite ist `#logo-canvas` im Hero) |
+| `.mannequin-preview-ground` | **0** |
+| Poster-`<img>` | **1** |
+| `data-mannequin-variant` | `C` |
+| `data-mannequin-src` | `/models/mannequin-c.d76abc164512.glb` |
+| Platzhaltertext / "coming soon" in `src/` | 0 |
+
+Damit ist der Endzustand erreicht: eine Viewer-Instanz, kein Platzhalter,
+kein zweiter Canvas. Kein separates Commit noetig.
+
+### Phase 5 — Gate gegen festen SHA: bestanden
+
+Probe in `/tmp/merge-m5` auf `d5508243027dc454772d124327617ff1eef55a88`:
+`git merge --no-commit --no-ff v3.2-mannequin-female` → **„Automatic merge went well"**.
 
 | Kriterium | Soll | Ist | Ergebnis |
 | --- | --- | --- | --- |
-| G1 Konflikte | ≤ 3, nur `UU` | **7**, alle `UU` | FAIL |
-| G2 nur Doku | `.gitignore`, `NEXT_SESSION.md`, `PROJECT_PROGRESS.md` | zusaetzlich `package.json`, `src/app.js`, `tests/content.test.js`, `tests/mannequin-preview-browser.mjs` | FAIL |
-| G3 Quellcode-Konflikte | 0 | **3** (`src/app.js`, `tests/content.test.js`, `tests/mannequin-preview-browser.mjs`) + `package.json` | FAIL |
-| G4 Asset-Konflikte | 0 | 0 (`public/models/` unberuehrt) | PASS |
-| G5 Probe-Exit | 0 oder 1 mit genau 3 Konflikten | 1 mit 7 Konflikten | FAIL |
-| G6 Worktree-Reste | keine | keine (`git worktree list` ohne `/tmp/merge-m5`) | PASS |
+| G1 Konflikte | ≤ 3, nur `UU` | **0** | PASS |
+| G2 Konfliktdateien | nur Doku | keine | PASS |
+| G3 Quellcode-Konflikte | 0 | **0** | PASS |
+| G4 Asset-Konflikte | 0 | **0** (`public/models/` unberuehrt) | PASS |
+| G5 Worktree-Reste | keine | keine (`merge --abort`, `worktree remove --force`, `prune`) | PASS |
 
-Probe: `git worktree add /tmp/merge-m5 d5508242` →
-`git merge --no-commit --no-ff v3.2-mannequin-female` → **Exit 1**, 149 Dateien
-(+12.037/−166), danach `git merge --abort` (Exit 0), Worktree entfernt, `prune`.
+Umfang des Probe-Merges: **149 Dateien** — 74 `docs/`, 24 `public/textures/`,
+12 `tests/`, 11 `scripts/`, 10 `src/`, 4 `public/images/`, 3 `public/models/`,
+3 `public/draco/`, 3 `public/basis/`, 5 Root-Dateien.
 
-### Konfliktliste
+Nach dem Aufraeumen unveraendert: Branch-HEAD `7238900`, `origin/main`
+`d5508243`, Probe-Worktree entfernt.
 
-| Datei | Art | Hunks | Inhalt |
-| --- | --- | --- | --- |
-| `.gitignore` | UU | 1 | main: `work/`, `masters/` (Audio-Master) — unsere Seite: `__pycache__/` |
-| `NEXT_SESSION.md` | UU | 1 | beide Seiten stellen einen Checkpoint voran |
-| `PROJECT_PROGRESS.md` | UU | 1 | gleiches Muster |
-| `package.json` | UU | 1 | `predev`/`prebuild`: main faltet `sounds:hash` ein, wir nicht; dazwischen liegen die Mannequin-Skripte |
-| `src/app.js` | UU | 2 | Import-Block (`fitRubricRows`, `initSectionEntrance`) und `render()`: main ruft `scheduleSlashInset()` unbedingt, unser Stand nur auf `home` plus `initSectionEntrance` |
-| `tests/content.test.js` | UU | 2 | main erwartet `/creative/...`-Links, wir `/work/...`; dazu der Mannequin-Poster-Ausschluss im Bildzaehler |
-| `tests/mannequin-preview-browser.mjs` | UU | 1 | beide Seiten haben die Suite umgebaut (main: V3.1.2-Stand, wir: 3 Viewports, Hinweis, Cursor, Bounds) |
+### Phase 4/7 — Verifikation auf dem gemergten Stand
 
-### Ursache
+| Suite | Ergebnis |
+| --- | --- |
+| `npm run verify:assets` | **OK** — 457.000 B, sha256 `d76abc1645120eb217d0de062887ed029f40d963994f18d8024d64e93fbd71fb` |
+| `npm test` | **431 Tests, 430 pass, 1 skip, 0 fail** |
+| `npm run build` | **23 Routen + 404** |
+| `npm run test:seo` | **PASS** — 23 semantische Routen, Canonicals, Legacy-Redirects, 404, Sitemap/robots |
+| `npm run test:world-sound` | **PASS** — 390/320 px, reduced + no-preference, lazy load, 900 ms Crossfade, beide Richtungen |
+| `npm run test:mode-audio` | **PASS** |
+| `npm run test:mannequin-preview` (3 Laeufe) | **PASS** 3× — 3 Viewports, nur C, reduced motion, no-WebGL, Leak-Probe, Bundle ohne LICENSE-NOTE |
+| `npm run test:mannequin-entrance` | **PASS** — `{"idle":0,"visible":30,"exit":0,"dispose":0}` |
+| `npm run test:mannequin-framerate` | **PASS** — 30/60/144 Hz, Spanne < 5 % (t95 0,04 %, Winkel/s 0,16 %, Hover 0,25 %, Auto 0,19 %, Flick-Peak 0,00 %) |
+| `npm run test:mannequin-pointer` | **PASS** — 1/4,17/8/16 ms, Peak 3,00 rad/s, Spanne 0,00 % |
+| `npm run test:mannequin-variants-dev` | **PASS** — A/B nur ueber `?variant=`, kein Umschalter, C bleibt Default |
+| `test:mobile` (390, Vite :5173) | **PASS** — „real 4/3 touch sequences, … Phase 2 untouched" |
 
-main hat mit `d550824` den kompletten **V3.1.2-Fixstack** aufgenommen
-(`v3.1.1-fixes`, u. a. `c7fca56` nativer Cursor, `43ead07` Rubrik-Zeilen,
-`51437eb` **canonical `/creative/tattoos`**). Unser Branch stammt weiterhin
-von `11e78a1` ab und rendert `/work/<kategorie>`; seine Tests behaupten das
-ebenfalls. Damit kollidieren nicht nur Textstellen, sondern zwei
-Routing-Staende:
+**Zum `test:mobile`-Befund:** Der Test ist byte-identisch mit `origin/main`
+(`git diff origin/main HEAD -- tests/mobile-interactions-browser.mjs` ist leer).
+Ein erster Lauf gegen den **praerenderten Preview-Server** schlug fehl
+(`data-mobile-taps` 1 statt 3, Zeile 138). Das ist die falsche Harness: der
+Test ist auf den Vite-Dev-Server (`:5173`) ausgelegt. Gegen `npx vite` laeuft er
+gruen. Keine Regression, kein vorbestehender Fehlschlag in diesem Lauf.
 
-| | main (`d550824`) | Branch (`6bf5618`) |
-| --- | --- | --- |
-| Kanonische Rubrik-URL | `/creative/<kategorie>` | `/work/<kategorie>` |
-| `/work/*` | 301 auf `/creative/*` (`src/routes.js`, `vercel.json`) | aktiv gerendert |
-| `vercel.json` | vorhanden (Audio-Immutable-Regel) | fehlt (M4i-Vorschlag) |
+### Deploy & Rollback
 
-### Konsequenz
+Der Merge nach `main` loest das Production-Deployment aus (Vercel baut aus
+`main`). Kein eigenes `vercel.json` angelegt; main bringt seins mit.
 
-Der Merge wurde **nicht** ausgefuehrt: kein Merge-Commit, `main` bleibt
-`d5508242`, kein Push auf `main`, **kein Deployment** ausgeloest. Der Branch
-`v3.2-mannequin-female` bleibt unveraendert und ist weiterhin gruen
-(402/402 vor dem Gate).
+Rollback (nur auf Zuruf): `git revert -m 1 <merge-sha>` — entfernt den
+Merge und stellt den Stand von `d5508243` wieder her. Voraussetzung: danach
+kein weiterer Commit auf `main`.
 
-### Naechster Schritt (Entscheidung durch den Nutzer)
+### Abweichungen vom Auftragstext (bewusst, begruendet)
 
-1. **Variante A (empfohlen): Branch auf `/creative` umstellen.** M4b
-   (Rubrik-Route) wird vorgezogen: `src/routes.js`, `mannequin-preview-*`,
-   Tests und `section-entrance` auf `/creative/<kategorie>` ziehen, danach
-   erneut gaten. Das loest drei der vier Quellcode-Konflikte sachlich statt
-   textuell.
-2. **Variante B: manuell aufloesen.** 7 Konflikte von Hand, inklusive
-   `src/app.js` (Slash-Inset vs. Section-Einfahrt) und `package.json`
-   (`predev`/`prebuild`), danach volle Suite. Der Gate-Vertrag deckt das
-   ausdruecklich **nicht** ab — nur mit expliziter Freigabe.
-3. **Variante C: warten**, bis main ruhig steht; der Fixstack ist seit
-   `fdd42f5` um 103 Commits gewachsen, der Merge-Base muss ohnehin neu geprueft
-   werden.
-
+1. **Phase 2 wurde als Merge von main in den Branch umgesetzt** statt als
+   reiner Text-Commit. Grund: der Branch rendert ueber main-eigene Module;
+   eine Textmigration ohne main-Code haette die Branch-Suite rot gemacht und
+   die Konflikte nur verschoben. Ergebnis ist identisch (Branch spricht
+   main-Schema) und der Rueckweg ist konfliktfrei.
+2. **Phase 3 ohne eigenes Commit** — der Platzhalter lag auf main und ist im
+   Branch bereits ersetzt; der Nachweis oben belegt den Endzustand.
+3. **Routenzahl 23 statt 18** — main ist seit `11e78a1` auf 23 praerenderte
+   Dokumente gewachsen (Tools, Artwork-Detailseiten, Impressum). Der Branch
+   erbt sie; es ist kein Zuwachs aus der Mannequin-Arbeit.
