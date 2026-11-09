@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createPointerWindow } from '../src/mannequin-pointer-window.js';
 import { mannequinPreviewConfig } from '../src/mannequin-preview-config.js';
 
@@ -147,13 +147,21 @@ test('velocity is a pure function of the samples (no double increment)', () => {
   assert.ok(win.size <= Math.ceil(motion.pointerWindowMs / EVENT_MS) + 2, `Der Puffer bleibt begrenzt (${win.size}).`);
 });
 
+// Evidence is written once and then left alone: the measurement itself is the
+// proof, the timestamp is not. Rewriting it on every `npm test` dirtied the
+// working tree and turned committed evidence into accidental noise.
 const evidence = new URL('../docs/validation/MANNEQUIN-C/', import.meta.url);
 await mkdir(evidence, { recursive: true });
-await writeFile(new URL('m4i-pointer-window.json', evidence), `${JSON.stringify({
-  measuredAt: new Date().toISOString(),
+const evidenceFile = new URL('m4i-pointer-window.json', evidence);
+const payload = {
   eventIntervalMs: EVENT_MS,
   flickVelocity,
   chosen: { pointerWindowMs: motion.pointerWindowMs, pointerStopMs: motion.pointerStopMs },
   rule: ['schneller und langsamer Wisch flick', 'Stillstand >= 150 ms flick nicht', 'kein Doppel-Trigger'],
   table,
-}, null, 2)}\n`);
+};
+const existing = await readFile(evidenceFile, 'utf8').then(text => JSON.parse(text), () => null);
+const unchanged = existing && JSON.stringify({ ...existing, measuredAt: undefined }) === JSON.stringify({ ...payload, measuredAt: undefined });
+if (!unchanged) {
+  await writeFile(evidenceFile, `${JSON.stringify({ measuredAt: new Date().toISOString(), ...payload }, null, 2)}\n`);
+}
