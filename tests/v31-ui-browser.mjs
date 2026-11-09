@@ -247,7 +247,13 @@ async function imageContract(page, profile) {
   await settled(page);
   assert.equal(await digital.getAttribute('aria-pressed'),'true');
   const digitalExpanded = await digital.locator('img').boundingBox();
-  assert.ok(digitalExpanded.width / digitalBefore.width >= 1.2,'Digital reuses the same clearly larger inline viewing module.');
+  // B-F39: the digital artwork now rests in the same 300 px card slot as a
+  // tattoo photo, so on a 320 px phone the expansion can only grow to the
+  // viewport width (1.067x) — exactly like the tattoo card above. The old
+  // flat 1.2 threshold predates that contract.
+  const digitalGrowth = digitalExpanded.width / digitalBefore.width;
+  assert.ok(digitalGrowth >= (profile.width < 600 ? 1.04 : 1.2),
+    `Digital reuses the same clearly larger inline viewing module (${digitalGrowth.toFixed(3)}).`);
   assert.ok(digitalExpanded.x >= -1 && digitalExpanded.y >= -1 && digitalExpanded.x + digitalExpanded.width <= profile.width+1 && digitalExpanded.y + digitalExpanded.height <=845);
   assert.equal(await page.locator('dialog[open]').count(),0);
   assert.deepEqual(await page.evaluate(() => ({ y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow })),digitalDocument);
@@ -280,7 +286,13 @@ async function heroContract(page, profile) {
     return { staticPoster };
   }
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-  await page.waitForFunction(() => !document.querySelector('[data-controls]').inert && Number(getComputedStyle(document.querySelector('[data-controls]')).opacity) > .99);
+  // B-F36 (part 2): below 600 px the controls are the secondary row at .72
+  // opacity by design; desktop keeps the full-strength bar.
+  await page.waitForFunction(profile => {
+    const controls = document.querySelector('[data-controls]');
+    const opacity = Number(getComputedStyle(controls).opacity);
+    return !controls.inert && (profile.width < 600 ? opacity >= .7 : opacity > .99);
+  }, profile);
   await coverage(page, ['[data-controls] button', '.hero-nav a', '[data-floating-brand]']);
   const routeFeedback = await page.locator('[data-floating-brand], .hero-nav a').evaluateAll(elements => elements.map(element => {
     const style = getComputedStyle(element); return { text: element.textContent.trim(), opacity: style.opacity, background: style.backgroundColor, backgroundImage: style.backgroundImage, shadow: style.boxShadow };

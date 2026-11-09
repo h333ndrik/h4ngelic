@@ -146,9 +146,26 @@ try {
         assert.ok(asset.ok && asset.width > 0 && asset.height > 0, `[${width}] ${asset.url} decodes to a real cursor image`);
       }
 
+      // B-F36: below 600 px the two footer clusters wrap onto two lines inside
+      // the 90-px band. Desktop keeps the single line. The old assertion
+      // demanded one baseline everywhere and was red since that change.
+      const rows = [];
       for (const item of measured.items) {
         assert.ok(item.height >= 43.5, `[${width}] ${item.element} keeps a 44-px target (${item.height})`);
-        assert.ok(Math.abs(item.top - measured.zone.top) <= 2, `[${width}] ${item.element} sits on the band line`);
+        const row = rows.find(candidate => Math.abs(candidate.top - item.top) <= 2);
+        if (row) row.items.push(item);
+        else rows.push({ top: item.top, items: [item] });
+      }
+      assert.ok(rows.length <= (width <= 600 ? 2 : 1),
+        `[${width}] the band uses ${width <= 600 ? 'at most two' : 'one'} line(s) (${rows.map(row => row.top).join(', ')})`);
+      assert.ok(Math.abs(rows[0].top - measured.zone.top) <= 2, `[${width}] the first line starts on the band top`);
+      for (const row of rows) {
+        const bottom = Math.max(...row.items.map(item => item.bottom));
+        assert.ok(bottom <= measured.zone.bottom + 2, `[${width}] line ${row.top} stays inside the band (${bottom} <= ${measured.zone.bottom + 2})`);
+      }
+      for (let index = 1; index < rows.length; index++) {
+        const previousBottom = Math.max(...rows[index - 1].items.map(item => item.bottom));
+        assert.ok(rows[index].top >= previousBottom - 2, `[${width}] the two lines never overlap`);
       }
       const naavi = measured.items.find(item => item.element.includes('naavi'));
       if (naavi) assert.ok(Math.abs((naavi.top + naavi.height / 2) - (measured.zone.top + measured.zone.height / 2)) <= 2,

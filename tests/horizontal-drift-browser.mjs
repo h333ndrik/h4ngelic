@@ -170,7 +170,7 @@ async function controlsAndWrap(page) {
   assert.equal(await section(page).locator('[data-drift-previous]').isDisabled(), false);
   assert.equal(await section(page).locator('[data-drift-next]').isDisabled(), false);
   await section(page).locator('[data-drift-next]').click(); const next = await atIndex(page, 1);
-  assert.equal(next.count, '2 / 8');
+  assert.equal(next.count, '02/ 08');
   await section(page).locator('[data-drift-previous]').click(); await atIndex(page, 0);
   await section(page).focus(); await page.keyboard.press('End'); const end = await atIndex(page, 7);
   await page.keyboard.press('ArrowRight'); const wrappedForward = await atIndex(page, 0);
@@ -339,12 +339,19 @@ try {
       });
       assert.equal(depth.perspective, 'none');
       assert.ok(depth.items.every(item => close(item.scale, 1, .0001) && close(item.rotation, 0, .0001)), `Every card remains flat without depth scale or rotation: ${JSON.stringify(depth.items)}`);
+      // B-013/B-014 (4ada015): flashes and jewellery ship editorial
+      // placeholders, not artwork. The strip is therefore a real carousel with
+      // eight marked placeholder cards — still without a single image or canvas.
       const flashes = page.locator('[data-horizontal-drift="flashes"]');
-      assert.equal(await flashes.locator('img,canvas,[data-drift-item]').count(), 0);
-      assert.equal(await flashes.locator('.archive-empty').textContent(), 'archive in progress.');
-      assert.equal(await flashes.locator('[data-drift-count]').textContent(), '0 / 0');
-      assert.equal(await flashes.locator('[data-drift-previous]').isDisabled(), true);
-      assert.equal(await flashes.locator('[data-drift-next]').isDisabled(), true);
+      assert.equal(await flashes.locator('img,canvas').count(), 0);
+      assert.equal(await flashes.locator('[data-drift-item]').count(), 8);
+      assert.equal(await flashes.locator('[data-drift-item][data-placeholder="true"]').count(), 8);
+      assert.equal(await flashes.locator('[data-placeholder-expand]').count(), 8);
+      assert.equal(await flashes.locator('[data-placeholder-expand][aria-pressed="false"]').count(), 8);
+      assert.equal(await flashes.locator('.archive-empty').count(), 0);
+      assert.equal(await flashes.locator('[data-drift-count]').textContent(), '01/ 08');
+      assert.equal(await flashes.locator('[data-drift-previous]').isDisabled(), false);
+      assert.equal(await flashes.locator('[data-drift-next]').isDisabled(), false);
       await page.evaluate(() => { window.__carouselLayoutShifts.length = 0; });
       const worlds = [];
       for (const world of ['normal', 'xray']) {

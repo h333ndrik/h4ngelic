@@ -180,6 +180,11 @@ async function contrastContract(page,world) {
     const maximum=Math.max(0,document.documentElement.scrollHeight-innerHeight-200);
     const safeTop=Array.from({length:31},(_,n)=>n*80).find(top=>top<=maximum&&!existing.some(rect=>rect.top<top+nav.bottom&&rect.bottom>top+nav.top));
     if(safeTop===undefined) throw new Error('The contrast fixture needs a viewport row without unrelated display headings.');
+    // B-F31 re-lands on location.hash after a pagechange; this fixture forces
+    // a pagechange to refresh the cached bounds, so the hash must go first.
+    // Otherwise the app's own (correct) hash landing smooth-scrolls away while
+    // the probe is measured, which is not what this contract is about.
+    history.replaceState(null,'',location.pathname+location.search);
     scrollTo({top:safeTop,behavior:'instant'});
     const h=document.createElement('h2');h.className='page-heading kinetic-heading';h.id='v31-contrast-probe';
     h.innerHTML='<span class="kinetic-heading-text">display</span>';h.style.cssText=`position:absolute;left:${innerWidth/2-120}px;top:${scrollY+nav.top-20}px;width:240px;height:84px;margin:0;font-size:72px;color:#fff;opacity:1;pointer-events:none`;
@@ -188,6 +193,10 @@ async function contrastContract(page,world) {
     h.getBoundingClientRect=()=>{window.__v31ContrastGeometryReads++;return measure();};
     document.querySelector('#page-content').append(parent);document.dispatchEvent(new CustomEvent('h4:pagechange'));
   });await frames(page);
+  const probeGeometry=await page.evaluate(()=>{const h=document.querySelector('#v31-contrast-probe').getBoundingClientRect();
+    const n=document.querySelector('[data-naavi]').getBoundingClientRect();
+    return {overlap:h.right>n.left&&h.left<n.right&&h.bottom>n.top&&h.top<n.bottom,scrollY};});
+  assert.equal(probeGeometry.overlap,true,`The contrast probe must overlap the NAAVI to measure anything (${JSON.stringify(probeGeometry)}).`);
   const display=await page.locator('[data-naavi]').evaluate(el=>({contrast:el.hasAttribute('data-naavi-display-contrast'),blend:getComputedStyle(el).mixBlendMode,
     digit:getComputedStyle(el.querySelector('.chapter-digit')).color,total:getComputedStyle(el.querySelector('.chapter-total')).color}));
   assert.equal(display.contrast,true);assert.equal(display.blend,'difference');assert.equal(display.digit,display.total,'Slash and digits share one colour and compositing parent.');
