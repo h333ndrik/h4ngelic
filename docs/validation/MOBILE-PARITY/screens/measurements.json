@@ -1,0 +1,77 @@
+{
+  "320": {
+    "card": {
+      "width": 300,
+      "height": 420,
+      "ratio": 0.7142857142857143
+    },
+    "digital": {
+      "width": 300,
+      "height": 420,
+      "ratio": 0.7142857142857143
+    },
+    "step": 400,
+    "revealMid": {
+      "opacity": "0.154724",
+      "transform": "matrix(1, 0, 0, 1, 0, 8.66748)",
+      "cls": "archive-category is-section-revealed"
+    },
+    "revealSettled": {
+      "opacity": "1",
+      "cls": "archive-category is-section-revealed"
+    },
+    "dragPhase": "dragging",
+    "pageWidth": {
+      "scroll": 320,
+      "inner": 320
+    }
+  },
+  "390": {
+    "card": {
+      "width": 300,
+      "height": 420,
+      "ratio": 0.7142857142857143
+    },
+    "digital": {
+      "width": 300,
+      "height": 420,
+      "ratio": 0.7142857142857143
+    },
+    "step": 400,
+    "revealMid": {
+      "opacity": "0",
+      "transform": "matrix(1, 0, 0, 1, 0, 14)",
+      "cls": "archive-category is-section-revealed"
+    },
+    "revealSettled": {
+      "opacity": "1",
+      "cls": "archive-category is-section-revealed"
+    },
+    "dragPhase": "dragging",
+    "pageWidth": {
+      "scroll": 390,
+      "inner": 390
+    }
+  },
+  "measuredAt": "2026-11-09T19:01:30.014Z",
+  "base": "http://127.0.0.1:5183",
+  "desktop": {
+    "digital": {
+      "width": 400.703125,
+      "height": 534.265625,
+      "ratio": 0.7500073114380136
+    },
+    "reveal": [
+      {
+        "id": "digital-artworks",
+        "pending": false,
+        "opacity": "1"
+      },
+      {
+        "id": "analog-photography",
+        "pending": false,
+        "opacity": "1"
+      }
+    ]
+  }
+}

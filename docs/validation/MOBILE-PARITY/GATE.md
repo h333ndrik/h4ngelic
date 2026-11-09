@@ -46,13 +46,18 @@ dem unteren Randstreifen oder über der ganzen Zeile?
 
 ## K4 — Glyph und HOLD-4
 
-Es gibt **ein** Element: `[data-other-side-hint]` / `.footer-secret`
+Es gibt **ein** Hinweis-Element: `[data-other-side-hint]` / `.footer-secret`
 (`src/footer.js:9`), ein Button mit dem Text „hold 4 to see the other side.".
-Er ist seit `ec19cc7` unter 600 px `display: none` (`src/easter-eggs.css:193`).
 Separat davon liegt im selben Abschnitt das End-Reveal-Monogramm
 (`.end-reveal-mark`, `src/footer.js:19`), ein großes Relief, kein kleines
-Zeichen unten rechts. **Frage:** Ist mit „kleinem Zeichen unten rechts" das
-Monogramm gemeint? Wenn ja, ist es bisher nicht entfernt.
+Zeichen unten rechts.
+
+**Korrektur 09.11. (User-Klärung):** Das „immer im Bild schwebende Zeichen" war
+nicht der HOLD-4-Hinweis, sondern `button.mobile-mode` (fix, rechts unten,
+28×42-Bild). Der Hinweis bleibt auf Touch sichtbar
+(`2709d5e`, Rücknahme der falschen `display:none`-Regel); das schwebende Glyph
+ist unter `(pointer: coarse)` entfernt (`2ac40ec`). Gemessen @390:
+`modeDisplay: none`, `hintDisplay: flex`.
 
 ## K5 — Reveal-Mechanismus
 
@@ -81,10 +86,16 @@ nicht gebaut (Vorgabe: „Rückkehrzeit und Dämpfung bleiben auf dem Wert aus K
 für tattoos und flashes existiert (derselbe Renderer/dieselbe JS-Datei,
 `data-horizontal-drift`). `touch-action` ist noch zu erheben.
 
-## K8 — Bildbreiten bei 390
+## K8 — Bildbreiten bei 390 (09.11. nachgemessen)
 
-**Nicht gemessen.** Ohne Sollwert wird die Digital-Artwork-Größe nicht
-angefasst.
+| Element | Breite | Höhe | Verhältnis |
+| --- | --- | --- | --- |
+| Tattoo-Karte (`[data-horizontal-drift="tattoos"]`) | 300,0 px | 420,0 px | 0,714 |
+| Digital Artwork (vorher) | 191,9 px | 255,8 px | 0,750 |
+
+Sollwert für B-F39a ist damit 300 px / 5:7 (±2 px). Umgesetzt über die
+bestehenden Tokens `--carousel-card-width/height`; Messung nachher:
+300,0 × 420,0 px (`screens/measurements.json`).
 
 ## Entscheidung
 
@@ -117,3 +128,26 @@ Hero-Physik: Drag läuft über denselben Pointer-Pfad in `src/main.js`
 
 Konsequenz: **B-F34 wird nicht umgesetzt, sondern als bereits erfüllt gemeldet**
 (Splats reagieren auf Touch), mit der offenen Frage nach dem 120-ms-Cooldown.
+
+## K5-Nachtrag (09.11.) — das @supports-Gate wäre falsch gewesen
+
+`CSS.supports('animation-timeline', 'view()')` ist in Chromium 156 **true**
+(gemessen in der Test-Browser-Version), ebenso in aktuellem Safari. Das im
+Auftrag genannte `@supports not (animation-timeline: view())` hätte den
+IntersectionObserver-Pfad in jedem Zielbrowser abgeschaltet. Da K5 im Quelltext
+0 Timeline-Deklarationen gefunden hat, ist der Observer der einzige Pfad und
+läuft ohne Gate (Begründung als Kommentar in `src/section-entrance.css`).
+
+## Abschluss 09.11.
+
+- K1: `onskin` (User-Freigabe, `d167365`). `#onskin` ist ein Fragment;
+  `/creative/onskin` bleibt die 301-Route aus B-F7 — getrennt, beide grün.
+- K2: nicht reproduziert (kein Overlay-Element, reiner CSS-Cursor) — nichts
+  gebaut.
+- K3: Quelle durch Layout-Umbau entfernt, Ursache unbelegt (Formulierung in
+  der Registry).
+- K4: korrigiert (siehe oben), HOLD-4 bleibt, schwebendes Glyph weg.
+- K5: Observer ohne `@supports`-Gate (siehe Nachtrag).
+- K6: Splats pointer-basiert, Cooldown 320 ms (`f713668`).
+- K7: ein Baustein `src/horizontal-drift.js`, `pan-y pinch-zoom`.
+- K8: 300 × 420 px @390, Digital-Artwork nachgezogen (B-F39a).

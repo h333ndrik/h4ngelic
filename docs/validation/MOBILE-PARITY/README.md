@@ -133,3 +133,108 @@ Damit gilt: ein Druck → ein Splat; ein zweiter Druck innerhalb von 320 ms →
 kein zweiter Splat; nach Ablauf wieder einer. `npm test` 448 / 447 pass /
 1 skipped / 0 fail (der Import im `memory-creation-failure`-Test wurde in die
 bestehende Import-Map aufgenommen).
+
+## B-F39a — Digital-Artwork in der Tattoo-Kartengröße (390 px)
+
+Messung K8 vorher/nachher (`screens/measurements.json`):
+
+| Element @390 | Breite | Höhe | Seitenverhältnis |
+| --- | --- | --- | --- |
+| Tattoo-Karte (`[data-horizontal-drift="tattoos"]`) | 300,0 px | 420,0 px | 0,714 (5:7) |
+| Digital Artwork **vorher** | 191,9 px | 255,8 px | 0,750 (3:4) |
+| Digital Artwork **nachher** | 300,0 px | 420,0 px | 0,714 (5:7) |
+
+Es gibt keine neue Größenkonstante: `src/pages.js` schreibt bei der Sektion
+`digital-artworks` die zwei bestehenden Tokens `--carousel-card-width` /
+`--carousel-card-height` (aus `src/carouselSettings.js`) als Inline-Style an die
+Sektion. `src/archive-structure.css` (nur `max-width: 600px`) setzt darauf die
+Ruhebreite, die Ruhehöhe und `--digital-base-width`. Der Rahmen behält seinen
+reservierten Expansionsplatz; das gerenderte Bild ist im Ruhezustand `cover`
+(Kartenvertrag), im geöffneten Zustand `contain` (ganzes Werk sichtbar).
+
+- 320 px: ebenfalls 300 × 420; Tipp-Expansion wächst wie die Tattoo-Karte auf
+  die Viewportbreite (1,067×, exakt derselbe Wert wie die Karte).
+- 390 px: Tipp-Expansion 300 → 390 px (1,30×), Dokumentbreite bleibt 390.
+- 1440 px: unverändert 400,7 × 534,3 px, Wachstum 1,058× wie vorher
+  (`screens/b-f39-digital-1440.png`).
+
+**So prüfst du es:** `/creative/more` bei 390 px öffnen, das Digital-Artwork
+messen (`document.querySelector('#digital-artworks .artwork-open img')
+.getBoundingClientRect().width`) → 300; antippen → es füllt die Breite.
+
+## B-F39b — Rubrik-Sektionen kommen beim Scrollen an (Touch)
+
+`src/section-entrance.js` (der bestehende, routenverwaltete Helfer aus B-F31)
+beobachtet jetzt zusätzlich alle `[data-section-reveal]`-Sektionen — die Marke
+setzt der Renderer aus derselben `siteContent.js`-Sektionsliste, es gibt keine
+zweite Liste. IntersectionObserver mit `threshold: 0` und
+`rootMargin: '0px 0px -12% 0px'`; Eintritt löst die Klasse
+`is-section-revealed` aus, die Sektion läuft einmalig ein
+(opacity 0 → 1 in 520 ms, `translateY 14px → 0` in 700 ms expo-out).
+
+- **Kein `@supports`-Gate:** gemessen ist
+  `CSS.supports('animation-timeline', 'view()') === true` in Chromium 156
+  (und damit auch in aktuellem Safari). Das im Auftrag vorgesehene
+  `@supports not (animation-timeline: view())` hätte den einzigen Pfad in jedem
+  Zielbrowser abgeschaltet. K5 hatte im Quelltext 0 Timeline-Deklarationen
+  gefunden; der Observer ist deshalb der einzige Mechanismus.
+- **Kein Blitz beim Laden:** Sektionen, die beim Armieren schon im Bild sind,
+  werden nicht versteckt; die Einfahrt beginnt mit der nächsten Sektion.
+- **Fail-safe:** Die `is-section-reveal-pending`-Klasse schreibt nur der
+  Observer. Ohne JS (oder ohne IntersectionObserver) bleibt jede Sektion
+  sichtbar — es gibt keinen CSS-Zustand, der Inhalt dauerhaft auf opacity 0
+  hält. Reduced Motion: Endzustand sofort, keine Transition.
+- **Lifecycle:** Verlassen der Route ruft den Teardown des Helfers
+  (Observer `disconnect`, Klassen entfernt), die Rückkehr armt neu. Getestet
+  über den Router (`/creative/tattoos` → `/creative/more` → zurück).
+- Desktop 1440: `(pointer: coarse)` greift nicht, keine Klasse, keine Regel —
+  gemessen `pending: false`, `opacity: 1` auf beiden Sektionen.
+
+Evidence: `screens/b-f39-reveal-mid-{390,320}.png` (Mid-Frame; für das Standbild
+wurde die 520-ms-Transition auf 4 s gestreckt, die echten Zeiten stehen in
+`measurements.json`).
+
+**So prüfst du es:** `/creative/tattoos` bei 390 px laden, langsam nach unten
+wischen — „flashes" fährt ein; in der Konsole
+`getComputedStyle(document.getElementById('flashes')).opacity` → `1`.
+
+## B-F35 — Marquee: Touch-Drag mit Nachlauf und ganzem Bild am Stillstand
+
+Beide Streifen (`tattoos`, `flashes`) laufen durch denselben Baustein
+`src/horizontal-drift.js`; Drag läuft über `pointerdown/move/up`, also auch für
+Touch, `touch-action` ist im enhanced Zustand `pan-y pinch-zoom` (gemessen).
+Neu ist nur der Stillstand: endet der Nachlauf nach einem **Touch**-Drag,
+rastet der Streifen auf die nächste ganze Karte ein (gemessene Schrittweite
+400 px = 300 px Karte + 100 px Abstand) und die Umgebungsbewegung setzt danach
+wieder ein. Rad- und Maus-Drag behalten das Desktop-Verhalten (gemessen:
+`momentum → idle`, nie `settling`).
+
+Messung @390 (`screens/measurements.json`, Frame-Sampling in
+`tests/mobile-parity-browser.mjs`):
+
+| Streifen | Phasen | Karte vollständig im Bild | Seite scrollt vertikal |
+| --- | --- | --- | --- |
+| tattoos | dragging → momentum → settling → drift | ja (bei 400 px Stillstand) | ja (0 → 314 px) |
+| flashes | dragging → momentum → settling → drift | ja | ja |
+
+**So prüfst du es:** bei 390 px über den Streifen wischen, loslassen; sobald
+die Bewegung zur Ruhe kommt, steht eine Karte vollständig im Bild
+(`[data-carousel-phase]` läuft durch `settling`), danach driftet es weiter.
+
+## Mobile-Animations-Durchgang (09.11.)
+
+| Animation | 390 px Touch | Reduced Motion |
+| --- | --- | --- |
+| Hero-Einfahrt (`#logo-canvas` von oben) | läuft: Start `translateY -795,7 px` → `0` in 1100 ms | Poster statisch, Canvas `display: none` |
+| Poster-Atem beim Laden | `hero-poster-breathe`, 2,8 s | `animation: none` |
+| Rubrik-Reveal (B-F39b) | Eintritt, 520/700 ms | Endzustand sofort |
+| Bild-Reveal (`image-reveals.js`) | IO bei 8 %, Maske 520 ms | Endzustand sofort |
+| Marquee-Drag (B-F35) | Drag + Nachlauf + Einrasten | kein Nachlauf (`transition: none`, sofort) |
+| Press-State (B-F33) | `pointerdown` → `.is-pressed` | unverändert (keine Transition) |
+| Splats (B-F34) | `pointerdown`, Cooldown 320 ms | Splats ohne Bewegung |
+
+Hover-gebundene Effekte (Magnet, Glow, Pfeil) sind unter
+`(hover: none), (pointer: coarse)` bereits abgeschaltet
+(`src/interactions.css`, `src/header-contrast.css`) — auf Touch läuft keine
+Animation ins Leere. Der schwebende Mode-Pfeil bleibt entfernt (B-F32 rev,
+`2ac40ec`); der HOLD-4-Hinweis bleibt (`2709d5e`).
