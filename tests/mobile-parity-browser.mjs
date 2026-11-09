@@ -194,6 +194,97 @@ try {
     console.log('PASS B-F39 390px: digital card matches the tattoo slot, sections reveal on entry and re-arm across routes.');
     await context.close();
   }
+  // B-F35: both archive strips move by themselves, follow a real touch drag,
+  // keep the page scrollable vertically, and come to rest on a whole card.
+  {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'no-preference' });
+    const page = await context.newPage();
+    const client = await context.newCDPSession(page);
+    await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(900);
+    for (const category of ['tattoos', 'flashes']) {
+      const drift = page.locator(`[data-horizontal-drift="${category}"]`);
+      await drift.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(600);
+      const touchAction = await drift.locator('.drift-viewport').evaluate(element => getComputedStyle(element).touchAction);
+      assert.match(touchAction, /pan-y/, `[${category}] the strip keeps vertical page scrolling`);
+      const ambient = await drift.evaluate(element => Number(element.dataset.driftPosition));
+      const step = await drift.evaluate(element => {
+        const card = element.querySelector('[data-drift-item]');
+        return (card?.offsetWidth || 0) + (Number.parseFloat(getComputedStyle(element).getPropertyValue('--carousel-spacing')) || 0);
+      });
+      assert.ok(step > 0, `[${category}] the card step is measurable`);
+      const box = await drift.locator('.drift-viewport').boundingBox();
+      const y = box.y + Math.min(120, box.height / 2);
+      const startX = box.x + box.width * .8;
+      await client.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: startX, y }] });
+      for (let move = 1; move <= 6; move++) {
+        await client.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: startX - move * 25, y }] });
+        await page.waitForTimeout(16);
+      }
+      const whileDragging = await drift.getAttribute('data-carousel-phase');
+      await client.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      const frames = await page.evaluate(category => new Promise(resolve => {
+        const section = document.querySelector(`[data-horizontal-drift="${category}"]`);
+        const rows = [];
+        const start = performance.now();
+        const tick = () => {
+          const items = [...section.querySelectorAll('[data-drift-item]')].map(element => element.getBoundingClientRect());
+          rows.push({
+            phase: section.dataset.carouselPhase,
+            position: Number(section.dataset.driftPosition),
+            full: items.some(rect => rect.left >= -1 && rect.right <= innerWidth + 1),
+          });
+          if (performance.now() - start < 6000) requestAnimationFrame(tick);
+          else resolve(rows);
+        };
+        requestAnimationFrame(tick);
+      }), category);
+      const phases = new Set(frames.map(frame => frame.phase));
+      assert.equal(whileDragging, 'dragging', `[${category}] the touch drag is tracked`);
+      assert.ok(phases.has('settling'), `[${category}] the release settles on a card slot (${[...phases]})`);
+      assert.ok(phases.has('momentum'), `[${category}] the release carries momentum (${[...phases]})`);
+      await page.waitForFunction(category => document.querySelector(`[data-horizontal-drift="${category}"]`)?.dataset.carouselPhase === 'drift',
+        category, { timeout: 15000 });
+      assert.ok(frames.some(frame => frame.full && frame.phase !== 'dragging'),
+        `[${category}] a whole card is visible when the drag comes to rest`);
+      assert.ok(frames.some(frame => frame.phase === 'settling' && Math.abs(frame.position - Math.round(frame.position / step) * step) < 2),
+        `[${category}] the settle lands on the measured card step (${step}px)`);
+      assert.notEqual(await drift.evaluate(element => Number(element.dataset.driftPosition)), ambient,
+        `[${category}] the drag moves the real strip`);
+    }
+    // A vertical swipe over the strip still scrolls the page.
+    await page.evaluate(() => scrollTo(0, 0));
+    await page.waitForTimeout(250);
+    const before = await page.evaluate(() => scrollY);
+    const strip = page.locator('[data-horizontal-drift="tattoos"] .drift-viewport');
+    await strip.scrollIntoViewIfNeeded();
+    const box = await strip.boundingBox();
+    await client.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 200, y: box.y + 120 }] });
+    for (let step = 1; step <= 6; step++) {
+      await client.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: 200, y: box.y + 120 - step * 30 }] });
+    }
+    await client.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await page.waitForTimeout(400);
+    assert.ok(await page.evaluate(() => scrollY) > before, 'a vertical swipe over the strip scrolls the page');
+    console.log('PASS B-F35 390px: both strips drag, settle on a whole card and resume drift; pan-y still scrolls the page.');
+    await context.close();
+  }
+  // reduced motion: the same sections are in their end state immediately.
+  {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce' });
+    const page = await context.newPage();
+    await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
+    const states = await page.evaluate(() => [...document.querySelectorAll('[data-section-reveal]')].map(section => ({
+      pending: section.classList.contains('is-section-reveal-pending'),
+      opacity: Number(getComputedStyle(section).opacity),
+      transition: getComputedStyle(section).transitionDuration,
+    })));
+    assert.equal(states.every(state => !state.pending && state.opacity === 1), true,
+      `reduced motion shows the end state at once (${JSON.stringify(states)})`);
+    console.log('PASS B-F39 reduced motion: no pending reveal, end state immediate.');
+    await context.close();
+  }
   const desktop = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await desktop.newPage();
   await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
