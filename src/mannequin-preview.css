@@ -38,11 +38,11 @@
 }
 /* Zeigerform: grab/grabbing waeren hier die naheliegende Affordanz, aber die
    Seite hat EIN natives Cursor-Bild pro Modus (src/cursor.css, F18, mit
-   !important auf html body *). Diese beiden Regeln greifen deshalb nicht und
-   stehen nur als dokumentierte Absicht. Die Affordanz liefert der
-   Bedienhinweis unten; Abweichung in REPORT.md §M4i. */
-.mannequin-preview-frame { touch-action: pan-y; cursor: grab; }
-.mannequin-preview-frame[data-mannequin-dragging='true'] { cursor: grabbing; }
+   !important auf html body *). Die Deklarationen sind deshalb entfernt statt
+   nur ueberschrieben — tokens-audit erlaubt `cursor` ausschliesslich in
+   cursor.css (B-F19). Die Affordanz liefert der Bedienhinweis unten;
+   Abweichung in REPORT.md §M4i. */
+.mannequin-preview-frame { touch-action: pan-y; }
 /* Bedienhinweis: erscheint einmal beim ersten Sichtbarwerden, liegt absolut
    ueber dem Rahmen (kein Layout-Shift) und verschwindet nach der ersten Geste
    oder nach fuenf Sekunden. Zeigereignisse gehen durch. */
@@ -104,13 +104,11 @@
   font: inherit;
   letter-spacing: inherit;
   text-transform: inherit;
-  cursor: pointer;
 }
 .mannequin-preview-design:disabled,
 .mannequin-preview-design[aria-disabled='true'] {
   border-color: #666762;
   color: #8e8f8a;
-  cursor: not-allowed;
 }
 .mannequin-preview-design:focus-visible {
   outline: 2px solid #ecece8;
