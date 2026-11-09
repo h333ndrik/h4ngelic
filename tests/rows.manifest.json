@@ -101,8 +101,8 @@
       "container": ".footer-left",
       "pages": "all",
       "type": "C",
-      "positions": 3,
-      "links": 1,
+      "positions": 2,
+      "links": 0,
       "slotMode": "none",
       "marking": "none"
     },

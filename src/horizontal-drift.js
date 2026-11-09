@@ -24,7 +24,7 @@ export function initHorizontalDrift(root = document) {
     counter: section.querySelector('[data-drift-count]'), status: section.querySelector('.drift-status'),
     position: 0, velocity: 0, width: 0, cardWidth: 0, step: 0, cycle: 0, leading: 0,
     travel: 0, index: 0, near: false, wrap: false, drag: null, hover: -1, pointerInside: false, keyboardPaused: false,
-    announcement: 0, suppressClickUntil: 0 }));
+    settlePending: false, settle: false, settleGoal: 0, announcement: 0, suppressClickUntil: 0 }));
   let preloadHandle = 0;
   const preloadPhotos = () => {
     if (disposed) return;
@@ -127,7 +127,7 @@ export function initHorizontalDrift(root = document) {
       && !(settings.hoverPause && (state.pointerInside || state.keyboardPaused)) && !state.drag?.active && state.near && state.items.length > 1
       && Math.abs(state.velocity) <= settings.velocityCutoff;
     state.section.dataset.carouselPhase = paused(state) ? 'expanded' : state.drag?.active ? 'dragging'
-      : Math.abs(state.velocity) > settings.velocityCutoff ? 'momentum' : drifting ? 'drift' : 'idle';
+      : Math.abs(state.velocity) > settings.velocityCutoff ? 'momentum' : state.settle ? 'settling' : drifting ? 'drift' : 'idle';
     state.section.dataset.carouselWrapCount = String(state.cycle ? Math.floor(state.position / state.cycle) : 0);
     state.section.dataset.carouselHoverPaused = String(settings.hoverPause && (state.pointerInside || state.keyboardPaused));
     state.section.dataset.carouselPointerInside = String(state.pointerInside);
@@ -149,7 +149,10 @@ export function initHorizontalDrift(root = document) {
       if (!state.drag?.active && Math.abs(state.velocity) > settings.velocityCutoff) {
         state.position += state.velocity * ticks;
         state.velocity *= Math.pow(1 - clamp(settings.inertia, .001, 1), ticks);
-        if (Math.abs(state.velocity) <= settings.velocityCutoff) state.velocity = 0;
+        if (Math.abs(state.velocity) <= settings.velocityCutoff) {
+          state.velocity = 0;
+          armSettle(state);
+        }
         if (!state.wrap) {
           const bounded = clamp(state.position, 0, state.travel);
           if (bounded !== state.position) state.velocity = 0;
@@ -158,12 +161,22 @@ export function initHorizontalDrift(root = document) {
         moving ||= Math.abs(state.velocity) > settings.velocityCutoff;
       } else if (!state.drag?.active) {
         state.velocity = 0;
-        driftMoving = !reduced.matches && settings.autoDrift && settings.autoScroll > 0
-          && !paused(state) && !(settings.hoverPause && (state.pointerInside || state.keyboardPaused))
-          && state.near && state.items.length > 1;
-        if (driftMoving) {
-          state.position -= settings.autoScroll * ticks;
-          moving = true;
+        if (state.settle) {
+          // B-F35: a touch drag always comes to rest on a whole card, so the
+          // image in the reading position is never cut in half. Ambient drift
+          // resumes from that aligned position on the next frame.
+          const delta = state.settleGoal - state.position;
+          if (Math.abs(delta) <= .5) state.settle = false;
+          else { state.position += delta * .3; moving = true; }
+        } else {
+          armSettle(state);
+          driftMoving = !reduced.matches && settings.autoDrift && settings.autoScroll > 0
+            && !paused(state) && !(settings.hoverPause && (state.pointerInside || state.keyboardPaused))
+            && state.near && state.items.length > 1;
+          if (driftMoving) {
+            state.position -= settings.autoScroll * ticks;
+            moving = true;
+          }
         }
       }
       if (state.wrap && !state.drag?.active && state.cycle) state.position = modulo(state.position, state.cycle);
@@ -193,9 +206,23 @@ export function initHorizontalDrift(root = document) {
     else state.velocity = clamp((destination - state.position) * settings.inertia, -settings.maximumVelocity, settings.maximumVelocity);
     announce(state); schedule();
   }
+  // The settle target is the nearest whole card slot (measured step, not a
+  // guessed pixel value). Only a touch drag arms it; wheel and mouse drags keep
+  // the desktop behaviour exactly.
+  function armSettle(state) {
+    if (!state.settlePending) return;
+    state.settlePending = false;
+    if (reduced.matches || !state.wrap || !state.step) return;
+    // The goal stays in the same unwrapped frame as position; the per-frame
+    // modulo below turns a seam crossing into ordinary recycling.
+    state.settleGoal = Math.round(state.position / state.step) * state.step;
+    state.settle = Math.abs(state.settleGoal - state.position) > .5;
+    if (!state.settle) state.position = state.settleGoal;
+  }
   function stop(state) {
     const drag = state.drag;
     state.drag = null; state.velocity = 0;
+    state.settle = false; state.settlePending = false;
     state.section.classList.remove('is-drift-dragging');
     if (drag && state.viewport.hasPointerCapture?.(drag.id)) state.viewport.releasePointerCapture(drag.id);
   }
@@ -247,6 +274,8 @@ export function initHorizontalDrift(root = document) {
       if (event.isPrimary === false || event.button !== 0 || event.target.closest('a') || paused(state)) return;
       state.keyboardPaused = false;
       state.velocity = 0;
+      state.settle = false;
+      state.settlePending = false;
       state.drag = { id: event.pointerId, x: event.clientX, y: event.clientY, start: state.position,
         lastX: event.clientX, lastTime: view.performance.now(), active: false, moved: false };
     }, { passive: true });
@@ -280,6 +309,8 @@ export function initHorizontalDrift(root = document) {
       state.drag = null;
       if (drag.moved) state.suppressClickUntil = view.performance.now() + settings.dragClickGuardMs;
       if (event.type !== 'pointerup' || reduced.matches || view.performance.now() - drag.lastTime > settings.dragClickGuardMs) state.velocity = 0;
+      state.settlePending = event.type === 'pointerup' && drag.moved && event.pointerType === 'touch';
+      if (!state.settlePending) state.settle = false;
       state.section.classList.remove('is-drift-dragging');
       if (state.viewport.hasPointerCapture?.(drag.id)) state.viewport.releasePointerCapture(drag.id);
       schedule();

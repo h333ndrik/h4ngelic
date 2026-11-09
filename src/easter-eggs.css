@@ -37,7 +37,7 @@
 .footer-details { grid-column: 3; justify-self: end; width: max-content; }
 .footer-left > *, .footer-details > * { flex: 0 0 auto; }
 .footer-brand, .footer-location { display: inline-flex; align-items: center; min-height: 44px; }
-.footer-moshlab, .footer-instagram, .footer-impressum, .footer-smash {
+.footer-instagram, .footer-impressum, .footer-smash {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -174,9 +174,19 @@ body { position: relative; }
 }
 @media (max-width: 600px) {
   .page-footer.exhibition-footer { --footer-naavi-reservation: 84px; }
-  .footer-left, .footer-details { --cluster-gap: 12px; }
+  /* B-F36: the clusters stop being scroll containers on touch. They wrap
+     instead, which removes the scrollbar gutter for good (B-F19) and keeps
+     every target at 44px. */
+  .footer-left, .footer-details {
+    --cluster-gap: 12px;
+    overflow: visible;
+    flex-wrap: wrap;
+    row-gap: 2px;
+    white-space: normal;
+    align-content: center;
+    scrollbar-width: auto;
+  }
   .secret-hotspot { font-size: 12px; }
-  .footer-secret.secret-hotspot { font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .secret-message { transition: none; }

@@ -41,7 +41,7 @@ try {
   assert.match(report.build, /^[a-f0-9]{7,40}$/i);
   assert.equal(await page.locator('meta[name="h4-build"]').getAttribute('content'), report.build);
   assert.equal(await page.locator('[data-h4-cursor]').count(), 0);
-  for (const selector of ['.footer-moshlab', '.footer-instagram', '[data-naavi]', '.floating-brand']) {
+  for (const selector of ['.footer-brand', '.footer-instagram', '[data-naavi]', '.floating-brand']) {
     const target = page.locator(selector).first();
     if (!await target.count()) continue;
     await target.scrollIntoViewIfNeeded();

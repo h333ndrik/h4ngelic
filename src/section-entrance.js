@@ -28,6 +28,10 @@ import { aboutSectionProgress, sampleAboutItem } from './data/motionSettings.js'
  * - prefers-reduced-motion: Endpose sofort, kein Loop, keine Animation.
  */
 const ENTRANCE_ROLE = 'link';
+// B-F39: the touch reveal. `threshold: 0` (not 1 — a dynamic iOS address bar
+// never leaves 100 % of a tall section visible) and a negative root margin so
+// the section only arrives once it has really entered the reading area.
+const REVEAL_MARGIN = '0px 0px -12% 0px';
 // Arm-Fenster: 15 % ueber und unter dem Fold. Bewusst knapp — bei 150 % lag die
 // Section auf jeder getesteten Route dauerhaft im Fenster, der Loop lief also
 // auch am Seitenanfang ohne sichtbaren Grund. 15 % reichen, damit der erste
@@ -149,10 +153,60 @@ export function initSectionEntrance(root = document, selector = '[data-section-e
   else apply();
   schedule();
 
+  // B-F39: touch-only section reveal, driven by the same section list the
+  // renderer used (the marked archive sections). It is one-way (entry, not
+  // scroll direction) and reuses this helper's route-managed lifecycle.
+  const revealTargets = [...root.querySelectorAll('[data-section-reveal]')];
+  const coarse = owner.defaultView.matchMedia('(pointer: coarse)');
+  let revealObserver = null;
+  function revealAll() {
+    for (const element of revealTargets) {
+      element.classList.remove('is-section-reveal-pending');
+      element.classList.add('is-section-revealed');
+    }
+  }
+  function armReveal() {
+    revealObserver?.disconnect();
+    revealObserver = null;
+    if (disposed) return;
+    const canObserve = !reduced.matches && coarse.matches
+      && typeof owner.defaultView.IntersectionObserver === 'function';
+    if (!canObserve) {
+      for (const element of revealTargets) element.classList.remove('is-section-reveal-pending');
+      revealAll();
+      return;
+    }
+    revealObserver = new owner.defaultView.IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add('is-section-revealed');
+        entry.target.classList.remove('is-section-reveal-pending');
+        revealObserver?.unobserve(entry.target);
+      }
+    }, { threshold: 0, rootMargin: REVEAL_MARGIN });
+    // Observe before marking pending: if the callback never runs, nothing was
+    // hidden in the first place. No-JS keeps every section visible. A section
+    // that is already on screen at arm time stays visible — the reveal starts
+    // with the next one that scrolls in, never with a flash on load.
+    const fold = owner.defaultView.innerHeight * .88;
+    for (const element of revealTargets) {
+      if (element.classList.contains('is-section-revealed')) continue;
+      revealObserver.observe(element);
+      const rect = element.getBoundingClientRect();
+      if (rect.top >= fold || rect.bottom <= 0) element.classList.add('is-section-reveal-pending');
+    }
+  }
+  armReveal();
+  listen(reduced, 'change', armReveal);
+  coarse.addEventListener?.('change', armReveal);
+
   return () => {
     disposed = true;
     stop();
     observer?.disconnect();
+    revealObserver?.disconnect();
+    coarse.removeEventListener?.('change', armReveal);
+    for (const element of revealTargets) element.classList.remove('is-section-reveal-pending', 'is-section-revealed');
     for (const remove of listeners.splice(0)) remove();
   };
 }

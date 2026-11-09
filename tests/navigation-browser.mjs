@@ -167,7 +167,7 @@ try {
     await readyHero(page);
     await assertSameDocument(page, token);
     if (template) assert.equal(await page.locator('#hero-template').count(), 0, 'The inert template is consumed exactly once.');
-    await page.locator('.hero-nav a[href="/creative"]').click();
+    await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
     await pageKind(page, 'work', '/creative');
     await finishedTransition(page);
     await assertScenePaused(page);
@@ -199,7 +199,7 @@ try {
     const moduleURL = await waitForHeld(held);
     const token = (await probe(page)).documentToken;
     const requestsBeforeLeavingHome = requests.length;
-    await page.locator('.hero-nav a[href="/creative"]').click();
+    await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
     await pageKind(page, 'work', '/creative');
     await assertSameDocument(page, token);
     release();

@@ -1,0 +1,80 @@
+{
+  "phase": "b-f19-f31",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55173",
+  "finishedAt": "2026-11-06T18:25:48.712Z",
+  "results": [
+    {
+      "suite": "v31-navigation-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 4001,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"
+    },
+    {
+      "suite": "row-geometry-contract",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 6203,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: footer-left @1440: 3 positions expected, got 2."
+    },
+    {
+      "suite": "footer-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 58727,
+      "passLine": "PASS V3.1 footer 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "footer-zone-contract",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 11762,
+      "passLine": "PASS B-F19 footer zone contract — 3/3 viewports, build 0df017fedbe0",
+      "failLine": ""
+    },
+    {
+      "suite": "hero-boot-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 85318,
+      "passLine": "PASS 320px: build marker, entrance, cursor, greeting, slash 32.70px, wheel contract.",
+      "failLine": ""
+    },
+    {
+      "suite": "seo-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 29980,
+      "passLine": "PASS SEO live interiors and Home Contact: direct/refresh routes work without Three.js scene, font or reflection requests.",
+      "failLine": ""
+    },
+    {
+      "suite": "gateprep-batch1-physics",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 57,
+      "passLine": "PASS fling physics: 179.99° -> 39.60° (limit 39.6°), settle 3408ms.",
+      "failLine": ""
+    },
+    {
+      "suite": "cursor-hit-test",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 672157,
+      "passLine": "PASS native cursor hit map: 1440 4470, 390 1150, 320 940, 1440r 4470, 390r 1150, 320r 940; xray 2221; zero foreign cursors, keyword-only values rejected.",
+      "failLine": ""
+    }
+  ]
+}

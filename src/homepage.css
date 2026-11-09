@@ -123,9 +123,11 @@
   .about-preview-copy { margin-bottom: 14px; }
 }
 @media (max-width: 800px) {
-  .hero .controls { left: 22px; right: 22px; bottom: 116px; max-width: none; gap: 5px; }
+  /* B-F36: row 2 of the mobile stack, directly under the nav row. */
+  .hero .controls { left: 22px; right: 22px; bottom: calc(env(safe-area-inset-bottom) + 56px); max-width: none; gap: 5px; justify-content: flex-start; opacity: .72; }
   .hero .controls button { padding-inline: 8px; font-size: 10px; }
-  .hero-nav { right: 22px; bottom: max(64px, calc(env(safe-area-inset-bottom) + 56px)); gap: clamp(12px, 4vw, 26px); font-size: var(--type-navigation); }
+  /* B-F36: row 1 of the mobile stack (nav above the controls). */
+  .hero-nav { left: 22px; right: 22px; bottom: calc(env(safe-area-inset-bottom) + 112px); gap: clamp(12px, 4vw, 26px); font-size: var(--type-navigation); justify-content: flex-start; flex-wrap: wrap; }
 }
 
 /* The Works heading is a real route anchor and receives the shared inner

@@ -1,0 +1,89 @@
+{
+  "phase": "b-f19-f31-batch2",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55173",
+  "finishedAt": "2026-11-06T18:31:59.446Z",
+  "results": [
+    {
+      "suite": "v15-mobile-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 29618,
+      "passLine": "PASS V15 320px reduced=true: centered tier line, touch cursor off, INDEX 00-03, footer tap, non-overlap, flat carousel swipe/expand, digital fit, lower-case rubrics, cross-links.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-ui-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 24658,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    },
+    {
+      "suite": "smash-v31-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 34541,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    },
+    {
+      "suite": "label-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 18400,
+      "passLine": "PASS label format: NN/ labels, 00–04 INDEX, dynamic NAAVI counters and F28 alignment.",
+      "failLine": ""
+    },
+    {
+      "suite": "v32-structure-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 31969,
+      "passLine": "PASS V3.2 structure 229b279eb454: INDEX 00–03, 8+8 placeholders, mode-only SMASH, no imprint link, 12×301, 23 routes, /creative tool pages, gaps and NN/ NN viewer.",
+      "failLine": ""
+    },
+    {
+      "suite": "portfolio-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 128463,
+      "passLine": "PASS F16 320px reduced=true: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.",
+      "failLine": ""
+    },
+    {
+      "suite": "navigation-completion-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 1764,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: Hidden Home INDEX must leave the accessibility tree."
+    },
+    {
+      "suite": "living-normal-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 44622,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    },
+    {
+      "suite": "v31-motion-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 42735,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    }
+  ]
+}

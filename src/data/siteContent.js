@@ -13,11 +13,15 @@ export const siteContent = {
   location: 'berlin, de',
 
   categories: [
-    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', group: 'tattoos', presentation: 'drift' },
+    // B-F31: the first tattoo section carries the anchor #onskin.
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', group: 'tattoos', presentation: 'drift', anchor: 'onskin' },
     { id: 'flashes', label: 'flashes', group: 'tattoos', presentation: 'drift' },
     { id: 'jewellery', label: 'jewellery', presentation: 'drift' },
     { id: 'analog-photography', label: 'analog photography', group: 'more', presentation: 'drift' },
     { id: 'digital-artworks', label: 'digital artworks', group: 'more', presentation: 'existing' },
+    // B-F31: the mannequin section is a section like any other, but it owns no
+    // artworks and therefore no route of its own (route: false).
+    { id: 'model-3d', label: '3d model', group: 'tattoos', presentation: 'model', route: false },
     // Keep existing painting links and content valid without adding another main rubric.
     { id: 'paintings', label: 'paintings', legacy: true, presentation: 'existing' },
   ],
@@ -25,7 +29,7 @@ export const siteContent = {
   // Four horizontal rubrics stay shared with the work archive. The tools
   // rubric is intentionally external: its cards describe real project URLs.
   workGroups: [
-    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', children: ['tattoos', 'flashes'] },
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', children: ['tattoos', 'flashes', 'model-3d'] },
     { id: 'jewellery', label: 'jewellery', children: ['jewellery'] },
     { id: 'tools', label: 'tools', archiveLabel: 'tools', children: ['tools'] },
     { id: 'more', label: 'more', children: ['digital-artworks', 'analog-photography'] },

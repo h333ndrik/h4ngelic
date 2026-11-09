@@ -1,0 +1,356 @@
+{
+  "phase": "before",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-09T23:02:41.796Z",
+  "results": [
+    {
+      "suite": "tokens-audit",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 45,
+      "passLine": "PASS tokens: 24 definitions, 11 scoped consumers, 0 duplicated literals.",
+      "failLine": ""
+    },
+    {
+      "suite": "typography-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 19921,
+      "passLine": "PASS typography dist-grep: 200 emitted files, no `\\d / \\d` visible counter remains.",
+      "failLine": ""
+    },
+    {
+      "suite": "link-glyph-contract",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 23129,
+      "passLine": "PASS link glyph contract: 68 link hover checks, one .arrow source, no foreign destinations.",
+      "failLine": ""
+    },
+    {
+      "suite": "row-geometry-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 53499,
+      "passLine": "PASS row typology: 5 viewports, 5 registered rows, 9470f07bbdbe.",
+      "failLine": ""
+    },
+    {
+      "suite": "footer-zone-contract",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 12247,
+      "passLine": "PASS B-F19 footer zone contract — 3/3 viewports, build 9470f07bbdbe",
+      "failLine": ""
+    },
+    {
+      "suite": "footer-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 59014,
+      "passLine": "PASS V3.1 footer 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "v32-structure-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 31310,
+      "passLine": "PASS V3.2 structure 9470f07bbdbe: INDEX 00–03, 8+8 placeholders, mode-only SMASH, no imprint link, 12×301, 23 routes, /creative tool pages, gaps and NN/ NN viewer.",
+      "failLine": ""
+    },
+    {
+      "suite": "v32-micro-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10674,
+      "passLine": "PASS V3.2 micro 9470f07bbdbe: equal headings, shared arrow, clickable hero-flow bar, 300ms caret and permanent visit ghost at 1440/390/320.",
+      "failLine": ""
+    },
+    {
+      "suite": "label-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 17584,
+      "passLine": "PASS label format: NN/ labels, 00–04 INDEX, dynamic NAAVI counters and F28 alignment.",
+      "failLine": ""
+    },
+    {
+      "suite": "naavi-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 1559,
+      "passLine": "PASS NAAVI 9470f07bbdbe: shell, four Home chapters and 04/ 04 at the other side render NN/ NN.",
+      "failLine": ""
+    },
+    {
+      "suite": "tools-rubric-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10154,
+      "passLine": "PASS tools rubric: redirect, internal detail cards with external CTAs, four filters, 4px cards and desktop/mobile slash-aligned row.",
+      "failLine": ""
+    },
+    {
+      "suite": "creative-landing-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 6824,
+      "passLine": "PASS creative landing 320px: INDEX and hero bar both reach /creative/tattoos.",
+      "failLine": ""
+    },
+    {
+      "suite": "mobile-parity-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 41189,
+      "passLine": "PASS mobile parity 1440px: logo cursor and hold-4 hint unchanged.",
+      "failLine": ""
+    },
+    {
+      "suite": "rubric-gap-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 23451,
+      "passLine": "PASS rubric rhythm 320px: 13.49px, gaps [[88.6],[118.1]], inset 32.7px.",
+      "failLine": ""
+    },
+    {
+      "suite": "rubric-hit-area-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 13937,
+      "passLine": "PASS rubric hit area 320px: 4 labels text+arrow clickable, +20px outside inert, 40px+ tall, cell 56px vs label.",
+      "failLine": ""
+    },
+    {
+      "suite": "greeting-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9093,
+      "passLine": "PASS greeting 320px touch: nice to meet you. visible at 35%.",
+      "failLine": ""
+    },
+    {
+      "suite": "lowercase-sweep",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9477,
+      "passLine": "PASS lowercase sweep 320px: your name / how to reach you / what's on your mind?, “send message”, “more about”.",
+      "failLine": ""
+    },
+    {
+      "suite": "v25-cross-links-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 49823,
+      "passLine": "PASS V25 320px reduced=true: four positions, three links, word-width slot, frontpage x positions, keyboard order.",
+      "failLine": ""
+    },
+    {
+      "suite": "v23-static-titles-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 26710,
+      "passLine": "PASS V23 320px reduced=true: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.",
+      "failLine": ""
+    },
+    {
+      "suite": "v7-visitor-tiers-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 67061,
+      "passLine": "PASS V7 320px reduced=true: nine count samples map to seven hero phrases plus the matching static counter, recognition centered in the fixed branding gap, no counter hover or reflow, first visit greets as a ghost.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-navigation-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 159876,
+      "passLine": "PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-ui-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 97837,
+      "passLine": "PASS V3.1 UI 320px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.",
+      "failLine": ""
+    },
+    {
+      "suite": "portfolio-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 142254,
+      "passLine": "PASS F16 320px reduced=true: real category pages, route-specific content/canonicals, reload/back, clickable Works, preserved About/Home Contact, both worlds.",
+      "failLine": ""
+    },
+    {
+      "suite": "about-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9007,
+      "passLine": "PASS About 320px reduce=true: shared modest inset, immediate deep link, bounded reversible entrance, readable copy and no overflow.",
+      "failLine": ""
+    },
+    {
+      "suite": "hero-poster-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 12955,
+      "passLine": "PASS hero poster 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "hero-boot-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 95909,
+      "passLine": "PASS 320px: build marker, entrance, cursor, greeting, slash 32.70px, wheel contract.",
+      "failLine": ""
+    },
+    {
+      "suite": "digital-ink-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 90411,
+      "passLine": "PASS Digital inline 320 reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "smash-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 54776,
+      "passLine": "PASS actual SMASH 320px: exactfile, deferredfetch/cache, nativeattack/tail/stop, globalstate, routes and both realities",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r3-production-cursor",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 2321,
+      "passLine": "PASS production cursor 9470f07bbdbe: 5 token declarations, 4 targets, PNG fallbacks 200, no overlay, no-JS native cursor.",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r3-entrance-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 12326,
+      "passLine": "PASS entrance: opacity 1 constant; Y -876 -> -720 -> 0; transform 1100ms/1143ms; breathing 0.550–1.000; CLS 0.",
+      "failLine": ""
+    },
+    {
+      "suite": "gallery-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 19914,
+      "passLine": "PASS gallery 320px reduced=true: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.",
+      "failLine": ""
+    },
+    {
+      "suite": "artwork-transitions-browser",
+      "status": "MISSING",
+      "note": "tests/artwork-transitions-browser.mjs not present on this branch"
+    },
+    {
+      "suite": "hover-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 19231,
+      "passLine": "PASS hover touch: no sticky mouse scale/glow, native focus and navigation retained.",
+      "failLine": ""
+    },
+    {
+      "suite": "microinteractions-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 11745,
+      "passLine": "PASS microinteractions mobile: 390/320px 2x2 rubric rows, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.",
+      "failLine": ""
+    },
+    {
+      "suite": "mobile-interactions-browser",
+      "status": "MISSING",
+      "note": "tests/mobile-interactions-browser.mjs not present on this branch"
+    },
+    {
+      "suite": "master-accessibility-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 8681,
+      "passLine": "PASS dynamic accessibility: reduced-motion cancels an active NAAVI animation; the genuine expanded artwork stays inside the blanket cursor contract.",
+      "failLine": ""
+    },
+    {
+      "suite": "seo-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 30720,
+      "passLine": "PASS SEO live interiors and Home Contact: direct/refresh routes work without Three.js scene, font or reflection requests.",
+      "failLine": ""
+    },
+    {
+      "suite": "cursor-hit-test",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 298795,
+      "passLine": "",
+      "failLine": "name: 'Error' | } | Node.js v26.13.0"
+    },
+    {
+      "suite": "standalone-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 527477,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    },
+    {
+      "suite": "standalone-native-browser",
+      "status": "MISSING",
+      "note": "tests/standalone-native-browser.mjs not present on this branch"
+    }
+  ]
+}

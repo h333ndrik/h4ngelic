@@ -99,7 +99,7 @@ try {
       assert.equal(before.opacity, .35, 'Ghost opacity matches the HOLD-4 hint.');
       assert.equal(before.tracking, '0.84px', 'Ghost tracking matches the HOLD-4 hint.');
       assert.equal(before.transform, 'lowercase');
-      assert.equal(before.previousSibling, 'footer-moshlab', 'The counter keeps its slot after h4 moshlab.');
+      assert.equal(before.previousSibling, 'footer-brand', 'B-F29: the counter directly follows the branding.');
       assert.ok(before.height >= 44);
       if (width >= 600) {
         await page.mouse.move(before.x + 10, await counter.evaluate(element => element.getBoundingClientRect().top + 20));

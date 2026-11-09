@@ -34,9 +34,9 @@ export function renderFooter({ home = false, otherSideEnabled = featureFlags.oth
         <image href="/assets/h4-monogram.svg" width="615" height="1006" filter="url(#h4-end-relief)" />
       </svg><span class="end-reveal-material"></span></div>${hint}</div>` : ''}<footer class="page-footer exhibition-footer${home ? ' exhibition-footer-home' : ''}" data-artist-footer>
     <div class="footer-identity" data-footer-row>
-      <span class="footer-left" data-row="cluster" data-row-id="footer-left" role="group" aria-label="artist, h4 moshlab and local visit count" tabindex="0">${[
+      <span class="footer-left" data-row="cluster" data-row-id="footer-left" role="group" aria-label="artist and local visit count" tabindex="0">${[
         `<span class="footer-brand row-item">${escape(siteContent.name)} © ${escape(siteContent.copyrightYear)}</span>`,
-        `<a class="footer-moshlab row-item" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured">h4 moshlab ${arrow}</a>`,
+        // B-F29: the placeholder link is gone; the visit counter takes its place.
         counter,
       ].join('')}</span>
       <span class="footer-details" data-row="cluster" data-row-id="footer-details" role="group" aria-label="footer links, scroll horizontally when needed" tabindex="0">${[

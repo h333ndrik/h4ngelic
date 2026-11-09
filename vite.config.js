@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { resolveRoute, publishedProjects } from './src/routes.js';
+import { resolveRoute, publishedProjects, creativeLandingURL } from './src/routes.js';
 import { renderRoutePage } from './src/pages.js';
 import { getPageMetadata, renderHead, seoEnvironment } from './src/seo.js';
 import { buildRobots, buildSitemap } from './scripts/prerender.mjs';
@@ -36,7 +36,9 @@ export default defineConfig({
         .replaceAll('__H4_SECTION_HOME__', sectionLabels.home)
         .replaceAll('__H4_SECTION_CREATIVE__', sectionLabels.creative)
         .replaceAll('__H4_SECTION_ABOUT__', sectionLabels.about)
-        .replaceAll('__H4_SECTION_CONTACT__', sectionLabels.contact);
+        .replaceAll('__H4_SECTION_CONTACT__', sectionLabels.contact)
+        // B-F28/B-F30: INDEX and hero bar share the route constant.
+        .replaceAll('__H4_CREATIVE_URL__', creativeLandingURL);
     },
   }, {
     name: 'h4ngelic-hero-poster',

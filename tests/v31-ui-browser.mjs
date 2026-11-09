@@ -26,9 +26,9 @@ async function settled(page) {
 
 async function indexRoute(page, destination) {
   if (destination === 'work') {
-    await page.locator('.hero-nav a[href="/creative"]').click();
+    await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
     await page.locator('html[data-page="work"]').waitFor();
-    await page.waitForFunction(() => location.pathname === '/creative');
+    await page.waitForFunction(() => location.pathname === '/creative/tattoos');
     await settled(page);
     return;
   }
@@ -145,8 +145,10 @@ async function formContract(page, profile) {
   assert.equal(panel.outline,'0px');assert.match(panel.shadow,/rgba\(0, 0, 0/,'The INDEX panel keeps its subtle dark depth halo.');assert.equal(panel.filter,'none');
   const menuHover = await hovered(page, '[data-global-index] [data-index-page="home"]', profile);
   await page.keyboard.press('Escape');
+  // B-F29 removed the footer placeholder link, so the interactive footer
+  // surface here is Instagram only; the brand is plain text.
   const targets = await coverage(page, ['[data-global-index] summary', '[data-global-index] a', '[data-naavi]',
-    '.about-preview .text-link', '.footer-moshlab',
+    '.about-preview .text-link',
     '.footer-instagram', '.footer-location',
     '[data-inquiry-submit]', '[data-controls] button']);
   const smash = await page.locator('.footer-smash').count();
@@ -245,7 +247,13 @@ async function imageContract(page, profile) {
   await settled(page);
   assert.equal(await digital.getAttribute('aria-pressed'),'true');
   const digitalExpanded = await digital.locator('img').boundingBox();
-  assert.ok(digitalExpanded.width / digitalBefore.width >= 1.2,'Digital reuses the same clearly larger inline viewing module.');
+  // B-F39: the digital artwork now rests in the same 300 px card slot as a
+  // tattoo photo, so on a 320 px phone the expansion can only grow to the
+  // viewport width (1.067x) — exactly like the tattoo card above. The old
+  // flat 1.2 threshold predates that contract.
+  const digitalGrowth = digitalExpanded.width / digitalBefore.width;
+  assert.ok(digitalGrowth >= (profile.width < 600 ? 1.04 : 1.2),
+    `Digital reuses the same clearly larger inline viewing module (${digitalGrowth.toFixed(3)}).`);
   assert.ok(digitalExpanded.x >= -1 && digitalExpanded.y >= -1 && digitalExpanded.x + digitalExpanded.width <= profile.width+1 && digitalExpanded.y + digitalExpanded.height <=845);
   assert.equal(await page.locator('dialog[open]').count(),0);
   assert.deepEqual(await page.evaluate(() => ({ y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow })),digitalDocument);
@@ -278,7 +286,13 @@ async function heroContract(page, profile) {
     return { staticPoster };
   }
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-  await page.waitForFunction(() => !document.querySelector('[data-controls]').inert && Number(getComputedStyle(document.querySelector('[data-controls]')).opacity) > .99);
+  // B-F36 (part 2): below 600 px the controls are the secondary row at .72
+  // opacity by design; desktop keeps the full-strength bar.
+  await page.waitForFunction(profile => {
+    const controls = document.querySelector('[data-controls]');
+    const opacity = Number(getComputedStyle(controls).opacity);
+    return !controls.inert && (profile.width < 600 ? opacity >= .7 : opacity > .99);
+  }, profile);
   await coverage(page, ['[data-controls] button', '.hero-nav a', '[data-floating-brand]']);
   const routeFeedback = await page.locator('[data-floating-brand], .hero-nav a').evaluateAll(elements => elements.map(element => {
     const style = getComputedStyle(element); return { text: element.textContent.trim(), opacity: style.opacity, background: style.backgroundColor, backgroundImage: style.backgroundImage, shadow: style.boxShadow };

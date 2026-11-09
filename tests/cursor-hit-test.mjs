@@ -123,7 +123,7 @@ async function targetContracts(page, { mode, offenders, counts }) {
   const regions = [];
   await regionSweep(page, { regions, mode, offenders, counts, list: [
     ['footer-copyright', '.footer-left .footer-brand'],
-    ['footer-moshlab', '.footer-moshlab'],
+    ['footer-brand', '.footer-brand'],
     ['footer-visit', '[data-visit-count]'],
     ['footer-instagram', '.footer-instagram'],
     ['footer-location', '.footer-location'],
@@ -135,6 +135,18 @@ async function targetContracts(page, { mode, offenders, counts }) {
   assert.ok(slash, 'NAAVI exposes the literal slash glyph.');
   const slashSample = await checkPoint(page, { label: 'naavi-slash', ...slash, mode, offenders, counts });
   regions.push({ label: 'naavi-slash', sample: slashSample });
+  // B-F19 (09.11.): the user reported a cursor change exactly over NAAVI. The
+  // token contract alone cannot catch it (two tokens may share the image but
+  // differ in the fallback). Assert byte equality with a plain, non-interactive
+  // region instead: same image, same hotspot, same final keyword.
+  const quiet = regions.find(entry => entry.label === 'footer-location')?.sample;
+  assert.ok(quiet, 'The footer location provides a non-interactive reference point.');
+  for (const label of ['naavi-container', 'naavi-digit', 'naavi-total', 'naavi-slash']) {
+    const sample = regions.find(entry => entry.label === label)?.sample;
+    if (!sample) continue;
+    assert.equal(sample.cursor, quiet.cursor,
+      `${label} must render byte-identical to a non-interactive element (${sample.cursor} vs ${quiet.cursor})`);
+  }
   const naaviAudit = await page.locator('[data-naavi]').evaluate(element => [element, ...element.querySelectorAll('*')].map(node => {
     const style = getComputedStyle(node);
     return { tag: node.tagName.toLowerCase(), className: String(node.className?.baseVal ?? node.className ?? ''),

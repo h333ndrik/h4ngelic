@@ -1,0 +1,444 @@
+{
+  "checkedAt": "2026-11-06T18:09:37.206Z",
+  "base": "http://127.0.0.1:55173",
+  "reports": [
+    {
+      "width": 1440,
+      "natural": [
+        {
+          "container": "footer-left",
+          "scrollWidth": 624,
+          "clientWidth": 624,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "none",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-left::-webkit-scrollbar { display: none; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 35,
+            "right": 658.73,
+            "top": 855.95,
+            "bottom": 899.95
+          }
+        },
+        {
+          "container": "footer-details",
+          "scrollWidth": 163,
+          "clientWidth": 163,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "none",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-details::-webkit-scrollbar { display: none; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 1241.83,
+            "right": 1405,
+            "top": 855.95,
+            "bottom": 899.95
+          }
+        }
+      ],
+      "gutter": {
+        "before": [
+          44,
+          44
+        ],
+        "after": [
+          {
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "clientWidth": 624,
+            "scrollWidth": 624
+          },
+          {
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "clientWidth": 163,
+            "scrollWidth": 163
+          }
+        ]
+      },
+      "gutterMetrics": [
+        {
+          "container": "footer-left",
+          "scrollWidth": 624,
+          "clientWidth": 624,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "auto",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-left::-webkit-scrollbar { display: none; }",
+            "::-webkit-scrollbar { display: block !important; width: 16px !important; height: 16px !important; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 35,
+            "right": 658.73,
+            "top": 855.95,
+            "bottom": 899.95
+          }
+        },
+        {
+          "container": "footer-details",
+          "scrollWidth": 163,
+          "clientWidth": 163,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "auto",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-details::-webkit-scrollbar { display: none; }",
+            "::-webkit-scrollbar { display: block !important; width: 16px !important; height: 16px !important; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 1241.83,
+            "right": 1405,
+            "top": 855.95,
+            "bottom": 899.95
+          }
+        }
+      ],
+      "hypotheses": {
+        "iframes": 0,
+        "coveringLayers": [
+          {
+            "tag": "A",
+            "className": "chapter-counter naavi",
+            "pointerEvents": "auto"
+          }
+        ],
+        "compositingAncestors": [],
+        "cursorDeclarationsInMediaQueries": [],
+        "cursorDeclarationCount": 0
+      },
+      "sampling": {
+        "logo": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2",
+        "sampled": 12303,
+        "deviations": [],
+        "directBelow": 12303
+      },
+      "below": [
+        {
+          "container": "footer-left",
+          "stack": []
+        },
+        {
+          "container": "footer-details",
+          "stack": []
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "natural": [
+        {
+          "container": "footer-left",
+          "scrollWidth": 146,
+          "clientWidth": 123,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "none",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-left::-webkit-scrollbar { display: none; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 22,
+            "right": 145,
+            "top": 855.58,
+            "bottom": 899.58
+          }
+        },
+        {
+          "container": "footer-details",
+          "scrollWidth": 128,
+          "clientWidth": 123,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "none",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-details::-webkit-scrollbar { display: none; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 245,
+            "right": 368,
+            "top": 855.58,
+            "bottom": 899.58
+          }
+        }
+      ],
+      "gutter": {
+        "before": [
+          44,
+          44
+        ],
+        "after": [
+          {
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "clientWidth": 123,
+            "scrollWidth": 146
+          },
+          {
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "clientWidth": 123,
+            "scrollWidth": 128
+          }
+        ]
+      },
+      "gutterMetrics": [
+        {
+          "container": "footer-left",
+          "scrollWidth": 146,
+          "clientWidth": 123,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "auto",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-left::-webkit-scrollbar { display: none; }",
+            "::-webkit-scrollbar { display: block !important; width: 16px !important; height: 16px !important; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 22,
+            "right": 145,
+            "top": 855.58,
+            "bottom": 899.58
+          }
+        },
+        {
+          "container": "footer-details",
+          "scrollWidth": 128,
+          "clientWidth": 123,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "auto",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-details::-webkit-scrollbar { display: none; }",
+            "::-webkit-scrollbar { display: block !important; width: 16px !important; height: 16px !important; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 245,
+            "right": 368,
+            "top": 855.58,
+            "bottom": 899.58
+          }
+        }
+      ],
+      "hypotheses": {
+        "iframes": 0,
+        "coveringLayers": [
+          {
+            "tag": "A",
+            "className": "chapter-counter naavi",
+            "pointerEvents": "auto"
+          }
+        ],
+        "compositingAncestors": [],
+        "cursorDeclarationsInMediaQueries": [],
+        "cursorDeclarationCount": 0
+      },
+      "sampling": {
+        "logo": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2",
+        "sampled": 5221,
+        "deviations": [],
+        "directBelow": 5221
+      },
+      "below": [
+        {
+          "container": "footer-left",
+          "stack": []
+        },
+        {
+          "container": "footer-details",
+          "stack": []
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "natural": [
+        {
+          "container": "footer-left",
+          "scrollWidth": 146,
+          "clientWidth": 88,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "none",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-left::-webkit-scrollbar { display: none; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 22,
+            "right": 110,
+            "top": 856.27,
+            "bottom": 900.27
+          }
+        },
+        {
+          "container": "footer-details",
+          "scrollWidth": 128,
+          "clientWidth": 88,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "none",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-details::-webkit-scrollbar { display: none; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 210,
+            "right": 298,
+            "top": 856.27,
+            "bottom": 900.27
+          }
+        }
+      ],
+      "gutter": {
+        "before": [
+          44,
+          44
+        ],
+        "after": [
+          {
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "clientWidth": 88,
+            "scrollWidth": 146
+          },
+          {
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "clientWidth": 88,
+            "scrollWidth": 128
+          }
+        ]
+      },
+      "gutterMetrics": [
+        {
+          "container": "footer-left",
+          "scrollWidth": 146,
+          "clientWidth": 88,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "auto",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-left::-webkit-scrollbar { display: none; }",
+            "::-webkit-scrollbar { display: block !important; width: 16px !important; height: 16px !important; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 22,
+            "right": 110,
+            "top": 856.27,
+            "bottom": 900.27
+          }
+        },
+        {
+          "container": "footer-details",
+          "scrollWidth": 128,
+          "clientWidth": 88,
+          "scrollHeight": 44,
+          "clientHeight": 44,
+          "offsetHeight": 44,
+          "overflowX": "auto",
+          "overflowY": "hidden",
+          "scrollbarWidth": "auto",
+          "scrollbarGutter": "auto",
+          "webkitScrollbarRules": [
+            ".footer-details::-webkit-scrollbar { display: none; }",
+            "::-webkit-scrollbar { display: block !important; width: 16px !important; height: 16px !important; }"
+          ],
+          "gutter": 0,
+          "rect": {
+            "left": 210,
+            "right": 298,
+            "top": 856.27,
+            "bottom": 900.27
+          }
+        }
+      ],
+      "hypotheses": {
+        "iframes": 0,
+        "coveringLayers": [
+          {
+            "tag": "A",
+            "className": "chapter-counter naavi",
+            "pointerEvents": "auto"
+          }
+        ],
+        "compositingAncestors": [],
+        "cursorDeclarationsInMediaQueries": [],
+        "cursorDeclarationCount": 0
+      },
+      "sampling": {
+        "logo": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2",
+        "sampled": 4337,
+        "deviations": [],
+        "directBelow": 4337
+      },
+      "below": [
+        {
+          "container": "footer-left",
+          "stack": []
+        },
+        {
+          "container": "footer-details",
+          "stack": []
+        }
+      ]
+    }
+  ]
+}

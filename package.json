@@ -55,6 +55,8 @@
     "test:about-heading": "node tests/v20-about-heading-browser.mjs",
     "test:static-titles": "node tests/v23-static-titles-browser.mjs",
     "test:cross-links": "node tests/v25-cross-links-browser.mjs",
+    "test:creative-landing": "node tests/creative-landing-browser.mjs",
+    "test:mobile-parity": "node tests/mobile-parity-browser.mjs",
     "test:index-glow": "node tests/v19-index-glow-browser.mjs",
     "test:hero-tagline": "node tests/v28-hero-tagline-browser.mjs",
     "test:mail-limits": "node tests/v26-mail-limits-browser.mjs",

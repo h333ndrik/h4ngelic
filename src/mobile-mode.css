@@ -26,3 +26,10 @@
   .mobile-mode img, .mobile-mode::after { transition: none; }
   .mobile-mode img { transform: none; }
 }
+
+/* B-F32 (rev): on touch the fixed mode glyph hovered permanently over the
+   page and read as a floating cursor. The user wants it gone. The HOLD-4 hint
+   stays as the touch entry to the other side. */
+@media (pointer: coarse) {
+  .mobile-mode { display: none; }
+}

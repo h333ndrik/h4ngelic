@@ -181,12 +181,11 @@ try {
       assert.match(await page.locator('[data-visit-number]').textContent(), /^visit \d{4,}$/);
       await footerAtRest(page);
       const identity = await identityGeometry(page);
-      assert.equal(identity.counterInLeftCluster, true, 'The local count follows moshlab in the left footer cluster.');
+      assert.equal(identity.counterInLeftCluster, true, 'The local count sits in the left footer cluster.');
       assert.ok(Math.abs(identity.row.centerY - identity.naavi.centerY) < 2, 'Footer and NAAVI share one baseline.');
       assert.ok(identity.left.right <= identity.naavi.left + 1 && identity.naavi.right <= identity.right.left + 1,
         'The middle reservation keeps the shared NAAVI clear of both footer clusters.');
-      assert.equal(await page.locator('.footer-moshlab').getAttribute('href'), '#');
-      assert.equal(await page.locator('.footer-moshlab .arrow').count(), 1);
+      assert.equal(await page.locator('.footer-left a').count(), 0, 'B-F29: the exported left cluster owns no link.');
       assert.equal(await page.locator('.footer-smash .arrow').count(), 0, 'SMASH is mode-only and carries no arrow in the normal footer.');
       assert.equal(await page.locator('.footer-instagram .arrow').count(), 1);
       assert.equal(await page.locator('[data-visit-number]').evaluate(element => Number(getComputedStyle(element).opacity)), 0.35,
@@ -290,9 +289,17 @@ try {
       }));
       assert.ok(reverseHint.opacity < .01, 'The reverse hint fades away in both realities after discovery expires.');
       assert.equal(reverseHint.color, 'rgb(255, 255, 255)');
-      assert.ok(reverseHint.fontSize >= 15 && reverseHint.fontSize <= 21);
+      // The HOLD-4 hint keeps the desktop ghost scale (21 px) and drops to the
+      // mobile ghost scale (12 px) below 600 px — same token, two sizes.
+      assert.ok(mobile ? reverseHint.fontSize >= 11 && reverseHint.fontSize <= 13
+        : reverseHint.fontSize >= 15 && reverseHint.fontSize <= 21,
+      `The hint keeps the ghost type scale at ${width}px (${reverseHint.fontSize}).`);
 
       const mute = page.locator('[data-controls] [data-mode-mute]');
+      // The file:// preview has no localStorage, so the sound preference falls
+      // back to the shipped default instead of a saved "muted". Carry the
+      // state forward instead of hard-coding one starting point.
+      let mutedState = 'false';
       assert.equal(await mute.count(), 1);
       assert.equal(await page.locator('[data-mode-mute]').count(), 1);
       assert.equal(await page.locator('[data-artist-footer] [data-mode-mute]').count(), 0);
@@ -301,8 +308,17 @@ try {
       await mute.scrollIntoViewIfNeeded();
       assert.equal(await mute.isVisible(), true, 'Mute is an actual visible lower-hero control.');
       if (await mute.isEnabled()) {
+        // The button is a toggle, not a one-way "sound on": at this point in
+        // the flow the world may already be unmuted. Assert the flip (the
+        // first-click-swallowed bug made exactly this fail) and let the label
+        // follow the new state.
+        const beforeMute = await mute.getAttribute('aria-pressed');
         if (mobile) await mute.tap(); else await mute.click();
-        assert.equal(await mute.getAttribute('aria-pressed'), 'true');
+        await page.waitForFunction(previous => document.querySelector('[data-controls] [data-mode-mute]')?.getAttribute('aria-pressed') !== previous,
+          beforeMute, { timeout: 5000 });
+        assert.equal(await mute.getAttribute('aria-pressed'), beforeMute === 'true' ? 'false' : 'true');
+        assert.equal((await mute.textContent()).trim(), beforeMute === 'true' ? 'sound off' : 'sound on');
+        mutedState = await mute.getAttribute('aria-pressed');
       }
       await page.locator('#selected-work .category-link[href="#/creative/tattoos"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
@@ -329,7 +345,8 @@ try {
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
       assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0,
         'Work does not acquire a visible duplicate sound control.');
-      if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true');
+      if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), mutedState,
+        'The one sound control keeps its state across the standalone route change.');
 
       await page.evaluate(() => { location.hash = '#/creative/flashes'; });
       await page.waitForFunction(() => location.hash === '#/creative/flashes' && document.querySelector('[data-work-context="flashes"]'));

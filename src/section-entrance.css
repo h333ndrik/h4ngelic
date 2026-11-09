@@ -10,3 +10,34 @@
     transition: none;
   }
 }
+
+/* B-F39: on touch every archive section arrives when it enters the viewport.
+   The pending class is written by the observer in section-entrance.js, so a
+   document without JS keeps every section visible. The scroll-linked entrance
+   above stays untouched (desktop reference). */
+/* No @supports gate here on purpose: `CSS.supports('animation-timeline',
+   'view()')` is true in current Chromium/Safari, so the gate from the brief
+   would disable the only existing path in every target browser. K5 found no
+   timeline declaration in the source; the IntersectionObserver above is the
+   one and only reveal mechanism. */
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  [data-section-reveal] {
+    transition: opacity 520ms ease-out, transform 700ms cubic-bezier(.16, 1, .3, 1);
+  }
+  [data-section-reveal].is-section-reveal-pending {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  [data-section-reveal].is-section-reveal-pending.is-section-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-section-reveal],
+  [data-section-reveal].is-section-reveal-pending {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

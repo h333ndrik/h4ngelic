@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-11-09T19:36:28.824Z",
+  "build": "60e682d2580f",
+  "points": [
+    {
+      "label": "naavi-container",
+      "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto",
+      "element": "A.chapter-counter"
+    },
+    {
+      "label": "naavi-digit",
+      "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto",
+      "element": "A.chapter-counter"
+    },
+    {
+      "label": "naavi-total",
+      "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto",
+      "element": "A.chapter-counter"
+    },
+    {
+      "label": "footer-location",
+      "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto",
+      "element": "SPAN.interaction-visual"
+    },
+    {
+      "label": "footer-instagram",
+      "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto",
+      "element": "SPAN.interaction-visual"
+    },
+    {
+      "label": "footer-brand",
+      "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto",
+      "element": "SPAN.footer-brand"
+    },
+    {
+      "label": "hero-nav-link",
+      "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto",
+      "element": "SPAN.interaction-visual"
+    },
+    {
+      "label": "body",
+      "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto",
+      "element": "A.floating-brand"
+    }
+  ],
+  "distinctSampled": [
+    "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+  ],
+  "rasterValues": [
+    "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+  ],
+  "passed": true,
+  "token": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+}

@@ -26,8 +26,8 @@ async function indexLink(page, name, kind) {
   // INDEX now exposes only the approved 00–03 route set. Work remains a real
   // hero-nav destination; other calls continue through their INDEX entry.
   if (name === 'work') {
-    await page.locator('.hero-nav a[href="/creative"]').click();
-    await page.waitForFunction(() => location.pathname === '/creative');
+    await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
+    await page.waitForFunction(() => location.pathname === '/creative/tattoos');
   } else {
     const menu = page.locator('[data-global-index]');
     if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();

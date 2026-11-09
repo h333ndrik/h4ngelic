@@ -422,3 +422,43 @@ Bestätigungsfragen, keine offenen Vertragsverletzungen.
 origin/main`**. Ein Rebase ist verboten, weil er einen Force-Push erzwingt und
 die gepushte Historie umschreibt; `git push --force*` und `git reset --hard` auf
 geteilten Branches ebenso.
+
+## b-f19-f31 — Merge-Gate 09./10.11.
+
+**Stand:** `9470f07` (Build `9470f07bbdbe`), Basis `origin/main` = `1608499`.
+Volle serielle Battery (`scripts/gate-battery.mjs`), Ergebnis in
+`battery-b-f19-f31-gate.json`.
+
+| Kategorie | Anzahl | Suiten |
+| --- | --- | --- |
+| PASS | 35 | alle Website-Suiten inkl. `cursor-hit-test`, `seo`, `v31-*`, `portfolio`, `hero-*`, `smash-v31`, `standalone-browser` |
+| Flake, einzeln grün | 2 | `v25-cross-links-browser` (1. Lauf), `cursor-hit-test` + `standalone-browser` (2. Lauf) |
+| MISSING, bewusst pensioniert | 3 | `artwork-transitions-browser` (B-F27), `mobile-interactions-browser` + `standalone-native-browser` (B-F32 rev) |
+
+Die drei Flakes wurden einzeln nachgefahren und sind grün: `v25` 6/6,
+`cursor-hit-test` 1 Wert über 4470/1150/940 × 2 + 2221 xray,
+`standalone-browser` 1440/390/320. Ursache ist Last nach ~50 Minuten
+Dauerbetrieb (Laufzeiten im zweiten Lauf 2–3× so lang), nicht der Code.
+
+### Bugs, die das Gate in diesem Lauf gefunden hat
+
+1. `88f4657` — Standalone-Kategorieseiten rendern `id="[object Object]"`
+   (leaf()-Default bekam das ganze Entry-Objekt). Jeder `#category`-Anker und
+   drei Suiten liefen ins Leere.
+2. `a2cfbab` — ein Frame der alten Route schrieb nach dem Routenwechsel den
+   Sektions-Hash der alten Rubrik auf die neue URL (`/creative/jewellery` +
+   `#model-3d`, reproduziert in Reduced Motion).
+3. `25e3ed7` (B-F40) — der erste Klick auf MUTE wurde verschluckt, weil
+   `refresh()` beim Audio-Unlock `textContent` neu setzte und damit das
+   Klickziel mitten im Press zerstörte.
+
+### Bewusst geänderte Test-Verträge
+
+`tests: reconcile the merge battery…` (`46f4882`) und
+`tests: standalone suites…` (`9470f07`): sechs Suiten trugen Erwartungen aus
+der Zeit vor B-F30/F31/F32/F39; zwei Suiten testeten das in `2ac40ec`
+entfernte Mobile-Glyph und sind mit README pensioniert.
+
+### Offen (nicht gate-relevant für diesen Merge)
+
+- `B-016` Impressum: Rechtstexte fehlen weiterhin (User-Daten).

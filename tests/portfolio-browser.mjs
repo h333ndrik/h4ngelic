@@ -11,8 +11,9 @@ const groups = ['tattoos', 'jewellery', 'tools', 'more'];
 const leaves = ['flashes', 'analog-photography', 'digital-artworks', 'paintings'];
 const groupHref = id => `/creative/${id}`;
 const expectedCategories = {
-  all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
-  tattoos: ['tattoos', 'flashes'], jewellery: ['jewellery'], tools: [], more: ['digital-artworks', 'analog-photography'],
+  // B-F31: the 3d model is the third section of the tattoos rubric.
+  all: ['tattoos', 'flashes', 'model-3d', 'jewellery', 'digital-artworks', 'analog-photography'],
+  tattoos: ['tattoos', 'flashes', 'model-3d'], jewellery: ['jewellery'], tools: [], more: ['digital-artworks', 'analog-photography'],
   flashes: ['flashes'], 'analog-photography': ['analog-photography'], 'digital-artworks': ['digital-artworks'], paintings: ['paintings'],
 };
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,
@@ -167,8 +168,11 @@ try {
       await mode(page, 'normal');
       const menu = page.locator('[data-global-index]');
       if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
-      assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.textContent.replace(/\s+/g, ' ').trim()), '01/ creative');
-      assert.equal(await menu.locator('.index-static[data-index-page="creative"]').evaluate(element => element.tabIndex >= 0), false);
+      // B-F28: "01/ creative" is a real link now — same label, same row, same
+      // destination as the hero bar (/creative/tattoos), no aria-current special case.
+      assert.equal(await menu.locator('a[data-index-page="creative"]').evaluate(element => element.textContent.replace(/\s+/g, ' ').trim()), '01/ creative');
+      assert.equal(await menu.locator('a[data-index-page="creative"]').evaluate(element => element.tabIndex >= 0), true);
+      assert.equal(await menu.locator('a[data-index-page="creative"]').getAttribute('href'), '/creative/tattoos');
       assert.equal(await menu.locator('a[href="/creative"]').count(), 0);
       await menu.locator('[data-index-page="home"]').click();
       await page.locator('html[data-page="home"]').waitFor(); await settle(page);

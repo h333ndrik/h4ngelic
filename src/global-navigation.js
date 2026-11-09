@@ -4,6 +4,7 @@ import { resolveRoute } from './routes.js';
 import { activeChapter, naaviUsesDisplayContrast } from './global-navigation-state.js';
 import { naaviStops, naaviState, initialNaaviIndex, renderNAAVI } from './naavi-content.js';
 import { formatCounter } from './labels.js';
+import { rubricSections } from './section-list.js';
 
 /** Persistent shared NAAVI. Geometry is cached on layout changes; ordinary
  * scrolling schedules one paint, with no frame loop or scroll measurements. */
@@ -23,6 +24,8 @@ export function initGlobalNavigation(doc = document) {
   const listeners = [];
   let stops = [], measured = [], frame = 0, dirty = true, disposed = false;
   let current = -1, digitAnimation, routeKind = '', initialIndex = 0, resizeObserver;
+  // B-F31: inside a rubric the NAAVI counts the sections of the section list.
+  let sections = [], itemMode = false, hashPainted = -1;
   let displayBounds = [], quietBounds = [], footerBounds = null, dockBounds = null;
   let headerHover = null;
   const displaySelector = '.kinetic-heading, .page-heading, .work-group-heading > a, .archive-category-heading > a, .about-preview-copy, .category-link .interaction-visual';
@@ -64,18 +67,57 @@ export function initGlobalNavigation(doc = document) {
       else item.removeAttribute('aria-current');
     }
   }
-  function paint(index) {
+  function chapterState(index) {
     const state = naaviState(stops, index);
-    paintIndex(state.current);
-    const destination = href(state.destination.href);
-    if (link.getAttribute('href') !== destination) link.setAttribute('href', destination);
+    return { ...state, show: formatCounter(state.current, state.total) };
+  }
+  /** B-F31: item mode counts the sections 1-based from the section list. */
+  function itemState(index) {
+    const total = sections.length;
+    const at = Math.max(0, Math.min(total - 1, index));
+    const destination = sections[(at + 1) % total];
+    const show = formatCounter(at + 1, total);
+    return { current: at, total, destination, show,
+      label: total > 1 ? `NAAVI: ${show}, ${sections[at].label}. go to ${destination.label}`
+        : `NAAVI: ${show}, ${sections[at].label}. single section` };
+  }
+  /** B-F31 hash rule: entry stays clean, from the first section change on the
+   * URL follows it, replaceState only, never pushState. */
+  function syncHash(state) {
+    if (!itemMode) return;
+    const section = sections[state.current];
+    const domId = section?.domId;
+    // A frame scheduled on the previous route can still run between the
+    // router's pushState and the next refresh(); writing then would stamp the
+    // old rubric's section hash onto the new URL.
+    if (!domId || !section.element?.isConnected) return;
+    if (hashPainted === -1 || hashPainted === state.current) { hashPainted = state.current; return; }
+    hashPainted = state.current;
+    if (doc.documentElement.dataset.preview === 'standalone') return;
+    if (view.location.hash.slice(1) === domId) return;
+    view.history.replaceState(null, '', `#${domId}`);
+  }
+  function paint(index) {
+    const state = itemMode ? itemState(index) : chapterState(index);
+    paintIndex(itemMode ? 1 : state.current);
+    if (itemMode && state.total === 1) {
+      link.removeAttribute('href');
+      link.setAttribute('aria-disabled', 'true');
+    } else {
+      const destination = itemMode ? `#${state.destination.domId}` : href(state.destination.href);
+      if (link.getAttribute('href') !== destination) link.setAttribute('href', destination);
+      link.removeAttribute('aria-disabled');
+    }
+    if (itemMode) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
+    link.dataset.naaviMode = itemMode ? 'section' : 'chapter';
     if (link.getAttribute('aria-label') !== state.label) link.setAttribute('aria-label', state.label);
-    link.dataset.chapterTarget = state.destination.id || 'home';
+    link.dataset.chapterTarget = (itemMode ? state.destination.domId : state.destination.id) || 'home';
     link.dataset.chapter = String(state.current);
     link.dataset.chapterTotal = String(state.total);
     const digit = link.querySelector('.chapter-digit');
     const total = link.querySelector('.chapter-total');
-    const counter = formatCounter(state.current, state.total);
+    const counter = state.show;
     const currentText = counter.slice(0, 2);
     const totalText = counter.slice(2);
     if (digit && digit.textContent !== currentText) digit.textContent = currentText;
@@ -86,6 +128,7 @@ export function initGlobalNavigation(doc = document) {
         { transform: 'translateY(0)', opacity: 1 }], { duration: 280, easing: 'cubic-bezier(.2,.8,.25,1)' });
     }
     current = index;
+    syncHash(state);
   }
   const documentBounds = element => {
     const rect = element.getBoundingClientRect();
@@ -181,6 +224,8 @@ export function initGlobalNavigation(doc = document) {
     if (!frame && !disposed && !doc.hidden) frame = view.requestAnimationFrame(update);
   }
   function refresh() {
+    // Drop a frame that was scheduled for the route we are leaving.
+    if (frame) { view.cancelAnimationFrame(frame); frame = 0; }
     closeIndex();
     headerContrast.refresh();
     routeKind = doc.documentElement.dataset.page || 'home';
@@ -189,16 +234,41 @@ export function initGlobalNavigation(doc = document) {
     initialIndex = initialNaaviIndex(resolveRoute(url));
     resizeObserver?.disconnect();
     const isWork = routeKind === 'work';
-    stops = naaviStops(routeKind).map(stop => {
-      // Only the current page's actual sections participate in scroll state.
-      const element = routeKind === 'home' ? doc.querySelector(stop.selector || `#${stop.id}`)
-        : isWork && stop.id ? doc.getElementById(stop.id) : null;
-      if (element) {
-        if (!element.hasAttribute('tabindex')) element.setAttribute('tabindex', '-1');
-        resizeObserver?.observe(element);
+    const context = doc.querySelector('[data-connected-work]')?.dataset.workContext || '';
+    const listed = ['work', 'artwork', 'tool'].includes(routeKind) ? rubricSections(context) : [];
+    sections = listed.map(section => ({ ...section, element: doc.getElementById(section.domId) }))
+      .filter(section => section.element);
+    itemMode = sections.length >= 1;
+    hashPainted = -1;
+    if (itemMode) {
+      for (const section of sections) {
+        if (!section.element.hasAttribute('tabindex')) section.element.setAttribute('tabindex', '-1');
+        resizeObserver?.observe(section.element);
       }
-      return { ...stop, element };
-    });
+      const hash = view.location.hash.slice(1);
+      initialIndex = Math.max(0, sections.findIndex(section => section.domId === hash));
+    }
+    stops = itemMode
+      ? sections.map(section => ({ id: section.domId, label: section.label, href: `#${section.domId}`, element: section.element }))
+      : naaviStops(routeKind).map(stop => {
+        // Only the current page's actual sections participate in scroll state.
+        const element = routeKind === 'home' ? doc.querySelector(stop.selector || `#${stop.id}`)
+          : isWork && stop.id ? doc.getElementById(stop.id) : null;
+        if (element) {
+          if (!element.hasAttribute('tabindex')) element.setAttribute('tabindex', '-1');
+          resizeObserver?.observe(element);
+        }
+        return { ...stop, element };
+      });
+    // B-F31: a reload with a section hash lands there, but only after the
+    // layout has settled (fonts and images) — otherwise the landing is short.
+    if (itemMode && view.location.hash) {
+      const target = sections.find(section => `#${section.domId}` === view.location.hash);
+      if (target) {
+        const jump = () => target.element.scrollIntoView({ behavior: reduced.matches ? 'instant' : 'smooth', block: 'start' });
+        (doc.fonts?.ready || Promise.resolve()).then(() => view.requestAnimationFrame(() => view.requestAnimationFrame(jump)));
+      }
+    }
     if (doc.getElementById('page-content')) resizeObserver?.observe(doc.getElementById('page-content'));
     const footer = doc.querySelector('[data-footer-row]');
     if (footer) resizeObserver?.observe(footer);
@@ -224,6 +294,18 @@ export function initGlobalNavigation(doc = document) {
   }
   listen(link, 'click', event => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (itemMode) {
+      // B-F31: the section jump and the hash jump share this one scroll call.
+      const domId = link.getAttribute('href')?.slice(1);
+      const target = sections.find(section => section.domId === domId);
+      if (!target?.element) return;
+      event.preventDefault();
+      target.element.focus({ preventScroll: true });
+      target.element.scrollIntoView({ behavior: reduced.matches ? 'instant' : 'smooth', block: 'start' });
+      if (doc.documentElement.dataset.preview !== 'standalone') view.history.replaceState(null, '', `#${domId}`);
+      schedule();
+      return;
+    }
     const state = naaviState(stops, current);
     const currentURL = doc.documentElement.dataset.preview === 'standalone'
       ? new URL(view.location.hash.slice(1) || '/', 'https://preview.invalid') : new URL(view.location.href);

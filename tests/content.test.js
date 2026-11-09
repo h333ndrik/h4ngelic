@@ -21,8 +21,8 @@ test('homepage keeps four horizontal real category routes and a static creative 
 
 test('real category pages select their own content while /creative retains the complete archive', () => {
   const cases = [
-    ['all', ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'tools', 'more'], 9, '01/ creative'],
-    ['tattoos', ['tattoos', 'flashes'], ['tattoos'], 8, 'tattoos'],
+    ['all', ['tattoos', 'flashes', 'model-3d', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'tools', 'more'], 9, '01/ creative'],
+    ['tattoos', ['tattoos', 'flashes', 'model-3d'], ['tattoos'], 8, 'tattoos'],
     ['flashes', ['flashes'], [], 0, 'FLASHES'],
     ['jewellery', ['jewellery'], ['jewellery'], 0, 'jewellery'],
     ['more', ['digital-artworks', 'analog-photography'], ['more'], 1, 'more'],
@@ -49,7 +49,7 @@ test('real category pages select their own content while /creative retains the c
 
 test('rubric pages render plain child category headings and keep cross-links', () => {
   const expected = {
-    tattoos: [['archive-flashes-title', 'flashes'], ['archive-model-title', '3d model']],
+    tattoos: [['archive-flashes-title', 'flashes'], ['archive-model-3d-title', '3d model']],
     jewellery: [],
     tools: [],
     more: [['archive-digital-artworks-title', 'digital artworks'], ['archive-analog-photography-title', 'analog photography']],
@@ -99,9 +99,9 @@ test('only Home exposes the accessible inquiry form; interior Contact links targ
     assert.match(markup, /data-inquiry-status role="status" aria-live="polite"/);
     assert.match(markup, /href="mailto:h4ngelic@gmail\.com"/);
     assert.match(markup, /href="https:\/\/www\.instagram\.com\/h4ngelic\/" target="_blank" rel="noopener noreferrer"/);
-    const withoutApprovedPlaceholder = markup.replace(/<a\b[^>]*data-moshlab-placeholder[^>]*>[\s\S]*?<\/a>/g, '');
-    assert.match(markup, /class="footer-moshlab row-item" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
-    assert.doesNotMatch(withoutApprovedPlaceholder, /class="contact-links"|link coming soon|href="(?:#|mailto:|https?:\/\/|)"/);
+    // B-F29: with the placeholder removed the footer owns no bare # destination.
+    assert.doesNotMatch(markup, /href="#"/, 'no placeholder link in the rendered footer');
+    assert.doesNotMatch(markup, /class="contact-links"|link coming soon|href="(?:#|mailto:|https?:\/\/|)"/);
   }
 });
 
@@ -293,7 +293,9 @@ test('Works has four unnumbered major rubrics, subordinate archive labels and an
   assert.match(markup, /id="group-tattoos-title"[^>]*><a[^>]*>tattoos\s+<i class="arrow" aria-hidden="true"><\/i><\/a><\/h2>/);
   const model = markup.match(/<section[^>]+data-deferred-model[^>]*>([\s\S]*?)<\/section>/)?.[1];
   assert.ok(model);
-  assert.match(model, /^<h3[^>]+>3d model<\/h3>/);
+  // B-F31: the model section comes from the section list, so it renders
+  // through the same path and without a link (it owns no route).
+  assert.match(model, /^\s*<h3[^>]+>3d model<\/h3>/);
   assert.match(model, /data-mannequin-preview data-mannequin-variant="C" data-mannequin-src="\/models\/mannequin-c\.[a-f0-9]+\.glb" data-mannequin-design-src="\/textures\/designs\/demo-mark\.png" data-mannequin-state="deferred"/);
   assert.match(model, /role="img" tabindex="0" aria-label="3D model: female mannequin\. Use the left and right arrow keys to turn it\."/);
   assert.doesNotMatch(model, /<canvas|data-flash-mannequin|three\.js|GLTFLoader/);

@@ -55,12 +55,15 @@ test('shared footer groups contain the permanent ghost count, matching arrows an
   // B-016: Impressum-Link bewusst entfernt bis Nutzdaten vorliegen (05.11.).
   assert.doesNotMatch(html, /footer-impressum|data-other-side-imprint-slot/, 'No footer links the placeholder legal page.');
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
-  assert.ok(html.indexOf('data-visit-count') > html.indexOf('class="footer-moshlab"'));
+  // B-F29: the placeholder link is removed from the markup, not hidden, and the
+  // visit counter takes its position inside the left cluster.
+  // B-F29: the left cluster holds exactly the branding and the counter.
+  assert.match(html, /class="footer-left"[^>]*><span class="footer-brand row-item">[\s\S]*?<\/span>\s*<span class="footer-visit row-item" data-visit-count>/);
+  assert.doesNotMatch(html, /href="#"/, 'B-F29: the footer owns no bare # destination any more.');
+  assert.ok(html.indexOf('data-visit-count') > html.indexOf('class="footer-brand"'));
   assert.ok(html.indexOf('data-visit-count') < html.indexOf('class="footer-details"'));
-  assert.match(html, /class="footer-moshlab row-item" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
-  assert.ok(html.indexOf('footer-moshlab') > html.indexOf('footer-brand') && html.indexOf('footer-moshlab') < html.indexOf('footer-details'));
-  assert.equal((html.match(/class="arrow"/g) || []).length, 2, 'MOSH LAB and Instagram use the shared arrow; SMASH is mode-only and arrowless.');
-  assert.equal((renderFooter().match(/class="arrow"/g) || []).length, 2);
+  assert.equal((html.match(/class="arrow"/g) || []).length, 1, 'Only Instagram uses the shared arrow; SMASH is mode-only and arrowless.');
+  assert.equal((renderFooter().match(/class="arrow"/g) || []).length, 1);
   assert.match(html, /data-footer-row/);
   assert.doesNotMatch(html, /data-mode-mute/, 'The sound control belongs to the hero controls, without a footer duplicate.');
   assert.match(html, /data-mode-status role="status" aria-live="polite"/);

@@ -103,7 +103,12 @@ export function initSoundControls({ doc = document, audio } = {}) {
     for (const button of doc.querySelectorAll('[data-mode-mute]')) {
       const control = controls.get(button) || enhance(button);
       const needsResume = Boolean(audio.needsResume && !audio.muted);
-      button.textContent = needsResume ? 'tap to resume' : audio.muted ? 'sound off' : 'sound on';
+      // Rewriting textContent replaces the interaction wrapper (and every text
+      // node) even when the label is unchanged — that destroys the click target
+      // mid-press, so the very first click on MUTE was swallowed by the
+      // document-level audio unlock. Only write when the label really changes.
+      const label = needsResume ? 'tap to resume' : audio.muted ? 'sound off' : 'sound on';
+      if (button.textContent !== label) button.textContent = label;
       if (needsResume) button.setAttribute('data-sound-resume', '');
       else button.removeAttribute('data-sound-resume');
       button.setAttribute('aria-pressed', String(!audio.muted));
@@ -162,8 +167,19 @@ export function initSoundControls({ doc = document, audio } = {}) {
     if (event.target.matches?.('[data-sound-volume]')) audio.setVolume(Number(event.target.value) / 100);
   }
   function outside(event) { if (open && !open.wrapper.contains(event.target)) close(); }
+  const typing = target => Boolean(target) && (target.isContentEditable === true
+    || /^(input|textarea|select)$/i.test(target.tagName || ''));
   function keydown(event) {
-    if (event.key === 'Escape' && open) { event.preventDefault(); close({ restoreFocus: true }); }
+    if (event.key === 'Escape' && open) { event.preventDefault(); close({ restoreFocus: true }); return; }
+    // B-F37: "m" toggles the same mute the button toggles. Never while typing
+    // (so "mmmail" stays a message), never with a modifier, and never with a
+    // preventDefault inside a field.
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (event.key.toLowerCase() !== 'm') return;
+    if (typing(event.target)) return;
+    event.preventDefault();
+    audio.setMuted(!audio.muted);
+    if (!audio.muted) void audio.prime(event).then(refresh);
   }
   function focusout(event) {
     if (open && !open.wrapper.contains(event.relatedTarget)) close();

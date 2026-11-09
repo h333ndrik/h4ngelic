@@ -103,7 +103,7 @@ async function pageLinks(page) {
                 : element.closest('.work-group-heading') ? 'group-heading'
                   : element.closest('.archive-category-heading') ? 'archive-heading'
                   : element.closest('.artwork-page .project-meta') ? 'project-action'
-                    : element.matches('.footer-moshlab, .footer-instagram, .footer-smash') ? 'footer-link'
+                    : element.matches('.footer-instagram, .footer-smash') ? 'footer-link'
                         : element.matches('.category-link') ? 'category'
                           : element.matches('.tool-card-link') ? 'tool-card'
                             : element.matches('.tool-card-external, .tool-external-cta') ? 'tool-cta' : 'internal';
@@ -148,7 +148,7 @@ try {
           assert.match(link.rel, /\bnoreferrer\b/, `${path} external link ${url.href} needs rel=noreferrer.`);
           assert.ok(externalTargets.has(link.resolvedHref), `${path} has an unapproved external destination: ${link.resolvedHref}`);
         } else if (link.href === '#') {
-          assert.ok(link.className.includes('footer-moshlab'), `${path} only the explicit moshlab placeholder may use #.`);
+          assert.fail(`${path} link ${JSON.stringify(link.text)} uses a bare # destination.`);
         } else if (link.href.startsWith('#')) {
           assert.equal(link.href, '#page-content', `${path} only the skip link may use a same-document hash.`);
         } else {

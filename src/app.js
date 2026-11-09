@@ -33,6 +33,7 @@ import { heroPosterSettings } from './data/heroPosterSettings.js';
 import { fitRubricRows } from './rubric-fit.js';
 import { initMannequinPreviewLazy } from './mannequin-preview-loader.js';
 import { initSectionEntrance } from './section-entrance.js';
+import { initPressState } from './press-state.js';
 
 if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
 document.documentElement.dataset.h4StylesReady = 'true';
@@ -359,6 +360,7 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopConnectedWork = initConnectedWork(content);
   stopModelPreview = initMannequinPreviewLazy(content);
   stopSectionEntrance = initSectionEntrance(content);
+  initPressState(document);
   scheduleSlashInset();
   document.fonts?.ready.then(scheduleSlashInset);
 
@@ -403,9 +405,7 @@ function afterFirstPaint(task) {
 }
 
 render();
-// The approved moshlab placeholder stays inert even before deferred easter eggs load.
 document.addEventListener('click', event => {
-  if (event.target.closest?.('[data-moshlab-placeholder]')) event.preventDefault();
 });
 // Ink sampling, visitor memory and the remaining easter-egg bindings are not
 // needed for the first frame. Their module and initialization wait for idle,

@@ -170,7 +170,7 @@ async function cursorStates(page, selectors) {
 }
 
 async function footerCursorStates(page) {
-  return cursorStates(page, ['.floating-brand', '.footer-moshlab', '[data-visit-count]',
+  return cursorStates(page, ['.floating-brand', '.footer-brand', '[data-visit-count]',
     '.footer-smash', '.footer-instagram', '[data-naavi]']);
 }
 

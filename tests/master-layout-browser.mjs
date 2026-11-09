@@ -78,14 +78,14 @@ try {
         await page.locator('.footer-left').evaluate((element) => { element.scrollLeft = element.scrollWidth; });
         const footer = await page.locator('[data-artist-footer]').evaluate(element => {
           const box = el => { const r = el.getBoundingClientRect(); return { left:r.left,right:r.right,top:r.top,bottom:r.bottom }; };
-          const counter = element.querySelector('[data-visit-number]'), button = counter.closest('button');
-          return { count:counter.textContent, visible:getComputedStyle(counter).opacity, signature:box(element.querySelector('.footer-brand')), moshlab:box(element.querySelector('.footer-moshlab')), visit:box(button),
+          const counter = element.querySelector('[data-visit-count]');
+          return { count:counter.textContent, visible:getComputedStyle(counter).opacity, signature:box(element.querySelector('.footer-brand')), visit:box(counter),
             border:getComputedStyle(element).borderTopWidth, width:document.documentElement.scrollWidth,
             naavi:document.querySelector('[data-naavi]') ? box(document.querySelector('[data-naavi]')) : null };
         });
         assert.equal(footer.visible, '0.35'); assert.equal(footer.border, '0px');
-        assert.ok(footer.visit.left >= footer.moshlab.right && footer.visit.left - footer.moshlab.right <= 32);
-        assert.ok(Math.abs(footer.visit.top - footer.moshlab.top) < 18);
+        assert.ok(footer.visit.left >= footer.signature.right && footer.visit.left - footer.signature.right <= 32);
+        assert.ok(Math.abs(footer.visit.top - footer.signature.top) < 18);
         assert.ok(footer.visit.right <= width && footer.width <= width + 1);
         if (footer.naavi) { assert.ok(!overlap(footer.signature,footer.naavi)); assert.ok(!overlap(footer.visit,footer.naavi)); }
         counts.push(footer.count);

@@ -115,6 +115,32 @@ html body .work-page.is-rubric-page .rubric-category-heading {
 .artwork-detail[data-artwork-category='digital-artworks'] .project-images {
   container-type: inline-size;
 }
+
+/* B-F39: on a phone the digital archive uses the tattoo carousel's own card
+   slot (one width/height token pair), so both rubrics read at one scale. The
+   frame keeps its reserved expansion envelope, but the resting image is the
+   exact card size. */
+@media (max-width: 600px) {
+  .archive-category[data-archive-category='digital-artworks'] .project-images {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+  .archive-category[data-archive-category='digital-artworks'] .digital-inline-frame {
+    --digital-base-width: var(--carousel-card-width);
+    --inline-safe-inline: 0px;
+  }
+  .archive-category[data-archive-category='digital-artworks'] .digital-inline-frame > .artwork-open {
+    --inline-rest-width: var(--carousel-card-width);
+    --inline-artwork-fit: cover;
+    width: var(--carousel-card-width);
+    height: var(--carousel-card-height);
+    aspect-ratio: auto;
+  }
+  .archive-category[data-archive-category='digital-artworks'] .digital-inline-frame > .artwork-open[data-inline-expanded] {
+    --inline-artwork-fit: contain;
+  }
+}
 /* This is the same floating header row as the Home brand, not another sticky
    strip over it. Geometry follows the measured brand/INDEX hit areas. */
 .work-filters {

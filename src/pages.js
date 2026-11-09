@@ -1,4 +1,5 @@
 import { siteContent } from './data/siteContent.js';
+import { sectionDomId } from './section-id.js';
 import { artworks } from './data/artworks.js';
 import { contentURL, escapeHTML as escape } from './content-utils.js';
 import { getImageAsset } from './image-assets.js';
@@ -11,6 +12,7 @@ import { renderInquiryForm } from './inquiry-content.js';
 import { orderedArtworks, artworkImages, artworkLabel } from './artwork-content.js';
 import { formatIndexedLabel } from './labels.js';
 import { placeholderProjects } from './data/placeholderProjects.js';
+import { carouselStyleProperties } from './carouselSettings.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
 /** One component for every rubric row: a pair per mobile line, one flex row on
@@ -155,19 +157,45 @@ export function renderWorkPage(category = 'all') {
   const activeGroup = selectedGroup?.id || siteContent.workGroups.find(group => group.children.includes(selected))?.id;
   const projects = orderedArtworks(artworks.filter(project => project.published !== false && categoryById(project.category)));
   const collection = entry => {
+    // B-F31: the mannequin section comes from the same list as every other
+    // section; only its body differs.
+    if (entry.presentation === 'model') return renderMannequinPreview();
     const items = projects.filter(project => project.category === entry.id);
     const placeholders = placeholderProjects.filter(project => project.category === entry.id);
     const contents = entry.presentation === 'drift' ? renderHorizontalDrift([...items, ...placeholders], { category: entry.id, label: entry.label })
       : items.map(renderProject).filter(Boolean).join('');
     return entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>';
   };
-  const leaf = (entry, { id = entry.id, nested = true } = {}) => {
-    return `<section class="archive-category" id="${escape(id)}" tabindex="-1" aria-labelledby="archive-${escape(entry.id)}-title" data-archive-category="${escape(entry.id)}">
-      <${nested ? 'h3' : 'h2'} class="archive-category-heading" id="archive-${escape(entry.id)}-title"${entry.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${categoryURL(entry.id)}">${escape(entry.archiveLabel || entry.label)}</a></${nested ? 'h3' : 'h2'}>
+  // B-F31: section ids come from the one shared rule in section-id.js.
+  const domIdFor = (entry, { rubricPrimary = false } = {}) => sectionDomId(entry.id, rubricPrimary ? entry.id : '', entry.anchor || '');
+  const sectionClasses = (entry, rubricPrimary) => `archive-category${rubricPrimary ? ' rubric-primary' : ''}${entry.presentation === 'model' ? ' archive-model' : ''}`;
+  // B-F39: the digital archive measures itself with the carousel's own size
+  // tokens instead of a second constant, and every archive section announces
+  // the touch reveal that section-entrance.js observes. Only the two size
+  // tokens travel to the section; the rest of the carousel contract stays
+  // scoped to the strips it was written for.
+  const carouselTokens = carouselStyleProperties();
+  const cardTokens = ['--carousel-card-width', '--carousel-card-height']
+    .map(name => `${name}:${carouselTokens[name]}`).join(';');
+  const sectionAttributes = entry => {
+    if (entry.presentation === 'model') return ' data-deferred-model data-section-entrance';
+    return ` data-section-reveal${entry.id === 'digital-artworks' ? ` style="${cardTokens}"` : ''}`;
+  };
+  // Standalone category pages (digital artworks, analog photography, …) have
+  // no rubric context, so their section id is the category id itself. The
+  // default used to pass the whole entry object into sectionDomId(), which
+  // rendered id="[object Object]" and broke every #category anchor and the
+  // suites that address them.
+  const leaf = (entry, { id = sectionDomId(entry.id), nested = true } = {}) => {
+    const tag = nested ? 'h3' : 'h2';
+    const label = escape(entry.archiveLabel || entry.label);
+    // B-F31: a section without a route (the 3d model) never renders a link.
+    const heading = entry.route === false ? label : `<a href="${categoryURL(entry.id)}">${label}</a>`;
+    return `<section class="${sectionClasses(entry, false)}" id="${escape(id)}" tabindex="-1" aria-labelledby="archive-${escape(entry.id)}-title" data-archive-category="${escape(entry.id)}"${sectionAttributes(entry)}>
+      <${tag} class="archive-category-heading${entry.presentation === 'model' ? ' rubric-category-heading' : ''}" id="archive-${escape(entry.id)}-title"${entry.id === 'tattoos' ? ' data-motion-static' : ''}>${heading}</${tag}>
       ${collection(entry)}
     </section>`;
   };
-  const modelSection = `<section class="archive-category archive-model" id="model-3d" tabindex="-1" aria-labelledby="archive-model-title" data-deferred-model data-section-entrance><h3 class="archive-category-heading rubric-category-heading" id="archive-model-title" data-motion-static>3d model</h3>${renderMannequinPreview()}</section>`;
   const content = groups.map(group => {
     if (group.id === 'tools') {
       return `<section class="work-group${selectedGroup ? ' is-rubric-archive tool-rubric' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="${selectedGroup ? 'work-page-title' : `group-${escape(group.id)}-title`}" data-work-group="${escape(group.id)}">
@@ -178,23 +206,20 @@ export function renderWorkPage(category = 'all') {
     if (selectedGroup) {
       const rubricCategories = group.children.map(id => categoryById(id)).filter(Boolean).map(entry => {
         const primary = entry.id === group.id;
-        const sectionId = primary ? `finished-${entry.id}` : entry.id;
-        const titleId = primary ? 'work-page-title' : `archive-${entry.id}-title`;
+        const titleId = primary ? 'work-page-title' : `archive-${escape(entry.id)}-title`;
         const heading = primary ? '' : `<h3 class="archive-category-heading rubric-category-heading" id="${escape(titleId)}" data-motion-static>${escape(entry.archiveLabel || entry.label)}</h3>`;
-        return `<section class="archive-category${primary ? ' rubric-primary' : ''}" id="${escape(sectionId)}" tabindex="-1" aria-labelledby="${escape(titleId)}" data-archive-category="${escape(entry.id)}">
+        return `<section class="${sectionClasses(entry, primary)}" id="${escape(domIdFor(entry, { rubricPrimary: primary }))}" tabindex="-1" aria-labelledby="${escape(titleId)}" data-archive-category="${escape(entry.id)}"${sectionAttributes(entry)}>
           ${heading}${collection(entry)}
         </section>`;
       }).join('');
       return `<section class="work-group is-rubric-archive" id="${escape(group.id)}" tabindex="-1" aria-labelledby="work-page-title" data-work-group="${escape(group.id)}">
         ${rubricCategories}
-        ${group.id === 'tattoos' ? modelSection : ''}
       </section>`;
     }
     const directCategory = group.children.length === 1 && group.children[0] === group.id;
     return `<section class="work-group${directCategory ? ' archive-category' : ''}" id="${escape(group.id)}" tabindex="-1" aria-labelledby="group-${escape(group.id)}-title" data-work-group="${escape(group.id)}"${directCategory ? ` data-archive-category="${escape(group.id)}"` : ''}>
       <h2 class="work-group-heading" id="group-${escape(group.id)}-title"${group.id === 'tattoos' ? ' data-motion-static' : ''}><a href="${workAnchorURL(group.id)}">${escape(group.label)}${group.id === 'tattoos' ? ` ${arrow}` : ''}</a></h2>
-      ${directCategory ? collection(categoryById(group.id)) : group.children.map(id => leaf(categoryById(id), { id: id === group.id ? 'finished-tattoos' : id })).join('')}
-      ${group.id === 'tattoos' ? modelSection : ''}
+      ${directCategory ? collection(categoryById(group.id)) : group.children.map(id => leaf(categoryById(id), { id: domIdFor(categoryById(id), { rubricPrimary: id === group.id }) })).join('')}
     </section>`;
   }).join('');
   const standalone = selected !== 'all' && !selectedGroup && selectedCategory
