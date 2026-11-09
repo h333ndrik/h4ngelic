@@ -85,8 +85,12 @@ export function initGlobalNavigation(doc = document) {
    * URL follows it, replaceState only, never pushState. */
   function syncHash(state) {
     if (!itemMode) return;
-    const domId = sections[state.current]?.domId;
-    if (!domId) return;
+    const section = sections[state.current];
+    const domId = section?.domId;
+    // A frame scheduled on the previous route can still run between the
+    // router's pushState and the next refresh(); writing then would stamp the
+    // old rubric's section hash onto the new URL.
+    if (!domId || !section.element?.isConnected) return;
     if (hashPainted === -1 || hashPainted === state.current) { hashPainted = state.current; return; }
     hashPainted = state.current;
     if (doc.documentElement.dataset.preview === 'standalone') return;
@@ -220,6 +224,8 @@ export function initGlobalNavigation(doc = document) {
     if (!frame && !disposed && !doc.hidden) frame = view.requestAnimationFrame(update);
   }
   function refresh() {
+    // Drop a frame that was scheduled for the route we are leaving.
+    if (frame) { view.cancelAnimationFrame(frame); frame = 0; }
     closeIndex();
     headerContrast.refresh();
     routeKind = doc.documentElement.dataset.page || 'home';
