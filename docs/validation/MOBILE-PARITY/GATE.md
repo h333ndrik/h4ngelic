@@ -93,3 +93,27 @@ fehlt) und vor B-F39-Größe (K8 fehlt). B-F35 ist vorbereitend belegt (K7),
 braucht aber noch `touch-action`-Messung und die Referenzwerte.
 
 Nichts umbenannt, nichts an Physik oder Größen geändert.
+
+## K6 (nachgetragen 09.11.) — Splats sind schon pointer-basiert
+
+`src/corruption.js` löst **nicht** auf `mouseenter` aus. Beleg (Pfad:Zeile):
+
+| Zeile | Ereignis | Wirkung |
+| --- | --- | --- |
+| 61 | `pointerdown` | merkt Pointer und startet den Klick-Kandidaten |
+| 66 | `pointermove` | zeichnet Ambient-Ink (`ambient.stroke`), sobald `cursorMosh > 0` |
+| 72 | `pointerup` | wertet den Kandidaten als Klick (≤ 12 px Bewegung, ≤ 600 ms) |
+| 78 | `click` | `queueImpulse({ kind: 'click', strength: 1.5 })` — der Splat |
+
+`pointer*` deckt Maus, Stift und Finger ab; `protectedEvent()` filtert UI-Flächen
+aus. Damit ist die Vorgabe aus B-F34 („Auslöser mouseenter → pointerdown")
+**gegenstandslos**: es gibt keinen Hover-Pfad, den man auf Touch ergänzen
+müsste. Was fehlt, ist einzig ein Cooldown von ~120 ms — der ist aber eine neue
+Regel, kein Ersatz für einen falschen Auslöser, und wird ohne Freigabe nicht
+eingebaut.
+
+Hero-Physik: Drag läuft über denselben Pointer-Pfad in `src/main.js`
+(LogoPhysics), Touch-Drag ist durch `mobile-interactions` abgedeckt.
+
+Konsequenz: **B-F34 wird nicht umgesetzt, sondern als bereits erfüllt gemeldet**
+(Splats reagieren auf Touch), mit der offenen Frage nach dem 120-ms-Cooldown.
