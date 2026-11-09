@@ -2,15 +2,21 @@
    The browser owns tracking, hiding on leave and the hotspot, so there is no
    frame of lag and no overlay element to misplace. Every image is <= 32 CSS px
    (Firefox silently discards larger cursors and falls back to the arrow) and
-   every declaration carries a PNG fallback for a failed SVG request.
+   every declaration carries a PNG fallback for a failed SVG request. The
+   interactive token is byte-identical to the base token, fallback included,
+   so no element can ever render a different cursor.
 
    Coverage is structural: every element and pseudo-element inherits the base
-   token, the interactive set only re-declares it with a `pointer` fallback, and
-   the pressed set swaps to a pre-scaled 1.08x silhouette. No other stylesheet
+   token, the interactive set re-declares exactly the same image and fallback,
+   and the pressed set swaps to a pre-scaled 1.08x silhouette. No other stylesheet
    may declare `cursor` (tests/tokens-audit.mjs enforces that). */
 :root {
   --h4-cursor: url('/assets/h4ngelic-cursor.svg') 8 2, url('/assets/h4ngelic-cursor.png') 8 2, auto;
-  --h4-cursor-interactive: url('/assets/h4ngelic-cursor.svg') 8 2, url('/assets/h4ngelic-cursor.png') 8 2, pointer;
+  /* Same image AND same fallback as the base token. A differing fallback is a
+     visible cursor change the moment a browser rejects the image (NAAVI and
+     every other link then showed the system hand while the rest of the page
+     showed the arrow). B-F19, measured 09.11. */
+  --h4-cursor-interactive: url('/assets/h4ngelic-cursor.svg') 8 2, url('/assets/h4ngelic-cursor.png') 8 2, auto;
   --h4-cursor-pressed: url('/assets/h4ngelic-cursor-pressed.svg') 8 2, url('/assets/h4ngelic-cursor-pressed.png') 8 2, auto;
   --h4-cursor-xray: url('/assets/h4ngelic-cursor-other-r09.svg') 8 2, url('/assets/h4ngelic-cursor-other.png') 8 2, auto;
   --h4-cursor-xray-pressed: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 8 2, url('/assets/h4ngelic-cursor-other-pressed.png') 8 2, auto;
@@ -48,7 +54,9 @@
 
   /* Ebene 2 — interaktiv. Das nackte `a` gehoert dazu: Navigations- und
      Footer-Links ohne href (Platzhalter, Gruppen) duerfen nicht in die Basis
-     zurueckfallen, sobald eine UA-Regel ihnen `pointer` gibt. */
+     zurueckfallen, sobald eine UA-Regel ihnen `pointer` gibt. Der Wert ist
+     identisch mit Ebene 1 — die Ebene sichert nur den Gewinner, sie aendert
+     das Bild nicht. */
   html body :is(a[href], a, button, summary, [role='button'],
       input, select, textarea, label, canvas) {
     cursor: var(--h4-cursor-interactive) !important;
