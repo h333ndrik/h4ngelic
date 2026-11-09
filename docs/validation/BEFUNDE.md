@@ -8,6 +8,7 @@ Batch 2.5 commits: `4c7ef3f` (B-F17), `d165b34` (B-F18); Batch 3 commits:
 Batch 4 commits: `2d52ca3` (B-F8), `70a01a5` (B-F15/B-F16, B-F14 verified);
 B-F19-r4 commits: `d1037b4` (Fix), `3071f07` (Footer-Zone-Contract).
 Final-Gate commits: `29b5a4e` (Hero-Suiten pensioniert), `57ff1e3` (B-F26), `9c18e52` (B-016), `2a0e330` (Battery), `c4d6b29` (Merge origin/main), `e5f2770` (Merge-Vorbereitung).
+b-f19-f31 commits: `60e682d` (B-F19), `88f4657` (G1), `a2cfbab` (G2), `25e3ed7` (B-F40), `3be206e` (Gate-Report); Merge nach `main` = `adb8222`.
 A registry entry is evidence, not a promise: `fixed` means the implementation exists and its named automated proof passes at this baseline.
 `verified-by-user` is used only after the user explicitly confirms the result.
 
@@ -116,6 +117,17 @@ email and USt./§19 data are still user-supplied launch prerequisites.
 | B-F36 | Footer-Cluster + Reihenfolge | Footer scrollt seitlich; Reihenfolge soll oben→unten Nav, Controls, Zähler sein. | **fixed** | `fc50e69`, `bb70f6b` | `docs/validation/MOBILE-PARITY/README.md` (B-F36 Teil 1/2) | `tests/mobile-parity-browser.mjs` @320/390: `scrollWidth == clientWidth` in beiden Clustern, Nav 688–732 < Controls 744–788 < NAAVI 788–832, keine Überlappung, je 44 px, Controls-Opacity < 1, Seitenbreite = Viewport; 1440 unverändert. |
 | B-F37 | Tastenkürzel „m" | Mute soll auch über die Taste „m" schalten. | **fixed** | `a52dcb5` | `docs/validation/MOBILE-PARITY/README.md` (B-F37) | `tests/mobile-parity-browser.mjs` @1440: `m` kippt `aria-pressed` und Label, zweites `m` stellt zurück, „mmmail" im Feld bleibt Text, `Meta+m` schaltet nichts. |
 | B-F39 | Reveal + Digital-Artwork-Größe auf Touch | Rubrik-Animationen sollen beim Hereinscrollen ankommen; Digital-Artwork ist auf dem Handy zu klein. | **fixed** | `87269e8` | `docs/validation/MOBILE-PARITY/README.md` (B-F39a/b); `screens/b-f39-*`; `screens/measurements.json` | Digital 300,0 × 420,0 px @390 (= Tattoo-Karte ±0,0 px, 5:7), 320 genauso, 1440 unverändert 400,7 px. Reveal: IntersectionObserver threshold 0 / `0px 0px -12% 0px`, Mid-Frame + `opacity 1` belegt, kein dauerhaftes `opacity 0` (Fail-safe ohne JS), Reduced Motion sofort, Route → andere Rubrik → zurück armiert neu. `@supports`-Gate bewusst verworfen (in Chromium/Safari true, hätte den Pfad abgeschaltet). |
+
+## Findings B-F40 + Gate-Befunde (09./10.11., `main` = `adb8222`)
+
+B-F40 kam aus der User-Sichtprüfung. G1 und G2 hat die Gate-Battery selbst gefunden;
+sie haben keine User-Meldung und deshalb eine eigene ID-Reihe.
+
+| ID | Ort/Element | Befund (User-Wortlaut kurz) | Status | Fix-Commit | Evidence | Verifiziert-durch |
+| --- | --- | --- | --- | --- | --- | --- |
+| B-F40 | Footer-Controls, MUTE | „Der erste Klick auf MUTE tut nichts." | **fixed** | `25e3ed7` | `docs/validation/MUTE-FIRST-CLICK/README.md`; `docs/validation/V3.2-FINAL-GATE/GATE-REPORT.md` § „Bugs …" | `refresh()` schrieb `textContent` bei jeder Audio-Zustandsänderung — auch beim ersten `pointerdown`, das den Audio-Context freischaltet — und zerstörte damit das Klickziel mitten im Press (gemessen: pointerdown/mousedown/pointerup/mouseup, kein `click`). Label wird nur noch bei echter Änderung geschrieben. `tests/mobile-parity-browser.mjs`: erster echter Maus-Klick kippt `aria-pressed` + Label bei 500 und 1500 ms nach Load; ohne den Fix rot (`true -> true`). |
+| G1 | Standalone-Export, `/creative/digital-artworks`, `/creative/analog-photography`, `/creative/paintings` | Interne Gate-Beobachtung: die Kategorieseiten rendern `id="[object Object]"`, jeder `#category`-Anker läuft ins Leere. | **fixed** | `88f4657` | `GATE-REPORT.md` § „Bugs …" | `leaf()`-Default reichte das ganze Entry-Objekt an `sectionDomId()`; jetzt `entry.id`. Messung auf `/creative/digital-artworks`: `id="digital-artworks"`. `digital-ink-browser`, `standalone-browser`, `portfolio-browser` grün. |
+| G2 | Router nach Rubrikwechsel (`/creative/*`) | Interne Gate-Beobachtung: ein Frame der alten Route schrieb `#model-3d` auf `/creative/jewellery`. | **fixed** | `a2cfbab` | `GATE-REPORT.md` § „Bugs …" | `refresh()` cancelt den ausstehenden Frame, `syncHash()` ignoriert nicht-verbundene Sektionen. 3 Läufe × 6 Profile (1440/390/320 × beide Motion-Preferences): Hash bleibt nach tattoos → jewellery leer. |
 
 ## Not fixed
 
