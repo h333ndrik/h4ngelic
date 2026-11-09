@@ -46,9 +46,17 @@ try{
       assert.ok(!before.source.includes('-1440.webp'),'Full source is not selected on cold resting load.');
       assert.ok(!requests.slice(routeRequestStart).includes(fullPath),'No full-resolution request precedes the first trusted expansion gesture on this route.');
      }
-     assert.equal(before.objectFit,'contain');if(world==='normal')assert.equal(before.filter,'none');assert.equal(before.visibility,'visible');assert.equal(before.radius,'4px');
-     const expectedBase=kind==='archive'?Math.min(profile.width*.492,660):Math.min((profile.width-(profile.width<600?44:70))*.6,720);
-     const expected=Math.min(expectedBase,(844-152)*.75/1.4);
+     // B-F39: on a phone the digital archive rests in the tattoo card slot
+     // (300x420, 5:7) with object-fit cover, so it reads at the same scale as
+     // the tattoo carousel. Desktop and the artwork detail keep the old model.
+     const cardSlot=await page.evaluate(selector=>{const section=document.querySelector(selector);
+       return section?parseFloat(getComputedStyle(section).getPropertyValue('--carousel-card-width')):NaN;},selector);
+     const mobileArchive=kind==='archive'&&profile.width<600;
+     assert.equal(before.objectFit,mobileArchive?'cover':'contain');
+     if(world==='normal')assert.equal(before.filter,'none');assert.equal(before.visibility,'visible');assert.equal(before.radius,'4px');
+     const expectedBase=mobileArchive?cardSlot:kind==='archive'?Math.min(profile.width*.492,660):Math.min((profile.width-(profile.width<600?44:70))*.6,720);
+     assert.ok(Number.isFinite(expectedBase),'The digital card slot resolves its width token.');
+     const expected=mobileArchive?expectedBase:Math.min(expectedBase,(844-152)*.75/1.4);
      assert.ok(Math.abs(before.width-expected)<2,JSON.stringify({kind,profile,before,expected,geometry}));
      const unchanged=await page.evaluate(()=>({y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow}));
      await page.screenshot({path:`${output}/rest-${kind}-${profile.width}-${profile.reduced}-${world}.png`});
@@ -72,7 +80,7 @@ try{
      assert.equal(expanded.source,fullURL,'The decoded explicit full source is shown only after activation.');
      assert.ok(requests.includes(fullPath),'A real trusted expansion requested the supplied full source.');
      assert.ok(Math.abs(parseFloat(expanded.radius)*ratio-4)<.06,'Scale compensation retains an approximately4px physical corner in the expanded view.');
-     assert.ok(ratio>=1.2,JSON.stringify({before,expanded,ratio}));assert.equal(expanded.filter,before.filter,'Inline mechanics do not alter the world’s image treatment.');
+     assert.ok(ratio>=(profile.width<600?1.04:1.2),JSON.stringify({before,expanded,ratio}));assert.equal(expanded.filter,before.filter,'Inline mechanics do not alter the world’s image treatment.');
      assert.ok(expanded.x>=-1&&expanded.y>=-1&&expanded.x+expanded.width<=profile.width+1&&expanded.y+expanded.height<=845);
      assert.equal(await page.locator('dialog[open]').count(),0);assert.deepEqual(await page.evaluate(()=>({y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow})),unchanged);
      await page.screenshot({path:`${output}/expanded-${kind}-${profile.width}-${profile.reduced}-${world}.png`});

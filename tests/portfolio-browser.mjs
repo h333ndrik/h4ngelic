@@ -11,8 +11,9 @@ const groups = ['tattoos', 'jewellery', 'tools', 'more'];
 const leaves = ['flashes', 'analog-photography', 'digital-artworks', 'paintings'];
 const groupHref = id => `/creative/${id}`;
 const expectedCategories = {
-  all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
-  tattoos: ['tattoos', 'flashes'], jewellery: ['jewellery'], tools: [], more: ['digital-artworks', 'analog-photography'],
+  // B-F31: the 3d model is the third section of the tattoos rubric.
+  all: ['tattoos', 'flashes', 'model-3d', 'jewellery', 'digital-artworks', 'analog-photography'],
+  tattoos: ['tattoos', 'flashes', 'model-3d'], jewellery: ['jewellery'], tools: [], more: ['digital-artworks', 'analog-photography'],
   flashes: ['flashes'], 'analog-photography': ['analog-photography'], 'digital-artworks': ['digital-artworks'], paintings: ['paintings'],
 };
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true,

@@ -43,7 +43,9 @@ for (const width of [1440, 390, 320]) {
         links: [...element.querySelectorAll('a')].map(link => ({ text: link.textContent.trim(), href: link.getAttribute('href') })),
         top: box.top, box: box.toJSON() };
     });
-    assert.deepEqual(bar.links, [{ text: 'creative', href: '/creative' }, { text: 'about', href: '/about' }, { text: 'contact', href: '/#contact' }]);
+    // B-F30: the hero bar lands on the creative landing directly instead of
+    // taking the /creative -> /creative/tattoos redirect.
+    assert.deepEqual(bar.links, [{ text: 'creative', href: '/creative/tattoos' }, { text: 'about', href: '/about' }, { text: 'contact', href: '/#contact' }]);
     assert.equal(bar.position, 'absolute');
     assert.equal(bar.insideHero, true, 'The route bar belongs to the hero flow.');
     const barHit = await page.evaluate(() => {

@@ -44,7 +44,9 @@ try {
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
       await page.screenshot({ path: new URL(`home-labels-${width}.png`, output).pathname });
       const work = {};
-      for (const [path, current] of [['/creative/tattoos', '01/ 04'], ['/creative/jewellery', '02/ 04'], ['/creative/tools', '03/ 04'], ['/creative/more', '04/ 04']]) {
+      // B-F31: inside a rubric the NAAVI counts that rubric's sections
+      // (`01/ 03` …) instead of the four home chapters.
+      for (const [path, current] of [['/creative/tattoos', '01/ 03'], ['/creative/jewellery', '01/ 01'], ['/creative/tools', '01/ 01'], ['/creative/more', '01/ 02']]) {
         await page.goto(`${base}${path}`, { waitUntil: 'networkidle' });
         work[path] = await page.evaluate(() => ({
           counter: document.querySelector('[data-naavi]').textContent.replace(/\s+/g, ' ').trim(),
@@ -52,7 +54,7 @@ try {
           filter: document.querySelector('.work-filters [aria-current="page"]').textContent.trim(),
           build: document.documentElement.dataset.build || '',
         }));
-        assert.equal(work[path].counter, current, `${path} keeps the dynamic NAAVI chapter value.`);
+        assert.equal(work[path].counter, current, `${path} keeps the dynamic NAAVI value of its rubric.`);
         assert.match(work[path].build, /^[a-f0-9]{7,40}$/i);
       }
       assert.equal(work['/creative/tattoos'].heading, 'tattoos');

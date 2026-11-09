@@ -179,8 +179,8 @@ try {
         const slug = path.split('/')[2] || 'all';
         const category = slug;
         const expected = {
-          all: ['tattoos', 'flashes', 'jewellery', 'digital-artworks', 'analog-photography'],
-          tattoos: ['tattoos', 'flashes'], flashes: ['flashes'], jewellery: ['jewellery'], tools: [],
+          all: ['tattoos', 'flashes', 'model-3d', 'jewellery', 'digital-artworks', 'analog-photography'],
+          tattoos: ['tattoos', 'flashes', 'model-3d'], flashes: ['flashes'], jewellery: ['jewellery'], tools: [],
           more: ['digital-artworks', 'analog-photography'], 'digital-artworks': ['digital-artworks'],
           'analog-photography': ['analog-photography'], paintings: ['paintings'],
         }[category];

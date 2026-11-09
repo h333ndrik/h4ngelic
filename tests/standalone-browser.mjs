@@ -292,6 +292,10 @@ try {
       assert.ok(reverseHint.fontSize >= 15 && reverseHint.fontSize <= 21);
 
       const mute = page.locator('[data-controls] [data-mode-mute]');
+      // The file:// preview has no localStorage, so the sound preference falls
+      // back to the shipped default instead of a saved "muted". Carry the
+      // state forward instead of hard-coding one starting point.
+      let mutedState = 'false';
       assert.equal(await mute.count(), 1);
       assert.equal(await page.locator('[data-mode-mute]').count(), 1);
       assert.equal(await page.locator('[data-artist-footer] [data-mode-mute]').count(), 0);
@@ -300,8 +304,17 @@ try {
       await mute.scrollIntoViewIfNeeded();
       assert.equal(await mute.isVisible(), true, 'Mute is an actual visible lower-hero control.');
       if (await mute.isEnabled()) {
+        // The button is a toggle, not a one-way "sound on": at this point in
+        // the flow the world may already be unmuted. Assert the flip (the
+        // first-click-swallowed bug made exactly this fail) and let the label
+        // follow the new state.
+        const beforeMute = await mute.getAttribute('aria-pressed');
         if (mobile) await mute.tap(); else await mute.click();
-        assert.equal(await mute.getAttribute('aria-pressed'), 'true');
+        await page.waitForFunction(previous => document.querySelector('[data-controls] [data-mode-mute]')?.getAttribute('aria-pressed') !== previous,
+          beforeMute, { timeout: 5000 });
+        assert.equal(await mute.getAttribute('aria-pressed'), beforeMute === 'true' ? 'false' : 'true');
+        assert.equal((await mute.textContent()).trim(), beforeMute === 'true' ? 'sound off' : 'sound on');
+        mutedState = await mute.getAttribute('aria-pressed');
       }
       await page.locator('#selected-work .category-link[href="#/creative/tattoos"]').click();
       await page.waitForFunction(() => document.documentElement.dataset.page === 'work');
@@ -328,7 +341,8 @@ try {
       assert.equal(await page.locator('html').getAttribute('data-mode'), 'xray');
       assert.equal(await page.locator('[data-mode-mute]:visible').count(), 0,
         'Work does not acquire a visible duplicate sound control.');
-      if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), 'true');
+      if (await page.locator('[data-mode-mute]').isEnabled()) assert.equal(await page.locator('[data-mode-mute]').getAttribute('aria-pressed'), mutedState,
+        'The one sound control keeps its state across the standalone route change.');
 
       await page.evaluate(() => { location.hash = '#/creative/flashes'; });
       await page.waitForFunction(() => location.hash === '#/creative/flashes' && document.querySelector('[data-work-context="flashes"]'));
