@@ -1,174 +1,256 @@
+# V3.2-M5 — Mannequin-C auf `main` gemergt — 2026-11-06
+
+Branch `v3.2-mannequin-female`. Merge-Commit: siehe `git log -1 --merges main`.
+Deploy: Vercel baut aus `main` automatisch; Rollback nur auf Zuruf
+(`git revert -m 1 <merge-sha>`).
+
+## Status
+
+- [x] URL-Schema von main uebernommen: kanonisch `/creative/<rubrik>`,
+      `all` → `/creative`; der Abschnitt "3d model" bleibt Anker `#model-3d`
+      innerhalb der Rubrik — keine eigene Route, kein Sitemap-Eintrag.
+- [x] Viewer im Abschnitt "3d model": nur C sichtbar, A/B dev-only.
+- [x] Asset unveraendert: `public/models/mannequin-c.d76abc164512.glb`
+      (457.000 B, SHA-256 `d76abc1645120eb2…fbd71fb`, 49.838 Tris).
+- [x] Merge-Gate: keine Quellcode- und keine Asset-Konflikte.
+
+## Naechster Schritt
+
+1. M1: gemeinsamer Three.js-Chunk fuer Hero und Mannequin.
+2. Manuelle Restpunkte: iPad-Roundtrip (Procreate), Koaleszenz auf Hardware
+   mit hoher Polling-Rate.
+
+---
+
+# V3.2-M4i checkpoint — merge-bereit
+
+Updated 2026-11-05. Branch `v3.2-mannequin-female`.
+
+## Status
+
+- [x] Einziges ausgeliefertes C-Asset: `public/models/mannequin-c.d76abc164512.glb`
+      (457.000 B, SHA-256 `d76abc1645120eb2…fbd71fb`, 49.838 Tris), `verify:assets` gruen.
+- [x] deltaTime-Audit (M4f) und Pointer-Rate/Box3 (M4g) abgeschlossen; Push und
+      Probe-Merge dokumentiert (M4h).
+- [x] Suiten: `npm test` 396/396, Preview (3 Viewports), Einfahrt, Framerate
+      (30/60/144 Hz), Pointer-Raten, Dev-Varianten, SEO 18 Routen + 404,
+      Build 18 Routen + 404.
+
+## Naechster Schritt
+
+1. Merge-Entscheidung durch den Nutzer (kein Merge in diesem Lauf).
+2. Vor dem Merge: Probe-Merge gegen den dann aktuellen `origin/main` wiederholen
+   (drei bekannte Dokumentkonflikte, siehe REPORT.md §M4h/M4i).
+3. Manuelle Restpunkte: iPad-Roundtrip (Procreate), Koaleszenz-Test auf Hardware
+   mit hoher Polling-Rate, Freigabe fuer `vercel.json`.
+
+---
+
+# V3.2-M3 checkpoint — Optik (AO in der Albedo) — historisch, durch M4c/M4e ersetzt
+
+Updated 2026-11-05. Branch `v3.2-mannequin-female`.
+
+## Status
+
+- [x] AO-Bake (2048, Distanz 0.18, Staerke 0.35, Verlauf 4 %) in der Albedo,
+      Basis #f0efeb, Roughness 0.62, keine separate occlusionTexture.
+- [x] Geometrie/UVs unveraendert (Tris, Fuellgrad, Bounding-Box geprueft),
+      Procreate-OBJ bleibt, nur die Textur wurde ersetzt.
+- [x] Neues GLB `mannequin-c.d76abc164512.glb` (457.000 B), Manifest und
+      Config aktualisiert, `verify:assets` gruen.
+- [x] Vorher/Nachher-Render + Textur in `docs/validation/MANNEQUIN-C/`.
+- [x] `npm test` 387/387, Preview-Suite, SEO, Build 18 Routen + 404.
+
+## Naechster Schritt
+
+1. Optional: AO-Staerke/Distanz nach Geschmack justieren
+   (`AO_STRENGTH`, `AO_DISTANCE` in `scripts/bake-mannequin-ao.py`), danach
+   `node scripts/retexture-mannequin-c.mjs` erneut laufen lassen.
+2. Lizenzfrage zu C bleibt offen (`outputs/mannequin-remodeling/LICENSE-NOTE-C.md`).
+
+---
+
+# V3.2-M2 checkpoint — "3d model" finalisiert
+
+Updated 2026-11-04. Branch `v3.2-mannequin-female`, Basis `9dd66ce`.
+Committet, **nicht gepusht**, kein Merge, kein Deploy.
+
+## Status
+
+- [x] Nur C ist sichtbar; der Varianten-Umschalter ist aus der UI entfernt.
+- [x] A/B: verborgen, NICHT geloescht — Registry bleibt, erreichbar nur im
+      Dev-Server ueber `?variant=a|b` (kein Link, keine Navigation).
+- [x] `initialYaw` pro Variante als Konstante (C = 0 rad, C ist +Z-vorn).
+- [x] Demo-Design fuer C deaktiviert (`aria-disabled` + sichtbarer Hinweis).
+- [x] Section-Einfahrt ueber `src/section-entrance.js`: dieselben Sampler wie
+      "01 / creative" (Schwellen .68/.10, Easing `smoothProgress`, Distanz
+      min(28px, 4.5vw)); Reduced Motion instant.
+- [x] `LICENSE-NOTE.md` wortgleich nach
+      `outputs/mannequin-remodeling/LICENSE-NOTE-C.md` verschoben; Build
+      enthaelt den String nicht mehr (Test).
+- [x] Rotation/Hover/Drag/Swipe/Flick, Lazy-Load, dispose und No-WebGL-Poster
+      unveraendert.
+- [x] `npm test` 386/386, `test:mannequin-preview`, `test:mannequin-variants-dev`,
+      SEO 18 Routen + 404, statische Titel 6/6, Build 18 Routen + 404.
+
+## Naechster Schritt (bewusst nicht ausgefuehrt)
+
+1. **Lizenz klaeren**: `outputs/mannequin-remodeling/LICENSE-NOTE-C.md`
+   (ausserhalb des Repos). Erst nach Freigabe pushen/mergen.
+2. V3.2-M1: geteilter Renderer-Chunk mit dem Hero, gemeinsame
+   Rotationskonstanten, Decal-Placement fuer C.
+3. Hero-"Abschiessen" als echtes Modul, sobald die Animation existiert
+   (`TODO(V3.2-M1)` in `src/mannequin-preview-config.js`).
+
+## Beobachtungen (vorbestehend, nicht angefasst)
+
+- `npm run test:mobile` scheitert an `tests/mobile-interactions-browser.mjs:193`
+  auch auf `9dd66ce` (eigener Worktree geprueft).
+- `.chapter-counter` ueberlagert je nach Scrollposition den unteren Frame-Rand.
+- A/B sind `-Z`-vorn, C ist `+Z`-vorn; ohne sichtbare A/B folgenlos.
+
 # V3.1.2 final review state
-
-Updated 2026-11-03. Branch `v3.1.1-fixes`; F18–F23 are committed and pushed. F24 is the next live-review fix. The full
-fix-by-fix result, real test outputs, performance numbers, screenshots and
-blockers are in [the final report](docs/V3.1.2-FINAL-REPORT.md). Do not
-restart completed work. Remaining blockers: real iPhone Safari (no device/iOS
-runtime), missing V3–V6/V22 acceptance criteria, and F14's real cross-browser /
-mannequin / legacy recovery checks. No merge or deployment.
-
 ---
 
-# V3.1.2 — current continuation
+# Next checkpoint — WORLD SOUND v3 merged, live on production
+Updated 2026-11-05 after the cache-hashing release. **PR #22 and PR #23 are
+merged into `main`.** `main` = `bae1b3f13b5befa49be3be3685a6cef92a799efd`
+(merge commit of PR #23), production build marker `bae1b3f13b5b`. Vercel
+deployed it automatically.
 
-Updated 2026-11-02. Work continues on `v3.1.1-fixes`; every commit is pushed to
-`origin`. The recovered branch has F1-F17 DONE except F14's documented external
-validation limits. V3.1.2 source reconciliation is in
-`docs/V3.1.2-STATUS.md`; V3-V6 and V22 have no recovered acceptance criteria.
+## Per-item status
 
-## V8 — DONE — hero poster
-
-Critical head CSS now paints the static wordmark poster before application CSS
-or WebGL. The source shell no longer hides the home hero for its first render.
-The poster has no literal fallback text, crossfades to the first real WebGL
-frame, and reduced motion retains the poster without importing `main.js` or
-requesting scene assets. `src/data/heroPosterSettings.js` is the configuration
-source; the Vite document plugin injects its values into first-paint CSS.
-
-Verification:
-
-- `npm test`: 369/369 PASS.
-- `npm run test:hero-poster`: 6/6 profiles PASS, CLS below 0.01 in all animated
-  profiles; screenshots and JSON in `docs/validation/v3.1.2/V8/`.
-- Existing `tests/browser.mjs`: desktop, mobile, reduced-motion poster and WebGL
-  fallback all PASS.
-- No build, merge or deployment performed.
-
-Exact next action: V21 + V24 rename the Home section to `01 / creative`, make
-it static, and remove the `/work` landing route in favor of the category pages.
-
----
-
-# Current review checkpoint — V3.1.1
-
-All approved source fixes F1–F11,F13,F15–F17 are complete and verified. F14 implementation passes Chromium pixel/navigation tests, but its documented cross-browser/model/legacy-recovery checks remain BLOCKED. Build, SEO, short-window and exact-byte offline/packaging checks pass. See [review report](docs/V3.1.1-REVIEW.md). Do not restart completed work. Next: review this feature branch and resolve the documented F14 validation limits; no merge/deploy. Older next-step paragraphs below are historical checkpoints.
-
-# V3.1.1 — exact continuation checkpoint
-
-## Current committed checkpoint — 2026-11-02
-
-At resume, `v3.1.1-fixes` was clean at **`7238478`**, five commits ahead of the merged baseline. Verified commits: F1 `f57f759`, F9 `36f574d`, F2 `3d01241`, F3 `7028dbc`, F4 `7238478`. Their evidence is committed under `docs/validation/v3.1.1/`. These fixes are DONE; do not restart their verified work without a relevant new change. The dynamic-count F9 follow-up is complete: unused five-pose helper removed, totals driven by actual projects/slides, Node coverage0/1/3/5/8/9 and all eight paths/alt/srcset verified.
-
-F5 is the first unfinished task: implement one measured horizontal gap throughout Works branding → tattoos → jewellery → more. Branding-to-first and category-to-category gaps must match at1440/390/320px, without wrapping or changing the V3.1 baseline. Root owns the active serial navigation browser checks, Node tests and the separate F5 commit. After F5 continue F6,F7,F8,F10,F11,F13,F14,F15,F16, one fix per commit; preserve verified work and do not launch.
-
-Updated 2026-11-02. Active branch **`v3.1.1-fixes`**, based on fetched main **`9123a00b21b9a7d3873fe97ba7c36fb90b74c3e5`**. PR #20 was merged by the user at 2026-10-30T11:41:11Z. This round does not reopen, edit, merge or deploy it. Merged V3.1 source and assets are present; no missing baseline prerequisite has been established.
-
-Read the [original V3.1.1 fix round](docs/V3.1.1-FIX-ROUND.md) and the [latest continuation](docs/V3.1.1-CONTINUATION.md). The continuation overrides matching requirements and adds F16. Its prioritized F9 is now verified and committed; **F5 is the first unfinished task**. User clarification independently confirms F5 and F10 below. Previous checkpoints remain unchanged in [V3.1 history](docs/history/v3.1-checkpoint-2026-10-29).
-
-Read all four root files and actual Git before work. F1/F9/F2/F3/F4 are committed; the clean resume HEAD was `7238478`. F5 is first unfinished. Never invent a future hash.
-
-## First unfinished task
-
-Run production build and current preview/offline verification; preserve F14 validation blockers; no launch. Continue all remaining approved fixes on this branch, with serial browser checks and one commit per fix; no launch.
-
-Latest recorded result: **F17 DONE**, 2026-11-02 17:24 UTC. Restore returning-visitor recognition above the hero; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F17.
-
-## F1 — actual verification
-
-Runtime: `src/global-navigation.css`, `.global-index-links` now `border:0; outline:0; box-shadow:none`, retaining `var(--surface-input)`, `var(--radius-soft)` and individual focus rules. No photo/mode/hero/audio runtime changed under F1. Harness: `tests/v31-navigation-browser.mjs` six profiles, actual panel contrast/screenshots and reduced native cursor expectation; `tests/v31-ui-browser.mjs` borderless panel expectation, evidence path and enlargement diagnostics.
-
-- Navigation: `H4_BASE_URL=http://127.0.0.1:55173 H4_NAV_ARTIFACTS=artifacts/v311/F1/navigation node tests/v31-navigation-browser.mjs` — **6/6 PASS**, each profile333/4. `artifacts/v311/F1/navigation/results.json`: six reports, zero failures, all error lists empty. `/tmp/h4-v311-F1-navigation.log`. Panel `rgb(48,48,51)`,4px radius,0px border/outline, no filter/shadow. Actual inactive contrast7.447169:1, active13.155752:1. Focus/navigation/geometry/no overflow pass. Twelve `index-{1440,390,320}-{false,true}-{normal,xray}.png` panel screenshots.
-- Broad UI fresh-server repeat: `H4_BASE_URL=http://127.0.0.1:55173 H4_UI_ARTIFACTS=artifacts/v311/F1/ui node tests/v31-ui-browser.mjs` — **6/6 PASS**, each profile333/4. `artifacts/v311/F1/ui/results.json`: six reports, zero failures, all errors/audio-request lists empty. `/tmp/h4-v311-F1-ui.log` records six PASS lines. This verifies baseline shared interaction/form/enlargement/hero/radius contracts, not future F9 changes.
-- `npm test` — **357/357 PASS**, fail0/skipped0,3493.473929ms, `/tmp/h4-v311-F1-node.log`.
-- Prior incomplete UI attempts remain failure history: first ratio1 vs1.1, retry mode timeout with13ERR_CONNECTION_REFUSED. Root found the dev server dead, restarted it and the full six-profile repeat passed. Do not label F9/F15 feature prerequisites BLOCKED or unresolved from those stale attempts. Preserve incomplete evidence separately from final passing output.
-
-F1 was committed as `f57f759`; no V3.1.1 build/export is claimed by this documentation update. Root owns serial runs, commits and final artifacts.
-
-## Remaining status
-
-| Fix | Status | Verified state / exact next requirement |
+| Item | Status | Evidence |
 | --- | --- | --- |
-| F1 | DONE | Borderless INDEX surface/focus retained. Navigation6 + UI6 in333/4 and Node357/357 passed. Commit `f57f759`; evidence `docs/validation/v3.1.1/F1`. |
-| F2 | DONE | VISIT follows moshlab with shared secret reveal; footer browser6 and Node pass. Commit `3d01241`; evidence `docs/validation/v3.1.1/F2`. |
-| F3 | DONE | Top TATTOOS/ON SKIN static from first paint; motion browser6 and Node pass. Commit `7028dbc`; evidence `docs/validation/v3.1.1/F3`. |
-| F4 | DONE | Contact shares About section clock; browser6 and Node363/363 pass. Commit `7238478`;12windows0LongTasks, but RAFp95 up to566.5ms; see measured limitations below. |
-| F5 | DONE | Use one gap throughout the Works floating row; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F5. |
-| F6 | DONE | Replace Work pinning with the MORE ABOUT scrub path; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F6. |
-| F7 | DONE | TATTOOS size/arrow parity verified at all3 widths; navigation6 and Node363/363 pass; static arrival preserved. |
-| F8 | DONE | Cover every interactive area with the native h4 cursor; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F8. |
-| F9 | DONE | Committed `36f574d`: carousel6 + UI6 in333/4, Node363/363, CLS0/noerrors/no cold-WorkThree. Eight real photos; dynamic count0/1/3/5/8/9 follow-up complete; all8alt/srcset verified. |
-| F10 | DONE | Reuse inline viewing for the resized Digital artwork; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F10. |
-| F11 | DONE | Round photographs with the shared radius token; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F11. |
-| F13 | DONE | Unify route-link and branding hover feedback; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F13. |
-| F14 | BLOCKED | Chromium pixel/navigation6 and Node363 pass; Safari/Firefox/real-mannequin unavailable, legacy corruption recovery test times out. |
-| F15 | DONE | Make4 entry-only and require triple3 for return; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F15. |
-| F16a | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
-| F16b | DONE | Make Works and category destinations real routes; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F16. |
-| F17 | DONE | Restore returning-visitor recognition above the hero; affected browser suite and npm test pass. Actual output: docs/validation/v3.1.1/F17. |
+| Four real-source files cut from the user's `.mov` / `.mp3` inputs | DONE | `docs/validation/world-sound/v3-build.json` |
+| Both loops exactly 3,969,000 frames; both transitions 39,690 frames | DONE | browser decode + unit tests |
+| Head preserved byte-exactly (first 88,200 frames) | DONE | head SHA-256 in `docs/WORLD-SOUND.md` |
+| Seam gates pass on both loops | DONE | 0.03 / 0.05 dB level delta; 0 seam step; gradients 1.47 / 0.90 dB |
+| −18 LUFS and < −1 dBTP per file | DONE | −18.0 / −18.0 / −18.0 / −18.1; peaks −3.4…−10.6 dBFS |
+| Transition length follows visual config | DONE | 900 ms → 39,690 frames; `windowSeconds` assertion |
+| Direction mapping reversible in settings | DONE | `transitionRouting` |
+| Bed dip −6 dB, SMASH uses min (never sum) | DONE | unit + browser tests |
+| SOUND OFF / tab hide release SFX and dip | DONE | `world.release()` on mute and hide |
+| Lazy fetch, one decode per buffer, one active loop | DONE | 5× switch test + browser probe |
+| Manifest exactly 4 M4A files | DONE | directory listing + hashes + build output |
+| Full Node suite | DONE | 402/402 (`docs/validation/world-sound/v3/phase4c/node-tests.txt`) |
+| Browser suites (7, serial) | DONE | `docs/validation/world-sound/v3/phase4c/*.txt` |
+| Production build ships 4 M4A | DONE | `docs/validation/world-sound/v3/phase4c/build.txt` |
+| Guided listening 4.1–4.2 | DONE | stage A wordmark + stage B WORKS 25 % (re-armed on `h4:pagechange`); no pointermove, no dwell, no scroll trigger |
+| Activity bars 4.3b | DONE | static reduced-motion state, rAF only while audible |
+| Honest SOUND label 4.3c | DONE | “sound on” / “sound off” text, stable `aria-label="sound"` + `aria-pressed` |
+| Tap to resume 4.3d | DONE | keyboard reachable, clears on success |
+| Performance budgets 4.4 | DONE | handler 0.2 ms, startup 0.2 ms, round-trip heap delta +48,214 B (budget 2 MB), zero audio-only long tasks |
+| Outgoing loop release | DONE | inactive `bufferDuration: 0`, reload on next switch |
+| Return-switch re-decode measured | DONE | 126.6 / 142.2 / 168.4 ms against the 900 ms window (`docs/WORLD-SOUND.md`, `docs/validation/world-sound/v3/phase5/re-decode-warm-cache.json`) |
+| Push | DONE | `origin/v3.2-world-sound` = `17ae6e4` |
+| Merge into `main` | DONE | PR #22, merge commit `b5634bc` |
+| Production deployment | DONE | Vercel status success on `b5634bc`; build marker `b5634bc5be40` |
+| Production assets verified | DONE | 4× HTTP 200, `audio/mp4`, exact lengths, SHA-256 match |
+| Subjective listening | OPEN — user | checklist in `docs/WORLD-SOUND.md` |
+| iPhone device test | OPEN — user | see next checkpoint below |
+| Key is F minor as briefed | NOT MET — measured A minor / F major | documented; no guessed pitch shift |
+| Push / merge for `v3.2-mannequin-female` | OUT OF SCOPE | must be rebased onto the new `main` before its next push |
+| Content-hashed audio URLs | DONE, LIVE | `<name>.<sha256:12>.m4a` + generated `src/audio/worldSoundManifest.js`; `vercel.json` rule verified on production: `public, max-age=31536000, immutable` |
 
-There is no F12. TODO means not started; PARTIAL means code/verification underway; DONE requires actual current checks. REVIEW NEEDED is intent uncertainty, not a missing V3.1 feature.
+## Merge record
 
-## V9 carousel configuration contract (F9 baseline retained)
+- Branch `v3.2-world-sound`, head at merge `17ae6e4` (`V3.2-M9` re-decode
+  measurement); `f654e49` (`V3.2-M8`) contained.
+- PR #22 — https://github.com/h333ndrik/h4ngelic/pull/22 — merged with a merge
+  commit at 2026-11-05T19:31:46Z. No squash, no rebase, branch not deleted.
+- `main`: `9123a00` → `b5634bc5be4073c678672dd69f64810849cc157d`.
+- Vercel: status context `Vercel` = success on `b5634bc`
+  (deployment `https://vercel.com/h333ndrik/h4ngelic/Gjp2nvfSU3aKBXD4bQK4sEqsmnyh`).
 
-Actual single source: `src/carouselSettings.js`, exported `carouselSettings` with JSDoc per field. Both prerender markup and runtime enhancement consume the same `carouselStyleProperties()` dimensions. Changing these values is sufficient after rebuild; no component edits needed. V9 status: **DONE**; see `docs/validation/v3.1.2/V9/`.
+Second merge: PR #23 — https://github.com/h333ndrik/h4ngelic/pull/23 — head
+`b1a83b7` (`V3.2-M10`), merged with a merge commit at 2026-11-05T20:25:13Z.
+`main`: `fdd42f5` → `bae1b3f13b5befa49be3be3685a6cef92a799efd`. Branch kept.
 
-| Field | Actual default | Meaning |
-| --- | --- | --- |
-| `cardWidth` |`300`| Resting card width in px; narrow screens cap it at the available page width. |
-| `cardHeight` |`420`| Maximum resting photograph height; its original ratio is preserved. |
-| `cardViewportInset` |`24`| Resting card clearance from either edge of a narrow viewport, in pixels. |
-| `spacing` |`100`| Horizontal space between adjacent card slots, in pixels. |
-| `inertia` |`0.05`| Fraction of velocity lost per 60Hz frame; larger values stop sooner. |
-| `wheelSensitivity` |`8.0`| Legacy wheel impulse value; vertical wheel capture is off. |
-| `wrap` |`true`| Recycle real cards seamlessly through the ambient loop; no duplicate artwork. |
-| `hoverStraighten` |`true`| Lift the hovered card slightly, retaining the site's own scale/glow. |
-| `neighborDisplacement` |`true`| Move immediate neighbours aside with transforms while a card is hovered. |
-| `scrollCapture` |`'none'`| Legacy horizontal-wheel mode; the shipped value leaves vertical input native. |
-| `autoDrift` |`true`| Enable the approved carousel-only ambient time loop. |
-| `autoScroll` |`0.3`| Rightward drift distance in CSS pixels per 60 Hz frame, about 18px/s. |
-| `hoverPause` |`true`| Pause ambient drift while a fine pointer or keyboard focus is inside the carousel. |
-| `perspectiveZoom` |`45`| Perspective field-of-view value for the CSS depth composition. |
-| `cameraDistance` |`900`| Camera distance in pixels applied as the CSS perspective plane. |
-| `depthScale` |`true`| Enable edge scaling and inward rotation without WebGL. |
-| `edgeRotation` |`12`| Maximum inward card rotation at the viewport edge, in degrees. |
-| `edgeScaleFloor` |`0.92`| Minimum edge-card scale at the viewport boundary. |
-| `pointerLabel` |`false`| Reserved for compatibility: the native h4 cursor is the sole affordance. |
-| `expandWithinLayout` |`true`| Enable the common in-page image expansion; never opens a modal. |
-| `expansionScale` |`1.65`| Largest reserved viewing height relative to the resting card height. |
-| `restingFrameFraction` |`0.7`| Resting photo may occupy at most this fraction of its reserved frame. |
-| `viewportInlineInset` |`12`| Horizontal clearance between an expanded photograph and the viewport. |
-| `viewportBlockInset` |`76`| Top/bottom viewport clearance for floating navigation during expansion. |
-| `hoverLift` |`6`| The hovered card's optional vertical lift, in pixels. |
-| `neighborShift` |`12`| Immediate neighbours' optional horizontal displacement, in pixels. |
-| `dragThreshold` |`8`| Pointer movement required before a click becomes a horizontal drag. |
-| `wheelLinePixels` |`16`| Wheel line delta normalization, in pixels. |
-| `maximumWheelDelta` |`120`| Per-event wheel limit avoids unusually large device impulses. |
-| `maximumVelocity` |`100`| Maximum shared velocity, in pixels per 60Hz frame. |
-| `velocityCutoff` |`0.12`| Stop scheduling animation when velocity falls below this threshold. |
-| `dragClickGuardMs` |`350`| Suppress the synthetic click immediately following a completed drag. |
-| `announcementDelayMs` |`140`| Delay before politely announcing the selected artwork to screen readers. |
+Post-merge asset check on `https://www.h4ngelic.com` (apex 308-redirects to
+`www`), all four content-hashed URLs:
 
-`autoDrift` is the only approved time loop and runs only while the carousel is near the viewport. Shared hover scale/glow and neighbour displacement remain active. Works pages still load no Three.js/WebGL. All eight confirmed photographs use existing optimized assets, alt text and lazy loading; original bytes are untouched. Reduced motion is static with instant state changes.
+| URL | Status | Content-Type | Content-Length | Cache-Control |
+| --- | --- | --- | ---: | --- |
+| `/assets/audio/loop-333.d28de00523a5.m4a` | 200 | `audio/mp4` | 2,847,109 | `public, max-age=31536000, immutable` |
+| `/assets/audio/loop-4.ab235d059fec.m4a` | 200 | `audio/mp4` | 2,774,228 | `public, max-age=31536000, immutable` |
+| `/assets/audio/x-333-4.5ee49fedc6d4.m4a` | 200 | `audio/mp4` | 30,015 | `public, max-age=31536000, immutable` |
+| `/assets/audio/x-4-333.477df723d4d9.m4a` | 200 | `audio/mp4` | 29,591 | `public, max-age=31536000, immutable` |
 
-**One fix = one commit**, with checkpoint updates and real outputs. After each fix run affected existing browser suites **serially before builds**, at1440/390/320 × full/reduced, both333/4 where relevant. No browser parallelism or asset preparation/build while browser checks run. Preserve unaffected assertions; update only superseded contracts. Capture F1/F2/F9/F10/F14 screenshots and measure actual F4/F6/F14 frame/long-task/compositing costs. Report failures with their actual causes/evidence. Do not rerun the historical full100s SMASH observation for an unrelated CSS change.
+Byte counts match the committed files; the four stable paths return `404`. Before
+this change the same URLs (and the hashed JS chunks) were served with
+`public, max-age=0, must-revalidate`, which is why `vercel.json` was added.
 
-## Scope and artifacts
+Indexing deliberately unchanged: `<meta name="robots" content="noindex, follow">`
+and `robots.txt` = `User-agent: * / Disallow: /`.
 
-Keep working chrome hero/physics, accepted memory-mosh, approved SMASH and1400ms transition. INDEX stays separate from NAAVI; Contact exclusively Home03/CONTACT. Cold Work/About must never download or initialize Three.js. Preserve uncommitted user/agent work and finish existing components.
+## Next checkpoint
 
-Preserve all eight original JPEGs `public/images/tattoos/tattoo-01.jpg`…`tattoo-08.jpg` and approved MP3 byte-for-byte. Photo provenance: `docs/assets/tattoo-originals-v31.json`. MP3 SHA-256 `307f48dcb643ed1c0c8d8ef39d4ef3dcbeefa1f42286cdae5c81d965db268e1b`. The user has now explicitly confirmed all eight photographs remain in the carousel, resolving the continuation text’s old reference to five. No photo-count question remains open.
+1. **User listening pass on production** — `https://www.h4ngelic.com`, with the
+   checklist at the end of `docs/WORLD-SOUND.md`: seam at ~90 s per world,
+   both transition directions against the visual tear, world-4 density,
+   SMASH ducking, mute/volume persistence after reload.
+2. **iPhone device test** (real hardware, not emulation): silent switch, tap on
+   the wordmark, activity bars beside SOUND, and tap-to-resume after a call or
+   a backgrounded tab.
+3. Then decide whether the F-minor brief key is re-cut or accepted.
+4. **Rebase `v3.2-mannequin-female` (local and remote both `b2433f5`) onto the
+   new `main` BEFORE its next push.** It stayed out of scope for both releases
+   and was not touched.
 
-Do not modify H4 MOSH LAB, add dependencies, change main or `api/inquiry.js`, force-push, merge, close, deploy, launch, connect domains or enable analytics. Deferred WORLD/mannequin/Flowfield and other Easter Eggs stay parked; F17 returning-visitor recognition is now explicitly approved. Real moshlab URL, actual mail configuration/delivery and unpublished Loose Thread artwork are external inputs; do not invent substitutes. Actual Safari is unavailable on Linux; WebKit is not Safari. Record concrete installed-browser capabilities before claiming cross-browser success.
+## Serving model (audio)
 
-## Last verified downloadable preview
+- Four files only, served as `/assets/audio/<name>.<sha256:12>.m4a`. The old
+  stable names (`/assets/audio/loop-333.m4a` …) are gone and return `404`.
+- `vercel.json` sets `Cache-Control: public, max-age=31536000, immutable` for
+  `/assets/audio/(.*)` only — verified live on the four URLs. It contains
+  nothing else (no buildCommand, outputDirectory, framework, rewrites or
+  redirects), so the dashboard settings and routing stay untouched.
+- **Use `npm run dev`, not a bare `vite`.** `predev` runs
+  `node scripts/hash-world-audio.mjs`, which verifies the content hashes and
+  regenerates `src/audio/worldSoundManifest.js`. A bare Vite start skips that
+  step, so after replacing an audio file the dev server would still serve the
+  old manifest. `npm run sounds:hash -- --check` verifies without writing.
 
-Checked-in `docs/previews/h4ngelic-preview.html` and `portfolio-preview.zip` are merged **V3.1**, not current V3.1.1. HTML24,484,734bytes, SHA-256 `6c11473dd0360a15c5e459ae8ee95deeffa3c34c01cad0ffe790bd5d734ce001`; ZIP17,305,532bytes, SHA-256 `61da29cabd658cb4fee3eb158e0b98dbc81bee65fb8f363ccef7c9abf5932770`. Export after serial browser work, then verify exact new bytes before review delivery.
+## Rollback
 
+- Git: `git revert -m 1 bae1b3f` on `main`, then push. This reverts PR #23 (the
+  hashed URLs and the cache rule) as a new commit; history stays intact.
+  The earlier release is reverted the same way with `git revert -m 1 b5634bc`.
+- Vercel: previous production deployments are kept. Promote the deployment of
+  `fdd42f5` back to production for an instant rollback without a new build.
 
-## Confirmed continuation answers — 2026-10-31
+## Known issues outside audio scope
 
-The user confirmed all **eight** supplied photographs remain in the carousel. Home stays **01 / WORKS, 02 / ABOUT, 03 / CONTACT**. The tattoos / jewellery / more rubric links must open their own real category pages; Contact remains exclusively on Home. F16 intent is resolved; this is TODO, not an unresolved review blocker. F1 was committed as `f57f759`. F9 was subsequently verified and committed as `36f574d`; the current first unfinished task is F5.
+- **`tests/smash-v31-browser.mjs` is a known load-dependent flake.** It polls a
+  1.8 s gain attack with a 5 s `waitForFunction`. In the first back-to-back
+  batch run after six other suites it timed out at that poll; the standalone
+  run and the second full serial batch both passed at 1440/390/320. Evidence:
+  `docs/validation/world-sound/v3/phase4c/smash-v31-browser.txt`. Do not treat
+  a single timeout here as a new product defect — re-run it alone first.
+- **`tests/world-sound-v3.test.js` — “the same source bytes rebuild
+  byte-identical deliveries” is a known intermittent flake.** It re-encodes
+  from `masters/` and compares M4A hashes. It failed once with
+  “loop-333 is not reproducible”, then passed on an isolated re-run and in the
+  full 402-test suite. Re-run it alone before treating it as a regression.
+- `tests/mobile-interactions-browser.mjs` fails the no-cold-WebGL-on-About
+  assertion on base `11e78a1` as well. Diagnostics:
+  `docs/validation/world-sound/mobile-interactions-current.json` and
+  `mobile-interactions-base.json`. OBSERVATION only.
+- A second visual mode gesture during the snapshot transition remains blocked by
+  the V3.1 controller. The audio layer retargets smoothly; the visual limitation
+  is unchanged.
 
-## Verified F4 performance limits
+## Reproduction
 
-Current recorded evidence: `docs/validation/v3.1.1/F4/results.json` has six profiles at 1440/390/320px × full/reduced motion, each in 333/4; zero failures/console errors. All **12 Contact measurement windows recorded 0 LongTasks**. The full-motion 1440px Other Side window nevertheless recorded **RAF p95 566.5ms / max 616.7ms**; its observed entrance script maximum was **6.3ms** (forced style/layout 6.0ms). Full-motion 390px Normal recorded **RAF p95 216.7ms / max 316.6ms**. Entrance attribution was unavailable in 5/12 windows; zero observed attribution in other windows does not mean zero callback cost.
+```sh
+node scripts/buildWorldSound.mjs --validate
+npm test
+./node_modules/.bin/vite --host 127.0.0.1 --port 55341 --strictPort
+H4_BASE_URL=http://127.0.0.1:55341 node tests/world-audio-formats-browser.mjs
+H4_BASE_URL=http://127.0.0.1:55341 node tests/world-sound-browser.mjs
+H4_BASE_URL=http://127.0.0.1:55341 node tests/guided-listening-browser.mjs
+```
 
-These are headlessChromium/SwiftShader software-renderer measurements, limited by the cloud hardware/rendering environment; they do **not** prove universally smooth motion or identify the entrance as the sole cause of slow frames. F4 verifies native uncancelled input, reversible poses and unchanged document height, not a guaranteed device frame rate. Preserve this measured limitation and continue F5; do not repeat verified F4 solely to obtain prettier numbers. F4 browser suite6/6 passed; recorded Node 363/363 passed (`node.txt`, 3167.274028ms); the shell-level 3.374s includes command overhead.
-
-## F10 viewport decision — confirmed 2026-11-02
-
-The user explicitly approved an additional responsive height cap in short browser windows. Keep the nominal60% original-width base, but reserve a visibly larger full-image view that fits the viewport. Report actual capped dimensions; do not claim a physical660px resting image in an844px-high window.
-
-## F17 approved history finding
-
-`git log -S "you know your way around"` identifies introduction in4feb4bf and removal in daeaff8. The exact sentence was one entry in the old seven-stage visitor-message array, rendered in the footer. V3.1 retired that phrase system when introducing the numeric-only VISIT counter; this removed the sentence. The newly approved placement is above the hero logo, with a fixed single returning-visitor sentence, not revival of the seven-stage system.
+`ffmpeg` / `ffprobe` / `afconvert` are local build tooling only. Source `.mov`
+and `.mp3` files plus `masters/` are gitignored and never committed.

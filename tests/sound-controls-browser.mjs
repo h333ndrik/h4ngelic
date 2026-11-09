@@ -14,7 +14,7 @@ try {
     await context.addInitScript(() => {
       window.__soundContexts = 0;
       const Native = window.AudioContext || window.webkitAudioContext;
-      window.AudioContext = class extends Native { constructor(options) { super(options); window.__soundContexts++; } };
+      window.AudioContext = class extends Native { constructor(options) { super(options); window.__soundContexts++; window.__soundContext = this; } };
     });
     const page = await context.newPage();
     const errors = [], audioRequests = [];
@@ -27,8 +27,17 @@ try {
     const range = page.locator('[data-sound-volume]');
     await arrow.waitFor({ state: 'visible' });
     assert.equal(await page.evaluate(() => window.__soundContexts), 0);
+    const activity = page.locator('[data-sound-activity]');
+    assert.equal(await activity.count(), 1);
+    assert.equal(await activity.getAttribute('aria-hidden'), 'true');
+    assert.equal(await activity.locator('i').count(), 3);
+    const reserved = await activity.boundingBox();
+    assert.ok(reserved.width > 8, 'Inactive bars reserve their space.');
+    assert.equal(await mute.getAttribute('aria-label'), 'sound');
+    assert.equal(await mute.getAttribute('aria-pressed'), 'true');
     if (width < 500) await arrow.tap(); else await arrow.press('Enter');
     await page.waitForTimeout(260);
+    assert.equal(await page.evaluate(() => window.__soundContexts), 1, 'The first trusted control gesture unlocks the shared world-sound context.');
     assert.equal(await arrow.getAttribute('aria-expanded'), 'true');
     const box = await page.locator('[data-sound-volume-popup]').boundingBox();
     const controls = await arrow.boundingBox();
@@ -39,19 +48,25 @@ try {
     await range.press('ArrowRight');
     assert.equal(await range.inputValue(), '1');
     assert.equal(await range.getAttribute('aria-valuetext'), '1 percent');
-    assert.equal(await page.evaluate(() => window.__soundContexts), 0, 'Volume preference alone never allocates audio.');
+    assert.equal(await page.evaluate(() => window.__soundContexts), 1, 'Volume changes reuse the context unlocked by the gesture.');
     await range.press('Escape');
     assert.equal(await arrow.getAttribute('aria-expanded'), 'false');
     assert.equal(await arrow.evaluate(node => node === document.activeElement), true, 'Escape returns keyboard focus to the attached arrow.');
     await mute.click();
-    assert.equal(await mute.getAttribute('aria-pressed'), 'true');
-    assert.equal(await page.evaluate(() => window.__soundContexts), 0);
+    assert.equal(await mute.getAttribute('aria-pressed'), 'false');
+    assert.equal(await mute.getAttribute('aria-label'), 'sound');
+    assert.equal((await mute.textContent()).trim(), 'sound off');
+    assert.equal(await activity.getAttribute('data-active'), 'false');
+    assert.equal(await page.evaluate(() => window.__H4_AUDIO__?.snapshot().analyserConnected ?? false), false);
+    await page.waitForFunction(() => window.__soundContext.state === 'suspended');
+    assert.equal(await page.evaluate(() => window.__soundContexts), 1, 'Sound off suspends the existing context rather than duplicating it.');
     await arrow.click();
     await page.locator('.hero').click({ position: { x: width / 2, y: 150 } });
     assert.equal(await arrow.getAttribute('aria-expanded'), 'false');
     await page.reload({ waitUntil: 'networkidle' });
     await arrow.waitFor({ state: 'visible' });
-    assert.equal(await mute.getAttribute('aria-pressed'), 'true');
+    assert.equal(await mute.getAttribute('aria-pressed'), 'false');
+    assert.equal(await mute.getAttribute('aria-label'), 'sound');
     assert.equal(await range.inputValue(), '1');
     assert.equal(await page.evaluate(() => window.__soundContexts), 0, 'Reload restores preferences without autoplay.');
     assert.equal(await page.locator('[data-smash]').isDisabled(), false, 'The supplied approved track is available without being preloaded.');
@@ -59,8 +74,8 @@ try {
     assert.deepEqual(errors, []);
     const horizontalOverflow = await page.evaluate(() => Math.max(0, document.documentElement.scrollWidth - innerWidth));
     assert.equal(horizontalOverflow, 0);
-    results.push({ width, reducedMotion, popup: box, persistedVolume: 1, persistedMuted: true, contexts: 0,
-      horizontalOverflow, audioRequests, errors });
+    results.push({ width, reducedMotion, popup: box, persistedVolume: 1, persistedMuted: true, contextsAfterGesture: 1,
+      contextsAfterReload: 0, horizontalOverflow, audioRequests, errors });
     await page.screenshot({ path: `${out}/${width}-${reducedMotion}.png` });
     await context.close();
   }

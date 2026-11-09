@@ -1,0 +1,11 @@
+All JavaScript disabled. From production.json:
+{
+  "cursorClass": false,
+  "dataCursor": "",
+  "body": "auto",
+  "link": "pointer",
+  "naavi": "pointer",
+  "footer": "pointer"
+}
+
+Runtime class absent and every sampled element keeps a system cursor.

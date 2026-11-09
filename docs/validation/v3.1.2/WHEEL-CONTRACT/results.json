@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-11-03T09:49:32.784Z",
+  "base": "http://127.0.0.1:55183",
+  "note": "Wheel over .drift-viewport changes only carousel position; wheel outside scrolls the page vertically.",
+  "profiles": [
+    {
+      "width": 1440,
+      "wheel": {
+        "before": {
+          "scrollY": 32,
+          "position": 3196.1
+        },
+        "over": {
+          "scrollY": 32,
+          "position": 107.784
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "wheel": {
+        "before": {
+          "scrollY": 0,
+          "position": 3189.199
+        },
+        "over": {
+          "scrollY": 0,
+          "position": 244.694
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "wheel": {
+        "before": {
+          "scrollY": 0,
+          "position": 3189.501
+        },
+        "over": {
+          "scrollY": 0,
+          "position": 271.458
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "checkedAt": "2026-11-03T09:49:32.784Z",
+  "base": "http://127.0.0.1:55183",
+  "note": "Final production preview. Booting, ready, slow and failed states remain visible; failure survives leaving and returning Home.",
+  "profiles": [
+    {
+      "width": 1440,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.8,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.899938,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.800217,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.90404,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.8,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.899943,
+        "posterDisplay": "block",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "errors": []
+    }
+  ]
+}

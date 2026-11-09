@@ -1,0 +1,184 @@
+{
+  "checkedAt": "2026-11-04T19:59:39.551Z",
+  "build": "da84e118a327",
+  "fadeMs": ".18s",
+  "before": {
+    "startValue": 0,
+    "endValue": 0,
+    "midFrames": 0,
+    "midSample": null,
+    "monotonic": true,
+    "settledMs": 0,
+    "frames": 15
+  },
+  "hide": {
+    "startValue": 1,
+    "endValue": 0,
+    "midFrames": 8,
+    "midSample": {
+      "t": 1524.5,
+      "opacity": 0.850812,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "false",
+      "x": 720,
+      "y": 430
+    },
+    "monotonic": true,
+    "settledMs": 183,
+    "frames": 16
+  },
+  "reveal": {
+    "startValue": 0,
+    "endValue": 1,
+    "midFrames": 8,
+    "midSample": {
+      "t": 2191.900000035763,
+      "opacity": 0.148845,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "true",
+      "x": 420,
+      "y": 300
+    },
+    "monotonic": true,
+    "settledMs": 183,
+    "frames": 16
+  },
+  "reduced": {
+    "startValue": 0,
+    "endValue": 0,
+    "midFrames": 0,
+    "midSample": null,
+    "monotonic": true,
+    "settledMs": 0,
+    "frames": 8
+  },
+  "passed": true,
+  "hideTrace": [
+    {
+      "t": 1507.800000011921,
+      "opacity": 1,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "false",
+      "x": 720,
+      "y": 430
+    },
+    {
+      "t": 1557.9000000357628,
+      "opacity": 0.583762,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "false",
+      "x": 720,
+      "y": 430
+    },
+    {
+      "t": 1607.7000000476837,
+      "opacity": 0.257397,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "false",
+      "x": 720,
+      "y": 430
+    },
+    {
+      "t": 1657.800000011921,
+      "opacity": 0.0445836,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "false",
+      "x": 720,
+      "y": 430
+    },
+    {
+      "t": 1707.7000000476837,
+      "opacity": 0,
+      "visibility": "hidden",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "false",
+      "x": 720,
+      "y": 430
+    },
+    {
+      "t": 1757.7000000476837,
+      "opacity": 0,
+      "visibility": "hidden",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "false",
+      "x": 720,
+      "y": 430
+    }
+  ],
+  "revealTrace": [
+    {
+      "t": 2174.400000035763,
+      "opacity": 0,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "true",
+      "x": 420,
+      "y": 300
+    },
+    {
+      "t": 2225.400000035763,
+      "opacity": 0.415941,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "true",
+      "x": 420,
+      "y": 300
+    },
+    {
+      "t": 2274.300000011921,
+      "opacity": 0.742381,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "true",
+      "x": 420,
+      "y": 300
+    },
+    {
+      "t": 2324.400000035763,
+      "opacity": 0.955306,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "true",
+      "x": 420,
+      "y": 300
+    },
+    {
+      "t": 2374.800000011921,
+      "opacity": 1,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "true",
+      "x": 420,
+      "y": 300
+    },
+    {
+      "t": 2424.400000035763,
+      "opacity": 1,
+      "visibility": "visible",
+      "property": "opacity, visibility",
+      "duration": "0.18s, 0s",
+      "visible": "true",
+      "x": 420,
+      "y": 300
+    }
+  ]
+}

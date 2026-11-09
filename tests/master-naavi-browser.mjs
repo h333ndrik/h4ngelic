@@ -52,15 +52,16 @@ try {
       await at(page,1,1);
       assert.equal(await page.evaluate(() => window.__naaviGL),0,'A cold About must never initialize WebGL.');
       assert.equal(await page.locator('[data-naavi]').count(),1);
-      assert.equal(await page.locator('[data-global-index], .global-index, summary').count(),0);
+      assert.equal(await page.locator('[data-global-index]').count(),1);
+      assert.equal(await page.locator('[data-global-index] .index-number').count(),4);
       const about = await state(page);
-      assert.match(about.label,/01 \/ 01, about/); assert.equal(about.href,'/'); assert.ok(about.hover);
+      assert.match(about.label,/01\/ 01, about/); assert.equal(about.href,'/'); assert.ok(about.hover);
       assert.ok(Math.abs(about.center-width/2)<1 && about.bottom<=844 && about.bottom>=824);
       await page.locator('[data-naavi]').focus(); await page.keyboard.press('Enter');
       await page.locator('html[data-page="home"]').waitFor(); await at(page,0,4);
       assert.equal(await page.locator('.masthead .edition,.hero .identity').count(),0);
       const sequence=[];
-      for (const [current,selector] of [[1,'#selected-work'],[2,'#about-preview'],[3,'#contact'],[4,'#final-secret'],[0,'#home-hero']]) {
+      for (const [current,selector] of [[1,'#selected-work'],[2,'#about-preview'],[3,'#contact'],[4,'[data-end-reveal]'],[0,'#home-hero']]) {
         await page.locator('[data-naavi]').click();
         await at(page,current,4); await restingAt(page,selector);
         const pose=await state(page); assert.ok(Math.abs(pose.center-width/2)<1 && Math.abs(pose.bottom-about.bottom)<1);
@@ -79,18 +80,19 @@ try {
       assert.equal(await page.locator('html').getAttribute('data-mode'),'normal','Typing never invokes a mode shortcut.');
       const fixed = await state(page); assert.ok(Math.abs(fixed.bottom-about.bottom)<1);
 
-      await page.goto(`${base}/work`,{waitUntil:'networkidle'}); await at(page,1,3);
+      await page.goto(`${base}/creative`,{waitUntil:'networkidle'}); await at(page,1,4);
       const work=[];
-      for (const [current,selector] of [[2,'#jewellery'],[3,'#more']]) {
-        await page.locator('[data-naavi]').click(); await at(page,current,3); await restingAt(page,selector);
-        work.push(await state(page));
+      for (const [current,path] of [[2,'/creative/jewellery'],[3,'/creative/tools'],[4,'/creative/more']]) {
+        await page.locator('[data-naavi]').click(); await at(page,current,4);
+        await page.waitForURL(url => url.pathname === path);
+        work.push({ ...await state(page), path: new URL(page.url()).pathname });
       }
       assert.equal((await state(page)).href,'/');
       assert.equal(await page.locator('.work-subfilters').count(),0);
       await page.locator('[data-naavi]').click(); await page.locator('html[data-page="home"]').waitFor(); await at(page,0,4);
       assert.deepEqual(errors,[]);
       reports.push({width,reduced,about,sequence,work,fieldBottom,errors});
-      console.log(`PASS NAAVI ${width}px reduced=${reduced}: Home00→04→00, Work01→03→Home, About01/01, scroll sync, fixed dock, focus/input and cold-interior safety.`);
+      console.log(`PASS NAAVI ${width}px reduced=${reduced}: Home00→04→00, Work01→04→Home incl. tools, About01/01, scroll sync, fixed dock, focus/input and cold-interior safety.`);
     } finally { await context.close(); }
   }
   await writeFile(new URL(process.env.H4_NAAVI_REDUCED_ONLY ? 'naavi-focus.json' : 'naavi.json',output),JSON.stringify({checkedAt:new Date().toISOString(),reports},null,2));

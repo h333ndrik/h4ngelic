@@ -30,7 +30,7 @@ async function measure(base, path, width, phase) {
   session.on('Network.loadingFinished', event => transfers.push({ url: responses.get(event.requestId), transferredBytes: event.encodedDataLength }));
   try {
     await page.goto(new URL(path, base).href, { waitUntil: 'networkidle' });
-    const image = path.startsWith('/work/digital-artworks/')
+    const image = path === '/creative/green-black-original'
       ? page.locator('.artwork-detail .project-image img').first()
       : page.locator('[data-archive-category="digital-artworks"] .project-image img').first();
     await image.scrollIntoViewIfNeeded();
@@ -71,12 +71,12 @@ async function measure(base, path, width, phase) {
 
 try {
   for (const width of [1440, 390, 320]) {
-    for (const path of ['/work#digital-artworks', '/work/digital-artworks/green-black-original']) {
+    for (const path of ['/creative#digital-artworks', '/creative/green-black-original']) {
       console.log(`CHECK digital payload ${width}px ${path}`);
       const before = await measure(beforeURL, path, width, 'before');
       const after = await measure(afterURL, path, width, 'after');
       const ratio = after.width / before.width;
-      const nominal = path.startsWith('/work/digital-artworks/') ? Math.min((width-(width<600?44:70))*.6,720) : Math.min(width*.492,660);
+      const nominal = path === '/creative/green-black-original' ? Math.min((width-(width<600?44:70))*.6,720) : Math.min(width*.492,660);
       const expectedWidth = Math.min(nominal,(900-152)*.75/1.4);
       assert.ok(Math.abs(after.width-expectedWidth)<2, `60% original base plus explicit portrait height cap: expected ${expectedWidth}, observed ${after.width}.`);
       const alreadySmallestVariant = before.sourcePixelWidth === 320;

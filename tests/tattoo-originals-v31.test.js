@@ -66,6 +66,6 @@ test('On Skin renders the actual eight-photo archive rather than an empty or fix
   assert.match(onSkin, /data-carousel-total="8"/);
   assert.equal((onSkin.match(/data-drift-item/g) || []).length, 8);
   assert.doesNotMatch(onSkin, /carousel-fixture|archive in progress\./);
-  assert.ok(onSkin.includes('1 / 8'));
-  for (const project of suppliedTattooPhotographs) assert.ok(onSkin.includes(`/work/tattoos/${project.id}`));
+  assert.ok(onSkin.includes('01/ 08'));
+  for (const project of suppliedTattooPhotographs) assert.ok(onSkin.includes(`/creative/${project.id}`));
 });

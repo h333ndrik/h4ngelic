@@ -1,0 +1,119 @@
+{
+  "checkedAt": "2026-11-03T13:23:41.640Z",
+  "base": "http://127.0.0.1:55186",
+  "reports": [
+    {
+      "width": 1440,
+      "route": "/work/tattoos",
+      "samples": [
+        80,
+        104,
+        72,
+        104,
+        116
+      ],
+      "median": 104,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "route": "/contact",
+      "samples": [
+        112,
+        108,
+        108,
+        120,
+        104
+      ],
+      "median": 108,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "route": "/work/tattoos",
+      "samples": [
+        56,
+        52,
+        40,
+        48,
+        44
+      ],
+      "median": 48,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "route": "/contact",
+      "samples": [
+        60,
+        48,
+        100,
+        96,
+        96
+      ],
+      "median": 96,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "route": "/work/tattoos",
+      "samples": [
+        40,
+        44,
+        44,
+        48,
+        68
+      ],
+      "median": 44,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "route": "/contact",
+      "samples": [
+        44,
+        76,
+        40,
+        92,
+        44
+      ],
+      "median": 44,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    }
+  ],
+  "entrance": {
+    "start": {
+      "entering": true,
+      "animation": "hero-wordmark-arrive",
+      "duration": "0.7s",
+      "opacity": 0,
+      "transform": "matrix(0.985, 0, 0, 0.985, 0, 8)"
+    },
+    "end": {
+      "entering": false,
+      "opacity": 1,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "cls": 0,
+      "build": "cf7141342e18"
+    }
+  },
+  "distBytes": 31447961,
+  "modulepreload": "/assets/main-CaEcmoVl.js",
+  "mainChunks": [
+    "main-CaEcmoVl.js"
+  ],
+  "routes": 18,
+  "failures": []
+}

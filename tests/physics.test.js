@@ -2,9 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Quaternion, Vector3 } from 'three';
 import { LogoPhysics } from '../src/physics.js';
+import { heroPhysicsProfiles, heroPhysicsProfileFor, heroPhysicsSettings } from '../src/data/heroPhysicsSettings.js';
 
 const makePhysics = () => new LogoPhysics({ random: () => 0.5 });
 const unbounded = { x: Infinity, y: Infinity };
+const identity = new Quaternion();
 
 function advance(physics, start, duration, hz = 60, bounds = unbounded, base = new Vector3()) {
   const count = Math.round(duration * hz);
@@ -50,14 +52,42 @@ test('drag preserves the grab offset and releases with linear and angular moment
 
 test('return starts after inactivity and smoothly settles both independent transforms', () => {
   const physics = makePhysics();
-  physics.hit(new Vector3(4, 2, 0), new Vector3(1, 1, 0), 0);
-  advance(physics, 0, 3.9);
+  physics.hit(new Vector3(8, 4, 0), new Vector3(1, 1, 0), 0);
+  advance(physics, 0, heroPhysicsSettings.returnDelaySeconds - .1);
   const beforeReturn = physics.offset.length();
-  assert.ok(beforeReturn > 0.5, 'the logo still drifts before the return timer');
-  advance(physics, 3.9, 2.1);
+  assert.ok(beforeReturn > .05, 'the logo still drifts before the return timer');
+  advance(physics, heroPhysicsSettings.returnDelaySeconds - .1, 2);
   assert.ok(physics.offset.length() < beforeReturn * 0.005);
   assert.ok(physics.orientation.angleTo(new Quaternion()) < 0.02);
   assert.ok(physics.velocity.length() < 0.02);
+});
+
+test('extreme fling is bounded in speed and never reaches an edge-on rotation', () => {
+  const physics = makePhysics();
+  const base = new Vector3();
+  physics.beginDrag(new Vector3(-2, -1, 0), base, 0);
+  let time = 0;
+  for (let index = 0; index < 12; index += 1) {
+    time += 1 / 120;
+    physics.dragTo(new Vector3(-2 + (index + 1) * .5, -1 + (index + 1) * .15, 0), base, 1 / 120, time);
+    physics.update(1 / 120, time, unbounded, base);
+    assert.ok(physics.velocity.length() <= heroPhysicsSettings.maximumLinearVelocity + 1e-9);
+    assert.ok(physics.angularVelocity.length() <= heroPhysicsSettings.maximumAngularVelocity + 1e-9);
+    assert.ok(physics.orientation.angleTo(identity) <= heroPhysicsSettings.maximumRotationAngle + 1e-9);
+  }
+  physics.endDrag(time);
+  let maximumAngle = 0;
+  for (let index = 0; index < 600; index += 1) {
+    time += 1 / 120;
+    physics.update(1 / 120, time, unbounded, base);
+    maximumAngle = Math.max(maximumAngle, physics.orientation.angleTo(identity));
+    assert.ok(physics.velocity.length() <= heroPhysicsSettings.maximumLinearVelocity + 1e-9);
+    assert.ok(physics.angularVelocity.length() <= heroPhysicsSettings.maximumAngularVelocity + 1e-9);
+  }
+  assert.ok(maximumAngle <= heroPhysicsSettings.maximumRotationAngle + 1e-9,
+    `fling exceeded the rotation token: ${maximumAngle * 180 / Math.PI} degrees`);
+  advance(physics, time, heroPhysicsSettings.returnDelaySeconds + 1);
+  assert.ok(physics.orientation.angleTo(identity) < .02, 'the return window restores the resting orientation');
 });
 
 test('a new hit interrupts return immediately and restarts inactivity timing', () => {
@@ -136,4 +166,55 @@ test('drag release velocity is consistent across pointer sampling rates', () => 
     assert.ok(result.velocity.distanceTo(results[0].velocity) < 0.06);
     assert.ok(result.angularVelocity.distanceTo(results[0].angularVelocity) < 0.02);
   }
+});
+
+function extremeGesture(settings) {
+  const physics = new LogoPhysics({ random: () => .5, settings });
+  const base = new Vector3();
+  let time = 0;
+  physics.beginDrag(new Vector3(-2, -1, 0), base, 0);
+  for (let index = 0; index < 12; index += 1) {
+    time += 1 / 120;
+    physics.dragTo(new Vector3(-2 + (index + 1) * .5, -1 + (index + 1) * .15, 0), base, 1 / 120, time);
+    physics.update(1 / 120, time, unbounded, base);
+  }
+  physics.endDrag(time);
+  let maximumRotationDegrees = 0;
+  for (let step = 1; step <= 600; step += 1) {
+    time += 1 / 120;
+    physics.update(1 / 120, time, unbounded, base);
+    maximumRotationDegrees = Math.max(maximumRotationDegrees, physics.orientation.angleTo(identity) * 180 / Math.PI);
+  }
+  return maximumRotationDegrees;
+}
+
+test('desktop profile restores the lively pre-F19 values and rotates past the touch ceiling', () => {
+  const desktop = heroPhysicsProfiles.desktop;
+  assert.equal(desktop.maximumRotationAngle, Infinity, 'The desktop profile has no rotation ceiling.');
+  assert.equal(desktop.maximumLinearVelocity, 7);
+  assert.equal(desktop.maximumAngularVelocity, 5);
+  assert.equal(desktop.returnDelaySeconds, 4);
+  assert.equal(desktop.damping.linear, .65);
+  assert.equal(desktop.damping.angular, .55);
+  assert.equal(desktop.damping.draggingAngular, 1.5);
+  const touchCeiling = heroPhysicsProfiles.touch.maximumRotationAngle * 180 / Math.PI;
+  const degrees = extremeGesture(desktop);
+  assert.ok(degrees > touchCeiling + 1,
+    `The same gesture must stay lively on desktop: ${degrees.toFixed(1)}deg vs touch ceiling ${touchCeiling.toFixed(1)}deg`);
+});
+
+test('touch profile keeps the B-F3 ceiling and reachable return window', () => {
+  const touch = heroPhysicsProfiles.touch;
+  assert.equal(touch.maximumLinearVelocity, 4.2);
+  assert.equal(touch.maximumAngularVelocity, 2.2);
+  assert.equal(touch.returnDelaySeconds, 2.5);
+  assert.ok(Math.abs(touch.maximumRotationAngle * 180 / Math.PI - 39.6) < .01);
+  assert.ok(extremeGesture(touch) <= touch.maximumRotationAngle * 180 / Math.PI + 1e-6);
+  assert.equal(heroPhysicsSettings, touch, 'The legacy default export stays the bounded profile.');
+});
+
+test('profile selection follows pointer capability, never viewport width', () => {
+  assert.equal(heroPhysicsProfileFor(query => ({ matches: query === '(any-pointer: fine)' })), 'desktop');
+  assert.equal(heroPhysicsProfileFor(() => ({ matches: false })), 'touch');
+  assert.equal(heroPhysicsProfileFor(undefined), 'touch', 'A missing matchMedia falls back to the safe profile.');
 });

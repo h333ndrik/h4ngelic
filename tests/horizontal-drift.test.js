@@ -3,15 +3,15 @@ import assert from 'node:assert/strict';
 import { horizontalDriftCategories, renderHorizontalDrift } from '../src/horizontal-drift-content.js';
 
 test('only the agreed three archives receive a horizontal carousel, including honest empty shells', () => {
-  assert.deepEqual(horizontalDriftCategories, ['tattoos', 'flashes', 'analog-photography']);
-  for (const category of ['jewellery', 'digital-artworks', 'paintings', 'more', 'all']) {
+  assert.deepEqual(horizontalDriftCategories, ['tattoos', 'flashes', 'jewellery', 'analog-photography']);
+  for (const category of ['digital-artworks', 'paintings', 'more', 'all']) {
     assert.equal(renderHorizontalDrift([], { category }), '');
   }
   const empty = renderHorizontalDrift([], { category: 'tattoos' });
   assert.match(empty, /data-horizontal-drift="tattoos"/);
   assert.match(empty, /aria-roledescription="carousel"/);
   assert.match(empty, /data-carousel-total="0"/);
-  assert.match(empty, /data-drift-count aria-hidden="true">0 \/ 0/);
+  assert.match(empty, /data-drift-count aria-hidden="true">00\/ 00/);
   assert.equal((empty.match(/ disabled>/g) || []).length, 2);
   assert.match(empty, /<p class="archive-empty">archive in progress\.<\/p>/);
   assert.doesNotMatch(empty, /<img|data-drift-item|data-artwork-open|placeholder|canvas/);
@@ -36,7 +36,7 @@ test('spatial archive preserves original dimensions, full sources, detail images
   assert.match(markup, /aria-label="enlarge original &lt;image&gt; in place"/);
   assert.match(markup, /&lt;original&gt;/);
   assert.match(markup, /skin &amp; ink/);
-  assert.match(markup, /href="\/work\/tattoos\/original-work"/);
+  assert.match(markup, /href="\/creative\/original-work"/);
 });
 
 test('drafts, foreign categories and untrusted image URLs never enter the archive', () => {
@@ -55,7 +55,7 @@ test('drafts, foreign categories and untrusted image URLs never enter the archiv
 test('single real artwork keeps its working viewer and honest one-image navigation count', () => {
   const markup = renderHorizontalDrift([{ category: 'flashes', images: [{ src: '/images/actual.webp', alt: 'actual', width: 500, height: 700 }] }], { category: 'flashes' });
   assert.match(markup, /data-carousel-total="1"/);
-  assert.match(markup, /data-drift-count aria-hidden="true">1 \/ 1/);
+  assert.match(markup, /data-drift-count aria-hidden="true">01\/ 01/);
   assert.equal((markup.match(/data-drift-item/g) || []).length, 1);
   assert.equal((markup.match(/data-artwork-open/g) || []).length, 1);
   assert.equal((markup.match(/ disabled>/g) || []).length, 2);
@@ -68,7 +68,7 @@ test('carousel totals follow the actual published photo list when photographs ar
     const projects = Array.from({ length: total }, (_, index) => ({ id: `count-fixture-${index}`, category: 'tattoos', images: [image] }));
     const markup = renderHorizontalDrift(projects, { category: 'tattoos' });
     assert.match(markup, new RegExp(`data-carousel-total="${total}"`));
-    assert.match(markup, new RegExp(`data-drift-count aria-hidden="true">${total ? 1 : 0} / ${total}`));
+    assert.match(markup, new RegExp(`data-drift-count aria-hidden="true">${String(total ? 1 : 0).padStart(2, '0')}\/ ${String(total).padStart(2, '0')}`));
     assert.equal((markup.match(/data-drift-item/g) || []).length, total);
     assert.equal((markup.match(/data-inline-expand/g) || []).length, total);
   }

@@ -85,18 +85,20 @@ try {
       await page.waitForFunction(() => !document.querySelector('[data-chapter-counter]').matches(':hover'));
       assert.ok(Math.abs((await counterBox(page)).top - home.top) < 1, 'The counter returns to its normal bottom position.');
 
-      await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
-      assert.equal(new URL(page.url()).pathname, '/work/tattoos', 'The removed landing route redirects to tattoos.');
+      await page.goto(new URL('/creative', base).href, { waitUntil: 'networkidle' });
+      assert.equal(new URL(page.url()).pathname, '/creative/tattoos', 'The removed landing route redirects to tattoos.');
       await index.waitFor({ state: 'visible' });
       assert.equal(await chapter.isVisible(), false, 'Interiors must not show an inaccurate homepage chapter count.');
       await index.locator('summary').click();
       assert.deepEqual(await index.locator('[data-index-page]').evaluateAll(entries => entries.map(entry => entry.dataset.indexPage)), ['home', 'creative', 'about', 'contact']);
-      assert.equal(await index.locator('.index-static[data-index-page="creative"]').count(), 1);
+      // B-F28: the creative entry is an anchor like the others.
+      assert.equal(await index.locator('.index-static[data-index-page="creative"]').count(), 0);
+      assert.equal(await index.locator('a[data-index-page="creative"]').getAttribute('href'), '/creative/tattoos');
       await index.locator('[data-index-page="about"]').click();
       await page.locator('html[data-page="about"]').waitFor();
       await page.waitForFunction(() => !document.querySelector('[data-global-index]').open);
       assert.equal(await index.isVisible(), true);
-      await page.locator('.brand-link').click();
+      await page.locator('[data-floating-brand]').click();
       await page.locator('html[data-page="home"]').waitFor();
       await page.waitForFunction(() => document.querySelector('[data-global-index]').hidden);
       assert.deepEqual(errors, []);

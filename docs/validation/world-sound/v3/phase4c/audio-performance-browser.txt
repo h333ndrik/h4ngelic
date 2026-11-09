@@ -1,0 +1,1 @@
+PASS audio performance: handler 0.200 ms, startup 0.200 ms, context 122.3 ms, reads 16/s; reduced/narrow/in-flight scenarios pass.

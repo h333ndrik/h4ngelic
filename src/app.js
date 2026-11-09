@@ -3,9 +3,12 @@ import './homepage.css';
 import './archive-structure.css';
 import './horizontal-drift.css';
 import './flash-mannequin.css';
+import './mannequin-preview.css';
 import './inquiry.css';
 import './v6-polish.css';
 import './easter-eggs.css';
+import './rubric-row.css';
+import './cursor.css';
 import { siteContent } from './data/siteContent.js';
 import { renderRoutePage } from './pages.js';
 import { resolveRoute } from './routes.js';
@@ -27,7 +30,12 @@ import { initGlobalNavigation } from './global-navigation.js';
 import { initInquiry } from './inquiry.js';
 import { initConnectedWork } from './connected-work.js';
 import { heroPosterSettings } from './data/heroPosterSettings.js';
+import { fitRubricRows } from './rubric-fit.js';
+import { initMannequinPreviewLazy } from './mannequin-preview-loader.js';
+import { initSectionEntrance } from './section-entrance.js';
+import { initPressState } from './press-state.js';
 
+if (__H4_BUILD_LOG__) console.info(`[h4ngelic] build ${__H4_BUILD_SHA__}`);
 document.documentElement.dataset.h4StylesReady = 'true';
 
 let hero = document.querySelector('.hero');
@@ -41,19 +49,142 @@ let stopImageReveals = () => {};
 let stopEndReveal = () => {};
 let stopDrift = () => {};
 let stopMannequins = () => {};
+let stopModelPreview = () => {};
+let stopSectionEntrance = () => {};
 let heroObserver = null;
 let heroPreloadsActivated = false;
 const heroReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const heroBootTimeoutMs = 6000;
+let heroBootTimer = 0;
+let heroSceneReady = false;
+let heroBootFailed = false;
 let moshTransitions = null;
 let renderRevision = 0;
 let renderedKind = '';
 let renderedPath = '';
 let stopInquiry = () => {};
 let stopConnectedWork = () => {};
+let slashInsetFrame = 0;
+let otherSideController = null;
 // One scroll offset for each real carousel; route changes reuse these small
 // records rather than retaining detached gallery nodes or image resources.
 const carouselPositions = new Map();
 const globalNavigation = initGlobalNavigation(document);
+
+function setSlashInset(inset) {
+  if (Number.isFinite(inset) && inset > 0) {
+    document.documentElement.style.setProperty('--slash-inset', `${Math.round(inset * 100) / 100}px`);
+  }
+}
+
+/** Interior pages carry no numbered heading, so the measured slash column of
+ *  the homepage is unavailable there. The same two index digits at the same
+ *  display type give the identical advance, keeping the Type A row inset the
+ *  same on both sides of the navigation. */
+function measureSlashInsetFromType() {
+  const probe = document.createElement('span');
+  probe.setAttribute('aria-hidden', 'true');
+  probe.textContent = '01';
+  probe.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;white-space:pre;line-height:1;font-weight:400;font-size:var(--type-display);letter-spacing:var(--type-display-tracking)';
+  document.body.append(probe);
+  const width = probe.getBoundingClientRect().width;
+  probe.remove();
+  setSlashInset(width);
+}
+
+function measureSlashInset() {
+  const heading = document.querySelector('#selected-work-title .kinetic-heading-text');
+  const section = heading?.closest('.content-section');
+  if (!heading || !section) { measureSlashInsetFromType(); return; }
+  const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+  let node, slashOffset = -1;
+  while ((node = walker.nextNode())) {
+    const index = node.textContent.indexOf('/');
+    if (index >= 0) { slashOffset = index; break; }
+  }
+  if (slashOffset < 0) return;
+  const range = document.createRange();
+  range.setStart(node, slashOffset);
+  range.setEnd(node, slashOffset + 1);
+  const transform = getComputedStyle(heading).transform;
+  const translation = transform === 'none' ? 0 : new DOMMatrixReadOnly(transform).m41;
+  const sectionBox = section.getBoundingClientRect();
+  const contentLeft = sectionBox.left + parseFloat(getComputedStyle(section).paddingLeft || '0');
+  setSlashInset(range.getBoundingClientRect().left - translation - contentLeft);
+}
+
+function scheduleSlashInset() {
+  if (slashInsetFrame) return;
+  slashInsetFrame = requestAnimationFrame(() => {
+    slashInsetFrame = 0;
+    measureSlashInset();
+    fitRubricRows();
+  });
+}
+
+addEventListener('resize', scheduleSlashInset, { passive: true });
+addEventListener('load', scheduleSlashInset, { passive: true });
+// Rubric fitting reads real glyph widths: every late webfont must re-run it.
+document.fonts?.ready.then(scheduleSlashInset);
+document.fonts?.addEventListener?.('loadingdone', scheduleSlashInset);
+
+function clearHeroBootTimer() {
+  if (!heroBootTimer) return;
+  clearTimeout(heroBootTimer);
+  heroBootTimer = 0;
+}
+
+function heroStage() {
+  return hero?.querySelector('#stage') || null;
+}
+
+function setHeroStatus(message) {
+  const status = hero?.querySelector('#scene-status');
+  if (status) status.textContent = message;
+}
+
+function markHeroReady() {
+  heroSceneReady = true;
+  heroBootFailed = false;
+  clearHeroBootTimer();
+  document.documentElement.dataset.heroLoading = 'false';
+  const stage = heroStage();
+  stage?.classList.remove('is-boot-slow', 'is-boot-failed', 'is-fallback');
+}
+
+function showHeroFailure(message = 'Static h4ngelic wordmark. The interactive version could not be loaded.') {
+  clearHeroBootTimer();
+  heroSceneReady = true;
+  heroBootFailed = true;
+  document.documentElement.dataset.heroLoading = 'false';
+  const stage = heroStage();
+  stage?.classList.remove('is-ready', 'is-boot-slow');
+  stage?.classList.add('is-boot-failed', 'is-fallback');
+  setHeroStatus(message);
+  const hint = hero?.querySelector('#interaction-hint');
+  if (hint) hint.textContent = 'h4ngelic';
+  for (const id of ['pause-control', 'speed-control', 'reveal-control']) {
+    const control = document.getElementById(id);
+    if (control) control.disabled = true;
+  }
+}
+
+function markHeroFailed(error) {
+  showHeroFailure();
+  console.error('Unable to load the interactive wordmark.', error);
+}
+
+function startHeroBoot() {
+  if (heroReducedMotion.matches || heroSceneReady) return;
+  document.documentElement.dataset.heroLoading = 'true';
+  if (heroBootTimer) return;
+  heroBootTimer = setTimeout(() => {
+    heroBootTimer = 0;
+    if (heroSceneReady || !hero || hero.hidden) return;
+    heroStage()?.classList.add('is-boot-slow');
+    setHeroStatus('The interactive wordmark is taking longer than usual.');
+  }, heroBootTimeoutMs);
+}
 
 function ensureHero() {
   if (!hero) {
@@ -89,36 +220,62 @@ function configureHeroPoster() {
   stage?.style.setProperty('--hero-poster-fade', `${heroPosterSettings.fadeDurationMs}ms`);
 }
 
+function startsOnHero() {
+  if (!location.hash) return true;
+  let id = location.hash.slice(1);
+  try { id = decodeURIComponent(id); } catch { /* Use the literal fragment. */ }
+  const target = document.getElementById(id);
+  return !target || target === hero || hero.contains(target);
+}
+
 function prepareHero() {
   ensureHero();
   if (!hero) return;
   hero.hidden = false;
   configureHeroPoster();
+  if (heroBootFailed) {
+    showHeroFailure();
+    return;
+  }
+  clearHeroBootTimer();
+  const stage = heroStage();
+  stage?.classList.remove('is-boot-slow', 'is-boot-failed');
+  heroSceneReady = Boolean(stage?.classList.contains('is-ready') || stage?.classList.contains('is-poster-static'));
+  document.documentElement.dataset.heroLoading = heroSceneReady ? 'false' : 'true';
   if (heroReducedMotion.matches && heroPosterSettings.reducedMotionStatic) {
-    const stage = hero.querySelector('#stage');
     stage?.classList.add('is-poster-static');
     const status = hero.querySelector('#scene-status');
     if (status) status.textContent = 'Static h4ngelic wordmark. Motion is disabled by your device preference.';
+    heroSceneReady = true;
+    document.documentElement.dataset.heroLoading = 'false';
     return;
   }
-  hero.querySelector('#stage')?.classList.remove('is-poster-static');
-  activateHeroPreloads();
-  if (heroLoaded) return;
+  stage?.classList.remove('is-poster-static');
+  // A direct Home anchor such as /#contact opens below the hero. Do not fetch
+  // the Three.js chunk, font or texture until the hero actually approaches.
+  if (startsOnHero()) activateHeroPreloads();
+  if (heroLoaded) {
+    if (!heroSceneReady) startHeroBoot();
+    return;
+  }
   heroObserver?.disconnect();
   heroObserver = new IntersectionObserver(([entry]) => {
     if (!entry.isIntersecting || heroLoaded || hero.hidden) return;
     heroLoaded = true;
     heroObserver.disconnect();
-    import('./main.js').catch((error) => {
-      console.error('Unable to load the interactive wordmark.', error);
-    });
+    activateHeroPreloads();
+    startHeroBoot();
+    import('./main.js').catch(markHeroFailed);
   });
   heroObserver.observe(hero);
 }
 
+document.addEventListener('h4:heroready', markHeroReady);
+document.addEventListener('h4:herofailed', event => showHeroFailure(event.detail?.message));
+
 function currentURL() {
   // The downloadable preview uses hash routes so its pages work without a server.
-  // The real website always uses ordinary /work, /about and /#contact anchors.
+  // The real website always uses ordinary /creative, /about and /#contact anchors.
   return standalone
     ? new URL(location.hash.slice(1).startsWith('/') ? location.hash.slice(1) : '/', 'https://preview.invalid')
     : new URL(location.href);
@@ -149,6 +306,7 @@ function scrollToTarget(url, { reset = false, restoreScroll, smoothAnchor = fals
 async function render({ reset = false, restoreScroll, smoothAnchor = false } = {}) {
   let url = currentURL();
   const route = resolveRoute(url);
+  if (route.kind === 'impressum' && document.documentElement.dataset.mode === 'xray') otherSideController?.setMode('normal');
   if (route.redirectPath) {
     if (standalone) history.replaceState(history.state, '', `#${route.redirectPath}`);
     else history.replaceState(history.state, '', route.redirectPath);
@@ -179,9 +337,11 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopEndReveal();
   stopDrift();
   stopMannequins();
+  stopModelPreview();
+  stopSectionEntrance();
   stopInquiry();
   stopConnectedWork();
-  stopDrift = stopMannequins = () => {};
+  stopDrift = stopMannequins = stopModelPreview = stopSectionEntrance = () => {};
   heroObserver?.disconnect();
   if (hero) hero.hidden = route.kind !== 'home';
   document.documentElement.dataset.page = route.kind;
@@ -198,6 +358,11 @@ async function render({ reset = false, restoreScroll, smoothAnchor = false } = {
   stopInquiry = initInquiry(content);
   stopInquiry.refreshContext?.(url);
   stopConnectedWork = initConnectedWork(content);
+  stopModelPreview = initMannequinPreviewLazy(content);
+  stopSectionEntrance = initSectionEntrance(content);
+  initPressState(document);
+  scheduleSlashInset();
+  document.fonts?.ready.then(scheduleSlashInset);
 
   if (standalone) {
     for (const link of document.querySelectorAll('a[href^="/"]')) {
@@ -240,9 +405,7 @@ function afterFirstPaint(task) {
 }
 
 render();
-// The approved moshlab placeholder stays inert even before deferred easter eggs load.
 document.addEventListener('click', event => {
-  if (event.target.closest?.('[data-moshlab-placeholder]')) event.preventDefault();
 });
 // Ink sampling, visitor memory and the remaining easter-egg bindings are not
 // needed for the first frame. Their module and initialization wait for idle,
@@ -260,7 +423,7 @@ if (featureFlags.otherSideEnabled) {
   // Input handling is needed from startup. Bundle it with the entry stylesheet
   // instead of delaying first paint with an immediately requested CSS chunk.
   // Film, pixel rendering, damaged material and Web Audio stay gesture-driven.
-  initXRay({ memory: corruptionLifecycle });
+  otherSideController = initXRay({ memory: corruptionLifecycle });
   initModeIcons();
   const motionMosh = initMotionMosh({ doc: document });
   if (import.meta.env.DEV && new URLSearchParams(location.search).get('fx') === '1') {

@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-11-06T14:44:57.695Z",
+  "harness": "tests/fixtures/section-entrance.html (nur src/section-entrance.js)",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "armMargin": "15% 0px",
+  "results": {
+    "outside": {
+      "sectionTop": 2600,
+      "rafPer500ms": 0,
+      "pose": {
+        "x": 17.55,
+        "opacity": 0
+      }
+    },
+    "visible": {
+      "rafPer500ms": 30,
+      "pose": {
+        "x": 2.68,
+        "opacity": 0.8472
+      }
+    },
+    "exit": {
+      "cancelCalls": 1,
+      "rafPer500ms": 0,
+      "frozenPose": {
+        "x": 17.55,
+        "opacity": 0
+      }
+    },
+    "dispose": {
+      "rafPer500ms": 0
+    },
+    "reducedMotion": {
+      "rafPer500ms": 0,
+      "pose": {
+        "x": 0,
+        "opacity": 1
+      }
+    }
+  },
+  "passed": true
+}

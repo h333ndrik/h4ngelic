@@ -31,9 +31,9 @@ try {
     try {
       await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
       await page.locator('#selected-work-title').waitFor();
-      const expected = ['01 / creative', '02 / ABOUT', '03 / CONTACT'];
+      const expected = ['01/ creative', '02/ about', '03/ contact'];
       const headings = page.locator('.content-section .kinetic-heading');
-      assert.deepEqual(await headings.evaluateAll(nodes => nodes.map(node => node.innerText.replace(/\s+/g, ' ').trim())), expected);
+      assert.deepEqual(await headings.evaluateAll(nodes => nodes.map(node => node.textContent.replace(/\s+/g, ' ').trim())), expected, 'Offscreen content-visibility sections retain their static title text.');
       assert.equal(await headings.locator('a').count(), 0, 'Static section titles are not links.');
       assert.equal(await headings.evaluateAll(nodes => nodes.some(node => node.hasAttribute('tabindex'))), false, 'Static titles are not focusable.');
       const observations = [];
@@ -50,13 +50,16 @@ try {
       }
       const category = page.locator('#selected-work .category-link').first();
       await category.scrollIntoViewIfNeeded(); await frames(page);
-      const categoryBefore = await category.evaluate(element => getComputedStyle(element.querySelector('.interaction-visual') || element).transform);
+      const categoryVisual = () => category.evaluate(element => { const style = getComputedStyle(element.querySelector('.interaction-visual') || element);
+        return { transform: style.transform, filter: style.filter }; });
+      const categoryBefore = await categoryVisual();
       const categoryBox = await category.boundingBox();
       await page.mouse.move(categoryBox.x + categoryBox.width / 2, categoryBox.y + categoryBox.height / 2); await frames(page);
       await page.waitForTimeout(350);
-      const categoryAfter = await category.evaluate(element => getComputedStyle(element.querySelector('.interaction-visual') || element).transform);
-      if (!profile.reduced && profile.width >= 1000) assert.notEqual(categoryAfter, categoryBefore, 'Rubric links retain the unified hover.');
-      else assert.equal(categoryAfter, categoryBefore, 'Coarse pointers and reduced motion keep instant/static states.');
+      const categoryAfter = await categoryVisual();
+      if (!profile.reduced && profile.width >= 1000) assert.ok(categoryAfter.transform !== categoryBefore.transform || categoryAfter.filter !== categoryBefore.filter,
+        'Rubric links retain the unified hover.');
+      else assert.equal(categoryAfter.transform, categoryBefore.transform, 'Coarse pointers and reduced motion keep the transform instant/static.');
       assert.deepEqual(errors, []);
       await page.screenshot({ path: new URL(`titles-${profile.width}-${profile.reduced}.png`, output).pathname });
       reports.push({ ...profile, observations, categoryHover: { before: categoryBefore, after: categoryAfter }, errors }); await save();

@@ -6,9 +6,9 @@
   margin: 0 0 clamp(40px, 6vw, 90px);
   color: #f0efeb;
   font-size: var(--type-display);
-  line-height: 1.08;
+  line-height: var(--type-display-leading);
   font-weight: 400;
-  letter-spacing: -.045em;
+  letter-spacing: var(--type-display-tracking);
   overflow: clip;
 }
 .kinetic-heading-text { display: block; }
@@ -25,24 +25,35 @@
   min-width: 0;
   gap: inherit;
 }
+/* The strip is a Type A row (rubric-row.css): insets, gap floor and baseline
+   live in the row type, so this file only owns type size and the scrollport. */
+.category-link { pointer-events: none; }
+/* The rubric type never exceeds the measured fit for its own row. Without
+   JS (no --row-type-fit) the shared display token stays in charge. */
+.category-strip .category-link { font-size: min(var(--type-category-link), var(--row-type-fit, var(--type-category-link))); }
+/* The cell still sizes the four-column row, but its whitespace is not a link.
+   The label and its arrow own the hit area: 4px of padding on the reading edge,
+   never a horizontal overhang (that would inflate the label's scroll width and
+   silently clamp the 2.5% hover fit). */
+.category-link .interaction-visual { pointer-events: auto; position: relative; }
+.category-link .interaction-visual::before { content: ''; position: absolute; left: -4px; right: 0; top: 50%; height: max(44px, 100%); transform: translateY(-50%); }
 .about-preview { display: block; border: 0; background: transparent; }
 .about-preview > .section-pin {
   display: block;
   text-align: left;
 }
-.about-preview .kinetic-heading { font-size: clamp(28px, 4.95vw, 73px); }
 /* The paragraph stays a single natural text flow. Its modest inset gives it
    room beside the editorial title without recreating the old right column. */
 .about-preview-copy {
   grid-column: auto;
-  max-width: min(1100px, 100% - clamp(12px, 3vw, 48px));
-  margin: 0 0 18px clamp(12px, 3vw, 48px);
+  max-width: min(1100px, calc(100% - var(--slash-inset)));
+  margin: 0 0 18px var(--slash-inset);
   text-align: left;
 }
 .about-preview .text-link {
   grid-column: auto;
   justify-self: start;
-  margin-left: clamp(12px, 3vw, 48px);
+  margin-left: var(--slash-inset);
   font-size: var(--type-secondary-link);
   line-height: 1.3;
   letter-spacing: -.015em;
@@ -100,7 +111,7 @@
   border-radius: var(--radius-soft);
 }
 .hero .controls button:hover:not(:disabled) { border: 0; background: transparent; }
-.hero .hero-nav { right: 35px; bottom: 24px; min-height: 44px; align-items: center; }
+.hero-nav { right: 35px; bottom: max(24px, env(safe-area-inset-bottom)); min-height: 44px; align-items: center; }
 :is(.hero-nav, .page-nav, .text-link) .category-magnet { gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); }
 :is(.category-link, .contact-link, .hero-nav a, .page-nav a, .text-link) .arrow {
   transition: transform 300ms cubic-bezier(.2,.8,.25,1);
@@ -112,9 +123,11 @@
   .about-preview-copy { margin-bottom: 14px; }
 }
 @media (max-width: 800px) {
-  .hero .controls { left: 22px; right: 22px; bottom: 116px; max-width: none; gap: 5px; }
+  /* B-F36: row 2 of the mobile stack, directly under the nav row. */
+  .hero .controls { left: 22px; right: 22px; bottom: calc(env(safe-area-inset-bottom) + 56px); max-width: none; gap: 5px; justify-content: flex-start; opacity: .72; }
   .hero .controls button { padding-inline: 8px; font-size: 10px; }
-  .hero .hero-nav { right: 22px; bottom: 64px; gap: clamp(12px, 4vw, 26px); font-size: var(--type-navigation); }
+  /* B-F36: row 1 of the mobile stack (nav above the controls). */
+  .hero-nav { left: 22px; right: 22px; bottom: calc(env(safe-area-inset-bottom) + 112px); gap: clamp(12px, 4vw, 26px); font-size: var(--type-navigation); justify-content: flex-start; flex-wrap: wrap; }
 }
 
 /* The Works heading is a real route anchor and receives the shared inner

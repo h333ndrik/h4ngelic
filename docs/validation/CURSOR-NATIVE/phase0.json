@@ -1,0 +1,261 @@
+{
+  "sizes": [
+    {
+      "file": "h4ngelic-cursor.svg",
+      "width": 23.26,
+      "height": 34.88,
+      "over32": true
+    },
+    {
+      "file": "h4ngelic-cursor-hover.svg",
+      "width": 24.65136,
+      "height": 36.97704,
+      "over32": true
+    },
+    {
+      "file": "h4ngelic-cursor-pressed.svg",
+      "width": 22.32576,
+      "height": 33.48864,
+      "over32": true
+    },
+    {
+      "file": "h4ngelic-cursor-other-r09.svg",
+      "width": 23.26,
+      "height": 34.88,
+      "over32": true
+    },
+    {
+      "file": "h4ngelic-cursor-other-hover-r09.svg",
+      "width": 24.65136,
+      "height": 36.97704,
+      "over32": true
+    },
+    {
+      "file": "h4ngelic-cursor-other-pressed-r09.svg",
+      "width": 22.32576,
+      "height": 33.48864,
+      "over32": true
+    }
+  ],
+  "capability": [
+    {
+      "profile": "desktop-1440",
+      "hoverFine": true,
+      "anyHoverFine": true,
+      "hover": true,
+      "pointerFine": true,
+      "anyPointerFine": true,
+      "hasCustomClass": true,
+      "overlay": true
+    },
+    {
+      "profile": "touch-390",
+      "hoverFine": false,
+      "anyHoverFine": false,
+      "hover": false,
+      "pointerFine": false,
+      "anyPointerFine": false,
+      "hasCustomClass": true,
+      "overlay": true
+    }
+  ],
+  "gaps": [
+    {
+      "profile": "desktop-1440",
+      "total": 570,
+      "misses": [],
+      "missCount": 0,
+      "samples": []
+    },
+    {
+      "profile": "touch-390",
+      "total": 144,
+      "misses": [
+        {
+          "x": 12,
+          "y": 12,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 60,
+          "y": 12,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 108,
+          "y": 12,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 156,
+          "y": 12,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 204,
+          "y": 12,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 252,
+          "y": 12,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 300,
+          "y": 12,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 348,
+          "y": 12,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 12,
+          "y": 60,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 60,
+          "y": 60,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 108,
+          "y": 60,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 156,
+          "y": 60,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 204,
+          "y": 60,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 252,
+          "y": 60,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 300,
+          "y": 60,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 348,
+          "y": 60,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 12,
+          "y": 108,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 60,
+          "y": 108,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 108,
+          "y": 108,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 156,
+          "y": 108,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 204,
+          "y": 108,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 252,
+          "y": 108,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 300,
+          "y": 108,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 348,
+          "y": 108,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        },
+        {
+          "x": 12,
+          "y": 156,
+          "tag": "CANVAS",
+          "cls": "",
+          "cursor": "auto"
+        }
+      ],
+      "missCount": 144,
+      "samples": [
+        "CANVAS.",
+        "CANVAS.",
+        "CANVAS.",
+        "CANVAS.",
+        "CANVAS.",
+        "CANVAS."
+      ]
+    }
+  ]
+}

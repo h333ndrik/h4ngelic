@@ -1,0 +1,11 @@
+file: dist/assets/index-pyomgUfj.css
+declarations (3):
+- cursor:var(--h4-native-cursor)
+- cursor:var(--h4-native-cursor)!important
+- cursor:none!important
+ends with canonical defense: True
+blanket occurrence count: 1
+
+final 400 characters:
+sign]{transition:none}[data-header-outline] [data-outline-arrow]{transition:none;transform:none}}
+@media (hover:hover) and (pointer:fine){html.h4-custom-cursor[data-cursor="xray"],html.h4-custom-cursor [data-cursor="xray"],html.h4-custom-cursor[data-cursor="xray"] *,html.h4-custom-cursor [data-cursor="xray"] *{cursor:var(--h4-native-cursor)!important}html.h4-custom-cursor *{cursor:none!important}}

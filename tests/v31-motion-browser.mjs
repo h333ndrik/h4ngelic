@@ -26,8 +26,8 @@ async function indexLink(page, name, kind) {
   // INDEX now exposes only the approved 00–03 route set. Work remains a real
   // hero-nav destination; other calls continue through their INDEX entry.
   if (name === 'work') {
-    await page.locator('.hero-nav a[href="/work"]').click();
-    await page.waitForFunction(() => location.pathname === '/work/tattoos');
+    await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
+    await page.waitForFunction(() => location.pathname === '/creative/tattoos');
   } else {
     const menu = page.locator('[data-global-index]');
     if (!await menu.evaluate(element => element.open)) await menu.locator('summary').click();
@@ -129,6 +129,15 @@ async function archiveEntrances(page, profile, world) {
   for (const heading of firstPaint) assert.ok(heading.static && !heading.enhanced && heading.opacity === 1
     && heading.x === 0 && heading.y === 0 && heading.inlineX === '' && heading.inlineOpacity === '',
   `${heading.id} keeps its final CSS first-paint pose without entrance enhancement.`);
+  // content-visibility:auto reserves an intrinsic slot until a group is first
+  // rendered. Prime every group once so the motion samples measure animation,
+  // not the browser's one-time intrinsic-size correction.
+  for (const group of await page.locator('.work-group').all()) {
+    await group.scrollIntoViewIfNeeded();
+    await frames(page);
+  }
+  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+  await frames(page);
   const result = [];
   for (const group of await page.locator('.work-group').all()) {
     const origin = await group.locator('.work-group-heading, .archive-category-heading').first().evaluate(element => element.getBoundingClientRect().top + scrollY - innerHeight * .68);
@@ -166,26 +175,30 @@ async function archiveEntrances(page, profile, world) {
 async function heroBar(page, profile, world) {
   await page.evaluate(() => document.activeElement?.blur());
   const samples = [];
-  const geometry = await page.locator('.hero').evaluate(element => ({ top: element.getBoundingClientRect().top + scrollY, height: element.offsetHeight }));
-  for (const progress of [0, .2, .4, .6, .8, 0]) {
-    await move(page, geometry.top + geometry.height * progress);
-    const sample = await page.locator('.hero').evaluate(element => ({
-      y: scrollY, height: document.documentElement.scrollHeight, state: element.dataset.heroBarState,
-      bars: [...element.querySelectorAll('.controls, .hero-nav')].map(bar => {
-        const style = getComputedStyle(bar), matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
-        return { opacity: Number(style.opacity), shift: matrix.m42, scale: Math.hypot(matrix.m11, matrix.m12),
-          height: bar.getBoundingClientRect().height, pointerEvents: style.pointerEvents, inert: bar.inert };
-      }),
-    }));
-    assert.ok(sample.bars.every(bar => bar.opacity === 1 && close(bar.scale, 1, .0001)), 'The bar keeps full opacity and only translates.');
-    assert.ok(close(sample.bars[0].shift / sample.bars[0].height, sample.bars[1].shift / sample.bars[1].height, .01), 'Both bar halves share the same percentage shift.');
-    if (progress >= .6) assert.ok(sample.bars.every(bar => close(bar.shift, -bar.height, 1) && bar.pointerEvents === 'none' && bar.inert));
-    if (progress === 0) assert.ok(sample.bars.every(bar => close(bar.shift, 0, .1) && !bar.inert));
-    if (!profile.reduced && (progress === .2 || progress === .4)) assert.ok(sample.bars.every(bar => bar.shift < -.1 && bar.shift > -bar.height + .1));
-    if (profile.reduced) assert.ok(sample.bars.every(bar => close(bar.shift, 0, .1) || close(bar.shift, -bar.height, 1)));
+  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' })); await frames(page);
+  const initial = await page.locator('.hero').evaluate(element => {
+    const hero = element.getBoundingClientRect();
+    const controls = element.querySelector('.controls').getBoundingClientRect();
+    const navigation = element.querySelector('.hero-nav').getBoundingClientRect();
+    return { heroBottom: hero.bottom, documentHeight: document.documentElement.scrollHeight,
+      controlsTop: controls.top, navigationTop: navigation.top };
+  });
+  for (const progress of [0, .2, .4, .6, .8, 1]) {
+    await move(page, initial.heroBottom * progress);
+    const sample = await page.locator('.hero').evaluate(element => {
+      const style = bar => getComputedStyle(bar);
+      return { y: scrollY, height: document.documentElement.scrollHeight, state: element.dataset.heroBarState || null,
+        bars: [element.querySelector('.controls'), element.querySelector('.hero-nav')].map(bar => ({
+          top: bar.getBoundingClientRect().top, transform: style(bar).transform, opacity: Number(style(bar).opacity),
+          position: style(bar).position, inert: bar.inert })) };
+    });
+    assert.ok(sample.bars.every(bar => bar.position !== 'fixed' && bar.transform === 'none' && bar.opacity === 1 && !bar.inert));
+    assert.equal(sample.state, null, 'No legacy hero-bar hide state remains.');
+    assert.ok(close(sample.bars[0].top, initial.controlsTop - sample.y, 1));
+    assert.ok(close(sample.bars[1].top, initial.navigationTop - sample.y, 1));
+    assert.equal(sample.height, initial.documentHeight);
     samples.push(sample);
   }
-  assert.ok(samples.every(sample => sample.height === samples[0].height), 'Bar translation cannot change page height or pinning.');
   return { world, samples };
 }
 try {
@@ -215,7 +228,7 @@ try {
       reports.push({ ...profile, normalHome, normalWork, otherWork, otherHome, otherBar, normalBar, errors });
       await page.screenshot({ path: new URL(`home-${profile.width}-${profile.reduced ? 'reduced' : 'normal'}.png`, output).pathname });
       await save();
-      console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: exact MORE ABOUT section pipeline, no pinning, measured native reversal, static top labels, both-mode bar fade.`);
+      console.log(`PASS V3.1 motion ${profile.width}px reduced=${profile.reduced}: exact MORE ABOUT section pipeline, no pinning, measured native reversal, static top labels, both-mode lower-hero control fade.`);
     } catch (error) {
       failures.push({ ...profile, error: error.stack, errors, motionPerformance: error.motionPerformance || null });
       await page.screenshot({ path: new URL(`failure-${profile.width}-${profile.reduced}.png`, output).pathname }).catch(() => {});

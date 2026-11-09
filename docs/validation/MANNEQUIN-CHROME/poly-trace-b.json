@@ -1,0 +1,168 @@
+{
+  "generator": "scripts/mannequin-female-build.py",
+  "blender_version": "4.5.0 Alpha",
+  "variant": "B",
+  "seed": 340044,
+  "output": "public/models/mannequin-female-b.glb",
+  "bytes": 172752,
+  "sha256": "51e6d99a3ca50d3a42406aa4030f967c9962d8c3760443b1c5f0d412dd07591e",
+  "segments": 20,
+  "height_mm": 1700,
+  "leg_length_mm": 900,
+  "leg_ratio": 0.5294117647058824,
+  "arm_outward_degrees": 15.0,
+  "arm_forward_degrees": 5.0,
+  "origin": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "up_axis": "+Y",
+  "front_axis": "+Z",
+  "before_join": [
+    {
+      "name": "Torso",
+      "vertices": 262,
+      "triangles": 520,
+      "has_uv": true
+    },
+    {
+      "name": "Neck",
+      "vertices": 42,
+      "triangles": 80,
+      "has_uv": true
+    },
+    {
+      "name": "Head",
+      "vertices": 142,
+      "triangles": 280,
+      "has_uv": true
+    },
+    {
+      "name": "LeftThigh",
+      "vertices": 102,
+      "triangles": 200,
+      "has_uv": true
+    },
+    {
+      "name": "LeftCalf",
+      "vertices": 102,
+      "triangles": 200,
+      "has_uv": true
+    },
+    {
+      "name": "LeftFoot",
+      "vertices": 24,
+      "triangles": 44,
+      "has_uv": true
+    },
+    {
+      "name": "LeftUpperArm",
+      "vertices": 82,
+      "triangles": 160,
+      "has_uv": true
+    },
+    {
+      "name": "LeftForearm",
+      "vertices": 62,
+      "triangles": 120,
+      "has_uv": true
+    },
+    {
+      "name": "LeftHand",
+      "vertices": 24,
+      "triangles": 44,
+      "has_uv": true
+    },
+    {
+      "name": "RightThigh",
+      "vertices": 102,
+      "triangles": 200,
+      "has_uv": true
+    },
+    {
+      "name": "RightCalf",
+      "vertices": 102,
+      "triangles": 200,
+      "has_uv": true
+    },
+    {
+      "name": "RightFoot",
+      "vertices": 24,
+      "triangles": 44,
+      "has_uv": true
+    },
+    {
+      "name": "RightUpperArm",
+      "vertices": 82,
+      "triangles": 160,
+      "has_uv": true
+    },
+    {
+      "name": "RightForearm",
+      "vertices": 62,
+      "triangles": 120,
+      "has_uv": true
+    },
+    {
+      "name": "RightHand",
+      "vertices": 24,
+      "triangles": 44,
+      "has_uv": true
+    }
+  ],
+  "after_merge": {
+    "name": "mannequin_female",
+    "vertices": 1236,
+    "triangles": 2416,
+    "has_uv": true
+  },
+  "cleanup": {
+    "duplicate_merge_distance": 1e-06,
+    "index_order": "deterministic lexicographic triangle order; winding preserved"
+  },
+  "material": {
+    "extensions": {
+      "KHR_materials_clearcoat": {
+        "clearcoatFactor": 0.15000000596046448,
+        "clearcoatRoughnessFactor": 0.11999999731779099
+      }
+    },
+    "name": "mannequin_chrome",
+    "pbrMetallicRoughness": {
+      "baseColorFactor": [
+        0.7758222222328186,
+        0.7758222222328186,
+        0.7758222222328186,
+        1
+      ],
+      "roughnessFactor": 0.30000001192092896
+    }
+  },
+  "mesh_count": 1,
+  "primitive_count": 1,
+  "texture_count": 0,
+  "image_count": 0,
+  "exported_triangles": 2416,
+  "bounds_gltf": {
+    "min": [
+      -0.3609899580478668,
+      0,
+      -0.17000000178813934
+    ],
+    "max": [
+      0.3609899580478668,
+      1.7000000476837158,
+      0.17000000178813934
+    ]
+  },
+  "uv_atlas": {
+    "bodyHeightMM": 1700,
+    "uvSpanMM": 2000,
+    "mmPerPixel": 0.48828125,
+    "pixelsPerMeter": 2048.0,
+    "bodyHeightPx": 3481.6
+  },
+  "external_asset_inputs": [],
+  "draco": false
+}

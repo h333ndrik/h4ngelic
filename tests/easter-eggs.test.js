@@ -5,10 +5,10 @@ import { renderFooter } from '../src/footer.js';
 import { createInkImprint } from '../src/ink-imprint.js';
 
 test('personal visit counter keeps real values with a four-digit minimum and the shared seven-tier memory', () => {
-  for (const [count, expected] of [[0,'VISIT 0000'],[1,'VISIT 0001'],[9,'VISIT 0009'],[42,'VISIT 0042'],[9999,'VISIT 9999'],[10000,'VISIT 10000']]) {
+  for (const [count, expected] of [[0,'visit 0000'],[1,'visit 0001'],[9,'visit 0009'],[42,'visit 0042'],[9999,'visit 9999'],[10000,'visit 10000']]) {
     assert.equal(formatVisitCount(count), expected);
   }
-  for (const invalid of [-1,NaN,Infinity,'3']) assert.equal(formatVisitCount(invalid),'VISIT 0001');
+  for (const invalid of [-1,NaN,Infinity,'3']) assert.equal(formatVisitCount(invalid),'visit 0001');
   assert.equal(visitorMessages.length, 7);
   assert.deepEqual([1,2,3,4,5,6,9,10,42].map(visitorMessage), [
     'nice to meet you.', 'you came back.', "we're practically friends now.", "getting familiar, aren't we?",
@@ -39,32 +39,36 @@ test('the requested local counter works by default and supports opt-out or a hos
   assert.equal(canRememberVisits({ enabled: true, requireConsent: true }, true), true);
 });
 
-test('shared footer groups contain the hidden count, matching arrows and explicit MOSH LAB placeholder', () => {
+test('shared footer groups contain the permanent ghost count, matching arrows and explicit MOSH LAB placeholder', () => {
   const html = renderFooter({ home: true, otherSideEnabled: true });
   assert.match(html, /h4ngelic © 2026/);
   assert.match(html, /berlin, de/);
   assert.match(html, /data-footer-secret-space/);
-  assert.match(html, /data-visit-message id="footer-visit-memory">nice to meet you\./);
   assert.match(html, /data-other-side-hint data-secret-hotspot data-mode-hold/);
-  assert.match(html, />HOLD 4 TO SEE THE OTHER SIDE\.<\/span>/);
-  assert.match(html, /data-visit-counter-hotspot/);
-  assert.match(html, /aria-describedby="footer-visit-count footer-visit-memory"/);
+  assert.match(html, />hold 4 to see the other side\.<\/span>/);
+  assert.doesNotMatch(html, /data-visit-message|data-visit-counter-hotspot/, 'The counter is a statement, not a secret control.');
+  assert.match(html, /<span class="footer-visit row-item" data-visit-count>/);
   assert.match(html, /data-visit-number id="footer-visit-count"/);
-  assert.match(html, />VISIT 0001<\/span>/);
-  assert.ok(html.indexOf('data-smash') < html.indexOf('class="footer-instagram"'));
-  assert.match(html, /data-smash[^>]*disabled/, 'The central audio controller enables playback when available.');
+  assert.match(html, />visit 0001<\/span>/);
+  assert.doesNotMatch(html, /<button[^>]+\bdata-smash\b/, 'Normal mode contains no hidden soundtrack control.');
+  assert.match(html, /data-smash-slot/);
+  // B-016: Impressum-Link bewusst entfernt bis Nutzdaten vorliegen (05.11.).
+  assert.doesNotMatch(html, /footer-impressum|data-other-side-imprint-slot/, 'No footer links the placeholder legal page.');
   assert.ok(html.indexOf('data-footer-secret-space') < html.indexOf('data-artist-footer'));
-  assert.ok(html.indexOf('data-visit-counter-hotspot') > html.indexOf('class="footer-moshlab"'));
-  assert.ok(html.indexOf('data-visit-counter-hotspot') < html.indexOf('class="footer-details"'));
-  assert.match(html, /class="footer-moshlab" href="#" data-moshlab-placeholder aria-label="h4 moshlab, destination not configured"/);
-  assert.ok(html.indexOf('footer-moshlab') > html.indexOf('footer-brand') && html.indexOf('footer-moshlab') < html.indexOf('footer-details'));
-  assert.equal((html.match(/class="arrow"/g) || []).length, 3, 'MOSH LAB, SMASH and Instagram use the same arrow on every route.');
-  assert.equal((renderFooter().match(/class="arrow"/g) || []).length, 3);
+  // B-F29: the placeholder link is removed from the markup, not hidden, and the
+  // visit counter takes its position inside the left cluster.
+  // B-F29: the left cluster holds exactly the branding and the counter.
+  assert.match(html, /class="footer-left"[^>]*><span class="footer-brand row-item">[\s\S]*?<\/span>\s*<span class="footer-visit row-item" data-visit-count>/);
+  assert.doesNotMatch(html, /href="#"/, 'B-F29: the footer owns no bare # destination any more.');
+  assert.ok(html.indexOf('data-visit-count') > html.indexOf('class="footer-brand"'));
+  assert.ok(html.indexOf('data-visit-count') < html.indexOf('class="footer-details"'));
+  assert.equal((html.match(/class="arrow"/g) || []).length, 1, 'Only Instagram uses the shared arrow; SMASH is mode-only and arrowless.');
+  assert.equal((renderFooter().match(/class="arrow"/g) || []).length, 1);
   assert.match(html, /data-footer-row/);
   assert.doesNotMatch(html, /data-mode-mute/, 'The sound control belongs to the hero controls, without a footer duplicate.');
   assert.match(html, /data-mode-status role="status" aria-live="polite"/);
   assert.doesNotMatch(html, /data-xray-toggle/, 'A simple touch tap must not bypass the hold control.');
-  assert.match(html, /class="footer-instagram" href="https:\/\/www\.instagram\.com\/h4ngelic\/"/,
+  assert.match(html, /class="footer-instagram row-item" href="https:\/\/www\.instagram\.com\/h4ngelic\/"/,
     'The confirmed Instagram profile shares the metadata row.');
   assert.doesNotMatch(html, /book a tat|mailto:/, 'The inquiry form is not duplicated with extra contact links.');
   assert.doesNotMatch(renderFooter(), /data-footer-secret-space/, 'The large quiet area is homepage-specific.');
@@ -74,7 +78,7 @@ test('the shared release gate can still omit all alternate-mode controls indepen
   const html = renderFooter({ home: true, otherSideEnabled: false });
   assert.doesNotMatch(html, /data-other-side-hint|data-mode-hold|data-mode-mute|data-mode-status/);
   assert.match(html, /data-visit-number/);
-  assert.match(renderFooter(), /data-visit-counter-hotspot/, 'The shared local visit count is present on interior routes too.');
+  assert.match(renderFooter(), /data-visit-count/, 'The shared local visit count is present on interior routes too.');
 });
 
 test('ink remains temporary for six to twelve seconds with a bounded active count', () => {

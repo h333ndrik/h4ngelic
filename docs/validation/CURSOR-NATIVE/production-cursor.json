@@ -1,0 +1,61 @@
+{
+  "checkedAt": "2026-11-05T23:09:41.562Z",
+  "base": "http://127.0.0.1:55242",
+  "css": "index-Dkd2jWjP.css",
+  "declarations": [
+    "var(--h4-cursor)",
+    "var(--h4-cursor-interactive)",
+    "var(--h4-cursor-pressed)",
+    "var(--h4-cursor-xray)",
+    "var(--h4-cursor-xray-pressed)"
+  ],
+  "literals": [],
+  "build": "a2540558e5a3",
+  "states": [
+    {
+      "selector": ".footer-moshlab",
+      "rest": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
+      "active": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+    },
+    {
+      "selector": ".footer-instagram",
+      "rest": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
+      "active": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+    },
+    {
+      "selector": "[data-naavi]",
+      "rest": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
+      "active": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+    },
+    {
+      "selector": ".floating-brand",
+      "rest": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
+      "active": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor-pressed.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor-pressed.png\") 8 2, auto"
+    }
+  ],
+  "noScript": {
+    "body": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, auto",
+    "link": "url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55242/assets/h4ngelic-cursor.png\") 8 2, pointer",
+    "overlay": 0,
+    "cursorNone": 0
+  },
+  "pngs": [
+    {
+      "url": "/assets/h4ngelic-cursor.png",
+      "status": 200
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-pressed.png",
+      "status": 200
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other.png",
+      "status": 200
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-pressed.png",
+      "status": 200
+    }
+  ],
+  "passed": true
+}

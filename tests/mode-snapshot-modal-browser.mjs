@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
@@ -35,12 +36,17 @@ async function sample() {
   if (sampling || report.aborted) return;
   sampling = true;
   try {
-    const records = (await Promise.all((await readdir('/proc')).filter(name => /^\d+$/.test(name)).map(async name => {
-      try {
-        const value = await readFile(`/proc/${name}/status`, 'utf8');
-        return { pid: Number(name), parent: Number(value.match(/^PPid:\s+(\d+)/m)?.[1]), rss: Number(value.match(/^VmRSS:\s+(\d+)/m)?.[1] || 0) * 1024 };
-      } catch { return null; }
-    }))).filter(Boolean);
+    const records = process.platform === 'linux'
+      ? (await Promise.all((await readdir('/proc')).filter(name => /^\d+$/.test(name)).map(async name => {
+        try {
+          const value = await readFile(`/proc/${name}/status`, 'utf8');
+          return { pid: Number(name), parent: Number(value.match(/^PPid:\s+(\d+)/m)?.[1]), rss: Number(value.match(/^VmRSS:\s+(\d+)/m)?.[1] || 0) * 1024 };
+        } catch { return null; }
+      }))).filter(Boolean)
+      : execFileSync('ps', ['-Ao', 'pid=,ppid=,rss='], { encoding: 'utf8' }).trim().split('\n').map(line => {
+        const [pid, parent, rss] = line.trim().split(/\s+/).map(Number);
+        return { pid, parent, rss: rss * 1024 };
+      });
     const children = new Set([process.pid]);
     let changed = true;
     while (changed) {
@@ -66,12 +72,9 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   // Enter through the real category route: the dev server correctly returns a
   // static 404 for a fixture-only detail URL that does not exist on the server.
-  await page.goto(new URL('/work/jewellery', baseURL).href, { waitUntil: 'networkidle', timeout: 10000 });
-  // Jewellery keeps the existing real image-link route presentation. Tattoo
-  // spatial archives are covered separately by horizontal-drift-browser.mjs.
-  await page.locator('[data-artwork-link]').first().click({ timeout: 3000 });
-  await page.waitForFunction(() => document.documentElement.dataset.page === 'artwork', null, { timeout: 3000 });
-  await page.waitForFunction(() => !document.getAnimations().some(animation => animation.effect?.pseudoElement?.startsWith('::view-transition-')), null, { timeout: 3000 });
+  await page.goto(new URL('/creative/jewellery', baseURL).href, { waitUntil: 'networkidle', timeout: 10000 });
+  // Enhanced published-image links open the current in-page viewer; their real
+  // detail URLs remain available to no-JS and modified-click navigation.
   await page.locator('[data-artwork-open]').first().click({ timeout: 3000 });
   await page.waitForFunction(() => document.querySelector('.artwork-dialog[open] .artwork-viewer-status')?.textContent === 'image 1 of 1', null, { timeout: 4000 });
   await page.waitForFunction(() => !document.querySelector('[data-artwork-flight-copy]'));
@@ -156,7 +159,7 @@ try {
   await page.evaluate(() => window.__modalSnapshotProbe.controller.dispose());
   assert.deepEqual(errors, []);
   report.passed = true;
-} catch (error) { failure = error; report.failure = error.message; }
+} catch (error) { failure = error; report.failure = error.stack; }
 finally {
   clearInterval(monitor); clearTimeout(deadline);
   try { await browser?.close(); } catch {}

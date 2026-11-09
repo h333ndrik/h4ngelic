@@ -1,4 +1,3 @@
-@import './cursor.css';
 @import './ui-tokens.css';
 
 :root {
@@ -39,13 +38,28 @@ a:focus-visible, [tabindex='0']:focus-visible { outline: 2px solid #f0efeb; outl
 .masthead h1, .edition { margin: 0; font-size: clamp(13px, 1.32vw, 20px); font-weight: 400; letter-spacing: .06em; line-height: 1.5; }
 .stage { position: absolute; inset: 0; }
 #logo-canvas { width: 100%; height: 100%; display: block; position: absolute; inset: 0; touch-action: pan-y; }
-#logo-canvas { opacity: 0; transition: opacity var(--hero-poster-fade, 650ms) ease; }
-.stage.is-ready #logo-canvas { opacity: 1; }
-.fallback { position: absolute; inset: 0; background: var(--hero-poster-image, url('/assets/wordmark-fallback.svg')) center / 67% auto no-repeat; color: transparent; font-size: 0; pointer-events: none; transition: opacity var(--hero-poster-fade, 650ms) ease; }
+#logo-canvas {
+  opacity: 1;
+  transform: translate3d(0, calc(-100% - 32px), 0);
+  transition: transform var(--hero-wordmark-transform-fade, 1100ms) var(--hero-wordmark-easing, cubic-bezier(.16, 1, .3, 1));
+}
+.stage.is-ready #logo-canvas { opacity: 1; transform: translate3d(0, 0, 0); }
+.stage.is-entering #logo-canvas { will-change: transform; }
+.fallback { position: absolute; inset: 0; background: #242424; color: transparent; font-size: 0; pointer-events: none; transition: opacity var(--hero-poster-fade, 900ms) ease; }
+.stage.is-poster-static .fallback, .stage.is-boot-failed .fallback { background: var(--hero-poster-image, url('/assets/wordmark-fallback.svg')) center / 67% auto no-repeat #242424; }
 .stage.is-ready .fallback { opacity: 0; }
-.stage.is-poster-static #logo-canvas { display: none; }
+.stage.is-poster-static #logo-canvas, .stage.is-fallback #logo-canvas, .stage.is-boot-failed #logo-canvas { display: none; }
 .stage.is-poster-static .fallback { opacity: 1; }
-.stage.is-fallback #logo-canvas { display: none; }
+.stage.is-boot-failed .fallback, .stage.is-boot-slow .fallback { opacity: 1; }
+html[data-hero-loading='true'] .stage:not(.is-ready):not(.is-poster-static):not(.is-boot-failed) .fallback {
+  will-change: transform, opacity;
+  animation: hero-poster-breathe 2.8s ease-in-out infinite;
+  transform-origin: 50% 60%;
+}
+@keyframes hero-poster-breathe {
+  0%, 100% { opacity: .55; transform: scale(.988); }
+  50% { opacity: 1; transform: scale(1.012); }
+}
 .hero-bottom { position: absolute; inset: auto 35px 40px; display: flex; align-items: end; gap: 20px; z-index: 1; pointer-events: none; }
 .controls { position: absolute; top: 93px; right: 25px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; align-items: center; max-width: calc(100% - 50px); pointer-events: auto; }
 .controls button { background: transparent; border: 0; outline: 0; color: #f6f5f3; padding: 16px 21px; min-height: 54px; border-radius: var(--radius-soft); font-size: clamp(13px, 1.32vw, 20px); letter-spacing: .025em; }
@@ -53,7 +67,8 @@ html body .hero .controls button:is(:hover, :active, :focus-visible):not(:disabl
 .hero .controls button:focus-visible { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .controls button:disabled { opacity: .4; }
 html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
-.hero-nav { position: absolute; right: 28px; bottom: 42px; display: flex; gap: 26px; font-size: var(--type-navigation); letter-spacing: .06em; z-index: 1; }
+.hero-nav { position: absolute; right: 35px; bottom: max(24px, env(safe-area-inset-bottom)); display: flex; gap: 26px; font-size: var(--type-navigation); letter-spacing: .06em; z-index: 11; }
+html:not([data-page='home']) .hero-nav { display: none; }
 .hero-nav a { opacity: 1; }
 .arrow { display: inline-block; position: relative; width: var(--ui-arrow-size, .72em); height: var(--ui-arrow-size, .72em); flex: 0 0 var(--ui-arrow-size, .72em); vertical-align: -.025em; transition: transform 300ms cubic-bezier(.2,.8,.25,1); }
 .arrow::before { content: ''; position: absolute; width: 116%; height: var(--ui-arrow-stroke, 1.25px); top: 90%; left: 7%; background: currentColor; transform: rotate(-45deg); transform-origin: 0 50%; }
@@ -64,9 +79,8 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 .content-section { padding: clamp(64px, 9vw, 150px) 35px; }
 .section-label, .page-kicker { font-size: 12px; font-weight: 400; letter-spacing: .08em; margin: 0 0 44px; color: #bbbcb9; }
 .selected-work { padding-top: 90px; padding-bottom: 100px; }
-.category-strip { display: grid; grid-template-columns: repeat(3, minmax(110px, 1fr)); overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; scrollbar-color: #858580 transparent; border-block: 1px solid #ffffff30; }
-.category-link { display: flex; align-items: center; justify-content: flex-start; gap: var(--ui-arrow-gap, clamp(7px, .22em, 18px)); padding: clamp(32px, 6vw, 100px) clamp(4px, 1.2vw, 20px); min-width: 0; white-space: nowrap; font-size: var(--type-category-link); font-weight: 400; line-height: 1.12; letter-spacing: -.045em; }
-.category-link + .category-link { border-left: 1px solid #ffffff20; }
+.category-strip { overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; scrollbar-color: #858580 transparent; border-block: 1px solid #ffffff30; }
+.category-link { padding: clamp(32px, 6vw, 100px) 0; min-width: 0; white-space: nowrap; font-size: var(--type-category-link); font-weight: 400; line-height: 1.12; letter-spacing: -.045em; }
 .category-link:hover { background: #ffffff04; }
 .category-link:focus-visible { outline-offset: -4px; }
 .about-preview { display: grid; grid-template-columns: 1fr 2fr; gap: 0 40px; border-top: 1px solid #ffffff20; }
@@ -126,13 +140,24 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 @media (max-width: 600px) {
   .masthead { inset: 23px 22px auto; }
   .hero-bottom { inset: auto 22px 28px; }
-  .controls { top: 72px; right: 22px; gap: 7px; max-width: calc(100% - 44px); }
+  /* B-F36: three rows in reading order — nav, controls, counter. Nav sits on
+     top of the stack, the controls below it (secondary, dimmed), the fixed
+     NAAVI keeps its centred bottom slot as the third row. Nothing overlaps and
+     no row needs a scroll container. */
+  .controls {
+    top: auto; left: 22px; right: 22px; bottom: calc(env(safe-area-inset-bottom) + 56px);
+    gap: 7px; max-width: none; justify-content: flex-start; opacity: .72;
+  }
   .controls button { padding: 10px clamp(9px, 2.5vw, 14px); min-height: 44px; }
-  .hero-nav { right: 22px; bottom: 30px; gap: 12px; font-size: 14px; }
+  .hero-nav {
+    left: 22px; right: 22px; bottom: calc(env(safe-area-inset-bottom) + 112px);
+    gap: 12px; font-size: 14px; justify-content: flex-start; flex-wrap: wrap;
+  }
   .content-section { padding: 65px 22px; }
   .selected-work { padding-top: 55px; padding-bottom: 70px; }
   .section-label { margin-bottom: 28px; }
-  .category-link { gap: 5px; }
+  .category-strip { overflow: visible; }
+  .category-link { min-height: clamp(108px, 30vw, 145px); }
   .about-preview { display: block; }
   .about-preview-copy { margin-bottom: 30px; }
   .contact-link-primary { margin-bottom: 45px; }
@@ -151,6 +176,8 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
+  html[data-hero-loading='true'] .stage .fallback { animation: none !important; will-change: auto; }
+  .stage.is-entering #logo-canvas { will-change: auto; }
 }
 
 /* V17: defer below-fold rendering work without reserving the hero or header. */
@@ -158,4 +185,15 @@ html:not([data-xray-ready]) .controls [data-mode-mute] { visibility: hidden; }
 .work-page .archive-category, .work-page .project-grid {
   content-visibility: auto;
   contain-intrinsic-size: auto 720px;
+}
+
+/* B-F33: touch gets the pressed phase instead of a hover that never ends.
+   The tap highlight is disabled so only one "pressed" look can appear. */
+:is(.hero-nav a, .page-nav a, .category-link, .filter-link, .rubric-cross-links a, .text-link, .footer-instagram) {
+  -webkit-tap-highlight-color: transparent;
+}
+:is(.hero-nav a, .page-nav a, .category-link, .filter-link, .rubric-cross-links a, .text-link, .footer-instagram).is-pressed {
+  opacity: .72;
+  transform: translateY(1px);
+  transition: none;
 }

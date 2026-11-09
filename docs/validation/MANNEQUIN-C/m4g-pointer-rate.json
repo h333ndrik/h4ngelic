@@ -1,0 +1,94 @@
+{
+  "measuredAt": "2026-11-06T14:45:25.320Z",
+  "frameMs": 8.333333333333334,
+  "speedPxPerSecond": 400,
+  "durationMs": 300,
+  "pointerWindowMs": 100,
+  "expectedPeak": 3,
+  "coalescedSupport": {
+    "prototype": "function",
+    "instance": "function"
+  },
+  "runs": [
+    {
+      "intervalMs": 1,
+      "peak": 3,
+      "velocity": 3,
+      "angle": 0.9,
+      "samples": 301,
+      "coalesced": 0,
+      "flicks": 1,
+      "duration": 300,
+      "flicksAfterUp": 1
+    },
+    {
+      "intervalMs": 4.17,
+      "peak": 3,
+      "velocity": 3,
+      "angle": 0.8882,
+      "samples": 72,
+      "coalesced": 0,
+      "flicks": 1,
+      "duration": 296.0699999999998,
+      "flicksAfterUp": 2
+    },
+    {
+      "intervalMs": 8,
+      "peak": 3,
+      "velocity": 3,
+      "angle": 0.888,
+      "samples": 38,
+      "coalesced": 0,
+      "flicks": 1,
+      "duration": 296,
+      "flicksAfterUp": 3
+    },
+    {
+      "intervalMs": 16,
+      "peak": 3,
+      "velocity": 3,
+      "angle": 0.864,
+      "samples": 19,
+      "coalesced": 0,
+      "flicks": 1,
+      "duration": 288,
+      "flicksAfterUp": 4
+    }
+  ],
+  "holds": [
+    {
+      "holdMs": 60,
+      "peak": 6.75,
+      "flicks": 1
+    },
+    {
+      "holdMs": 150,
+      "peak": 6.75,
+      "flicks": 0
+    }
+  ],
+  "coalesced": [
+    {
+      "subSamples": 0,
+      "peak": 3,
+      "samples": 38,
+      "coalescedSamples": 0,
+      "flicks": 1
+    },
+    {
+      "subSamples": 1,
+      "peak": 3,
+      "samples": 38,
+      "coalescedSamples": 37,
+      "flicks": 1
+    },
+    {
+      "subSamples": 3,
+      "peak": 3,
+      "samples": 112,
+      "coalescedSamples": 111,
+      "flicks": 1
+    }
+  ],
+  "spreadPercent": 0
+}

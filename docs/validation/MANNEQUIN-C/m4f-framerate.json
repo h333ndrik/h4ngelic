@@ -1,0 +1,96 @@
+{
+  "measuredAt": "2026-11-06T14:45:19.001Z",
+  "referenceFrameRate": 60,
+  "dragSpeedPxPerSecond": 400,
+  "note": "Pro Framerate eine eigene Seite mit festem virtuellem rAF-Takt; Ereignisse am Frameanfang.",
+  "motion": {
+    "autoSpeed": 0.18,
+    "hoverSpeed": 0.55,
+    "idleDelay": 2000,
+    "dragSensitivity": 0.0075,
+    "inertiaDamping": 3.2,
+    "maxAngularAcceleration": 1.1,
+    "pointerWindowMs": 100,
+    "pointerStopMs": 150,
+    "dragVelocityLimit": 8,
+    "peakDecayPerSecond": 3.7125,
+    "referenceFrameRate": 60,
+    "keyStep": 0.2617993877991494,
+    "keySpeed": 1.35,
+    "flickVelocity": 2.4,
+    "shoot": {
+      "outMs": 620,
+      "holdMs": 180,
+      "backMs": 760,
+      "distance": 1.35,
+      "lift": 0.28,
+      "scale": 0.24
+    }
+  },
+  "runs": [
+    {
+      "rate": 30,
+      "hover": {
+        "t95": 977.0114942528656,
+        "speed": 0.539333333333338,
+        "angleAtOneSecond": 0.3662000000000048,
+        "frames": 43
+      },
+      "drag": {
+        "peak": 3,
+        "lastPeak": 3,
+        "flicks": 1,
+        "angle": 0.7
+      },
+      "auto": {
+        "speed": 0.17999999999999647,
+        "frames": 60
+      }
+    },
+    {
+      "rate": 60,
+      "hover": {
+        "t95": 976.666666666685,
+        "speed": 0.5379999999999904,
+        "angleAtOneSecond": 0.36659999999999043,
+        "frames": 84
+      },
+      "drag": {
+        "peak": 3,
+        "lastPeak": 3,
+        "flicks": 1,
+        "angle": 0.7
+      },
+      "auto": {
+        "speed": 0.17966666666667352,
+        "frames": 121
+      }
+    },
+    {
+      "rate": 144,
+      "hover": {
+        "t95": 976.8518518518376,
+        "speed": 0.5381333333333412,
+        "angleAtOneSecond": 0.36680000000000756,
+        "frames": 202
+      },
+      "drag": {
+        "peak": 3,
+        "lastPeak": 3,
+        "flicks": 1,
+        "angle": 0.7500000000000001
+      },
+      "auto": {
+        "speed": 0.17986666666666967,
+        "frames": 289
+      }
+    }
+  ],
+  "spread": {
+    "hoverTimePercent": 0.03530019327676097,
+    "hoverSpeedPercent": 0.24760647078508904,
+    "hoverAnglePercent": 0.16369588941508642,
+    "autoSpeedPercent": 0.18534536018203748,
+    "flickPeakPercent": 0
+  }
+}

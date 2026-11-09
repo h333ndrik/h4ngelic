@@ -17,9 +17,10 @@
   font-size: clamp(10px, .84vw, 12px);
 }
 .footer-left, .footer-details {
+  /* Type C cluster: own spacing token, no Type A or Type B token. */
   display: flex;
   align-items: center;
-  gap: clamp(12px, 2vw, 30px);
+  column-gap: var(--cluster-gap);
   min-width: 0;
   max-width: 100%;
   min-height: 44px;
@@ -36,7 +37,7 @@
 .footer-details { grid-column: 3; justify-self: end; width: max-content; }
 .footer-left > *, .footer-details > * { flex: 0 0 auto; }
 .footer-brand, .footer-location { display: inline-flex; align-items: center; min-height: 44px; }
-.footer-moshlab, .footer-instagram, .footer-smash {
+.footer-instagram, .footer-impressum, .footer-smash {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -52,40 +53,27 @@
   text-decoration: none;
 }
 .footer-smash:disabled { opacity: .45; }
+.footer-impressum, .footer-smash { color: var(--h4-ghost-color); opacity: var(--h4-ghost-opacity); letter-spacing: var(--h4-ghost-tracking); }
+[data-smash-slot]:empty { display: none; }
 .exhibition-footer :is(a, button, [role='group']):focus-visible { outline: 1px solid currentColor; outline-offset: -3px; }
-.footer-visit-hotspot.secret-hotspot {
-  position: relative;
+/* B-F8: one static ghost line in the footer row — same register as the
+   HOLD-4 hint, no target, no hover, no reveal. */
+.footer-visit {
+  display: inline-flex;
+  align-items: center;
   flex: 0 0 auto;
+  min-height: 44px;
   font: inherit;
   letter-spacing: inherit;
+  pointer-events: none;
+  user-select: none;
 }
-/* V7: the footer reveals the same seven-tier phrase used above the hero.
-   The phrase floats above the counter, so revealing it never reflows the row. */
-.footer-visit-memory {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 20px);
-  width: max-content;
-  max-width: min(280px, calc(100vw - 44px));
-  padding: 7px 10px;
-  border-radius: var(--radius-soft);
-  background: var(--surface-input);
-  color: #dededb;
-  box-shadow: 0 12px 28px -14px rgb(0 0 0 / .8);
-  font-size: 12px;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-align: right;
-  white-space: normal;
-  z-index: 4;
+.footer-visit-count {
+  color: var(--h4-ghost-color);
+  opacity: var(--h4-ghost-opacity);
+  letter-spacing: var(--h4-ghost-tracking);
+  text-transform: var(--h4-ghost-transform);
 }
-.footer-visit-hotspot:hover .footer-visit-memory,
-.footer-visit-hotspot:focus-visible .footer-visit-memory,
-.footer-visit-memory.is-discovered { opacity: .9; }
-
-/* The counter shares the existing secret-message fade, with a persistent
-   readable state while its keyboard navigation cluster owns focus. */
-.footer-left:focus-within [data-visit-number] { opacity: .35; }
 .footer-contact-links { display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .footer-contact-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; }
 
@@ -110,15 +98,18 @@
   pointer-events: auto;
 }
 .secret-message { opacity: 0; transition: opacity 600ms ease-out; pointer-events: none; }
-.secret-message.is-discovered { opacity: .35; }
+.secret-message.is-discovered { opacity: var(--h4-ghost-opacity); }
 .secret-hotspot:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
-.footer-secret .secret-message.is-discovered { opacity: .35; }
+.footer-secret .secret-message.is-discovered { opacity: var(--h4-ghost-opacity); }
 .footer-secret-space { position: relative; min-height: 30svh; }
 .footer-secret {
   position: absolute;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: var(--h4-ghost-color);
+  letter-spacing: var(--h4-ghost-tracking);
+  text-transform: var(--h4-ghost-transform);
   width: max-content;
   max-width: calc(100vw - 44px);
   touch-action: pan-y;
@@ -127,8 +118,8 @@
   z-index: 3;
   font-size: clamp(15px, 1.5vw, 21px);
 }
-html[data-mode='xray'] :is(.footer-secret, .footer-visit-hotspot) { color: #fff; }
-html[data-mode='xray'] :is(.footer-secret, .footer-visit-hotspot) .secret-message {
+html[data-mode='xray'] .footer-secret { color: #fff; }
+html[data-mode='xray'] .footer-secret .secret-message {
   text-shadow: 0 1px 2px #080216, 0 0 6px #080216, 0 0 12px #8011ff, 0 0 24px #8011ff88;
 }
 
@@ -183,9 +174,19 @@ body { position: relative; }
 }
 @media (max-width: 600px) {
   .page-footer.exhibition-footer { --footer-naavi-reservation: 84px; }
-  .footer-left, .footer-details { gap: 12px; }
+  /* B-F36: the clusters stop being scroll containers on touch. They wrap
+     instead, which removes the scrollbar gutter for good (B-F19) and keeps
+     every target at 44px. */
+  .footer-left, .footer-details {
+    --cluster-gap: 12px;
+    overflow: visible;
+    flex-wrap: wrap;
+    row-gap: 2px;
+    white-space: normal;
+    align-content: center;
+    scrollbar-width: auto;
+  }
   .secret-hotspot { font-size: 12px; }
-  .footer-secret.secret-hotspot { font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .secret-message { transition: none; }
@@ -201,16 +202,50 @@ body { position: relative; }
   top: max(21px, env(safe-area-inset-top));
   left: calc(var(--recognition-left, 50vw) + var(--recognition-width, 0px) / 2);
   z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: var(--recognition-width, max-content);
+  height: 44px;
   max-width: calc(100vw - 44px);
   margin: 0;
   transform: translateX(-50%);
-  color: #e8e8e4;
-  text-shadow: 0 1px 3px #151515, 0 0 5px #151515;
-  font-size: clamp(11px, 1vw, 14px);
+  color: var(--h4-ghost-color);
+  text-shadow: none;
+  font-size: var(--h4-ghost-header-size);
   line-height: 1.4;
-  letter-spacing: .02em;
+  letter-spacing: var(--h4-ghost-tracking);
+  text-transform: var(--h4-ghost-transform);
   text-align: center;
+  white-space: nowrap;
   pointer-events: none;
-  transition: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-out, visibility 0s linear 200ms;
+}
+html[data-header-hover='true'] .returning-visitor-line,
+body:has(.site-chrome:hover) .returning-visitor-line,
+body:has(.site-chrome:focus-within) .returning-visitor-line {
+  opacity: var(--h4-ghost-opacity);
+  visibility: visible;
+  transition: opacity 200ms ease-out, visibility 0s;
+}
+body:has(.site-chrome:focus-within) .returning-visitor-line {
+  opacity: var(--h4-ghost-focus-opacity);
+}
+@media (hover: none) {
+  .returning-visitor-line {
+    opacity: var(--h4-ghost-opacity);
+    visibility: visible;
+    transition: none;
+  }
+}
+@media (max-width: 360px) {
+  .returning-visitor-line { font-size: var(--h4-ghost-header-narrow-size); }
+}
+@media (max-width: 600px) {
+  .returning-visitor-line { top: max(16px, env(safe-area-inset-top)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .returning-visitor-line { transition: none; }
 }

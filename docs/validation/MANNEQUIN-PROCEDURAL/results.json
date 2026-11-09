@@ -1,0 +1,313 @@
+{
+  "checkedAt": "2026-11-05T23:27:09.578Z",
+  "route": "/creative/tattoos",
+  "source": "production preview build",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 900
+    },
+    {
+      "width": 320,
+      "height": 900
+    }
+  ],
+  "assertions": {
+    "coldRouteWebGL": 0,
+    "coldRouteGlbRequests": 0,
+    "visibleRouteWebGL": 1,
+    "visibleRouteGlbRequests": 1,
+    "renderLoop": false,
+    "headingOverlap": false,
+    "horizontalOverflow": false
+  },
+  "results": [
+    {
+      "variant": "A",
+      "width": 1440,
+      "height": 1000,
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "layout": {
+        "heading": {
+          "top": 102.859375,
+          "bottom": 186.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "figure": {
+          "top": 238.71875,
+          "bottom": 988.109375,
+          "left": 35,
+          "right": 1405
+        },
+        "frame": {
+          "top": 238.71875,
+          "bottom": 958.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "canvas": {
+          "top": 238.71875,
+          "bottom": 958.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "errors": [],
+      "screenshot": "variant-a-1440.png",
+      "screenshotSha256": "2069a264b454da386dea1efd46cc01c416bd9b26facd06120353e8d2d67dcb82",
+      "servedModelBytes": 40032
+    },
+    {
+      "variant": "B",
+      "width": 1440,
+      "height": 1000,
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "layout": {
+        "heading": {
+          "top": 102.859375,
+          "bottom": 186.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "figure": {
+          "top": 238.71875,
+          "bottom": 988.109375,
+          "left": 35,
+          "right": 1405
+        },
+        "frame": {
+          "top": 238.71875,
+          "bottom": 958.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "canvas": {
+          "top": 238.71875,
+          "bottom": 958.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "errors": [],
+      "screenshot": "variant-b-1440.png",
+      "screenshotSha256": "2ff4793ca58ed4df27da64e50c7a48ddf4e039e777318f97caec17a1faa734c9",
+      "servedModelBytes": 119740
+    },
+    {
+      "variant": "A",
+      "width": 390,
+      "height": 900,
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "layout": {
+        "heading": {
+          "top": 229.5,
+          "bottom": 252.203125,
+          "left": 22,
+          "right": 368
+        },
+        "figure": {
+          "top": 278.203125,
+          "bottom": 759.984375,
+          "left": 22,
+          "right": 368
+        },
+        "frame": {
+          "top": 278.203125,
+          "bottom": 730.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "canvas": {
+          "top": 278.203125,
+          "bottom": 730.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "errors": [],
+      "screenshot": "variant-a-390.png",
+      "screenshotSha256": "9cb8c582e47c3080fe0186200cdcec84f9f68beb5e8e160a3c750d1f753b9c3d",
+      "servedModelBytes": 40032
+    },
+    {
+      "variant": "B",
+      "width": 390,
+      "height": 900,
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "layout": {
+        "heading": {
+          "top": 229.5,
+          "bottom": 252.203125,
+          "left": 22,
+          "right": 368
+        },
+        "figure": {
+          "top": 278.203125,
+          "bottom": 759.984375,
+          "left": 22,
+          "right": 368
+        },
+        "frame": {
+          "top": 278.203125,
+          "bottom": 730.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "canvas": {
+          "top": 278.203125,
+          "bottom": 730.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "errors": [],
+      "screenshot": "variant-b-390.png",
+      "screenshotSha256": "f1cbe16aec5d26213d316ff9e9272a1e4554eb9e1ab7efa7cd14bca1aab6c89f",
+      "servedModelBytes": 119740
+    },
+    {
+      "variant": "A",
+      "width": 320,
+      "height": 900,
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "layout": {
+        "heading": {
+          "top": 261.953125,
+          "bottom": 282.109375,
+          "left": 22,
+          "right": 298
+        },
+        "figure": {
+          "top": 308.109375,
+          "bottom": 727.5,
+          "left": 22,
+          "right": 298
+        },
+        "frame": {
+          "top": 308.109375,
+          "bottom": 698.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "canvas": {
+          "top": 308.109375,
+          "bottom": 698.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "documentWidth": 320,
+        "viewportWidth": 320
+      },
+      "errors": [],
+      "screenshot": "variant-a-320.png",
+      "screenshotSha256": "76b9faa250be5c8633cb295483e1417691a0241b83b7aeac9e2aca244dfa8154",
+      "servedModelBytes": 40032
+    },
+    {
+      "variant": "B",
+      "width": 320,
+      "height": 900,
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "layout": {
+        "heading": {
+          "top": 261.953125,
+          "bottom": 282.109375,
+          "left": 22,
+          "right": 298
+        },
+        "figure": {
+          "top": 308.109375,
+          "bottom": 727.5,
+          "left": 22,
+          "right": 298
+        },
+        "frame": {
+          "top": 308.109375,
+          "bottom": 698.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "canvas": {
+          "top": 308.109375,
+          "bottom": 698.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "documentWidth": 320,
+        "viewportWidth": 320
+      },
+      "errors": [],
+      "screenshot": "variant-b-320.png",
+      "screenshotSha256": "2dfb498b68629a31a5b1101eef3976fb91ece7cc86a3d3418e5ed0b5cffd50e6",
+      "servedModelBytes": 119740
+    }
+  ],
+  "passed": true
+}

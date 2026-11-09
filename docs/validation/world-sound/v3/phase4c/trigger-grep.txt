@@ -1,0 +1,16 @@
+$ rg -n "pointermove|mousemove|pointerenter|mouseenter|pointerover|scroll|setInterval|requestIdleCallback|idle|dwell" src/audio src/mode-audio.js src/xray.js src/sound-controls.js
+src/mode-audio.js:96:  let smashPhase = 'idle';
+src/mode-audio.js:237:    smashPhase = 'idle';
+src/xray.js:187:      // This bounded transition is the only RAF work: no idle distortion loop.
+src/audio/guided-listening.js:3: * the active world in. No pointermove, dwell timer, play button or autoplay. */
+src/audio/guided-listening.js:93:  // the only visibility source; there is no pointermove, scroll or dwell trigger.
+src/audio/worldSound.js:42:    gain: context.createGain(), voice: null, buffer: null, status: 'idle', error: null,
+src/audio/worldSound.js:83:      assets.set(id, { kind, key, paths, path: '', status: paths.length ? 'idle' : 'missing',
+src/audio/worldSound.js:195:    record.status = 'idle';
+src/audio/worldSound.js:199:      asset.status = 'idle';
+
+$ rg -n "addEventListener|listen\(" src/audio/guided-listening.js
+37:    target.addEventListener(name, callback, options);
+80:    listen(doc, name, unlock, { once: true, passive: true, capture: true }, unlockRemovers);
+84:  listen(doc, 'pointerdown', (event) => {
+115:  listen(doc, 'h4:pagechange', ensureWorksObserver);

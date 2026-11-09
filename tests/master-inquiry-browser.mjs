@@ -57,9 +57,9 @@ try {
     assert.equal(await contact.getAttribute('required'), '');
     assert.equal(await contact.getAttribute('placeholder'), 'email, instagram, phone number...');
     assert.equal(await form.locator('[name=name]').getAttribute('placeholder'), 'max musterperson');
-    assert.equal(await form.locator('label[for$="-email"] > span').innerText(), 'HOW TO REACH YOU');
+    assert.equal(await form.locator('label[for$="-email"] > span').innerText(), 'how to reach you');
     assert.equal(await form.locator('[name=message]').getAttribute('placeholder'), 'could be an inquiry, a question or just a thought.\nfeel free to write anything.');
-    assert.equal(await form.locator('[data-inquiry-submit] > span').innerText(), 'SEND MESSAGE');
+    assert.equal(await form.locator('[data-inquiry-submit] > span').innerText(), 'send message');
     assert.equal(await form.locator('.inquiry-privacy').count(), 0);
     const geometry = await form.locator('.inquiry-field').evaluateAll(labels => labels.map(label => {
       const field = label.querySelector('input,textarea');
@@ -95,16 +95,17 @@ try {
       return { inquiryLeft: inquiry.getBoundingClientRect().left, introLeft: intro.getBoundingClientRect().left,
         formLeft: form.getBoundingClientRect().left, formMarginLeft: getComputedStyle(form).marginLeft, aboutLeft: document.querySelector('.about-preview-copy').getBoundingClientRect().left,
         introMarginBottom: getComputedStyle(intro).marginBottom, offset: getComputedStyle(inquiry).getPropertyValue('--inquiry-form-offset').trim(),
+        slashInset: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--slash-inset')),
         columns: getComputedStyle(fields).gridTemplateColumns.split(' ').length,
         submitHeight: submit.getBoundingClientRect().height, fileLabelHeight: fileLabel.getBoundingClientRect().height,
         scrollMarginBottom: getComputedStyle(form.querySelector('[data-inquiry-contact]')).scrollMarginBottom,
         pageWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth };
     });
-    const expectedOffset = width <= 600 ? 0 : Math.min(640, Math.max(60, width * .24));
     assert.ok(Math.abs(grid.introLeft - grid.aboutLeft) < 1, 'The intro remains on the shared page inset.');
-    assert.ok(Math.abs(grid.formLeft - grid.introLeft - expectedOffset) < 1, `The form uses its configurable right offset: ${JSON.stringify(grid)}`);
-    assert.ok(Math.abs(parseFloat(grid.formMarginLeft) - expectedOffset) < 1, 'The computed form margin uses the configured offset.');
-    assert.ok(width <= 600 ? grid.offset === '0px' : grid.offset.startsWith('clamp(60px, 24vw, 640px)'));
+    assert.ok(Math.abs(grid.formLeft - grid.introLeft) < 1, `The form starts on the same slash column as the intro: ${JSON.stringify(grid)}`);
+    assert.equal(parseFloat(grid.formMarginLeft), 0, 'The form has no separate offset.');
+    assert.equal(grid.offset, '', 'The retired inquiry offset token is gone.');
+    assert.ok(grid.slashInset > 0, 'The shared slash token is measured.');
     assert.equal(grid.introMarginBottom, `${Math.min(28, Math.max(14, width * .02))}px`);
     assert.equal(grid.columns, width <= 600 ? 1 : 2, 'The form stays single-column on mobile.');
     assert.ok(grid.submitHeight >= 44 && grid.fileLabelHeight >= 44);

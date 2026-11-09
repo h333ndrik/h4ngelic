@@ -1,3 +1,5 @@
+import { formatIndexedLabel, sectionLabels } from '../labels.js';
+
 /**
  * Edit this file for website copy, categories and contact destinations.
  * Leave a contact value empty until you are ready to publish that link.
@@ -11,32 +13,71 @@ export const siteContent = {
   location: 'berlin, de',
 
   categories: [
-    { id: 'tattoos', label: 'tattoos', archiveLabel: 'on skin', group: 'tattoos', presentation: 'drift' },
+    // B-F31: the first tattoo section carries the anchor #onskin.
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', group: 'tattoos', presentation: 'drift', anchor: 'onskin' },
     { id: 'flashes', label: 'flashes', group: 'tattoos', presentation: 'drift' },
-    { id: 'jewellery', label: 'jewellery', presentation: 'existing' },
+    { id: 'jewellery', label: 'jewellery', presentation: 'drift' },
     { id: 'analog-photography', label: 'analog photography', group: 'more', presentation: 'drift' },
     { id: 'digital-artworks', label: 'digital artworks', group: 'more', presentation: 'existing' },
+    // B-F31: the mannequin section is a section like any other, but it owns no
+    // artworks and therefore no route of its own (route: false).
+    { id: 'model-3d', label: '3d model', group: 'tattoos', presentation: 'model', route: false },
     // Keep existing painting links and content valid without adding another main rubric.
     { id: 'paintings', label: 'paintings', legacy: true, presentation: 'existing' },
   ],
 
-  // The frontpage remains exactly three horizontal rubrics. Children stay shared
-  // with the work archive; changing worlds never mounts a different content tree.
+  // Four horizontal rubrics stay shared with the work archive. The tools
+  // rubric is intentionally external: its cards describe real project URLs.
   workGroups: [
-    { id: 'tattoos', label: 'tattoos', children: ['tattoos', 'flashes'] },
+    { id: 'tattoos', label: 'tattoos', archiveLabel: 'tattoos', children: ['tattoos', 'flashes', 'model-3d'] },
     { id: 'jewellery', label: 'jewellery', children: ['jewellery'] },
+    { id: 'tools', label: 'tools', archiveLabel: 'tools', children: ['tools'] },
     { id: 'more', label: 'more', children: ['digital-artworks', 'analog-photography'] },
   ],
 
+  tools: [
+    { id: 'm4shlab', title: 'm4shlab', url: 'https://github.com/h333ndrik/m4shlab',
+      oneLiner: 'm4shlab — real h.264 bitstream moshing in the browser',
+      teaser: 'real h.264 bitstream moshing in the browser. up to 12 clips, five boundary methods, your footage never leaves the device.',
+      works: [
+        'import footage locally and work with up to 12 clips in one session.',
+        'arrange clips, then compose by choosing one of five boundary methods.',
+        'export the result while the original files remain untouched.',
+      ],
+      facts: ['deterministic & reversible', '.m4sh project files', 'offline-ready PWA', 'original files never modified'],
+      screens: [
+        { state: 'start', src: '/images/tools-source/m4shlab-start.png', alt: 'm4shlab start screen with an empty preview and clip import controls.' },
+        { state: 'editor', src: '/images/tools-source/m4shlab-editor.png', alt: 'm4shlab editor with a two-clip sequence and transition controls.' },
+        { state: 'export', src: '/images/tools-source/m4shlab-export.png', alt: 'm4shlab export state with the merged preview and export control.' },
+      ] },
+    { id: 'thr4ce', title: 'thr4ce', url: 'https://h333ndrik.github.io/thr4ce',
+      oneLiner: 'thr4ce — image & stencil editor',
+      teaser: 'image & stencil editor. black ink or no ink — deterministic morphology brush, print-exact export.',
+      works: [
+        'import an image and make a stencil with the deterministic morphology brush.',
+        'refine the result with dithering methods and presets.',
+        'export print-exact artwork at 203 dpi.',
+      ],
+      facts: ['deterministic & reversible', '.thr4ce project files', 'offline-ready PWA', 'original files never modified'],
+      screens: [
+        { state: 'start', src: '/images/tools-source/thr4ce-start.png', alt: 'thr4ce start screen with an empty artwork preview.' },
+        { state: 'editor', src: '/images/tools-source/thr4ce-editor.png', alt: 'thr4ce editor showing an imported tattoo image and stencil controls.' },
+        { state: 'export', src: '/images/tools-source/thr4ce-export.png', alt: 'thr4ce refine and export controls at 203 dpi.' },
+      ] },
+  ],
+
   home: {
-    selectedWorkLabel: '01 / creative',
-    aboutLabel: '02 / ABOUT',
-    contactLabel: '03 / CONTACT',
+    selectedWorkLabel: formatIndexedLabel(1, sectionLabels.creative),
+    aboutLabel: formatIndexedLabel(2, sectionLabels.about),
+    contactLabel: formatIndexedLabel(3, sectionLabels.contact),
     aboutPreview: 'mixed media. ink, metal and everything in between.',
-    moreAboutLabel: 'MORE ABOUT',
+    moreAboutLabel: 'more about',
   },
 
   about: {
+    // B-F26: the page heading consumes the same chapter name as INDEX and the
+    // frontpage section, so the visible label cannot drift between the three.
+    label: sectionLabels.about,
     intro: "hi, i'm hendrik.",
     location: 'independent artist based in berlin.',
     paragraphs: [

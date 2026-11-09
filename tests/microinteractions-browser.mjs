@@ -31,7 +31,8 @@ async function settleSection(page, section) {
     // A previous keyboard check deliberately reveals the row through focus.
     // Release that override before sampling the ordinary scroll timeline again.
     document.activeElement?.blur();
-    scrollTo({ top: element.getBoundingClientRect().top + scrollY + parseFloat(getComputedStyle(element).getPropertyValue('--motion-run')), behavior: 'instant' });
+    const top = element.getBoundingClientRect().top + scrollY;
+    scrollTo({ top: Math.max(0, top - innerHeight * .08), behavior: 'instant' });
   });
   await page.waitForFunction((element) => element.dataset.motionState === 'settled', await section.elementHandle());
   const states = await section.locator('.kinetic-item').evaluateAll((items) => items.map((item) => {
@@ -49,34 +50,38 @@ const translation = (locator) => locator.evaluate((element) => {
   return { x: matrix.m41, y: matrix.m42 };
 });
 
-async function nativeCursor(page, locator) {
-  const cursor = await locator.evaluate((element) => getComputedStyle(element).cursor);
-  const url = cursor.match(/url\(["']?([^"')]+)["']?\)/)?.[1];
-  assert.ok(url, `A native cursor image must be present: ${cursor}`);
-  const asset = await page.evaluate(async (source) => {
-    const document = new DOMParser().parseFromString(await (await fetch(source)).text(), 'image/svg+xml');
-    const svg = document.documentElement;
-    return {
-      width: Number(svg.getAttribute('width')),
-      height: Number(svg.getAttribute('height')),
-      paths: [...document.querySelectorAll('path')].map((path) => path.outerHTML),
-      viewBox: svg.getAttribute('viewBox'),
-    };
-  }, url);
-  return { cursor, url, ...asset };
-}
-
 async function assertHorizontal(page, width) {
   const links = page.locator('#selected-work .category-link');
-  const boxes = await Promise.all([0, 1, 2].map((index) => links.nth(index).boundingBox()));
+  const linkCount = await links.count();
+  const boxes = await Promise.all([...Array(linkCount).keys()].map((index) => links.nth(index).boundingBox()));
+  const labels = await links.evaluateAll((items) => items.map((item) => item.textContent.trim().slice(0, 12)));
   assert.ok(boxes.every(Boolean));
-  assert.ok(Math.max(...boxes.map((box) => box.y)) - Math.min(...boxes.map((box) => box.y)) < 2, `Categories must remain horizontal at ${width}px.`);
-  assert.ok(Math.max(...boxes.map((box) => box.width)) - Math.min(...boxes.map((box) => box.width)) < 2, 'Category hit areas must stay equal.');
+  // Desktop keeps one row; narrow screens fold into the designed 2x2 grid.
+  const rows = [];
+  for (const box of [...boxes].sort((a, b) => a.y - b.y)) {
+    const row = rows.at(-1);
+    if (row && Math.abs(row[0].y - box.y) < 10) row.push(box); else rows.push([box]);
+  }
+  for (const row of rows) {
+    assert.ok(Math.max(...row.map((box) => box.y)) - Math.min(...row.map((box) => box.y)) < 2,
+      `Categories of one row must stay horizontal at ${width}px.`);
+    // B-F4/B-F12: the row flows with one shared gap. Equal widths were the
+    // equal-column artifact that made the visible gaps depend on the label.
+    const ordered = [...row].sort((a, b) => a.x - b.x);
+    const gaps = ordered.slice(1).map((box, index) => box.x - (ordered[index].x + ordered[index].width));
+    if (gaps.length > 1) assert.ok(Math.max(...gaps) - Math.min(...gaps) <= 2,
+      `Consecutive category gaps stay equal at ${width}px: ${JSON.stringify(gaps)}`);
+    assert.ok(gaps.every((gap) => gap > 2), `Categories never touch at ${width}px: ${JSON.stringify(gaps)}`);
+  }
+  assert.equal(rows.length, width >= 900 ? 1 : 2, `Categories fill ${width >= 900 ? 'one row' : 'the 2x2 mobile grid'} at ${width}px.`);
+  assert.ok(rows.every((row) => row.length === (width >= 900 ? boxes.length : 2)),
+    `Every row keeps its designed column count at ${width}px (rows: ${rows.map((row) => row.length).join('+')}, boxes: ${JSON.stringify(boxes)}).`);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `The page must not overflow at ${width}px.`);
   await links.first().focus();
-  await page.keyboard.press('Tab');
-  await page.keyboard.press('Tab');
-  assert.equal(await links.last().evaluate((element) => document.activeElement === element), true, 'The last category must remain keyboard reachable.');
+  const focusCount = await links.count();
+  for (let step = 1; step < focusCount; step++) await page.keyboard.press('Tab');
+  assert.equal(await links.last().evaluate((element) => document.activeElement === element), true,
+    `The last of ${focusCount} categories must remain keyboard reachable.`);
 }
 
 try {
@@ -105,10 +110,14 @@ try {
   await assertHorizontal(page, 1440);
   await page.mouse.move(1, 1);
   await page.evaluate(() => document.activeElement?.blur());
-  const defaultCursor = await nativeCursor(page, page.locator('body'));
+  const defaultCursor = await page.locator('body').evaluate(element => getComputedStyle(element).cursor);
+  assert.match(defaultCursor, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/, 'The native contract paints the h4 cursor without any runtime class.');
   const link = page.locator('.category-link').first();
   const magnet = link.locator('.category-magnet');
-  const before = await link.boundingBox();
+  // B-F18 constrains the hit area to the visible label, so the pointer must sit
+  // on the magnet itself instead of the padded link box.
+  const before = await magnet.boundingBox();
+  const linkBefore = await link.boundingBox();
   await page.mouse.move(before.x + before.width * .8, before.y + before.height * .65);
   await page.waitForFunction(() => {
     const transform = getComputedStyle(document.querySelector('#selected-work .category-magnet')).transform;
@@ -120,22 +129,19 @@ try {
   await page.waitForFunction(() => {
     const visual = document.querySelector('#selected-work .category-magnet');
     const matrix = new DOMMatrixReadOnly(getComputedStyle(visual).transform);
-    return matrix.m11 >= 1.019;
+    return matrix.m11 >= 1.024;
   });
   const luminous = await magnet.evaluate((element) => ({ transform: new DOMMatrixReadOnly(getComputedStyle(element).transform).m11, filter: getComputedStyle(element).filter }));
-  assert.ok(luminous.transform <= 1.021, 'The large category label keeps restrained 2% feedback within its reserved hit area.');
+  assert.ok(luminous.transform >= 1.024 && luminous.transform <= 1.026, `The large category label keeps restrained 2.5% feedback within its reserved hit area (got ${luminous.transform}).`);
   assert.ok((luminous.filter.match(/drop-shadow/g) || []).length >= 3 && luminous.filter.includes('255, 255, 255'), 'Normal hover retains a subtle bounded white glow.');
   const after = await link.boundingBox();
-  for (const property of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(before[property] - after[property]) < .25, 'Only the label/arrow wrapper may move, preserving the clickable area.');
-  const hoverCursor = await nativeCursor(page, magnet);
-  assert.ok(hoverCursor.width > defaultCursor.width && hoverCursor.width < defaultCursor.width * 1.1, 'Hover cursor feedback must be small.');
-  assert.deepEqual(hoverCursor.paths, defaultCursor.paths, 'Cursor feedback must retain the exact original symbol.');
-  assert.equal(hoverCursor.viewBox, defaultCursor.viewBox);
+  for (const property of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(linkBefore[property] - after[property]) < .25, 'Only the label/arrow wrapper may move, preserving the clickable area.');
+  const hoverCursor = await magnet.evaluate(element => getComputedStyle(element).cursor);
+  assert.equal(hoverCursor, defaultCursor, 'Hover stays inside the native h4 cursor contract.');
   await link.evaluate((element) => element.addEventListener('click', (event) => event.preventDefault(), { once: true }));
   await page.mouse.down();
-  const pressedCursor = await nativeCursor(page, magnet);
-  assert.ok(pressedCursor.width < defaultCursor.width && pressedCursor.width > defaultCursor.width * .9, 'Click cursor feedback must be small.');
-  assert.deepEqual(pressedCursor.paths, defaultCursor.paths);
+  const pressedCursor = await magnet.evaluate(element => getComputedStyle(element).cursor);
+  assert.equal(pressedCursor, defaultCursor, 'Pressed state stays inside the native h4 cursor contract.');
   await page.mouse.up();
   await page.mouse.move(1, 1);
   await page.waitForFunction(() => {
@@ -154,8 +160,7 @@ try {
     const value = getComputedStyle(element).transform;
     return value === 'none' ? 1 : new DOMMatrixReadOnly(value).m11;
   }), 1, 'Reduced motion disables the new hover magnification.');
-  const reducedCursor = await nativeCursor(page, magnet);
-  assert.equal(reducedCursor.width, defaultCursor.width, 'Reduced motion must disable cursor scaling.');
+  assert.equal(await magnet.evaluate(element => getComputedStyle(element).cursor), defaultCursor, 'Reduced motion retains the blanket pointer.');
   await page.evaluate(() => document.activeElement?.blur());
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.locator('[data-scroll-choreography]').waitFor();
@@ -220,7 +225,7 @@ try {
   }
   assert.deepEqual(mobileErrors, []);
   await mobile.close();
-  console.log('PASS microinteractions mobile: 390/320px horizontal categories, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.');
+  console.log('PASS microinteractions mobile: 390/320px 2x2 rubric rows, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.');
 } finally {
   await browser.close();
 }

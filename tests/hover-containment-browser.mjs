@@ -59,7 +59,7 @@ try {
     const context = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
     const page = await context.newPage(); const errors = [];
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(new URL('/work', base).href, { waitUntil: 'networkidle' });
+    await page.goto(new URL('/creative', base).href, { waitUntil: 'networkidle' });
     const actual = page.locator('[data-archive-category="analog-photography"] .archive-category-heading a');
     await actual.scrollIntoViewIfNeeded();
     const archive = await hoverFrames(page, actual);

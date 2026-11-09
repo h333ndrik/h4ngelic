@@ -145,7 +145,18 @@ export function initInteractions(root = document, { revealSections = true, setti
     let preferred = target.matches('.artwork-open') ? settings.hover.imageScale : settings.hover.scale;
     if (target.matches('.category-link, .contact-link')) {
       const style = getComputedStyle(target);
-      const available = target.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      // These labels grow from their left edge, so the trailing padding is
+      // genuinely unused room. Counting it keeps the restrained 2.5% feedback
+      // alive when a label already fills its own content box.
+      let available = target.clientWidth - parseFloat(style.paddingLeft);
+      if (target.matches('.row-item')) {
+        // In a flowing row the free room is the gap to the next item, not a
+        // column sized around the label. Without this the label would clamp
+        // itself to scale 1 and lose the shared hover language.
+        const siblings = [...target.parentElement.children].filter(node => node.matches('.row-item'));
+        const next = siblings[siblings.indexOf(target) + 1];
+        if (next) available = next.getBoundingClientRect().left - target.getBoundingClientRect().left - 2;
+      }
       preferred = boundedHoverScale(wrapper.scrollWidth, available, settings.hover.largeScale, settings.magnetDistance + 2);
     }
     const style = getComputedStyle(wrapper);
@@ -205,9 +216,8 @@ export function initInteractions(root = document, { revealSections = true, setti
   }
 
   function enhance(target) {
-    const visitCounter = target.matches?.('.footer-visit-hotspot');
     if (!target.matches?.(interactiveSelector)
-      || !visitCounter && (target.matches(excludedSelector) || target.closest('.secret-hotspot, [data-secret-hotspot]'))
+      || (target.matches(excludedSelector) || target.closest('.secret-hotspot, [data-secret-hotspot]'))
       || target.matches(':disabled, [aria-disabled="true"]')) return;
     let wrapper = target.querySelector(':scope > .interaction-visual, :scope > .category-magnet, :scope > .kinetic-item > .category-magnet');
     if (!wrapper) {

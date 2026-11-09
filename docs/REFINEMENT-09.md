@@ -43,7 +43,7 @@ Sound sitzt nun bei den oberen Hero-Bedienelementen. Im Footer gibt es keine zwe
 
 Die Fly-ins bleiben an den nativen Scrollfortschritt gebunden. Eine kurze Beschleunigungsrampe in den ersten zwölf Prozent trifft anschließend die bisherige Kurve mit stetigem Ort, Tempo und Beschleunigung. Auch das Einpendeln endet stetig. Choreografie, Umkehr, kurze Pins und die beiden bereits vorhandenen Textnachbilder bleiben erhalten; Normal erhält keinen globalen Liquid-Warp.
 
-Die fokussierte Phasenabnahme bestand mit 37 Unit-Tests; die endgültige Gesamtabnahme umfasst 104. Layout und Mute sind im [gemeinsamen Ergebnisarchiv](previews/ref09/verification.json) dokumentiert. Die bestehende Scrollprüfung umfasst 1440/320/390/768/1920px. Zugehörige Prüfungen: [Layout-Browserprüfung](../tests/ref09-layout-browser.mjs) und [Bewegungsprüfungen](../tests/scroll-motion.test.js). Nach der letzten reinen CSS-Korrektur für die reservierte Mute-Fläche bestand Layout nochmals auf 1440/390/320px.
+Die fokussierte Phasenabnahme bestand mit 37 Unit-Tests; die endgültige Gesamtabnahme umfasst 104. Layout und Mute sind im [gemeinsamen Ergebnisarchiv](previews/ref09/verification.json) dokumentiert. Die bestehende Scrollprüfung umfasst 1440/320/390/768/1920px. Zugehörige Prüfungen: [Layout-Browserprüfung](../tests/legacy/ref09-layout-browser.mjs) (pensioniert, siehe `tests/legacy/README.md`) und [Bewegungsprüfungen](../tests/scroll-motion.test.js). Nach der letzten reinen CSS-Korrektur für die reservierte Mute-Fläche bestand Layout nochmals auf 1440/390/320px.
 
 ### Phase 3: gleiche Kontur, anderes Material
 

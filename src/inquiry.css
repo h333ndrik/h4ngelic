@@ -1,6 +1,6 @@
-.inquiry { --inquiry-form-offset: clamp(60px, 24vw, 640px); width: calc(100% - clamp(12px, 3vw, 48px)); max-width: 1100px; margin-left: clamp(12px, 3vw, 48px); }
+.inquiry { width: calc(100% - var(--slash-inset)); max-width: 1100px; margin-left: var(--slash-inset); }
 .inquiry-intro { font-size: clamp(21px, 3.5vw, 48px); line-height: 1.2; letter-spacing: -.035em; margin: 0 0 clamp(14px, 2vw, 28px); max-width: 23ch; }
-.inquiry-form { position: relative; margin-left: var(--inquiry-form-offset, clamp(60px, 24vw, 640px)); }
+.inquiry-form { position: relative; margin-left: 0; }
 .inquiry-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
 .inquiry-field { display: block; min-width: 0; }
 .inquiry-field > span, .inquiry-file-label { font-size: 12px; letter-spacing: .07em; line-height: 1.5; }
@@ -14,9 +14,9 @@
 .inquiry-context { font-size: 15px; margin: 0 0 30px; overflow-wrap: anywhere; }
 .inquiry-honey { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .inquiry-attachments { position: relative; padding-block: 32px; }
-.inquiry-file-label { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; }
+.inquiry-file-label { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; }
 .inquiry-file-input { display: block; max-width: 100%; font: inherit; font-size: 13px; margin-top: 8px; }
-.inquiry-form[data-enhanced] .inquiry-file-input { position: absolute; inset: 28px auto auto 0; width: min(100%, 320px); height: 48px; opacity: 0; cursor: pointer; }
+.inquiry-form[data-enhanced] .inquiry-file-input { position: absolute; inset: 28px auto auto 0; width: min(100%, 320px); height: 48px; opacity: 0; }
 .inquiry-attachments:focus-within .inquiry-file-label { outline: 2px solid currentColor; outline-offset: 5px; }
 .inquiry-file-help { margin: 12px 0 0; color: #c2c2be; font-size: 12px; line-height: 1.6; }
 .inquiry-file-list { list-style: none; display: grid; gap: 10px; padding: 0; margin: 20px 0 0; }
@@ -24,11 +24,11 @@
 .inquiry-file-row { display: flex; align-items: center; gap: 14px; min-width: 0; font-size: 13px; }
 .inquiry-file-row img { display: block; width: 48px; height: 48px; object-fit: contain; flex: 0 0 48px; }
 .inquiry-file-row span { min-width: 0; overflow-wrap: anywhere; }
-.inquiry-file-remove { margin-left: auto; flex: 0 0 auto; background: transparent; border: 0; color: inherit; min-height: 44px; padding: 8px; font: inherit; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.inquiry-file-remove { margin-left: auto; flex: 0 0 auto; background: transparent; border: 0; color: inherit; min-height: 44px; padding: 8px; font: inherit; text-decoration: underline; text-underline-offset: 4px; }
 .inquiry-file-remove:focus-visible { outline: 2px solid currentColor; }
-.inquiry-submit { display: inline-flex; align-items: center; gap: .35em; padding: 20px 0; margin: 16px 0 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: clamp(25px, 4.5vw, 60px); letter-spacing: -.04em; line-height: 1.2; cursor: pointer; border-radius: var(--radius-soft); }
+.inquiry-submit { display: inline-flex; align-items: center; gap: .35em; padding: 20px 0; margin: 16px 0 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: clamp(25px, 4.5vw, 60px); letter-spacing: -.04em; line-height: 1.2; border-radius: var(--radius-soft); }
 .inquiry-submit:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
-.inquiry-submit:disabled { opacity: .6; cursor: wait; }
+.inquiry-submit:disabled { opacity: .6; }
 .inquiry-status { margin: 0; min-height: 1.7em; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
 .inquiry-error, .inquiry-status[data-state='error'] { color: #f5d3c6; }
 .inquiry-error { margin: 0; font-size: 13px; line-height: 1.6; }
@@ -36,7 +36,6 @@
 .inquiry-email-fallback { font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
 .inquiry-email-fallback a { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 600px) {
-  .inquiry { --inquiry-form-offset: 0px; }
   .inquiry-fields { grid-template-columns: 1fr; gap: 30px; }
   .inquiry-field-message { grid-column: auto; }
   .inquiry-file-label { font-size: 11px; gap: 8px; }

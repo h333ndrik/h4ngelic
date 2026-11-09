@@ -1,0 +1,17 @@
+node tests/portfolio-browser.mjs
+PASS 1440 / 390 / 320 px, full and reduced motion (6/6).
+
+node tests/v25-cross-links-browser.mjs
+PASS 1440 / 390 / 320 px, full and reduced motion (6/6).
+
+node tests/v31-navigation-browser.mjs
+PASS 1440 / 390 / 320 px, full and reduced motion (6/6).
+
+node tests/v15-mobile-browser.mjs
+PASS 390 / 320 px, full and reduced motion (4/4).
+
+Measured /work/tattoos:
+path /work/tattoos, h1 "on skin", data-work-group "tattoos";
+filters: on skin (/work/tattoos, aria-current=page), jewellery, more;
+cross-links: jewellery, more.
+Homepage category labels remain tattoos, jewellery, more.

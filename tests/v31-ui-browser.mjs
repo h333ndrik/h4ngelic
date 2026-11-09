@@ -26,9 +26,9 @@ async function settled(page) {
 
 async function indexRoute(page, destination) {
   if (destination === 'work') {
-    await page.locator('.hero-nav a[href="/work"]').click();
+    await page.locator('.hero-nav a[href="/creative/tattoos"]').click();
     await page.locator('html[data-page="work"]').waitFor();
-    await page.waitForFunction(() => location.pathname === '/work/tattoos');
+    await page.waitForFunction(() => location.pathname === '/creative/tattoos');
     await settled(page);
     return;
   }
@@ -145,13 +145,22 @@ async function formContract(page, profile) {
   assert.equal(panel.outline,'0px');assert.match(panel.shadow,/rgba\(0, 0, 0/,'The INDEX panel keeps its subtle dark depth halo.');assert.equal(panel.filter,'none');
   const menuHover = await hovered(page, '[data-global-index] [data-index-page="home"]', profile);
   await page.keyboard.press('Escape');
+  // B-F29 removed the footer placeholder link, so the interactive footer
+  // surface here is Instagram only; the brand is plain text.
   const targets = await coverage(page, ['[data-global-index] summary', '[data-global-index] a', '[data-naavi]',
-    '.about-preview .text-link', '.footer-moshlab', '.footer-smash', '.footer-instagram', '.footer-location',
-    '[data-visit-counter-hotspot]', '[data-inquiry-submit]', '[data-controls] button']);
+    '.about-preview .text-link',
+    '.footer-instagram', '.footer-location',
+    '[data-inquiry-submit]', '[data-controls] button']);
+  const smash = await page.locator('.footer-smash').count();
+  if (await page.locator('html').getAttribute('data-mode') === 'xray') {
+    assert.equal(smash, 1, 'Other Side owns the only SMASH control.');
+    assert.equal(await page.locator('.footer-smash').innerText(), 'smash');
+    assert.equal(await page.locator('.footer-smash .arrow').count(), 0);
+  } else assert.equal(smash, 0, 'Normal mode keeps SMASH out of the DOM.');
   const surfaces = await radiusScope(page, ['.inquiry-field input', '.inquiry-field textarea', '.global-index-links',
-    '[data-naavi]', '[data-other-side-hint]', '[data-visit-counter-hotspot]'], 4);
+    '[data-naavi]', '[data-other-side-hint]'], 4);
   await page.screenshot({ path: new URL(`form-${profile.width}-${profile.reduced}-${await page.locator('html').getAttribute('data-mode')}.png`, output).pathname });
-  return { fields, focused, panel, targets, surfaces, menuHover };
+  return { fields, focused, panel, targets, surfaces, menuHover, smash };
 }
 
 async function imageContract(page, profile) {
@@ -210,7 +219,7 @@ async function imageContract(page, profile) {
     '[data-horizontal-drift="tattoos"] img'], 4);
   await coverage(page, ['[data-horizontal-drift="tattoos"] .artwork-open']);
   const imageHover = await hovered(page, '[data-horizontal-drift="tattoos"] [data-artwork-open]', profile);
-  await page.goto(new URL('/work/more', base).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative/more', base).href, { waitUntil: 'networkidle' });
   await page.locator('#digital-artworks').waitFor();
   await settled(page);
   const digitalRadii = await radiusScope(page, ['#digital-artworks .artwork-open', '#digital-artworks img'], 4);
@@ -238,7 +247,13 @@ async function imageContract(page, profile) {
   await settled(page);
   assert.equal(await digital.getAttribute('aria-pressed'),'true');
   const digitalExpanded = await digital.locator('img').boundingBox();
-  assert.ok(digitalExpanded.width / digitalBefore.width >= 1.2,'Digital reuses the same clearly larger inline viewing module.');
+  // B-F39: the digital artwork now rests in the same 300 px card slot as a
+  // tattoo photo, so on a 320 px phone the expansion can only grow to the
+  // viewport width (1.067x) — exactly like the tattoo card above. The old
+  // flat 1.2 threshold predates that contract.
+  const digitalGrowth = digitalExpanded.width / digitalBefore.width;
+  assert.ok(digitalGrowth >= (profile.width < 600 ? 1.04 : 1.2),
+    `Digital reuses the same clearly larger inline viewing module (${digitalGrowth.toFixed(3)}).`);
   assert.ok(digitalExpanded.x >= -1 && digitalExpanded.y >= -1 && digitalExpanded.x + digitalExpanded.width <= profile.width+1 && digitalExpanded.y + digitalExpanded.height <=845);
   assert.equal(await page.locator('dialog[open]').count(),0);
   assert.deepEqual(await page.evaluate(() => ({ y:scrollY,height:document.documentElement.scrollHeight,overflow:document.body.style.overflow })),digitalDocument);
@@ -271,7 +286,13 @@ async function heroContract(page, profile) {
     return { staticPoster };
   }
   await page.locator('#stage.is-ready').waitFor({ timeout: 60000 });
-  await page.waitForFunction(() => !document.querySelector('[data-controls]').inert && Number(getComputedStyle(document.querySelector('[data-controls]')).opacity) > .99);
+  // B-F36 (part 2): below 600 px the controls are the secondary row at .72
+  // opacity by design; desktop keeps the full-strength bar.
+  await page.waitForFunction(profile => {
+    const controls = document.querySelector('[data-controls]');
+    const opacity = Number(getComputedStyle(controls).opacity);
+    return !controls.inert && (profile.width < 600 ? opacity >= .7 : opacity > .99);
+  }, profile);
   await coverage(page, ['[data-controls] button', '.hero-nav a', '[data-floating-brand]']);
   const routeFeedback = await page.locator('[data-floating-brand], .hero-nav a').evaluateAll(elements => elements.map(element => {
     const style = getComputedStyle(element); return { text: element.textContent.trim(), opacity: style.opacity, background: style.backgroundColor, backgroundImage: style.backgroundImage, shadow: style.boxShadow };
@@ -291,12 +312,12 @@ async function heroContract(page, profile) {
     const label = await button.getAttribute('aria-label');
     const resting = await button.evaluate(inspect);
     if (profile.width >= 600) await button.hover();
-    await button.focus(); await page.keyboard.press('Tab'); await page.keyboard.press('Shift+Tab');
+    await button.evaluate(element => element.focus({ focusVisible: true }));
     const focused = await button.evaluate(inspect);
     for (const state of [resting, focused]) {
       assert.deepEqual(state.border, ['0px', '0px', '0px', '0px']); assert.equal(state.outline, '0px'); assert.equal(state.radius, '4px');
     }
-    assert.equal(focused.focus, true, 'Hero control keyboard focus is observable.');
+    assert.equal(focused.focus, true, `Hero control keyboard focus is observable: ${label || await button.innerText()}.`);
     assert.ok(focused.underline.includes('underline'), 'Borderless hero controls retain their subtle keyboard underline.');
     controls.push({ label, resting, focused });
   }

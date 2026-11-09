@@ -1,0 +1,495 @@
+{
+  "checkedAt": "2026-11-09T19:43:45.210Z",
+  "base": "http://127.0.0.1:55173",
+  "build": "60e682d2580f",
+  "guard": "a,button,input,textarea,select,label,form,nav,summary,canvas,dialog,[controls],[draggable=\"true\"],[role=\"button\"],[role=\"link\"],[role=\"checkbox\"],[role=\"switch\"],[role=\"radio\"],[role=\"tab\"],[role=\"menuitem\"],[role=\"combobox\"],[role=\"slider\"],[role=\"spinbutton\"],[contenteditable]:not([contenteditable=\"false\"]),[tabindex]:not([tabindex=\"-1\"]):not([role=\"group\"]),[aria-disabled=\"true\"],.is-unconfigured,[data-no-ink]",
+  "profiles": [
+    {
+      "width": 1440,
+      "presses": [
+        {
+          "x": 133,
+          "y": 915.95,
+          "cluster": ".footer-left",
+          "before": 0,
+          "after": 1,
+          "marks": [
+            {
+              "left": 98.89,
+              "top": 881.83,
+              "width": 68.22,
+              "height": 68.22,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        },
+        {
+          "x": 1319.83,
+          "y": 915.95,
+          "cluster": ".footer-details",
+          "before": 1,
+          "after": 2,
+          "marks": [
+            {
+              "left": 95.96,
+              "top": 878.89,
+              "width": 74.09,
+              "height": 74.09,
+              "opacity": "0.8",
+              "visible": true
+            },
+            {
+              "left": 1296.31,
+              "top": 892.41,
+              "width": 47.05,
+              "height": 47.05,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "measured": {
+        "build": "60e682d2580f",
+        "zone": {
+          "top": 893.95,
+          "bottom": 937.95,
+          "left": 35,
+          "right": 1405,
+          "height": 44
+        },
+        "page": {
+          "innerWidth": 1440,
+          "innerHeight": 950,
+          "scrollWidth": 1440,
+          "scrollY": 3343
+        },
+        "items": [
+          {
+            "element": "span.footer-brand row-item",
+            "left": 35,
+            "right": 132.72,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 97.72,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "span.footer-visit row-item",
+            "left": 161.52,
+            "right": 220.63,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 59.11,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-instagram row-item",
+            "left": 1241.83,
+            "right": 1319.63,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 77.8,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "span.footer-location row-item",
+            "left": 1348.42,
+            "right": 1405,
+            "top": 893.95,
+            "bottom": 937.95,
+            "height": 44,
+            "width": 56.58,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "clusters": [
+          {
+            "selector": ".footer-left",
+            "gap": "28.8px",
+            "tokenGap": "clamp(12px, 2vw, 30px)",
+            "left": 35,
+            "right": 658.734375,
+            "clientWidth": 624,
+            "scrollWidth": 624
+          },
+          {
+            "selector": ".footer-details",
+            "gap": "28.8px",
+            "tokenGap": "clamp(12px, 2vw, 30px)",
+            "left": 1241.828125,
+            "right": 1405,
+            "clientWidth": 163,
+            "scrollWidth": 163
+          }
+        ],
+        "raster": {
+          "points": 14364,
+          "values": [
+            {
+              "value": "image:http://127.0.0.1:55173/assets/h4ngelic-cursor.svg",
+              "count": 14364
+            }
+          ],
+          "offenders": []
+        },
+        "marks": 0
+      },
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55173/assets/h4ngelic-cursor.svg",
+          "status": 200,
+          "type": "image/svg+xml",
+          "ok": true,
+          "width": 20,
+          "height": 30
+        }
+      ],
+      "freePoints": [
+        {
+          "x": 133,
+          "y": 915.95,
+          "cluster": ".footer-left"
+        },
+        {
+          "x": 1319.83,
+          "y": 915.95,
+          "cluster": ".footer-details"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "presses": [
+        {
+          "x": 24,
+          "y": 786.66,
+          "cluster": ".footer-left",
+          "before": 0,
+          "after": 1,
+          "marks": [
+            {
+              "left": -26.9,
+              "top": 735.76,
+              "width": 101.8,
+              "height": 101.8,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        },
+        {
+          "x": 247,
+          "y": 786.66,
+          "cluster": ".footer-details",
+          "before": 1,
+          "after": 2,
+          "marks": [
+            {
+              "left": -31.38,
+              "top": 731.27,
+              "width": 110.76,
+              "height": 110.76,
+              "opacity": "0.8",
+              "visible": true
+            },
+            {
+              "left": 211.85,
+              "top": 751.5,
+              "width": 70.3,
+              "height": 70.3,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "measured": {
+        "build": "60e682d2580f",
+        "zone": {
+          "top": 741.66,
+          "bottom": 831.66,
+          "left": 22,
+          "right": 368,
+          "height": 90
+        },
+        "page": {
+          "innerWidth": 390,
+          "innerHeight": 844,
+          "scrollWidth": 390,
+          "scrollY": 2612
+        },
+        "items": [
+          {
+            "element": "span.footer-brand row-item",
+            "left": 22,
+            "right": 105.23,
+            "top": 741.66,
+            "bottom": 785.66,
+            "height": 44,
+            "width": 83.23,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "span.footer-visit row-item",
+            "left": 22,
+            "right": 72.66,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "width": 50.66,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-instagram row-item",
+            "left": 245,
+            "right": 312.58,
+            "top": 741.66,
+            "bottom": 785.66,
+            "height": 44,
+            "width": 67.58,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "span.footer-location row-item",
+            "left": 245,
+            "right": 293.34,
+            "top": 787.66,
+            "bottom": 831.66,
+            "height": 44,
+            "width": 48.34,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "clusters": [
+          {
+            "selector": ".footer-left",
+            "gap": "12px",
+            "tokenGap": "12px",
+            "left": 22,
+            "right": 145,
+            "clientWidth": 123,
+            "scrollWidth": 123
+          },
+          {
+            "selector": ".footer-details",
+            "gap": "12px",
+            "tokenGap": "12px",
+            "left": 245,
+            "right": 368,
+            "clientWidth": 123,
+            "scrollWidth": 123
+          }
+        ],
+        "raster": {
+          "points": 7568,
+          "values": [
+            {
+              "value": "image:http://127.0.0.1:55173/assets/h4ngelic-cursor.svg",
+              "count": 7568
+            }
+          ],
+          "offenders": []
+        },
+        "marks": 0
+      },
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55173/assets/h4ngelic-cursor.svg",
+          "status": 200,
+          "type": "image/svg+xml",
+          "ok": true,
+          "width": 20,
+          "height": 30
+        }
+      ],
+      "freePoints": [
+        {
+          "x": 24,
+          "y": 786.66,
+          "cluster": ".footer-left"
+        },
+        {
+          "x": 247,
+          "y": 786.66,
+          "cluster": ".footer-details"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "presses": [
+        {
+          "x": 24,
+          "y": 787.34,
+          "cluster": ".footer-left",
+          "before": 0,
+          "after": 1,
+          "marks": [
+            {
+              "left": -5.22,
+              "top": 758.11,
+              "width": 58.43,
+              "height": 58.43,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        },
+        {
+          "x": 212,
+          "y": 787.34,
+          "cluster": ".footer-details",
+          "before": 1,
+          "after": 2,
+          "marks": [
+            {
+              "left": -7.28,
+              "top": 756.04,
+              "width": 62.57,
+              "height": 62.57,
+              "opacity": "0.797376",
+              "visible": true
+            },
+            {
+              "left": 182.29,
+              "top": 757.62,
+              "width": 59.42,
+              "height": 59.42,
+              "opacity": "0.8",
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "measured": {
+        "build": "60e682d2580f",
+        "zone": {
+          "top": 742.34,
+          "bottom": 832.34,
+          "left": 22,
+          "right": 298,
+          "height": 90
+        },
+        "page": {
+          "innerWidth": 320,
+          "innerHeight": 844,
+          "scrollWidth": 320,
+          "scrollY": 2647
+        },
+        "items": [
+          {
+            "element": "span.footer-brand row-item",
+            "left": 22,
+            "right": 105.23,
+            "top": 742.34,
+            "bottom": 786.34,
+            "height": 44,
+            "width": 83.23,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "span.footer-visit row-item",
+            "left": 22,
+            "right": 72.66,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "width": 50.66,
+            "pointerEvents": "none",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "a.footer-instagram row-item",
+            "left": 210,
+            "right": 277.58,
+            "top": 742.34,
+            "bottom": 786.34,
+            "height": 44,
+            "width": 67.58,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "element": "span.footer-location row-item",
+            "left": 210,
+            "right": 258.34,
+            "top": 788.34,
+            "bottom": 832.34,
+            "height": 44,
+            "width": 48.34,
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55173/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "clusters": [
+          {
+            "selector": ".footer-left",
+            "gap": "12px",
+            "tokenGap": "12px",
+            "left": 22,
+            "right": 110,
+            "clientWidth": 88,
+            "scrollWidth": 88
+          },
+          {
+            "selector": ".footer-details",
+            "gap": "12px",
+            "tokenGap": "12px",
+            "left": 210,
+            "right": 298,
+            "clientWidth": 88,
+            "scrollWidth": 88
+          }
+        ],
+        "raster": {
+          "points": 6028,
+          "values": [
+            {
+              "value": "image:http://127.0.0.1:55173/assets/h4ngelic-cursor.svg",
+              "count": 6028
+            }
+          ],
+          "offenders": []
+        },
+        "marks": 0
+      },
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55173/assets/h4ngelic-cursor.svg",
+          "status": 200,
+          "type": "image/svg+xml",
+          "ok": true,
+          "width": 20,
+          "height": 30
+        }
+      ],
+      "freePoints": [
+        {
+          "x": 24,
+          "y": 787.34,
+          "cluster": ".footer-left"
+        },
+        {
+          "x": 212,
+          "y": 787.34,
+          "cluster": ".footer-details"
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

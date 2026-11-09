@@ -1,0 +1,140 @@
+{
+  "build": "d3494732b3a9",
+  "header": [
+    {
+      "fraction": 0,
+      "scrollY": 0,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": 854,
+          "top": "SPAN.interaction-visual category-magnet",
+          "hit": true
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": 854,
+          "top": "SPAN.interaction-visual category-magnet",
+          "hit": true
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": 854,
+          "top": "SPAN.interaction-visual category-magnet",
+          "hit": true
+        }
+      ]
+    },
+    {
+      "fraction": 0.25,
+      "scrollY": 824,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": -14,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": -14,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": -14,
+          "top": "undefined.",
+          "hit": false
+        }
+      ]
+    },
+    {
+      "fraction": 0.5,
+      "scrollY": 1649,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": -839,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": -839,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": -839,
+          "top": "undefined.",
+          "hit": false
+        }
+      ]
+    },
+    {
+      "fraction": 0.75,
+      "scrollY": 2473,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": -1663,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": -1663,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": -1663,
+          "top": "undefined.",
+          "hit": false
+        }
+      ]
+    },
+    {
+      "fraction": 1,
+      "scrollY": 3297,
+      "links": [
+        {
+          "text": "work",
+          "x": 1156.4765625,
+          "y": -2487,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "about",
+          "x": 1252.1171875,
+          "y": -2487,
+          "top": "undefined.",
+          "hit": false
+        },
+        {
+          "text": "contact",
+          "x": 1360.0390625,
+          "y": -2487,
+          "top": "undefined.",
+          "hit": false
+        }
+      ]
+    }
+  ]
+}

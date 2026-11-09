@@ -1,0 +1,517 @@
+{
+  "checkedAt": "2026-11-05T19:43:28.251Z",
+  "base": "http://127.0.0.1:55233",
+  "label": "after",
+  "build": "19a0ea15b37c",
+  "profiles": [
+    {
+      "width": 1440,
+      "clicks": [
+        {
+          "where": "band-free-space",
+          "x": 661,
+          "y": 934,
+          "hit": "div.footer-identity",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55233/assets/h4ngelic-cursor.svg",
+          "ok": true,
+          "width": 20,
+          "height": 30,
+          "status": 200,
+          "type": "image/svg+xml"
+        }
+      ],
+      "zone": {
+        "page": {
+          "scrollY": 3343,
+          "innerHeight": 950,
+          "scrollHeight": 4293,
+          "innerWidth": 1440
+        },
+        "footer": {
+          "top": 866,
+          "bottom": 950,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 84
+        },
+        "identity": {
+          "top": 894,
+          "bottom": 938,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 44
+        },
+        "items": [
+          {
+            "element": "span.footer-brand.row-item",
+            "top": 894,
+            "bottom": 938,
+            "left": 35,
+            "right": 132.7,
+            "width": 97.7,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "a.footer-moshlab.row-item",
+            "top": 894,
+            "bottom": 938,
+            "left": 161.5,
+            "right": 249.4,
+            "width": 87.9,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "span.footer-visit.row-item",
+            "top": 894,
+            "bottom": 938,
+            "left": 278.2,
+            "right": 337.3,
+            "width": 59.1,
+            "height": 44,
+            "pointerEvents": "none"
+          },
+          {
+            "element": "a.footer-instagram.row-item",
+            "top": 894,
+            "bottom": 938,
+            "left": 1118,
+            "right": 1195.8,
+            "width": 77.8,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "a.footer-impressum.row-item",
+            "top": 894,
+            "bottom": 938,
+            "left": 1224.6,
+            "right": 1290.8,
+            "width": 66.3,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "span.footer-location.row-item",
+            "top": 894,
+            "bottom": 938,
+            "left": 1319.6,
+            "right": 1376.2,
+            "width": 56.6,
+            "height": 44,
+            "pointerEvents": "auto"
+          }
+        ],
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "top": 894,
+            "bottom": 938,
+            "left": 35,
+            "right": 658.7,
+            "width": 623.7,
+            "height": 44,
+            "clientWidth": 624,
+            "scrollWidth": 624,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tabIndex": 0
+          },
+          {
+            "element": "span.footer-details",
+            "top": 894,
+            "bottom": 938,
+            "left": 1118,
+            "right": 1405,
+            "width": 287,
+            "height": 44,
+            "clientWidth": 287,
+            "scrollWidth": 287,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tabIndex": 0
+          }
+        ],
+        "build": "19a0ea15b37c"
+      },
+      "raster": {
+        "points": 14364,
+        "values": [
+          {
+            "value": "image:http://127.0.0.1:55233/assets/h4ngelic-cursor.svg",
+            "count": 14364
+          }
+        ],
+        "offenders": []
+      },
+      "free": {
+        "x": 661,
+        "y": 934,
+        "hit": "div.footer-identity"
+      }
+    },
+    {
+      "width": 390,
+      "clicks": [
+        {
+          "where": "band-free-space",
+          "x": 148,
+          "y": 827.7,
+          "hit": "div.footer-identity",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "where": "below-band",
+          "x": 195,
+          "y": 841.7,
+          "before": 1,
+          "after": 2
+        }
+      ],
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55233/assets/h4ngelic-cursor.svg",
+          "ok": true,
+          "width": 20,
+          "height": 30,
+          "status": 200,
+          "type": "image/svg+xml"
+        }
+      ],
+      "zone": {
+        "page": {
+          "scrollY": 2566,
+          "innerHeight": 844,
+          "scrollHeight": 3410,
+          "innerWidth": 390
+        },
+        "footer": {
+          "top": 765.7,
+          "bottom": 843.7,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 78
+        },
+        "identity": {
+          "top": 787.7,
+          "bottom": 831.7,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 44
+        },
+        "items": [
+          {
+            "element": "span.footer-brand.row-item",
+            "top": 787.7,
+            "bottom": 831.7,
+            "left": 22,
+            "right": 105.2,
+            "width": 83.2,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "a.footer-moshlab.row-item",
+            "top": 787.7,
+            "bottom": 831.7,
+            "left": 117.2,
+            "right": 193.3,
+            "width": 76.1,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "span.footer-visit.row-item",
+            "top": 787.7,
+            "bottom": 831.7,
+            "left": 205.3,
+            "right": 256,
+            "width": 50.7,
+            "height": 44,
+            "pointerEvents": "none"
+          },
+          {
+            "element": "a.footer-instagram.row-item",
+            "top": 787.7,
+            "bottom": 831.7,
+            "left": 245,
+            "right": 312.6,
+            "width": 67.6,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "a.footer-impressum.row-item",
+            "top": 787.7,
+            "bottom": 831.7,
+            "left": 324.6,
+            "right": 381,
+            "width": 56.5,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "span.footer-location.row-item",
+            "top": 787.7,
+            "bottom": 831.7,
+            "left": 393,
+            "right": 441.4,
+            "width": 48.3,
+            "height": 44,
+            "pointerEvents": "auto"
+          }
+        ],
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "top": 787.7,
+            "bottom": 831.7,
+            "left": 22,
+            "right": 145,
+            "width": 123,
+            "height": 44,
+            "clientWidth": 123,
+            "scrollWidth": 234,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tabIndex": 0
+          },
+          {
+            "element": "span.footer-details",
+            "top": 787.7,
+            "bottom": 831.7,
+            "left": 245,
+            "right": 368,
+            "width": 123,
+            "height": 44,
+            "clientWidth": 123,
+            "scrollWidth": 208,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tabIndex": 0
+          }
+        ],
+        "build": "19a0ea15b37c"
+      },
+      "raster": {
+        "points": 3612,
+        "values": [
+          {
+            "value": "image:http://127.0.0.1:55233/assets/h4ngelic-cursor.svg",
+            "count": 3612
+          }
+        ],
+        "offenders": []
+      },
+      "free": {
+        "x": 148,
+        "y": 827.7,
+        "hit": "div.footer-identity"
+      }
+    },
+    {
+      "width": 320,
+      "clicks": [
+        {
+          "where": "band-free-space",
+          "x": 112,
+          "y": 828.3,
+          "hit": "div.footer-identity",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "assets": [
+        {
+          "url": "http://127.0.0.1:55233/assets/h4ngelic-cursor.svg",
+          "ok": true,
+          "width": 20,
+          "height": 30,
+          "status": 200,
+          "type": "image/svg+xml"
+        }
+      ],
+      "zone": {
+        "page": {
+          "scrollY": 2601,
+          "innerHeight": 844,
+          "scrollHeight": 3445,
+          "innerWidth": 320
+        },
+        "footer": {
+          "top": 766.3,
+          "bottom": 844.3,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 78
+        },
+        "identity": {
+          "top": 788.3,
+          "bottom": 832.3,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 44
+        },
+        "items": [
+          {
+            "element": "span.footer-brand.row-item",
+            "top": 788.3,
+            "bottom": 832.3,
+            "left": 22,
+            "right": 105.2,
+            "width": 83.2,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "a.footer-moshlab.row-item",
+            "top": 788.3,
+            "bottom": 832.3,
+            "left": 117.2,
+            "right": 193.3,
+            "width": 76.1,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "span.footer-visit.row-item",
+            "top": 788.3,
+            "bottom": 832.3,
+            "left": 205.3,
+            "right": 256,
+            "width": 50.7,
+            "height": 44,
+            "pointerEvents": "none"
+          },
+          {
+            "element": "a.footer-instagram.row-item",
+            "top": 788.3,
+            "bottom": 832.3,
+            "left": 210,
+            "right": 277.6,
+            "width": 67.6,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "a.footer-impressum.row-item",
+            "top": 788.3,
+            "bottom": 832.3,
+            "left": 289.6,
+            "right": 346,
+            "width": 56.5,
+            "height": 44,
+            "pointerEvents": "auto"
+          },
+          {
+            "element": "span.footer-location.row-item",
+            "top": 788.3,
+            "bottom": 832.3,
+            "left": 358,
+            "right": 406.4,
+            "width": 48.3,
+            "height": 44,
+            "pointerEvents": "auto"
+          }
+        ],
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "top": 788.3,
+            "bottom": 832.3,
+            "left": 22,
+            "right": 110,
+            "width": 88,
+            "height": 44,
+            "clientWidth": 88,
+            "scrollWidth": 234,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tabIndex": 0
+          },
+          {
+            "element": "span.footer-details",
+            "top": 788.3,
+            "bottom": 832.3,
+            "left": 210,
+            "right": 298,
+            "width": 88,
+            "height": 44,
+            "clientWidth": 88,
+            "scrollWidth": 208,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.svg\") 8 2, url(\"http://127.0.0.1:55233/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tabIndex": 0
+          }
+        ],
+        "build": "19a0ea15b37c"
+      },
+      "raster": {
+        "points": 2877,
+        "values": [
+          {
+            "value": "image:http://127.0.0.1:55233/assets/h4ngelic-cursor.svg",
+            "count": 2877
+          }
+        ],
+        "offenders": []
+      },
+      "free": {
+        "x": 112,
+        "y": 828.3,
+        "hit": "div.footer-identity"
+      }
+    }
+  ],
+  "failures": []
+}

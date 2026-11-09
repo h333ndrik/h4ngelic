@@ -1,0 +1,45 @@
+{
+  "build": "a2540558e5a3",
+  "profiles": [
+    {
+      "width": 1440,
+      "visit": {
+        "text": "visit 0001",
+        "opacity": 0.35,
+        "color": "rgb(240, 239, 235)",
+        "tracking": "0.84px",
+        "visibility": "visible",
+        "width": 59.109375,
+        "height": 18,
+        "followsMoshlab": true
+      }
+    },
+    {
+      "width": 390,
+      "visit": {
+        "text": "visit 0001",
+        "opacity": 0.35,
+        "color": "rgb(240, 239, 235)",
+        "tracking": "0.84px",
+        "visibility": "visible",
+        "width": 50.65625,
+        "height": 15,
+        "followsMoshlab": true
+      }
+    },
+    {
+      "width": 320,
+      "visit": {
+        "text": "visit 0001",
+        "opacity": 0.35,
+        "color": "rgb(240, 239, 235)",
+        "tracking": "0.84px",
+        "visibility": "visible",
+        "width": 50.65625,
+        "height": 15,
+        "followsMoshlab": true
+      }
+    }
+  ],
+  "passed": true
+}

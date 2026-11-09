@@ -1,0 +1,20 @@
+# SHA-256 and byte sizes — 2026-11-03
+
+2b144ddec12b3490a71718a26c8c814247518fe475d7dfa59c76f0ed445952ad  public/models/mannequin.glb (119740 bytes, unchanged M0c)
+25c84e1558087e8a2e1954ce341680a8e9f63c305ae1b024ce7118c8bc138346  public/models/mannequin-female-a.glb (132688 bytes)
+51e6d99a3ca50d3a42406aa4030f967c9962d8c3760443b1c5f0d412dd07591e  public/models/mannequin-female-b.glb (172752 bytes)
+da12eb1c9ff2e54760f295cd6232e5c3d23736f2715c2ac42c9ba205e4489556  public/textures/mannequin/uv-atlas.png (95357 bytes)
+6336f73f35fbff2a2954178d78b234233b0aa40a5cd8184dc723acd4854c690b  public/textures/mannequin/uv-atlas.json
+04619f302d73ae4a8671e15883d6b947609b5f9778969a7de337294b4436c73b  public/textures/designs/demo-mark.png (8627 bytes)
+40803547e7f1b5d84020204a164a91a89131fc27037e093a86c0b50b5eb4b90b  public/textures/designs/demo-mark.json
+cc92b3c28f841ed4fb8313e31644337601a5d044b24eae2c0fe62b5cc521232c  scripts/mannequin-female-build.py
+
+# Reproducibility
+A: two fresh Blender builds + cmp against public/models/mannequin-female-a.glb -> identical.
+B: two fresh Blender builds + cmp against public/models/mannequin-female-b.glb -> identical.
+The exported index list is sorted lexicographically as complete winding-preserving triangles before hashing.
+
+# Repro commands
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python scripts/mannequin-female-build.py -- --variant A --output public/models/mannequin-female-a.glb --report docs/validation/MANNEQUIN-CHROME/poly-trace-a.json
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python scripts/mannequin-female-build.py -- --variant B --output public/models/mannequin-female-b.glb --report docs/validation/MANNEQUIN-CHROME/poly-trace-b.json --atlas public/textures/mannequin/uv-atlas.png --atlas-json public/textures/mannequin/uv-atlas.json --demo-design public/textures/designs/demo-mark.png
+/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python scripts/mannequin-female-build.py -- --variant B --output /tmp/mannequin-female-b.glb --guides-dir public/textures/mannequin/guides/b

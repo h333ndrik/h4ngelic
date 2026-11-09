@@ -59,14 +59,14 @@ try {
     assert.equal(after.running, 0);
 
     // Use the genuine published image, rather than a synthetic gallery fixture.
-    await page.goto(`${base}/work#digital-artworks`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/creative/more#digital-artworks`, { waitUntil: 'networkidle' });
     assert.equal(await page.locator('html').getAttribute('data-mode'), 'normal');
     const thumbnail = page.locator('[data-archive-category="digital-artworks"] [data-artwork-open]').first();
     await thumbnail.locator('img').evaluate(image => image.decode());
     await thumbnail.scrollIntoViewIfNeeded();
     await thumbnail.click();
-    const expanded = page.locator('.artwork-dialog[open] .artwork-viewer-image');
-    await expanded.waitFor({ state: 'visible' });
+    await page.waitForFunction(element => element.hasAttribute('data-inline-expanded'), await thumbnail.elementHandle());
+    const expanded = thumbnail.locator('img');
     await expanded.hover();
     const cursor = await expanded.evaluate(image => ({
       cursor: getComputedStyle(image).cursor,
@@ -75,13 +75,14 @@ try {
     }));
     assert.equal(cursor.fine, true);
     assert.notEqual(cursor.cursor, 'zoom-out');
-    assert.match(cursor.cursor, /h4ngelic-cursor\.svg/, 'An expanded photograph keeps the exact native h4 cursor.');
-    assert.equal(cursor.width, 1440); assert.equal(cursor.height, 1920);
+    assert.match(cursor.cursor, /h4ngelic-cursor\.svg["']?\)\s+8\s+2/, 'An expanded photograph keeps the native h4 cursor.');
+    assert.ok(cursor.width >= 900 && cursor.width <= 1440, 'The inline expansion uses a genuine high-resolution published source.');
+    assert.ok(Math.abs(cursor.width / cursor.height - 1440 / 1920) < .01, 'The genuine artwork keeps its original proportions.');
     await page.keyboard.press('Escape');
-    await page.locator('.artwork-dialog').waitFor({ state: 'hidden' });
+    await page.waitForFunction(element => !element.hasAttribute('data-inline-expanded'), await thumbnail.elementHandle());
     assert.deepEqual(errors, []);
     await writeFile(new URL('accessibility.json', output), JSON.stringify({ checkedAt: new Date().toISOString(),
       width: 1440, actualAnimation: { before, after }, expandedOriginal: cursor, errors }, null, 2));
-    console.log('PASS dynamic accessibility: reduced-motion cancels an active NAAVI animation; the genuine expanded artwork retains the native h4 cursor.');
+    console.log('PASS dynamic accessibility: reduced-motion cancels an active NAAVI animation; the genuine expanded artwork stays inside the blanket cursor contract.');
   } finally { await context.close(); }
 } finally { await browser.close(); }

@@ -37,13 +37,13 @@ test('inquiry renders semantic native form with real email fallback and no fabri
   assert.match(html, /method="post" enctype="multipart\/form-data"/);
   assert.match(html, /name="name"[^>]*required/);
   assert.match(html, /name="name"[^>]*placeholder="max musterperson"/);
-  assert.match(html, /HOW TO REACH YOU/);
+  assert.match(html, /how to reach you/);
   assert.match(html, /name="email" type="text"[^>]*placeholder="email, instagram, phone number\.\.\."[^>]*required/);
   assert.doesNotMatch(html, /YOUR EMAIL|type="email"/);
   assert.match(html, /name="attachments"[^>]*multiple/);
-  assert.match(html, /WHAT'S ON YOUR MIND\?/);
+  assert.match(html, /what's on your mind\?/);
   assert.match(html, /placeholder="could be an inquiry, a question or just a thought\.\nfeel free to write anything\."/);
-  assert.match(html, /SEND MESSAGE/);
+  assert.match(html, /send message/);
   assert.doesNotMatch(html, /SEND INQUIRY|inquiry-privacy|your details and references/);
   assert.match(html, /mailto:h4ngelic@gmail.com/);
   assert.match(html, /id="inquiry-name"/);
@@ -251,7 +251,7 @@ test('every provider failure returns the byte-identical generic 502 body', async
 });
 
 test('non-email reply channels appear in message text but never become an invalid reply-to header', async () => {
-  for (const contact of ['@visitor', '+49 170 1234567', 'name <visitor@example.com>', 'a,b@example.com']) {
+  for (const contact of ['@visitor', '+49 170 1234567', 'a,b@example.com']) {
     let payload;
     const handler = createInquiryHandler({ config, now, fetchImpl: async (_url, options) => {
       payload = JSON.parse(options.body);
@@ -259,6 +259,24 @@ test('non-email reply channels appear in message text but never become an invali
     } });
     assert.equal((await request(handler, { values: { ...fields, email: contact } })).status, 202);
     assert.equal(Object.hasOwn(payload, 'reply_to'), false, contact);
+    assert.ok(payload.text.includes(`how to reach you: ${contact}`));
+    assert.deepEqual(payload.to, ['h4ngelic@gmail.com']);
+  }
+});
+
+// MAIL-02b: "Name <address>" is the form browsers autofill into the free-text
+// contact field. It now yields a Reply-To; the address inside the brackets goes
+// through the same strict check, and the message text keeps the value as typed.
+test('the autofill display-name form becomes the reply target', async () => {
+  for (const [contact, expected] of [['name <visitor@example.com>', 'visitor@example.com'],
+    ['Max Mustermann <max@example.com>', 'max@example.com']]) {
+    let payload;
+    const handler = createInquiryHandler({ config, now, fetchImpl: async (_url, options) => {
+      payload = JSON.parse(options.body);
+      return { ok: true, json: async () => ({ id: 'mock-provider-id' }) };
+    } });
+    assert.equal((await request(handler, { values: { ...fields, email: contact } })).status, 202);
+    assert.equal(payload.reply_to, expected, contact);
     assert.ok(payload.text.includes(`how to reach you: ${contact}`));
     assert.deepEqual(payload.to, ['h4ngelic@gmail.com']);
   }

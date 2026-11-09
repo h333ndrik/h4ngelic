@@ -1,0 +1,44 @@
+{
+  "phase": "before8",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-05T21:56:43.947Z",
+  "results": [
+    {
+      "suite": "gallery-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 20080,
+      "passLine": "PASS gallery 320px reduced=true: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.",
+      "failLine": ""
+    },
+    {
+      "suite": "artwork-transitions-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 1183,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: The temporary module fixture must reach the real archive renderer."
+    },
+    {
+      "suite": "about-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9075,
+      "passLine": "PASS About 320px reduce=true: shared modest inset, immediate deep link, bounded reversible entrance, readable copy and no overflow.",
+      "failLine": ""
+    },
+    {
+      "suite": "row-geometry-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 51032,
+      "passLine": "PASS row typology: 5 viewports, 5 registered rows, 57ff1e3c7c45.",
+      "failLine": ""
+    }
+  ]
+}

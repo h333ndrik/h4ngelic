@@ -1,15 +1,93 @@
-/* One native cursor image per mode keeps pointer tracking and its hotspot
-   constant across every interactive state. */
-@media (hover: hover) and (pointer: fine) {
-  html {
-    --h4-native-cursor: url('/assets/h4ngelic-cursor.svg') 9 2, auto;
-    cursor: var(--h4-native-cursor);
+/* One native cursor image per state, straight from CSS.
+   The browser owns tracking, hiding on leave and the hotspot, so there is no
+   frame of lag and no overlay element to misplace. Every image is <= 32 CSS px
+   (Firefox silently discards larger cursors and falls back to the arrow) and
+   every declaration carries a PNG fallback for a failed SVG request. The
+   interactive token is byte-identical to the base token, fallback included,
+   so no element can ever render a different cursor.
+
+   Coverage is structural: every element and pseudo-element inherits the base
+   token, the interactive set re-declares exactly the same image and fallback,
+   and the pressed set swaps to a pre-scaled 1.08x silhouette. No other stylesheet
+   may declare `cursor` (tests/tokens-audit.mjs enforces that). */
+:root {
+  --h4-cursor: url('/assets/h4ngelic-cursor.svg') 8 2, url('/assets/h4ngelic-cursor.png') 8 2, auto;
+  /* Same image AND same fallback as the base token. A differing fallback is a
+     visible cursor change the moment a browser rejects the image (NAAVI and
+     every other link then showed the system hand while the rest of the page
+     showed the arrow). B-F19, measured 09.11. */
+  --h4-cursor-interactive: url('/assets/h4ngelic-cursor.svg') 8 2, url('/assets/h4ngelic-cursor.png') 8 2, auto;
+  --h4-cursor-pressed: url('/assets/h4ngelic-cursor-pressed.svg') 8 2, url('/assets/h4ngelic-cursor-pressed.png') 8 2, auto;
+  --h4-cursor-xray: url('/assets/h4ngelic-cursor-other-r09.svg') 8 2, url('/assets/h4ngelic-cursor-other.png') 8 2, auto;
+  --h4-cursor-xray-pressed: url('/assets/h4ngelic-cursor-other-pressed-r09.svg') 8 2, url('/assets/h4ngelic-cursor-other-pressed.png') 8 2, auto;
+}
+
+/* Escalation. Ein nativer Cursor hat kein JS-Sicherheitsnetz: die Cascade ist
+   die Garantie. Deshalb traegt jede Deklaration !important und die Ebenen
+   sind nach Spezifitaet gestaffelt, damit die Reihenfolge im Bundle keine
+   Rolle spielt.
+
+   Ebenso bewusst: die Media-Query bleibt. Ohne feinen Pointer gibt es kein
+   Cursor-Bild, Touch behaelt den Systemcursor.
+
+   Spezifitaet (alle !important):
+   1 Basis            html body *                                 0,0,3 (html:root 0,1,1)
+   2 interaktiv       html body :is(a[href], a, button, ...)      0,1,3
+   3 pressed          ...:active                                  0,2,3
+   4 xray             html[data-mode='xray'] body *               0,1,3
+   5 xray pressed     ...:is(..):active                           0,3,3 */
+@media (any-hover: hover) and (any-pointer: fine) {
+  /* Ebene 1 — Basis. Die :root-Variante hebt die Spezifitaet ueber eine
+     gleich spezifische Fremdregel, die spaeter im Dokument steht. */
+  html,
+  html body,
+  html body *,
+  html body *::before,
+  html body *::after,
+  html body *::backdrop,
+  html:root body,
+  html:root body *,
+  html:root body *::before,
+  html:root body *::after {
+    cursor: var(--h4-cursor) !important;
   }
-  html[data-mode='xray'] {
-    --h4-native-cursor: url('/assets/h4ngelic-cursor-other-r09.svg') 9 2, auto;
-    cursor: var(--h4-native-cursor);
+
+  /* Ebene 2 — interaktiv. Das nackte `a` gehoert dazu: Navigations- und
+     Footer-Links ohne href (Platzhalter, Gruppen) duerfen nicht in die Basis
+     zurueckfallen, sobald eine UA-Regel ihnen `pointer` gibt. Der Wert ist
+     identisch mit Ebene 1 — die Ebene sichert nur den Gewinner, sie aendert
+     das Bild nicht. */
+  html body :is(a[href], a, button, summary, [role='button'],
+      input, select, textarea, label, canvas) {
+    cursor: var(--h4-cursor-interactive) !important;
   }
-  html body * { cursor: var(--h4-native-cursor) !important; }
+
+  /* Ebene 3 — pressed. Ohne sie geht der vorab skalierte 1,08x-Cursor verloren. */
+  html body :is(a[href], a, button, summary, [role='button'],
+      input, select, textarea, label, canvas):active {
+    cursor: var(--h4-cursor-pressed) !important;
+  }
+
+  /* Ebene 4 — Other Side. Ohne sie kippt der Xray-Modus auf den normalen Cursor. */
+  html[data-mode='xray'],
+  html[data-mode='xray'] body,
+  html[data-mode='xray'] body *,
+  html[data-mode='xray'] body *::before,
+  html[data-mode='xray'] body *::after,
+  html[data-mode='xray'] body *::backdrop {
+    cursor: var(--h4-cursor-xray) !important;
+  }
+
+  html[data-mode='xray'] body :is(a[href], a, button, summary, [role='button'],
+      input, select, textarea, label, canvas) {
+    cursor: var(--h4-cursor-xray) !important;
+  }
+
+  /* Ebene 5 — pressed im Other Side. */
+  html[data-mode='xray'] body :is(a[href], a, button, summary, [role='button'],
+      input, select, textarea, label, canvas):active {
+    cursor: var(--h4-cursor-xray-pressed) !important;
+  }
 }
 
 [data-controls] button:focus-visible {

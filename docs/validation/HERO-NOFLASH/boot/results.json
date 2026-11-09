@@ -1,0 +1,1030 @@
+{
+  "checkedAt": "2026-11-03T19:33:11.198Z",
+  "base": "http://127.0.0.1:55200",
+  "reports": [
+    {
+      "width": 1440,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.55,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": {
+          "entering": true,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -876)",
+          "translateY": -876,
+          "height": 844,
+          "transitionProperty": "transform",
+          "transitionDuration": "1.1s",
+          "at": 4155.699999988079
+        },
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.765644,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "posterBackground": "url(\"http://127.0.0.1:55200/assets/wordmark-fallback.svg\")",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "posterBackground": "url(\"http://127.0.0.1:55200/assets/wordmark-fallback.svg\")",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 44
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 0.35,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 44
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 0.52,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 44
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 0.35,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 1259.09375,
+          "height": 44
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 123.3125,
+          "token": 88.31
+        },
+        "values": {
+          "works": 123.28125,
+          "about": 123.296875,
+          "more": 123.296875,
+          "intro": 123.296875,
+          "form": 123.296875
+        },
+        "offsets": {
+          "works": -0.03125,
+          "about": -0.015625,
+          "more": -0.015625,
+          "intro": -0.015625,
+          "form": -0.015625
+        },
+        "pageWidth": 1440,
+        "innerWidth": 1440
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 32,
+          "position": 3194.302
+        },
+        "over": {
+          "scrollY": 32,
+          "position": 116.381
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "reduced": {
+        "poster": 1,
+        "animation": "none",
+        "canvas": "none"
+      },
+      "cursor": {
+        "home": {
+          "mode": "blanket",
+          "total": 232,
+          "offenders": []
+        },
+        "work": {
+          "mode": "blanket",
+          "total": 221,
+          "offenders": []
+        },
+        "noClass": {
+          "mode": "system",
+          "total": 221,
+          "offenders": []
+        },
+        "contact": {
+          "mode": "blanket",
+          "total": 232,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".floating-brand",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-moshlab",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ],
+        "indexStates": [
+          {
+            "selector": "[data-global-index] summary",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"home\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"about\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"contact\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"other-side\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ],
+        "formStates": [
+          {
+            "selector": ".inquiry-field input[name=\"name\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-field input[name=\"email\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-field textarea[name=\"message\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-inquiry-submit]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-file-input",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ]
+      },
+      "messages": [
+        "[h4ngelic] build 8351205c4d79",
+        "[.WebGL-0x10c000d7400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[.WebGL-0x10c000d7400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "[.WebGL-0x10c000d7400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "[.WebGL-0x10c000d7400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+        "A preload for 'http://127.0.0.1:55200/assets/tattoo-texture.webp' is found, but is not used because the request credentials mode does not match. Consider taking a look at crossorigin attribute.",
+        "The resource http://127.0.0.1:55200/assets/tattoo-texture.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "The resource http://127.0.0.1:55200/assets/wordmark-fallback.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "[h4ngelic] build 8351205c4d79",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[h4ngelic] build 8351205c4d79",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "A preload for 'http://127.0.0.1:55200/assets/tattoo-texture.webp' is found, but is not used because the request credentials mode does not match. Consider taking a look at crossorigin attribute.",
+        "[h4ngelic] build 8351205c4d79",
+        "[h4ngelic] build 8351205c4d79",
+        "The resource http://127.0.0.1:55200/assets/wordmark-fallback.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.55,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": {
+          "entering": true,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -876)",
+          "translateY": -876,
+          "height": 844,
+          "transitionProperty": "transform",
+          "transitionDuration": "1.1s",
+          "at": 1496.6000000238419
+        },
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.774817,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "posterBackground": "url(\"http://127.0.0.1:55200/assets/wordmark-fallback.svg\")",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "posterBackground": "url(\"http://127.0.0.1:55200/assets/wordmark-fallback.svg\")",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 44
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 0.35,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 44
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 0.52,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 44
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 0.35,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 251.671875,
+          "height": 44
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 54.703128051757815,
+          "token": 32.7
+        },
+        "values": {
+          "works": 54.6875,
+          "about": 54.6875,
+          "more": 54.6875,
+          "intro": 54.6875,
+          "form": 54.6875
+        },
+        "offsets": {
+          "works": -0.015628051757815342,
+          "about": -0.015628051757815342,
+          "more": -0.015628051757815342,
+          "intro": -0.015628051757815342,
+          "form": -0.015628051757815342
+        },
+        "pageWidth": 390,
+        "innerWidth": 390
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 0,
+          "position": 3189.199
+        },
+        "over": {
+          "scrollY": 0,
+          "position": 276.882
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "reduced": {
+        "poster": 1,
+        "animation": "none",
+        "canvas": "none"
+      },
+      "cursor": {
+        "home": {
+          "mode": "blanket",
+          "total": 232,
+          "offenders": []
+        },
+        "work": {
+          "mode": "blanket",
+          "total": 221,
+          "offenders": []
+        },
+        "noClass": {
+          "mode": "system",
+          "total": 221,
+          "offenders": []
+        },
+        "contact": {
+          "mode": "blanket",
+          "total": 232,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".floating-brand",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-moshlab",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ],
+        "indexStates": [
+          {
+            "selector": "[data-global-index] summary",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"home\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"about\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"contact\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"other-side\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ],
+        "formStates": [
+          {
+            "selector": ".inquiry-field input[name=\"name\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-field input[name=\"email\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-field textarea[name=\"message\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-inquiry-submit]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-file-input",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ]
+      },
+      "messages": [
+        "[h4ngelic] build 8351205c4d79",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "The resource http://127.0.0.1:55200/assets/wordmark-fallback.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "The resource http://127.0.0.1:55200/assets/tattoo-texture-640.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "[h4ngelic] build 8351205c4d79",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[h4ngelic] build 8351205c4d79",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[h4ngelic] build 8351205c4d79",
+        "[h4ngelic] build 8351205c4d79",
+        "The resource http://127.0.0.1:55200/assets/wordmark-fallback.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "booting": {
+        "loading": "true",
+        "stage": "stage",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Loading the 3D wordmark.",
+        "posterOpacity": 0.55,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "ready": {
+        "loading": "false",
+        "stage": "stage is-ready",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+        "posterOpacity": 0,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "none",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": {
+          "entering": true,
+          "opacity": 1,
+          "transform": "matrix(1, 0, 0, 1, 0, -876)",
+          "translateY": -876,
+          "height": 844,
+          "transitionProperty": "transform",
+          "transitionDuration": "1.1s",
+          "at": 1498.800000011921
+        },
+        "heroReady": true,
+        "scrollY": 0
+      },
+      "slow": {
+        "loading": "true",
+        "stage": "stage is-boot-slow",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "The interactive wordmark is taking longer than usual.",
+        "posterOpacity": 0.774815,
+        "posterDisplay": "block",
+        "posterBackground": "none",
+        "animation": "hero-poster-breathe",
+        "canvasDisplay": "block",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "slowFailed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "posterBackground": "url(\"http://127.0.0.1:55200/assets/wordmark-fallback.svg\")",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "failed": {
+        "loading": "false",
+        "stage": "stage is-boot-failed is-fallback",
+        "build": "8351205c4d79",
+        "metaBuild": "8351205c4d79",
+        "status": "Static h4ngelic wordmark. The interactive version could not be loaded.",
+        "posterOpacity": 1,
+        "posterDisplay": "block",
+        "posterBackground": "url(\"http://127.0.0.1:55200/assets/wordmark-fallback.svg\")",
+        "animation": "none",
+        "canvasDisplay": "none",
+        "canvasOpacity": 1,
+        "canvasAnimation": "none",
+        "entering": false,
+        "cursorClass": true,
+        "inlineCursorScript": true,
+        "entrance": null,
+        "heroReady": false,
+        "scrollY": 0
+      },
+      "greeting": {
+        "rest": {
+          "hidden": false,
+          "opacity": 0,
+          "visibility": "hidden",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 44
+        },
+        "hover": {
+          "hidden": false,
+          "opacity": 0.35,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 44
+        },
+        "focus": {
+          "hidden": false,
+          "opacity": 0.52,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 44
+        },
+        "touch": {
+          "hidden": false,
+          "opacity": 0.35,
+          "visibility": "visible",
+          "text": "you know your way around here.",
+          "width": 185.125,
+          "height": 44
+        }
+      },
+      "slash": {
+        "canonical": {
+          "slash": 54.70312652587891,
+          "token": 32.7
+        },
+        "values": {
+          "works": 54.6875,
+          "about": 54.6875,
+          "more": 54.6875,
+          "intro": 54.6875,
+          "form": 54.6875
+        },
+        "offsets": {
+          "works": -0.01562652587890767,
+          "about": -0.01562652587890767,
+          "more": -0.01562652587890767,
+          "intro": -0.01562652587890767,
+          "form": -0.01562652587890767
+        },
+        "pageWidth": 320,
+        "innerWidth": 320
+      },
+      "wheel": {
+        "before": {
+          "scrollY": 0,
+          "position": 3189.201
+        },
+        "over": {
+          "scrollY": 0,
+          "position": 270.76
+        },
+        "outsideBefore": 0,
+        "outsideAfter": 520
+      },
+      "reduced": {
+        "poster": 1,
+        "animation": "none",
+        "canvas": "none"
+      },
+      "cursor": {
+        "home": {
+          "mode": "blanket",
+          "total": 232,
+          "offenders": []
+        },
+        "work": {
+          "mode": "blanket",
+          "total": 221,
+          "offenders": []
+        },
+        "noClass": {
+          "mode": "system",
+          "total": 221,
+          "offenders": []
+        },
+        "contact": {
+          "mode": "blanket",
+          "total": 232,
+          "offenders": []
+        },
+        "footerStates": [
+          {
+            "selector": ".floating-brand",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-moshlab",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-visit-counter-hotspot]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-smash",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".footer-instagram",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-naavi]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ],
+        "indexStates": [
+          {
+            "selector": "[data-global-index] summary",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"home\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"about\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"contact\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-index-page=\"other-side\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ],
+        "formStates": [
+          {
+            "selector": ".inquiry-field input[name=\"name\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-field input[name=\"email\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-field textarea[name=\"message\"]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": "[data-inquiry-submit]",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          },
+          {
+            "selector": ".inquiry-file-input",
+            "rest": "none",
+            "hover": "none",
+            "focus": "none",
+            "active": "none"
+          }
+        ]
+      },
+      "messages": [
+        "[h4ngelic] build 8351205c4d79",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "The resource http://127.0.0.1:55200/assets/wordmark-fallback.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "The resource http://127.0.0.1:55200/assets/tattoo-texture-640.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+        "[h4ngelic] build 8351205c4d79",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[h4ngelic] build 8351205c4d79",
+        "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.",
+        "[h4ngelic] build 8351205c4d79",
+        "[h4ngelic] build 8351205c4d79",
+        "The resource http://127.0.0.1:55200/assets/wordmark-fallback.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally."
+      ],
+      "errors": []
+    }
+  ],
+  "failures": []
+}

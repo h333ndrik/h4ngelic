@@ -1,0 +1,17 @@
+{
+  "phase": "final7",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55242",
+  "finishedAt": "2026-11-05T23:40:37.618Z",
+  "results": [
+    {
+      "suite": "mobile-interactions-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 60104,
+      "passLine": "PASS mobile Phase 1 desktop preservation: mobile control hidden; one-second 4 and released 333 retained.",
+      "failLine": ""
+    }
+  ]
+}

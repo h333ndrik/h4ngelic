@@ -18,15 +18,50 @@ class InquiryError extends Error {
   constructor(status, message) { super(message); this.status = status; }
 }
 
-function address(value) {
-  if (typeof value !== 'string' || value.length > 254) return false;
+/** Reply-To is set only for a bare, syntactically plausible address.
+ *
+ * The contact field is free text ("email, instagram, phone number..."), so the
+ * notification must never depend on it being an address: anything else — a
+ * handle, a phone number, a display-name form with spaces, a value carrying
+ * CR/LF or control characters — simply ships without Reply-To, exactly as
+ * before. Conservative on purpose: a wrong Reply-To misroutes a reply, a
+ * missing one only leaves the notification as it was. */
+export function isReplyAddress(value) {
+  if (typeof value !== 'string' || value !== value.trim() || value.length > 254) return false;
+  if (/[\x00-\x1f\x7f]/.test(value)) return false;
   const parts = value.split('@');
   if (parts.length !== 2) return false;
   const [local, domain] = parts;
   if (!local || local.length > 64 || local.startsWith('.') || local.endsWith('.') || local.includes('..')
     || !/^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+$/i.test(local)) return false;
   const labels = domain.split('.');
-  return labels.length >= 2 && labels.every(label => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(label));
+  if (labels.length < 2 || !labels.every(label => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(label))) return false;
+  // A real top-level label is at least two characters (or a punycode IDN).
+  return /^(?:[a-z]{2,}|xn--[a-z0-9-]{2,})$/i.test(labels.at(-1));
+}
+
+/** Pull the address out of the "Name <address>" form the contact field receives
+ * when the browser autofills it or a visitor pastes a mail header line.
+ *
+ * Extraction only: the result still has to pass isReplyAddress(), which stays
+ * the single source of truth. Deliberately narrow — exactly one bracket pair,
+ * non-empty content, nothing but whitespace after the closing bracket, and no
+ * address-looking display name (that case is ambiguous, and a wrong reply
+ * target is worse than none). Control characters are rejected before anything
+ * is read, so "Max <a@b.de>\r\nBcc: x@y.z" can never be reduced to a header
+ * value. Returns '' whenever anything is off. */
+export function extractReplyAddress(value) {
+  if (typeof value !== 'string' || /[\x00-\x1f\x7f]/.test(value)) return '';
+  const trimmed = value.trim();
+  const open = trimmed.indexOf('<');
+  const close = trimmed.indexOf('>');
+  if (open === -1 && close === -1) return isReplyAddress(trimmed) ? trimmed : '';
+  if (open === -1 || close === -1 || close < open) return '';
+  if (trimmed.includes('<', open + 1) || trimmed.includes('>', close + 1) || trimmed.slice(close + 1).trim()) return '';
+  const named = trimmed.slice(0, open);
+  if (named.includes('@')) return '';
+  const address = trimmed.slice(open + 1, close).trim();
+  return address && isReplyAddress(address) ? address : '';
 }
 
 /** Never trust the browser's MIME claim or filename extension alone. */
@@ -160,7 +195,7 @@ function respond(res, status, body, extra = {}) {
 export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl = fetch, now = Date.now } = {}) {
   const rates = new Map();
   let inFlight = 0;
-  const configured = Boolean(config.apiKey && address(config.from) && config.allowedOrigins.length);
+  const configured = Boolean(config.apiKey && isReplyAddress(config.from) && config.allowedOrigins.length);
   return async function inquiryHandler(req, res) {
     let path;
     try { path = new URL(req.url, 'http://inquiry.invalid').pathname; }
@@ -196,10 +231,11 @@ export function createInquiryHandler({ config = readInquiryConfig(), fetchImpl =
       const parsed = parseInquiryMultipart(Buffer.concat(chunks, bytes), req.headers['content-type']);
       const fields = validateInquiryFields(parsed.fields, now());
       const requestId = randomUUID();
+      const replyTo = extractReplyAddress(fields.email);
       const text = [`name: ${fields.name}`, `how to reach you: ${fields.email}`, ...(fields.artwork ? [`artwork: ${fields.artworkTitle}`, `https://h4ngelic.com/work/${inquiryArtwork(fields.artwork).category}/${fields.artwork}`] : []), '', fields.message || '(no message supplied)'].join('\n');
       let response;
       try {
-        response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], ...(address(fields.email) ? { reply_to: fields.email } : {}), subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
+        response = await fetchImpl('https://api.resend.com/emails', { method: 'POST', signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `h4-inquiry-${requestId}` }, body: JSON.stringify({ from: config.from, to: [RECIPIENT], ...(replyTo ? { reply_to: replyTo } : {}), subject: 'new h4ngelic inquiry', text, ...(parsed.attachments.length ? { attachments: parsed.attachments } : {}) }) });
       } catch (error) {
         console.error(JSON.stringify({ event: 'resend_unreachable', requestId, error: error?.name || 'NetworkError' }));
         throw new InquiryError(502, GENERIC_INQUIRY_FAILURE);

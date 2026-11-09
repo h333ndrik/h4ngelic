@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "builtAt": "2026-11-05T14:06:48.523Z",
+  "pipeline": "scripts/retexture-mannequin-c.mjs (M3: AO-Bake, Geometrie unveraendert)",
+  "tools": {
+    "blender": "4.5.0 Alpha",
+    "gltfTransform": "4.5.1",
+    "ktxSoftware": "4.4.2"
+  },
+  "source": {
+    "file": "mannequin_smooth.glb",
+    "bytes": 7856644,
+    "sha256": "4a74c0187786c4c25ebb85577281c5d82ca759e6f9d6022e0db5806eb4aece04",
+    "committed": false
+  },
+  "derivative": {
+    "file": "public/models/mannequin-c.d76abc164512.glb",
+    "bytes": 457000,
+    "sha256": "d76abc1645120eb217d0de062887ed029f40d963994f18d8024d64e93fbd71fb",
+    "triangles": 49838,
+    "vertices": 59935,
+    "material": "skincolor (matte, roughness 0.62, metallic 0)",
+    "compression": "KTX2 + Draco (texcoord 16 bit)",
+    "upAxis": "Y",
+    "frontAxis": "+Z",
+    "texture": "skincolor_baked.png (AO x Basis #f0efeb, 1024)"
+  },
+  "procreate": {
+    "obj": "mannequin_paint.obj",
+    "mtl": "mannequin_paint.mtl",
+    "texture": "skincolor.png",
+    "textureNote": "Neutrale Fallback-Textur #f0efeb (2048x2048); Original-skincolor.png war lokal nicht vorhanden.",
+    "uvOverlapPairs": 0
+  },
+  "uv": {
+    "repairedFaces": 160,
+    "overlapFacesBeforeRepair": 34,
+    "overlapPairsAfterRepair": 0,
+    "uvAreaFill": 0.372054
+  },
+  "bake": {
+    "aoDistance": 0.18,
+    "aoStrength": 0.35,
+    "aoSamples": 64,
+    "gradientStrength": 0.04,
+    "resolution": 1024,
+    "luminance": {
+      "min": 0.53825,
+      "max": 0.86256,
+      "mean": 0.81139
+    },
+    "uvCoverage": 0.8725,
+    "paintResolution": 2048,
+    "paintTextureBytes": 955528,
+    "paintLuminance": {
+      "min": 0.53824,
+      "max": 0.86256,
+      "mean": 0.81316
+    },
+    "paintTexture": "skincolor_paint_2048.png"
+  }
+}

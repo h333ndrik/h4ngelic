@@ -1,0 +1,133 @@
+.mannequin-preview {
+  width: 100%;
+  margin: clamp(26px, 4vw, 52px) 0 0;
+}
+/* Transparenz ist echt: kein CSS-Hintergrund am Rahmen, der Canvas raeumt mit
+   Alpha 0. Die Section zeigt den Seitenhintergrund. */
+.mannequin-preview-frame {
+  position: relative;
+  width: 100%;
+  height: clamp(470px, 55vw, 720px);
+  overflow: hidden;
+  isolation: isolate;
+  background: none;
+}
+/* Poster: echtes Renderer-Bild mit Alpha, gleiche Komposition wie das Modell.
+   Der Crossfade (240 ms) blendet daher Bild in Bild statt Silhouette in Figur. */
+.mannequin-preview-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity .24s ease;
+}
+.mannequin-preview-poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.mannequin-preview-frame[data-mannequin-state='ready'] .mannequin-preview-poster,
+.mannequin-preview-frame[data-mannequin-state='disposed'] .mannequin-preview-poster {
+  opacity: 0;
+}
+/* Zeigerform: grab/grabbing waeren hier die naheliegende Affordanz, aber die
+   Seite hat EIN natives Cursor-Bild pro Modus (src/cursor.css, F18, mit
+   !important auf html body *). Die Deklarationen sind deshalb entfernt statt
+   nur ueberschrieben — tokens-audit erlaubt `cursor` ausschliesslich in
+   cursor.css (B-F19). Die Affordanz liefert der Bedienhinweis unten;
+   Abweichung in REPORT.md §M4i. */
+.mannequin-preview-frame { touch-action: pan-y; }
+/* Bedienhinweis: erscheint einmal beim ersten Sichtbarwerden, liegt absolut
+   ueber dem Rahmen (kein Layout-Shift) und verschwindet nach der ersten Geste
+   oder nach fuenf Sekunden. Zeigereignisse gehen durch. */
+.mannequin-preview-gesture {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(10px, 2.2vw, 20px);
+  z-index: 2;
+  transform: translateX(-50%);
+  margin: 0;
+  color: rgba(236, 236, 232, .82);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.mannequin-preview-frame[data-mannequin-hint='on'] .mannequin-preview-gesture { opacity: 1; }
+.mannequin-preview-frame[data-mannequin-state='disposed'] .mannequin-preview-gesture { opacity: 0; }
+.mannequin-preview-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.mannequin-preview figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px 20px;
+  margin-top: 12px;
+  color: #a8a8a4;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding-bottom: 2px;
+}
+.mannequin-preview-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.mannequin-preview-design {
+  appearance: none;
+  min-height: 28px;
+  padding: 4px 9px;
+  border: 1px solid #d7d7d2;
+  border-radius: 0;
+  background: transparent;
+  color: #ecece8;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+.mannequin-preview-design:disabled,
+.mannequin-preview-design[aria-disabled='true'] {
+  border-color: #666762;
+  color: #8e8f8a;
+}
+.mannequin-preview-design:focus-visible {
+  outline: 2px solid #ecece8;
+  outline-offset: 3px;
+}
+/* Fokusring des Viewers: bewusst ausserhalb des Frames, damit er auf dem
+   dunklen Bild nicht als Rahmen verschwindet. :focus-visible greift nur bei
+   Tastaturbedienung, nicht beim Klick. */
+.mannequin-preview-frame:focus-visible {
+  outline: 2px solid #ecece8;
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .mannequin-preview-frame { height: clamp(390px, 116vw, 560px); }
+    .mannequin-preview figcaption { gap: 8px 14px; }
+  .mannequin-preview-meta { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mannequin-preview-poster { transition: none; }
+  /* Hinweis bleibt sichtbar, blendet aber nicht: harter Wechsel. */
+  .mannequin-preview-gesture { transition: none; }
+}

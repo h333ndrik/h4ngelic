@@ -1,0 +1,1108 @@
+{
+  "checkedAt": "2026-11-03T22:47:55.205Z",
+  "route": "/work/tattoos",
+  "source": "production preview build",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 900
+    },
+    {
+      "width": 320,
+      "height": 900
+    }
+  ],
+  "motions": [
+    "reduce",
+    "no-preference"
+  ],
+  "assertions": {
+    "coldRouteWebGL": 0,
+    "coldRouteGlbRequests": 0,
+    "coldRouteDesignRequests": 0,
+    "visibleRouteWebGL": 1,
+    "visibleRouteGlbRequests": 1,
+    "designRequestsBeforeAccess": 0,
+    "designRequestsAfterAccess": 1,
+    "renderLoop": false,
+    "headingOverlap": false,
+    "horizontalOverflow": false,
+    "fallback": {
+      "state": "failed",
+      "posterOpacity": "0.9",
+      "frameHeight": 720,
+      "cls": 0
+    }
+  },
+  "results": [
+    {
+      "variant": "A",
+      "width": 1440,
+      "height": 1000,
+      "motion": "reduce",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.859375,
+          "bottom": 223.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "figure": {
+          "top": 275.71875,
+          "bottom": 1037.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "frame": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "canvas": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 1512,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": "variant-a-1440.png",
+      "screenshotSha256": "114c124713bcd99ac702e1289b3c9558cac79d2226e9cdb1833451f7ddf93eff",
+      "contrast": {
+        "ratio": 1.543,
+        "bodyMedian": 57.71,
+        "backgroundMedian": 35.64,
+        "sampledBodyPixels": 35117
+      },
+      "servedModelBytes": 132688
+    },
+    {
+      "variant": "B",
+      "width": 1440,
+      "height": 1000,
+      "motion": "reduce",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.859375,
+          "bottom": 223.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "figure": {
+          "top": 275.71875,
+          "bottom": 1037.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "frame": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "canvas": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 116,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": "variant-b-1440.png",
+      "screenshotSha256": "b8cf227dc2e89a4ed819046169f72dd745fc5de79f2983471bfb2f2ed4b69f97",
+      "contrast": {
+        "ratio": 1.543,
+        "bodyMedian": 57.71,
+        "backgroundMedian": 35.64,
+        "sampledBodyPixels": 37567
+      },
+      "servedModelBytes": null
+    },
+    {
+      "variant": "A",
+      "width": 1440,
+      "height": 1000,
+      "motion": "no-preference",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.859375,
+          "bottom": 223.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "figure": {
+          "top": 275.71875,
+          "bottom": 1037.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "frame": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "canvas": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 80,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": null,
+      "screenshotSha256": null,
+      "contrast": null,
+      "servedModelBytes": 132688
+    },
+    {
+      "variant": "B",
+      "width": 1440,
+      "height": 1000,
+      "motion": "no-preference",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.859375,
+          "bottom": 223.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "figure": {
+          "top": 275.71875,
+          "bottom": 1037.71875,
+          "left": 35,
+          "right": 1405
+        },
+        "frame": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "canvas": {
+          "top": 275.71875,
+          "bottom": 995.71875,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 720
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 112,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": null,
+      "screenshotSha256": null,
+      "contrast": null,
+      "servedModelBytes": null
+    },
+    {
+      "variant": "A",
+      "width": 390,
+      "height": 900,
+      "motion": "reduce",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.5,
+          "bottom": 162.203125,
+          "left": 22,
+          "right": 368
+        },
+        "figure": {
+          "top": 188.203125,
+          "bottom": 705.984375,
+          "left": 22,
+          "right": 368
+        },
+        "frame": {
+          "top": 188.203125,
+          "bottom": 640.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "canvas": {
+          "top": 188.203125,
+          "bottom": 640.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 64,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": "variant-a-390.png",
+      "screenshotSha256": "5e92e27ae6b4f0a975a99426e1da7ecd8495dc8e8459d67239704e118a82b1bf",
+      "contrast": {
+        "ratio": 1.893,
+        "bodyMedian": 71.93,
+        "backgroundMedian": 35.64,
+        "sampledBodyPixels": 5061
+      },
+      "servedModelBytes": 132688
+    },
+    {
+      "variant": "B",
+      "width": 390,
+      "height": 900,
+      "motion": "reduce",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.5,
+          "bottom": 162.203125,
+          "left": 22,
+          "right": 368
+        },
+        "figure": {
+          "top": 188.203125,
+          "bottom": 705.984375,
+          "left": 22,
+          "right": 368
+        },
+        "frame": {
+          "top": 188.203125,
+          "bottom": 640.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "canvas": {
+          "top": 188.203125,
+          "bottom": 640.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 52,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": "variant-b-390.png",
+      "screenshotSha256": "d483e2afe441a92412c8f68952166f8255bed7f9e30fd151d84d47d4b1328d1b",
+      "contrast": {
+        "ratio": 2.481,
+        "bodyMedian": 95.86,
+        "backgroundMedian": 35.64,
+        "sampledBodyPixels": 5459
+      },
+      "servedModelBytes": null
+    },
+    {
+      "variant": "A",
+      "width": 390,
+      "height": 900,
+      "motion": "no-preference",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.5,
+          "bottom": 162.203125,
+          "left": 22,
+          "right": 368
+        },
+        "figure": {
+          "top": 188.203125,
+          "bottom": 705.984375,
+          "left": 22,
+          "right": 368
+        },
+        "frame": {
+          "top": 188.203125,
+          "bottom": 640.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "canvas": {
+          "top": 188.203125,
+          "bottom": 640.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 44,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": null,
+      "screenshotSha256": null,
+      "contrast": null,
+      "servedModelBytes": 132688
+    },
+    {
+      "variant": "B",
+      "width": 390,
+      "height": 900,
+      "motion": "no-preference",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.5,
+          "bottom": 162.203125,
+          "left": 22,
+          "right": 368
+        },
+        "figure": {
+          "top": 188.203125,
+          "bottom": 705.984375,
+          "left": 22,
+          "right": 368
+        },
+        "frame": {
+          "top": 188.203125,
+          "bottom": 640.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "canvas": {
+          "top": 188.203125,
+          "bottom": 640.59375,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 452.390625
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 48,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": null,
+      "screenshotSha256": null,
+      "contrast": null,
+      "servedModelBytes": null
+    },
+    {
+      "variant": "A",
+      "width": 320,
+      "height": 900,
+      "motion": "reduce",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.953125,
+          "bottom": 160.109375,
+          "left": 22,
+          "right": 298
+        },
+        "figure": {
+          "top": 186.109375,
+          "bottom": 664.890625,
+          "left": 22,
+          "right": 298
+        },
+        "frame": {
+          "top": 186.109375,
+          "bottom": 576.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "canvas": {
+          "top": 186.109375,
+          "bottom": 576.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "documentWidth": 320,
+        "viewportWidth": 320
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 44,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": "variant-a-320.png",
+      "screenshotSha256": "07a55fb0806ecb0fa13a1758aa2ceb656639f1cb1f2506f7ce249b09e584c67a",
+      "contrast": {
+        "ratio": 1.641,
+        "bodyMedian": 61.71,
+        "backgroundMedian": 35.64,
+        "sampledBodyPixels": 3631
+      },
+      "servedModelBytes": 132688
+    },
+    {
+      "variant": "B",
+      "width": 320,
+      "height": 900,
+      "motion": "reduce",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.953125,
+          "bottom": 160.109375,
+          "left": 22,
+          "right": 298
+        },
+        "figure": {
+          "top": 186.109375,
+          "bottom": 664.890625,
+          "left": 22,
+          "right": 298
+        },
+        "frame": {
+          "top": 186.109375,
+          "bottom": 576.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "canvas": {
+          "top": 186.109375,
+          "bottom": 576.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "documentWidth": 320,
+        "viewportWidth": 320
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 48,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": "variant-b-320.png",
+      "screenshotSha256": "32dd565dc6643607972c13eaca20cef6f4773d8108df1b2f29bd379d9fdf5988",
+      "contrast": {
+        "ratio": 1.916,
+        "bodyMedian": 72.86,
+        "backgroundMedian": 35.64,
+        "sampledBodyPixels": 3839
+      },
+      "servedModelBytes": null
+    },
+    {
+      "variant": "A",
+      "width": 320,
+      "height": 900,
+      "motion": "no-preference",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.953125,
+          "bottom": 160.109375,
+          "left": 22,
+          "right": 298
+        },
+        "figure": {
+          "top": 186.109375,
+          "bottom": 664.890625,
+          "left": 22,
+          "right": 298
+        },
+        "frame": {
+          "top": 186.109375,
+          "bottom": 576.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "canvas": {
+          "top": 186.109375,
+          "bottom": 576.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "documentWidth": 320,
+        "viewportWidth": 320
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 52,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": null,
+      "screenshotSha256": null,
+      "contrast": null,
+      "servedModelBytes": 132688
+    },
+    {
+      "variant": "B",
+      "width": 320,
+      "height": 900,
+      "motion": "no-preference",
+      "static": true,
+      "webglContexts": 1,
+      "glbRequestsBeforeVisibility": 0,
+      "glbRequestsAfterVisibility": 1,
+      "designRequestsBeforeAccess": 0,
+      "designRequestsAfterAccess": 1,
+      "previewModuleOnlyAfterVisibility": true,
+      "modelContentType": "model/gltf-binary",
+      "environment": "three-band-pmrem",
+      "environmentSigma": 0.035,
+      "envMapIntensity": 1.35,
+      "renderCountAtReady": 2,
+      "renderCountAfterWait": 2,
+      "layout": {
+        "heading": {
+          "top": 139.953125,
+          "bottom": 160.109375,
+          "left": 22,
+          "right": 298
+        },
+        "figure": {
+          "top": 186.109375,
+          "bottom": 664.890625,
+          "left": 22,
+          "right": 298
+        },
+        "frame": {
+          "top": 186.109375,
+          "bottom": 576.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "canvas": {
+          "top": 186.109375,
+          "bottom": 576.109375,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 390
+        },
+        "documentWidth": 320,
+        "viewportWidth": 320
+      },
+      "errors": [],
+      "browserMetrics": {
+        "cls": 0,
+        "fcp": 52,
+        "buildMarker": null
+      },
+      "frameLayoutShift": 0,
+      "buildLog": "[h4ngelic] build 93f863a0214e",
+      "screenshot": null,
+      "screenshotSha256": null,
+      "contrast": null,
+      "servedModelBytes": null
+    }
+  ],
+  "requestEvidence": [
+    {
+      "width": 1440,
+      "motion": "reduce",
+      "variant": "A",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 1440,
+      "motion": "reduce",
+      "variant": "B",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 1440,
+      "motion": "no-preference",
+      "variant": "A",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 1440,
+      "motion": "no-preference",
+      "variant": "B",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 390,
+      "motion": "reduce",
+      "variant": "A",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 390,
+      "motion": "reduce",
+      "variant": "B",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 390,
+      "motion": "no-preference",
+      "variant": "A",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 390,
+      "motion": "no-preference",
+      "variant": "B",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 320,
+      "motion": "reduce",
+      "variant": "A",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 320,
+      "motion": "reduce",
+      "variant": "B",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 320,
+      "motion": "no-preference",
+      "variant": "A",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    },
+    {
+      "width": 320,
+      "motion": "no-preference",
+      "variant": "B",
+      "cold": {
+        "webgl": 0,
+        "glb": 0,
+        "design": 0,
+        "previewModule": 0
+      },
+      "visible": {
+        "glb": 1,
+        "designBeforeAccess": 0,
+        "designAfterAccess": 1,
+        "decalModule": 1
+      },
+      "actualRequests": [
+        "http://127.0.0.1:53055/assets/three.module-seIrsAq9.js",
+        "http://127.0.0.1:53055/models/mannequin-female-b.glb",
+        "http://127.0.0.1:53055/assets/DecalGeometry-Cy3wIADv.js",
+        "http://127.0.0.1:53055/textures/designs/demo-mark.png"
+      ]
+    }
+  ],
+  "passed": true
+}

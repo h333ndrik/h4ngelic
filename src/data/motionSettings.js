@@ -9,7 +9,6 @@ export const motionSettings = Object.freeze({
     copyDistanceVw: calm.distanceVw, linkDistanceVw: .045,
     maximumCopyDistance: calm.maximumDistance, maximumLinkDistance: 28 }),
   hero: Object.freeze({ start: .02, end: .90, scale: .97 }),
-  heroBar: Object.freeze({ start: .02, end: .55 }),
 });
 
 export function clamp01(value) {
@@ -73,14 +72,6 @@ export function sampleHeading(progress, start = motionSettings.heading.start, en
 export function sampleHero(progress, settings = motionSettings.hero) {
   const local = easeOutCubic(progressBetween(progress, settings.start, settings.end));
   return { scale: 1 + (settings.scale - 1) * local, opacity: 1 - local };
-}
-
-/** Both bar halves translate completely out before the next section fills the
- * viewport. Opacity stays at 1, so the exit is a physical compositor movement. */
-export function sampleHeroBar(progress, { reduced = false, settings = motionSettings.heroBar } = {}) {
-  const amount = reduced ? Number(progress >= settings.end)
-    : smoothProgress(progressBetween(progress, settings.start, settings.end));
-  return { shift: amount ? -100 * amount : 0, hidden: amount >= 1 };
 }
 
 // Compatibility exports for existing consumers. The kinetic implementation,

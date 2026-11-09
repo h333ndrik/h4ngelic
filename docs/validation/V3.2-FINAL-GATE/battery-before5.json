@@ -1,0 +1,53 @@
+{
+  "phase": "before5",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-05T21:41:04.974Z",
+  "results": [
+    {
+      "suite": "hover-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 16458,
+      "passLine": "PASS hover touch: no sticky mouse scale/glow, native focus and navigation retained.",
+      "failLine": ""
+    },
+    {
+      "suite": "microinteractions-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9579,
+      "passLine": "PASS microinteractions mobile: 390/320px 2x2 rubric rows, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.",
+      "failLine": ""
+    },
+    {
+      "suite": "mobile-interactions-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 58491,
+      "passLine": "PASS mobile Phase 1 desktop preservation: mobile control hidden; one-second 4 and released 333 retained.",
+      "failLine": ""
+    },
+    {
+      "suite": "master-accessibility-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 7234,
+      "passLine": "PASS dynamic accessibility: reduced-motion cancels an active NAAVI animation; the genuine expanded artwork stays inside the blanket cursor contract.",
+      "failLine": ""
+    },
+    {
+      "suite": "seo-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 29743,
+      "passLine": "PASS SEO live interiors and Home Contact: direct/refresh routes work without Three.js scene, font or reflection requests.",
+      "failLine": ""
+    }
+  ]
+}

@@ -152,6 +152,30 @@ try {
   });
   assertPrivateValuesAbsent(unreachable.stderr);
   diagnostics.push(unreachableEntry);
+  // MAIL-02: a bare address becomes Reply-To exactly; a value carrying CR/LF is
+  // malformed input (400, generic contact message) and never reaches the
+  // provider, so no header line can be injected. Reply-To itself is optional:
+  // free-text contacts above still returned 202.
+  handler = createInquiryHandler({ config, fetchImpl: (_url, options) => fetch(providerURL, options) });
+  const beforeInjection = received.length;
+  const injected = await send(form(original, 'visitor@example.com\r\nBcc: evil@example.com'));
+  assert.equal(injected.status, 400);
+  assert.equal((await injected.json()).error, 'please enter how to reach you.');
+  assert.equal(received.length, beforeInjection, 'A malformed contact never reaches the provider.');
+  const exactReply = await send(form(original, 'first.last+tag@example.com'));
+  assert.equal(exactReply.status, 202); await exactReply.json();
+  assert.equal(received.at(-1).reply_to, 'first.last+tag@example.com');
+  assert.equal(received.at(-1).to[0], 'h4ngelic@gmail.com');
+  assert.equal(received.at(-1).from, config.from);
+  assert.equal(received.length, beforeInjection + 1);
+  // MAIL-02b: the autofill form "Name <address>" unwraps to the bare address
+  // before the same strict check decides; delivery fields stay untouched.
+  const autofill = await send(form(original, 'Max Mustermann <max@example.com>'));
+  assert.equal(autofill.status, 202); await autofill.json();
+  assert.equal(received.at(-1).reply_to, 'max@example.com');
+  assert.equal(received.at(-1).to[0], 'h4ngelic@gmail.com');
+  assert.equal(received.at(-1).from, config.from);
+  assert.equal(received.length, beforeInjection + 2);
 
   const report = {
     checkedAt: new Date().toISOString(),
@@ -159,6 +183,11 @@ try {
     status: { accepted: accepted.status, crossOrigin: forbidden.status, providerFailure: failed.status, spoofedAttachment: spoofed.status, rateLimit: limited.status, unconfigured: unconfigured.status },
     fixedRecipientConfigured: received[0].to[0] === 'h4ngelic@gmail.com',
     replyToForwarded: received[0].reply_to === 'visitor@example.com',
+    fixedRecipient: received[0].to[0],
+    replyTo: received[0].reply_to,
+    replyToInjection: 'rejected with 400 before the provider call',
+    replyToExact: true,
+    replyToDisplayNameForm: received.at(-1).reply_to,
     freeTextContactChannelsAccepted: ['@loopback-visitor', '+49 170 1234567'],
     nonEmailReplyToOmitted: true,
     unicodeFilenamePreserved: received[0].attachments[0].filename === 'référence.pdf',

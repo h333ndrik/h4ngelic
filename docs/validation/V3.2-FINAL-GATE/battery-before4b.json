@@ -1,0 +1,26 @@
+{
+  "phase": "before4b",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55241",
+  "finishedAt": "2026-11-05T21:36:19.188Z",
+  "results": [
+    {
+      "suite": "gallery-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 31259,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    },
+    {
+      "suite": "artwork-transitions-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 1285,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: The temporary module fixture must reach the real archive renderer."
+    }
+  ]
+}

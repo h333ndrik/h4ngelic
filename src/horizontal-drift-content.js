@@ -3,8 +3,9 @@ import { getImageAsset } from './image-assets.js';
 import { projectURL } from './routes.js';
 import { artworkImages } from './artwork-content.js';
 import { carouselSettings, carouselStyleProperties } from './carouselSettings.js';
+import { formatCounter } from './labels.js';
 
-export const horizontalDriftCategories = Object.freeze(['tattoos', 'flashes', 'analog-photography']);
+export const horizontalDriftCategories = Object.freeze(['tattoos', 'flashes', 'jewellery', 'analog-photography']);
 
 function imageMarkup(image, index, { hidden = false } = {}) {
   if (!contentURL(image?.src)) return '';
@@ -24,7 +25,7 @@ function imageMarkup(image, index, { hidden = false } = {}) {
 export function renderHorizontalDrift(projects = [], { category = '', label = category } = {}) {
   if (!horizontalDriftCategories.includes(category)) return '';
   const entries = projects.filter(project => project.published !== false && project.category === category
-    && Array.isArray(project.images) && project.images.some(image => contentURL(image?.src)));
+    && (project.placeholder === true || Array.isArray(project.images) && project.images.some(image => contentURL(image?.src))));
   const instruction = `drift-instruction-${category}`;
   const viewport = `drift-viewport-${category}`;
   const style = Object.entries(carouselStyleProperties()).map(([name, value]) => `${name}:${value}`).join(';');
@@ -33,13 +34,18 @@ export function renderHorizontalDrift(projects = [], { category = '', label = ca
       <p class="drift-instruction${entries.length ? '' : ' sr-only'}" id="${instruction}">${entries.length ? 'drifting <span aria-hidden="true">·</span> drag to explore' : 'this carousel will contain published artworks.'}<span class="sr-only"> Use left and right arrow keys to browse. Swipe horizontally on touch screens. Vertical wheel scrolling and touch panning continue through the page.</span></p>
       <div class="drift-controls" aria-label="${escape(label)} carousel navigation">
         <button class="drift-previous" type="button" data-drift-previous aria-controls="${viewport}" aria-label="previous ${escape(label)} artwork" disabled><span aria-hidden="true">←</span></button>
-        <output class="drift-count" data-drift-count aria-hidden="true">${entries.length ? '1' : '0'} / ${entries.length}</output>
+        <output class="drift-count" data-drift-count aria-hidden="true">${entries.length ? formatCounter(1, entries.length) : formatCounter(0, 0)}</output>
         <button class="drift-next" type="button" data-drift-next aria-controls="${viewport}" aria-label="next ${escape(label)} artwork" disabled><span aria-hidden="true">→</span></button>
       </div>
     </div>
     <div class="drift-viewport" id="${viewport}">
       <div class="drift-track">
         ${entries.map((project, index) => {
+          if (project.placeholder === true) {
+            return `<article class="project drift-item placeholder-project" data-drift-item data-placeholder="true" aria-roledescription="slide" aria-label="${index + 1} of ${entries.length}, editorial placeholder" style="--drift-ratio:300 / 420">
+              <div class="project-images drift-images"><button class="placeholder-card" type="button" data-placeholder-expand aria-pressed="false" aria-label="expand ${escape(project.title)} placeholder"><span aria-hidden="true">${escape(project.title)}</span></button></div>
+            </article>`;
+          }
           const images = artworkImages(project).filter(image => contentURL(image?.src));
           const asset = getImageAsset(images[0]);
           const href = projectURL(project);

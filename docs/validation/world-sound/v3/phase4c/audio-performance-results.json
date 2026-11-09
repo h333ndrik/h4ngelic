@@ -1,0 +1,131 @@
+{
+  "checkedAt": "2026-11-05T19:15:18.016Z",
+  "base": "http://127.0.0.1:5173",
+  "reports": [
+    {
+      "profile": "desktop",
+      "reserved": {
+        "x": 211.9375,
+        "y": 949,
+        "width": 16,
+        "height": 10
+      },
+      "reads": 16,
+      "handlerTotal": 0.19999998807907104,
+      "startupTotal": 0.19999998807907104,
+      "contextCreateMs": 122.30000001192093,
+      "unlockMs": 0,
+      "startMs": 0.09999996423721313,
+      "indicatorStartMs": 0,
+      "heapBefore": 29190149,
+      "heapNow": 24943907,
+      "heapDelta": -4246242,
+      "decodedBytes": 31752000,
+      "coldGestureToStartMs": 124.7,
+      "roundTripBefore": 24153261,
+      "roundTripAfter": 24201475,
+      "roundTripHeapDelta": 48214,
+      "roundTripLoops": {
+        "4": {
+          "status": "idle",
+          "active": false,
+          "bufferDuration": 0
+        },
+        "333": {
+          "status": "ready",
+          "active": true,
+          "bufferDuration": 90
+        }
+      },
+      "fetches": [
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/x-333-4.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/x-4-333.m4a",
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/loop-333.m4a",
+        "/assets/audio/loop-4.m4a",
+        "/assets/audio/loop-333.m4a"
+      ],
+      "errors": []
+    },
+    {
+      "profile": "reduced",
+      "before": {
+        "x": 211.9375,
+        "y": 949,
+        "width": 16,
+        "height": 10
+      },
+      "after": {
+        "x": 211.9375,
+        "y": 949,
+        "width": 16,
+        "height": 10
+      },
+      "rafAudio": 0
+    },
+    {
+      "profile": "390px-full",
+      "box": {
+        "x": 177.671875,
+        "y": 857,
+        "width": 16,
+        "height": 10
+      },
+      "overflow": 0
+    },
+    {
+      "profile": "390px-reduced",
+      "box": {
+        "x": 177.671875,
+        "y": 857,
+        "width": 16,
+        "height": 10
+      },
+      "overflow": 0
+    },
+    {
+      "profile": "320px-full",
+      "box": {
+        "x": 177.671875,
+        "y": 857,
+        "width": 16,
+        "height": 10
+      },
+      "overflow": 0
+    },
+    {
+      "profile": "320px-reduced",
+      "box": {
+        "x": 177.671875,
+        "y": 857,
+        "width": 16,
+        "height": 10
+      },
+      "overflow": 0
+    },
+    {
+      "profile": "inflight-decode",
+      "starts": 1,
+      "decodes": 1
+    },
+    {
+      "profile": "gesture-to-audible",
+      "times": [
+        {
+          "pass": "cold",
+          "ms": 160.9
+        },
+        {
+          "pass": "warm",
+          "ms": 134.4
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

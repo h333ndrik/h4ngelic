@@ -19,10 +19,12 @@ const originalViewports = {
   hover: { width: '28.832', height: '43.248' },
   pressed: { width: '26.112', height: '39.168' },
 };
+// Native cursor budget: every image stays <= 32 CSS px, otherwise Firefox
+// silently discards it and the pointer falls back to the system arrow.
 const approvedViewports = {
-  base: { width: '23.26', height: '34.88' },
-  hover: { width: '24.65136', height: '36.97704' },
-  pressed: { width: '22.32576', height: '33.48864' },
+  base: { width: '19.7', height: '29.6' },
+  hover: { width: '19.7', height: '29.6' },
+  pressed: { width: '21.28', height: '31.97' },
 };
 
 test('V2 sets the approved compact cursor viewport while retaining original symbol bytes and alternate alpha geometry', async () => {

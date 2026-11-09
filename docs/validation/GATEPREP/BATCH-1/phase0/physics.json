@@ -1,0 +1,69 @@
+{
+  "checkedAt": "2026-11-04T17:57:58.594Z",
+  "build": "831737ce85e6",
+  "profiles": [
+    {
+      "width": 1440,
+      "touch": false,
+      "hit": {
+        "x": 381.13893232789604,
+        "y": 368.15621769602836,
+        "facing": 0.7473056946854326,
+        "faceIndex": 92,
+        "normal": [
+          0,
+          0,
+          1
+        ]
+      },
+      "maximumRotationDegrees": 178.084318979459,
+      "peakAtMs": 936.0999999642372,
+      "maximumLinearVelocity": 2.98019000213617,
+      "maximumAngularVelocity": 3.439683155279519,
+      "finalRotationDegrees": 42.628719119826194,
+      "finalOffset": 0.49335299074853084
+    },
+    {
+      "width": 390,
+      "touch": true,
+      "hit": {
+        "x": 86.54757955111975,
+        "y": 154.75115961840208,
+        "facing": 0.790387371811422,
+        "faceIndex": 138,
+        "normal": [
+          0,
+          0,
+          1
+        ]
+      },
+      "maximumRotationDegrees": 0,
+      "peakAtMs": 0,
+      "maximumLinearVelocity": 0,
+      "maximumAngularVelocity": 0,
+      "finalRotationDegrees": 0,
+      "finalOffset": 0
+    },
+    {
+      "width": 320,
+      "touch": true,
+      "hit": {
+        "x": 75.49466086356973,
+        "y": 319.46530975155,
+        "facing": 0.6910626671932402,
+        "faceIndex": 144,
+        "normal": [
+          0,
+          0,
+          1
+        ]
+      },
+      "maximumRotationDegrees": 0,
+      "peakAtMs": 0,
+      "maximumLinearVelocity": 0,
+      "maximumAngularVelocity": 0,
+      "finalRotationDegrees": 0,
+      "finalOffset": 0
+    }
+  ]
+}

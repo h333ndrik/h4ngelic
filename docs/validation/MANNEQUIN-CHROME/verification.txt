@@ -1,0 +1,15 @@
+TESTMODE: full
+Route: /work/tattoos, 3D MODEL subsection
+Branch base: 11e78a15b5cb6951a67b38ddd3ae8fde6eba8e6c
+
+Unit: npm test -> 379 tests, 379 pass, 0 fail.
+Build: npm run build -> 18 routes + 404.
+SEO: npm run test:seo -> 18 semantic direct routes; live interiors/Home Contact cold with 0 WebGL and no Three.js scene/font/reflection request.
+Browser: tests/mannequin-preview-browser.mjs -> 12 production runs = 3 viewports x 2 motion preferences x 2 variants; pass.
+Cold per run: 0 WebGL, 0 GLB, 0 design, 0 preview/Three chunk.
+Visible per run: 1 WebGL context, 1 GLB request, static canvas, no animation loop.
+Design: 0 requests before explicit access; exactly 1 PNG and 1 DecalGeometry chunk after access; re-toggle does not refetch.
+Fallback: aborted GLB keeps 0.9-opacity poster in the same 720 px frame; model-local CLS 0.
+No horizontal overflow and no heading overlap at 1440 / 390 / 320 px.
+Console build marker captured: [h4ngelic] build 93f863a0214e; values are recorded in requests.json for each run.
+Static check: render counter stays at 2 before/after 250 ms in reduced and normal motion.

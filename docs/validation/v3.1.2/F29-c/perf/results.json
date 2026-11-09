@@ -1,0 +1,122 @@
+{
+  "checkedAt": "2026-11-03T14:17:24.418Z",
+  "base": "http://127.0.0.1:55187",
+  "reports": [
+    {
+      "width": 1440,
+      "route": "/work/tattoos",
+      "samples": [
+        144,
+        388,
+        140,
+        88,
+        112
+      ],
+      "median": 140,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "route": "/contact",
+      "samples": [
+        176,
+        112,
+        84,
+        112,
+        112
+      ],
+      "median": 112,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "route": "/work/tattoos",
+      "samples": [
+        52,
+        80,
+        68,
+        52,
+        48
+      ],
+      "median": 52,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "route": "/contact",
+      "samples": [
+        108,
+        64,
+        88,
+        88,
+        44
+      ],
+      "median": 88,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "route": "/work/tattoos",
+      "samples": [
+        52,
+        44,
+        56,
+        56,
+        44
+      ],
+      "median": 52,
+      "finalPath": "/work/tattoos",
+      "forbidden": [],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "route": "/contact",
+      "samples": [
+        76,
+        48,
+        48,
+        48,
+        48
+      ],
+      "median": 48,
+      "finalPath": "/",
+      "forbidden": [],
+      "errors": []
+    }
+  ],
+  "entrance": {
+    "start": {
+      "entering": true,
+      "transitionProperty": "opacity, transform",
+      "transitionDuration": "0.45s, 1.1s",
+      "opacity": 0,
+      "transform": "matrix(0.96, 0, 0, 0.96, 0, 14)"
+    },
+    "end": {
+      "entering": false,
+      "opacity": 1,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "posterOpacity": 0,
+      "fcp": 116,
+      "lcp": 116,
+      "cls": 0,
+      "build": "78e3fc92f003"
+    }
+  },
+  "distBytes": 31446849,
+  "modulepreload": "/assets/main-COzOjpEG.js",
+  "mainChunks": [
+    "main-COzOjpEG.js"
+  ],
+  "routes": 18,
+  "failures": []
+}

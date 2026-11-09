@@ -1,0 +1,28 @@
+V3.2-M0c final verification — 2026-11-03
+
+npm test
+  tests: 375
+  pass: 375
+  fail: 0
+  cancelled: 0
+  skipped: 0
+  todo: 0
+
+npm run build
+  Vite: 126 modules transformed, build completed
+  Prerendered: 18 routes + 404
+  Preview deployment: 0 indexable
+  Production model: public/models/mannequin.glb, 119740 bytes
+
+npm run test:mannequin-preview
+  PASS: 6 static A/B renders at 1440/390/320
+  Cold route: 0 WebGL contexts, 0 GLB requests
+  Visible section: exactly 1 GLB request
+  Browser/console errors: 0
+
+npm run test:seo
+  PASS SEO HTTP/no-JS (preview): 18 semantic direct routes, unique metadata,
+  confirmed canonicals, structured artist identity, legacy redirects, strict
+  404s, sitemap and robots.
+  PASS SEO live interiors and Home Contact: direct/refresh routes work without
+  Three.js scene, font or reflection requests.

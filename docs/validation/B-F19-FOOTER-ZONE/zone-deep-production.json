@@ -1,0 +1,334 @@
+{
+  "checkedAt": "2026-11-05T19:38:32.797Z",
+  "base": "https://www.h4ngelic.com",
+  "label": "production",
+  "build": "fdd42f5e5266",
+  "profiles": [
+    {
+      "width": 1440,
+      "clicks": [
+        {
+          "where": "band-free-space",
+          "x": 661,
+          "y": 933.7,
+          "hit": "div.footer-identity",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "where": "below-band",
+          "x": 720,
+          "y": 947.7,
+          "before": 1,
+          "after": 2
+        }
+      ],
+      "assets": [
+        {
+          "url": "https://www.h4ngelic.com/assets/h4ngelic-cursor.svg",
+          "ok": true,
+          "width": 23,
+          "height": 35,
+          "status": 200,
+          "type": "image/svg+xml"
+        }
+      ],
+      "zone": {
+        "page": {
+          "scrollY": 3338,
+          "innerHeight": 950,
+          "scrollHeight": 4288,
+          "innerWidth": 1440
+        },
+        "footer": {
+          "top": 865.7,
+          "bottom": 949.7,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 84
+        },
+        "identity": {
+          "top": 893.7,
+          "bottom": 937.7,
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 44
+        },
+        "items": [],
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "top": 893.7,
+            "bottom": 937.7,
+            "left": 35,
+            "right": 658.7,
+            "width": 623.7,
+            "height": 44,
+            "clientWidth": 624,
+            "scrollWidth": 624,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "tabIndex": 0
+          },
+          {
+            "element": "span.footer-details",
+            "top": 893.7,
+            "bottom": 937.7,
+            "left": 1161.5,
+            "right": 1405,
+            "width": 243.5,
+            "height": 44,
+            "clientWidth": 244,
+            "scrollWidth": 244,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "tabIndex": 0
+          }
+        ],
+        "build": "fdd42f5e5266"
+      },
+      "raster": {
+        "points": 14364,
+        "values": [
+          {
+            "value": "image:https://www.h4ngelic.com/assets/h4ngelic-cursor.svg",
+            "count": 14364
+          }
+        ],
+        "offenders": []
+      },
+      "free": {
+        "x": 661,
+        "y": 933.7,
+        "hit": "div.footer-identity"
+      }
+    },
+    {
+      "width": 390,
+      "clicks": [
+        {
+          "where": "band-free-space",
+          "x": 148,
+          "y": 828,
+          "hit": "div.footer-identity",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "assets": [
+        {
+          "url": "https://www.h4ngelic.com/assets/h4ngelic-cursor.svg",
+          "ok": true,
+          "width": 23,
+          "height": 35,
+          "status": 200,
+          "type": "image/svg+xml"
+        }
+      ],
+      "zone": {
+        "page": {
+          "scrollY": 2395,
+          "innerHeight": 844,
+          "scrollHeight": 3239,
+          "innerWidth": 390
+        },
+        "footer": {
+          "top": 766,
+          "bottom": 844,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 78
+        },
+        "identity": {
+          "top": 788,
+          "bottom": 832,
+          "left": 22,
+          "right": 368,
+          "width": 346,
+          "height": 44
+        },
+        "items": [],
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "top": 788,
+            "bottom": 832,
+            "left": 22,
+            "right": 145,
+            "width": 123,
+            "height": 44,
+            "clientWidth": 123,
+            "scrollWidth": 237,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "tabIndex": 0
+          },
+          {
+            "element": "span.footer-details",
+            "top": 788,
+            "bottom": 832,
+            "left": 245,
+            "right": 368,
+            "width": 123,
+            "height": 44,
+            "clientWidth": 123,
+            "scrollWidth": 184,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "tabIndex": 0
+          }
+        ],
+        "build": "fdd42f5e5266"
+      },
+      "raster": {
+        "points": 3612,
+        "values": [
+          {
+            "value": "image:https://www.h4ngelic.com/assets/h4ngelic-cursor.svg",
+            "count": 3612
+          }
+        ],
+        "offenders": []
+      },
+      "free": {
+        "x": 148,
+        "y": 828,
+        "hit": "div.footer-identity"
+      }
+    },
+    {
+      "width": 320,
+      "clicks": [
+        {
+          "where": "band-free-space",
+          "x": 112,
+          "y": 828.2,
+          "hit": "div.footer-identity",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "assets": [
+        {
+          "url": "https://www.h4ngelic.com/assets/h4ngelic-cursor.svg",
+          "ok": true,
+          "width": 23,
+          "height": 35,
+          "status": 200,
+          "type": "image/svg+xml"
+        }
+      ],
+      "zone": {
+        "page": {
+          "scrollY": 2446,
+          "innerHeight": 844,
+          "scrollHeight": 3290,
+          "innerWidth": 320
+        },
+        "footer": {
+          "top": 766.2,
+          "bottom": 844.2,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 78
+        },
+        "identity": {
+          "top": 788.2,
+          "bottom": 832.2,
+          "left": 22,
+          "right": 298,
+          "width": 276,
+          "height": 44
+        },
+        "items": [],
+        "clusters": [
+          {
+            "element": "span.footer-left",
+            "top": 788.2,
+            "bottom": 832.2,
+            "left": 22,
+            "right": 110,
+            "width": 88,
+            "height": 44,
+            "clientWidth": 88,
+            "scrollWidth": 237,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "tabIndex": 0
+          },
+          {
+            "element": "span.footer-details",
+            "top": 788.2,
+            "bottom": 832.2,
+            "left": 210,
+            "right": 298,
+            "width": 88,
+            "height": 44,
+            "clientWidth": 88,
+            "scrollWidth": 184,
+            "clientHeight": 44,
+            "offsetHeight": 44,
+            "overflowX": "auto",
+            "overflowY": "hidden",
+            "scrollbarWidth": "none",
+            "touchAction": "pan-x pan-y",
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 9 2, auto",
+            "tabIndex": 0
+          }
+        ],
+        "build": "fdd42f5e5266"
+      },
+      "raster": {
+        "points": 2877,
+        "values": [
+          {
+            "value": "image:https://www.h4ngelic.com/assets/h4ngelic-cursor.svg",
+            "count": 2877
+          }
+        ],
+        "offenders": []
+      },
+      "free": {
+        "x": 112,
+        "y": 828.2,
+        "hit": "div.footer-identity"
+      }
+    }
+  ],
+  "failures": []
+}

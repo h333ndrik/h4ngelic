@@ -1,0 +1,408 @@
+{
+  "checkedAt": "2026-11-03T09:19:02.997Z",
+  "reports": [
+    {
+      "width": 1440,
+      "reduced": false,
+      "tiers": [
+        {
+          "count": 1,
+          "expected": "nice to meet you."
+        },
+        {
+          "count": 2,
+          "expected": "you came back."
+        },
+        {
+          "count": 3,
+          "expected": "we're practically friends now."
+        },
+        {
+          "count": 4,
+          "expected": "getting familiar, aren't we?"
+        },
+        {
+          "count": 5,
+          "expected": "you know your way around here."
+        },
+        {
+          "count": 6,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 9,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 10,
+          "expected": "you're part of this place now."
+        },
+        {
+          "count": 42,
+          "expected": "you're part of this place now."
+        }
+      ],
+      "reveal": {
+        "opacity": 0.616232,
+        "above": true,
+        "phrase": {
+          "top": 748.4738159179688,
+          "bottom": 780.0406494140625
+        },
+        "host": {
+          "top": 787.765625,
+          "bottom": 831.765625
+        },
+        "width": 176.01171875,
+        "height": 31.56683349609375
+      },
+      "before": {
+        "width": 1370,
+        "height": 44,
+        "page": 1440
+      },
+      "after": {
+        "width": 1370,
+        "height": 44,
+        "page": 1440
+      },
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "reduced": true,
+      "tiers": [
+        {
+          "count": 1,
+          "expected": "nice to meet you."
+        },
+        {
+          "count": 2,
+          "expected": "you came back."
+        },
+        {
+          "count": 3,
+          "expected": "we're practically friends now."
+        },
+        {
+          "count": 4,
+          "expected": "getting familiar, aren't we?"
+        },
+        {
+          "count": 5,
+          "expected": "you know your way around here."
+        },
+        {
+          "count": 6,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 9,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 10,
+          "expected": "you're part of this place now."
+        },
+        {
+          "count": 42,
+          "expected": "you're part of this place now."
+        }
+      ],
+      "reveal": {
+        "opacity": 0.9,
+        "above": true,
+        "phrase": {
+          "top": 749.96875,
+          "bottom": 780.765625
+        },
+        "host": {
+          "top": 787.765625,
+          "bottom": 831.765625
+        },
+        "width": 171.71875,
+        "height": 30.796875
+      },
+      "before": {
+        "width": 1370,
+        "height": 44,
+        "page": 1440
+      },
+      "after": {
+        "width": 1370,
+        "height": 44,
+        "page": 1440
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": false,
+      "tiers": [
+        {
+          "count": 1,
+          "expected": "nice to meet you."
+        },
+        {
+          "count": 2,
+          "expected": "you came back."
+        },
+        {
+          "count": 3,
+          "expected": "we're practically friends now."
+        },
+        {
+          "count": 4,
+          "expected": "getting familiar, aren't we?"
+        },
+        {
+          "count": 5,
+          "expected": "you know your way around here."
+        },
+        {
+          "count": 6,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 9,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 10,
+          "expected": "you're part of this place now."
+        },
+        {
+          "count": 42,
+          "expected": "you're part of this place now."
+        }
+      ],
+      "reveal": {
+        "opacity": 0.471053,
+        "above": true,
+        "phrase": {
+          "top": 737.25,
+          "bottom": 768.046875
+        },
+        "host": {
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "width": 171.71875,
+        "height": 30.796875
+      },
+      "before": {
+        "width": 346,
+        "height": 44,
+        "page": 390
+      },
+      "after": {
+        "width": 346,
+        "height": 44,
+        "page": 390
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "reduced": true,
+      "tiers": [
+        {
+          "count": 1,
+          "expected": "nice to meet you."
+        },
+        {
+          "count": 2,
+          "expected": "you came back."
+        },
+        {
+          "count": 3,
+          "expected": "we're practically friends now."
+        },
+        {
+          "count": 4,
+          "expected": "getting familiar, aren't we?"
+        },
+        {
+          "count": 5,
+          "expected": "you know your way around here."
+        },
+        {
+          "count": 6,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 9,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 10,
+          "expected": "you're part of this place now."
+        },
+        {
+          "count": 42,
+          "expected": "you're part of this place now."
+        }
+      ],
+      "reveal": {
+        "opacity": 0.9,
+        "above": true,
+        "phrase": {
+          "top": 737.25,
+          "bottom": 768.046875
+        },
+        "host": {
+          "top": 788.046875,
+          "bottom": 832.046875
+        },
+        "width": 171.71875,
+        "height": 30.796875
+      },
+      "before": {
+        "width": 346,
+        "height": 44,
+        "page": 390
+      },
+      "after": {
+        "width": 346,
+        "height": 44,
+        "page": 390
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": false,
+      "tiers": [
+        {
+          "count": 1,
+          "expected": "nice to meet you."
+        },
+        {
+          "count": 2,
+          "expected": "you came back."
+        },
+        {
+          "count": 3,
+          "expected": "we're practically friends now."
+        },
+        {
+          "count": 4,
+          "expected": "getting familiar, aren't we?"
+        },
+        {
+          "count": 5,
+          "expected": "you know your way around here."
+        },
+        {
+          "count": 6,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 9,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 10,
+          "expected": "you're part of this place now."
+        },
+        {
+          "count": 42,
+          "expected": "you're part of this place now."
+        }
+      ],
+      "reveal": {
+        "opacity": 0.471122,
+        "above": true,
+        "phrase": {
+          "top": 737.390625,
+          "bottom": 768.1875
+        },
+        "host": {
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "width": 171.71875,
+        "height": 30.796875
+      },
+      "before": {
+        "width": 276,
+        "height": 44,
+        "page": 320
+      },
+      "after": {
+        "width": 276,
+        "height": 44,
+        "page": 320
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "reduced": true,
+      "tiers": [
+        {
+          "count": 1,
+          "expected": "nice to meet you."
+        },
+        {
+          "count": 2,
+          "expected": "you came back."
+        },
+        {
+          "count": 3,
+          "expected": "we're practically friends now."
+        },
+        {
+          "count": 4,
+          "expected": "getting familiar, aren't we?"
+        },
+        {
+          "count": 5,
+          "expected": "you know your way around here."
+        },
+        {
+          "count": 6,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 9,
+          "expected": "some things are worth returning to."
+        },
+        {
+          "count": 10,
+          "expected": "you're part of this place now."
+        },
+        {
+          "count": 42,
+          "expected": "you're part of this place now."
+        }
+      ],
+      "reveal": {
+        "opacity": 0.9,
+        "above": true,
+        "phrase": {
+          "top": 737.390625,
+          "bottom": 768.1875
+        },
+        "host": {
+          "top": 788.1875,
+          "bottom": 832.1875
+        },
+        "width": 171.71875,
+        "height": 30.796875
+      },
+      "before": {
+        "width": 276,
+        "height": 44,
+        "page": 320
+      },
+      "after": {
+        "width": 276,
+        "height": 44,
+        "page": 320
+      },
+      "errors": []
+    }
+  ],
+  "failures": []
+}

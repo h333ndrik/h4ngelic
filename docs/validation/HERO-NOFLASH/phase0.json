@@ -1,0 +1,45 @@
+{
+  "build": "d4d65d17da58",
+  "readyState": "complete",
+  "heroLoading": "true",
+  "stageClass": "stage",
+  "poster": {
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "0.756488",
+    "backgroundImage": "url(\"http://127.0.0.1:55192/assets/wordmark-fallback.svg\")",
+    "animationName": "hero-poster-breathe",
+    "text": "",
+    "rect": {
+      "x": 0.71087646484375,
+      "y": 0.53314208984375,
+      "width": 1438.578125,
+      "height": 899.1114501953125
+    }
+  },
+  "canvas": {
+    "display": "block",
+    "opacity": "0",
+    "transform": "matrix(0.96, 0, 0, 0.96, 0, 14)"
+  },
+  "requests": [
+    {
+      "url": "http://127.0.0.1:55192/assets/wordmark-fallback.svg",
+      "startedAt": 1793729414142
+    },
+    {
+      "url": "http://127.0.0.1:55192/assets/main-CNLRp5Vg.js",
+      "startedAt": 1793729419186
+    },
+    {
+      "url": "http://127.0.0.1:55192/fonts/wordmark.typeface.json",
+      "startedAt": 1793729419188
+    },
+    {
+      "url": "http://127.0.0.1:55192/assets/tattoo-texture.webp",
+      "startedAt": 1793729419189
+    }
+  ],
+  "errors": [],
+  "screenshot": "docs/validation/HERO-NOFLASH/phase0-2d-flash-1440.png"
+}

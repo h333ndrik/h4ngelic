@@ -1,0 +1,1099 @@
+{
+  "checkedAt": "2026-11-03T08:55:00.970Z",
+  "base": "http://127.0.0.1:55181",
+  "reports": [
+    {
+      "name": "normal-1",
+      "slow": false,
+      "block": false,
+      "cold": false,
+      "timeline": [
+        {
+          "at": 101,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 501,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1002,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 2001,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 4001,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 7001,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        }
+      ],
+      "errors": [],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55181/assets/main-DoRPqGkE.js",
+          "at": 82
+        },
+        {
+          "url": "http://127.0.0.1:55181/fonts/wordmark.typeface.json",
+          "at": 82
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 82
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 4998
+        }
+      ]
+    },
+    {
+      "name": "normal-2",
+      "slow": false,
+      "block": false,
+      "cold": false,
+      "timeline": [
+        {
+          "at": 101,
+          "state": {
+            "readyState": "interactive",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 501,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1015,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 2000,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0.986486,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 4002,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 7002,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        }
+      ],
+      "errors": [],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55181/assets/main-DoRPqGkE.js",
+          "at": 140
+        },
+        {
+          "url": "http://127.0.0.1:55181/fonts/wordmark.typeface.json",
+          "at": 141
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 141
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 1749
+        }
+      ]
+    },
+    {
+      "name": "normal-3",
+      "slow": false,
+      "block": false,
+      "cold": false,
+      "timeline": [
+        {
+          "at": 101,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1397,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1410,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 2001,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0.121885,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 4002,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 7000,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        }
+      ],
+      "errors": [],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55181/assets/main-DoRPqGkE.js",
+          "at": 58
+        },
+        {
+          "url": "http://127.0.0.1:55181/fonts/wordmark.typeface.json",
+          "at": 58
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 58
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 1435
+        }
+      ]
+    },
+    {
+      "name": "slow3g-1",
+      "slow": true,
+      "block": false,
+      "cold": false,
+      "timeline": [
+        {
+          "at": 415,
+          "state": {
+            "readyState": "unavailable"
+          }
+        },
+        {
+          "at": 501,
+          "state": {
+            "readyState": "loading",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1002,
+          "state": {
+            "readyState": "interactive",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 2004,
+          "state": {
+            "readyState": "interactive",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 4005,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 7008,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        }
+      ],
+      "errors": [],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55181/assets/main-DoRPqGkE.js",
+          "at": 2673
+        },
+        {
+          "url": "http://127.0.0.1:55181/fonts/wordmark.typeface.json",
+          "at": 2673
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 2674
+        }
+      ]
+    },
+    {
+      "name": "slow3g-2",
+      "slow": true,
+      "block": false,
+      "cold": false,
+      "timeline": [
+        {
+          "at": 415,
+          "state": {
+            "readyState": "unavailable"
+          }
+        },
+        {
+          "at": 501,
+          "state": {
+            "readyState": "loading",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1002,
+          "state": {
+            "readyState": "interactive",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 2001,
+          "state": {
+            "readyState": "interactive",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 4005,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 7004,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        }
+      ],
+      "errors": [],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55181/assets/main-DoRPqGkE.js",
+          "at": 2663
+        },
+        {
+          "url": "http://127.0.0.1:55181/fonts/wordmark.typeface.json",
+          "at": 2664
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 2664
+        }
+      ]
+    },
+    {
+      "name": "slow3g-3",
+      "slow": true,
+      "block": false,
+      "cold": false,
+      "timeline": [
+        {
+          "at": 415,
+          "state": {
+            "readyState": "unavailable"
+          }
+        },
+        {
+          "at": 501,
+          "state": {
+            "readyState": "loading",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1002,
+          "state": {
+            "readyState": "interactive",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 2002,
+          "state": {
+            "readyState": "interactive",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 4003,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 7003,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        }
+      ],
+      "errors": [],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55181/assets/main-DoRPqGkE.js",
+          "at": 2697
+        },
+        {
+          "url": "http://127.0.0.1:55181/fonts/wordmark.typeface.json",
+          "at": 2698
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 2698
+        }
+      ]
+    },
+    {
+      "name": "blocked-main",
+      "slow": false,
+      "block": true,
+      "cold": false,
+      "timeline": [
+        {
+          "at": 100,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 503,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1002,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 2004,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 4002,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 7004,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        }
+      ],
+      "errors": [
+        "Failed to load resource: net::ERR_FAILED",
+        "Unable to load the interactive wordmark. TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:55181/assets/main-DoRPqGkE.js"
+      ],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55181/assets/main-DoRPqGkE.js",
+          "at": 82
+        },
+        {
+          "url": "http://127.0.0.1:55181/fonts/wordmark.typeface.json",
+          "at": 83
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 83
+        }
+      ]
+    },
+    {
+      "name": "empty-cache",
+      "slow": false,
+      "block": false,
+      "cold": true,
+      "timeline": [
+        {
+          "at": 103,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1382,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 1396,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 1,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "Loading the 3D wordmark.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 2001,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0.0193405,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 4004,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        },
+        {
+          "at": 7003,
+          "state": {
+            "readyState": "complete",
+            "loading": null,
+            "poster": {
+              "opacity": 0,
+              "display": "block",
+              "bg": "url(\"http://127.0.0.1:55181/assets/wordmark-fallback.svg\")"
+            },
+            "stage": "stage is-ready",
+            "canvas": {
+              "display": "block",
+              "width": 1440
+            },
+            "status": "3D wordmark ready. Use the animation controls below; pointer dragging is optional.",
+            "scrollY": 0
+          }
+        }
+      ],
+      "errors": [],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:55181/assets/main-DoRPqGkE.js",
+          "at": 61
+        },
+        {
+          "url": "http://127.0.0.1:55181/fonts/wordmark.typeface.json",
+          "at": 61
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 61
+        },
+        {
+          "url": "http://127.0.0.1:55181/assets/tattoo-texture.webp",
+          "at": 1425
+        }
+      ]
+    }
+  ],
+  "cursor": [
+    {
+      "path": "/",
+      "total": 41,
+      "offenders": []
+    },
+    {
+      "path": "/work/tattoos",
+      "total": 29,
+      "offenders": []
+    },
+    {
+      "path": "/#contact",
+      "total": 41,
+      "offenders": []
+    }
+  ]
+}

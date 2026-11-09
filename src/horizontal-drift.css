@@ -6,8 +6,8 @@
 .drift-instruction { margin: 0; color: #b5b4b0; font-size: 12px; line-height: 1.5; }
 .drift-instruction > span[aria-hidden] { margin-inline: 5px; }
 .drift-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
-.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: var(--radius-soft); padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; cursor: pointer; transition: text-shadow 300ms cubic-bezier(.2,.8,.25,1); }
-.drift-controls button:disabled { opacity: .28; cursor: default; }
+.drift-controls button { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: var(--radius-soft); padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: inherit; font: inherit; font-size: 21px; line-height: 1; transition: text-shadow 300ms cubic-bezier(.2,.8,.25,1); }
+.drift-controls button:disabled { opacity: .28; }
 .drift-controls button:focus-visible { outline: 1px solid currentColor; outline-offset: -4px; }
 .drift-count { min-width: 45px; text-align: center; font-size: 12px; letter-spacing: .05em; font-variant-numeric: tabular-nums; color: #bdbcb8; }
 .drift-status { top: 0; left: 0; margin: 0; }
@@ -32,7 +32,7 @@
 .drift-meta h2 a { text-decoration: none; }
 .drift-meta .project-index { margin: 3px 0 0; font-size: 11px; }
 .drift-description { margin: 8px 0 0; font-size: 12px; line-height: 1.5; max-width: 34em; }
-.horizontal-drift.is-drift-dragging { cursor: grabbing; user-select: none; }
+.horizontal-drift.is-drift-dragging { user-select: none; }
 .horizontal-drift.is-empty .drift-track { min-height: 128px; align-items: center; padding-inline: 0; }
 .horizontal-drift.is-empty .archive-empty { margin: 0; padding: 28px 0; font-size: clamp(18px, 2.3vw, 28px); }
 .drift-artwork.is-artwork-selected { animation: drift-selection-light 360ms ease-out; }
@@ -51,3 +51,28 @@
 @media (prefers-reduced-motion: reduce) {
   .drift-artwork, .drift-controls button, .drift-item > .drift-images { transition: none; animation: none !important; }
 }
+
+/* Editorial placeholders use the exact F19 card geometry while remaining
+   explicitly marked as generated material, never as authored artwork. */
+.placeholder-card {
+  display: grid;
+  place-items: end start;
+  width: var(--carousel-card-width);
+  height: var(--carousel-card-height);
+  padding: 18px;
+  border: 0;
+  border-radius: var(--radius-soft);
+  color: var(--h4-ghost-color);
+  background: linear-gradient(145deg, #343434, #252525 58%, #1f1f1f);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: var(--h4-ghost-tracking);
+  text-align: left;
+  transform-origin: 50% 50%;
+  transition: transform var(--ui-hover-duration, 300ms) var(--ui-hover-easing, cubic-bezier(.2,.8,.25,1));
+}
+.placeholder-card > span { opacity: var(--h4-ghost-opacity); }
+.drift-item.is-placeholder-expanded { position: relative; z-index: 4; }
+.drift-item.is-placeholder-expanded .placeholder-card { transform: scale(1.35); }
+.horizontal-drift[data-placeholder-expanded] .drift-viewport { overflow: visible; }
+@media (prefers-reduced-motion: reduce) { .placeholder-card { transition: none; } }

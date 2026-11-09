@@ -1,0 +1,44 @@
+{
+  "phase": "b-f19-f31-batch3",
+  "dev": "http://127.0.0.1:5183",
+  "preview": "http://127.0.0.1:55173",
+  "finishedAt": "2026-11-06T18:38:58.590Z",
+  "results": [
+    {
+      "suite": "v31-ui-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 24880,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    },
+    {
+      "suite": "smash-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 50057,
+      "passLine": "PASS actual SMASH 320px: exactfile, deferredfetch/cache, nativeattack/tail/stop, globalstate, routes and both realities",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-motion-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 136649,
+      "passLine": "PASS V3.1 motion 320px reduced=true: exact MORE ABOUT section pipeline, no pinning, measured native reversal, static top labels, both-mode lower-hero control fade.",
+      "failLine": ""
+    },
+    {
+      "suite": "living-normal-browser",
+      "base": "dev",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 44726,
+      "passLine": "",
+      "failLine": "name: 'TimeoutError'"
+    }
+  ]
+}

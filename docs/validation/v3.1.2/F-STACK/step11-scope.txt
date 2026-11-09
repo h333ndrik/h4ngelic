@@ -1,0 +1,27 @@
+===== e2f44dd
+e2f44dd F20: keep Home anchor loads out of the hero preload path
+ docs/validation/v3.1.2/F20/home-anchor.txt |  9 +++++++++
+ src/app.js                                 | 13 ++++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+
+docs/validation/v3.1.2/F20/home-anchor.txt
+src/app.js
+
+===== 17679b1
+17679b1 F20: preload the real hero chunk
+ docs/validation/v3.1.2/F20/home-anchor.txt |  7 +++++++
+ vite.config.js                             | 27 +++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+
+docs/validation/v3.1.2/F20/home-anchor.txt
+vite.config.js
+
+===== aaf8d7c
+aaf8d7c F8/F26: align the standalone preview checks
+ tests/standalone-browser.mjs        | 16 ++++++++--------
+ tests/standalone-native-browser.mjs |  2 +-
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+tests/standalone-browser.mjs
+tests/standalone-native-browser.mjs
+

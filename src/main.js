@@ -4,6 +4,7 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { LogoPhysics } from './physics.js';
+import { heroPhysicsProfiles, heroPhysicsProfileFor } from './data/heroPhysicsSettings.js';
 import { sampleBase } from './motion.js';
 import { bindControls } from './controls.js';
 import { attachArtwork, revealWeight } from './reveal.js';
@@ -21,7 +22,9 @@ const stage = document.getElementById('stage');
 const canvas = document.getElementById('logo-canvas');
 const status = document.getElementById('scene-status');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const physics = new LogoPhysics();
+// Capability, not viewport width: a hybrid laptop keeps the lively profile.
+const physicsProfileName = heroPhysicsProfileFor();
+const physics = new LogoPhysics({ settings: heroPhysicsProfiles[physicsProfileName] });
 const basePosition = new THREE.Vector3();
 const baseQuaternion = new THREE.Quaternion();
 let paused = reducedMotion.matches;
@@ -51,6 +54,7 @@ let pendingPointer = null;
 let syncRendering = () => {};
 let modeTransitioning = false;
 let modeTransitionTimer = 0;
+let heroEntranceTimer = 0;
 const quality = chooseRenderQuality({
   pixelRatio: devicePixelRatio,
   coarsePointer: matchMedia('(pointer: coarse)').matches,
@@ -67,10 +71,26 @@ const controls = bindControls({
   onReveal: (value) => { revealEnabled = value; },
 });
 
+function markHeroReady() {
+  document.documentElement.dataset.heroLoading = 'false';
+  clearTimeout(heroEntranceTimer);
+  stage.classList.remove('is-boot-slow', 'is-boot-failed', 'is-entering');
+  stage.classList.add('is-ready', 'is-entering');
+  heroEntranceTimer = setTimeout(() => {
+    heroEntranceTimer = 0;
+    stage.classList.remove('is-entering');
+  }, 1100);
+  document.dispatchEvent(new CustomEvent('h4:heroready'));
+}
+
 function fallback(message) {
   running = false;
-  stage.classList.remove('is-ready');
-  stage.classList.add('is-fallback');
+  clearTimeout(heroEntranceTimer);
+  heroEntranceTimer = 0;
+  stage.classList.remove('is-ready', 'is-boot-slow', 'is-entering');
+  stage.classList.add('is-fallback', 'is-boot-failed');
+  document.documentElement.dataset.heroLoading = 'false';
+  document.dispatchEvent(new CustomEvent('h4:herofailed', { detail: { message } }));
   status.textContent = message;
   document.getElementById('interaction-hint').textContent = 'h4ngelic';
   for (const id of ['pause-control', 'speed-control', 'reveal-control']) {
@@ -255,13 +275,21 @@ async function initialize() {
       height: Math.max(1, (maximumY - minimumY) * height / 2), opacity: pose.opacity, angularVelocity, points }], timestamp);
   }
 
+  let lastPick = null;
   function locate(event) {
     heroDepth.update(scrollY, reducedMotion.matches);
     const rect = canvas.getBoundingClientRect();
     pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
     raycaster.setFromCamera(pointer, camera);
     raycaster.ray.intersectPlane(plane, planePoint);
-    return rememberHeroInkHit(event, raycaster.intersectObject(wordmark, false)[0]);
+    const hit = rememberHeroInkHit(event, raycaster.intersectObject(wordmark, false)[0]);
+    if (hit) {
+      const projected = hit.point.clone().project(camera);
+      lastPick = { pointerX: event.clientX, pointerY: event.clientY,
+        hitX: rect.left + (projected.x + 1) * rect.width / 2,
+        hitY: rect.top + (1 - projected.y) * rect.height / 2 };
+    }
+    return hit;
   }
 
   const stopBackgroundHitTest = registerHeroInkHitTest(canvas,
@@ -386,7 +414,7 @@ async function initialize() {
       stage.dataset.firstFrameHadArtwork = String(firstFrameHadArtwork);
       stage.dataset.firstFrameAt = String(firstFrameAt);
       stage.dataset.artworkRequestedAt = String(artworkRequestedAt);
-      stage.classList.add('is-ready');
+      markHeroReady();
       status.textContent = '3D wordmark ready. Use the animation controls below; pointer dragging is optional.';
       void startArtwork();
     }
@@ -439,7 +467,8 @@ async function initialize() {
 
   if (import.meta.env.DEV && new URLSearchParams(location.search).has('test')) {
     window.__H4_TEST__ = {
-      snapshot: () => ({ baseTime: animationTime, substeps: physics.substepRate, modeTransitioning, xrayPrepared: Boolean(wordmarkXRay), position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, artworkReady: Boolean(artwork), artworkRequested, firstFrameHadArtwork, firstFrameAt, artworkRequestedAt, artworkReadyAt, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
+      pick: () => lastPick && { ...lastPick, delta: Math.hypot(lastPick.hitX - lastPick.pointerX, lastPick.hitY - lastPick.pointerY) },
+      snapshot: () => ({ physicsProfile: physicsProfileName, baseTime: animationTime, substeps: physics.substepRate, modeTransitioning, xrayPrepared: Boolean(wordmarkXRay), position: logo.position.toArray(), offset: physics.offset.toArray(), orientation: physics.orientation.toArray(), velocity: physics.velocity.toArray(), angularVelocity: physics.angularVelocity.toArray(), isDragging: physics.dragging, revealOpacity: artwork?.opacity.value || 0, artworkReady: Boolean(artwork), artworkRequested, firstFrameHadArtwork, firstFrameAt, artworkRequestedAt, artworkReadyAt, xrayAmount: wordmarkXRay?.amount.value || 0, camera: heroDepth.snapshot(), pixelRatio: renderer.getPixelRatio(), qualityName: quality.name, frameCount,
         heroInk: { ...heroInk.snapshot(), gpu: { ...renderer.info.memory } } }),
       hitPoint: ({ minFacing = 0, maxFacing = 1, minAbsNormalZ = 0, maxAbsNormalZ = 1 } = {}) => {
         // Search real geometry instead of guessing a point inside a glyph hole.
@@ -514,6 +543,7 @@ canvas.addEventListener('webglcontextlost', (event) => {
 addEventListener('pagehide', (event) => {
   if (event.persisted) return;
   running = false;
+  clearTimeout(heroEntranceTimer);
   startupObserver.disconnect();
   document.removeEventListener('visibilitychange', startVisibleHero);
   controls.destroy();

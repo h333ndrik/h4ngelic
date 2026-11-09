@@ -1,0 +1,85 @@
+origin/main 9123a00b21b9a7d3873fe97ba7c36fb90b74c3e5
+origin/v3.1.1-fixes c77cffa2731f256f37d5ea71e684fbf703cd59ee
+origin/mail-01-diagnostics fb57c57f819eb50b9bc03f741016e85fd47a8c61
+HEAD 65b0e9303b4a35d0dceed7b8f2fcd1b474d73281
+stash count 0
+main..HEAD commits:
+f57f759 F1: remove INDEX panel border and retain accessible surface
+36f574d F9: finish configurable horizontal carousel and shared inline viewing
+3d01241 F2: place the discoverable visit counter after moshlab
+7028dbc F3: Keep top tattoo labels static from first paint
+7238478 F4: Share the About section clock with Contact
+c78a926 F5: Use one gap throughout the Works floating row
+f4da19a F6: Replace Work pinning with the MORE ABOUT scrub path
+72ecc7f F7: match the tattoo heading size and shared arrow
+64cb400 F8: Cover every interactive area with the native h4 cursor
+1b4673d F10: Reuse inline viewing for the resized Digital artwork
+27702ac F11: Round photographs with the shared radius token
+5d6b9ad F13: Unify route-link and branding hover feedback
+bf0450e F14: invert floating headers against isolated page content
+6ee6ada F15: Make4 entry-only and require triple3 for return
+f6749a0 F16: Make Works and category destinations real routes
+2c4f8fc F17: Restore returning-visitor recognition above the hero
+0b05665 Package verified V3.1.1 preview and final review evidence
+1dfa398 Reconcile V3.1.2 state and record gaps
+36fe0e3 V8: finish the first-paint hero poster
+e238804 V9: add ambient carousel drift and CSS depth
+9e2a1bf V10: remove INDEX entry 04
+ff4e95d V11 V16: remove pointer focus outlines
+88fb5a4 V12 V13 V14: normalize rubric pages
+e661a3a V20: number the About heading
+ee448ce V21 V24 V27: make creative static and retire the work landing route
+ac82ce2 V23: scope heading hover to real links
+6f20386 V25: add fixed rubric cross-links
+aefb499 V18: use the exact reverse hint text
+bdf6065 V19: add index depth glow
+85f1c6e V28: remove the hero tagline
+d5931cf V30: disable metallic mode cues
+fbd9af4 V26: enforce the honest 4 MB inquiry limit
+7aa1a33 V17: defer idle work and optimize transitions
+6eaf6f6 V2: set the compact global cursor
+039e40b V7: restore the shared seven-tier visitor memory
+4f3d41a V15: verify the mobile adaptations
+3c5f9bd Record the final V3.1.2 review state
+2976779 F18: keep one constant native cursor per mode
+903bc61 F19: fix carousel card geometry and wheel scope
+cd7f252 F20: defer hero tattoo texture after first frame
+f829048 F21: align recognition line in the header gap
+bf1e6c2 F22: translate the hero bar instead of fading
+6124f7f F23: align the contact form to the right
+200773b F24: shorten the Other Side transition to 900ms
+2f2b6e7 F25: give 3d model the category heading treatment
+6ae7468 F26: hide More heading and unlink child categories
+b7765a0 F27: label the tattoo archive on skin
+364da07 F21: align the mobile suite with the header and footer behavior
+4a83701 F27: update the mobile archive heading assertion
+e2f44dd F20: keep Home anchor loads out of the hero preload path
+17679b1 F20: preload the real hero chunk
+aaf8d7c F8/F26: align the standalone preview checks
+a161bda V23: read offscreen static titles by text
+0311a1f Record the final F18-F27 review state
+c4cb53f V3.1.2: independent F-stack verification
+003086f F29: keep the hero poster visible through boot, slow and failure
+4e1aca9 F18-r2: lock every interactive state to the native h4 cursor
+bb3a4c9 F21-r2: reveal the returning greeting on header hover and focus
+cc9fd76 F28: align every Home sub-block on one measured slash column
+70f8d63 F19: add the serial wheel, boot, cursor, greeting and slash contract
+bda1eac F29: assert the visible boot poster through the full hero contract
+d45c39f PERF: guard warmed interior FCP and cold-route payloads
+1352754 F29: preserve the failed hero state across navigation
+847c207 PERF: stabilize the headless FCP median with five warmed samples
+872d472 V3.1.2-r2: record reproduction, fixes, prevention and performance evidence
+7cb262d BUILD-MARKER: stamp every document with the git build SHA
+44cdedd F18-r3: load the cursor guard first and emit it last
+cf71413 F29-b: make the hero entrance and loading breath visible
+88a308d F21-r3: wait for visitor memory before asserting the greeting
+6813f66 V3.1.2-r3: record build marker, cursor and entrance evidence
+31832b8 F21 r3: greeting styled like the hold-4 ghost hint
+75cdc2a F21 r3: record ghost greeting evidence
+78e3fc9 F21 r4 + F29 c: align greeting and smooth hero entrance
+c77cffa F21 r4 + F29 c: record alignment and entrance evidence
+4a05f1a F18 r4: blanket cursor contract
+25a7abd tests: reconcile stale V3.1.2 browser contracts
+d7b4354 F18 r4: record blanket cursor evidence
+bcab46b tests: align legacy suites with current release routes
+65b0e93 tests: align material and touch hint checks

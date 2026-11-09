@@ -1,0 +1,13 @@
+---
+HTTP status checks on http://127.0.0.1:55178
+/                                200
+/work                            301
+/work/tattoos                    200
+/work/more                       200
+/work/jewellery                  200
+/about                           200
+/contact                         301
+/this-route-does-not-exist       404
+Redirect targets:
+/work        301 /work/tattoos
+/contact     301 /#contact

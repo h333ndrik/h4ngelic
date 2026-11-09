@@ -1,0 +1,12 @@
+dist/index.html modulepreload:
+<link rel="modulepreload" href="/assets/main-DoRPqGkE.js" data-hero-preload="module"
+
+dist/assets main chunks:
+-rw-r--r--@ 1 h4ngelic  staff  611495 Nov  3 09:15 dist/assets/main-DoRPqGkE.js
+
+app bundle main references:
+main-DoRPqGkE.js
+
+md5 comparison:
+MD5 (src/main.js) = 5656162e87855f160e275b8ca888d9d7
+MD5 (dist/assets/main-DoRPqGkE.js) = 36b0022fd46d9ba43bc3aef345244b90

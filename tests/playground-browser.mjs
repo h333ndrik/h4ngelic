@@ -20,7 +20,7 @@ try {
       return getContext.call(this, type, ...args);
     };
   });
-  await page.goto(new URL('/work?playground=1', base).href, { waitUntil: 'networkidle' });
+  await page.goto(new URL('/creative?playground=1', base).href, { waitUntil: 'networkidle' });
   const panel = page.locator('.other-side-playground');
   await panel.waitFor();
   await page.waitForFunction(() => Boolean(window.__H4_PLAYGROUND__));

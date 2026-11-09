@@ -1,0 +1,3375 @@
+{
+  "checkedAt": "2026-11-05T15:55:16.307Z",
+  "base": "http://127.0.0.1:55232",
+  "build": "ee35d06725c5",
+  "widths": [
+    {
+      "width": 1440,
+      "height": 900,
+      "rows": [
+        {
+          "id": "frontpage-strip",
+          "page": "/",
+          "selector": ".category-strip",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "19.44px",
+          "rowGap": "0px",
+          "paddingInline": "88.31px 0px",
+          "overflowX": "auto",
+          "wrap": "wrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 1370,
+          "scrollWidth": 1370,
+          "box": {
+            "left": 35,
+            "right": 1405,
+            "width": 1370,
+            "height": 250.953125
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 123.296875,
+              "right": 408.609375,
+              "width": 257.3125,
+              "height": 250.953125,
+              "baseline": 1329.09375,
+              "textLeft": 151.296875,
+              "textRight": 338.828125
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 400.046875,
+              "right": 741.0625,
+              "width": 313.015625,
+              "height": 250.953125,
+              "baseline": 1329.09375,
+              "textLeft": 428.046875,
+              "textRight": 671.28125
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 732.5,
+              "right": 962,
+              "width": 201.5,
+              "height": 250.953125,
+              "baseline": 1329.09375,
+              "textLeft": 760.5,
+              "textRight": 892.21875
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 953.4375,
+              "right": 1197.671875,
+              "width": 216.234375,
+              "height": 250.953125,
+              "baseline": 1329.09375,
+              "textLeft": 981.4375,
+              "textRight": 1127.890625
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1329.09375,
+              "count": 4,
+              "spread": 0,
+              "gaps": [
+                19.44,
+                19.44,
+                19.44
+              ],
+              "heights": [
+                250.95,
+                250.95,
+                250.95,
+                250.95
+              ]
+            }
+          ],
+          "firstLeft": 151.296875,
+          "rightMargin": 207.33,
+          "itemWidths": [
+            257.31,
+            313.02,
+            201.5,
+            216.23
+          ]
+        },
+        {
+          "id": "hero-nav",
+          "page": "/",
+          "selector": ".hero-nav",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "26px",
+          "rowGap": "26px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "nowrap",
+          "lineHeight": "normal",
+          "fontSize": "19.008px",
+          "clientWidth": 321,
+          "scrollWidth": 321,
+          "box": {
+            "left": 1083.828125,
+            "right": 1405,
+            "width": 321.171875,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "creative",
+              "tag": "a",
+              "className": "",
+              "x": 1083.828125,
+              "right": 1183.15625,
+              "width": 99.328125,
+              "height": 44,
+              "baseline": 854,
+              "textLeft": 1083.828125,
+              "textRight": 1159.484375
+            },
+            {
+              "text": "about",
+              "tag": "a",
+              "className": "",
+              "x": 1209.15625,
+              "right": 1286.078125,
+              "width": 76.921875,
+              "height": 44,
+              "baseline": 854,
+              "textLeft": 1209.15625,
+              "textRight": 1262.40625
+            },
+            {
+              "text": "contact",
+              "tag": "a",
+              "className": "",
+              "x": 1312.078125,
+              "right": 1405,
+              "width": 92.921875,
+              "height": 44,
+              "baseline": 854,
+              "textLeft": 1312.078125,
+              "textRight": 1381.328125
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 854,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                26,
+                26
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 1083.828125,
+          "rightMargin": -0.17,
+          "itemWidths": [
+            99.33,
+            76.92,
+            92.92
+          ]
+        },
+        {
+          "id": "cross-links",
+          "page": "/creative/tattoos",
+          "selector": ".rubric-cross-links",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "19.44px",
+          "rowGap": "0px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "wrap",
+          "lineHeight": "51.651px",
+          "fontSize": "51.651px",
+          "clientWidth": 1370,
+          "scrollWidth": 1370,
+          "box": {
+            "left": 35,
+            "right": 1405,
+            "width": 1370,
+            "height": 105.65625
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 35,
+              "right": 252.1875,
+              "width": 217.1875,
+              "height": 51.65625,
+              "baseline": 2377.84375,
+              "textLeft": 35,
+              "textRight": 215.015625
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 271.625,
+              "right": 406.28125,
+              "width": 134.65625,
+              "height": 51.65625,
+              "baseline": 2377.84375,
+              "textLeft": 271.625,
+              "textRight": 369.109375
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 425.71875,
+              "right": 571.28125,
+              "width": 145.5625,
+              "height": 51.65625,
+              "baseline": 2377.84375,
+              "textLeft": 425.71875,
+              "textRight": 534.109375
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 2377.84375,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                19.44,
+                19.44
+              ],
+              "heights": [
+                51.66,
+                51.66,
+                51.66
+              ]
+            }
+          ],
+          "firstLeft": 35,
+          "rightMargin": 833.72,
+          "itemWidths": [
+            217.19,
+            134.66,
+            145.56
+          ]
+        },
+        {
+          "id": "archive-filters",
+          "page": "/creative",
+          "selector": ".work-filters",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "19.44px",
+          "rowGap": "0px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 273,
+          "scrollWidth": 273,
+          "box": {
+            "left": 134.34375,
+            "right": 407.0625,
+            "width": 272.71875,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 134.34375,
+              "right": 191.390625,
+              "width": 57.046875,
+              "height": 44,
+              "baseline": 37,
+              "textLeft": 134.34375,
+              "textRight": 191.390625
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 210.828125,
+              "right": 284.75,
+              "width": 73.921875,
+              "height": 44,
+              "baseline": 37,
+              "textLeft": 210.828125,
+              "textRight": 284.75
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 304.1875,
+              "right": 344.328125,
+              "width": 40.140625,
+              "height": 44,
+              "baseline": 37,
+              "textLeft": 304.1875,
+              "textRight": 344.328125
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 363.765625,
+              "right": 407.0625,
+              "width": 43.296875,
+              "height": 44,
+              "baseline": 37,
+              "textLeft": 363.765625,
+              "textRight": 407.0625
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 37,
+              "count": 4,
+              "spread": 0,
+              "gaps": [
+                19.44,
+                19.44,
+                19.44
+              ],
+              "heights": [
+                44,
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 134.34375,
+          "rightMargin": 0.28,
+          "itemWidths": [
+            57.05,
+            73.92,
+            40.14,
+            43.3
+          ]
+        },
+        {
+          "id": "footer-left",
+          "page": "/creative",
+          "selector": ".footer-left",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "28.8px",
+          "rowGap": "28.8px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "18px",
+          "fontSize": "12px",
+          "clientWidth": 624,
+          "scrollWidth": 624,
+          "box": {
+            "left": 35,
+            "right": 658.734375,
+            "width": 623.734375,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "h4ngelic © 2026",
+              "tag": "span",
+              "className": "footer-brand",
+              "x": 35,
+              "right": 132.71875,
+              "width": 97.71875,
+              "height": 44,
+              "baseline": 6311.40625,
+              "textLeft": 35,
+              "textRight": 132.71875
+            },
+            {
+              "text": "h4 moshlab",
+              "tag": "a",
+              "className": "footer-moshlab",
+              "x": 161.515625,
+              "right": 249.390625,
+              "width": 87.875,
+              "height": 44,
+              "baseline": 6311.40625,
+              "textLeft": 161.515625,
+              "textRight": 230.765625
+            },
+            {
+              "text": "visit 0001",
+              "tag": "span",
+              "className": "footer-visit",
+              "x": 278.1875,
+              "right": 337.296875,
+              "width": 59.109375,
+              "height": 44,
+              "baseline": 6311.40625,
+              "textLeft": 278.1875,
+              "textRight": 337.296875
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 6311.40625,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                28.8,
+                28.8
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 35,
+          "rightMargin": 321.7,
+          "itemWidths": [
+            97.72,
+            87.88,
+            59.11
+          ]
+        },
+        {
+          "id": "footer-details",
+          "page": "/creative",
+          "selector": ".footer-details",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "28.8px",
+          "rowGap": "28.8px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "18px",
+          "fontSize": "12px",
+          "clientWidth": 287,
+          "scrollWidth": 287,
+          "box": {
+            "left": 1117.984375,
+            "right": 1405,
+            "width": 287.015625,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "instagram",
+              "tag": "a",
+              "className": "footer-instagram",
+              "x": 1117.984375,
+              "right": 1195.78125,
+              "width": 77.796875,
+              "height": 44,
+              "baseline": 6311.40625,
+              "textLeft": 1117.984375,
+              "textRight": 1177.15625
+            },
+            {
+              "text": "impressum",
+              "tag": "a",
+              "className": "footer-impressum",
+              "x": 1224.578125,
+              "right": 1290.828125,
+              "width": 66.25,
+              "height": 44,
+              "baseline": 6311.40625,
+              "textLeft": 1224.578125,
+              "textRight": 1290.828125
+            },
+            {
+              "text": "berlin, de",
+              "tag": "span",
+              "className": "footer-location",
+              "x": 1319.625,
+              "right": 1376.203125,
+              "width": 56.578125,
+              "height": 44,
+              "baseline": 6311.40625,
+              "textLeft": 1319.625,
+              "textRight": 1376.203125
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 6311.40625,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                28.8,
+                28.8
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 1117.984375,
+          "rightMargin": 28.78,
+          "itemWidths": [
+            77.8,
+            66.25,
+            56.58
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "rows": [
+        {
+          "id": "frontpage-strip",
+          "page": "/",
+          "selector": ".category-strip",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "22px",
+          "rowGap": "0px",
+          "paddingInline": "89.95px 0px",
+          "overflowX": "auto",
+          "wrap": "wrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 1850,
+          "scrollWidth": 1850,
+          "box": {
+            "left": 35,
+            "right": 1885,
+            "width": 1850,
+            "height": 289.265625
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 124.9375,
+              "right": 446.4375,
+              "width": 293.5,
+              "height": 289.265625,
+              "baseline": 1537.03125,
+              "textLeft": 152.9375,
+              "textRight": 367.0625
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 440.4375,
+              "right": 825.546875,
+              "width": 357.109375,
+              "height": 289.265625,
+              "baseline": 1537.03125,
+              "textLeft": 468.4375,
+              "textRight": 746.171875
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 819.546875,
+              "right": 1077.328125,
+              "width": 229.78125,
+              "height": 289.265625,
+              "baseline": 1537.03125,
+              "textLeft": 847.546875,
+              "textRight": 997.953125
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 1071.328125,
+              "right": 1345.921875,
+              "width": 246.59375,
+              "height": 289.265625,
+              "baseline": 1537.03125,
+              "textLeft": 1099.328125,
+              "textRight": 1266.546875
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1537.03125,
+              "count": 4,
+              "spread": 0,
+              "gaps": [
+                22,
+                22,
+                22
+              ],
+              "heights": [
+                289.27,
+                289.27,
+                289.27,
+                289.27
+              ]
+            }
+          ],
+          "firstLeft": 152.9375,
+          "rightMargin": 539.08,
+          "itemWidths": [
+            293.5,
+            357.11,
+            229.78,
+            246.59
+          ]
+        },
+        {
+          "id": "hero-nav",
+          "page": "/",
+          "selector": ".hero-nav",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "26px",
+          "rowGap": "26px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "nowrap",
+          "lineHeight": "normal",
+          "fontSize": "20px",
+          "clientWidth": 334,
+          "scrollWidth": 334,
+          "box": {
+            "left": 1551.234375,
+            "right": 1885,
+            "width": 333.765625,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "creative",
+              "tag": "a",
+              "className": "",
+              "x": 1551.234375,
+              "right": 1655.265625,
+              "width": 104.03125,
+              "height": 44,
+              "baseline": 1034,
+              "textLeft": 1551.234375,
+              "textRight": 1630.875
+            },
+            {
+              "text": "about",
+              "tag": "a",
+              "className": "",
+              "x": 1681.265625,
+              "right": 1761.71875,
+              "width": 80.453125,
+              "height": 44,
+              "baseline": 1034,
+              "textLeft": 1681.265625,
+              "textRight": 1737.328125
+            },
+            {
+              "text": "contact",
+              "tag": "a",
+              "className": "",
+              "x": 1787.71875,
+              "right": 1885,
+              "width": 97.28125,
+              "height": 44,
+              "baseline": 1034,
+              "textLeft": 1787.71875,
+              "textRight": 1860.609375
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1034,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                26,
+                26
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 1551.234375,
+          "rightMargin": 0.23,
+          "itemWidths": [
+            104.03,
+            80.45,
+            97.28
+          ]
+        },
+        {
+          "id": "cross-links",
+          "page": "/creative/tattoos",
+          "selector": ".rubric-cross-links",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "22px",
+          "rowGap": "0px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "wrap",
+          "lineHeight": "55.849px",
+          "fontSize": "55.849px",
+          "clientWidth": 1850,
+          "scrollWidth": 1850,
+          "box": {
+            "left": 35,
+            "right": 1885,
+            "width": 1850,
+            "height": 109.84375
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 35,
+              "right": 269.796875,
+              "width": 234.796875,
+              "height": 55.84375,
+              "baseline": 2440.8125,
+              "textLeft": 35,
+              "textRight": 229.609375
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 291.796875,
+              "right": 437.375,
+              "width": 145.578125,
+              "height": 55.84375,
+              "baseline": 2440.8125,
+              "textLeft": 291.796875,
+              "textRight": 397.1875
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 459.375,
+              "right": 616.734375,
+              "width": 157.359375,
+              "height": 55.84375,
+              "baseline": 2440.8125,
+              "textLeft": 459.375,
+              "textRight": 576.546875
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 2440.8125,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                22,
+                22
+              ],
+              "heights": [
+                55.84,
+                55.84,
+                55.84
+              ]
+            }
+          ],
+          "firstLeft": 35,
+          "rightMargin": 1268.27,
+          "itemWidths": [
+            234.8,
+            145.58,
+            157.36
+          ]
+        },
+        {
+          "id": "archive-filters",
+          "page": "/creative",
+          "selector": ".work-filters",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "22px",
+          "rowGap": "0px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 292,
+          "scrollWidth": 292,
+          "box": {
+            "left": 141.109375,
+            "right": 432.796875,
+            "width": 291.6875,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 141.109375,
+              "right": 201.15625,
+              "width": 60.046875,
+              "height": 44,
+              "baseline": 38,
+              "textLeft": 141.109375,
+              "textRight": 201.15625
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 223.15625,
+              "right": 300.96875,
+              "width": 77.8125,
+              "height": 44,
+              "baseline": 38,
+              "textLeft": 223.15625,
+              "textRight": 300.96875
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 322.96875,
+              "right": 365.21875,
+              "width": 42.25,
+              "height": 44,
+              "baseline": 38,
+              "textLeft": 322.96875,
+              "textRight": 365.21875
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 387.21875,
+              "right": 432.796875,
+              "width": 45.578125,
+              "height": 44,
+              "baseline": 38,
+              "textLeft": 387.21875,
+              "textRight": 432.796875
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 38,
+              "count": 4,
+              "spread": 0,
+              "gaps": [
+                22,
+                22,
+                22
+              ],
+              "heights": [
+                44,
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 141.109375,
+          "rightMargin": 0.31,
+          "itemWidths": [
+            60.05,
+            77.81,
+            42.25,
+            45.58
+          ]
+        },
+        {
+          "id": "footer-left",
+          "page": "/creative",
+          "selector": ".footer-left",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "30px",
+          "rowGap": "30px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "18px",
+          "fontSize": "12px",
+          "clientWidth": 863,
+          "scrollWidth": 863,
+          "box": {
+            "left": 35,
+            "right": 898,
+            "width": 863,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "h4ngelic © 2026",
+              "tag": "span",
+              "className": "footer-brand",
+              "x": 35,
+              "right": 132.71875,
+              "width": 97.71875,
+              "height": 44,
+              "baseline": 6412.734375,
+              "textLeft": 35,
+              "textRight": 132.71875
+            },
+            {
+              "text": "h4 moshlab",
+              "tag": "a",
+              "className": "footer-moshlab",
+              "x": 162.71875,
+              "right": 250.59375,
+              "width": 87.875,
+              "height": 44,
+              "baseline": 6412.734375,
+              "textLeft": 162.71875,
+              "textRight": 231.96875
+            },
+            {
+              "text": "visit 0001",
+              "tag": "span",
+              "className": "footer-visit",
+              "x": 280.59375,
+              "right": 339.703125,
+              "width": 59.109375,
+              "height": 44,
+              "baseline": 6412.734375,
+              "textLeft": 280.59375,
+              "textRight": 339.703125
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 6412.734375,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                30,
+                30
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 35,
+          "rightMargin": 558.3,
+          "itemWidths": [
+            97.72,
+            87.88,
+            59.11
+          ]
+        },
+        {
+          "id": "footer-details",
+          "page": "/creative",
+          "selector": ".footer-details",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "30px",
+          "rowGap": "30px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "18px",
+          "fontSize": "12px",
+          "clientWidth": 291,
+          "scrollWidth": 291,
+          "box": {
+            "left": 1594.375,
+            "right": 1885,
+            "width": 290.625,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "instagram",
+              "tag": "a",
+              "className": "footer-instagram",
+              "x": 1594.375,
+              "right": 1672.171875,
+              "width": 77.796875,
+              "height": 44,
+              "baseline": 6412.734375,
+              "textLeft": 1594.375,
+              "textRight": 1653.546875
+            },
+            {
+              "text": "impressum",
+              "tag": "a",
+              "className": "footer-impressum",
+              "x": 1702.171875,
+              "right": 1768.421875,
+              "width": 66.25,
+              "height": 44,
+              "baseline": 6412.734375,
+              "textLeft": 1702.171875,
+              "textRight": 1768.421875
+            },
+            {
+              "text": "berlin, de",
+              "tag": "span",
+              "className": "footer-location",
+              "x": 1798.421875,
+              "right": 1855,
+              "width": 56.578125,
+              "height": 44,
+              "baseline": 6412.734375,
+              "textLeft": 1798.421875,
+              "textRight": 1855
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 6412.734375,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                30,
+                30
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 1594.375,
+          "rightMargin": 30.38,
+          "itemWidths": [
+            77.8,
+            66.25,
+            56.58
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 2560,
+      "height": 1440,
+      "rows": [
+        {
+          "id": "frontpage-strip",
+          "page": "/",
+          "selector": ".category-strip",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "22px",
+          "rowGap": "0px",
+          "paddingInline": "89.95px 0px",
+          "overflowX": "auto",
+          "wrap": "wrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 2490,
+          "scrollWidth": 2490,
+          "box": {
+            "left": 35,
+            "right": 2525,
+            "width": 2490,
+            "height": 290.484375
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 124.9375,
+              "right": 450.21875,
+              "width": 297.28125,
+              "height": 290.484375,
+              "baseline": 1898.03125,
+              "textLeft": 152.9375,
+              "textRight": 370.046875
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 444.21875,
+              "right": 834,
+              "width": 361.78125,
+              "height": 290.484375,
+              "baseline": 1898.03125,
+              "textLeft": 472.21875,
+              "textRight": 753.828125
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 828,
+              "right": 1088.671875,
+              "width": 232.671875,
+              "height": 290.484375,
+              "baseline": 1898.03125,
+              "textLeft": 856,
+              "textRight": 1008.5
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 1082.671875,
+              "right": 1360.390625,
+              "width": 249.71875,
+              "height": 290.484375,
+              "baseline": 1898.03125,
+              "textLeft": 1110.671875,
+              "textRight": 1280.21875
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1898.03125,
+              "count": 4,
+              "spread": 0,
+              "gaps": [
+                22,
+                22,
+                22
+              ],
+              "heights": [
+                290.48,
+                290.48,
+                290.48,
+                290.48
+              ]
+            }
+          ],
+          "firstLeft": 152.9375,
+          "rightMargin": 1164.61,
+          "itemWidths": [
+            297.28,
+            361.78,
+            232.67,
+            249.72
+          ]
+        },
+        {
+          "id": "hero-nav",
+          "page": "/",
+          "selector": ".hero-nav",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "26px",
+          "rowGap": "26px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "nowrap",
+          "lineHeight": "normal",
+          "fontSize": "20px",
+          "clientWidth": 334,
+          "scrollWidth": 334,
+          "box": {
+            "left": 2191.234375,
+            "right": 2525,
+            "width": 333.765625,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "creative",
+              "tag": "a",
+              "className": "",
+              "x": 2191.234375,
+              "right": 2295.265625,
+              "width": 104.03125,
+              "height": 44,
+              "baseline": 1394,
+              "textLeft": 2191.234375,
+              "textRight": 2270.875
+            },
+            {
+              "text": "about",
+              "tag": "a",
+              "className": "",
+              "x": 2321.265625,
+              "right": 2401.71875,
+              "width": 80.453125,
+              "height": 44,
+              "baseline": 1394,
+              "textLeft": 2321.265625,
+              "textRight": 2377.328125
+            },
+            {
+              "text": "contact",
+              "tag": "a",
+              "className": "",
+              "x": 2427.71875,
+              "right": 2525,
+              "width": 97.28125,
+              "height": 44,
+              "baseline": 1394,
+              "textLeft": 2427.71875,
+              "textRight": 2500.609375
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1394,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                26,
+                26
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 2191.234375,
+          "rightMargin": 0.23,
+          "itemWidths": [
+            104.03,
+            80.45,
+            97.28
+          ]
+        },
+        {
+          "id": "cross-links",
+          "page": "/creative/tattoos",
+          "selector": ".rubric-cross-links",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "22px",
+          "rowGap": "0px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "wrap",
+          "lineHeight": "55.887px",
+          "fontSize": "55.887px",
+          "clientWidth": 2490,
+          "scrollWidth": 2490,
+          "box": {
+            "left": 35,
+            "right": 2525,
+            "width": 2490,
+            "height": 109.890625
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 35,
+              "right": 269.984375,
+              "width": 234.984375,
+              "height": 55.890625,
+              "baseline": 2498.46875,
+              "textLeft": 35,
+              "textRight": 229.75
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 291.984375,
+              "right": 437.6875,
+              "width": 145.703125,
+              "height": 55.890625,
+              "baseline": 2498.46875,
+              "textLeft": 291.984375,
+              "textRight": 397.453125
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 459.6875,
+              "right": 617.1875,
+              "width": 157.5,
+              "height": 55.890625,
+              "baseline": 2498.46875,
+              "textLeft": 459.6875,
+              "textRight": 576.953125
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 2498.46875,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                22,
+                22
+              ],
+              "heights": [
+                55.89,
+                55.89,
+                55.89
+              ]
+            }
+          ],
+          "firstLeft": 35,
+          "rightMargin": 1907.81,
+          "itemWidths": [
+            234.98,
+            145.7,
+            157.5
+          ]
+        },
+        {
+          "id": "archive-filters",
+          "page": "/creative",
+          "selector": ".work-filters",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "22px",
+          "rowGap": "0px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 292,
+          "scrollWidth": 292,
+          "box": {
+            "left": 141.109375,
+            "right": 432.796875,
+            "width": 291.6875,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 141.109375,
+              "right": 201.15625,
+              "width": 60.046875,
+              "height": 44,
+              "baseline": 38,
+              "textLeft": 141.109375,
+              "textRight": 201.15625
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 223.15625,
+              "right": 300.96875,
+              "width": 77.8125,
+              "height": 44,
+              "baseline": 38,
+              "textLeft": 223.15625,
+              "textRight": 300.96875
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 322.96875,
+              "right": 365.21875,
+              "width": 42.25,
+              "height": 44,
+              "baseline": 38,
+              "textLeft": 322.96875,
+              "textRight": 365.21875
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 387.21875,
+              "right": 432.796875,
+              "width": 45.578125,
+              "height": 44,
+              "baseline": 38,
+              "textLeft": 387.21875,
+              "textRight": 432.796875
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 38,
+              "count": 4,
+              "spread": 0,
+              "gaps": [
+                22,
+                22,
+                22
+              ],
+              "heights": [
+                44,
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 141.109375,
+          "rightMargin": 0.31,
+          "itemWidths": [
+            60.05,
+            77.81,
+            42.25,
+            45.58
+          ]
+        },
+        {
+          "id": "footer-left",
+          "page": "/creative",
+          "selector": ".footer-left",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "30px",
+          "rowGap": "30px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "18px",
+          "fontSize": "12px",
+          "clientWidth": 1183,
+          "scrollWidth": 1183,
+          "box": {
+            "left": 35,
+            "right": 1218,
+            "width": 1183,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "h4ngelic © 2026",
+              "tag": "span",
+              "className": "footer-brand",
+              "x": 35,
+              "right": 132.71875,
+              "width": 97.71875,
+              "height": 44,
+              "baseline": 6603.4375,
+              "textLeft": 35,
+              "textRight": 132.71875
+            },
+            {
+              "text": "h4 moshlab",
+              "tag": "a",
+              "className": "footer-moshlab",
+              "x": 162.71875,
+              "right": 250.59375,
+              "width": 87.875,
+              "height": 44,
+              "baseline": 6603.4375,
+              "textLeft": 162.71875,
+              "textRight": 231.96875
+            },
+            {
+              "text": "visit 0001",
+              "tag": "span",
+              "className": "footer-visit",
+              "x": 280.59375,
+              "right": 339.703125,
+              "width": 59.109375,
+              "height": 44,
+              "baseline": 6603.4375,
+              "textLeft": 280.59375,
+              "textRight": 339.703125
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 6603.4375,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                30,
+                30
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 35,
+          "rightMargin": 878.3,
+          "itemWidths": [
+            97.72,
+            87.88,
+            59.11
+          ]
+        },
+        {
+          "id": "footer-details",
+          "page": "/creative",
+          "selector": ".footer-details",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "30px",
+          "rowGap": "30px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "18px",
+          "fontSize": "12px",
+          "clientWidth": 291,
+          "scrollWidth": 291,
+          "box": {
+            "left": 2234.375,
+            "right": 2525,
+            "width": 290.625,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 43,
+            "left": 35
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "instagram",
+              "tag": "a",
+              "className": "footer-instagram",
+              "x": 2234.375,
+              "right": 2312.171875,
+              "width": 77.796875,
+              "height": 44,
+              "baseline": 6603.4375,
+              "textLeft": 2234.375,
+              "textRight": 2293.546875
+            },
+            {
+              "text": "impressum",
+              "tag": "a",
+              "className": "footer-impressum",
+              "x": 2342.171875,
+              "right": 2408.421875,
+              "width": 66.25,
+              "height": 44,
+              "baseline": 6603.4375,
+              "textLeft": 2342.171875,
+              "textRight": 2408.421875
+            },
+            {
+              "text": "berlin, de",
+              "tag": "span",
+              "className": "footer-location",
+              "x": 2438.421875,
+              "right": 2495,
+              "width": 56.578125,
+              "height": 44,
+              "baseline": 6603.4375,
+              "textLeft": 2438.421875,
+              "textRight": 2495
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 6603.4375,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                30,
+                30
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 2234.375,
+          "rightMargin": 30.38,
+          "itemWidths": [
+            77.8,
+            66.25,
+            56.58
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "rows": [
+        {
+          "id": "frontpage-strip",
+          "page": "/",
+          "selector": ".category-strip",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "rowGap": "10px",
+          "paddingInline": "32.7px 0px",
+          "overflowX": "visible",
+          "wrap": "wrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 346,
+          "scrollWidth": 346,
+          "box": {
+            "left": 22,
+            "right": 368,
+            "width": 346,
+            "height": 244
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 54.6875,
+              "right": 143.9093780517578,
+              "width": 71.671875,
+              "height": 117,
+              "baseline": 1036.546875,
+              "textLeft": 72.23750305175781,
+              "textRight": 120.87812805175781
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 136.359375,
+              "right": 240.0343780517578,
+              "width": 86.125,
+              "height": 117,
+              "baseline": 1036.546875,
+              "textLeft": 153.9093780517578,
+              "textRight": 217.0031280517578
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 54.6875,
+              "right": 129.4406280517578,
+              "width": 57.203125,
+              "height": 117,
+              "baseline": 1163.546875,
+              "textLeft": 72.23750305175781,
+              "textRight": 106.40937805175781
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 121.890625,
+              "right": 200.4562530517578,
+              "width": 61.015625,
+              "height": 117,
+              "baseline": 1163.546875,
+              "textLeft": 139.4406280517578,
+              "textRight": 177.4250030517578
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1036.546875,
+              "count": 2,
+              "spread": 0,
+              "gaps": [
+                10
+              ],
+              "heights": [
+                117,
+                117
+              ]
+            },
+            {
+              "baseline": 1163.546875,
+              "count": 2,
+              "spread": 0,
+              "gaps": [
+                10
+              ],
+              "heights": [
+                117,
+                117
+              ]
+            }
+          ],
+          "firstLeft": 72.23750305175781,
+          "rightMargin": 167.54,
+          "itemWidths": [
+            71.67,
+            86.13,
+            57.2,
+            61.02
+          ]
+        },
+        {
+          "id": "hero-nav",
+          "page": "/",
+          "selector": ".hero-nav",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "15.6px",
+          "rowGap": "15.6px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "nowrap",
+          "lineHeight": "normal",
+          "fontSize": "14.82px",
+          "clientWidth": 248,
+          "scrollWidth": 248,
+          "box": {
+            "left": 120.265625,
+            "right": 368,
+            "width": 247.734375,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "creative",
+              "tag": "a",
+              "className": "",
+              "x": 120.265625,
+              "right": 199.9375,
+              "width": 79.671875,
+              "height": 44,
+              "baseline": 758,
+              "textLeft": 120.265625,
+              "textRight": 179.28125
+            },
+            {
+              "text": "about",
+              "tag": "a",
+              "className": "",
+              "x": 215.53125,
+              "right": 277.734375,
+              "width": 62.203125,
+              "height": 44,
+              "baseline": 758,
+              "textLeft": 215.53125,
+              "textRight": 257.078125
+            },
+            {
+              "text": "contact",
+              "tag": "a",
+              "className": "",
+              "x": 293.328125,
+              "right": 368,
+              "width": 74.671875,
+              "height": 44,
+              "baseline": 758,
+              "textLeft": 293.328125,
+              "textRight": 347.34375
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 758,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                15.59,
+                15.59
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 120.265625,
+          "rightMargin": 0.27,
+          "itemWidths": [
+            79.67,
+            62.2,
+            74.67
+          ]
+        },
+        {
+          "id": "cross-links",
+          "page": "/creative/tattoos",
+          "selector": ".rubric-cross-links",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "rowGap": "10px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "wrap",
+          "lineHeight": "15.772px",
+          "fontSize": "15.772px",
+          "clientWidth": 346,
+          "scrollWidth": 346,
+          "box": {
+            "left": 22,
+            "right": 368,
+            "width": 346,
+            "height": 68
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 22,
+              "right": 95.140625,
+              "width": 73.140625,
+              "height": 44,
+              "baseline": 1716.703125,
+              "textLeft": 22,
+              "textRight": 76.96875
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 105.140625,
+              "right": 153.078125,
+              "width": 47.9375,
+              "height": 44,
+              "baseline": 1716.703125,
+              "textLeft": 105.140625,
+              "textRight": 134.90625
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 163.078125,
+              "right": 214.34375,
+              "width": 51.265625,
+              "height": 44,
+              "baseline": 1716.703125,
+              "textLeft": 163.078125,
+              "textRight": 196.171875
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1716.703125,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                10,
+                10
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 22,
+          "rightMargin": 153.66,
+          "itemWidths": [
+            73.14,
+            47.94,
+            51.27
+          ]
+        },
+        {
+          "id": "archive-filters",
+          "page": "/creative",
+          "selector": ".work-filters",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "rowGap": "10px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 177,
+          "scrollWidth": 177,
+          "box": {
+            "left": 94.328125,
+            "right": 271.03125,
+            "width": 176.703125,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 94.328125,
+              "right": 133.359375,
+              "width": 39.03125,
+              "height": 44,
+              "baseline": 27,
+              "textLeft": 94.328125,
+              "textRight": 133.359375
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 143.359375,
+              "right": 193.9375,
+              "width": 50.578125,
+              "height": 44,
+              "baseline": 27,
+              "textLeft": 143.359375,
+              "textRight": 193.9375
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 203.9375,
+              "right": 231.40625,
+              "width": 27.46875,
+              "height": 44,
+              "baseline": 27,
+              "textLeft": 203.9375,
+              "textRight": 231.40625
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 241.40625,
+              "right": 271.03125,
+              "width": 29.625,
+              "height": 44,
+              "baseline": 27,
+              "textLeft": 241.40625,
+              "textRight": 271.03125
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 27,
+              "count": 4,
+              "spread": 0,
+              "gaps": [
+                10,
+                10,
+                10
+              ],
+              "heights": [
+                44,
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 94.328125,
+          "rightMargin": 0.3,
+          "itemWidths": [
+            39.03,
+            50.58,
+            27.47,
+            29.63
+          ]
+        },
+        {
+          "id": "footer-left",
+          "page": "/creative",
+          "selector": ".footer-left",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12px",
+          "rowGap": "12px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "15px",
+          "fontSize": "10px",
+          "clientWidth": 123,
+          "scrollWidth": 234,
+          "box": {
+            "left": 22,
+            "right": 145,
+            "width": 123,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "h4ngelic © 2026",
+              "tag": "span",
+              "className": "footer-brand",
+              "x": 22,
+              "right": 105.234375,
+              "width": 83.234375,
+              "height": 44,
+              "baseline": 5201,
+              "textLeft": 22,
+              "textRight": 105.234375
+            },
+            {
+              "text": "h4 moshlab",
+              "tag": "a",
+              "className": "footer-moshlab",
+              "x": 117.234375,
+              "right": 193.328125,
+              "width": 76.09375,
+              "height": 44,
+              "baseline": 5201,
+              "textLeft": 117.234375,
+              "textRight": 176.140625
+            },
+            {
+              "text": "visit 0001",
+              "tag": "span",
+              "className": "footer-visit",
+              "x": 205.328125,
+              "right": 255.984375,
+              "width": 50.65625,
+              "height": 44,
+              "baseline": 5201,
+              "textLeft": 205.328125,
+              "textRight": 255.984375
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 5201,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                12,
+                12
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 22,
+          "rightMargin": -110.98,
+          "itemWidths": [
+            83.23,
+            76.09,
+            50.66
+          ]
+        },
+        {
+          "id": "footer-details",
+          "page": "/creative",
+          "selector": ".footer-details",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12px",
+          "rowGap": "12px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "15px",
+          "fontSize": "10px",
+          "clientWidth": 123,
+          "scrollWidth": 208,
+          "box": {
+            "left": 245,
+            "right": 368,
+            "width": 123,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "instagram",
+              "tag": "a",
+              "className": "footer-instagram",
+              "x": 245,
+              "right": 312.578125,
+              "width": 67.578125,
+              "height": 44,
+              "baseline": 5201,
+              "textLeft": 245,
+              "textRight": 295.390625
+            },
+            {
+              "text": "impressum",
+              "tag": "a",
+              "className": "footer-impressum",
+              "x": 324.578125,
+              "right": 381.046875,
+              "width": 56.46875,
+              "height": 44,
+              "baseline": 5201,
+              "textLeft": 324.578125,
+              "textRight": 381.046875
+            },
+            {
+              "text": "berlin, de",
+              "tag": "span",
+              "className": "footer-location",
+              "x": 393.046875,
+              "right": 441.390625,
+              "width": 48.34375,
+              "height": 44,
+              "baseline": 5201,
+              "textLeft": 393.046875,
+              "textRight": 441.390625
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 5201,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                12,
+                12
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 245,
+          "rightMargin": -73.39,
+          "itemWidths": [
+            67.58,
+            56.47,
+            48.34
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "rows": [
+        {
+          "id": "frontpage-strip",
+          "page": "/",
+          "selector": ".category-strip",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "rowGap": "10px",
+          "paddingInline": "32.7px 0px",
+          "overflowX": "visible",
+          "wrap": "wrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 276,
+          "scrollWidth": 276,
+          "box": {
+            "left": 22,
+            "right": 298,
+            "width": 276,
+            "height": 226
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 54.6875,
+              "right": 132.18124389648438,
+              "width": 63.09375,
+              "height": 108,
+              "baseline": 1034.546875,
+              "textLeft": 69.0875015258789,
+              "textRight": 110.9625015258789
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 127.78125,
+              "right": 217.69686889648438,
+              "width": 75.515625,
+              "height": 108,
+              "baseline": 1034.546875,
+              "textLeft": 142.18124389648438,
+              "textRight": 196.47811889648438
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 54.6875,
+              "right": 119.7125015258789,
+              "width": 50.625,
+              "height": 108,
+              "baseline": 1152.546875,
+              "textLeft": 69.0875015258789,
+              "textRight": 98.4937515258789
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "category-link rubric-item",
+              "x": 115.3125,
+              "right": 183.63436889648438,
+              "width": 53.921875,
+              "height": 108,
+              "baseline": 1152.546875,
+              "textLeft": 129.71249389648438,
+              "textRight": 162.41561889648438
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1034.546875,
+              "count": 2,
+              "spread": 0,
+              "gaps": [
+                10
+              ],
+              "heights": [
+                108,
+                108
+              ]
+            },
+            {
+              "baseline": 1152.546875,
+              "count": 2,
+              "spread": 0,
+              "gaps": [
+                10
+              ],
+              "heights": [
+                108,
+                108
+              ]
+            }
+          ],
+          "firstLeft": 69.0875015258789,
+          "rightMargin": 114.37,
+          "itemWidths": [
+            63.09,
+            75.52,
+            50.63,
+            53.92
+          ]
+        },
+        {
+          "id": "hero-nav",
+          "page": "/",
+          "selector": ".hero-nav",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12.8px",
+          "rowGap": "12.8px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "nowrap",
+          "lineHeight": "normal",
+          "fontSize": "14px",
+          "clientWidth": 232,
+          "scrollWidth": 232,
+          "box": {
+            "left": 66.15625,
+            "right": 298,
+            "width": 231.84375,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "creative",
+              "tag": "a",
+              "className": "",
+              "x": 66.15625,
+              "right": 141.984375,
+              "width": 75.828125,
+              "height": 44,
+              "baseline": 758,
+              "textLeft": 66.15625,
+              "textRight": 121.90625
+            },
+            {
+              "text": "about",
+              "tag": "a",
+              "className": "",
+              "x": 154.78125,
+              "right": 214.09375,
+              "width": 59.3125,
+              "height": 44,
+              "baseline": 758,
+              "textLeft": 154.78125,
+              "textRight": 194.015625
+            },
+            {
+              "text": "contact",
+              "tag": "a",
+              "className": "",
+              "x": 226.890625,
+              "right": 298,
+              "width": 71.109375,
+              "height": 44,
+              "baseline": 758,
+              "textLeft": 226.890625,
+              "textRight": 277.921875
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 758,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                12.8,
+                12.8
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 66.15625,
+          "rightMargin": 0.16,
+          "itemWidths": [
+            75.83,
+            59.31,
+            71.11
+          ]
+        },
+        {
+          "id": "cross-links",
+          "page": "/creative/tattoos",
+          "selector": ".rubric-cross-links",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "rowGap": "10px",
+          "paddingInline": "0px 0px",
+          "overflowX": "visible",
+          "wrap": "wrap",
+          "lineHeight": "15.715px",
+          "fontSize": "15.715px",
+          "clientWidth": 276,
+          "scrollWidth": 276,
+          "box": {
+            "left": 22,
+            "right": 298,
+            "width": 276,
+            "height": 68
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 22,
+              "right": 94.890625,
+              "width": 72.890625,
+              "height": 44,
+              "baseline": 1714.15625,
+              "textLeft": 22,
+              "textRight": 76.75
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 104.890625,
+              "right": 152.6875,
+              "width": 47.796875,
+              "height": 44,
+              "baseline": 1714.15625,
+              "textLeft": 104.890625,
+              "textRight": 134.546875
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "rubric-item",
+              "x": 162.6875,
+              "right": 213.796875,
+              "width": 51.109375,
+              "height": 44,
+              "baseline": 1714.15625,
+              "textLeft": 162.6875,
+              "textRight": 195.65625
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 1714.15625,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                10,
+                10
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 22,
+          "rightMargin": 84.2,
+          "itemWidths": [
+            72.89,
+            47.8,
+            51.11
+          ]
+        },
+        {
+          "id": "archive-filters",
+          "page": "/creative",
+          "selector": ".work-filters",
+          "display": "flex",
+          "justifyContent": "flex-start",
+          "alignItems": "baseline",
+          "columnGap": "10px",
+          "rowGap": "10px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "16px",
+          "fontSize": "16px",
+          "clientWidth": 165,
+          "scrollWidth": 177,
+          "box": {
+            "left": 90.875,
+            "right": 256,
+            "width": 165.125,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 4,
+          "links": 4,
+          "slot": null,
+          "items": [
+            {
+              "text": "tattoos",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 90.875,
+              "right": 129.90625,
+              "width": 39.03125,
+              "height": 44,
+              "baseline": 27,
+              "textLeft": 90.875,
+              "textRight": 129.90625
+            },
+            {
+              "text": "jewellery",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 139.90625,
+              "right": 190.484375,
+              "width": 50.578125,
+              "height": 44,
+              "baseline": 27,
+              "textLeft": 139.90625,
+              "textRight": 190.484375
+            },
+            {
+              "text": "tools",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 200.484375,
+              "right": 227.953125,
+              "width": 27.46875,
+              "height": 44,
+              "baseline": 27,
+              "textLeft": 200.484375,
+              "textRight": 227.953125
+            },
+            {
+              "text": "more",
+              "tag": "a",
+              "className": "filter-link rubric-item",
+              "x": 237.953125,
+              "right": 267.578125,
+              "width": 29.625,
+              "height": 44,
+              "baseline": 27,
+              "textLeft": 237.953125,
+              "textRight": 267.578125
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 27,
+              "count": 4,
+              "spread": 0,
+              "gaps": [
+                10,
+                10,
+                10
+              ],
+              "heights": [
+                44,
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 90.875,
+          "rightMargin": -11.7,
+          "itemWidths": [
+            39.03,
+            50.58,
+            27.47,
+            29.63
+          ]
+        },
+        {
+          "id": "footer-left",
+          "page": "/creative",
+          "selector": ".footer-left",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12px",
+          "rowGap": "12px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "15px",
+          "fontSize": "10px",
+          "clientWidth": 88,
+          "scrollWidth": 234,
+          "box": {
+            "left": 22,
+            "right": 110,
+            "width": 88,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "h4ngelic © 2026",
+              "tag": "span",
+              "className": "footer-brand",
+              "x": 22,
+              "right": 105.234375,
+              "width": 83.234375,
+              "height": 44,
+              "baseline": 5215.046875,
+              "textLeft": 22,
+              "textRight": 105.234375
+            },
+            {
+              "text": "h4 moshlab",
+              "tag": "a",
+              "className": "footer-moshlab",
+              "x": 117.234375,
+              "right": 193.328125,
+              "width": 76.09375,
+              "height": 44,
+              "baseline": 5215.046875,
+              "textLeft": 117.234375,
+              "textRight": 176.140625
+            },
+            {
+              "text": "visit 0001",
+              "tag": "span",
+              "className": "footer-visit",
+              "x": 205.328125,
+              "right": 255.984375,
+              "width": 50.65625,
+              "height": 44,
+              "baseline": 5215.046875,
+              "textLeft": 205.328125,
+              "textRight": 255.984375
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 5215.046875,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                12,
+                12
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 22,
+          "rightMargin": -145.98,
+          "itemWidths": [
+            83.23,
+            76.09,
+            50.66
+          ]
+        },
+        {
+          "id": "footer-details",
+          "page": "/creative",
+          "selector": ".footer-details",
+          "display": "flex",
+          "justifyContent": "normal",
+          "alignItems": "center",
+          "columnGap": "12px",
+          "rowGap": "12px",
+          "paddingInline": "0px 0px",
+          "overflowX": "auto",
+          "wrap": "nowrap",
+          "lineHeight": "15px",
+          "fontSize": "10px",
+          "clientWidth": 88,
+          "scrollWidth": 208,
+          "box": {
+            "left": 210,
+            "right": 298,
+            "width": 88,
+            "height": 44
+          },
+          "brand": {
+            "text": "h4ngelic",
+            "baseline": 38,
+            "left": 22
+          },
+          "positions": 3,
+          "links": 3,
+          "slot": null,
+          "items": [
+            {
+              "text": "instagram",
+              "tag": "a",
+              "className": "footer-instagram",
+              "x": 210,
+              "right": 277.578125,
+              "width": 67.578125,
+              "height": 44,
+              "baseline": 5215.046875,
+              "textLeft": 210,
+              "textRight": 260.390625
+            },
+            {
+              "text": "impressum",
+              "tag": "a",
+              "className": "footer-impressum",
+              "x": 289.578125,
+              "right": 346.046875,
+              "width": 56.46875,
+              "height": 44,
+              "baseline": 5215.046875,
+              "textLeft": 289.578125,
+              "textRight": 346.046875
+            },
+            {
+              "text": "berlin, de",
+              "tag": "span",
+              "className": "footer-location",
+              "x": 358.046875,
+              "right": 406.390625,
+              "width": 48.34375,
+              "height": 44,
+              "baseline": 5215.046875,
+              "textLeft": 358.046875,
+              "textRight": 406.390625
+            }
+          ],
+          "lines": [
+            {
+              "baseline": 5215.046875,
+              "count": 3,
+              "spread": 0,
+              "gaps": [
+                12,
+                12
+              ],
+              "heights": [
+                44,
+                44,
+                44
+              ]
+            }
+          ],
+          "firstLeft": 210,
+          "rightMargin": -108.39,
+          "itemWidths": [
+            67.58,
+            56.47,
+            48.34
+          ]
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "coupling": {
+    "token": "--rubric-gap",
+    "from": "clamp(10px,1.35vw,22px)",
+    "to": "60px",
+    "before": [
+      {
+        "id": "frontpage-strip",
+        "page": "/",
+        "selector": ".category-strip",
+        "display": "flex",
+        "justifyContent": "flex-start",
+        "alignItems": "baseline",
+        "columnGap": "19.44px",
+        "rowGap": "0px",
+        "paddingInline": "88.31px 0px",
+        "overflowX": "auto",
+        "wrap": "wrap",
+        "lineHeight": "16px",
+        "fontSize": "16px",
+        "clientWidth": 1370,
+        "scrollWidth": 1370,
+        "box": {
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 250.953125
+        },
+        "brand": {
+          "text": "h4ngelic",
+          "baseline": 43,
+          "left": 35
+        },
+        "positions": 4,
+        "links": 4,
+        "slot": null,
+        "items": [
+          {
+            "text": "tattoos",
+            "tag": "a",
+            "className": "category-link rubric-item",
+            "x": 123.296875,
+            "right": 408.609375,
+            "width": 257.3125,
+            "height": 250.953125,
+            "baseline": 1329.09375,
+            "textLeft": 151.296875,
+            "textRight": 338.828125
+          },
+          {
+            "text": "jewellery",
+            "tag": "a",
+            "className": "category-link rubric-item",
+            "x": 400.046875,
+            "right": 741.0625,
+            "width": 313.015625,
+            "height": 250.953125,
+            "baseline": 1329.09375,
+            "textLeft": 428.046875,
+            "textRight": 671.28125
+          },
+          {
+            "text": "tools",
+            "tag": "a",
+            "className": "category-link rubric-item",
+            "x": 732.5,
+            "right": 962,
+            "width": 201.5,
+            "height": 250.953125,
+            "baseline": 1329.09375,
+            "textLeft": 760.5,
+            "textRight": 892.21875
+          },
+          {
+            "text": "more",
+            "tag": "a",
+            "className": "category-link rubric-item",
+            "x": 953.4375,
+            "right": 1197.671875,
+            "width": 216.234375,
+            "height": 250.953125,
+            "baseline": 1329.09375,
+            "textLeft": 981.4375,
+            "textRight": 1127.890625
+          }
+        ],
+        "lines": [
+          {
+            "baseline": 1329.09375,
+            "count": 4,
+            "spread": 0,
+            "gaps": [
+              19.44,
+              19.44,
+              19.44
+            ],
+            "heights": [
+              250.95,
+              250.95,
+              250.95,
+              250.95
+            ]
+          }
+        ],
+        "firstLeft": 151.296875,
+        "rightMargin": 207.33,
+        "itemWidths": [
+          257.31,
+          313.02,
+          201.5,
+          216.23
+        ]
+      },
+      {
+        "id": "hero-nav",
+        "page": "/",
+        "selector": ".hero-nav",
+        "display": "flex",
+        "justifyContent": "normal",
+        "alignItems": "center",
+        "columnGap": "26px",
+        "rowGap": "26px",
+        "paddingInline": "0px 0px",
+        "overflowX": "visible",
+        "wrap": "nowrap",
+        "lineHeight": "normal",
+        "fontSize": "19.008px",
+        "clientWidth": 321,
+        "scrollWidth": 321,
+        "box": {
+          "left": 1083.828125,
+          "right": 1405,
+          "width": 321.171875,
+          "height": 44
+        },
+        "brand": {
+          "text": "h4ngelic",
+          "baseline": 43,
+          "left": 35
+        },
+        "positions": 3,
+        "links": 3,
+        "slot": null,
+        "items": [
+          {
+            "text": "creative",
+            "tag": "a",
+            "className": "",
+            "x": 1083.828125,
+            "right": 1183.15625,
+            "width": 99.328125,
+            "height": 44,
+            "baseline": 854,
+            "textLeft": 1083.828125,
+            "textRight": 1159.484375
+          },
+          {
+            "text": "about",
+            "tag": "a",
+            "className": "",
+            "x": 1209.15625,
+            "right": 1286.078125,
+            "width": 76.921875,
+            "height": 44,
+            "baseline": 854,
+            "textLeft": 1209.15625,
+            "textRight": 1262.40625
+          },
+          {
+            "text": "contact",
+            "tag": "a",
+            "className": "",
+            "x": 1312.078125,
+            "right": 1405,
+            "width": 92.921875,
+            "height": 44,
+            "baseline": 854,
+            "textLeft": 1312.078125,
+            "textRight": 1381.328125
+          }
+        ],
+        "lines": [
+          {
+            "baseline": 854,
+            "count": 3,
+            "spread": 0,
+            "gaps": [
+              26,
+              26
+            ],
+            "heights": [
+              44,
+              44,
+              44
+            ]
+          }
+        ],
+        "firstLeft": 1083.828125,
+        "rightMargin": -0.17,
+        "itemWidths": [
+          99.33,
+          76.92,
+          92.92
+        ]
+      }
+    ],
+    "after": [
+      {
+        "id": "frontpage-strip",
+        "page": "/",
+        "selector": ".category-strip",
+        "display": "flex",
+        "justifyContent": "flex-start",
+        "alignItems": "baseline",
+        "columnGap": "60px",
+        "rowGap": "0px",
+        "paddingInline": "88.31px 0px",
+        "overflowX": "auto",
+        "wrap": "wrap",
+        "lineHeight": "16px",
+        "fontSize": "16px",
+        "clientWidth": 1370,
+        "scrollWidth": 1370,
+        "box": {
+          "left": 35,
+          "right": 1405,
+          "width": 1370,
+          "height": 250.953125
+        },
+        "brand": {
+          "text": "h4ngelic",
+          "baseline": 43,
+          "left": 35
+        },
+        "positions": 4,
+        "links": 4,
+        "slot": null,
+        "items": [
+          {
+            "text": "tattoos",
+            "tag": "a",
+            "className": "category-link rubric-item",
+            "x": 123.296875,
+            "right": 408.609375,
+            "width": 257.3125,
+            "height": 250.953125,
+            "baseline": 1329.09375,
+            "textLeft": 151.296875,
+            "textRight": 338.828125
+          },
+          {
+            "text": "jewellery",
+            "tag": "a",
+            "className": "category-link rubric-item",
+            "x": 440.609375,
+            "right": 781.625,
+            "width": 313.015625,
+            "height": 250.953125,
+            "baseline": 1329.09375,
+            "textLeft": 468.609375,
+            "textRight": 711.84375
+          },
+          {
+            "text": "tools",
+            "tag": "a",
+            "className": "category-link rubric-item",
+            "x": 813.625,
+            "right": 1043.125,
+            "width": 201.5,
+            "height": 250.953125,
+            "baseline": 1329.09375,
+            "textLeft": 841.625,
+            "textRight": 973.34375
+          },
+          {
+            "text": "more",
+            "tag": "a",
+            "className": "category-link rubric-item",
+            "x": 1075.125,
+            "right": 1319.359375,
+            "width": 216.234375,
+            "height": 250.953125,
+            "baseline": 1329.09375,
+            "textLeft": 1103.125,
+            "textRight": 1249.578125
+          }
+        ],
+        "lines": [
+          {
+            "baseline": 1329.09375,
+            "count": 4,
+            "spread": 0,
+            "gaps": [
+              60,
+              60,
+              60
+            ],
+            "heights": [
+              250.95,
+              250.95,
+              250.95,
+              250.95
+            ]
+          }
+        ],
+        "firstLeft": 151.296875,
+        "rightMargin": 85.64,
+        "itemWidths": [
+          257.31,
+          313.02,
+          201.5,
+          216.23
+        ]
+      },
+      {
+        "id": "hero-nav",
+        "page": "/",
+        "selector": ".hero-nav",
+        "display": "flex",
+        "justifyContent": "normal",
+        "alignItems": "center",
+        "columnGap": "26px",
+        "rowGap": "26px",
+        "paddingInline": "0px 0px",
+        "overflowX": "visible",
+        "wrap": "nowrap",
+        "lineHeight": "normal",
+        "fontSize": "19.008px",
+        "clientWidth": 321,
+        "scrollWidth": 321,
+        "box": {
+          "left": 1083.828125,
+          "right": 1405,
+          "width": 321.171875,
+          "height": 44
+        },
+        "brand": {
+          "text": "h4ngelic",
+          "baseline": 43,
+          "left": 35
+        },
+        "positions": 3,
+        "links": 3,
+        "slot": null,
+        "items": [
+          {
+            "text": "creative",
+            "tag": "a",
+            "className": "",
+            "x": 1083.828125,
+            "right": 1183.15625,
+            "width": 99.328125,
+            "height": 44,
+            "baseline": 854,
+            "textLeft": 1083.828125,
+            "textRight": 1159.484375
+          },
+          {
+            "text": "about",
+            "tag": "a",
+            "className": "",
+            "x": 1209.15625,
+            "right": 1286.078125,
+            "width": 76.921875,
+            "height": 44,
+            "baseline": 854,
+            "textLeft": 1209.15625,
+            "textRight": 1262.40625
+          },
+          {
+            "text": "contact",
+            "tag": "a",
+            "className": "",
+            "x": 1312.078125,
+            "right": 1405,
+            "width": 92.921875,
+            "height": 44,
+            "baseline": 854,
+            "textLeft": 1312.078125,
+            "textRight": 1381.328125
+          }
+        ],
+        "lines": [
+          {
+            "baseline": 854,
+            "count": 3,
+            "spread": 0,
+            "gaps": [
+              26,
+              26
+            ],
+            "heights": [
+              44,
+              44,
+              44
+            ]
+          }
+        ],
+        "firstLeft": 1083.828125,
+        "rightMargin": -0.17,
+        "itemWidths": [
+          99.33,
+          76.92,
+          92.92
+        ]
+      }
+    ]
+  }
+}
