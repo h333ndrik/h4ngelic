@@ -1,6 +1,6 @@
 # Retired suites
 
-These eight suites encode contracts that were deliberately removed. They are kept
+These nine suites encode contracts that were deliberately removed. They are kept
 for history only and are **not** part of any battery. Nothing here runs in
 `npm test`, in the fast mode or in the merge gate.
 
@@ -13,6 +13,7 @@ for history only and are **not** part of any battery. Nothing here runs in
 | `hero-ink-browser.mjs` | Boots with `reducedMotion: 'reduce'` and waits for `#stage.is-ready`, then paints the WebGL wordmark through `__H4_TEST__`. Since the poster contract that state never exists (no WebGL, no test hooks), so the premise — mesh ink under reduced motion — is gone. See `hero-ink-browser.README.md`. | `003086f` (F29 poster), `9e652aa` (no 2d flash) | `tests/hero-boot-browser.mjs`, `tests/hero-poster-browser.mjs`, `tests/digital-ink-browser.mjs` |
 | `hero-background-browser.mjs` | Same reduced-motion boot premise, plus it measures `.category-sublinks`, which no longer exist. See `hero-background-browser.README.md`. | `003086f` (F29 poster), `9e652aa` (no 2d flash), R1/B-F25 (rubric rows) | `tests/hero-poster-browser.mjs`, `tests/hero-background-ink.test.js`, `tests/row-geometry-contract.mjs` |
 | `mobile-interactions-browser.mjs` | Drives the fixed `[data-mobile-mode]` glyph: four CDP taps into the Other Side, three back. B-F32 (rev) hides that control on touch (`2ac40ec`); the touch entry is the HOLD-4 hint (`2709d5e`). See `mobile-interactions-browser.README.md`. | B-F32 rev (`2ac40ec`) | `tests/mode-hold.test.js`, `tests/mode-taps.test.js`, `tests/mobile-parity-browser.mjs`, `tests/v15-mobile-browser.mjs`, `tests/touch-ink.test.js` |
+| `standalone-native-browser.mjs` | Same removed control inside the exported offline preview: real CDP taps on `[data-mobile-mode]`, which is `display: none` since B-F32 (rev). See `standalone-native-browser.README.md`. | B-F32 rev (`2ac40ec`) | `tests/standalone-browser.mjs` (offline touch HOLD-4 entry at 390/320), `tests/mode-hold.test.js`, `tests/touch-ink.test.js` |
 | `artwork-transitions-browser.mjs` | Drives an archive tile `<a data-artwork-link>` through a view transition into the detail route. No route renders such a tile since B-013/B-014 (0 on nine routes, 34 `data-artwork-open` buttons/menus). See `artwork-transitions-browser.README.md`. | B-013/B-014 (placeholder carousels), drift archive + inline viewer | `tests/gallery-browser.mjs`, `tests/inline-artwork-expand.test.js`, `tests/portfolio-browser.mjs`, `tests/navigation-browser.mjs` |
 
 Rule for the future: a suite whose contract is removed either moves here with

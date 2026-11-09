@@ -289,7 +289,11 @@ try {
       }));
       assert.ok(reverseHint.opacity < .01, 'The reverse hint fades away in both realities after discovery expires.');
       assert.equal(reverseHint.color, 'rgb(255, 255, 255)');
-      assert.ok(reverseHint.fontSize >= 15 && reverseHint.fontSize <= 21);
+      // The HOLD-4 hint keeps the desktop ghost scale (21 px) and drops to the
+      // mobile ghost scale (12 px) below 600 px — same token, two sizes.
+      assert.ok(mobile ? reverseHint.fontSize >= 11 && reverseHint.fontSize <= 13
+        : reverseHint.fontSize >= 15 && reverseHint.fontSize <= 21,
+      `The hint keeps the ghost type scale at ${width}px (${reverseHint.fontSize}).`);
 
       const mute = page.locator('[data-controls] [data-mode-mute]');
       // The file:// preview has no localStorage, so the sound preference falls
