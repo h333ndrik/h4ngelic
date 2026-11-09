@@ -109,3 +109,14 @@ transparent` für genau diese Links, damit nicht zwei „gedrückt"-Optiken
 Nachweis (390 px, `tests/mobile-parity-browser.mjs`): Klasse ist während des
 `pointerdown` gesetzt, nach `pointerup` wieder weg, Tap-Highlight ist
 `rgba(0, 0, 0, 0)`, Ziel-Href unverändert.
+
+## B-F32 (rev) — schwebendes Mode-Glyph auf Touch entfernt
+
+`button.mobile-mode` war `position: fixed; right: 14px; bottom: ~90px` mit einem
+28×42-Pfeilbild und lag dauerhaft über der Seite — das „immer im Bild
+schwebende" Zeichen. Unter `(pointer: coarse)` ist es jetzt `display: none`
+(`src/mobile-mode.css`, letzter Block).
+
+Gemessen (390): `modeDisplay: none`, Box 0×0; HOLD-4-Hinweis bleibt
+(`hintDisplay: flex`). 1440 unverändert. Der HOLD-4-Hinweis bleibt der
+Touch-Einstieg in die andere Seite.
