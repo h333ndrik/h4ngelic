@@ -120,3 +120,16 @@ schwebende" Zeichen. Unter `(pointer: coarse)` ist es jetzt `display: none`
 Gemessen (390): `modeDisplay: none`, Box 0×0; HOLD-4-Hinweis bleibt
 (`hintDisplay: flex`). 1440 unverändert. Der HOLD-4-Hinweis bleibt der
 Touch-Einstieg in die andere Seite.
+
+## B-F34 — Splat-Cooldown wie beim Hero-Logo
+
+Die Splats hingen schon an `pointerdown`/`pointerup`/`click`
+(`src/corruption.js:61/72/78`), also auch an Touch. Neu ist nur die Drosselung:
+ein Klick-Impuls wird verworfen, wenn seit dem letzten weniger als
+`interactionMoshSettings.click.cooldownMs` (320 ms — derselbe Wert wie beim
+Hero-Logo) vergangen sind. Der Wert wird gelesen, nicht dupliziert.
+
+Damit gilt: ein Druck → ein Splat; ein zweiter Druck innerhalb von 320 ms →
+kein zweiter Splat; nach Ablauf wieder einer. `npm test` 448 / 447 pass /
+1 skipped / 0 fail (der Import im `memory-creation-failure`-Test wurde in die
+bestehende Import-Map aufgenommen).

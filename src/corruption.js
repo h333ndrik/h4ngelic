@@ -2,6 +2,7 @@ import './corruption.css';
 import { corruptionSettings, chooseCorruptionProfile } from './data/corruptionSettings.js';
 import { createAmbientFilm } from './ambient-film.js';
 import { getLivingDecaySettings, livingDecayMaterialAssets } from './data/livingDecaySettings.js';
+import { interactionMoshSettings } from './data/interactionMoshSettings.js';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const protectedTarget = '[data-other-side-hint], [data-corruption-protected], [data-no-mosh]';
@@ -78,12 +79,18 @@ export async function createCorruption({ image, settings = corruptionSettings } 
       && view.performance.now() - candidate.time <= 600 ? { time: view.performance.now() } : null;
   }, { passive: true });
   listen(doc, 'pointercancel', clearInput, { passive: true });
+  // Same cooldown as the hero logo's click, so a fast double tap cannot stack
+  // two splats. One press = one splat, measured with the shared token.
+  let lastClickImpulse = -Infinity;
   listen(doc, 'click', event => {
     const completed = completedClick; completedClick = null;
     // UI clicks are already delegated by interaction-mosh. This adds deliberate
     // empty-background clicks exactly once without generating decorative ink.
     if (!completed || !enabled() || event.button !== 0 || event.detail === 0
       || view.performance.now() - completed.time > 600 || event.target.closest?.(interactive) || protectedEvent(event.target)) return;
+    const now = view.performance.now();
+    if (now - lastClickImpulse < interactionMoshSettings.click.cooldownMs) return;
+    lastClickImpulse = now;
     queueImpulse({ kind: 'click', x: event.clientX, y: event.clientY, strength: 1.5 });
   });
   listen(doc, 'pointerout', event => { if (!event.relatedTarget) clearInput(); });

@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises';
 // Load the production adapter without its browser-only stylesheet import.
 let source = (await readFile(new URL('../src/corruption.js', import.meta.url), 'utf8'))
   .replace(/^import ['"]\.\/corruption\.css['"];?\s*/m, '');
-for (const path of ['./data/corruptionSettings.js', './ambient-film.js', './data/livingDecaySettings.js']) {
+for (const path of ['./data/corruptionSettings.js', './ambient-film.js', './data/livingDecaySettings.js', './data/interactionMoshSettings.js']) {
   source = source.replace(JSON.stringify(path), JSON.stringify(new URL(`../src/${path.slice(2)}`, import.meta.url).href))
     .replace(`'${path}'`, JSON.stringify(new URL(`../src/${path.slice(2)}`, import.meta.url).href));
 }
