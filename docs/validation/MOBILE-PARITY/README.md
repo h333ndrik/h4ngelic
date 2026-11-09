@@ -238,3 +238,27 @@ Hover-gebundene Effekte (Magnet, Glow, Pfeil) sind unter
 (`src/interactions.css`, `src/header-contrast.css`) — auf Touch läuft keine
 Animation ins Leere. Der schwebende Mode-Pfeil bleibt entfernt (B-F32 rev,
 `2ac40ec`); der HOLD-4-Hinweis bleibt (`2709d5e`).
+
+## Verifikation gegen den Production-Build (09.11.)
+
+`npm run build` (23 Routen + 404) und `node scripts/serve-preview.mjs` auf
+`127.0.0.1:55173`; danach:
+
+- `tests/mobile-parity-browser.mjs`: 10/10 PASS (inkl. B-F39a/b und B-F35).
+- `tests/v15-mobile-browser.mjs`: 4/4 PASS (390/320 × beide Motion-Preferences).
+- `npm test`: 448 Tests / 447 pass / 1 skipped / 0 fail.
+
+## Bekannt rot (nicht durch diesen Lauf verursacht)
+
+Alle vier wurden zusätzlich in einem temporären Worktree auf dem Basis-Commit
+`f713668` (vor B-F35/B-F39) gefahren und scheitern dort an derselben Stelle:
+
+| Suite | Stelle | Befund |
+| --- | --- | --- |
+| `horizontal-drift-browser` | `:343` | erwartet einen leeren `flashes`-Streifen („archive in progress."), seit `4ada015` (B-013 Placeholder-Carousel) stehen dort 8 Karten. Test-Drift, nicht Code. |
+| `v31-navigation-browser` | `:203` | Display-Contrast-Probe im synthetischen Heading (`contrast` false statt true) — identisch auf `f713668`. |
+| `footer-zone-contract` | 390/320 | Footer-Zonen-Vertrag scheitert bei den kleinen Viewports — identisch auf `f713668`. |
+| `naavi-format-browser` | Pre-Hydration-Shell | Shell-Format `NN/ NN` weicht ab — identisch auf `f713668`. |
+
+Nicht repariert: außerhalb dieses Auftrags (keine Cursor-, Footer- oder
+Label-Änderungen in diesem Lauf).
