@@ -248,17 +248,17 @@ Animation ins Leere. Der schwebende Mode-Pfeil bleibt entfernt (B-F32 rev,
 - `tests/v15-mobile-browser.mjs`: 4/4 PASS (390/320 × beide Motion-Preferences).
 - `npm test`: 448 Tests / 447 pass / 1 skipped / 0 fail.
 
-## Bekannt rot (nicht durch diesen Lauf verursacht)
+## Rote Suiten — nachträglich geklärt (09.11.)
 
-Alle vier wurden zusätzlich in einem temporären Worktree auf dem Basis-Commit
-`f713668` (vor B-F35/B-F39) gefahren und scheitern dort an derselben Stelle:
+Die oben als „bekannt rot" geführten Suiten waren Erwartungen aus der Zeit vor
+späteren Verträgen, kein Produktfehler. Sie sind jetzt abgeglichen (`02badd6`,
+`914ad61`) und grün:
 
-| Suite | Stelle | Befund |
+| Suite | Ursache | Auflösung |
 | --- | --- | --- |
-| `horizontal-drift-browser` | `:343` | erwartet einen leeren `flashes`-Streifen („archive in progress."), seit `4ada015` (B-013 Placeholder-Carousel) stehen dort 8 Karten. Test-Drift, nicht Code. |
-| `v31-navigation-browser` | `:203` | Display-Contrast-Probe im synthetischen Heading (`contrast` false statt true) — identisch auf `f713668`. |
-| `footer-zone-contract` | 390/320 | Footer-Zonen-Vertrag scheitert bei den kleinen Viewports — identisch auf `f713668`. |
-| `naavi-format-browser` | Pre-Hydration-Shell | Shell-Format `NN/ NN` weicht ab — identisch auf `f713668`. |
-
-Nicht repariert: außerhalb dieses Auftrags (keine Cursor-, Footer- oder
-Label-Änderungen in diesem Lauf).
+| `horizontal-drift-browser` | erwartete den leeren `flashes`-Streifen; seit `4ada015` (B-013) stehen dort 8 markierte Platzhalterkarten, Zähler `01/ 08`. | Assertions beschreiben den Platzhalter-Vertrag (0 `img`/`canvas`, 8 Karten, 8 Buttons, beide Pfeile aktiv). |
+| `footer-zone-contract` | verlangte eine gemeinsame Grundlinie aller Footer-Items; B-F36 bricht unter 600 px auf zwei Zeilen im 90-px-Band um. | bis zu zwei Zeilen, kein Überlappen, innerhalb des Bands; Desktop weiter eine Zeile. |
+| `v31-navigation-browser` | die Contrast-Fixture feuert `h4:pagechange`, während ein Sektions-Hash gesetzt ist — B-F31 landet dann (korrekt) per Smooth-Scroll neu, mitten in der Messung. | Fixture löscht vorher den Hash und prüft, dass die Probe die NAAVI wirklich überlappt. |
+| `v31-ui-browser` | Controls sind auf dem Handy absichtlich `.72` (B-F36); Digital-Expansion wächst seit B-F39 aus dem 300-px-Slot wie die Tattoo-Karte. | profilabhängige Schwellen wie bei der Tattoo-Karte, Controls ≥ .7 unter 600 px. |
+| `naavi-format-browser` | las `dist/index.html` aus einem Zwischenstand ohne Prerender-Tokens. | nach `npm run build` grün; keine Codeänderung. |
+| `tokens-audit` | `src/mannequin-preview.css` deklarierte vier Cursor-Werte, die nie gewinnen konnten. | Deklarationen entfernt (`914ad61`), Begründung bleibt als Kommentar. |
