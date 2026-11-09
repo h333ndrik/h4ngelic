@@ -103,7 +103,12 @@ export function initSoundControls({ doc = document, audio } = {}) {
     for (const button of doc.querySelectorAll('[data-mode-mute]')) {
       const control = controls.get(button) || enhance(button);
       const needsResume = Boolean(audio.needsResume && !audio.muted);
-      button.textContent = needsResume ? 'tap to resume' : audio.muted ? 'sound off' : 'sound on';
+      // Rewriting textContent replaces the interaction wrapper (and every text
+      // node) even when the label is unchanged — that destroys the click target
+      // mid-press, so the very first click on MUTE was swallowed by the
+      // document-level audio unlock. Only write when the label really changes.
+      const label = needsResume ? 'tap to resume' : audio.muted ? 'sound off' : 'sound on';
+      if (button.textContent !== label) button.textContent = label;
       if (needsResume) button.setAttribute('data-sound-resume', '');
       else button.removeAttribute('data-sound-resume');
       button.setAttribute('aria-pressed', String(!audio.muted));
