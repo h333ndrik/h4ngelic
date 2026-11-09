@@ -125,6 +125,75 @@ try {
     await context.close();
     console.log('PASS mute shortcut 1440px: m toggles, fields and modifiers are guarded.');
   }
+  // B-F39a: the digital archive rests in the tattoo carousel's card slot on a
+  // phone — same width and same ratio, from the shared carousel tokens.
+  // B-F39b: archive sections arrive once when they scroll in (entry, not
+  // scroll direction), and go back to that behaviour after a route change.
+  {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'no-preference' });
+    const page = await context.newPage();
+    const cardOf = async selector => page.locator(selector).first().evaluate(img => {
+      const rect = img.getBoundingClientRect();
+      return { width: rect.width, height: rect.height, ratio: rect.width / rect.height };
+    });
+    await page.goto(new URL('/creative/tattoos', base).href, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(700);
+    const card = await cardOf('[data-horizontal-drift="tattoos"] [data-artwork-open] img');
+    const reveals = () => page.evaluate(() => [...document.querySelectorAll('[data-section-reveal]')].map(section => ({
+      id: section.id,
+      pending: section.classList.contains('is-section-reveal-pending'),
+      revealed: section.classList.contains('is-section-revealed'),
+      opacity: Number(getComputedStyle(section).opacity),
+    })));
+    const initial = await reveals();
+    const below = initial.find(section => section.id === 'flashes');
+    assert.ok(below, 'the section list marks the below-fold archive section');
+    assert.equal(below.pending, true, 'a below-fold section waits for its entrance');
+    assert.equal(below.opacity, 0, 'the waiting section is not painted');
+    assert.equal(initial.find(section => section.id === 'onskin').opacity, 1, 'the section already on screen stays visible (no load flash)');
+    for (let step = 0; step < 40; step++) {
+      await page.evaluate(() => scrollBy(0, 120));
+      await page.waitForTimeout(60);
+    }
+    await page.waitForTimeout(800);
+    const after = await reveals();
+    assert.equal(after.every(section => section.revealed && section.opacity === 1), true,
+      `every archive section reaches its end state after scrolling (${JSON.stringify(after)})`);
+    assert.equal(after.every(section => !section.pending), true, 'no reveal is left armed');
+
+    await page.goto(new URL('/creative/more', base).href, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(700);
+    const digital = await cardOf('[data-archive-category="digital-artworks"] .artwork-open img');
+    assert.ok(Math.abs(digital.width - card.width) <= 2,
+      `digital artwork uses the tattoo card width (${digital.width} vs ${card.width})`);
+    assert.ok(Math.abs(digital.ratio - card.ratio) <= .01,
+      `digital artwork uses the tattoo card ratio (${digital.ratio.toFixed(3)} vs ${card.ratio.toFixed(3)})`);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true,
+      'the wider digital card never widens the page');
+    await page.screenshot({ path: new URL('digital-390.png', output).pathname });
+
+    // Route lifecycle through the router: leave for another rubric, come back,
+    // and the reveal still runs from the same helper (observer disconnected on
+    // leave, re-armed on return).
+    await page.evaluate(() => scrollTo(0, 0));
+    await page.waitForTimeout(200);
+    await page.locator('.work-filters a[href="/creative/tattoos"]').click();
+    await page.waitForFunction(() => location.pathname === '/creative/tattoos');
+    await page.waitForTimeout(900);
+    const back = await reveals();
+    const backBelow = back.find(section => section.id === 'flashes');
+    assert.equal(backBelow.pending, true, 'the reveal re-arms after a route change');
+    for (let step = 0; step < 40; step++) {
+      await page.evaluate(() => scrollBy(0, 120));
+      await page.waitForTimeout(60);
+    }
+    await page.waitForTimeout(800);
+    const backAfter = await reveals();
+    assert.equal(backAfter.every(section => section.revealed && section.opacity === 1), true,
+      'the reveal still completes after /about and back');
+    console.log('PASS B-F39 390px: digital card matches the tattoo slot, sections reveal on entry and re-arm across routes.');
+    await context.close();
+  }
   const desktop = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await desktop.newPage();
   await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });

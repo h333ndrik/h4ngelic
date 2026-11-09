@@ -12,6 +12,7 @@ import { renderInquiryForm } from './inquiry-content.js';
 import { orderedArtworks, artworkImages, artworkLabel } from './artwork-content.js';
 import { formatIndexedLabel } from './labels.js';
 import { placeholderProjects } from './data/placeholderProjects.js';
+import { carouselStyleProperties } from './carouselSettings.js';
 
 const arrow = '<i class="arrow" aria-hidden="true"></i>';
 /** One component for every rubric row: a pair per mobile line, one flex row on
@@ -168,7 +169,18 @@ export function renderWorkPage(category = 'all') {
   // B-F31: section ids come from the one shared rule in section-id.js.
   const domIdFor = (entry, { rubricPrimary = false } = {}) => sectionDomId(entry.id, rubricPrimary ? entry.id : '', entry.anchor || '');
   const sectionClasses = (entry, rubricPrimary) => `archive-category${rubricPrimary ? ' rubric-primary' : ''}${entry.presentation === 'model' ? ' archive-model' : ''}`;
-  const sectionAttributes = entry => entry.presentation === 'model' ? ' data-deferred-model data-section-entrance' : '';
+  // B-F39: the digital archive measures itself with the carousel's own size
+  // tokens instead of a second constant, and every archive section announces
+  // the touch reveal that section-entrance.js observes. Only the two size
+  // tokens travel to the section; the rest of the carousel contract stays
+  // scoped to the strips it was written for.
+  const carouselTokens = carouselStyleProperties();
+  const cardTokens = ['--carousel-card-width', '--carousel-card-height']
+    .map(name => `${name}:${carouselTokens[name]}`).join(';');
+  const sectionAttributes = entry => {
+    if (entry.presentation === 'model') return ' data-deferred-model data-section-entrance';
+    return ` data-section-reveal${entry.id === 'digital-artworks' ? ` style="${cardTokens}"` : ''}`;
+  };
   const leaf = (entry, { id = sectionDomId(entry), nested = true } = {}) => {
     const tag = nested ? 'h3' : 'h2';
     const label = escape(entry.archiveLabel || entry.label);
