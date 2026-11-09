@@ -181,7 +181,12 @@ export function renderWorkPage(category = 'all') {
     if (entry.presentation === 'model') return ' data-deferred-model data-section-entrance';
     return ` data-section-reveal${entry.id === 'digital-artworks' ? ` style="${cardTokens}"` : ''}`;
   };
-  const leaf = (entry, { id = sectionDomId(entry), nested = true } = {}) => {
+  // Standalone category pages (digital artworks, analog photography, …) have
+  // no rubric context, so their section id is the category id itself. The
+  // default used to pass the whole entry object into sectionDomId(), which
+  // rendered id="[object Object]" and broke every #category anchor and the
+  // suites that address them.
+  const leaf = (entry, { id = sectionDomId(entry.id), nested = true } = {}) => {
     const tag = nested ? 'h3' : 'h2';
     const label = escape(entry.archiveLabel || entry.label);
     // B-F31: a section without a route (the 3d model) never renders a link.
