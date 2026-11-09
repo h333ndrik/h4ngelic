@@ -103,6 +103,8 @@ reduced motion). Reasons, commits and today's coverage:
 **B-016 remains open:** the dual Impressum links exist, but `VOLLNAME`, address,
 email and USt./§19 data are still user-supplied launch prerequisites.
 
+| B-F19 (09.11.) | NAAVI unten, Hover | „der cursor ändert sich wenn über naavi unten hovert" | **fixed** | `60e682d` | `docs/validation/CURSOR-NAAVI/README.md`; `naavi-cursor.json` | Phase 0 auf `a83408a`: NAAVI und Footer nutzen dasselbe SVG/PNG (beide 200), unterschieden sich nur im Fallback (`pointer` vs. `auto`) — bei abgelehntem Cursor-Bild wird daraus sichtbar Hand vs. Pfeil. `--h4-cursor-interactive` ist jetzt byte-identisch mit `--h4-cursor`. `tests/cursor-hit-test.mjs`: Byte-Gleichheit NAAVI ↔ nicht-interaktives Element, 1 einziger Cursor-Wert über 4470/1150/940 Punkte × beide Motion-Preferences, Xray 2221. |
+
 ## Findings B-F32…B-F39 (Mobile-Parität, 06.–09.11.)
 
 | ID | Ort/Element | Befund (User-Wortlaut kurz) | Status | Fix-Commit | Evidence | Verifiziert-durch |
