@@ -1,0 +1,85 @@
+# cursor-area — 2026-11-10T21:54:13.178Z — base https://www.h4ngelic.com — build adb82226c7c3
+
+=== 1440x900 · mouse · build adb82226c7c3
+fine pointer: true · scrollHeight 4202 / 4202 · innerHeight 900
+scrollY(footer) 3302 → Scan-Rechteck (Dokument): x 12…1440, y 3314…4202
+footer  {"top":4117.95,"bottom":4201.95,"left":35,"right":1405,"width":1370,"height":84}
+naavi   {"top":4145.95,"bottom":4189.95,"left":676,"right":764,"width":88,"height":44}
+naavi cursor: url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+Rasterpunkte auf dem Footer: 58×3 = 174; davon in NAAVI: 8 (684,4154 684,4178 708,4154 708,4178 732,4154 732,4178 756,4154 756,4178)
+Nicht abgedeckt: keine Lücke
+  naavi-kind a.chapter-counter naavi pointer-events=auto cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.interaction-visual pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-digit-window pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-digit pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-total pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+
+=== 1440x900 · touch (deviceScaleFactor 2, hasTouch, isMobile) · build adb82226c7c3
+fine pointer: false · scrollHeight 4202 / 4202 · innerHeight 900
+scrollY(footer) 3302 → Scan-Rechteck (Dokument): x 12…1440, y 3314…4202
+footer  {"top":4117.95,"bottom":4201.95,"left":35,"right":1405,"width":1370,"height":84}
+naavi   {"top":4145.95,"bottom":4189.95,"left":676,"right":764,"width":88,"height":44}
+naavi cursor: pointer
+Rasterpunkte auf dem Footer: 58×3 = 174; davon in NAAVI: 8 (684,4154 684,4178 708,4154 708,4178 732,4154 732,4178 756,4154 756,4178)
+Nicht abgedeckt: keine Lücke
+  naavi-kind a.chapter-counter naavi pointer-events=auto cursor=pointer
+  naavi-kind span.interaction-visual pointer-events=none cursor=pointer
+  naavi-kind span.chapter-digit-window pointer-events=none cursor=pointer
+  naavi-kind span.chapter-digit pointer-events=none cursor=pointer
+  naavi-kind span.chapter-total pointer-events=none cursor=pointer
+
+=== 390x844 · mouse · build adb82226c7c3
+fine pointer: true · scrollHeight 3456 / 3456 · innerHeight 844
+scrollY(footer) 2612 → Scan-Rechteck (Dokument): x 12…390, y 2624…3456
+footer  {"top":3331.66,"bottom":3455.66,"left":22,"right":368,"width":346,"height":124}
+naavi   {"top":3376.66,"bottom":3420.66,"left":153,"right":237,"width":84,"height":44}
+naavi cursor: url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+Rasterpunkte auf dem Footer: 14×5 = 70; davon in NAAVI: 8 (156,3392 156,3416 180,3392 180,3416 204,3392 204,3416 228,3392 228,3416)
+Nicht abgedeckt: keine Lücke
+  naavi-kind a.chapter-counter naavi pointer-events=auto cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.interaction-visual pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-digit-window pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-digit pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-total pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+
+=== 390x844 · touch (deviceScaleFactor 2, hasTouch, isMobile) · build adb82226c7c3
+fine pointer: false · scrollHeight 3456 / 3456 · innerHeight 844
+scrollY(footer) 2612 → Scan-Rechteck (Dokument): x 12…390, y 2624…3456
+footer  {"top":3331.66,"bottom":3455.66,"left":22,"right":368,"width":346,"height":124}
+naavi   {"top":3376.66,"bottom":3420.66,"left":153,"right":237,"width":84,"height":44}
+naavi cursor: pointer
+Rasterpunkte auf dem Footer: 14×5 = 70; davon in NAAVI: 8 (156,3392 156,3416 180,3392 180,3416 204,3392 204,3416 228,3392 228,3416)
+Nicht abgedeckt: keine Lücke
+  naavi-kind a.chapter-counter naavi pointer-events=auto cursor=pointer
+  naavi-kind span.interaction-visual pointer-events=none cursor=pointer
+  naavi-kind span.chapter-digit-window pointer-events=none cursor=pointer
+  naavi-kind span.chapter-digit pointer-events=none cursor=pointer
+  naavi-kind span.chapter-total pointer-events=none cursor=pointer
+
+=== 320x844 · mouse · build adb82226c7c3
+fine pointer: true · scrollHeight 3491 / 3491 · innerHeight 844
+scrollY(footer) 2647 → Scan-Rechteck (Dokument): x 12…320, y 2659…3491
+footer  {"top":3367.34,"bottom":3491.34,"left":22,"right":298,"width":276,"height":124}
+naavi   {"top":3412.34,"bottom":3456.34,"left":118,"right":202,"width":84,"height":44}
+naavi cursor: url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+Rasterpunkte auf dem Footer: 11×5 = 55; davon in NAAVI: 6 (132,3427 132,3451 156,3427 156,3451 180,3427 180,3451)
+Nicht abgedeckt: y 3491…3491.34 (0.34 px)
+  naavi-kind a.chapter-counter naavi pointer-events=auto cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.interaction-visual pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-digit-window pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-digit pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+  naavi-kind span.chapter-total pointer-events=none cursor=url("https://www.h4ngelic.com/assets/h4ngelic-cursor.svg") 8 2, url("https://www.h4ngelic.com/assets/h4ngelic-cursor.png") 8 2, auto
+
+=== 320x844 · touch (deviceScaleFactor 2, hasTouch, isMobile) · build adb82226c7c3
+fine pointer: false · scrollHeight 3491 / 3491 · innerHeight 844
+scrollY(footer) 2647 → Scan-Rechteck (Dokument): x 12…320, y 2659…3491
+footer  {"top":3367.34,"bottom":3491.34,"left":22,"right":298,"width":276,"height":124}
+naavi   {"top":3412.34,"bottom":3456.34,"left":118,"right":202,"width":84,"height":44}
+naavi cursor: pointer
+Rasterpunkte auf dem Footer: 11×5 = 55; davon in NAAVI: 6 (132,3427 132,3451 156,3427 156,3451 180,3427 180,3451)
+Nicht abgedeckt: y 3491…3491.34 (0.34 px)
+  naavi-kind a.chapter-counter naavi pointer-events=auto cursor=pointer
+  naavi-kind span.interaction-visual pointer-events=none cursor=pointer
+  naavi-kind span.chapter-digit-window pointer-events=none cursor=pointer
+  naavi-kind span.chapter-digit pointer-events=none cursor=pointer
+  naavi-kind span.chapter-total pointer-events=none cursor=pointer

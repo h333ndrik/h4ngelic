@@ -1,0 +1,1789 @@
+{
+  "checkedAt": "2026-11-10T22:05:35.519Z",
+  "base": "https://www.h4ngelic.com",
+  "build": "adb82226c7c3",
+  "method": "node tests/cursor-hit-test.mjs gegen https://www.h4ngelic.com, nach Coverage- und Allowlist-Anpassung",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 900,
+      "reducedMotion": "no-preference",
+      "points": 4470,
+      "cursors": {
+        "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto": 4470
+      },
+      "coverage": {
+        "scrollY": 3302,
+        "innerHeight": 900,
+        "footer": {
+          "left": 35,
+          "right": 1405,
+          "top": 4117.953125,
+          "bottom": 4201.953125
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 4145.953125,
+          "bottom": 4189.953125
+        },
+        "footerSamples": 174,
+        "naaviSamples": 8,
+        "footerInsideBand": true,
+        "naaviInsideBand": true
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-copyright",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-brand",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-visit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-left"
+          },
+          {
+            "label": "footer-instagram",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "footer-location",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "naavi-container",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-digit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-total",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-slash",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "index-home",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-creative",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "index-about",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-contact",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "tool-bar",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "rubric-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "category-magnet interaction-visual"
+          },
+          {
+            "label": "rubric-arrow",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "I",
+            "id": "",
+            "className": "arrow"
+          },
+          {
+            "label": "work-filters",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-current",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "cross-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "drag": [
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-name",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-email",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "TEXTAREA",
+            "id": "home-inquiry-message",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-files",
+            "className": "inquiry-file-input"
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "dialog": null
+      },
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "reducedMotion": "no-preference",
+      "points": 1150,
+      "cursors": {
+        "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto": 1150
+      },
+      "coverage": {
+        "scrollY": 2612,
+        "innerHeight": 844,
+        "footer": {
+          "left": 22,
+          "right": 368,
+          "top": 3331.65625,
+          "bottom": 3455.65625
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 3376.65625,
+          "bottom": 3420.65625
+        },
+        "footerSamples": 70,
+        "naaviSamples": 8,
+        "footerInsideBand": true,
+        "naaviInsideBand": true
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-copyright",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-brand",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-visit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-left"
+          },
+          {
+            "label": "footer-instagram",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "footer-location",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "naavi-container",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-digit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-total",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-slash",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "index-home",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-creative",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "index-about",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-contact",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "tool-bar",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "rubric-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "category-magnet interaction-visual"
+          },
+          {
+            "label": "rubric-arrow",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "I",
+            "id": "",
+            "className": "arrow"
+          },
+          {
+            "label": "work-filters",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-current",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "cross-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "row-item"
+          }
+        ],
+        "drag": [
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-name",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-email",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "TEXTAREA",
+            "id": "home-inquiry-message",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-files",
+            "className": "inquiry-file-input"
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "dialog": null
+      },
+      "passed": true
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "reducedMotion": "no-preference",
+      "points": 940,
+      "cursors": {
+        "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto": 940
+      },
+      "coverage": {
+        "scrollY": 2647,
+        "innerHeight": 844,
+        "footer": {
+          "left": 22,
+          "right": 298,
+          "top": 3367.34375,
+          "bottom": 3491.34375
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 3412.34375,
+          "bottom": 3456.34375
+        },
+        "footerSamples": 55,
+        "naaviSamples": 6,
+        "footerInsideBand": true,
+        "naaviInsideBand": true
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-copyright",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-brand",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-visit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-left"
+          },
+          {
+            "label": "footer-instagram",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "footer-location",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "naavi-container",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-digit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-total",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-slash",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "index-home",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-creative",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "index-about",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-contact",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "tool-bar",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "rubric-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "category-magnet interaction-visual"
+          },
+          {
+            "label": "rubric-arrow",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "I",
+            "id": "",
+            "className": "arrow"
+          },
+          {
+            "label": "work-filters",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-current",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "cross-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "row-item"
+          }
+        ],
+        "drag": [
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-name",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-email",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "TEXTAREA",
+            "id": "home-inquiry-message",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-files",
+            "className": "inquiry-file-input"
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "dialog": null
+      },
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "reducedMotion": "reduce",
+      "points": 4470,
+      "cursors": {
+        "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto": 4470
+      },
+      "coverage": {
+        "scrollY": 3302,
+        "innerHeight": 900,
+        "footer": {
+          "left": 35,
+          "right": 1405,
+          "top": 4117.953125,
+          "bottom": 4201.953125
+        },
+        "naavi": {
+          "left": 676,
+          "right": 764,
+          "top": 4145.953125,
+          "bottom": 4189.953125
+        },
+        "footerSamples": 174,
+        "naaviSamples": 8,
+        "footerInsideBand": true,
+        "naaviInsideBand": true
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-copyright",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-brand",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-visit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-left"
+          },
+          {
+            "label": "footer-instagram",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "footer-location",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "naavi-container",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-digit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-total",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-slash",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "index-home",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-creative",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "index-about",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-contact",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "tool-bar",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "rubric-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "category-magnet interaction-visual"
+          },
+          {
+            "label": "rubric-arrow",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "I",
+            "id": "",
+            "className": "arrow"
+          },
+          {
+            "label": "work-filters",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-current",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "cross-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "drag": [
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "DIV",
+            "id": "stage",
+            "className": "stage is-poster-static"
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-name",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-email",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "TEXTAREA",
+            "id": "home-inquiry-message",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-files",
+            "className": "inquiry-file-input"
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "dialog": null
+      },
+      "passed": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "reducedMotion": "reduce",
+      "points": 1150,
+      "cursors": {
+        "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto": 1150
+      },
+      "coverage": {
+        "scrollY": 2612,
+        "innerHeight": 844,
+        "footer": {
+          "left": 22,
+          "right": 368,
+          "top": 3331.65625,
+          "bottom": 3455.65625
+        },
+        "naavi": {
+          "left": 153,
+          "right": 237,
+          "top": 3376.65625,
+          "bottom": 3420.65625
+        },
+        "footerSamples": 70,
+        "naaviSamples": 8,
+        "footerInsideBand": true,
+        "naaviInsideBand": true
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-copyright",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-brand",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-visit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-left"
+          },
+          {
+            "label": "footer-instagram",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "footer-location",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "naavi-container",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-digit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-total",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-slash",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "index-home",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-creative",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "index-about",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-contact",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "tool-bar",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "rubric-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "category-magnet interaction-visual"
+          },
+          {
+            "label": "rubric-arrow",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "I",
+            "id": "",
+            "className": "arrow"
+          },
+          {
+            "label": "work-filters",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-current",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "cross-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "row-item"
+          }
+        ],
+        "drag": [
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "DIV",
+            "id": "stage",
+            "className": "stage is-poster-static"
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-name",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-email",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "TEXTAREA",
+            "id": "home-inquiry-message",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-files",
+            "className": "inquiry-file-input"
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "dialog": null
+      },
+      "passed": true
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "reducedMotion": "reduce",
+      "points": 940,
+      "cursors": {
+        "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto": 940
+      },
+      "coverage": {
+        "scrollY": 2647,
+        "innerHeight": 844,
+        "footer": {
+          "left": 22,
+          "right": 298,
+          "top": 3367.34375,
+          "bottom": 3491.34375
+        },
+        "naavi": {
+          "left": 118,
+          "right": 202,
+          "top": 3412.34375,
+          "bottom": 3456.34375
+        },
+        "footerSamples": 55,
+        "naaviSamples": 6,
+        "footerInsideBand": true,
+        "naaviInsideBand": true
+      },
+      "offenders": [],
+      "targets": {
+        "regions": [
+          {
+            "label": "footer-copyright",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-brand",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-brand row-item"
+          },
+          {
+            "label": "footer-visit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "footer-left"
+          },
+          {
+            "label": "footer-instagram",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "footer-location",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "naavi-container",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-digit",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-total",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "naavi-slash",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "chapter-counter naavi"
+          },
+          {
+            "label": "index-home",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-creative",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "index-about",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": ""
+          },
+          {
+            "label": "index-contact",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "tool-bar",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual"
+          },
+          {
+            "label": "rubric-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "category-magnet interaction-visual"
+          },
+          {
+            "label": "rubric-arrow",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "I",
+            "id": "",
+            "className": "arrow"
+          },
+          {
+            "label": "work-filters",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-current",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "work-filter-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": "interaction-visual category-magnet"
+          },
+          {
+            "label": "cross-link",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "A",
+            "id": "",
+            "className": "row-item"
+          }
+        ],
+        "drag": [
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "DIV",
+            "id": "stage",
+            "className": "stage is-poster-static"
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          },
+          {
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "HTML",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "naaviAudit": [
+          {
+            "tag": "a",
+            "className": "chapter-counter naavi",
+            "ariaHidden": null,
+            "pointerEvents": "auto",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "interaction-visual",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit-window",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-digit",
+            "ariaHidden": null,
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          },
+          {
+            "tag": "span",
+            "className": "chapter-total",
+            "ariaHidden": "true",
+            "pointerEvents": "none",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+          }
+        ],
+        "form": [
+          {
+            "label": "[data-inquiry-form] input[name=\"name\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-name",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[name=\"email\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-email",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] textarea[name=\"message\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "TEXTAREA",
+            "id": "home-inquiry-message",
+            "className": ""
+          },
+          {
+            "label": "[data-inquiry-form] input[type=\"file\"]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "INPUT",
+            "id": "home-inquiry-files",
+            "className": "inquiry-file-input"
+          },
+          {
+            "label": "[data-inquiry-submit]",
+            "cursor": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto",
+            "tag": "SPAN",
+            "id": "",
+            "className": ""
+          }
+        ],
+        "dialog": null
+      },
+      "passed": true
+    }
+  ],
+  "touch": {
+    "capability": false,
+    "body": "auto",
+    "link": "pointer",
+    "naaviLinks": [
+      {
+        "tag": "a",
+        "className": "chapter-counter naavi",
+        "href": "/#selected-work",
+        "cursor": "pointer"
+      }
+    ],
+    "overlay": false
+  },
+  "xray": {
+    "points": 2221,
+    "cursors": {
+      "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor-other-r09.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor-other.png\") 8 2, auto": 2221
+    },
+    "offenders": [],
+    "passed": true
+  },
+  "assets": [
+    {
+      "url": "/assets/h4ngelic-cursor.svg",
+      "status": 200,
+      "ok": true,
+      "width": 20,
+      "height": 30,
+      "type": "image/svg+xml"
+    },
+    {
+      "url": "/assets/h4ngelic-cursor.png",
+      "status": 200,
+      "ok": true,
+      "width": 20,
+      "height": 30,
+      "type": "image/png"
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-pressed.svg",
+      "status": 200,
+      "ok": true,
+      "width": 21,
+      "height": 32,
+      "type": "image/svg+xml"
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-pressed.png",
+      "status": 200,
+      "ok": true,
+      "width": 21,
+      "height": 32,
+      "type": "image/png"
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-r09.svg",
+      "status": 200,
+      "ok": true,
+      "width": 20,
+      "height": 30,
+      "type": "image/svg+xml"
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other.png",
+      "status": 200,
+      "ok": true,
+      "width": 20,
+      "height": 30,
+      "type": "image/png"
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-pressed-r09.svg",
+      "status": 200,
+      "ok": true,
+      "width": 21,
+      "height": 32,
+      "type": "image/svg+xml"
+    },
+    {
+      "url": "/assets/h4ngelic-cursor-other-pressed.png",
+      "status": 200,
+      "ok": true,
+      "width": 21,
+      "height": 32,
+      "type": "image/png"
+    }
+  ],
+  "failures": []
+}

@@ -90,3 +90,71 @@ gebaut (kein Commit 6, keine gestapelte Spalte).
 Antwort auf (2)/(3) entscheidet: „nur unterer Streifen, nur schmal" → H1
 bestätigt, dann Weg A (gestapelte Spalte ab 600 px) bauen. „Überall, auch
 1440" → H1 widerlegt, nächster Kandidat ist H5 (Media-Query auf dem Gerät).
+
+## 8. Scan-Fläche des Hit-Tests (10.11., Build `adb82226c7c3`)
+
+Frage: tastet `tests/cursor-hit-test.mjs` die NAAVI-Fläche überhaupt ab, oder
+erklärt eine Messlücke das „0 Fremd-Cursor"?
+
+**Scan-Fläche.** `scanViewport()` (`tests/cursor-hit-test.mjs:64`) tastet das
+**Viewport**-Rechteck in 24-px-Schritten ab: `for (let y = step / 2; y < height; …)`
+und `for (let x = step / 2; x < width; …)`, also `x` 12…Breite, `y` 12…Höhe.
+`height`/`width` sind die Viewport-Maße aus dem Profil, nicht `scrollHeight`.
+
+**Zwei Durchläufe pro Profil.** Durchlauf 1 „top" bei `scrollY = 0`
+(`:349`), Durchlauf 2 „footer" nach
+`scrollTo({ top: document.documentElement.scrollHeight })` (`:351`). Im zweiten
+Durchlauf liegt das Scan-Rechteck in Dokumentkoordinaten bei
+`y = scrollY + 12 … scrollY + innerHeight`; weil `scrollY = scrollHeight − innerHeight`
+ist, deckt es das **Seitenende** ab — und dort sitzt der Footer.
+
+**Fremd-Cursor-Definition.** `failure()` (`:46`–`:50`) verwirft drei Fälle:
+kein `url(` im Wert („bare keyword"), Bild außerhalb des Token-Vertrags, oder
+eine Regel, die nicht aus einer Garantie-Ebene gewinnt. `pointer`/`auto` sind
+auf einem Fine-Pointer **nicht** whitelisted — sie zählen als Befund.
+
+**Messung** (`cursor-area.txt`, gegen `https://www.h4ngelic.com`, Marker
+`adb82226c7c3`):
+
+| Breite | Footer (Dokument-y, x) | NAAVI (Dokument-y, x) | Scan-Band | Rasterpunkte im Footer / in NAAVI | Lücke |
+| --- | --- | --- | --- | --- | --- |
+| 1440 × 900 | 4117,95…4201,95 · 35…1405 | 4145,95…4189,95 · 676…764 | y 3314…4202 | 174 / 8 | keine |
+| 390 × 844 | 3331,66…3455,66 · 22…368 | 3376,66…3420,66 · 153…237 | y 2624…3456 | 70 / 8 | keine |
+| 320 × 844 | 3367,34…3491,34 · 22…298 | 3412,34…3456,34 · 118…202 | y 2659…3491 | 55 / 6 | y 3491…3491,34 = **0,34 px** (Bruchteil-Pixel am Seitenende, kein Element) |
+
+**Cursor auf den NAAVI-Links:**
+
+| Profil | `a.chapter-counter` | `.chapter-digit` / `.chapter-total` |
+| --- | --- | --- |
+| Maus (Fine-Pointer, 1440/390/320) | Logo-Bild `…h4ngelic-cursor.svg 8 2, …png 8 2, auto` | dasselbe Bild, `pointer-events: none` |
+| Touch (`hasTouch`, auch bei 1440) | `pointer` | `pointer`, `pointer-events: none` |
+
+### Urteil: **A** — NAAVI liegt im Raster, `pointer` ist die Touch-Antwort
+
+- Es gibt **keine Messlücke** (C entfällt): der Footer ist in allen drei
+  Profilen vollständig im Scan-Band, NAAVI bekommt 8/8/6 Rasterpunkte plus die
+  benannten Regionen-Checks (`naavi-container`, `naavi-digit`, `naavi-total`,
+  `naavi-slash`).
+- Auf einem **Fine-Pointer** trägt NAAVI das Logo-Bild — dort reproduziert sich
+  der 09.11.-Befund nicht mehr.
+- Auf **Touch** trägt NAAVI `pointer`. Das ist der Vertrag aus B-F32 („kein
+  Logo-Cursor auf dem Handy"), keine Regression. Ein Wechsel ist dort erwartet.
+
+**Test-Anpassung** (nur Test, kein Website-Code):
+
+1. `scanCoverage()` misst nach jedem Footer-Durchlauf, wie viele Rasterpunkte
+   auf `.page-footer` und `[data-naavi]` liegen, und belegt, dass beide
+   Rechtecke im Scan-Band sitzen. Wandert der Footer künftig unter das letzte
+   Rasterband, wird der Test rot statt still grün.
+2. Die Allowlist steht jetzt explizit im Kopf der Datei: Fine-Pointer = nur
+   Logo-Bild (kein Keyword-Whitelist), Coarse-Pointer = `auto`/`pointer` und
+   **kein** Logo-Bild.
+3. Die Touch-Probe prüft jeden NAAVI-Link gegen die Coarse-Allowlist und
+   scheitert bei leerer Linkliste (vorher wäre „0 Treffer" durchgegangen,
+   weil `[data-naavi]` selbst das `<a>` ist).
+
+**Läufe:** „vorher" `docs/validation/CURSOR-NAAVI/production-adb8222/`
+(gleicher Build, alter Test): 4470/1150/940 × beide Motion-Preferences, 1
+Cursor-Wert. „nachher" `production-after/hit-results.json`: dieselben Zahlen,
+zusätzlich `footerSamples` 174/70/55, `naaviSamples` 8/8/6 und der Touch-Check
+„1 NAAVI-Link auf auto/pointer, kein Logo-Bild".
