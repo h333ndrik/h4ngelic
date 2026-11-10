@@ -153,8 +153,11 @@ auf einem Fine-Pointer **nicht** whitelisted — sie zählen als Befund.
    scheitert bei leerer Linkliste (vorher wäre „0 Treffer" durchgegangen,
    weil `[data-naavi]` selbst das `<a>` ist).
 
-**Läufe:** „vorher" `docs/validation/CURSOR-NAAVI/production-adb8222/`
-(gleicher Build, alter Test): 4470/1150/940 × beide Motion-Preferences, 1
-Cursor-Wert. „nachher" `production-after/hit-results.json`: dieselben Zahlen,
-zusätzlich `footerSamples` 174/70/55, `naaviSamples` 8/8/6 und der Touch-Check
-„1 NAAVI-Link auf auto/pointer, kein Logo-Bild".
+**Läufe:** „vorher“ ist der Lauf mit dem **unveränderten** Test am selben Build
+(gleicher Befehl): 4470/1150/940 × beide Motion-Preferences, 1 Cursor-Wert,
+aber ohne Coverage-Aussage und ohne NAAVI-Link in der Touch-Probe; der Report
+liegt auf Branch `gate-registry-sync` unter
+`docs/validation/CURSOR-NAAVI/production-adb8222/`.
+„nachher“ `production-after/summary.json`: dieselben Zahlen, zusätzlich
+`footerSamples` 174/70/55, `naaviSamples` 8/8/6 und der Touch-Check
+„1 NAAVI-Link auf auto/pointer, kein Logo-Bild“.
