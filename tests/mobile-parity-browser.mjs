@@ -125,6 +125,32 @@ try {
     await context.close();
     console.log('PASS mute shortcut 1440px: m toggles, fields and modifiers are guarded.');
   }
+  // B-F40: the very first pointer press on MUTE has to land. refresh() used to
+  // rewrite the button's text nodes on every audio state change — including the
+  // document's first pointerdown, the one that unlocks the audio context — so
+  // the browser never dispatched `click` and the button stayed where it was.
+  // A real mouse press (not the "m" key) is the only input that hits that path.
+  {
+    for (const delay of [500, 1500]) {
+      const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+      const page = await context.newPage();
+      await page.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
+      const button = page.locator('[data-controls] [data-mode-mute]').first();
+      await button.waitFor();
+      await page.waitForTimeout(delay);
+      const before = await button.getAttribute('aria-pressed');
+      await button.click();
+      await page.waitForFunction(previous => document.querySelector('[data-controls] [data-mode-mute]')?.getAttribute('aria-pressed') !== previous,
+        before, { timeout: 4000 }).catch(() => {});
+      const after = await button.getAttribute('aria-pressed');
+      assert.notEqual(after, before, `the first mouse press on MUTE flips it (${delay} ms after load: ${before} -> ${after})`);
+      const label = (await button.textContent()).trim();
+      assert.equal(label, after === 'true' ? 'sound on' : 'sound off', 'the label follows the first press');
+      reports.push({ muteFirstClick: { delay, before, after, label } });
+      await context.close();
+    }
+    console.log('PASS mute first click 1440px: the first real pointer press lands at 500 and 1500 ms after load.');
+  }
   // B-F39a: the digital archive rests in the tattoo carousel's card slot on a
   // phone — same width and same ratio, from the shared carousel tokens.
   // B-F39b: archive sections arrive once when they scroll in (entry, not

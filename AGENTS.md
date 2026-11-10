@@ -180,11 +180,21 @@ listed here so the next run does not infer it from branch names:
 Landed on `main` (2026-11-06): PR #22 V3.2 world sound; `v3.1.1-fixes`
 (merge `d550824`); `mail-02-reply-to` (merge `7f733f0`: Reply-To for bare
 addresses and the `Name <address>` autofill form).
+Landed on `main` (2026-11-10): `b-f19-f31` (merge `adb8222`: mobile parity,
+blanket cursor contract, the three gate bugs `88f4657`/`a2cfbab`/`25e3ed7`).
 
-1. **`mail-01-diagnostics` — open, next.** Sync only via `git merge origin/main`
-   (never rebase), suites green, then the merge gate. The final gate includes the
-   production inquiry/mail smoke: at most 3 real sends; on 502 evaluate
-   `resend_rejected` / `resend_unreachable`.
+1. **`mail-01-diagnostics` — open, next.** Synced with `origin/main` on
+   2026-11-10 (`7f96eb2`, merge, not rebase; conflicts in `server/inquiry.mjs`
+   and `tests/inquiry-http.mjs` resolved by keeping both sides). `npm test`
+   452/451 pass/1 skipped, `tests/inquiry-http.mjs` green, `npm run build`
+   23 routes + 404. It touches no website code, so the `adb8222` browser
+   battery carries over; still open before merge: the production inquiry/mail
+   smoke (at most 3 real sends, 502 → evaluate `resend_rejected` /
+   `resend_unreachable`), which needs a deployed preview with the Resend env.
+2. **`gate-registry-sync` — open, docs/test only.** `docs/validation/BEFUNDE.md`
+   rows for B-F40, G1, G2 and the first-mute-press prevention test
+   (`tests/mobile-parity-browser.mjs`). No product code. Merge after
+   `mail-01-diagnostics`.
 
 The merge-gate statement must show the queue order, the exact commits entering
 the train, test totals and the rollback path. Post-merge smoke: verify the core
