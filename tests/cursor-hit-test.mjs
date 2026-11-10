@@ -6,13 +6,28 @@ import { installCursorCascadeProbe, guaranteeRule, GUARANTEE_RULE } from './help
 
 /** Every point of the page must resolve to a real h4 cursor *image* whose
  * winning rule is one of the guarantee layers. A bare `auto`/`pointer` is a
- * failure: that is exactly the silent fallback the user saw. */
+ * failure: that is exactly the silent fallback the user saw.
+ *
+ * The allowlist is spelled out because "zero foreign cursors" is only worth
+ * something when the suite states what it accepts (measured 10.11. on
+ * `adb82226c7c3`):
+ *
+ * - fine pointer (`any-hover: hover` + `any-pointer: fine`): the logo image
+ *   only. `auto`, `pointer`, `none` or any foreign rule is a failure — no
+ *   keyword whitelist, otherwise a regression could hide behind it.
+ * - coarse pointer (touch, B-F32): the inverse. The system cursor is the
+ *   contract, so `auto`/`pointer` pass and any `h4ngelic-cursor` artwork fails.
+ *
+ * NAAVI is checked inside both: it sits in the footer scan of every profile and
+ * `scanCoverage()` proves the footer really received raster samples.
+ */
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_CURSOR_HIT_ARTIFACTS || 'artifacts/v312/cursor-native'}/`, import.meta.url);
 const reportName = process.env.H4_CURSOR_HIT_REPORT_NAME || 'hit-results.json';
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+const FINE_TOUCH_CURSORS = Object.freeze(['auto', 'pointer']);
 const report = { checkedAt: new Date().toISOString(), base, build: '', spec: cursorSpec, profiles: [], touch: null, pseudo: null,
   assets: null, pressed: null, states: null, hybrid: null, xray: null, failures: [] };
 const save = () => writeFile(new URL(reportName, output), JSON.stringify(report, null, 2) + '\n');
@@ -62,11 +77,53 @@ async function checkPoint(page, { label, x, y, mode = 'normal', offenders, count
 }
 
 async function scanViewport(page, { label, width, height, mode, offenders, counts, step = 24 }) {
+  const origin = await page.evaluate(() => ({ x: scrollX, y: scrollY }));
+  let points = 0;
   for (let y = step / 2; y < height; y += step) {
     for (let x = step / 2; x < width; x += step) {
       await checkPoint(page, { label: `${label}:${x}:${y}`, x, y, mode, offenders, counts });
+      points += 1;
     }
   }
+  // The rectangle the pass really sampled, in document coordinates. This is
+  // what `scanCoverage()` compares the footer against.
+  return { label, points, step, left: origin.x, right: origin.x + width, top: origin.y, bottom: origin.y + height };
+}
+
+/** Proof that the footer scan is not a promise: counts the raster samples that
+ * land inside `.page-footer` and inside `[data-naavi]`, and checks that both
+ * rectangles sit inside the sampled band. A footer that moves below the last
+ * sample row would otherwise keep "0 foreign cursors" true forever. */
+async function scanCoverage(page, scan, tolerance = 1) {
+  return page.evaluate(({ step, right, top, bottom, tolerance }) => {
+    const box = selector => {
+      const element = document.querySelector(selector);
+      if (!element) return null;
+      const rect = element.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, top: rect.top + scrollY, bottom: rect.bottom + scrollY };
+    };
+    const samples = rect => {
+      let count = 0;
+      for (let y = step / 2; y < innerHeight; y += step) {
+        for (let x = step / 2; x < innerWidth; x += step) {
+          if (x >= rect.left && x <= rect.right && y + scrollY >= rect.top && y + scrollY <= rect.bottom) count += 1;
+        }
+      }
+      return count;
+    };
+    const footer = box('.page-footer');
+    const naavi = box('[data-naavi]');
+    const inside = rect => rect !== null
+      && rect.top >= top - tolerance && rect.bottom <= bottom + tolerance
+      && rect.left >= 0 - tolerance && rect.right <= right + tolerance;
+    return {
+      scrollY, innerHeight, footer, naavi,
+      footerSamples: footer ? samples(footer) : 0,
+      naaviSamples: naavi ? samples(naavi) : 0,
+      footerInsideBand: inside(footer),
+      naaviInsideBand: inside(naavi),
+    };
+  }, { step: scan.step, right: scan.right, top: scan.top, bottom: scan.bottom, tolerance });
 }
 
 async function centerPoint(locator) {
@@ -350,7 +407,12 @@ try {
       await page.screenshot({ path: new URL(`top-${profile.width}${profile.reducedMotion === 'reduce' ? '-reduce' : ''}.png`, output).pathname });
       await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
       await page.waitForTimeout(250);
-      await scanViewport(page, { label: 'footer', width: profile.width, height: profile.height, mode: 'normal', offenders, counts });
+      const footerScan = await scanViewport(page, { label: 'footer', width: profile.width, height: profile.height, mode: 'normal', offenders, counts });
+      const coverage = await scanCoverage(page, footerScan);
+      assert.ok(coverage.footerSamples > 0, `${label}: the footer scan must land samples on .page-footer (${JSON.stringify(coverage.footer)})`);
+      assert.ok(coverage.naaviSamples > 0, `${label}: the footer scan must land samples on [data-naavi] (${JSON.stringify(coverage.naavi)})`);
+      assert.equal(coverage.footerInsideBand, true, `${label}: the whole footer has to sit inside the sampled band`);
+      assert.equal(coverage.naaviInsideBand, true, `${label}: NAAVI has to sit inside the sampled band`);
       const targets = await targetContracts(page, { mode: 'normal', offenders, counts });
       for (const region of targets.regions) {
         const winner = region.sample.winner;
@@ -359,8 +421,8 @@ try {
       await page.screenshot({ path: new URL(`regions-${profile.width}${profile.reducedMotion === 'reduce' ? '-reduce' : ''}.png`, output).pathname });
       assert.deepEqual(offenders, [], `${label}: every point resolves to a guarantee-layer h4 cursor: ${JSON.stringify(offenders.slice(0, 5), null, 1)}`);
       assert.deepEqual(errors, []);
-      report.profiles.push({ ...profile, points: counts.points, cursors: counts.cursors, winners: counts.winners, offenders: [], targets, errors, passed: true });
-      console.log(`  ok ${label}: ${counts.points} points, ${Object.keys(counts.cursors).length} distinct cursor values.`);
+      report.profiles.push({ ...profile, points: counts.points, cursors: counts.cursors, winners: counts.winners, offenders: [], targets, coverage, errors, passed: true });
+      console.log(`  ok ${label}: ${counts.points} points, ${Object.keys(counts.cursors).length} distinct cursor values, footer samples ${coverage.footerSamples} / NAAVI samples ${coverage.naaviSamples}.`);
     } catch (error) {
       report.failures.push({ ...profile, offenders: offenders.slice(0, 20), counts, error: error.stack });
       await page.screenshot({ path: new URL(`failure-${profile.width}${profile.reducedMotion === 'reduce' ? '-reduce' : ''}.png`, output).pathname }).catch(() => {});
@@ -373,12 +435,37 @@ try {
   const touchPage = await touchContext.newPage();
   await touchPage.goto(new URL('/', base).href, { waitUntil: 'networkidle' });
   await touchPage.waitForFunction(() => document.documentElement.dataset.h4StylesReady === 'true');
-  const touch = await touchPage.locator('body').evaluate(body => ({ capability: matchMedia('(any-hover: hover) and (any-pointer: fine)').matches,
-    body: getComputedStyle(body).cursor, link: getComputedStyle(document.querySelector('[data-naavi]')).cursor,
-    overlay: Boolean(document.querySelector('[data-h4-cursor]')) }));
+  const touch = await touchPage.locator('body').evaluate(body => ({
+    capability: matchMedia('(any-hover: hover) and (any-pointer: fine)').matches,
+    body: getComputedStyle(body).cursor,
+    link: getComputedStyle(document.querySelector('[data-naavi]')).cursor,
+    // The allowlist for a coarse pointer, one entry per NAAVI link: 'auto' and
+    // 'pointer' are the contract here, the logo artwork is the bug (B-F32).
+    // [data-naavi] is the anchor itself, so it has to be part of the list —
+    // a descendant-only query finds nothing and the assertion below would pass
+    // on an empty set.
+    naaviLinks: [...new Set([document.querySelector('[data-naavi]'),
+      ...document.querySelectorAll('[data-naavi] a, [data-naavi] [href], [data-naavi] button')])]
+      .filter(element => element && (element.matches('a, button, [href]') || element.querySelector('a, button, [href]')))
+      .map(element => ({
+      tag: element.tagName.toLowerCase(),
+      className: String(element.className?.baseVal ?? element.className ?? ''),
+      href: element.getAttribute('href'),
+      cursor: getComputedStyle(element).cursor,
+    })),
+    overlay: Boolean(document.querySelector('[data-h4-cursor]')),
+  }));
   assert.equal(touch.capability, false, 'The touch profile must not advertise a fine pointer.');
   assert.equal(touch.overlay, false, 'No overlay exists on touch either.');
   for (const value of [touch.body, touch.link]) assert.doesNotMatch(value, /h4ngelic-cursor/, 'Touch keeps the system cursor.');
+  assert.ok(touch.naaviLinks.length > 0, 'NAAVI exposes at least one link on touch.');
+  for (const link of touch.naaviLinks) {
+    assert.ok(FINE_TOUCH_CURSORS.includes(link.cursor),
+      `Touch NAAVI ${link.tag}.${link.className} stays on the coarse allowlist (${link.cursor})`);
+    assert.ok(matchesContract(link.cursor, { mode: 'system', spec: cursorSpec }),
+      `Touch NAAVI ${link.tag}.${link.className} carries no logo artwork (${link.cursor})`);
+  }
+  console.log(`  ok touch 390x844: ${touch.naaviLinks.length} NAAVI link(s) on ${FINE_TOUCH_CURSORS.join('/')}, no logo artwork.`);
   report.touch = touch;
   await touchPage.screenshot({ path: new URL('touch-390.png', output).pathname });
   await touchContext.close();
