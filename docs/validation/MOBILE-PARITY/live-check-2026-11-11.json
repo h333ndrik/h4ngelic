@@ -1,0 +1,152 @@
+[
+ {
+  "point": "A 390 coarse",
+  "doc": "true (touch) / false (1440)",
+  "live": "true"
+ },
+ {
+  "point": "A 390 footer-brand cursor",
+  "doc": "auto / h4ngelic-cursor",
+  "live": "auto"
+ },
+ {
+  "point": "A 390 .footer-secret",
+  "doc": "none / sichtbar",
+  "live": "flex"
+ },
+ {
+  "point": "A 390 secret-space",
+  "doc": "vorhanden",
+  "live": "1"
+ },
+ {
+  "point": "A 390 button.mobile-mode",
+  "doc": "none (touch)",
+  "live": "none 0x0"
+ },
+ {
+  "point": "A 390 Reihenfolge",
+  "doc": "nav < controls < naavi",
+  "live": "732 / 788 / 832"
+ },
+ {
+  "point": "A 390 footer sw/cw",
+  "doc": "gleich",
+  "live": "123/123 · 123/123"
+ },
+ {
+  "point": "A 390 Seite/Viewport",
+  "doc": "gleich",
+  "live": "390/390"
+ },
+ {
+  "point": "A 320 coarse",
+  "doc": "true (touch) / false (1440)",
+  "live": "true"
+ },
+ {
+  "point": "A 320 footer-brand cursor",
+  "doc": "auto / h4ngelic-cursor",
+  "live": "auto"
+ },
+ {
+  "point": "A 320 .footer-secret",
+  "doc": "none / sichtbar",
+  "live": "flex"
+ },
+ {
+  "point": "A 320 secret-space",
+  "doc": "vorhanden",
+  "live": "1"
+ },
+ {
+  "point": "A 320 button.mobile-mode",
+  "doc": "none (touch)",
+  "live": "none 0x0"
+ },
+ {
+  "point": "A 320 Reihenfolge",
+  "doc": "nav < controls < naavi",
+  "live": "732 / 788 / 832"
+ },
+ {
+  "point": "A 320 footer sw/cw",
+  "doc": "gleich",
+  "live": "88/88 · 88/88"
+ },
+ {
+  "point": "A 320 Seite/Viewport",
+  "doc": "gleich",
+  "live": "320/320"
+ },
+ {
+  "point": "A 1440 coarse",
+  "doc": "true (touch) / false (1440)",
+  "live": "false"
+ },
+ {
+  "point": "A 1440 footer-brand cursor",
+  "doc": "auto / h4ngelic-cursor",
+  "live": "url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.svg\") 8 2, url(\"https://www.h4ngelic.com/assets/h4ngelic-cursor.png\") 8 2, auto"
+ },
+ {
+  "point": "A 1440 .footer-secret",
+  "doc": "none / sichtbar",
+  "live": "flex"
+ },
+ {
+  "point": "A 1440 secret-space",
+  "doc": "vorhanden",
+  "live": "1"
+ },
+ {
+  "point": "A 1440 button.mobile-mode",
+  "doc": "none (touch)",
+  "live": "none 0x0"
+ },
+ {
+  "point": "A 1440 Reihenfolge",
+  "doc": "nav < controls < naavi",
+  "live": "876 / 876 / 888"
+ },
+ {
+  "point": "A 1440 footer sw/cw",
+  "doc": "gleich",
+  "live": "624/624 · 163/163"
+ },
+ {
+  "point": "A 1440 Seite/Viewport",
+  "doc": "gleich",
+  "live": "1440/1440"
+ },
+ {
+  "point": "B 390 marquee",
+  "doc": "dragging → momentum → settling → drift",
+  "live": "drift → dragging/momentum/settling/drift (Ende drift, pos 377.612)"
+ },
+ {
+  "point": "B 390 Karte komplett im Bild",
+  "doc": "ja",
+  "live": "1 von 8 Karten vollständig ({\"l\":67,\"r\":367})"
+ },
+ {
+  "point": "B 390 Reveal flashes",
+  "doc": "0 → 1 beim Scrollen",
+  "live": "0 → 1"
+ },
+ {
+  "point": "C 390 Digital-Artwork",
+  "doc": "300,0 × 420,0 (5:7)",
+  "live": "300 × 420 (0.714) · Tattoo-Referenz null px"
+ },
+ {
+  "point": "D 1440 Taste m",
+  "doc": "kippt und zurück",
+  "live": "true/sound on → false/sound off → true"
+ },
+ {
+  "point": "E 390 Press-State",
+  "doc": ".is-pressed während pointerdown, danach weg",
+  "live": "während=true danach=false highlight=rgba(0, 0, 0, 0)"
+ }
+]

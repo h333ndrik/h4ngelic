@@ -8,7 +8,7 @@ Basis `8c710c3` + B-F31 (`4bb62fa`, `6cbe954`, `5dfe46b`).
 | --- | --- | --- | --- |
 | `@media (pointer: coarse)` | true | true | false |
 | computed `cursor` am Footer-Branding | `auto` (System) | `auto` (System) | `h4ngelic-cursor` |
-| `.footer-secret` (HOLD-4-Hinweis) | `display: none` | `display: none` | sichtbar |
+| `.footer-secret` (HOLD-4-Hinweis) | `flex` (seit `2709d5e`, B-F32 rev) | `flex` | sichtbar |
 | End-Reveal-Fläche `[data-footer-secret-space]` | vorhanden | vorhanden | vorhanden |
 
 Der Custom-Cursor hängt bereits an `@media (any-hover: hover) and
@@ -16,11 +16,17 @@ Der Custom-Cursor hängt bereits an `@media (any-hover: hover) and
 einzige Cursor-Deklaration, es gibt deshalb auch kein „hängendes" Element —
 gemessen, nicht angenommen (`results.json`).
 
-Neu ist nur die Glyph-Regel: der HOLD-4-Hinweis braucht eine Tastatur, auf
-Touch bleibt seine Nachricht dauerhaft unsichtbar — er war damit eine
-unsichtbare Fokusfalle. `src/easter-eggs.css` (Block `max-width: 600px`) setzt
+> Stand 11.11.2026 gegen `ed349011d814` nachgemessen: Die Zeile oben trug
+> ursprünglich `display: none` für 390/320. Das war der Stand vor B-F32 (rev) —
+> `2709d5e` hat den HOLD-4-Hinweis auf Touch bewusst wieder eingeschaltet, der
+> Test verlangt ihn seitdem sichtbar. Live ist `flex`.
+
+**Ursprüngliche Fassung (von `2709d5e` revidiert, hier zur Historie):** Der
+HOLD-4-Hinweis braucht eine Tastatur, auf Touch blieb seine Nachricht damals
+unsichtbar — er war damit eine unsichtbare Fokusfalle.
+`src/easter-eggs.css` (Block `max-width: 600px`) setzte
 `.footer-secret { display: none; }`. Die End-Reveal-Fläche bleibt, damit die
-NAAVI weiterhin dorthin springen kann.
+NAAVI weiterhin dorthin springen kann (siehe Abschnitt „B-F32 (rev)").
 
 Test: `tests/mobile-parity-browser.mjs` (`npm run test:mobile-parity`), in der
 Gate-Battery registriert. Läufe: 390/320/1440 grün; `v15-mobile-browser` und
