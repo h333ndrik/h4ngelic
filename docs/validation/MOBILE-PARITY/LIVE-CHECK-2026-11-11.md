@@ -67,3 +67,29 @@ Touch-Pfad.
 **Ergebnis:** weder (a) noch (b) ist die Ursache eines statischen Logos; es
 gibt in diesem Bereich **keine zu schließende Lücke**, deshalb keine
 Codeänderung.
+
+## 4 — Nachmessung nach dem Deploy (`e96fd52f8d6c`)
+
+Push `ed34901..e96fd52` (Doku-Commit + Merge, ohne Code), Deploy um 03:14.
+Erneut gegen `https://www.h4ngelic.com` bei 390 gemessen:
+
+| Punkt | Wert auf `e96fd52f8d6c` |
+| --- | --- |
+| `(pointer: coarse)` / Footer-Cursor | true / `auto` |
+| `.footer-secret` | `flex` (B-F32 rev) |
+| `button.mobile-mode` | `none`, 0×0 |
+| Reihenfolge nav / controls / naavi | 732 / 788 / 832 |
+| Seite / Viewport | 390 / 390 |
+| Press-State | während `true`, danach `false` |
+| Marquee-Phasen | dragging → momentum → settling → drift |
+| Karten vollständig im Bild | 1 |
+| Reveal `flashes` | 0 → 1 |
+| Digital-Artwork | 300 × 420 |
+
+**Desktop 1440 gegen Baseline:** Screenshot vor dem Deploy (`ed34901`) und
+danach (`e96fd52`), beide mit reduced motion, Hero und Footer:
+**0 abweichende Pixel** (1 296 000 Pixel je Bild, `maxChannel` 0). Desktop ist
+unverändert.
+
+**Formulierung für die Registry:** gemessen gegen `e96fd52f8d6c`; seither nur
+Doku, Code-Diff leer.
