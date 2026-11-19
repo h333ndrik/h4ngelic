@@ -62,6 +62,8 @@ const quality = chooseRenderQuality({
   cores: navigator.hardwareConcurrency,
   saveData: navigator.connection?.saveData,
 });
+// Readable from `?status` on a device without a console.
+document.documentElement.dataset.heroQuality = quality.name;
 const resolution = new AdaptiveResolution(quality.pixelRatio);
 
 const controls = bindControls({
