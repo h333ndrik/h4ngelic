@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>h4ngelic — Struktur-Karte</title>
+<!-- Diese Datei ist absichtlich eigenständig: kein Build, kein CDN, keine
+     externen Schriften. Doppelklick genügt, sie funktioniert offline. -->
+<style>
+  :root {
+    --bg: #242424;
+    --box: #2c2c2c;
+    --box-static: #262626;
+    --line: #3d3d3d;
+    --text: #f0efeb;
+    --muted: #9a9893;
+    --accent: #9db7ff;
+    --accent-soft: rgba(157, 183, 255, .12);
+    --warn: #ff7a6b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 28px 24px 64px;
+    background: var(--bg); color: var(--text);
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  header { max-width: 1180px; margin: 0 auto 26px; }
+  h1 { margin: 0 0 6px; font-size: 22px; font-weight: 600; letter-spacing: .01em; }
+  .sub { color: var(--muted); margin: 0 0 4px; }
+  .rule { color: var(--muted); margin: 10px 0 0; font-size: 12.5px; }
+  .rule strong { color: var(--text); font-weight: 600; }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+  .swatch.i { background: var(--accent-soft); border: 1px solid var(--accent); }
+  .swatch.s { background: var(--box-static); border: 1px solid var(--line); }
+  .swatch.w { background: rgba(255, 122, 107, .55); border: 1px solid var(--warn); }
+  main { display: flex; gap: 26px; align-items: flex-start; max-width: 1180px; margin: 0 auto; }
+  .rack { flex: 1 1 0; min-width: 0; }
+  .rack > h2 {
+    margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .rack.desktop { flex: 1.35 1 0; }
+  .box {
+    border: 1px solid var(--line); border-radius: 4px; padding: 12px 13px;
+    background: var(--box-static); margin-bottom: 8px;
+  }
+  .box.interactive { background: var(--accent-soft); border-color: var(--accent); }
+  .box h3 { margin: 0 0 4px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; gap: 10px; }
+  .box h3 small { font-weight: 400; color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+  .box p { margin: 0 0 8px; color: var(--muted); font-size: 12.5px; }
+  .box .ref {
+    display: block; font: 11.5px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--text); background: rgba(0,0,0,.28); border-radius: 3px; padding: 5px 7px; margin: 0 0 8px;
+    overflow-wrap: anywhere;
+  }
+  .box ul { margin: 0; padding-left: 16px; font-size: 12px; color: var(--muted); }
+  .box ul li { margin: 0 0 2px; }
+  .box ul li b { color: var(--text); font-weight: 500; }
+  .deviation { color: var(--warn); }
+  .deviation b { color: var(--warn); }
+  .note {
+    border-left: 2px solid var(--warn); padding: 8px 0 8px 12px; margin: 10px 0 0;
+    color: var(--muted); font-size: 12.5px;
+  }
+  footer { max-width: 1180px; margin: 34px auto 0; color: var(--muted); font-size: 12px; }
+  @media (max-width: 760px) { main { flex-direction: column; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>h4ngelic — Struktur-Karte</h1>
+  <p class="sub">Geprüft gegen: 88934610fd01</p>
+  <p class="rule"><strong>Pflegeregel:</strong> Wer Struktur ändert (Datei neu oder umbenannt, Sektion, Label, Route, Animationsparameter), pflegt <code>CODEMAP.md</code> <strong>und</strong> diese Datei im selben Commit. <code>tests/codemap.test.js</code> prüft beide.</p>
+  <div class="legend">
+    <span><i class="swatch i"></i> interaktiv — klickbar, ziehbar oder tippbar</span>
+    <span><i class="swatch s"></i> statisch — nur Anzeige</span>
+    <span><i class="swatch w"></i> rot = Abweichung auf dem Handy</span>
+  </div>
+</header>
+
+<main>
+  <!-- ================= DESKTOP ================= -->
+  <section class="rack desktop">
+    <h2>Desktop 1440</h2>
+
+    <article class="box interactive" data-file="src/global-navigation.js" data-anchor="data-global-index">
+      <h3>Topbar <small>oben</small></h3>
+      <p>Links der Name, in der Mitte die Begrüßung, rechts das „+" für INDEX.</p>
+      <span class="ref">src/global-navigation.js — Block "data-global-index"</span>
+      <ul>
+        <li><b>Begrüßung</b> nur bei Hover oder Tastaturfokus, 200 ms Opacity</li>
+        <li><b>INDEX-Knopf</b> öffnet das Panel, native <code>details</code></li>
+      </ul>
+    </article>
+
+    <article class="box interactive" data-file="src/main.js" data-anchor="LogoPhysics">
+      <h3>Hero <small>Bühne</small></h3>
+      <p>Die drehbare 3D-Wortmarke, beim Laden erst ein Poster, dazu Kleckse auf leerer Fläche.</p>
+      <span class="ref">src/main.js — Block "LogoPhysics"</span>
+      <span class="ref">src/style.css — Block ".stage.is-ready"</span>
+      <ul>
+        <li><b>Einfahrt</b> von oben, <code>translateY -100% → 0</code>, 1100 ms expo-out</li>
+        <li><b>Drag</b> über <code>pointerdown</code>/<code>move</code>/<code>up</code>, Rückkehr in Ruhelage per Dämpfung</li>
+        <li><b>Kleckse</b> mit Cooldown 320 ms, danach wieder einer</li>
+        <li><b>reduced motion:</b> statisches Poster, keine Drehung</li>
+      </ul>
+    </article>
+
+    <article class="box interactive" data-file="src/data/siteContent.js" data-anchor="sectionLabels">
+      <h3>INDEX 00–04 <small>Panel</small></h3>
+      <p>Sprungmarken zu den fünf Kapiteln, gleiche Namen wie im Rest der Seite.</p>
+      <span class="ref">src/data/siteContent.js — Block "sectionLabels"</span>
+      <span class="ref">src/global-navigation.js — Block "syncHash"</span>
+      <ul>
+        <li><b>Sprung</b> scrollt zur Sektion, URL bekommt den Hash</li>
+        <li><b>Hash-Regel:</b> nur <code>replaceState</code>, nie <code>pushState</code></li>
+      </ul>
+    </article>
+
+    <article class="box interactive" data-file="src/rubric-row.css" data-anchor="row-">
+      <h3>Rubriken-Reihe <small>tattoos · jewellery · tools · more</small></h3>
+      <p>Die vier Rubriken als Reihe, dahinter Kartenstreifen, die von selbst laufen.</p>
+      <span class="ref">src/rubric-row.css — Block "row-"</span>
+      <span class="ref">src/horizontal-drift.js — Block "carouselPhase"</span>
+      <span class="ref">src/section-entrance.js — Block "data-section-reveal"</span>
+      <span class="ref">src/data/artworks.js — Block "suppliedTattooPhotographs"</span>
+      <ul>
+        <li><b>Bilder:</b> <code>public/images/</code> — tattoos 8, flashes 15, digital-artworks 1, tools-source 6; <code>jewellery/</code> noch leer</li>
+        <li><b>Reveal</b> beim Hereinscrollen: 520 ms Opacity, 700 ms <code>translateY</code>, einmalig</li>
+        <li><b>Marquee</b> dragging → momentum → settling → drift</li>
+        <li><b>Desktop-Drag</b> mit Maus, kein Einrasten</li>
+      </ul>
+    </article>
+
+    <article class="box interactive" data-file="src/footer.js" data-anchor="exhibition-footer">
+      <h3>NAAVI + Footer <small>unten</small></h3>
+      <p>Kapitelzähler <code>00/ 04</code>, Footer-Links, Sound-Regler, End-Reveal.</p>
+      <span class="ref">src/footer.js — Block "exhibition-footer"</span>
+      <span class="ref">src/sound-controls.js — Block "data-mode-mute"</span>
+      <ul>
+        <li><b>Sound</b> per Klick oder Taste „m", Label folgt</li>
+        <li><b>Eine Zeile</b> am Desktop, keine Umbauten</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ================= MOBILE ================= -->
+  <section class="rack mobile">
+    <h2>Mobile 390</h2>
+
+    <article class="box interactive" data-file="src/global-navigation.js" data-anchor="data-global-index">
+      <h3>Topbar <small>oben</small></h3>
+      <p>Gleiche Elemente, enger gesetzt; die Begrüßung bleibt dauerhaft sichtbar.</p>
+      <span class="ref">src/global-navigation.js — Block "data-global-index"</span>
+      <ul>
+        <li><b>kein Hover:</b> Begrüßung ist immer da, kein Verstecken</li>
+      </ul>
+    </article>
+
+    <article class="box interactive" data-file="src/main.js" data-anchor="pointerDown">
+      <h3>Hero <small>Bühne</small></h3>
+      <p>Dieselbe Bühne, bedient per Finger; Poster beim Laden, Einfahrt von oben.</p>
+      <span class="ref">src/main.js — Block "pointerDown"</span>
+      <span class="ref">src/motion.js — Block "sampleBase"</span>
+      <ul>
+        <li><b>Drag</b> per Finger, <code>is-dragging</code> während der Bewegung</li>
+        <li><b>Drehung</b> läuft von selbst (15-s-Zyklus), kein Hover-Kipp</li>
+        <li class="deviation"><b>Abweichung:</b> Cursor bleibt Systempfeil (kein Logo-Cursor)</li>
+        <li class="deviation"><b>Abweichung:</b> schwebendes Glyph <code>button.mobile-mode</code> ist aus</li>
+      </ul>
+    </article>
+
+    <article class="box interactive" data-file="src/section-entrance.js" data-anchor="data-section-reveal">
+      <h3>Rubriken <small>mit Reveal</small></h3>
+      <p>Rubriken und Archive fahren beim Scrollen ein; Streifen lassen sich wischen.</p>
+      <span class="ref">src/section-entrance.js — Block "data-section-reveal"</span>
+      <span class="ref">src/horizontal-drift.js — Block "carouselPhase"</span>
+      <span class="ref">src/data/artworks.js — Block "suppliedFlashPhotographs"</span>
+      <ul>
+        <li><b>Bilder:</b> dieselben Ordner; flashes zeigt 15 echte Sheets, jewellery 8 Platzhalterkarten</li>
+        <li><b>Wischen</b> mit Nachlauf, rastet auf eine ganze Karte ein (Schritt = Karte + Abstand, 400 px)</li>
+        <li><b>Reveal</b> dieselben 520/700 ms wie am Desktop</li>
+        <li><b>Kartenmaß</b> 300 × 420 aus <code>--carousel-card-width</code></li>
+      </ul>
+    </article>
+
+    <article class="box" data-file="src/global-navigation.css" data-anchor="chapter-counter">
+      <h3>NAAVI <small>Kapitelzähler</small></h3>
+      <p>Zeigt Kapitel und Total, zum Beispiel <code>00/ 04</code>; springt mit.</p>
+      <span class="ref">src/global-navigation.css — Block "chapter-counter"</span>
+      <ul>
+        <li><b>statisch</b> bis auf den Wechsel der Zahl</li>
+      </ul>
+    </article>
+
+    <article class="box interactive" data-file="src/footer.js" data-anchor="exhibition-footer">
+      <h3>Footer-Zeilen <small>drei Zeilen</small></h3>
+      <p>Links, dann Controls, dann der Zähler — von oben nach unten lesbar.</p>
+      <span class="ref">src/footer.js — Block "exhibition-footer"</span>
+      <span class="ref">src/sound-controls.js — Block "data-mode-mute"</span>
+      <ul>
+        <li class="deviation"><b>Abweichung:</b> drei Zeilen statt einer (Links → Controls → Zähler)</li>
+        <li><b>Controls</b> gedämpft (<code>opacity .72</code>), gleiche Logik</li>
+        <li class="deviation"><b>Abweichung:</b> kein seitliches Scrollen in den Clustern</li>
+      </ul>
+    </article>
+
+    <p class="note">Rot markiert sind nur die Stellen, an denen das Handy bewusst anders ist. Alles andere verhält sich wie am Desktop — inklusive der Dauern: unter 600 px ändern sich Layout und Bedienung, nicht die Übergangszeiten.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Dateien und Anker sind identisch mit <code>CODEMAP.md</code>. Geprüft von <code>tests/codemap.test.js</code> — jede hier genannte Datei muss existieren und jeder Anker in ihr vorkommen.</p>
+</footer>
+</body>
+</html>

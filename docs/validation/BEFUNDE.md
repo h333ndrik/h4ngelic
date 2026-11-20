@@ -138,6 +138,8 @@ ohne dass eine davon angefasst wurde — Rotliste vom 10.11. ist nicht
 reproduzierbar; als flaky führen, nicht als Baseline. Künftige Läufe: erst auf
 grün prüfen, dann als Regression werten.
 
+| B-F38 | Flashes-Archiv (`/creative/tattoos#flashes`) | Die Rubrik flashes zeigte nur acht Platzhalterkarten; die 15 gelieferten Flash-Sheets lagen nur auf dem Rechner. | **fixed** | `flash: 15 supplied sheets in public/images/flashes` | `docs/validation/FLASHES-B-F38/README.md` | Quelle 30 Dateien / 107,1 MB, davon 15 byte-identische Paare → 15 Motive. sips: `-Z 1280 -s formatOptions 60` → 85–262 KB je Datei (2,2 MB gesamt). `npm test` 454/453/1/0, Build 38 Routen + 404 (23 + 15 Detailseiten), Marquee 390 snapping (398,61 mod 400), 1440 ohne Snap, Zähler `01/ 15`, 0 Platzhalter. |
+
 ## Not fixed
 
 - **B-016 remains open.** The dual-footer link requirement is fixed, but the

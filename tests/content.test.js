@@ -20,10 +20,12 @@ test('homepage keeps four horizontal real category routes and a static creative 
 });
 
 test('real category pages select their own content while /creative retains the complete archive', () => {
+  // Flashes supplies 15 real pencil sheets since 20.11.2026, so the counts that
+  // include that category moved up instead of showing placeholder cards.
   const cases = [
-    ['all', ['tattoos', 'flashes', 'model-3d', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'tools', 'more'], 9, '01/ creative'],
-    ['tattoos', ['tattoos', 'flashes', 'model-3d'], ['tattoos'], 8, 'tattoos'],
-    ['flashes', ['flashes'], [], 0, 'FLASHES'],
+    ['all', ['tattoos', 'flashes', 'model-3d', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'tools', 'more'], 24, '01/ creative'],
+    ['tattoos', ['tattoos', 'flashes', 'model-3d'], ['tattoos'], 23, 'tattoos'],
+    ['flashes', ['flashes'], [], 15, 'FLASHES'],
     ['jewellery', ['jewellery'], ['jewellery'], 0, 'jewellery'],
     ['more', ['digital-artworks', 'analog-photography'], ['more'], 1, 'more'],
     ['analog-photography', ['analog-photography'], [], 0, 'ANALOG PHOTOGRAPHY'],

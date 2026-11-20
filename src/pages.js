@@ -161,7 +161,9 @@ export function renderWorkPage(category = 'all') {
     // section; only its body differs.
     if (entry.presentation === 'model') return renderMannequinPreview();
     const items = projects.filter(project => project.category === entry.id);
-    const placeholders = placeholderProjects.filter(project => project.category === entry.id);
+    // Placeholders are a stand-in for an empty archive only: once a rubric has
+    // real entries (flashes, 20.11.), the generated cards step aside.
+    const placeholders = items.length ? [] : placeholderProjects.filter(project => project.category === entry.id);
     const contents = entry.presentation === 'drift' ? renderHorizontalDrift([...items, ...placeholders], { category: entry.id, label: entry.label })
       : items.map(renderProject).filter(Boolean).join('');
     return entry.presentation === 'existing' && contents ? `<div class="project-grid">${contents}</div>` : contents || '<p class="archive-empty">archive in progress.</p>';

@@ -145,6 +145,207 @@ export const suppliedTattooPhotographs = [
   },
 ];
 
+// Fifteen pencil flash sheets supplied on 20.11.2026. Copied once into
+// public/images/flashes/ after a single sips pass (905×1280 JPG, quality 60);
+// the originals on the artist's machine are untouched.
+export const suppliedFlashPhotographs = [
+  {
+    id: "flash-01",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-01.jpg",
+      alt: "pencil flash sheet 01 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-02",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-02.jpg",
+      alt: "pencil flash sheet 02 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-03",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-03.jpg",
+      alt: "pencil flash sheet 03 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-04",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-04.jpg",
+      alt: "pencil flash sheet 04 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-05",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-05.jpg",
+      alt: "pencil flash sheet 05 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-06",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-06.jpg",
+      alt: "pencil flash sheet 06 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-07",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-07.jpg",
+      alt: "pencil flash sheet 07 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-08",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-08.jpg",
+      alt: "pencil flash sheet 08 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-09",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-09.jpg",
+      alt: "pencil flash sheet 09 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-10",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-10.jpg",
+      alt: "pencil flash sheet 10 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-11",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-11.jpg",
+      alt: "pencil flash sheet 11 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-12",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-12.jpg",
+      alt: "pencil flash sheet 12 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-13",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-13.jpg",
+      alt: "pencil flash sheet 13 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-14",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-14.jpg",
+      alt: "pencil flash sheet 14 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+  {
+    id: "flash-15",
+    category: 'flashes',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/flashes/flash-15.jpg",
+      alt: "pencil flash sheet 15 — hand-drawn tattoo design on white paper.",
+      width: 905,
+      height: 1280,
+    }],
+  },
+];
+
 // The actual green/black original stays shared by its archive and detail route.
 // Reference textures are not automatically portfolio entries.
-export const artworks = [featuredDigitalArtwork, ...suppliedTattooPhotographs];
+export const artworks = [featuredDigitalArtwork, ...suppliedTattooPhotographs, ...suppliedFlashPhotographs];
