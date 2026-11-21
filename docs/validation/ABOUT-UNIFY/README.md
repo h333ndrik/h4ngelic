@@ -75,6 +75,12 @@ sind entfallen, weil die Werte jetzt in beiden Breiten gleich sind.
   Mobile gestapelt (`grid-template-columns: 1fr`, 45 px Gap).
 - Alt-Text: `hendrik sitting on a chair among plants.` — beschreibt nur das Foto.
 - `loading="lazy"`, `decoding="async"`, `width`/`height` aus dem Manifest.
+- Ecken: `border-radius: var(--radius-soft)` (4 px) auf Figure **und** Bild,
+  plus `overflow: hidden` auf der Figure — dieselbe Rundung wie
+  `.artwork-open`/`.project-image` (`src/gallery.css`, eine gemeinsame
+  Radius-Zeile). Die alte Ausnahme `.about-portrait img { border-radius: 0 }`
+  ist entfallen. Gemessen: Figure und Bild 4 px bei 1440/390/320
+  (`portrait-corner-*.png`).
 - Alternative Platzierung (nur genannt, nicht gebaut): Portrait rechts neben dem
   Text — verworfen, weil der Auftrag „oben, vor dem Textblock" verlangt.
 
