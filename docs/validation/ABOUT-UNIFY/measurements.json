@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-21T18:49:12.362Z",
+  "checkedAt": "2026-11-21T20:06:58.134Z",
   "base": "http://127.0.0.1:55251",
   "profiles": [
     {
@@ -29,47 +29,49 @@
         "build": "cb2d0a4eacfc"
       },
       "about": {
-        "moreAbout": null,
-        "sendMessage": null,
         "getInTouch": {
           "fontSize": "60px",
           "lineHeight": "72px",
           "letterSpacing": "-2.4px",
           "textDecoration": "underline",
-          "x": 708.1,
+          "x": 831.5,
           "y": 810,
           "width": 341.4,
-          "height": 112
+          "height": 112,
+          "radius": "0px"
         },
         "intro": {
           "fontSize": "17px",
           "lineHeight": "28.9px",
           "letterSpacing": "normal",
           "textDecoration": "none",
-          "x": 708.1,
+          "x": 831.5,
           "y": 316.3,
-          "width": 696.9,
-          "height": 28.9
+          "width": 573.5,
+          "height": 28.9,
+          "radius": "0px"
         },
         "location": {
           "fontSize": "17px",
           "lineHeight": "28.9px",
           "letterSpacing": "normal",
           "textDecoration": "none",
-          "x": 708.1,
+          "x": 831.5,
           "y": 349.2,
-          "width": 696.9,
-          "height": 28.9
+          "width": 573.5,
+          "height": 28.9,
+          "radius": "0px"
         },
         "paragraph": {
           "fontSize": "17px",
           "lineHeight": "28.9px",
           "letterSpacing": "normal",
           "textDecoration": "none",
-          "x": 708.1,
+          "x": 831.5,
           "y": 420.1,
           "width": 520,
-          "height": 57.8
+          "height": 57.8,
+          "radius": "0px"
         },
         "heading": {
           "fontSize": "86.4px",
@@ -79,7 +81,8 @@
           "x": 35,
           "y": 153,
           "width": 1370,
-          "height": 93.3
+          "height": 93.3,
+          "radius": "0px"
         },
         "portrait": {
           "fontSize": "16px",
@@ -88,11 +91,12 @@
           "textDecoration": "none",
           "x": 35,
           "y": 316.3,
-          "width": 536.1,
-          "height": 700.7
+          "width": 659.5,
+          "height": 862,
+          "radius": "4px"
         },
         "portraitImage": {
-          "currentSrc": "http://127.0.0.1:55251/images/optimized/portrait-b8cb1f4d172f-640.webp",
+          "currentSrc": "http://127.0.0.1:55281/images/optimized/portrait-b8cb1f4d172f-640.webp",
           "alt": "hendrik sitting on a chair among plants.",
           "loading": "lazy",
           "naturalWidth": 576,
@@ -102,7 +106,8 @@
           "scrollWidth": 1440,
           "innerWidth": 1440
         },
-        "build": "cb2d0a4eacfc"
+        "build": "55a158a74986",
+        "leftDelta": 0
       }
     },
     {
@@ -132,8 +137,6 @@
         "build": "cb2d0a4eacfc"
       },
       "about": {
-        "moreAbout": null,
-        "sendMessage": null,
         "getInTouch": {
           "fontSize": "25px",
           "lineHeight": "30px",
@@ -142,7 +145,8 @@
           "x": 22,
           "y": 1248.3,
           "width": 145.3,
-          "height": 70
+          "height": 70,
+          "radius": "0px"
         },
         "intro": {
           "fontSize": "17px",
@@ -152,7 +156,8 @@
           "x": 22,
           "y": 696.8,
           "width": 346,
-          "height": 28.9
+          "height": 28.9,
+          "radius": "0px"
         },
         "location": {
           "fontSize": "17px",
@@ -162,7 +167,8 @@
           "x": 22,
           "y": 729.7,
           "width": 346,
-          "height": 28.9
+          "height": 28.9,
+          "radius": "0px"
         },
         "paragraph": {
           "fontSize": "17px",
@@ -172,7 +178,8 @@
           "x": 22,
           "y": 800.6,
           "width": 346,
-          "height": 57.8
+          "height": 57.8,
+          "radius": "0px"
         },
         "heading": {
           "fontSize": "32px",
@@ -182,7 +189,8 @@
           "x": 22,
           "y": 120,
           "width": 346,
-          "height": 34.5
+          "height": 34.5,
+          "radius": "0px"
         },
         "portrait": {
           "fontSize": "16px",
@@ -192,10 +200,11 @@
           "x": 22,
           "y": 199.5,
           "width": 346,
-          "height": 452.2
+          "height": 452.2,
+          "radius": "4px"
         },
         "portraitImage": {
-          "currentSrc": "http://127.0.0.1:55251/images/optimized/portrait-b8cb1f4d172f-640.webp",
+          "currentSrc": "http://127.0.0.1:55281/images/optimized/portrait-b8cb1f4d172f-640.webp",
           "alt": "hendrik sitting on a chair among plants.",
           "loading": "lazy",
           "naturalWidth": 346,
@@ -205,7 +214,8 @@
           "scrollWidth": 390,
           "innerWidth": 390
         },
-        "build": "cb2d0a4eacfc"
+        "build": "55a158a74986",
+        "leftDelta": 0
       }
     },
     {
@@ -235,8 +245,6 @@
         "build": "cb2d0a4eacfc"
       },
       "about": {
-        "moreAbout": null,
-        "sendMessage": null,
         "getInTouch": {
           "fontSize": "25px",
           "lineHeight": "30px",
@@ -245,7 +253,8 @@
           "x": 22,
           "y": 1243.4,
           "width": 145.3,
-          "height": 70
+          "height": 70,
+          "radius": "0px"
         },
         "intro": {
           "fontSize": "17px",
@@ -255,7 +264,8 @@
           "x": 22,
           "y": 605.3,
           "width": 276,
-          "height": 28.9
+          "height": 28.9,
+          "radius": "0px"
         },
         "location": {
           "fontSize": "17px",
@@ -265,7 +275,8 @@
           "x": 22,
           "y": 638.2,
           "width": 276,
-          "height": 28.9
+          "height": 28.9,
+          "radius": "0px"
         },
         "paragraph": {
           "fontSize": "17px",
@@ -275,7 +286,8 @@
           "x": 22,
           "y": 709.1,
           "width": 276,
-          "height": 86.7
+          "height": 86.7,
+          "radius": "0px"
         },
         "heading": {
           "fontSize": "32px",
@@ -285,7 +297,8 @@
           "x": 22,
           "y": 120,
           "width": 276,
-          "height": 34.5
+          "height": 34.5,
+          "radius": "0px"
         },
         "portrait": {
           "fontSize": "16px",
@@ -295,10 +308,11 @@
           "x": 22,
           "y": 199.5,
           "width": 276,
-          "height": 360.7
+          "height": 360.7,
+          "radius": "4px"
         },
         "portraitImage": {
-          "currentSrc": "http://127.0.0.1:55251/images/optimized/portrait-b8cb1f4d172f-320.webp",
+          "currentSrc": "http://127.0.0.1:55281/images/optimized/portrait-b8cb1f4d172f-320.webp",
           "alt": "hendrik sitting on a chair among plants.",
           "loading": "lazy",
           "naturalWidth": 276,
@@ -308,7 +322,8 @@
           "scrollWidth": 320,
           "innerWidth": 320
         },
-        "build": "cb2d0a4eacfc"
+        "build": "55a158a74986",
+        "leftDelta": 0
       }
     }
   ]

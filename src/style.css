@@ -127,7 +127,7 @@ html:not([data-page='home']) .hero-nav { display: none; }
 .project-details dt { color: #b9b9b4; }
 .project-details dd { margin: 0; }
 .about-layout { max-width: 1020px; margin-left: auto; }
-.about-layout.has-portrait { max-width: none; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 10%; }
+.about-layout.has-portrait { max-width: none; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(min(320px, 100%), 1fr); gap: 10%; }
 /* The greeting, the location line and the paragraphs are one text size. The
    portrait leads the grid; the copy keeps the wider column beside it. */
 .about-intro, .about-location, .about-paragraph { font-size: 17px; line-height: 1.7; letter-spacing: normal; }

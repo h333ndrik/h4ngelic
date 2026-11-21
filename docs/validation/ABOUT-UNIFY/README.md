@@ -71,8 +71,13 @@ sind entfallen, weil die Werte jetzt in beiden Breiten gleich sind.
   (`src/data/imageManifest.json`, `public/images/optimized/portrait-b8cb1f4d172f-*`).
   Ausgeliefert: 640er WebP bei 1440 (536 CSS px), 640 bei 390 (346 px), 320 bei 320 (276 px).
 - Platzierung: Portrait **vor** dem Textblock. Desktop zweispaltig
-  (Bild links, Text rechts: `minmax(0, 1fr) minmax(0, 1.3fr)`, 10 % Gap),
-  Mobile gestapelt (`grid-template-columns: 1fr`, 45 px Gap).
+  (Bild links, Text rechts: `minmax(0, 1.15fr) minmax(min(320px, 100%), 1fr)`,
+  10 % Gap — das Bild ist damit die größere Spalte), Mobile gestapelt
+  (`grid-template-columns: 1fr`, 45 px Gap).
+- Das Bild beginnt **auf der Kopfzeilen-Achse**: `portrait.left` − `heading.left`
+  = 0,00 px bei 1920/1440/1280/1024/768/390/320. Größe: 890 × 1164 px (1920),
+  660 × 862 (1440), 583 × 761 (1280), 459 × 600 (1024), 308 × 403 (768),
+  346 × 452 (390), 276 × 361 (320). Die Textspalte behält mindestens 320 px.
 - Alt-Text: `hendrik sitting on a chair among plants.` — beschreibt nur das Foto.
 - `loading="lazy"`, `decoding="async"`, `width`/`height` aus dem Manifest.
 - Ecken: `border-radius: var(--radius-soft)` (4 px) auf Figure **und** Bild,
