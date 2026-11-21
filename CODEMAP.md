@@ -90,6 +90,7 @@ nur bei jewellery.
 | --- | --- |
 | Grundlayout, Hero-Bühne, Poster | `src/style.css` — Block ".stage.is-ready" |
 | CTA-Typ (send message · more about · get in touch) | `src/style.css` — Block ".cta" |
+| About-Spalten (Portrait beginnt auf der Wortkante, `--label-inset`) | `src/style.css` — Block "about-layout" |
 | Startseite, Rubrik-Reihe | `src/homepage.css` — Block ".hero" |
 | Rubrik-Reihen (Typ A/B/C, Abstände) | `src/rubric-row.css` — Block "row-" |
 | Archiv-Struktur, Kartenmaße mobil | `src/archive-structure.css` — Block "--carousel-card-width" |

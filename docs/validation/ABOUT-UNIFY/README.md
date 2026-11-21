@@ -69,25 +69,20 @@ sind entfallen, weil die Werte jetzt in beiden Breiten gleich sind.
   auf 434 884 Bytes.
 - Build erzeugt daraus die üblichen WebP-Varianten 320/640/960/1179
   (`src/data/imageManifest.json`, `public/images/optimized/portrait-b8cb1f4d172f-*`).
-  Ausgeliefert: 640er WebP bei 1440 (536 CSS px), 640 bei 390 (346 px), 320 bei 320 (276 px).
-- Platzierung: Portrait **vor** dem Textblock. Desktop zweispaltig
-  (Bild links, Text rechts: `minmax(0, 1.15fr) minmax(min(320px, 100%), 1fr)`,
-  10 % Gap — das Bild ist damit die größere Spalte), Mobile gestapelt
-  (`grid-template-columns: 1fr`, 45 px Gap).
-- Das Bild beginnt **auf der Kopfzeilen-Achse**: `portrait.left` − `heading.left`
-  = 0,00 px bei 1920/1440/1280/1024/768/390/320. Größe: 890 × 1164 px (1920),
-  660 × 862 (1440), 583 × 761 (1280), 459 × 600 (1024), 308 × 403 (768),
-  346 × 452 (390), 276 × 361 (320). Die Textspalte behält mindestens 320 px.
-- Alt-Text: `hendrik sitting on a chair among plants.` — beschreibt nur das Foto.
-- `loading="lazy"`, `decoding="async"`, `width`/`height` aus dem Manifest.
-- Ecken: `border-radius: var(--radius-soft)` (4 px) auf Figure **und** Bild,
-  plus `overflow: hidden` auf der Figure — dieselbe Rundung wie
-  `.artwork-open`/`.project-image` (`src/gallery.css`, eine gemeinsame
-  Radius-Zeile). Die alte Ausnahme `.about-portrait img { border-radius: 0 }`
-  ist entfallen. Gemessen: Figure und Bild 4 px bei 1440/390/320
-  (`portrait-corner-*.png`).
-- Alternative Platzierung (nur genannt, nicht gebaut): Portrait rechts neben dem
-  Text — verworfen, weil der Auftrag „oben, vor dem Textblock" verlangt.
+  Ausgeliefert: 640er WebP bei 1440 (559 CSS px), 640 bei 390 (346 px), 320 bei 320 (276 px).
+- Platzierung: Portrait **vor** dem Textblock. Desktop zweispaltig, beide
+  Spalten gleich breit (`minmax(0, 1fr) minmax(min(320px, 100%), 1fr)`, 10 % Gap),
+  Mobile gestapelt (`grid-template-columns: 1fr`, 45 px Gap, ohne Einzug).
+- Das Bild beginnt **dort, wo das Wort „about" beginnt** — nicht am Seitenrand
+  und nicht auf der Slash-Spalte. Dafür misst `src/app.js` (`measureLabelInset`)
+  den ersten Buchstaben nach `NN/ ` in der nummerierten Seiten-Überschrift und
+  schreibt ihn als `--label-inset`; das Layout nutzt ihn als `padding-left`.
+  Ohne JS greift der abgeleitete Token-Wert
+  `calc(var(--slash-inset) + var(--type-display) * .4655)` aus `src/ui-tokens.css`.
+  Gemessen: Bildkante − Wortkante = **0,00 px** bei 1920/1440/1280/1024/768.
+  Größe: 774 × 1011 px (1920), 559 × 730 (1440), 493 × 645 (1280),
+  388 × 507 (1024), 247 × 322 (768); gestapelt 346 × 452 (390) und 276 × 361 (320).
+  Die Textspalte behält mindestens 320 px.
 
 ## 5 — Overflow und Screenshots
 

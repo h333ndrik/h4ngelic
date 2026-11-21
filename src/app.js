@@ -113,11 +113,33 @@ function measureSlashInset() {
   setSlashInset(range.getBoundingClientRect().left - translation - contentLeft);
 }
 
+/** The About portrait starts where the word of the numbered heading starts,
+ *  not on the page gutter and not on the slash column. Measure the first glyph
+ *  after "NN/ " so the column edge follows the real type instead of a number.
+ *  Pages without that heading fall back to the derived token. */
+function measureLabelInset() {
+  const heading = document.querySelector('.page-shell > .page-heading.numbered-heading');
+  const node = heading?.firstChild;
+  const root = document.documentElement;
+  const match = node && node.nodeType === 3 ? node.textContent.match(/^\d{2}\/\s+(\S)/) : null;
+  if (!match) { root.style.removeProperty('--label-inset'); return; }
+  const range = document.createRange();
+  range.setStart(node, match[0].length - 1);
+  range.setEnd(node, match[0].length);
+  const offset = range.getBoundingClientRect().left - heading.getBoundingClientRect().left;
+  if (Number.isFinite(offset) && offset > 0) {
+    root.style.setProperty('--label-inset', `${Math.round(offset * 100) / 100}px`);
+  } else {
+    root.style.removeProperty('--label-inset');
+  }
+}
+
 function scheduleSlashInset() {
   if (slashInsetFrame) return;
   slashInsetFrame = requestAnimationFrame(() => {
     slashInsetFrame = 0;
     measureSlashInset();
+    measureLabelInset();
     fitRubricRows();
   });
 }

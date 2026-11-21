@@ -52,6 +52,10 @@
   --type-navigation: clamp(13px, 1.32vw, 20px);
   --type-secondary-link: clamp(18px, 1.8vw, 27px);
   --slash-inset: clamp(52px, 16vw, 138px);
+  /* Where the word after "NN/ " starts in a numbered heading. The About
+     portrait aligns on that edge; app.js replaces this derived value with
+     the measured one. */
+  --label-inset: calc(var(--slash-inset) + var(--type-display) * .4655);
   --sound-caret-duration: 300ms;
   --sound-caret-easing: cubic-bezier(.2, 1.35, .3, 1);
   /* Mirrors the HOLD-4 hint's ghost color, opacity and .84px tracking. The
