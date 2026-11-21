@@ -226,13 +226,15 @@ test('published artwork images keep real detail URLs and progressively open in-p
 });
 
 test('about optional content renders only when configured', () => {
-  const about = renderAboutPage();
-  assert.match(about, /hi, i&#39;m hendrik\./);
-  assert.match(about, /independent artist based in berlin\./);
-  assert.doesNotMatch(about, /class="about-portrait"|class="about-references"/);
   const originalPortrait = siteContent.about.portrait;
   const originalReferences = siteContent.about.references;
   try {
+    siteContent.about.portrait = null;
+    siteContent.about.references = [];
+    const about = renderAboutPage();
+    assert.match(about, /hi, i&#39;m hendrik\./);
+    assert.match(about, /independent artist based in berlin\./);
+    assert.doesNotMatch(about, /class="about-portrait"|class="about-references"/);
     siteContent.about.portrait = { src: '/images/portrait.webp', alt: 'configured portrait' };
     siteContent.about.references = [{ title: 'a reference', url: 'https://reference.example.test/' }];
     const configured = renderAboutPage();
@@ -261,7 +263,15 @@ test('approved About copy remains exact and does not invent a portrait or biogra
   ]);
   const markup = renderAboutPage();
   for (const paragraph of [siteContent.about.intro, ...siteContent.about.paragraphs]) assert.ok(markup.includes(escapeHTML(paragraph)));
-  assert.doesNotMatch(markup, /<img|creative identity of h333ndrik|agency/);
+  // The only image is the supplied portrait, rendered from the configured data
+  // and placed before the copy. No biography or identity copy is generated.
+  assert.equal((markup.match(/<img/g) || []).length, 1, 'About carries exactly the supplied portrait.');
+  // With the optimized manifest the img points at the WebP variant; without
+  // it the supplied JPEG stays the source. Both are the same portrait.
+  assert.match(markup, /src="\/images\/(about\/portrait\.jpg|optimized\/portrait-[a-f0-9]+-\d+\.webp)"/);
+  assert.match(markup, /alt="hendrik sitting on a chair among plants\."/);
+  assert.ok(markup.indexOf('class="about-portrait"') < markup.indexOf('class="about-copy"'), 'The portrait leads the copy.');
+  assert.doesNotMatch(markup, /creative identity of h333ndrik|agency/);
 });
 
 test('content utilities reject script, protocol-relative and credential-bearing links', () => {

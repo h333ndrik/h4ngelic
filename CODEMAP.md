@@ -25,8 +25,9 @@ existiert und jeder Anker in ihr vorkommt — auch in `docs/karte.html`.
 | --- | --- | --- |
 | `/` | Startseite mit Hero, INDEX, Rubrik-Reihe | `src/routes.js` — Block "resolveRoute" |
 | `/creative/*` | Rubrikseiten (tattoos, jewellery, tools, more) | `src/pages.js` — Block "renderWorkPage" |
-| `/about`, `/contact` | Text- und Formularseite | `src/pages.js` — Block "renderWorkPage" |
-| Vorgerendert | 23 Routen + 404 als statisches HTML | `scripts/prerender.mjs` — Block "prerender" |
+| `/about` | Begrüßung, Portrait, Fließtext, get in touch als CTA | `src/pages.js` — Block "renderAboutPage" |
+| `/contact` | Kontaktformular auf der Startseite | `src/inquiry-content.js` — Block "renderInquiryForm" |
+| Vorgerendert | 38 Routen + 404 als statisches HTML | `scripts/prerender.mjs` — Block "prerender" |
 | Titel/Description | pro Route gesetzt | `src/seo.js` — Block "applyMetadata" |
 
 Der Router arbeitet clientseitig weiter, die vorgerenderten Dateien sind der
@@ -43,6 +44,7 @@ Einstieg. Eine Route ohne Vorrendern ist ein Fehler im Build, nicht im Browser.
 | Cooldown für Splats/Hero-Klick (320 ms) | `src/data/interactionMoshSettings.js` — Block "cooldownMs" |
 | Poster-Verhalten (Reduced Motion = statisch) | `src/data/heroPosterSettings.js` — Block "reducedMotionStatic" |
 | Begrüßungstexte in der Topbar | `src/data/easterSettings.js` — Block "nice to meet you." |
+| About-Portrait (Bild + Alt-Text) | `src/data/siteContent.js` — Block "portrait:" |
 
 ### Bilder je Sektion
 
@@ -53,7 +55,7 @@ Einstieg. Eine Route ohne Vorrendern ist ein Fehler im Build, nicht im Browser.
 | digital-artworks | `public/images/digital-artworks/` — 1 JPEG | `src/data/digitalArtworkSettings.js` — Block "green-black-original.jpg" |
 | jewellery | `public/images/jewellery/` — **Ziel, existiert noch nicht** | `src/data/placeholderProjects.js` — Block "placeholderProjects" |
 | tools (m4shlab, thr4ce) | `public/images/tools-source/` — 6 PNG | `src/data/siteContent.js` — Block "tools-source" |
-| generierte Varianten | `public/images/optimized/` — 65 WebP, aus den Originalen erzeugt | `scripts/optimize-images.mjs` — Block "images/optimized/" |
+| generierte Varianten | `public/images/optimized/` — 114 WebP, aus den Originalen erzeugt | `scripts/optimize-images.mjs` — Block "images/optimized/" |
 
 Pfade stehen **hart** in den Datenmodulen (kein CMS, keine API, kein base64).
 Platzhalterkarten (`src/data/placeholderProjects.js` — Block "placeholderProjects")
@@ -87,6 +89,7 @@ nur bei jewellery.
 | Bereich | Datei |
 | --- | --- |
 | Grundlayout, Hero-Bühne, Poster | `src/style.css` — Block ".stage.is-ready" |
+| CTA-Typ (send message · more about · get in touch) | `src/style.css` — Block ".cta" |
 | Startseite, Rubrik-Reihe | `src/homepage.css` — Block ".hero" |
 | Rubrik-Reihen (Typ A/B/C, Abstände) | `src/rubric-row.css` — Block "row-" |
 | Archiv-Struktur, Kartenmaße mobil | `src/archive-structure.css` — Block "--carousel-card-width" |

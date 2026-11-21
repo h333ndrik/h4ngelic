@@ -366,3 +366,22 @@ Verified product build: `data-build="8351205c4d79"` (`R2: label format NN/ x inc
   rows plus coupling negatives, `tests/v25-cross-links-browser.mjs` 6/6,
   `tests/rubric-gap-browser.mjs` 3/3, `tests/tokens-audit.mjs` 0 findings,
   `npm test` 376/376. Full report: `docs/validation/B-F25-ROW-MECHANISM/README.md`.
+
+## 16. About addendum — one CTA type, small intro, portrait (build cb2d0a4eacfc)
+
+- **Befund:** The three CTAs had three sizes — "send message" 60/25px, "more
+  about" 25.92/18px and "get in touch" 15px — and the greeting/location lines
+  ran at 64.8/36px next to 17px paragraphs. `/about` had no portrait at all.
+  Values: `docs/validation/ABOUT-UNIFY/README.md` section 1.
+- **Fix:** one `.cta` rule in `src/style.css` carries the submit control's
+  existing typography, gap and padding and is used by `send message`,
+  `more about` and `get in touch`; `.about-intro`, `.about-location` and
+  `.about-paragraph` share one 17px/1.7 rule; the supplied portrait is
+  compressed (274 KB) into `public/images/about/portrait.jpg` and renders above
+  the copy (left column on desktop, stacked on mobile).
+- **Beweis:** computed at 1440/390/320 — all three CTAs 60/72/−2.4px,
+  25/30/−1px, 25/30/−1px; intro, location and paragraph all 17/28.9px; no
+  overflow (scrollWidth = innerWidth at 320/390/1440). `npm test` 448/447/1/0,
+  build 38 routes + 404, `typography-contract`/`about-browser`/`link-glyph`/
+  `hover`/`lowercase-sweep`/`mobile-parity`/`v31-ui`/`pointer-focus`/`tokens`
+  green. Evidence: `docs/validation/ABOUT-UNIFY/`.

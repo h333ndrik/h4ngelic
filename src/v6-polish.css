@@ -1,6 +1,5 @@
 /* Bounded typographic feedback composes with the existing scroll movement.
    Ordinary hover stays quiet; the mode's corruption renderer is independent. */
-.about-preview .text-link { text-decoration: none; }
 .visitor-hotspot { font-size: clamp(16px, 1.2vw, 19px); }
 .kinetic-heading-text {
   width: fit-content;

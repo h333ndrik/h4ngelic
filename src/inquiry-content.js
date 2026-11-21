@@ -49,7 +49,7 @@ feel free to write anything." maxlength="${inquirySettings.maximumMessageLength}
         <p class="inquiry-error" id="${prefix}-file-error" data-inquiry-file-error role="alert"></p>
         <ul class="inquiry-file-list" data-inquiry-files aria-label="Selected references"></ul>
       </div>
-      <button class="inquiry-submit" type="submit" data-inquiry-submit><span>send message</span><i class="arrow" aria-hidden="true"></i></button>
+      <button class="cta inquiry-submit" type="submit" data-inquiry-submit><span>send message</span><i class="arrow" aria-hidden="true"></i></button>
       <p class="inquiry-status" id="${prefix}-status" data-inquiry-status role="status" aria-live="polite" aria-atomic="true"></p>
       <p class="inquiry-email-fallback" data-inquiry-email-fallback hidden>you can also email <a href="mailto:${address}">${address}</a>.</p>
       <noscript><p>send the form directly, or email <a href="mailto:${address}">${address}</a>. references are limited to 5 files and 4 MB in total.</p></noscript>

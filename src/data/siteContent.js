@@ -87,8 +87,9 @@ export const siteContent = {
       'i see the body as an extension of my work, not just a surface for it. something that moves, changes, and becomes part of the composition.',
       "i'd rather see where they go.",
     ],
-    // Optional: { src: '/images/portrait.webp', alt: 'Your portrait description' }
-    portrait: null,
+    // The supplied portrait sits above the copy: left column on desktop, on
+    // top of the text on mobile. Alt text describes the photo only.
+    portrait: { src: '/images/about/portrait.jpg', alt: 'hendrik sitting on a chair among plants.' },
     // Optional: [{ title: 'Reference title', url: 'https://example.com' }]
     references: [],
   },

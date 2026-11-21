@@ -181,9 +181,49 @@ try {
       assert.match(viewerScrim.scrim, /linear-gradient/, 'The viewer needs a bottom scrim so its controls never read over page copy.');
       assert.ok(viewerScrim.navZ >= 1, 'The viewer navigation must paint above the scrim.');
 
-      report.profiles.push({ ...profile, build, headings, rubrics, slashRows, childHeadings, headerRows, indexNumbers, indexLabels, driftCounts, seventh, viewerCount, viewerScrim, errors });
+      // One CTA type: "send message", "more about" and "get in touch" read the
+      // same class, so their computed typography must be identical on every
+      // profile. A second size value would reintroduce the drift this fixes.
+      const ctaMetrics = elements => elements.map(element => {
+        const style = getComputedStyle(element);
+        return { text: element.textContent.trim().replace(/\s+/g, ' '), fontSize: style.fontSize, lineHeight: style.lineHeight,
+          letterSpacing: style.letterSpacing, arrow: Boolean(element.querySelector('.arrow')) };
+      });
+      await route(page, '/');
+      const homeCtas = await page.locator('[data-inquiry-submit], .about-preview .text-link').evaluateAll(ctaMetrics);
+      await route(page, '/about');
+      const aboutCta = await page.locator('.about-page .about-copy > .text-link').evaluateAll(ctaMetrics);
+      const ctas = [...homeCtas, ...aboutCta];
+      assert.equal(ctas.length, 3, 'The three CTAs must be present.');
+      for (const cta of ctas.slice(1)) {
+        assert.equal(cta.fontSize, ctas[0].fontSize, `CTA font-size differs for ${cta.text}.`);
+        assert.equal(cta.lineHeight, ctas[0].lineHeight, `CTA line-height differs for ${cta.text}.`);
+        assert.equal(cta.letterSpacing, ctas[0].letterSpacing, `CTA letter-spacing differs for ${cta.text}.`);
+      }
+      assert.ok(ctas.every(cta => cta.arrow), 'Every CTA carries the shared arrow glyph.');
+
+      // /about reads as one column of body copy: the greeting, the location
+      // line and the paragraphs share font-size and leading.
+      const aboutText = await page.locator('.about-intro, .about-location, .about-paragraph').evaluateAll(elements => elements.map(element => {
+        const style = getComputedStyle(element);
+        return { text: element.textContent.trim().slice(0, 40), fontSize: style.fontSize, lineHeight: style.lineHeight };
+      }));
+      for (const row of aboutText.slice(1)) {
+        assert.equal(row.fontSize, aboutText[0].fontSize, `About copy size differs for ${row.text}.`);
+        assert.equal(row.lineHeight, aboutText[0].lineHeight, `About copy leading differs for ${row.text}.`);
+      }
+      await page.locator('.about-portrait img').scrollIntoViewIfNeeded();
+      await page.waitForFunction(() => {
+        const image = document.querySelector('.about-portrait img');
+        return image && image.complete && image.naturalWidth > 0;
+      }, null, { timeout: 8000 });
+      const aboutPortrait = await page.locator('.about-portrait img').evaluate(element => ({
+        rendered: Boolean(element.complete && element.naturalWidth), loading: element.getAttribute('loading'), alt: element.getAttribute('alt') }));
+      assert.ok(aboutPortrait.rendered && aboutPortrait.loading === 'lazy' && aboutPortrait.alt, `Portrait must render lazily with alt text: ${JSON.stringify(aboutPortrait)}`);
+
+      report.profiles.push({ ...profile, build, headings, rubrics, slashRows, childHeadings, headerRows, indexNumbers, indexLabels, driftCounts, seventh, viewerCount, viewerScrim, ctas, aboutText, aboutPortrait, errors });
       assert.deepEqual(errors, []);
-      console.log(`PASS typography ${profile.width}px: equal section/rubric metrics, shared slash column ${slashRows[0].slashRel}px, header baseline, NN/ labels and counters, flanking viewer arrows with scrim.`);
+      console.log(`PASS typography ${profile.width}px: equal section/rubric metrics, shared slash column ${slashRows[0].slashRel}px, header baseline, NN/ labels and counters, flanking viewer arrows with scrim, one CTA type (${ctas[0].fontSize}) and one About copy size (${aboutText[0].fontSize}).`);
     } finally { await context.close(); }
   }
 

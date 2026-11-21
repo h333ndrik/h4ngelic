@@ -87,6 +87,10 @@ html:not([data-page='home']) .hero-nav { display: none; }
 .about-preview-copy { grid-column: 2; max-width: 1000px; margin: 0 0 40px; font-size: clamp(30px, 4.5vw, 68px); line-height: 1.15; letter-spacing: -.035em; }
 .text-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 15px; line-height: 1.4; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #ffffff60; }
 .text-link:hover { text-decoration-color: #f0efeb; }
+/* One CTA type. "send message" (home contact), "more about" (frontpage 02) and
+   "get in touch" (/about) all read size, leading, tracking and arrow gap from
+   this single rule; the values are the submit control's existing ones. */
+.cta { display: inline-flex; align-items: center; gap: .35em; padding: 20px 0; margin: 16px 0 0; font-size: clamp(25px, 4.5vw, 60px); line-height: 1.2; letter-spacing: -.04em; }
 .about-preview > .text-link { grid-column: 2; justify-self: start; }
 .contact-section { border-top: 1px solid #ffffff30; padding-top: 100px; padding-bottom: 80px; scroll-margin-top: 24px; }
 .contact-link { display: inline-flex; gap: 12px; align-items: center; min-height: 44px; }
@@ -123,10 +127,13 @@ html:not([data-page='home']) .hero-nav { display: none; }
 .project-details dt { color: #b9b9b4; }
 .project-details dd { margin: 0; }
 .about-layout { max-width: 1020px; margin-left: auto; }
-.about-layout.has-portrait { max-width: none; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 10%; }
-.about-intro { font-size: clamp(30px, 4.5vw, 68px); line-height: 1.14; letter-spacing: -.035em; margin: 0 0 55px; }
-.about-location { font-size: clamp(20px, 2.5vw, 36px); line-height: 1.3; letter-spacing: -.025em; margin: 0 0 65px; }
-.about-paragraph { max-width: 55ch; font-size: 17px; line-height: 1.7; white-space: pre-line; }
+.about-layout.has-portrait { max-width: none; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 10%; }
+/* The greeting, the location line and the paragraphs are one text size. The
+   portrait leads the grid; the copy keeps the wider column beside it. */
+.about-intro, .about-location, .about-paragraph { font-size: 17px; line-height: 1.7; letter-spacing: normal; }
+.about-intro { margin: 0 0 4px; }
+.about-location { margin: 0 0 42px; }
+.about-paragraph { max-width: 55ch; white-space: pre-line; }
 .about-portrait { margin: 0; }
 .about-references { margin-top: 100px; padding-top: 35px; border-top: 1px solid #ffffff30; }
 .about-references ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 20px 40px; }
@@ -171,8 +178,6 @@ html:not([data-page='home']) .hero-nav { display: none; }
   .filter-link { font-size: 14px; }
   .project-grid { grid-template-columns: 1fr; gap: 65px; padding-top: 40px; }
   .about-layout.has-portrait { grid-template-columns: 1fr; gap: 45px; }
-  .about-intro { margin-bottom: 35px; }
-  .about-location { margin-bottom: 45px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }

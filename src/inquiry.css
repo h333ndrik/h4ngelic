@@ -26,7 +26,7 @@
 .inquiry-file-row span { min-width: 0; overflow-wrap: anywhere; }
 .inquiry-file-remove { margin-left: auto; flex: 0 0 auto; background: transparent; border: 0; color: inherit; min-height: 44px; padding: 8px; font: inherit; text-decoration: underline; text-underline-offset: 4px; }
 .inquiry-file-remove:focus-visible { outline: 2px solid currentColor; }
-.inquiry-submit { display: inline-flex; align-items: center; gap: .35em; padding: 20px 0; margin: 16px 0 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: clamp(25px, 4.5vw, 60px); letter-spacing: -.04em; line-height: 1.2; border-radius: var(--radius-soft); }
+.inquiry-submit { border: 0; background: transparent; color: inherit; font-family: inherit; border-radius: var(--radius-soft); }
 .inquiry-submit:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
 .inquiry-submit:disabled { opacity: .6; }
 .inquiry-status { margin: 0; min-height: 1.7em; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }

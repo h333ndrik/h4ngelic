@@ -63,7 +63,7 @@ export function renderHomepageSections(context = '') {
   <section class="content-section about-preview" id="about-preview" tabindex="-1" aria-labelledby="about-preview-title" data-motion="about"><div class="section-pin">
     <h2 class="kinetic-heading" id="about-preview-title"><span class="kinetic-heading-text">${escape(siteContent.home.aboutLabel)}</span></h2>
     <p class="about-preview-copy kinetic-item" data-motion-item="copy">${escape(siteContent.home.aboutPreview)}</p>
-    <a class="text-link kinetic-item" data-motion-item="link" href="/about">${escape(siteContent.home.moreAboutLabel)} ${arrow}</a>
+    <a class="text-link cta kinetic-item" data-motion-item="link" href="/about">${escape(siteContent.home.moreAboutLabel)} ${arrow}</a>
   </div></section>
   <section class="content-section contact-section" id="contact" aria-labelledby="contact-title" tabindex="-1" data-motion="contact"><div class="section-pin">
     <h2 class="kinetic-heading" id="contact-title"><span class="kinetic-heading-text">${escape(siteContent.home.contactLabel)}</span></h2>
@@ -280,13 +280,13 @@ export function renderAboutPage() {
   <div class="page-shell about-page">
     <h1 class="page-heading numbered-heading">${formatIndexedLabel(2, siteContent.about.label)}</h1>
     <div class="about-layout${portraitURL ? ' has-portrait' : ''}">
+      ${portrait ? `<figure class="about-portrait" style="--artwork-ratio: ${portrait.width} / ${portrait.height}"><img src="${escape(portrait.src || portraitURL)}" alt="${escape(about.portrait.alt || '')}" loading="lazy" decoding="async" width="${portrait.width}" height="${portrait.height}"${portraitResponsive} /></figure>` : ''}
       <div class="about-copy">
         <p class="about-intro">${escape(about.intro)}</p>
         <p class="about-location">${escape(about.location)}</p>
         ${(about.paragraphs || []).map((paragraph) => `<p class="about-paragraph">${escape(paragraph)}</p>`).join('')}
-        <a class="text-link" href="${contactURL()}">get in touch ${arrow}</a>
+        <a class="text-link cta" href="${contactURL()}">get in touch ${arrow}</a>
       </div>
-      ${portrait ? `<figure class="about-portrait" style="--artwork-ratio: ${portrait.width} / ${portrait.height}"><img src="${escape(portrait.src || portraitURL)}" alt="${escape(about.portrait.alt || '')}" loading="lazy" decoding="async" width="${portrait.width}" height="${portrait.height}"${portraitResponsive} /></figure>` : ''}
     </div>
     ${references ? `<section class="about-references" aria-labelledby="references-title"><h2 class="section-label" id="references-title">references</h2><ul>${references}</ul></section>` : ''}
   </div>

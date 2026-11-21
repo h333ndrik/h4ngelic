@@ -573,6 +573,32 @@
       }
     ]
   },
+  "/images/about/portrait.jpg": {
+    "width": 1179,
+    "height": 1541,
+    "variants": [
+      {
+        "src": "/images/optimized/portrait-b8cb1f4d172f-320.webp",
+        "width": 320,
+        "height": 418
+      },
+      {
+        "src": "/images/optimized/portrait-b8cb1f4d172f-640.webp",
+        "width": 640,
+        "height": 837
+      },
+      {
+        "src": "/images/optimized/portrait-b8cb1f4d172f-960.webp",
+        "width": 960,
+        "height": 1255
+      },
+      {
+        "src": "/images/optimized/portrait-b8cb1f4d172f-1179.webp",
+        "width": 1179,
+        "height": 1541
+      }
+    ]
+  },
   "/images/tools-source/m4shlab-start.png": {
     "width": 1440,
     "height": 900,
