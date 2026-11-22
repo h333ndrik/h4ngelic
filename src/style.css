@@ -185,11 +185,20 @@ html:not([data-page='home']) .hero-nav { display: none; }
   .stage.is-entering #logo-canvas { will-change: auto; }
 }
 
-/* V17: defer below-fold rendering work without reserving the hero or header. */
+/* V17: defer below-fold rendering work without reserving the hero or header.
+   The two homepage sections grew past the old 720px guess (the shared CTA made
+   02 taller, the form made 03 taller), so their first render pushed the footer
+   down by 226px. Reserve the measured heights instead. */
 .about-preview, .contact-section,
 .work-page .archive-category, .work-page .project-grid {
   content-visibility: auto;
   contain-intrinsic-size: auto 720px;
+}
+.about-preview { contain-intrinsic-size: auto 480px; }
+.contact-section { contain-intrinsic-size: auto 950px; }
+@media (max-width: 600px) {
+  .about-preview { contain-intrinsic-size: auto 300px; }
+  .contact-section { contain-intrinsic-size: auto 800px; }
 }
 
 /* B-F33: touch gets the pressed phase instead of a hover that never ends.

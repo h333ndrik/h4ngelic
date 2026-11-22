@@ -1,35 +1,356 @@
 {
   "phase": "after2",
-  "dev": "http://127.0.0.1:5183",
-  "preview": "http://127.0.0.1:55242",
-  "finishedAt": "2026-11-05T22:09:03.114Z",
+  "dev": "http://127.0.0.1:5191",
+  "preview": "http://127.0.0.1:55341",
+  "finishedAt": "2026-11-21T22:03:52.216Z",
   "results": [
     {
-      "suite": "world-sound-browser",
-      "base": "dev",
-      "status": "FAIL",
-      "code": 1,
-      "elapsedMs": 42840,
-      "passLine": "",
-      "failLine": "name: 'TimeoutError'"
-    },
-    {
-      "suite": "world-audio-formats-browser",
+      "suite": "tokens-audit",
       "base": "dev",
       "status": "PASS",
       "code": 0,
-      "elapsedMs": 2894,
-      "passLine": "PASS world audio formats: 4 files decode at exact master frame counts with continuous non-zero loop boundaries and no audio-path long tasks.",
+      "elapsedMs": 40,
+      "passLine": "PASS tokens: 24 definitions, 11 scoped consumers, 0 duplicated literals.",
       "failLine": ""
     },
     {
-      "suite": "mannequin-preview-browser",
+      "suite": "typography-contract",
       "base": "preview",
       "status": "PASS",
       "code": 0,
-      "elapsedMs": 16834,
-      "passLine": "PASS mannequin preview: 6 static A/B renders at 1440/390/320; cold route made 0 WebGL and 0 GLB requests; visible section made exactly 1 GLB request.",
+      "elapsedMs": 23938,
+      "passLine": "PASS typography dist-grep: 298 emitted files, no `\\d / \\d` visible counter remains.",
       "failLine": ""
+    },
+    {
+      "suite": "link-glyph-contract",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 23062,
+      "passLine": "PASS link glyph contract: 68 link hover checks, one .arrow source, no foreign destinations.",
+      "failLine": ""
+    },
+    {
+      "suite": "row-geometry-contract",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 54121,
+      "passLine": "PASS row typology: 5 viewports, 5 registered rows, ee9de2b3410c.",
+      "failLine": ""
+    },
+    {
+      "suite": "footer-zone-contract",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 12316,
+      "passLine": "PASS B-F19 footer zone contract — 3/3 viewports, build ee9de2b3410c",
+      "failLine": ""
+    },
+    {
+      "suite": "footer-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 59211,
+      "passLine": "PASS V3.1 footer 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "v32-structure-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 7236,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "suite": "v32-micro-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10429,
+      "passLine": "PASS V3.2 micro ee9de2b3410c: equal headings, shared arrow, clickable hero-flow bar, 300ms caret and permanent visit ghost at 1440/390/320.",
+      "failLine": ""
+    },
+    {
+      "suite": "label-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 17695,
+      "passLine": "PASS label format: NN/ labels, 00–04 INDEX, dynamic NAAVI counters and F28 alignment.",
+      "failLine": ""
+    },
+    {
+      "suite": "naavi-format-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 1490,
+      "passLine": "PASS NAAVI ee9de2b3410c: shell, four Home chapters and 04/ 04 at the other side render NN/ NN.",
+      "failLine": ""
+    },
+    {
+      "suite": "tools-rubric-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 10379,
+      "passLine": "PASS tools rubric: redirect, internal detail cards with external CTAs, four filters, 4px cards and desktop/mobile slash-aligned row.",
+      "failLine": ""
+    },
+    {
+      "suite": "creative-landing-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 6525,
+      "passLine": "PASS creative landing 320px: INDEX and hero bar both reach /creative/tattoos.",
+      "failLine": ""
+    },
+    {
+      "suite": "mobile-parity-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 46719,
+      "passLine": "PASS mobile parity 1440px: logo cursor and hold-4 hint unchanged.",
+      "failLine": ""
+    },
+    {
+      "suite": "rubric-gap-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 23601,
+      "passLine": "PASS rubric rhythm 320px: 13.49px, gaps [[88.6],[118.1]], inset 32.7px.",
+      "failLine": ""
+    },
+    {
+      "suite": "rubric-hit-area-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 13605,
+      "passLine": "PASS rubric hit area 320px: 4 labels text+arrow clickable, +20px outside inert, 40px+ tall, cell 56px vs label.",
+      "failLine": ""
+    },
+    {
+      "suite": "greeting-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9033,
+      "passLine": "PASS greeting 320px touch: nice to meet you. visible at 35%.",
+      "failLine": ""
+    },
+    {
+      "suite": "lowercase-sweep",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9394,
+      "passLine": "PASS lowercase sweep 320px: your name / how to reach you / what's on your mind?, “send message”, “more about”.",
+      "failLine": ""
+    },
+    {
+      "suite": "v25-cross-links-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 49955,
+      "passLine": "PASS V25 320px reduced=true: four positions, three links, word-width slot, frontpage x positions, keyboard order.",
+      "failLine": ""
+    },
+    {
+      "suite": "v23-static-titles-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 26433,
+      "passLine": "PASS V23 320px reduced=true: three static titles unchanged under hover, no links or tab stops, unified rubric hover preserved where applicable.",
+      "failLine": ""
+    },
+    {
+      "suite": "v7-visitor-tiers-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 71251,
+      "passLine": "PASS V7 320px reduced=true: nine count samples map to seven hero phrases plus the matching static counter, recognition centered in the fixed branding gap, no counter hover or reflow, first visit greets as a ghost.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-navigation-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 149724,
+      "passLine": "PASS V3.1 navigation 320px: numbered INDEX, shared surfaces/type, compact category row, scoped contrast, cursor and footer baseline.",
+      "failLine": ""
+    },
+    {
+      "suite": "v31-ui-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 85794,
+      "passLine": "PASS V3.1 UI 320px reduced=true: shared interaction family, form, real-photo enlargement, borderless controls and radius scope in both modes.",
+      "failLine": ""
+    },
+    {
+      "suite": "portfolio-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 3765,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "suite": "about-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9075,
+      "passLine": "PASS About 320px reduce=true: shared modest inset, immediate deep link, bounded reversible entrance, readable copy and no overflow.",
+      "failLine": ""
+    },
+    {
+      "suite": "hero-poster-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 11649,
+      "passLine": "PASS hero poster 320px reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "hero-boot-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 90041,
+      "passLine": "PASS 320px: build marker, entrance, cursor, greeting, slash 32.70px, wheel contract.",
+      "failLine": ""
+    },
+    {
+      "suite": "digital-ink-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 75559,
+      "passLine": "PASS Digital inline 320 reduced=true",
+      "failLine": ""
+    },
+    {
+      "suite": "smash-v31-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 49593,
+      "passLine": "PASS actual SMASH 320px: exactfile, deferredfetch/cache, nativeattack/tail/stop, globalstate, routes and both realities",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r3-production-cursor",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 2057,
+      "passLine": "PASS production cursor ee9de2b3410c: 5 token declarations, 4 targets, PNG fallbacks 200, no overlay, no-JS native cursor.",
+      "failLine": ""
+    },
+    {
+      "suite": "v312-r3-entrance-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 11306,
+      "passLine": "PASS entrance: opacity 1 constant; Y -720 -> -39 -> 0; transform 1100ms/898ms; breathing 0.550–1.000; CLS 0.",
+      "failLine": ""
+    },
+    {
+      "suite": "gallery-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 19774,
+      "passLine": "PASS gallery 320px reduced=true: proportionate FLIP, transparent scrim, photo/outside/Escape closing, exact original geometry, reserved layout, accessible controls, rapid navigation and cleanup.",
+      "failLine": ""
+    },
+    {
+      "suite": "artwork-transitions-browser",
+      "status": "MISSING",
+      "note": "tests/artwork-transitions-browser.mjs not present on this branch"
+    },
+    {
+      "suite": "hover-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 16801,
+      "passLine": "PASS hover touch: no sticky mouse scale/glow, native focus and navigation retained.",
+      "failLine": ""
+    },
+    {
+      "suite": "microinteractions-browser",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 9451,
+      "passLine": "PASS microinteractions mobile: 390/320px 2x2 rubric rows, keyboard reachability, no magnetic/custom-pointer feedback, clean hero spacing and mobile DPR cap.",
+      "failLine": ""
+    },
+    {
+      "suite": "mobile-interactions-browser",
+      "status": "MISSING",
+      "note": "tests/mobile-interactions-browser.mjs not present on this branch"
+    },
+    {
+      "suite": "master-accessibility-browser",
+      "base": "preview",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 8109,
+      "passLine": "PASS dynamic accessibility: reduced-motion cancels an active NAAVI animation; the genuine expanded artwork stays inside the blanket cursor contract.",
+      "failLine": ""
+    },
+    {
+      "suite": "seo-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 163,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: The build contains 23 real routes including Creative, tools and Impressum."
+    },
+    {
+      "suite": "cursor-hit-test",
+      "base": "dev",
+      "status": "PASS",
+      "code": 0,
+      "elapsedMs": 902490,
+      "passLine": "PASS native cursor hit map: 1440 4470, 390 1150, 320 940, 1440r 4470, 390r 1150, 320r 940; xray 2221; zero foreign cursors, keyword-only values rejected.",
+      "failLine": ""
+    },
+    {
+      "suite": "standalone-browser",
+      "base": "preview",
+      "status": "FAIL",
+      "code": 1,
+      "elapsedMs": 3962,
+      "passLine": "",
+      "failLine": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"
+    },
+    {
+      "suite": "standalone-native-browser",
+      "status": "MISSING",
+      "note": "tests/standalone-native-browser.mjs not present on this branch"
     }
   ]
 }

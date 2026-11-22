@@ -84,6 +84,16 @@ sind entfallen, weil die Werte jetzt in beiden Breiten gleich sind.
   388 × 507 (1024), 247 × 322 (768); gestapelt 346 × 452 (390) und 276 × 361 (320).
   Die Textspalte behält mindestens 320 px.
 
+## 4b — Folgewirkung: reservierte Sektionshöhen
+
+Mit dem größeren CTA wuchs die Startseiten-Sektion 02 auf 763 px und die Sektion 03
+auf 1166 px; reserviert waren für beide 720 px (`content-visibility: auto`). Beim
+Scrollen ans Ende wuchs das Dokument dadurch um 226 px nach. `src/style.css`
+reserviert jetzt `.about-preview` `auto 480px` (mobil 300 px) und
+`.contact-section` `auto 950px` (mobil 800 px) — gemessenes Restwachstum 0 bis
+−37 px, Footer in allen sieben Breiten sichtbar. Details:
+`../V3.2-FINAL-GATE/ABOUT-BRANCH-GATE.md`.
+
 ## 5 — Overflow und Screenshots
 
 | Viewport | scrollWidth / innerWidth | Datei |
