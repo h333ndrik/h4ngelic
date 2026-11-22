@@ -9,6 +9,7 @@ Batch 4 commits: `2d52ca3` (B-F8), `70a01a5` (B-F15/B-F16, B-F14 verified);
 B-F19-r4 commits: `d1037b4` (Fix), `3071f07` (Footer-Zone-Contract).
 Final-Gate commits: `29b5a4e` (Hero-Suiten pensioniert), `57ff1e3` (B-F26), `9c18e52` (B-016), `2a0e330` (Battery), `c4d6b29` (Merge origin/main), `e5f2770` (Merge-Vorbereitung).
 b-f19-f31 commits: `60e682d` (B-F19), `88f4657` (G1), `a2cfbab` (G2), `25e3ed7` (B-F40), `3be206e` (Gate-Report); Merge nach `main` = `adb8222`.
+About-Runde (B-F41): `5c61a53`, `55a158a`, `98dc0fc`, `ee9de2b`, `4a7c87a`; Merge nach `main` = `4a7c87a` (live `4a7c87a51161`).
 A registry entry is evidence, not a promise: `fixed` means the implementation exists and its named automated proof passes at this baseline.
 `verified-by-user` is used only after the user explicitly confirms the result.
 
@@ -128,6 +129,12 @@ sie haben keine User-Meldung und deshalb eine eigene ID-Reihe.
 | B-F40 | Footer-Controls, MUTE | „Der erste Klick auf MUTE tut nichts." | **fixed** | `25e3ed7` | `docs/validation/MUTE-FIRST-CLICK/README.md`; `docs/validation/V3.2-FINAL-GATE/GATE-REPORT.md` § „Bugs …" | `refresh()` schrieb `textContent` bei jeder Audio-Zustandsänderung — auch beim ersten `pointerdown`, das den Audio-Context freischaltet — und zerstörte damit das Klickziel mitten im Press (gemessen: pointerdown/mousedown/pointerup/mouseup, kein `click`). Label wird nur noch bei echter Änderung geschrieben. `tests/mobile-parity-browser.mjs`: erster echter Maus-Klick kippt `aria-pressed` + Label bei 500 und 1500 ms nach Load; ohne den Fix rot (`true -> true`). |
 | G1 | Standalone-Export, `/creative/digital-artworks`, `/creative/analog-photography`, `/creative/paintings` | Interne Gate-Beobachtung: die Kategorieseiten rendern `id="[object Object]"`, jeder `#category`-Anker läuft ins Leere. | **fixed** | `88f4657` | `GATE-REPORT.md` § „Bugs …" | `leaf()`-Default reichte das ganze Entry-Objekt an `sectionDomId()`; jetzt `entry.id`. Messung auf `/creative/digital-artworks`: `id="digital-artworks"`. `digital-ink-browser`, `standalone-browser`, `portfolio-browser` grün. |
 | G2 | Router nach Rubrikwechsel (`/creative/*`) | Interne Gate-Beobachtung: ein Frame der alten Route schrieb `#model-3d` auf `/creative/jewellery`. | **fixed** | `a2cfbab` | `GATE-REPORT.md` § „Bugs …" | `refresh()` cancelt den ausstehenden Frame, `syncHash()` ignoriert nicht-verbundene Sektionen. 3 Läufe × 6 Profile (1440/390/320 × beide Motion-Preferences): Hash bleibt nach tattoos → jewellery leer. |
+
+## Findings B-F41 — About-Runde (21./22.11., Merge `4a7c87a`)
+
+| ID | Ort/Element | Befund (User-Wortlaut kurz) | Status | Fix-Commit | Evidence | Verifiziert-durch |
+| --- | --- | --- | --- | --- | --- | --- |
+| B-F41 | `/about` + Startseite 02 | (a) „send message", „more about" und „get in touch" sind drei verschiedene Größen; (b) Begrüßung zu groß und uppercase; (c) kein Portrait; danach (d) „die Ecken abrunden wie bei anderen Ecken", (e) „etwas kleiner … links genau anfangen wo about anfängt". | **fixed** | `5c61a53` (CTA-Klasse, Intro 17 px, Portrait) · `55a158a` (Radius 4 px) · `98dc0fc` (breitere Spalte) · `ee9de2b` (linke Kante = Wortkante „about") · `4a7c87a` (Sektions-Reservierung) | `docs/validation/ABOUT-UNIFY/` (README, `measurements.json`, Screenshots 1440/390/320), `docs/validation/V3.2-FINAL-GATE/ABOUT-BRANCH-GATE.md`, `battery-after2.json` | Live gegen `4a7c87a51161`: alle drei CTAs 60 px @1440 und 25 px @390/320; Intro, Standortzeile und Fließtext 17 px auf allen drei Breiten; Portrait gerendert 559 × 730 @1440 (linke Kante 164 px = Wortkante „about"), 346 × 452 @390, 276 × 361 @320; Überlauf 0 an allen drei Breiten. `/creative/tattoos`: tattoos-Streifen 8 Bilder (`01/ 08`), flashes 15 (`01/ 15`). Gate: 33 von 40 Suiten grün; `v32-structure-browser`, `portfolio-browser`, `seo-browser` rot, alle drei auf `origin/main` (`cb2d0a4`) identisch reproduziert. Zusätzlich behoben: `content-visibility`-Reservierung von 02/03 (Dokument wuchs beim ersten Render um 226 px nach, Footer rutschte aus dem Viewport — `cursor-hit-test` war der Zeuge). Messung gegen `4a7c87a`; seither nur Doku. |
 
 ## Flaky statt kaputt (11.11.)
 
