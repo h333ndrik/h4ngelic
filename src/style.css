@@ -135,6 +135,10 @@ html:not([data-page='home']) .hero-nav { display: none; }
 .about-location { margin: 0 0 42px; }
 .about-paragraph { max-width: 55ch; white-space: pre-line; }
 .about-portrait { margin: 0; }
+/* The portrait keeps its top edge and ratio; app.js measures the distance to
+   "get in touch" and binds the height here, so the image ends on that line.
+   Without the measurement (no JS) the image keeps the full column size. */
+.about-portrait.is-height-bound { width: auto; height: var(--about-portrait-height); justify-self: start; }
 .about-references { margin-top: 100px; padding-top: 35px; border-top: 1px solid #ffffff30; }
 .about-references ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 20px 40px; }
 .breadcrumbs { display: flex; gap: 15px; align-items: center; margin-bottom: 35px; font-size: 13px; color: #b3b3af; }
@@ -178,6 +182,7 @@ html:not([data-page='home']) .hero-nav { display: none; }
   .filter-link { font-size: 14px; }
   .project-grid { grid-template-columns: 1fr; gap: 65px; padding-top: 40px; }
   .about-layout.has-portrait { grid-template-columns: 1fr; gap: 45px; padding-left: 0; }
+  .about-portrait.is-height-bound { width: 100%; height: auto; justify-self: stretch; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }

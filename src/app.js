@@ -113,6 +113,35 @@ function measureSlashInset() {
   setSlashInset(range.getBoundingClientRect().left - translation - contentLeft);
 }
 
+/** The About portrait ends on the "get in touch" baseline: its top edge stays
+ *  where it is, only the height changes, and the width follows the ratio. The
+ *  column width stays the cap, so narrow layouts keep the full image. */
+function measureAboutPortrait() {
+  const layout = document.querySelector('.about-page .about-layout.has-portrait');
+  const figure = layout?.querySelector('.about-portrait');
+  const cta = layout?.querySelector('.about-copy > .text-link');
+  const image = figure?.querySelector('img');
+  const root = document.documentElement;
+  const reset = () => {
+    figure?.classList.remove('is-height-bound');
+    root.style.removeProperty('--about-portrait-height');
+  };
+  if (!figure || !cta || !image || innerWidth <= 600) { reset(); return; }
+  const ratio = image.naturalWidth && image.naturalHeight ? image.naturalWidth / image.naturalHeight : 0;
+  if (!ratio) { reset(); return; }
+  const columns = getComputedStyle(layout).gridTemplateColumns.split(' ').map(Number.parseFloat);
+  const columnWidth = columns.find(value => Number.isFinite(value) && value > 0) || figure.getBoundingClientRect().width;
+  const ctaStyle = getComputedStyle(cta);
+  const paddingBottom = Number.parseFloat(ctaStyle.paddingBottom) || 0;
+  // End on the underline, not on the padded box edge.
+  const underline = (Number.parseFloat(ctaStyle.textUnderlineOffset) || 0) + 1;
+  const target = cta.getBoundingClientRect().bottom - paddingBottom + underline - figure.getBoundingClientRect().top;
+  const height = Math.min(target, columnWidth / ratio);
+  if (!(height > 0) || height >= columnWidth / ratio - 1) { reset(); return; }
+  root.style.setProperty('--about-portrait-height', `${Math.round(height * 100) / 100}px`);
+  figure.classList.add('is-height-bound');
+}
+
 /** The About portrait starts where the word of the numbered heading starts,
  *  not on the page gutter and not on the slash column. Measure the first glyph
  *  after "NN/ " so the column edge follows the real type instead of a number.
@@ -140,6 +169,7 @@ function scheduleSlashInset() {
     slashInsetFrame = 0;
     measureSlashInset();
     measureLabelInset();
+    measureAboutPortrait();
     fitRubricRows();
   });
 }
