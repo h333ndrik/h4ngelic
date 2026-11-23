@@ -38,6 +38,13 @@ dieser Wert ist jetzt die Bildhöhe (Toleranz war ±8 px).
   voller Spaltengröße (graceful degradation).
 - Der Wert ist eine Messung, kein Literal: ändert sich der Text, folgt die Höhe
   beim nächsten Render automatisch.
+- Das Verhältnis kommt aus `--artwork-ratio` (CSS), nicht aus dem dekodierten
+  Bild: der erste Live-Deploy band erst, wenn das lazy Portrait geladen war,
+  und sprang dann. `74e1497` enthielt diesen Fehler, der Fix in `src/app.js`
+  ist der zweite Push; mit kaltem Cache und 400 kbit/s bindet die Höhe jetzt
+  schon bei `imageLoaded: false` (gemessen 592,69 px, Δ 0,0 px).
+- Umschaltgrenze: 1180 px gebunden (447,1 × 584,4, Δ 0), 1160 px voll
+  (443,9 × 580,2, Δ −3,1) — der Übergang ist stetig, kein Sprung.
 
 ## 3 — Andere Breiten
 

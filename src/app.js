@@ -127,7 +127,14 @@ function measureAboutPortrait() {
     root.style.removeProperty('--about-portrait-height');
   };
   if (!figure || !cta || !image || innerWidth <= 600) { reset(); return; }
-  const ratio = image.naturalWidth && image.naturalHeight ? image.naturalWidth / image.naturalHeight : 0;
+  // The ratio comes from the CSS artwork ratio, not from the decoded image:
+  // a lazy portrait may still be loading when the page first lays out, and the
+  // height must not jump when it arrives.
+  const declared = getComputedStyle(figure).getPropertyValue('--artwork-ratio').trim();
+  const [ratioWidth, ratioHeight] = declared.split('/').map(value => Number.parseFloat(value));
+  const ratio = ratioWidth > 0 && ratioHeight > 0
+    ? ratioWidth / ratioHeight
+    : (image.naturalWidth && image.naturalHeight ? image.naturalWidth / image.naturalHeight : 0);
   if (!ratio) { reset(); return; }
   const columns = getComputedStyle(layout).gridTemplateColumns.split(' ').map(Number.parseFloat);
   const columnWidth = columns.find(value => Number.isFinite(value) && value > 0) || figure.getBoundingClientRect().width;
