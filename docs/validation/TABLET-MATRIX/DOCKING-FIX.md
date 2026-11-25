@@ -86,3 +86,24 @@ sichtbar und damit immer angedockt).
 `footer-zone-contract` 3/3 · `footer-v31-browser` PASS ·
 `naavi-format-browser` PASS · `v31-navigation-browser` PASS —
 keine Änderung an Layout, Optik oder Label-Überdeckung.
+
+## e) Kurze Seite (Zusatzprüfung, live `ce0292ee5c2c`)
+
+Es gibt keine Route, die kürzer als der Viewport ist: `.page-shell` erzwingt
+`min-height: calc(100svh - 185px)`, jede Seite ist also mindestens
+Viewport-Höhe plus Header und Footer. Die kürzeste Route ist `/impressum` mit
+**952 px** bei 1440 × 900 (52 px Scrollweg).
+
+| Profil | Route | Dokument | Viewport | Footer-Zeile | Leiste bei Load | docked | Offset | letzter Text |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1440 × 900 | /impressum | 952 | 900 | 896–940 | 844–888 | **an** | 0 px | 599 |
+| 1440 × 1080 | /impressum | 1132 | 1080 | 1076–1120 | 1024–1068 | an | 0 px | 599 |
+| 1440 × 1200 | /impressum | 1252 | 1200 | 1196–1240 | 1144–1188 | an | 0 px | 599 |
+| 820 × 1180 | /impressum | 1232 | 1180 | 1176–1220 | 1124–1168 | an | 0 px | 562 |
+
+Befund: Die Leiste dockt auf der kurzen Seite **sofort** (die Footer-Zeile ist
+beim Laden schon im Viewport), aber der Offset bleibt 0, weil der Footer-Mittel-
+punkt noch unter dem Leisten-Mittelpunkt liegt. Sie bleibt damit auf ihrer
+normalen Linie 8 px über der Footer-Zeile und **245 px unter dem letzten Text**
+(1440 × 900). Sie sitzt also nicht im Text — das Andocken bewegt in diesem
+Zustand nichts, es meldet nur „Footer sichtbar".
