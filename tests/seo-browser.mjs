@@ -196,9 +196,11 @@ try {
         assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)), expected);
         const photos = expected.includes('tattoos') ? publishedCount('tattoos') : 0;
         const digital = expected.includes('digital-artworks') ? publishedCount('digital-artworks') : 0;
-        // The tattoos archive renders two strips: tattoos and flashes.
-        const stripTotal = photos + (expected.includes('flashes') ? publishedCount('flashes') : 0);
-        assert.equal(await page.locator('.portfolio-archive .project-image').count(), stripTotal + digital);
+        // Every rendered section contributes its own images (tattoos, flashes,
+        // digital artwork, analog photographs), so the expectation is summed
+        // over the categories this route selects instead of one frozen pair.
+        const renderedImages = expected.reduce((total, category) => total + publishedCount(category), 0);
+        assert.equal(await page.locator('.portfolio-archive .project-image').count(), renderedImages);
         assert.equal(await page.locator('[data-horizontal-drift="tattoos"] [data-drift-item]').count(), photos);
         if (digital) {
           const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');

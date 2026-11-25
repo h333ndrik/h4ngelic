@@ -348,4 +348,116 @@ export const suppliedFlashPhotographs = [
 
 // The actual green/black original stays shared by its archive and detail route.
 // Reference textures are not automatically portfolio entries.
-export const artworks = [featuredDigitalArtwork, ...suppliedTattooPhotographs, ...suppliedFlashPhotographs];
+// Eight analog photographs supplied on 25.11.2026 from the artist's own
+// folder ("website pics analog"). Compressed once with sips (long side 1358 /
+// 905 px width for portraits, 1280 px for the one landscape frame, quality
+// 50-55) so every file stays below 300 KB; the originals on the artist's
+// machine are untouched. Titles and descriptions remain empty.
+export const suppliedAnalogPhotographs = [
+  {
+    id: "analog-01",
+    category: 'analog-photography',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/analog-photography/analog-01.jpg",
+      alt: "motion-blurred analog photograph of a person on a staircase with a green railing and a red handrail.",
+      width: 905,
+      height: 1357,
+    }],
+  },
+  {
+    id: "analog-02",
+    category: 'analog-photography',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/analog-photography/analog-02.jpg",
+      alt: "analog photograph of two people on a rooftop terrace, one bending forward in a red sweater, the other standing on the concrete parapet.",
+      width: 1280,
+      height: 853,
+    }],
+  },
+  {
+    id: "analog-03",
+    category: 'analog-photography',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/analog-photography/analog-03.jpg",
+      alt: "analog photograph of a tall television tower with a red-lit observation deck against a dusky sky.",
+      width: 905,
+      height: 1357,
+    }],
+  },
+  {
+    id: "analog-04",
+    category: 'analog-photography',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/analog-photography/analog-04.jpg",
+      alt: "analog photograph of a concert crowd in blue stage haze with a singer silhouetted on stage.",
+      width: 905,
+      height: 1357,
+    }],
+  },
+  {
+    id: "analog-05",
+    category: 'analog-photography',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/analog-photography/analog-05.jpg",
+      alt: "analog photograph of large tropical leaves and palm fronds against a glass roof.",
+      width: 905,
+      height: 1117,
+    }],
+  },
+  {
+    id: "analog-06",
+    category: 'analog-photography',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/analog-photography/analog-06.jpg",
+      alt: "analog photograph of a car driving through a green-lit stone tunnel, with a traffic light and a direction sign at the right.",
+      width: 905,
+      height: 1117,
+    }],
+  },
+  {
+    id: "analog-07",
+    category: 'analog-photography',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/analog-photography/analog-07.jpg",
+      alt: "analog photograph of green protective suits hanging under a ceiling with green stripes.",
+      width: 905,
+      height: 1357,
+    }],
+  },
+  {
+    id: "analog-08",
+    category: 'analog-photography',
+    title: '',
+    description: '',
+    published: true,
+    images: [{
+      src: "/images/analog-photography/analog-08.jpg",
+      alt: "analog photograph of a snow-covered narrow street between tall buildings, with an upturned white cabinet in the foreground.",
+      width: 905,
+      height: 1272,
+    }],
+  },
+];
+
+export const artworks = [featuredDigitalArtwork, ...suppliedTattooPhotographs, ...suppliedFlashPhotographs, ...suppliedAnalogPhotographs];

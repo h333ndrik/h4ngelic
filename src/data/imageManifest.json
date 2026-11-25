@@ -573,6 +573,179 @@
       }
     ]
   },
+  "/images/analog-photography/analog-01.jpg": {
+    "width": 905,
+    "height": 1357,
+    "variants": [
+      {
+        "src": "/images/optimized/analog-01-ebbe1ee6dcab-320.webp",
+        "width": 320,
+        "height": 480
+      },
+      {
+        "src": "/images/optimized/analog-01-ebbe1ee6dcab-640.webp",
+        "width": 640,
+        "height": 960
+      },
+      {
+        "src": "/images/optimized/analog-01-ebbe1ee6dcab-905.webp",
+        "width": 905,
+        "height": 1357
+      }
+    ]
+  },
+  "/images/analog-photography/analog-02.jpg": {
+    "width": 1280,
+    "height": 853,
+    "variants": [
+      {
+        "src": "/images/optimized/analog-02-0e3f556cea30-320.webp",
+        "width": 320,
+        "height": 213
+      },
+      {
+        "src": "/images/optimized/analog-02-0e3f556cea30-640.webp",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "src": "/images/optimized/analog-02-0e3f556cea30-960.webp",
+        "width": 960,
+        "height": 640
+      },
+      {
+        "src": "/images/optimized/analog-02-0e3f556cea30-1280.webp",
+        "width": 1280,
+        "height": 853
+      }
+    ]
+  },
+  "/images/analog-photography/analog-03.jpg": {
+    "width": 905,
+    "height": 1357,
+    "variants": [
+      {
+        "src": "/images/optimized/analog-03-7d808445383f-320.webp",
+        "width": 320,
+        "height": 480
+      },
+      {
+        "src": "/images/optimized/analog-03-7d808445383f-640.webp",
+        "width": 640,
+        "height": 960
+      },
+      {
+        "src": "/images/optimized/analog-03-7d808445383f-905.webp",
+        "width": 905,
+        "height": 1357
+      }
+    ]
+  },
+  "/images/analog-photography/analog-04.jpg": {
+    "width": 905,
+    "height": 1357,
+    "variants": [
+      {
+        "src": "/images/optimized/analog-04-502b9ce94922-320.webp",
+        "width": 320,
+        "height": 480
+      },
+      {
+        "src": "/images/optimized/analog-04-502b9ce94922-640.webp",
+        "width": 640,
+        "height": 960
+      },
+      {
+        "src": "/images/optimized/analog-04-502b9ce94922-905.webp",
+        "width": 905,
+        "height": 1357
+      }
+    ]
+  },
+  "/images/analog-photography/analog-05.jpg": {
+    "width": 905,
+    "height": 1117,
+    "variants": [
+      {
+        "src": "/images/optimized/analog-05-5c7e2be18729-320.webp",
+        "width": 320,
+        "height": 395
+      },
+      {
+        "src": "/images/optimized/analog-05-5c7e2be18729-640.webp",
+        "width": 640,
+        "height": 790
+      },
+      {
+        "src": "/images/optimized/analog-05-5c7e2be18729-905.webp",
+        "width": 905,
+        "height": 1117
+      }
+    ]
+  },
+  "/images/analog-photography/analog-06.jpg": {
+    "width": 905,
+    "height": 1117,
+    "variants": [
+      {
+        "src": "/images/optimized/analog-06-a3e517aeb022-320.webp",
+        "width": 320,
+        "height": 395
+      },
+      {
+        "src": "/images/optimized/analog-06-a3e517aeb022-640.webp",
+        "width": 640,
+        "height": 790
+      },
+      {
+        "src": "/images/optimized/analog-06-a3e517aeb022-905.webp",
+        "width": 905,
+        "height": 1117
+      }
+    ]
+  },
+  "/images/analog-photography/analog-07.jpg": {
+    "width": 905,
+    "height": 1357,
+    "variants": [
+      {
+        "src": "/images/optimized/analog-07-e0795228f41e-320.webp",
+        "width": 320,
+        "height": 480
+      },
+      {
+        "src": "/images/optimized/analog-07-e0795228f41e-640.webp",
+        "width": 640,
+        "height": 960
+      },
+      {
+        "src": "/images/optimized/analog-07-e0795228f41e-905.webp",
+        "width": 905,
+        "height": 1357
+      }
+    ]
+  },
+  "/images/analog-photography/analog-08.jpg": {
+    "width": 905,
+    "height": 1272,
+    "variants": [
+      {
+        "src": "/images/optimized/analog-08-2700c4f703d9-320.webp",
+        "width": 320,
+        "height": 450
+      },
+      {
+        "src": "/images/optimized/analog-08-2700c4f703d9-640.webp",
+        "width": 640,
+        "height": 900
+      },
+      {
+        "src": "/images/optimized/analog-08-2700c4f703d9-905.webp",
+        "width": 905,
+        "height": 1272
+      }
+    ]
+  },
   "/images/about/portrait.jpg": {
     "width": 1179,
     "height": 1541,

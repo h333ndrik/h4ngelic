@@ -21,6 +21,11 @@
 .drift-images { display: block; }
 .drift-item .project-image { width: var(--carousel-card-width); height: var(--carousel-card-height); aspect-ratio: auto; overflow: hidden; }
 .drift-item .inline-artwork-frame { display: block; height: var(--carousel-card-height); aspect-ratio: auto; --inline-rest-margin: calc((var(--carousel-card-width) - var(--inline-rest-width)) / 2); --inline-rest-width: var(--carousel-card-width); --inline-rest-margin: 0; --inline-rest-fraction: 1; --inline-artwork-fit: cover; }
+
+/* Analog photography carries one landscape frame next to portrait frames. The
+   shared 300x420 card stays, but the photograph is shown whole (the token the
+   component already uses when expanded) instead of being center-covered. */
+.archive-category[data-archive-category='analog-photography'] .drift-item .inline-artwork-frame { --inline-artwork-fit: contain; }
 .drift-detail-image[hidden] { display: none; }
 .drift-artwork { position: relative; outline-offset: 2px; transform-origin: 50% 50%; }
 .horizontal-drift .drift-item .inline-artwork-frame > .artwork-open { width: var(--inline-rest-width); height: var(--carousel-card-height); max-width: none; margin: 0; aspect-ratio: auto; }

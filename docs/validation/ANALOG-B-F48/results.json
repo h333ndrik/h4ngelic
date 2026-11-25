@@ -1,0 +1,491 @@
+{
+  "base": "http://127.0.0.1:4199",
+  "profiles": [
+    {
+      "width": 1440,
+      "height": 900,
+      "reducedMotion": "no-preference",
+      "overflow": 0,
+      "placeholders": 0,
+      "empty": false,
+      "count": "01/ 08",
+      "total": "8",
+      "cards": 8,
+      "slotHeights": [
+        467
+      ],
+      "slotWidths": [
+        300
+      ],
+      "fits": [
+        "contain"
+      ],
+      "loaded": [
+        {
+          "src": "analog-01-ebbe1ee6dcab-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-02-0e3f556cea30-640.webp",
+          "box": "300/420",
+          "natural": "631/420",
+          "fit": "contain",
+          "ratioDelta": 0.7880952380952381
+        },
+        {
+          "src": "analog-03-7d808445383f-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-04-502b9ce94922-640.webp",
+          "box": "307.5/430.5",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-05-5c7e2be18729-640.webp",
+          "box": "307.5/430.5",
+          "natural": "341/420",
+          "fit": "contain",
+          "ratioDelta": 0.0976190476190476
+        },
+        {
+          "src": "analog-07-e0795228f41e-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-08-2700c4f703d9-640.webp",
+          "box": "300/420",
+          "natural": "299/420",
+          "fit": "contain",
+          "ratioDelta": 0.0023809523809523725
+        }
+      ],
+      "naavi": "02/ 02",
+      "naaviMode": "section",
+      "digital": {
+        "images": 1,
+        "frame": true,
+        "card": [
+          "401x534"
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "reducedMotion": "reduce",
+      "overflow": 0,
+      "placeholders": 0,
+      "empty": false,
+      "count": "01/ 08",
+      "total": "8",
+      "cards": 8,
+      "slotHeights": [
+        467
+      ],
+      "slotWidths": [
+        300
+      ],
+      "fits": [
+        "contain"
+      ],
+      "loaded": [
+        {
+          "src": "analog-01-ebbe1ee6dcab-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-02-0e3f556cea30-640.webp",
+          "box": "300/420",
+          "natural": "631/420",
+          "fit": "contain",
+          "ratioDelta": 0.7880952380952381
+        },
+        {
+          "src": "analog-03-7d808445383f-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-04-502b9ce94922-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-05-5c7e2be18729-640.webp",
+          "box": "300/420",
+          "natural": "341/420",
+          "fit": "contain",
+          "ratioDelta": 0.0976190476190476
+        },
+        {
+          "src": "analog-07-e0795228f41e-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-08-2700c4f703d9-640.webp",
+          "box": "300/420",
+          "natural": "299/420",
+          "fit": "contain",
+          "ratioDelta": 0.0023809523809523725
+        }
+      ],
+      "naavi": "02/ 02",
+      "naaviMode": "section",
+      "digital": {
+        "images": 1,
+        "frame": true,
+        "card": [
+          "401x534"
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "reducedMotion": "no-preference",
+      "overflow": 0,
+      "placeholders": 0,
+      "empty": false,
+      "count": "01/ 08",
+      "total": "8",
+      "cards": 8,
+      "slotHeights": [
+        465
+      ],
+      "slotWidths": [
+        300
+      ],
+      "fits": [
+        "contain"
+      ],
+      "loaded": [
+        {
+          "src": "analog-01-ebbe1ee6dcab-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-02-0e3f556cea30-640.webp",
+          "box": "307.5/430.5",
+          "natural": "631/420",
+          "fit": "contain",
+          "ratioDelta": 0.7880952380952381
+        },
+        {
+          "src": "analog-03-7d808445383f-640.webp",
+          "box": "307.5/430.5",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        }
+      ],
+      "naavi": "02/ 02",
+      "naaviMode": "section",
+      "digital": {
+        "images": 1,
+        "frame": true,
+        "card": [
+          "300x420"
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "reducedMotion": "reduce",
+      "overflow": 0,
+      "placeholders": 0,
+      "empty": false,
+      "count": "01/ 08",
+      "total": "8",
+      "cards": 8,
+      "slotHeights": [
+        465
+      ],
+      "slotWidths": [
+        300
+      ],
+      "fits": [
+        "contain"
+      ],
+      "loaded": [
+        {
+          "src": "analog-01-ebbe1ee6dcab-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-02-0e3f556cea30-640.webp",
+          "box": "300/420",
+          "natural": "631/420",
+          "fit": "contain",
+          "ratioDelta": 0.7880952380952381
+        },
+        {
+          "src": "analog-03-7d808445383f-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        }
+      ],
+      "naavi": "02/ 02",
+      "naaviMode": "section",
+      "digital": {
+        "images": 1,
+        "frame": true,
+        "card": [
+          "300x420"
+        ]
+      }
+    },
+    {
+      "width": 320,
+      "height": 844,
+      "reducedMotion": "reduce",
+      "overflow": 0,
+      "placeholders": 0,
+      "empty": false,
+      "count": "01/ 08",
+      "total": "8",
+      "cards": 8,
+      "slotHeights": [
+        465
+      ],
+      "slotWidths": [
+        300
+      ],
+      "fits": [
+        "contain"
+      ],
+      "loaded": [
+        {
+          "src": "analog-01-ebbe1ee6dcab-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-02-0e3f556cea30-640.webp",
+          "box": "300/420",
+          "natural": "631/420",
+          "fit": "contain",
+          "ratioDelta": 0.7880952380952381
+        },
+        {
+          "src": "analog-03-7d808445383f-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        }
+      ],
+      "naavi": "02/ 02",
+      "naaviMode": "section",
+      "digital": {
+        "images": 1,
+        "frame": true,
+        "card": [
+          "300x420"
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "height": 900,
+      "reducedMotion": "reduce",
+      "overflow": 0,
+      "placeholders": 0,
+      "empty": false,
+      "count": "01/ 08",
+      "total": "8",
+      "cards": 8,
+      "slotHeights": [
+        467
+      ],
+      "slotWidths": [
+        300
+      ],
+      "fits": [
+        "contain"
+      ],
+      "loaded": [
+        {
+          "src": "analog-01-ebbe1ee6dcab-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-02-0e3f556cea30-640.webp",
+          "box": "300/420",
+          "natural": "631/420",
+          "fit": "contain",
+          "ratioDelta": 0.7880952380952381
+        },
+        {
+          "src": "analog-03-7d808445383f-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-04-502b9ce94922-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-08-2700c4f703d9-640.webp",
+          "box": "300/420",
+          "natural": "299/420",
+          "fit": "contain",
+          "ratioDelta": 0.0023809523809523725
+        }
+      ],
+      "naavi": "02/ 02",
+      "naaviMode": "section",
+      "digital": {
+        "images": 1,
+        "frame": true,
+        "card": [
+          "378x504"
+        ]
+      }
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "reducedMotion": "reduce",
+      "overflow": 0,
+      "placeholders": 0,
+      "empty": false,
+      "count": "01/ 08",
+      "total": "8",
+      "cards": 8,
+      "slotHeights": [
+        467
+      ],
+      "slotWidths": [
+        300
+      ],
+      "fits": [
+        "contain"
+      ],
+      "loaded": [
+        {
+          "src": "analog-01-ebbe1ee6dcab-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-02-0e3f556cea30-640.webp",
+          "box": "300/420",
+          "natural": "631/420",
+          "fit": "contain",
+          "ratioDelta": 0.7880952380952381
+        },
+        {
+          "src": "analog-03-7d808445383f-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-04-502b9ce94922-640.webp",
+          "box": "300/420",
+          "natural": "281/421",
+          "fit": "contain",
+          "ratioDelta": 0.046827281981676294
+        },
+        {
+          "src": "analog-08-2700c4f703d9-640.webp",
+          "box": "300/420",
+          "natural": "299/420",
+          "fit": "contain",
+          "ratioDelta": 0.0023809523809523725
+        }
+      ],
+      "naavi": "02/ 02",
+      "naaviMode": "section",
+      "digital": {
+        "images": 1,
+        "frame": true,
+        "card": [
+          "401x534"
+        ]
+      }
+    }
+  ],
+  "network": [
+    {
+      "url": "analog-01-ebbe1ee6dcab-320.webp",
+      "bytes": 25920,
+      "type": "image/webp"
+    },
+    {
+      "url": "analog-02-0e3f556cea30-640.webp",
+      "bytes": 60780,
+      "type": "image/webp"
+    },
+    {
+      "url": "analog-03-7d808445383f-320.webp",
+      "bytes": 5748,
+      "type": "image/webp"
+    },
+    {
+      "url": "analog-04-502b9ce94922-320.webp",
+      "bytes": 15758,
+      "type": "image/webp"
+    },
+    {
+      "url": "analog-05-5c7e2be18729-640.webp",
+      "bytes": 143594,
+      "type": "image/webp"
+    },
+    {
+      "url": "analog-07-e0795228f41e-320.webp",
+      "bytes": 14916,
+      "type": "image/webp"
+    },
+    {
+      "url": "analog-08-2700c4f703d9-320.webp",
+      "bytes": 26018,
+      "type": "image/webp"
+    }
+  ],
+  "passed": true
+}

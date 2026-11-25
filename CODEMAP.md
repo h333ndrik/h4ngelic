@@ -27,7 +27,7 @@ existiert und jeder Anker in ihr vorkommt — auch in `docs/karte.html`.
 | `/creative/*` | Rubrikseiten (tattoos, jewellery, tools, more) | `src/pages.js` — Block "renderWorkPage" |
 | `/about` | Begrüßung, Portrait, Fließtext, get in touch als CTA | `src/pages.js` — Block "renderAboutPage" |
 | `/contact` | Kontaktformular auf der Startseite | `src/inquiry-content.js` — Block "renderInquiryForm" |
-| Vorgerendert | 38 Routen + 404 als statisches HTML | `scripts/prerender.mjs` — Block "prerender" |
+| Vorgerendert | 46 Routen + 404 als statisches HTML | `scripts/prerender.mjs` — Block "prerender" |
 | Titel/Description | pro Route gesetzt | `src/seo.js` — Block "applyMetadata" |
 
 Der Router arbeitet clientseitig weiter, die vorgerenderten Dateien sind der
@@ -52,10 +52,11 @@ Einstieg. Eine Route ohne Vorrendern ist ein Fehler im Build, nicht im Browser.
 | --- | --- | --- |
 | tattoos (`#onskin`) | `public/images/tattoos/` — 8 JPEG (`tattoo-01` … `tattoo-08`) | `src/data/artworks.js` — Block "suppliedTattooPhotographs" |
 | flashes | `public/images/flashes/` — 15 JPEG (`flash-01` … `flash-15`, 905 × 1280) | `src/data/artworks.js` — Block "suppliedFlashPhotographs" |
+| analog photography | `public/images/analog-photography/` — 8 JPEG (`analog-01` … `analog-08`, 905 × 1117–1357, 1× 1280 × 853) | `src/data/artworks.js` — Block "suppliedAnalogPhotographs" |
 | digital-artworks | `public/images/digital-artworks/` — 1 JPEG | `src/data/digitalArtworkSettings.js` — Block "green-black-original.jpg" |
 | jewellery | `public/images/jewellery/` — **Ziel, existiert noch nicht** | `src/data/placeholderProjects.js` — Block "placeholderProjects" |
 | tools (m4shlab, thr4ce) | `public/images/tools-source/` — 6 PNG | `src/data/siteContent.js` — Block "tools-source" |
-| generierte Varianten | `public/images/optimized/` — 114 WebP, aus den Originalen erzeugt | `scripts/optimize-images.mjs` — Block "images/optimized/" |
+| generierte Varianten | `public/images/optimized/` — 139 WebP, aus den Originalen erzeugt | `scripts/optimize-images.mjs` — Block "images/optimized/" |
 
 Pfade stehen **hart** in den Datenmodulen (kein CMS, keine API, kein base64).
 Platzhalterkarten (`src/data/placeholderProjects.js` — Block "placeholderProjects")

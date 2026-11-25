@@ -20,19 +20,24 @@ test('homepage keeps four horizontal real category routes and a static creative 
 });
 
 test('real category pages select their own content while /creative retains the complete archive', () => {
-  // Flashes supplies 15 real pencil sheets since 20.11.2026, so the counts that
-  // include that category moved up instead of showing placeholder cards.
+  // The expected image count is derived from the artwork list each context
+  // selects, so a new photograph changes the expectation with the page instead
+  // of leaving a frozen number behind (flashes grew to 15, analog to 8).
+  const suppliedImages = category => artworks.filter(project => project.published !== false
+    && project.category === category).reduce((total, project) => total
+    + (project.images || []).filter(image => contentURL(image?.src)).length, 0);
   const cases = [
-    ['all', ['tattoos', 'flashes', 'model-3d', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'tools', 'more'], 24, '01/ creative'],
-    ['tattoos', ['tattoos', 'flashes', 'model-3d'], ['tattoos'], 23, 'tattoos'],
-    ['flashes', ['flashes'], [], 15, 'FLASHES'],
-    ['jewellery', ['jewellery'], ['jewellery'], 0, 'jewellery'],
-    ['more', ['digital-artworks', 'analog-photography'], ['more'], 1, 'more'],
-    ['analog-photography', ['analog-photography'], [], 0, 'ANALOG PHOTOGRAPHY'],
-    ['digital-artworks', ['digital-artworks'], [], 1, 'DIGITAL ARTWORKS'],
-    ['paintings', ['paintings'], [], 0, 'PAINTINGS'],
+    ['all', ['tattoos', 'flashes', 'model-3d', 'jewellery', 'digital-artworks', 'analog-photography'], ['tattoos', 'jewellery', 'tools', 'more'], '01/ creative'],
+    ['tattoos', ['tattoos', 'flashes', 'model-3d'], ['tattoos'], 'tattoos'],
+    ['flashes', ['flashes'], [], 'FLASHES'],
+    ['jewellery', ['jewellery'], ['jewellery'], 'jewellery'],
+    ['more', ['digital-artworks', 'analog-photography'], ['more'], 'more'],
+    ['analog-photography', ['analog-photography'], [], 'ANALOG PHOTOGRAPHY'],
+    ['digital-artworks', ['digital-artworks'], [], 'DIGITAL ARTWORKS'],
+    ['paintings', ['paintings'], [], 'PAINTINGS'],
   ];
-  for (const [context, categories, groups, imageCount, heading] of cases) {
+  for (const [context, categories, groups, heading] of cases) {
+    const imageCount = categories.reduce((total, category) => total + suppliedImages(category), 0);
     const markup = renderWorkPage(context);
     assert.ok(markup.includes(`data-work-context="${context}"`));
     assert.deepEqual([...markup.matchAll(/data-archive-category="([^"]+)"/g)].map(match => match[1]), categories);
