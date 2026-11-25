@@ -192,9 +192,14 @@ export function initGlobalNavigation(doc = document) {
   function paintChrome() {
     if (!dockBounds) return;
     const defaultCentre = dockBounds.top + dockBounds.height / 2;
-    const footerCentre = footerBounds ? footerBounds.top - view.scrollY + footerBounds.height / 2 : Infinity;
-    const docked = footerCentre <= defaultCentre && footerCentre >= dockBounds.height / 2;
-    const offset = docked ? footerCentre - defaultCentre : 0;
+    // Dock as soon as the footer row is on screen. Both centres sit on the same
+    // line at the end of the page, so a `footerCentre <= defaultCentre` test
+    // flipped on sub-pixel differences and differed per width. The offset still
+    // only moves the bar up, which keeps the rendering identical.
+    const footerTop = footerBounds ? footerBounds.top - view.scrollY : Infinity;
+    const footerCentre = footerBounds ? footerTop + footerBounds.height / 2 : Infinity;
+    const docked = footerBounds !== null && footerTop < view.innerHeight && footerCentre >= dockBounds.height / 2;
+    const offset = docked ? Math.min(0, footerCentre - defaultCentre) : 0;
     const value = `${offset}px`;
     if (link.style.getPropertyValue('--naavi-dock-y') !== value) link.style.setProperty('--naavi-dock-y', value);
     link.toggleAttribute('data-naavi-footer-docked', docked);

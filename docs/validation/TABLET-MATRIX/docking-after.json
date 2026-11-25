@@ -1,0 +1,209 @@
+[
+ {
+  "w": 601,
+  "bottom": {
+   "docked": true,
+   "offset": "-0.078125px",
+   "bar": [
+    743,
+    787
+   ],
+   "row": [
+    743,
+    787
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 743,
+   "ih": 799
+  }
+ },
+ {
+  "w": 640,
+  "bottom": {
+   "docked": true,
+   "offset": "0px",
+   "bar": [
+    795,
+    839
+   ],
+   "row": [
+    795,
+    839
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 795,
+   "ih": 851
+  }
+ },
+ {
+  "w": 700,
+  "bottom": {
+   "docked": true,
+   "offset": "-0.171875px",
+   "bar": [
+    875,
+    919
+   ],
+   "row": [
+    875,
+    919
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 875,
+   "ih": 931
+  }
+ },
+ {
+  "w": 767,
+  "bottom": {
+   "docked": true,
+   "offset": "0px",
+   "bar": [
+    964,
+    1008
+   ],
+   "row": [
+    964,
+    1008
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 964,
+   "ih": 1020
+  }
+ },
+ {
+  "w": 768,
+  "bottom": {
+   "docked": true,
+   "offset": "0px",
+   "bar": [
+    965,
+    1009
+   ],
+   "row": [
+    965,
+    1009
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 965,
+   "ih": 1021
+  }
+ },
+ {
+  "w": 820,
+  "bottom": {
+   "docked": true,
+   "offset": "0px",
+   "bar": [
+    1035,
+    1079
+   ],
+   "row": [
+    1035,
+    1079
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 1035,
+   "ih": 1091
+  }
+ },
+ {
+  "w": 1024,
+  "bottom": {
+   "docked": true,
+   "offset": "0px",
+   "bar": [
+    610,
+    654
+   ],
+   "row": [
+    610,
+    654
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 610,
+   "ih": 666
+  }
+ },
+ {
+  "w": 1180,
+  "bottom": {
+   "docked": true,
+   "offset": "0px",
+   "bar": [
+    711,
+    755
+   ],
+   "row": [
+    711,
+    755
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 711,
+   "ih": 767
+  }
+ },
+ {
+  "w": 1440,
+  "bottom": {
+   "docked": true,
+   "offset": "0px",
+   "bar": [
+    880,
+    924
+   ],
+   "row": [
+    880,
+    924
+   ],
+   "hits": 0,
+   "minTarget": 44,
+   "overflow": 0
+  },
+  "mid": {
+   "docked": true,
+   "footerTop": 880,
+   "ih": 936
+  }
+ }
+]

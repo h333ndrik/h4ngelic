@@ -140,6 +140,15 @@ Auslöser → Datei:Anker → Wirkung → Animationsregel.
   die Dauern: es gibt keine mobilen Übergangszeiten. Geprüft per Suche nach
   `transition-duration`/`animation-duration` in allen `max-width: 600px`-Blöcken
   — 0 Treffer. Neue Mobilanpassungen dürfen keine eigenen Zeiten einführen.
+- **NAAVI-Docking.** Die Leiste dockt, sobald die Footer-Zeile im Viewport ist
+  (`footerTop < innerHeight`, `src/global-navigation.js` — Block "paintChrome"),
+  nicht beim Kreuzen zweier Mittelpunkte: die liegen am Seitenende auf derselben
+  Linie und entschieden vorher über Sub-Pixel (B-F43).
+- **Portrait-Lücke.** Unter ~1165 px bleibt das About-Portrait in voller
+  Spaltenbreite (Höhe = Breite × 1,307) und endet früher als „get in touch":
+  68,6 px bei 1024, 244,8 px bei 820, 297,7 px bei 768. Bei 768 bräuchte das
+  Bild 474 px Spalte, der Text fiele auf 145 px — bewusst nicht umgebaut (B-F44,
+  `docs/validation/TABLET-MATRIX/PORTRAIT-EVALUATION.md`).
 - **Hash-Regel.** Die URL bekommt den Sektions-Hash ausschließlich per
   `replaceState` (`src/global-navigation.js` — Block "syncHash"); ein Frame der
   alten Route darf ihn nicht mehr schreiben (`refresh()` bricht ab).

@@ -1,0 +1,82 @@
+[
+ {
+  "w": 768,
+  "bound": false,
+  "image": [
+   247,
+   322
+  ],
+  "ratio": 0.7651,
+  "copyColumn": 320,
+  "targetHeight": 620,
+  "neededWidth": 474,
+  "columnsTotal": 619,
+  "textIfNeeded": 145,
+  "paddingLeft": 69,
+  "gap": 10
+ },
+ {
+  "w": 820,
+  "bound": false,
+  "image": [
+   289,
+   378
+  ],
+  "ratio": 0.7651,
+  "copyColumn": 320,
+  "targetHeight": 623,
+  "neededWidth": 476,
+  "columnsTotal": 667,
+  "textIfNeeded": 190,
+  "paddingLeft": 73,
+  "gap": 10
+ },
+ {
+  "w": 1024,
+  "bound": false,
+  "image": [
+   388,
+   507
+  ],
+  "ratio": 0.7651,
+  "copyColumn": 388,
+  "targetHeight": 576,
+  "neededWidth": 441,
+  "columnsTotal": 853,
+  "textIfNeeded": 412,
+  "paddingLeft": 91,
+  "gap": 10
+ },
+ {
+  "w": 1180,
+  "bound": true,
+  "image": [
+   447,
+   584
+  ],
+  "ratio": 0.7651,
+  "copyColumn": 452,
+  "targetHeight": 584,
+  "neededWidth": 447,
+  "columnsTotal": 995,
+  "textIfNeeded": 548,
+  "paddingLeft": 105,
+  "gap": 10
+ },
+ {
+  "w": 1440,
+  "bound": true,
+  "image": [
+   453,
+   593
+  ],
+  "ratio": 0.7651,
+  "copyColumn": 559,
+  "targetHeight": 593,
+  "neededWidth": 453,
+  "columnsTotal": 1231,
+  "textIfNeeded": 778,
+  "paddingLeft": 129,
+  "gap": 10
+ }
+]
