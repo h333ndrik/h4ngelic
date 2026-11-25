@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-11-25",
+  "build": "7a11ce55fa18",
+  "method": "src/data/artworks.js flash-15 set to published:false, dist NOT rebuilt, suites run against the unchanged page",
+  "red": {
+    "portfolio-browser": { "viewport": 1440, "message": "actual: 23, expected: 22", "meaning": "page still renders 15 flash photos, data source now counts 14" },
+    "v32-structure-browser": { "viewport": 1440, "message": "actual: '01/ 15', expected: '01/ 14'" }
+  },
+  "restored": {
+    "artworksSha256": "01e4220b5103bd40039b5ab7a8d3e856509e30aa148020552ad59724bb2669ca",
+    "routes": 38,
+    "projects": 24,
+    "portfolio-browser": "PASS 1440/390 (reduced false/true)",
+    "v32-structure-browser": "PASS 1440/390/320"
+  }
+}

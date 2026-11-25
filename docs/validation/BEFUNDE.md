@@ -10,6 +10,7 @@ B-F19-r4 commits: `d1037b4` (Fix), `3071f07` (Footer-Zone-Contract).
 Final-Gate commits: `29b5a4e` (Hero-Suiten pensioniert), `57ff1e3` (B-F26), `9c18e52` (B-016), `2a0e330` (Battery), `c4d6b29` (Merge origin/main), `e5f2770` (Merge-Vorbereitung).
 b-f19-f31 commits: `60e682d` (B-F19), `88f4657` (G1), `a2cfbab` (G2), `25e3ed7` (B-F40), `3be206e` (Gate-Report); Merge nach `main` = `adb8222`.
 About-Runde (B-F41): `5c61a53`, `55a158a`, `98dc0fc`, `ee9de2b`, `4a7c87a`; Merge nach `main` = `4a7c87a` (live `4a7c87a51161`).
+Reconciliation 2026-11: Baseline `7a11ce5` (live `7a11ce55fa18`), Tests-Commit `e05a7aa`.
 A registry entry is evidence, not a promise: `fixed` means the implementation exists and its named automated proof passes at this baseline.
 `verified-by-user` is used only after the user explicitly confirms the result.
 
@@ -149,6 +150,14 @@ sie haben keine User-Meldung und deshalb eine eigene ID-Reihe.
 | B-F43 | NAAVI-Docking am Seitenende | „data-naavi-footer-docked ist bei 601/700/1024 an, bei 640/767/820/1180 aus. Sichtbar wenige px, aber willkürlich." | **fixed** | `ce0292e` | `docs/validation/TABLET-MATRIX/DOCKING-FIX.md`; `docking-before.json`, `docking-after.json`, `docking-transition.json` | Ursache `src/global-navigation.js:196`: Vergleich zweier Mittelpunkte, die am Seitenende derselbe Punkt sind — die Differenz lag zwischen −0,08 und +0,50 px (Leiste und Footer-Zeile beide 44 px, identische Kanten). Neue Regel: docken, sobald die Footer-Zeile im Viewport ist (`footerTop < innerHeight`), Offset weiter nur nach oben. Danach Attribut an allen neun Breiten an, Offset 0 bis −0,17 px, Kästen identisch zu vorher, 0 überdeckte Labels, min. Target 44 px. `footer-zone-contract` 3/3, `footer-v31`, `naavi-format`, `v31-navigation` PASS. Live gegen `ce0292ee5c2c`: Attribut an allen neun Breiten an (601/640/700/767/768/820/1024/1180/1440), Offset 0 bis −0,17 px, Leiste und Footer-Zeile in identischen Kästen, 0 überdeckte Labels, alle Targets 44 px, Overflow 0; Umschaltpunkt ±24 px um die Footer-Oberkante/Viewport-Unterkante: darunter `false`, darüber `true`. Kurze Seite (`/impressum`, kürzeste Route mit 952 px bei 1440 × 900): dockt beim Laden sofort, Offset 0, Leiste 245 px unter dem letzten Text — kein Text wird überdeckt. Messung gegen `ce0292e`; seither nur Doku. |
 | B-F44 | About-Portrait, Lücke zur CTA-Linie | Bewertung, kein User-Befund: bei 768 endet das Bild 297,7 px über „get in touch". | **documented — kein Umbau** | — | `docs/validation/TABLET-MATRIX/PORTRAIT-EVALUATION.md`; `portrait-math.json` | Bei 768 bräuchte die Bildspalte 474 px statt 247 px (Zielhöhe 620 × 0,7651); der Text fiele von 320 auf 145 px. Bei 820 wären es 190 px. Unter der 300-px-Grenze ⇒ Lücke bleibt, kein Eingriff. Ab 1024 bliebe der Text mit 412 px lesbar (nur als Kontext dokumentiert, nicht gebaut). |
 
+## Findings B-F45…B-F47 — Reconciliation (25.11., `main` = `7a11ce5`)
+
+| ID | Ort/Element | Befund (User-Wortlaut kurz) | Status | Fix-Commit | Evidence | Verifiziert-durch |
+| --- | --- | --- | --- | --- | --- | --- |
+| B-F45 | `/creative` ohne JavaScript, `seo-browser` | „`/creative` ist ohne JS 1096 px zu breit" (Suite-Meldung), Vermutung: fehlender Container oder fester Platzhalter. | **closed — kein Layoutdefekt, nicht reproduzierbar** | `e05a7aa` (Suite), kein CSS-Eingriff | `docs/validation/RECONCILIATION-2026-11/README.md`; `no-js-overflow.json`; `creative-1440-nojs.png`, `creative-1440-js.png` | 48 Messzeilen (8 Pfade × 1440/390/320 × mit/ohne JS): `scrollWidth − innerWidth = 0` überall; gegen Production (`7a11ce55fa18`) ebenfalls 0 auf neun Pfaden. Der breiteste Kasten ist der Flashes-`.drift-track` mit 5 944 px (ohne JS) / 6 970 px (mit JS), vollständig im `.drift-viewport` (`overflow-x: auto` ohne JS, `hidden` mit Drift-Erweiterung) geklippt — Unterschied der Zustände ist nur der Clipper-Modus, nie die Dokumentbreite. Kein `overflow-x: hidden` auf `html`/`body` gesetzt. Die rote Suite kam vom eingefrorenen Routenzähler (B-F46), nicht vom Layout. |
+| B-F46 | `tests/seo-browser.mjs`, Routenzähler | Suite erwartete 23 Routen und eine 23-Pfade-Liste; der Build liefert seit B-F38 38 (23 + 15 Flash-Detailseiten). | **fixed** | `e05a7aa` | `docs/validation/RECONCILIATION-2026-11/README.md` | `paths = routeDefinitions()`, `artworkPaths = publishedProjects()`, `toolPaths = siteContent.tools`; Manifest-Assertion `manifest.routes.length === paths.length` (38). Detailseiten-Prüfung generisch über `artworkLabel(project)`, Kategorie, Alt-Text und Originalmaße aus `artworks.js` statt `tattoo NN`. `PASS SEO HTTP/no-JS (preview): 38 semantic direct routes`. |
+| B-F47 | `tests/v32-structure-browser.mjs`, `tests/portfolio-browser.mjs` | v32 erwartete 8 Flash-Platzhalter (`0 !== 8`) und `01/ 08`; portfolio erwartete 8 Bilder im tattoos-Streifen, fand 23 (8 tattoos + 15 flashes derselben Archivseite). | **fixed** | `e05a7aa` | `docs/validation/RECONCILIATION-2026-11/README.md`; Zähler-Gegenprobe unten | v32 leitet Platzhalter aus `artworks` + `placeholderProjects` ab (Platzhalter nur, solange eine Rubrik keine echten Einträge hat): flashes 15 echte → 0 Platzhalter, `01/ 15`; jewellery 8 Platzhalter, `01/ 08`. portfolio summiert je gerenderter Sektion (`tattoos 8 + flashes 15 = 23`, `all` = 24 inkl. Digital). Gegenprobe mit `flash-15 → published: false` ohne Rebuild: portfolio `23 !== 22`, v32 `'01/ 15' !== '01/ 14'` — beide rot; nach Wiederherstellung beide grün. `npm test` 448/447/1/0, Build 38 Routen + 404. |
+
 ## Flaky statt kaputt (11.11.)
 
 Die am 10.11. als „vorbestehend rot“ geführten Suiten `horizontal-drift-browser`,
@@ -162,6 +171,10 @@ grün prüfen, dann als Regression werten.
 
 ## Not fixed
 
+- **Reconciliation 2026-11: keine offenen Befunde.** B-F45 ist kein
+  Layoutdefekt (0 px Überlauf in 48 Messungen, lokal und Production), B-F46
+  und B-F47 sind Test-Drift und lesen jetzt aus `routeDefinitions()`,
+  `publishedProjects()`, `artworks` und `placeholderProjects`.
 - **B-016 remains open.** The dual-footer link requirement is fixed, but the
   public legal page intentionally still contains unresolved placeholders. It
   must not be marked complete until real legal details are supplied.
