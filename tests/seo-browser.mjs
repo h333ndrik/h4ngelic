@@ -1,18 +1,25 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { routeDefinitions, publishedProjects, projectURL } from '../src/routes.js';
+import { artworkLabel } from '../src/artwork-content.js';
+import { siteContent } from '../src/data/siteContent.js';
 
 const baseURL = process.env.H4_PREVIEW_URL || 'http://127.0.0.1:4173';
 const production = process.env.H4_EXPECT_DEPLOYMENT === 'production';
 const origin = process.env.H4_CANONICAL_ORIGIN || 'https://h4ngelic.com';
-const archiveIDs = ['tattoos', 'flashes', 'jewellery', 'tools', 'more', 'analog-photography', 'digital-artworks', 'paintings'];
-const archivePaths = archiveIDs.map(id => `/creative/${id}`);
-const toolPaths = ['/creative/tools/m4shlab', '/creative/tools/thr4ce'];
-const originalPath = '/creative/green-black-original';
-const tattooPaths = Array.from({ length: 8 }, (_, index) => `/creative/tattoo-${String(index + 1).padStart(2, '0')}`);
-const artworkPaths = [originalPath, ...tattooPaths];
-const isArtwork = path => artworkPaths.includes(path);
-const paths = ['/', '/creative', ...archivePaths, ...toolPaths, '/about', '/impressum', ...artworkPaths];
+// The route list, the artwork list and the tool list are read from the same
+// modules that build the pages. A new photograph adds its detail route here
+// instead of breaking a frozen count (B-F38 added 15 flash routes).
+const routes = routeDefinitions();
+const paths = routes.map(entry => entry.canonicalPath);
+const toolPaths = siteContent.tools.map(tool => `/creative/tools/${tool.id}`);
+const projectByPath = new Map(publishedProjects().map(project => [projectURL(project), project]));
+// Counts come from the artwork list the archive renders, never from a frozen
+// 8/1 pair: the flashes strip grew to 15 photographs in B-F38.
+const publishedCount = category => publishedProjects().filter(project => project.category === category).length;
+const artworkPaths = [...projectByPath.keys()];
+const isArtwork = path => projectByPath.has(path);
 const route = (path) => new URL(path, baseURL).href;
 
 const landing = await fetch(route('/creative'), { redirect: 'manual' });
@@ -40,7 +47,7 @@ const manifestResponse = await fetch(route('/route-manifest.json'));
 assert.equal(manifestResponse.status, 200);
 const manifest = await manifestResponse.json();
 assert.equal(manifest.routes.some(entry => entry.path === '/contact'), false);
-assert.equal(manifest.routes.length, 23, 'The build contains 23 real routes including Creative, tools and Impressum.');
+assert.equal(manifest.routes.length, paths.length, 'The manifest contains exactly the routes the data modules publish.');
 assert.deepEqual(manifest.routes.map(entry => entry.path).sort(), [...paths].sort());
 assert.deepEqual(manifest.routes.filter(entry => ['/', '/about'].includes(entry.path)).map(entry => entry.path), ['/', '/about']);
 assert.equal(manifest.routes.some(entry => entry.path === '/creative'), true);
@@ -142,26 +149,28 @@ try {
       assert.equal(await page.locator('[data-naavi]').isVisible(), true, 'Every prerendered route retains shared NAAVI.');
       assert.equal(await page.locator('[data-naavi]').count(), 1);
       assert.equal(await page.locator('.hero').count(), 0, 'Interior HTML must not expose a competing hero or download its font/scene.');
-      if (path === originalPath) {
-        assert.equal(await page.locator('.artwork-detail .project-image img').count(), 1);
-        assert.equal(await page.locator('.work-filters').count(), 0);
-        assert.equal(await page.locator('.artwork-detail img').getAttribute('width'), '1440');
-        assert.equal(await page.locator('.artwork-detail img').getAttribute('height'), '1920');
-        assert.match(await page.locator('.artwork-detail img').getAttribute('src'), /green-black-original/);
-        assert.ok(metadata.data.some(node => node['@type'] === 'VisualArtwork'), 'The supplied image has genuine artwork structured data.');
-      } else if (tattooPaths.includes(path)) {
-        const number = path.slice(-2);
+      if (isArtwork(path)) {
+        // Every photograph publishes one generic, truthful detail page. Label,
+        // category and source image come from the entry in artworks.js.
+        const project = projectByPath.get(path);
+        const label = artworkLabel(project);
+        const firstImage = project.images[0];
         assert.equal(await page.locator('.artwork-detail img').count(), 1);
         assert.equal(await page.locator('.work-filters').count(), 0);
-        assert.equal(await page.locator('.artwork-detail').getAttribute('data-artwork-category'), 'tattoos');
-        assert.equal(await page.locator('.artwork-detail h1').innerText(), `tattoo ${number}`, 'The existing catalogue ID labels the untitled photograph without inventing an artwork title.');
-        assert.equal(metadata.title, `tattoo ${number} — h4ngelic`);
-        assert.match(await page.locator('.artwork-detail img').getAttribute('src'), new RegExp(`tattoo-${number}`));
+        assert.equal(await page.locator('.artwork-detail').getAttribute('data-artwork-category'), project.category);
+        assert.equal(await page.locator('.artwork-detail h1').innerText(), label, 'The existing catalogue ID labels the untitled photograph without inventing an artwork title.');
+        assert.equal(metadata.title, `${label} — h4ngelic`);
+        // The pipeline serves an optimized WebP under the project's own name;
+        // dimensions come from the artwork list.
+        assert.match(await page.locator('.artwork-detail img').getAttribute('src'), new RegExp(`${project.id}-[0-9a-f]+-`));
+        assert.equal(await page.locator('.artwork-detail img').getAttribute('alt'), firstImage.alt);
+        assert.equal(await page.locator('.artwork-detail img').getAttribute('width'), String(firstImage.width));
+        assert.equal(await page.locator('.artwork-detail img').getAttribute('height'), String(firstImage.height));
         const dimensions = await page.locator('.artwork-detail img').evaluate(image => [Number(image.width), Number(image.height)]);
         assert.ok(dimensions.every(size => size > 0));
         const artwork = metadata.data.find(node => node['@type'] === 'VisualArtwork');
-        assert.ok(artwork);
-        assert.equal(artwork.name, `tattoo ${number}`);
+        assert.ok(artwork, 'The supplied image has genuine artwork structured data.');
+        assert.equal(artwork.name, label);
         assert.equal(artwork.dateCreated, undefined, 'No creation year is inferred from the supplied photograph.');
       } else if (path.startsWith('/creative/tools/')) {
         const tool = path.split('/').at(-1);
@@ -185,8 +194,11 @@ try {
           'analog-photography': ['analog-photography'], paintings: ['paintings'],
         }[category];
         assert.deepEqual(await page.locator('[data-archive-category]').evaluateAll(nodes => nodes.map(node => node.dataset.archiveCategory)), expected);
-        const photos = expected.includes('tattoos') ? 8 : 0, digital = expected.includes('digital-artworks') ? 1 : 0;
-        assert.equal(await page.locator('.portfolio-archive .project-image').count(), photos + digital);
+        const photos = expected.includes('tattoos') ? publishedCount('tattoos') : 0;
+        const digital = expected.includes('digital-artworks') ? publishedCount('digital-artworks') : 0;
+        // The tattoos archive renders two strips: tattoos and flashes.
+        const stripTotal = photos + (expected.includes('flashes') ? publishedCount('flashes') : 0);
+        assert.equal(await page.locator('.portfolio-archive .project-image').count(), stripTotal + digital);
         assert.equal(await page.locator('[data-horizontal-drift="tattoos"] [data-drift-item]').count(), photos);
         if (digital) {
           const original = page.locator('[data-archive-category="digital-artworks"] .project-image img');

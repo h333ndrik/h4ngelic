@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { artworks } from '../src/data/artworks.js';
+import { placeholderProjects } from '../src/data/placeholderProjects.js';
+import { routeDefinitions } from '../src/routes.js';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55205';
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || chromium.executablePath(), headless: true,
@@ -70,7 +73,18 @@ for (const width of [1440, 390, 320]) {
     assert.ok(Math.abs(crossGap.computed - gapToken) <= .5, `Cross-links use --row-gap-min (${crossGap.computed} vs ${gapToken}).`);
     assert.ok(crossGap.arrows.every(value => value > 0));
 
-    for (const category of ['flashes', 'jewellery']) {
+    // Read the expected cards from the same two lists the renderer reads:
+    // published photographs first, generated placeholders only while a
+    // category has none. A future upload changes the expectation with the
+    // page instead of leaving a frozen "8" behind.
+    const driftExpectations = ['flashes', 'jewellery'].map(category => {
+      const published = artworks.filter(project => project.category === category && project.published !== false
+        && Array.isArray(project.images) && project.images.some(image => image?.src));
+      const placeholders = published.length ? 0 : placeholderProjects.filter(project => project.category === category).length;
+      const total = published.length + placeholders;
+      return { category, published: published.length, placeholders, total, count: `01/ ${String(total).padStart(2, '0')}` };
+    });
+    for (const { category, placeholders: expectedPlaceholders, count: expectedCount } of driftExpectations) {
       await page.goto(`${base}/creative/${category}`, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => document.querySelector('[data-horizontal-drift]')?.classList.contains('is-drift-enhanced'));
       const carousel = page.locator(`[data-horizontal-drift="${category}"]`);
@@ -86,18 +100,20 @@ for (const width of [1440, 390, 320]) {
         count: element.querySelector('[data-drift-count]')?.textContent.trim(),
         wrap: element.dataset.carouselWrap,
       }));
-      assert.equal(state.placeholders.length, 8);
+      assert.equal(state.placeholders.length, expectedPlaceholders, `${category} renders the cards its data list provides.`);
       assert.equal(state.empty, false);
-      assert.equal(state.count, '01/ 08');
+      assert.equal(state.count, expectedCount);
       assert.equal(state.wrap, 'true');
       if (width === 1440) assert.ok(state.placeholders.every(item => Math.abs(item.width - 300) < 1 && Math.abs(item.height - 420) < 1), JSON.stringify(state.placeholders[0]));
-      const first = carousel.locator('[data-placeholder-expand]').first();
-      await first.click({ force: true });
-      assert.equal(await first.getAttribute('aria-pressed'), 'true');
-      assert.equal(await carousel.locator('[data-placeholder="true"]').first().evaluate(node => node.classList.contains('is-placeholder-expanded')), true);
-      await first.click({ force: true });
-      assert.equal(await first.getAttribute('aria-pressed'), 'false');
-      assert.equal(await carousel.getAttribute('data-placeholder-expanded'), null);
+      if (expectedPlaceholders) {
+        const first = carousel.locator('[data-placeholder-expand]').first();
+        await first.click({ force: true });
+        assert.equal(await first.getAttribute('aria-pressed'), 'true');
+        assert.equal(await carousel.locator('[data-placeholder="true"]').first().evaluate(node => node.classList.contains('is-placeholder-expanded')), true);
+        await first.click({ force: true });
+        assert.equal(await first.getAttribute('aria-pressed'), 'false');
+        assert.equal(await carousel.getAttribute('data-placeholder-expanded'), null);
+      }
       await page.screenshot({ path: new URL(`../docs/validation/FLASH-JEWELLERY-PLACEHOLDER/${category}-${width}.png`, import.meta.url).pathname });
     }
 
@@ -213,7 +229,7 @@ const html = await readFile(new URL('../dist/creative/index.html', import.meta.u
 assert.doesNotMatch(html, /href="\/work(?:\/|[?"])/);
 const sitemap = await readFile(new URL('../dist/sitemap.xml', import.meta.url), 'utf8');
 const manifest = JSON.parse(await readFile(new URL('../dist/route-manifest.json', import.meta.url), 'utf8'));
-assert.equal(manifest.routes.length, 23);
+assert.equal(manifest.routes.length, routeDefinitions().length, 'The manifest lists exactly the routes the data modules publish.');
 await request.close();
 await mkdir(new URL('../docs/validation/R3B-URLS/', import.meta.url), { recursive: true });
 await writeFile(new URL('../docs/validation/R3B-URLS/results.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
@@ -224,5 +240,5 @@ await writeFile(new URL('../docs/validation/IMPRESSUM-DUAL/results.json', import
 await writeFile(new URL('../docs/validation/R3B-URLS/ARTWORK-NAVI.json', import.meta.url), JSON.stringify({ build: report.build,
   profiles: report.profiles.map(({ width, viewer }) => ({ width, viewer })), passed: true }, null, 2) + '\n');
 report.passed = true;
-console.log(`PASS V3.2 structure ${report.build}: INDEX 00–03, 8+8 placeholders, mode-only SMASH, no imprint link, 12×301, 23 routes, /creative tool pages, gaps and NN/ NN viewer.`);
+console.log(`PASS V3.2 structure ${report.build}: INDEX 00–03, data-driven drift cards, mode-only SMASH, no imprint link, 12×301, all published routes, /creative tool pages, gaps and NN/ NN viewer.`);
 await browser.close();

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { artworks } from '../src/data/artworks.js';
 
 const base = process.env.H4_BASE_URL || 'http://127.0.0.1:55173';
 const output = new URL(`../${process.env.H4_PORTFOLIO_ARTIFACTS || 'artifacts/v311/F16/portfolio'}/`, import.meta.url);
@@ -77,12 +78,21 @@ async function work(page, category = 'all') {
       assert.ok(staticPose.every(pose => pose.size === frontCategorySize), JSON.stringify({ staticPose, frontCategorySize }));
     }
   }
-  const photos = actual.includes('tattoos') ? 8 : 0, digital = actual.includes('digital-artworks') ? 1 : 0;
-  assert.equal(await page.locator('.portfolio-archive .project-image img').count(), photos + digital);
+  // The archive renders every section from the one published artwork list.
+  // On the tattoos archive that is two strips at once (tattoos today 8,
+  // flashes today 15 → 23 on the page), so the total is summed per section
+  // from artworks.js instead of a frozen number that rots on the next upload.
+  const publishedImages = category => artworks.filter(project => project.category === category
+    && project.published !== false && Array.isArray(project.images)
+    && project.images.some(image => image?.src)).length;
+  const photos = actual.includes('tattoos') ? publishedImages('tattoos') : 0;
+  const digital = actual.includes('digital-artworks') ? publishedImages('digital-artworks') : 0;
+  const renderedImages = actual.reduce((total, category) => total + publishedImages(category), 0);
+  assert.equal(await page.locator('.portfolio-archive .project-image img').count(), renderedImages);
   if (photos) {
     const sources = await page.locator('[data-horizontal-drift="tattoos"] img').evaluateAll(images => images.map(image => ({
       alt: image.alt, srcset: image.getAttribute('srcset'), width: image.getAttribute('width'), height: image.getAttribute('height') })));
-    assert.equal(sources.length, 8);
+    assert.equal(sources.length, photos);
     assert.ok(sources.every(image => image.alt && image.srcset && Number(image.width) > 0 && Number(image.height) > 0));
   }
   if (digital) assert.match(await page.locator('[data-archive-category="digital-artworks"] img').getAttribute('src'), /green-black-original/);
@@ -95,7 +105,7 @@ async function work(page, category = 'all') {
   assert.ok(dimensions.document <= dimensions.width + 1, 'Category routes cannot widen the page.');
   const ids = await page.locator('#page-content [id]').evaluateAll(nodes => nodes.map(node => node.id));
   assert.equal(new Set(ids).size, ids.length, 'Route content has no duplicate IDs.');
-  return { category, path, groups: expectedGroups, categories: actual, images: photos + digital, dimensions };
+  return { category, path, groups: expectedGroups, categories: actual, images: renderedImages, dimensions };
 }
 async function homepageCategories(page, width) {
   const section = page.locator('#selected-work'), links = section.locator('.category-link');
