@@ -93,6 +93,31 @@ die Bilder bleiben `loading="lazy"`. Messung danach: Dokumenthöhe 7056 px vor
 und nach dem Scrollen **unverändert** (`changed: []`), `v31-navigation-browser`
 PASS auf 1440/390/320 × reduced.
 
+## 4b — Scope der beiden Regeln (Vorher/Nachher gemessen)
+
+Beide Regeln sind auf die Analog-Sektion bzw. die `more`-Rubrik begrenzt:
+
+- `src/horizontal-drift.css:28` — Selektor beginnt mit
+  `.archive-category[data-archive-category='analog-photography']`, also nur die
+  Karten dieser einen Sektion. Flashes und Tattoos sind nicht adressiert.
+- `src/archive-structure.css:123` —
+  `.work-page .work-group[data-work-group='more'] :is(.archive-category, .project-grid)`;
+  nur die beiden Sektionen der Rubrik `more`.
+
+Gegenprobe mit einem Build **ohne** beide Regeln (danach wieder eingespielt):
+
+| Messung | ohne Regeln | mit Regeln |
+| --- | --- | --- |
+| Flashes-Karte 1440/390 | 300 × 420 (+ Meta 465), `cover`, sichtbar 0,99, Abstand 100 px | identisch |
+| Tattoo-Karte 1440/390 | 300 × 420, `cover`, sichtbar 0,896–0,98, Abstand 100 px | identisch |
+| Flashes-Screenshot 1440 | `artifacts/analog-scope/flashes-1440-before.png` | **0 von 2 408 460 Bytes unterschiedlich** (`after.png`) |
+| Analog-Karte | `cover`, Querformat 47,5 % sichtbar | `contain`, 100 % sichtbar |
+| `/creative` Dokumenthöhe nach Scroll | **+268 px** (digital +219, analog +49) | **0 px** |
+
+`/creative/tattoos` und `/creative/more` wachsen in beiden Builds nicht
+(0 px). Auf `/creative` liegen die `more`-Sektionen unterhalb des Viewports,
+deshalb tritt dort die Reservierungs-Differenz auf.
+
 ## 5 — Verifikation (Build mit den Änderungen, 46 Routen)
 
 - `npm run build`: **46 Routen + 404** (38 + 8 Detailseiten `analog-01` … `analog-08`).
